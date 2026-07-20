@@ -1,0 +1,96 @@
+require('dotenv').config();
+const express = require('express');
+const axios = require('axios');
+const router = express.Router();
+
+const CLIENT_ID = process.env.YAHOO_CLIENT_ID;
+const CLIENT_SECRET = process.env.YAHOO_CLIENT_SECRET;
+const REDIRECT_URI = process.env.YAHOO_REDIRECT_URI;
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
+
+const YAHOO_AUTH_URL = 'https://api.login.yahoo.com/oauth2/request_auth';
+const YAHOO_TOKEN_URL = 'https://api.login.yahoo.com/oauth2/get_token';
+
+router.get('/login', (req, res) => {
+  const params = new URLSearchParams({
+    client_id: CLIENT_ID,
+    redirect_uri: REDIRECT_URI,
+    response_type: 'code',
+    scope: 'openid fspt-r',
+  });
+  res.redirect(`${YAHOO_AUTH_URL}?${params.toString()}`);
+});
+
+router.get('/callback', async (req, res) => {
+  const { code, error } = req.query;
+  console.log('OAuth callback — code:', code ? 'received' : 'missing', '| error:', error || 'none');
+  if (error || !code) return res.redirect(`${CLIENT_URL}/?error=auth_failed`);
+  try {
+    const credentials = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
+    const response = await axios.post(
+      YAHOO_TOKEN_URL,
+      new URLSearchParams({
+        grant_type: 'authorization_code',
+        redirect_uri: REDIRECT_URI,
+        code,
+      }),
+      {
+        headers: {
+          Authorization: `Basic ${credentials}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+    );
+    const { access_token, refresh_token, expires_in } = response.data;
+    req.session.tokens = {
+      access_token,
+      refresh_token,
+      expires_at: Date.now() + expires_in * 1000,
+    };
+    console.log('Token exchange successful');
+    res.redirect(`${CLIENT_URL}/?connected=true`);
+  } catch (err) {
+    console.error('Token exchange error:', err.response?.data || err.message);
+    res.redirect(`${CLIENT_URL}/?error=token_failed`);
+  }
+});
+
+async function getValidToken(session) {
+  const tokens = session.tokens;
+  if (!tokens) throw new Error('Not authenticated');
+  if (Date.now() < tokens.expires_at - 60000) return tokens.access_token;
+  const credentials = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
+  const response = await axios.post(
+    YAHOO_TOKEN_URL,
+    new URLSearchParams({
+      grant_type: 'refresh_token',
+      redirect_uri: REDIRECT_URI,
+      refresh_token: tokens.refresh_token,
+    }),
+    {
+      headers: {
+        Authorization: `Basic ${credentials}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }
+  );
+  const { access_token, refresh_token, expires_in } = response.data;
+  session.tokens = {
+    access_token,
+    refresh_token,
+    expires_at: Date.now() + expires_in * 1000,
+  };
+  return access_token;
+}
+
+router.get('/status', (req, res) => {
+  res.json({ connected: !!req.session.tokens });
+});
+
+router.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect(CLIENT_URL);
+});
+
+module.exports = router;
+module.exports.getValidToken = getValidToken;
