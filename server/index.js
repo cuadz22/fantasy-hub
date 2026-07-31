@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/auth');
 const leagueRoutes = require('./routes/leagues');
 const playerRoutes = require('./routes/players');
-const debugRoutes = require('./routes/debug');
+const scraperRoutes = require('./routes/scraper');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -34,7 +34,7 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 app.use('/auth', authRoutes);
 app.use('/api/leagues', leagueRoutes);
 app.use('/api/players', playerRoutes);
-app.use('/debug', debugRoutes);
+app.use('/api/scraper', scraperRoutes);
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
