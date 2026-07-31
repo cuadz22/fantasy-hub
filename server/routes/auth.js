@@ -16,7 +16,7 @@ router.get('/login', (req, res) => {
     client_id: CLIENT_ID,
     redirect_uri: REDIRECT_URI,
     response_type: 'code',
-    scope: 'openid fspt-r',
+    scope: 'openid',
   });
   res.redirect(`${YAHOO_AUTH_URL}?${params.toString()}`);
 });
