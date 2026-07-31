@@ -262,3 +262,27 @@ router.get('/:leagueId/raw', async (req, res) => {
 });
 
 module.exports = router;
+
+router.get('/:leagueId/teamdata', async (req, res) => {
+  const league = LEAGUES[req.params.leagueId];
+  if (!league) return res.status(404).json({ error: 'League not found' });
+  try {
+    const html = await fetchLeaguePage(league.url);
+    // Search for team name patterns
+    const idx1 = html.indexOf('"outcome_totals"');
+    const idx2 = html.indexOf('team_standings');
+    const idx3 = html.indexOf('points_for');
+    const idx4 = html.indexOf('W-L-T');
+    res.json({
+      length: html.length,
+      outcome_totals_idx: idx1,
+      team_standings_idx: idx2,
+      points_for_idx: idx3,
+      wlt_idx: idx4,
+      outcome_totals_snippet: idx1 > -1 ? html.substring(idx1 - 200, idx1 + 500) : null,
+      points_for_snippet: idx3 > -1 ? html.substring(idx3 - 100, idx3 + 300) : null,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
