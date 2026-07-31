@@ -35,7 +35,7 @@ function getTokensFromCookie(req) {
 router.get('/login', (req, res) => {
   oauth.getOAuthRequestToken((err, requestToken, requestTokenSecret) => {
     if (err) {
-      console.error('Request token error:', err);
+      console.error('Request token error:', JSON.stringify(err));
       return res.redirect(`${CLIENT_URL}?error=request_token_failed`);
     }
     requestTokenStore[requestToken] = requestTokenSecret;
@@ -46,34 +46,24 @@ router.get('/login', (req, res) => {
 router.get('/callback', (req, res) => {
   const { oauth_token, oauth_verifier } = req.query;
   console.log('OAuth 1.0a callback — token:', oauth_token ? 'received' : 'missing');
-
-  if (!oauth_token || !oauth_verifier) {
-    return res.redirect(`${CLIENT_URL}?error=auth_failed`);
-  }
-
+  if (!oauth_token || !oauth_verifier) return res.redirect(`${CLIENT_URL}?error=auth_failed`);
   const requestTokenSecret = requestTokenStore[oauth_token];
-  if (!requestTokenSecret) {
-    return res.redirect(`${CLIENT_URL}?error=token_not_found`);
-  }
-
+  if (!requestTokenSecret) return res.redirect(`${CLIENT_URL}?error=token_not_found`);
   oauth.getOAuthAccessToken(
     oauth_token,
     requestTokenSecret,
     oauth_verifier,
     (err, accessToken, accessTokenSecret) => {
       if (err) {
-        console.error('Access token error:', err);
+        console.error('Access token error:', JSON.stringify(err));
         return res.redirect(`${CLIENT_URL}?error=token_failed`);
       }
-
       delete requestTokenStore[oauth_token];
-
       const tokens = {
         access_token: accessToken,
         access_token_secret: accessTokenSecret,
         expires_at: Date.now() + 3600 * 1000,
       };
-
       const token = jwt.sign(tokens, JWT_SECRET, { expiresIn: '7d' });
       console.log('OAuth 1.0a token exchange successful');
       res.redirect(`${CLIENT_URL}?token=${token}`);
