@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const axios = require('axios');
+const { OAuth } = require('oauth');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
@@ -10,8 +10,17 @@ const REDIRECT_URI = process.env.YAHOO_REDIRECT_URI;
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
 const JWT_SECRET = process.env.SESSION_SECRET;
 
-const YAHOO_AUTH_URL = 'https://api.login.yahoo.com/oauth2/request_auth';
-const YAHOO_TOKEN_URL = 'https://api.login.yahoo.com/oauth2/get_token';
+const oauth = new OAuth(
+  'https://api.login.yahoo.com/oauth/v2/get_request_token',
+  'https://api.login.yahoo.com/oauth/v2/get_token',
+  CLIENT_ID,
+  CLIENT_SECRET,
+  '1.0A',
+  REDIRECT_URI,
+  'HMAC-SHA1'
+);
+
+let requestTokenStore = {};
 
 function getTokensFromCookie(req) {
   const cookie = req.cookies?.fantasy_token;
@@ -24,48 +33,52 @@ function getTokensFromCookie(req) {
 }
 
 router.get('/login', (req, res) => {
-  const params = new URLSearchParams({
-    client_id: CLIENT_ID,
-    redirect_uri: REDIRECT_URI,
-    response_type: 'code',
-    scope: 'openid fspt-r',
+  oauth.getOAuthRequestToken((err, requestToken, requestTokenSecret) => {
+    if (err) {
+      console.error('Request token error:', err);
+      return res.redirect(`${CLIENT_URL}?error=request_token_failed`);
+    }
+    requestTokenStore[requestToken] = requestTokenSecret;
+    res.redirect(`https://api.login.yahoo.com/oauth/v2/request_auth?oauth_token=${requestToken}`);
   });
-  res.redirect(`${YAHOO_AUTH_URL}?${params.toString()}`);
 });
 
-router.get('/callback', async (req, res) => {
-  const { code, error } = req.query;
-  console.log('OAuth callback — code:', code ? 'received' : 'missing', '| error:', error || 'none');
-  if (error || !code) return res.redirect(`${CLIENT_URL}?error=auth_failed`);
-  try {
-    const credentials = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
-    const response = await axios.post(
-      YAHOO_TOKEN_URL,
-      new URLSearchParams({
-        grant_type: 'authorization_code',
-        redirect_uri: REDIRECT_URI,
-        code,
-      }),
-      {
-        headers: {
-          Authorization: `Basic ${credentials}`,
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      }
-    );
-    const { access_token, refresh_token, expires_in } = response.data;
-    const tokens = {
-      access_token,
-      refresh_token,
-      expires_at: Date.now() + expires_in * 1000,
-    };
-    const token = jwt.sign(tokens, JWT_SECRET, { expiresIn: '7d' });
-    console.log('Token exchange successful');
-    res.redirect(`${CLIENT_URL}?token=${token}`);
-  } catch (err) {
-    console.error('Token exchange error:', err.response?.data || err.message);
-    res.redirect(`${CLIENT_URL}?error=token_failed`);
+router.get('/callback', (req, res) => {
+  const { oauth_token, oauth_verifier } = req.query;
+  console.log('OAuth 1.0a callback — token:', oauth_token ? 'received' : 'missing');
+
+  if (!oauth_token || !oauth_verifier) {
+    return res.redirect(`${CLIENT_URL}?error=auth_failed`);
   }
+
+  const requestTokenSecret = requestTokenStore[oauth_token];
+  if (!requestTokenSecret) {
+    return res.redirect(`${CLIENT_URL}?error=token_not_found`);
+  }
+
+  oauth.getOAuthAccessToken(
+    oauth_token,
+    requestTokenSecret,
+    oauth_verifier,
+    (err, accessToken, accessTokenSecret) => {
+      if (err) {
+        console.error('Access token error:', err);
+        return res.redirect(`${CLIENT_URL}?error=token_failed`);
+      }
+
+      delete requestTokenStore[oauth_token];
+
+      const tokens = {
+        access_token: accessToken,
+        access_token_secret: accessTokenSecret,
+        expires_at: Date.now() + 3600 * 1000,
+      };
+
+      const token = jwt.sign(tokens, JWT_SECRET, { expiresIn: '7d' });
+      console.log('OAuth 1.0a token exchange successful');
+      res.redirect(`${CLIENT_URL}?token=${token}`);
+    }
+  );
 });
 
 router.post('/store-token', express.json(), (req, res) => {
@@ -85,26 +98,10 @@ router.post('/store-token', express.json(), (req, res) => {
   }
 });
 
-async function getValidToken(req) {
+function getValidToken(req) {
   const tokens = getTokensFromCookie(req);
   if (!tokens) throw new Error('Not authenticated');
-  if (Date.now() < tokens.expires_at - 60000) return tokens.access_token;
-  const credentials = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
-  const response = await axios.post(
-    YAHOO_TOKEN_URL,
-    new URLSearchParams({
-      grant_type: 'refresh_token',
-      redirect_uri: REDIRECT_URI,
-      refresh_token: tokens.refresh_token,
-    }),
-    {
-      headers: {
-        Authorization: `Basic ${credentials}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    }
-  );
-  return response.data.access_token;
+  return { accessToken: tokens.access_token, accessTokenSecret: tokens.access_token_secret };
 }
 
 router.get('/status', (req, res) => {
@@ -124,3 +121,4 @@ router.get('/logout', (req, res) => {
 module.exports = router;
 module.exports.getValidToken = getValidToken;
 module.exports.getTokensFromCookie = getTokensFromCookie;
+module.exports.oauth = oauth;

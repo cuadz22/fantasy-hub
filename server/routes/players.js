@@ -1,21 +1,29 @@
 const express = require('express');
-const axios = require('axios');
 const router = express.Router();
-const { getValidToken } = require('./auth');
+const { getValidToken, getTokensFromCookie, oauth } = require('./auth');
 
 const YAHOO_API = 'https://fantasysports.yahooapis.com/fantasy/v2';
 
-async function yahooRequest(session, path) {
-  const token = await getValidToken(session);
-  const res = await axios.get(`${YAHOO_API}${path}`, {
-    headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
-    params: { format: 'json' },
+function yahooRequest(accessToken, accessTokenSecret, path) {
+  return new Promise((resolve, reject) => {
+    oauth.get(
+      `${YAHOO_API}${path}?format=json`,
+      accessToken,
+      accessTokenSecret,
+      (err, data) => {
+        if (err) return reject(err);
+        try {
+          resolve(JSON.parse(data));
+        } catch (e) {
+          reject(e);
+        }
+      }
+    );
   });
-  return res.data;
 }
 
 function requireAuth(req, res, next) {
-  if (!req.session.tokens) return res.status(401).json({ error: 'Not authenticated' });
+  if (!getTokensFromCookie(req)) return res.status(401).json({ error: 'Not authenticated' });
   next();
 }
 
@@ -23,10 +31,8 @@ router.get('/top', requireAuth, async (req, res) => {
   const { teamKey, week, limit = 5 } = req.query;
   if (!teamKey || !week) return res.status(400).json({ error: 'teamKey and week required' });
   try {
-    const data = await yahooRequest(
-      req.session,
-      `/team/${teamKey}/roster;week=${week}/players/stats;type=week;week=${week}`
-    );
+    const { accessToken, accessTokenSecret } = getValidToken(req);
+    const data = await yahooRequest(accessToken, accessTokenSecret, `/team/${teamKey}/roster;week=${week}/players/stats;type=week;week=${week}`);
     const playersData = data.fantasy_content.team[1].roster[0].players;
     const players = [];
     for (let p = 0; p < playersData.count; p++) {
@@ -52,9 +58,10 @@ router.get('/matchup', requireAuth, async (req, res) => {
   const { teamKeyA, teamKeyB, week, limit = 5 } = req.query;
   if (!teamKeyA || !teamKeyB || !week) return res.status(400).json({ error: 'teamKeyA, teamKeyB and week required' });
   try {
+    const { accessToken, accessTokenSecret } = getValidToken(req);
     const [resA, resB] = await Promise.all([
-      yahooRequest(req.session, `/team/${teamKeyA}/roster;week=${week}/players/stats;type=week;week=${week}`),
-      yahooRequest(req.session, `/team/${teamKeyB}/roster;week=${week}/players/stats;type=week;week=${week}`),
+      yahooRequest(accessToken, accessTokenSecret, `/team/${teamKeyA}/roster;week=${week}/players/stats;type=week;week=${week}`),
+      yahooRequest(accessToken, accessTokenSecret, `/team/${teamKeyB}/roster;week=${week}/players/stats;type=week;week=${week}`),
     ]);
     function extractPlayers(data, lim) {
       const playersData = data.fantasy_content.team[1].roster[0].players;

@@ -1,17 +1,25 @@
 const express = require('express');
-const axios = require('axios');
 const router = express.Router();
-const { getValidToken, getTokensFromCookie } = require('./auth');
+const { getValidToken, getTokensFromCookie, oauth } = require('./auth');
 
 const YAHOO_API = 'https://fantasysports.yahooapis.com/fantasy/v2';
 
-async function yahooRequest(req, path) {
-  const token = await getValidToken(req);
-  const res = await axios.get(`${YAHOO_API}${path}`, {
-    headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
-    params: { format: 'json' },
+function yahooRequest(accessToken, accessTokenSecret, path) {
+  return new Promise((resolve, reject) => {
+    oauth.get(
+      `${YAHOO_API}${path}?format=json`,
+      accessToken,
+      accessTokenSecret,
+      (err, data) => {
+        if (err) return reject(err);
+        try {
+          resolve(JSON.parse(data));
+        } catch (e) {
+          reject(e);
+        }
+      }
+    );
   });
-  return res.data;
 }
 
 function requireAuth(req, res, next) {
@@ -21,7 +29,8 @@ function requireAuth(req, res, next) {
 
 router.get('/', requireAuth, async (req, res) => {
   try {
-    const data = await yahooRequest(req, '/users;use_login=1/games;game_keys=nfl/leagues');
+    const { accessToken, accessTokenSecret } = getValidToken(req);
+    const data = await yahooRequest(accessToken, accessTokenSecret, '/users;use_login=1/games;game_keys=nfl/leagues');
     const gamesData = data.fantasy_content.users[0].user[1].games;
     const leagues = [];
     for (let g = 0; g < gamesData.count; g++) {
@@ -49,7 +58,8 @@ router.get('/', requireAuth, async (req, res) => {
 
 router.get('/:leagueKey/standings', requireAuth, async (req, res) => {
   try {
-    const data = await yahooRequest(req, `/league/${req.params.leagueKey}/standings`);
+    const { accessToken, accessTokenSecret } = getValidToken(req);
+    const data = await yahooRequest(accessToken, accessTokenSecret, `/league/${req.params.leagueKey}/standings`);
     const teamsData = data.fantasy_content.league[1].standings[0].teams;
     const standings = [];
     for (let t = 0; t < teamsData.count; t++) {
@@ -77,7 +87,8 @@ router.get('/:leagueKey/matchups', requireAuth, async (req, res) => {
   const { week } = req.query;
   if (!week) return res.status(400).json({ error: 'week is required' });
   try {
-    const data = await yahooRequest(req, `/league/${req.params.leagueKey}/scoreboard;week=${week}`);
+    const { accessToken, accessTokenSecret } = getValidToken(req);
+    const data = await yahooRequest(accessToken, accessTokenSecret, `/league/${req.params.leagueKey}/scoreboard;week=${week}`);
     const matchupsData = data.fantasy_content.league[1].scoreboard[0].matchups;
     const matchups = [];
     for (let m = 0; m < matchupsData.count; m++) {
@@ -111,7 +122,8 @@ router.get('/:leagueKey/matchups', requireAuth, async (req, res) => {
 
 router.get('/:leagueKey/schedule', requireAuth, async (req, res) => {
   try {
-    const data = await yahooRequest(req, `/league/${req.params.leagueKey}/settings`);
+    const { accessToken, accessTokenSecret } = getValidToken(req);
+    const data = await yahooRequest(accessToken, accessTokenSecret, `/league/${req.params.leagueKey}/settings`);
     const settings = data.fantasy_content.league[0];
     res.json({
       startWeek: parseInt(settings.start_week),
