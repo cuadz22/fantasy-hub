@@ -31,30 +31,41 @@ export default function Studio() {
   const [league, setLeague] = useState(LEAGUES[0]);
   const [week, setWeek] = useState(11);
   const [playerCount, setPlayerCount] = useState(5);
+  const [storing, setStoring] = useState(false);
 
   useEffect(() => {
-    // Check if we just came back from Yahoo login
     const params = new URLSearchParams(window.location.search);
-    if (params.get('connected') === 'true') {
-      setConnected(true);
-      localStorage.setItem('yahoo_connected', 'true');
-      window.history.replaceState({}, '', '/studio');
-    } else if (localStorage.getItem('yahoo_connected') === 'true') {
-      setConnected(true);
-    }
+    const token = params.get('token');
 
-    // Also verify with the backend
-    fetch(`${API}/auth/status`, { credentials: 'include' })
-      .then(r => r.json())
-      .then(d => {
-        setConnected(d.connected);
-        if (d.connected) localStorage.setItem('yahoo_connected', 'true');
-        else localStorage.removeItem('yahoo_connected');
+    if (token) {
+      // Store token on Railway via POST so cookie gets set on same domain
+      setStoring(true);
+      fetch(`${API}/auth/store-token`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token }),
       })
-      .catch(() => {
-        // Fall back to localStorage
-        if (localStorage.getItem('yahoo_connected') === 'true') setConnected(true);
-      });
+        .then(r => r.json())
+        .then(d => {
+          if (d.success) {
+            setConnected(true);
+            localStorage.setItem('yahoo_connected', 'true');
+          }
+          setStoring(false);
+          window.history.replaceState({}, '', '/studio');
+        })
+        .catch(() => setStoring(false));
+    } else if (localStorage.getItem('yahoo_connected') === 'true') {
+      // Verify still connected
+      fetch(`${API}/auth/status`, { credentials: 'include' })
+        .then(r => r.json())
+        .then(d => {
+          setConnected(d.connected);
+          if (!d.connected) localStorage.removeItem('yahoo_connected');
+        })
+        .catch(() => {});
+    }
   }, []);
 
   const aWins = SAMPLE.teamA.score > SAMPLE.teamB.score;
@@ -64,11 +75,14 @@ export default function Studio() {
       <div style={styles.header}>
         <div style={styles.bar} />
         <h1 style={styles.title}>Social Studio</h1>
-        <div style={styles.connBadge(connected)}>
-          <div style={styles.connDot(connected)} />
-          {connected ? 'Yahoo connected' : 'Yahoo not connected'}
-        </div>
-        {!connected && (
+        {storing && <div style={{ fontSize: 12, color: 'var(--text-muted)', marginLeft: 8 }}>Connecting...</div>}
+        {!storing && (
+          <div style={styles.connBadge(connected)}>
+            <div style={styles.connDot(connected)} />
+            {connected ? 'Yahoo connected' : 'Yahoo not connected'}
+          </div>
+        )}
+        {!connected && !storing && (
           <a href={`${API}/auth/login`} style={styles.connectBtn}>Connect Yahoo</a>
         )}
         {connected && (

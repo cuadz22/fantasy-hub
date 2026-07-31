@@ -13,16 +13,6 @@ const JWT_SECRET = process.env.SESSION_SECRET;
 const YAHOO_AUTH_URL = 'https://api.login.yahoo.com/oauth2/request_auth';
 const YAHOO_TOKEN_URL = 'https://api.login.yahoo.com/oauth2/get_token';
 
-function setTokenCookie(res, tokens) {
-  const token = jwt.sign(tokens, JWT_SECRET, { expiresIn: '7d' });
-  res.cookie('fantasy_token', token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none',
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  });
-}
-
 function getTokensFromCookie(req) {
   const cookie = req.cookies?.fantasy_token;
   if (!cookie) return null;
@@ -69,12 +59,29 @@ router.get('/callback', async (req, res) => {
       refresh_token,
       expires_at: Date.now() + expires_in * 1000,
     };
-    setTokenCookie(res, tokens);
+    const token = jwt.sign(tokens, JWT_SECRET, { expiresIn: '7d' });
     console.log('Token exchange successful');
-    res.redirect(`${CLIENT_URL}?connected=true`);
+    res.redirect(`${CLIENT_URL}?token=${token}`);
   } catch (err) {
     console.error('Token exchange error:', err.response?.data || err.message);
     res.redirect(`${CLIENT_URL}?error=token_failed`);
+  }
+});
+
+router.post('/store-token', express.json(), (req, res) => {
+  const { token } = req.body;
+  if (!token) return res.status(400).json({ error: 'No token provided' });
+  try {
+    jwt.verify(token, JWT_SECRET);
+    res.cookie('fantasy_token', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+    res.json({ success: true });
+  } catch {
+    res.status(400).json({ error: 'Invalid token' });
   }
 });
 
@@ -97,8 +104,7 @@ async function getValidToken(req) {
       },
     }
   );
-  const { access_token, refresh_token, expires_in } = response.data;
-  return access_token;
+  return response.data.access_token;
 }
 
 router.get('/status', (req, res) => {
