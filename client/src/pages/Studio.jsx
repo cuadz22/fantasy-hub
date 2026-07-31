@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+const API = 'https://fantasy-hub-production.up.railway.app';
+
 const LEAGUES = [
   { id: 'beaners-husseins', name: "Beaners & Husseins" },
   { id: 'rebirth', name: 'Rebirth' },
@@ -31,10 +33,28 @@ export default function Studio() {
   const [playerCount, setPlayerCount] = useState(5);
 
   useEffect(() => {
-    fetch('/auth/status', { credentials: 'include' })
+    // Check if we just came back from Yahoo login
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('connected') === 'true') {
+      setConnected(true);
+      localStorage.setItem('yahoo_connected', 'true');
+      window.history.replaceState({}, '', '/studio');
+    } else if (localStorage.getItem('yahoo_connected') === 'true') {
+      setConnected(true);
+    }
+
+    // Also verify with the backend
+    fetch(`${API}/auth/status`, { credentials: 'include' })
       .then(r => r.json())
-      .then(d => setConnected(d.connected))
-      .catch(() => {});
+      .then(d => {
+        setConnected(d.connected);
+        if (d.connected) localStorage.setItem('yahoo_connected', 'true');
+        else localStorage.removeItem('yahoo_connected');
+      })
+      .catch(() => {
+        // Fall back to localStorage
+        if (localStorage.getItem('yahoo_connected') === 'true') setConnected(true);
+      });
   }, []);
 
   const aWins = SAMPLE.teamA.score > SAMPLE.teamB.score;
@@ -49,7 +69,10 @@ export default function Studio() {
           {connected ? 'Yahoo connected' : 'Yahoo not connected'}
         </div>
         {!connected && (
-          <a href="https://fantasy-hub-production.up.railway.app/auth/login" style={styles.connectBtn}>Connect Yahoo</a>
+          <a href={`${API}/auth/login`} style={styles.connectBtn}>Connect Yahoo</a>
+        )}
+        {connected && (
+          <a href={`${API}/auth/logout`} style={styles.disconnectBtn} onClick={() => localStorage.removeItem('yahoo_connected')}>Disconnect</a>
         )}
       </div>
 
@@ -142,6 +165,7 @@ const styles = {
   connBadge: (c) => ({ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: c ? 'var(--green)' : 'var(--text-muted)', marginLeft: 8 }),
   connDot: (c) => ({ width: 6, height: 6, borderRadius: '50%', background: c ? 'var(--green)' : '#444' }),
   connectBtn: { marginLeft: 8, padding: '7px 14px', borderRadius: 6, background: 'var(--red)', color: '#fff', fontSize: 12, fontWeight: 500 },
+  disconnectBtn: { marginLeft: 8, padding: '7px 14px', borderRadius: 6, background: '#222', color: '#888', border: '0.5px solid #333', fontSize: 12, fontWeight: 500 },
   layout: { display: 'grid', gridTemplateColumns: '200px 1fr', gap: 24 },
   controls: { display: 'flex', flexDirection: 'column', gap: 20 },
   ctrlGroup: { display: 'flex', flexDirection: 'column', gap: 5 },
