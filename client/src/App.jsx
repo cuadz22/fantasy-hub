@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import League from './pages/League';
 import Studio from './pages/Studio';
+import Connect from './pages/Connect';
 import Nav from './components/Nav';
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/league/:id" element={<League />} />
         <Route path="/studio" element={<Studio />} />
+        <Route path="/connect" element={<Connect />} />
       </Routes>
     </BrowserRouter>
   );
