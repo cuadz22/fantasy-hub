@@ -8,8 +8,14 @@ export default function Connect() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API}/api/leagues`, { credentials: 'include' })
-      .then(r => r.json())
+    fetch(`${API}/api/leagues`, {
+      credentials: 'include',
+      headers: { 'Accept': 'application/json' },
+    })
+      .then(r => {
+        if (!r.ok) throw new Error(`Server returned ${r.status}`);
+        return r.json();
+      })
       .then(d => {
         if (d.error) setError(d.error);
         else setLeagues(d);
@@ -27,7 +33,7 @@ export default function Connect() {
         Your Yahoo Leagues
       </h1>
       {loading && <p style={{ color: 'var(--text-muted)' }}>Loading your leagues...</p>}
-      {error && <p style={{ color: 'var(--red)' }}>Error: {error} — make sure you are connected to Yahoo in Studio.</p>}
+      {error && <p style={{ color: 'var(--red)' }}>Error: {error}</p>}
       {leagues.map((l, i) => (
         <div key={i} style={{ background: 'var(--bg2)', border: '0.5px solid var(--border)', borderRadius: 8, padding: 20, marginBottom: 12 }}>
           <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--text)', marginBottom: 6 }}>{l.name}</div>
