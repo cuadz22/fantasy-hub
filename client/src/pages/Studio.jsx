@@ -49,7 +49,7 @@ export default function Studio() {
           {connected ? 'Yahoo connected' : 'Yahoo not connected'}
         </div>
         {!connected && (
-          <a href="/auth/login" style={styles.connectBtn}>Connect Yahoo</a>
+          <a href="https://fantasy-hub-production.up.railway.app/auth/login" style={styles.connectBtn}>Connect Yahoo</a>
         )}
       </div>
 
