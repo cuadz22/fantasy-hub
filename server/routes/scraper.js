@@ -30,26 +30,21 @@ const CACHE_TTL = 60 * 60 * 1000;
 async function fetchLeaguePage(url) {
   const cached = cache[url];
   if (cached && Date.now() - cached.time < CACHE_TTL) return cached.data;
-
   const res = await fetch(url, {
     headers: {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
       'Accept-Language': 'en-US,en;q=0.9',
-      'Accept-Encoding': 'gzip, deflate, br',
       'Connection': 'keep-alive',
       'Upgrade-Insecure-Requests': '1',
       'Sec-Fetch-Dest': 'document',
       'Sec-Fetch-Mode': 'navigate',
       'Sec-Fetch-Site': 'none',
-      'Sec-Fetch-User': '?1',
       'Cache-Control': 'max-age=0',
     }
   });
-
   if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
   const html = await res.text();
-  if (!html || html.length < 100) throw new Error('Empty response from Yahoo');
   cache[url] = { data: html, time: Date.now() };
   return html;
 }
@@ -57,96 +52,133 @@ async function fetchLeaguePage(url) {
 function parseStandings(html) {
   const standings = [];
 
-  // Try multiple patterns to find the standings table
-  const patterns = [
-    /## Standings\s*([\s\S]*?)(?:Last standings update|## Recent)/,
-    /Standings\s*\|[\s\S]*?\|[\s\S]*?(?:Last standings|Recent Transaction)/,
-  ];
+  // Extract team data from HTML table rows
+  // Yahoo standings table has class "yf-table" or similar
+  // Team names appear in <a> tags with team URLs
+  // Records appear as "W-L-T" pattern
+  // Points appear as decimal numbers
 
-  let tableContent = null;
-  for (const pattern of patterns) {
-    const match = html.match(pattern);
-    if (match) { tableContent = match[0]; break; }
+  // Find the standings section
+  const standingsSection = html.match(/lhststand[\s\S]{0,50000}lhstsched/);
+  if (!standingsSection) {
+    // Try alternative approach - find all team rows
+    return parseStandingsFromScript(html);
   }
 
-  if (!tableContent) {
-    // Try finding table rows directly
-    const rows = html.match(/\|\s*\\?\*?\d+\s*\|[^\n]+\|[^\n]+\|/g);
-    if (rows) {
-      rows.forEach(row => {
-        const cells = row.split('|').map(c => c.trim()).filter(Boolean);
-        if (cells.length < 4) return;
-        const rank = parseInt(cells[0].replace(/\*/g, '').trim());
-        if (isNaN(rank) || rank > 20) return;
-        const nameMatch = cells[1].match(/\[([^\]]+)\]/);
-        const name = nameMatch ? nameMatch[1] : cells[1].replace(/!\[.*?\]\(.*?\)/g, '').trim();
-        const recordParts = cells[2].match(/(\d+)-(\d+)-(\d+)/);
-        const pf = parseFloat(cells[3]) || 0;
-        const pa = parseFloat(cells[4]) || 0;
-        if (name && recordParts && name.length > 1) {
+  return parseStandingsFromScript(html);
+}
+
+function parseStandingsFromScript(html) {
+  const standings = [];
+
+  try {
+    // Yahoo embeds league data in a JSON blob in the page
+    // Look for team data patterns
+    const teamMatches = [...html.matchAll(/"name":"([^"]+)","managers"[\s\S]*?"wins":(\d+),"losses":(\d+),"ties":(\d+)[\s\S]*?"points_for":"([^"]+)","points_against":"([^"]+)"[\s\S]*?"rank":(\d+)/g)];
+
+    if (teamMatches.length > 0) {
+      teamMatches.forEach(match => {
+        standings.push({
+          rank: parseInt(match[7]),
+          name: match[1],
+          wins: parseInt(match[2]),
+          losses: parseInt(match[3]),
+          ties: parseInt(match[4]),
+          record: `${match[2]}-${match[3]}-${match[4]}`,
+          points_for: parseFloat(match[5]),
+          points_against: parseFloat(match[6]),
+          clinched: false,
+        });
+      });
+      return standings.sort((a, b) => a.rank - b.rank);
+    }
+
+    // Fallback: extract from HTML table structure
+    // Find rank numbers paired with team names and records
+    const rankPattern = /class="[^"]*rank[^"]*"[^>]*>\s*(\d+)\s*<\/td>/gi;
+    const namePattern = /class="[^"]*teamname[^"]*"[^>]*>\s*<a[^>]*>([^<]+)<\/a>/gi;
+    const recordPattern = /(\d+)-(\d+)-(\d+)/g;
+    const pfPattern = /class="[^"]*pts[^"]*"[^>]*>([\d.]+)<\/td>/gi;
+
+    const ranks = [...html.matchAll(rankPattern)].map(m => parseInt(m[1]));
+    const names = [...html.matchAll(namePattern)].map(m => m[1].trim());
+    const records = [...html.matchAll(/>\s*(\d+)-(\d+)-(\d+)\s*</g)].map(m => ({
+      wins: parseInt(m[1]), losses: parseInt(m[2]), ties: parseInt(m[3]),
+      record: `${m[1]}-${m[2]}-${m[3]}`
+    }));
+
+    if (names.length > 0 && records.length > 0) {
+      names.forEach((name, i) => {
+        if (records[i]) {
           standings.push({
-            rank,
+            rank: ranks[i] || i + 1,
             name,
-            wins: parseInt(recordParts[1]),
-            losses: parseInt(recordParts[2]),
-            ties: parseInt(recordParts[3]),
-            record: cells[2],
-            points_for: pf,
-            points_against: pa,
-            clinched: cells[0].includes('*'),
+            wins: records[i].wins,
+            losses: records[i].losses,
+            ties: records[i].ties,
+            record: records[i].record,
+            points_for: 0,
+            points_against: 0,
+            clinched: false,
           });
         }
       });
+      return standings;
     }
-    return standings.sort((a, b) => a.rank - b.rank);
+
+    // Last resort: look for data-* attributes
+    const dataRows = [...html.matchAll(/data-team-id="(\d+)"[^>]*>([\s\S]*?)(?=data-team-id|<\/tr>)/g)];
+    dataRows.forEach((row, i) => {
+      const nameMatch = row[2].match(/>([^<]{2,50})<\/a>/);
+      const recordMatch = row[2].match(/(\d+)-(\d+)-(\d+)/);
+      if (nameMatch && recordMatch) {
+        standings.push({
+          rank: i + 1,
+          name: nameMatch[1].trim(),
+          wins: parseInt(recordMatch[1]),
+          losses: parseInt(recordMatch[2]),
+          ties: parseInt(recordMatch[3]),
+          record: `${recordMatch[1]}-${recordMatch[2]}-${recordMatch[3]}`,
+          points_for: 0,
+          points_against: 0,
+          clinched: false,
+        });
+      }
+    });
+
+  } catch (err) {
+    console.error('Parse error:', err.message);
   }
 
-  const rows = tableContent.match(/\|\s*\\?\*?\d+\s*\|[^\n]+/g);
-  if (!rows) return standings;
-
-  rows.forEach(row => {
-    const cells = row.split('|').map(c => c.trim()).filter(Boolean);
-    if (cells.length < 4) return;
-    const rank = parseInt(cells[0].replace(/\*/g, '').trim());
-    if (isNaN(rank)) return;
-    const nameMatch = cells[1].match(/\[([^\]]+)\]/);
-    const name = nameMatch ? nameMatch[1] : cells[1].replace(/!\[.*?\]\(.*?\)/g, '').trim();
-    const recordParts = cells[2].match(/(\d+)-(\d+)-(\d+)/);
-    const pf = parseFloat(cells[3]) || 0;
-    const pa = parseFloat(cells[4]) || 0;
-    if (name && recordParts && name.length > 1) {
-      standings.push({
-        rank,
-        name,
-        wins: parseInt(recordParts[1]),
-        losses: parseInt(recordParts[2]),
-        ties: parseInt(recordParts[3]),
-        record: cells[2],
-        points_for: pf,
-        points_against: pa,
-        clinched: cells[0].includes('*'),
-      });
-    }
-  });
-
-  return standings.sort((a, b) => a.rank - b.rank);
+  return standings;
 }
 
 function parseMatchups(html) {
   const matchups = [];
-  const sections = html.split('[View Matchup]');
-  sections.slice(1).forEach(section => {
-    const teamMatches = [...section.matchAll(/\[([^\]]+)\]\(https:\/\/football\.fantasysports\.yahoo\.com\/f1\/\d+\/\d+\)\s*\n\s*\d+-\d+-\d+/g)];
-    if (teamMatches.length >= 2) {
-      const scoreMatches = [...section.matchAll(/\n\s*(\d+\.\d+)\s*\n/g)];
-      const scoreA = parseFloat(scoreMatches[0]?.[1] || 0);
-      const scoreB = parseFloat(scoreMatches[2]?.[1] || 0);
+  try {
+    // Look for matchup data in JSON
+    const matchupData = [...html.matchAll(/"teams":\[{"name":"([^"]+)"[^}]*"team_points":{"total":"([^"]+)"[^}]*}[^}]*},{"name":"([^"]+)"[^}]*"team_points":{"total":"([^"]+)"/g)];
+
+    matchupData.forEach(m => {
       matchups.push({
-        teamA: { name: teamMatches[0][1], score: scoreA },
-        teamB: { name: teamMatches[1][1], score: scoreB },
+        teamA: { name: m[1], score: parseFloat(m[2]) },
+        teamB: { name: m[3], score: parseFloat(m[4]) },
+      });
+    });
+
+    if (matchups.length === 0) {
+      // Fallback: look for score patterns near team names
+      const scoreBlocks = [...html.matchAll(/class="[^"]*score[^"]*"[^>]*>([\d.]+)<[\s\S]{0,500}class="[^"]*score[^"]*"[^>]*>([\d.]+)</g)];
+      scoreBlocks.forEach(m => {
+        matchups.push({
+          teamA: { name: 'Team A', score: parseFloat(m[1]) },
+          teamB: { name: 'Team B', score: parseFloat(m[2]) },
+        });
       });
     }
-  });
+  } catch (err) {
+    console.error('Matchup parse error:', err.message);
+  }
   return matchups;
 }
 
@@ -156,7 +188,7 @@ router.get('/:leagueId/standings', async (req, res) => {
   try {
     const html = await fetchLeaguePage(league.url);
     const standings = parseStandings(html);
-    res.json({ league: league.name, standings, source: 'yahoo', html_length: html.length });
+    res.json({ league: league.name, standings, count: standings.length, source: 'yahoo' });
   } catch (err) {
     console.error('Scraper standings error:', err.message);
     res.status(500).json({ error: err.message });
@@ -221,7 +253,9 @@ router.get('/:leagueId/raw', async (req, res) => {
   if (!league) return res.status(404).json({ error: 'League not found' });
   try {
     const html = await fetchLeaguePage(league.url);
-    res.json({ length: html.length, preview: html.substring(0, 2000) });
+    // Find a relevant snippet around standings
+    const idx = html.indexOf('standings');
+    res.json({ length: html.length, snippet: html.substring(idx, idx + 3000) });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
