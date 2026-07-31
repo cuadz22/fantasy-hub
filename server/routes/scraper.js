@@ -161,3 +161,14 @@ router.get('/all/standings', async (req, res) => {
 });
 
 module.exports = router;
+
+router.get('/:leagueId/raw', async (req, res) => {
+  const league = LEAGUES[req.params.leagueId];
+  if (!league) return res.status(404).json({ error: 'League not found' });
+  try {
+    const html = await fetchLeaguePage(league.url);
+    res.send(html.substring(0, 5000));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
