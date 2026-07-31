@@ -38,7 +38,6 @@ export default function Studio() {
     const token = params.get('token');
 
     if (token) {
-      // Store token on Railway via POST so cookie gets set on same domain
       setStoring(true);
       fetch(`${API}/auth/store-token`, {
         method: 'POST',
@@ -57,7 +56,6 @@ export default function Studio() {
         })
         .catch(() => setStoring(false));
     } else if (localStorage.getItem('yahoo_connected') === 'true') {
-      // Verify still connected
       fetch(`${API}/auth/status`, { credentials: 'include' })
         .then(r => r.json())
         .then(d => {
