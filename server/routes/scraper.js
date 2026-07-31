@@ -30,49 +30,105 @@ const CACHE_TTL = 60 * 60 * 1000;
 async function fetchLeaguePage(url) {
   const cached = cache[url];
   if (cached && Date.now() - cached.time < CACHE_TTL) return cached.data;
+
   const res = await fetch(url, {
     headers: {
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      'Accept-Language': 'en-US,en;q=0.5',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive',
+      'Upgrade-Insecure-Requests': '1',
+      'Sec-Fetch-Dest': 'document',
+      'Sec-Fetch-Mode': 'navigate',
+      'Sec-Fetch-Site': 'none',
+      'Sec-Fetch-User': '?1',
+      'Cache-Control': 'max-age=0',
     }
   });
+
   if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
   const html = await res.text();
+  if (!html || html.length < 100) throw new Error('Empty response from Yahoo');
   cache[url] = { data: html, time: Date.now() };
   return html;
 }
 
 function parseStandings(html) {
   const standings = [];
-  const tableMatch = html.match(/## Standings\s*([\s\S]*?)(?:Last standings update|##)/);
-  if (!tableMatch) return standings;
-  const rows = tableMatch[1].match(/\|\s*\\?\*?\d+\s*\|[\s\S]*?\|[\s\S]*?\|/g);
+
+  // Try multiple patterns to find the standings table
+  const patterns = [
+    /## Standings\s*([\s\S]*?)(?:Last standings update|## Recent)/,
+    /Standings\s*\|[\s\S]*?\|[\s\S]*?(?:Last standings|Recent Transaction)/,
+  ];
+
+  let tableContent = null;
+  for (const pattern of patterns) {
+    const match = html.match(pattern);
+    if (match) { tableContent = match[0]; break; }
+  }
+
+  if (!tableContent) {
+    // Try finding table rows directly
+    const rows = html.match(/\|\s*\\?\*?\d+\s*\|[^\n]+\|[^\n]+\|/g);
+    if (rows) {
+      rows.forEach(row => {
+        const cells = row.split('|').map(c => c.trim()).filter(Boolean);
+        if (cells.length < 4) return;
+        const rank = parseInt(cells[0].replace(/\*/g, '').trim());
+        if (isNaN(rank) || rank > 20) return;
+        const nameMatch = cells[1].match(/\[([^\]]+)\]/);
+        const name = nameMatch ? nameMatch[1] : cells[1].replace(/!\[.*?\]\(.*?\)/g, '').trim();
+        const recordParts = cells[2].match(/(\d+)-(\d+)-(\d+)/);
+        const pf = parseFloat(cells[3]) || 0;
+        const pa = parseFloat(cells[4]) || 0;
+        if (name && recordParts && name.length > 1) {
+          standings.push({
+            rank,
+            name,
+            wins: parseInt(recordParts[1]),
+            losses: parseInt(recordParts[2]),
+            ties: parseInt(recordParts[3]),
+            record: cells[2],
+            points_for: pf,
+            points_against: pa,
+            clinched: cells[0].includes('*'),
+          });
+        }
+      });
+    }
+    return standings.sort((a, b) => a.rank - b.rank);
+  }
+
+  const rows = tableContent.match(/\|\s*\\?\*?\d+\s*\|[^\n]+/g);
   if (!rows) return standings;
+
   rows.forEach(row => {
     const cells = row.split('|').map(c => c.trim()).filter(Boolean);
     if (cells.length < 4) return;
     const rank = parseInt(cells[0].replace(/\*/g, '').trim());
+    if (isNaN(rank)) return;
     const nameMatch = cells[1].match(/\[([^\]]+)\]/);
-    const name = nameMatch ? nameMatch[1] : cells[1];
-    const record = cells[2];
-    const recordParts = record.match(/(\d+)-(\d+)-(\d+)/);
+    const name = nameMatch ? nameMatch[1] : cells[1].replace(/!\[.*?\]\(.*?\)/g, '').trim();
+    const recordParts = cells[2].match(/(\d+)-(\d+)-(\d+)/);
     const pf = parseFloat(cells[3]) || 0;
     const pa = parseFloat(cells[4]) || 0;
-    if (name && recordParts) {
+    if (name && recordParts && name.length > 1) {
       standings.push({
         rank,
         name,
         wins: parseInt(recordParts[1]),
         losses: parseInt(recordParts[2]),
         ties: parseInt(recordParts[3]),
-        record,
+        record: cells[2],
         points_for: pf,
         points_against: pa,
         clinched: cells[0].includes('*'),
       });
     }
   });
+
   return standings.sort((a, b) => a.rank - b.rank);
 }
 
@@ -100,7 +156,7 @@ router.get('/:leagueId/standings', async (req, res) => {
   try {
     const html = await fetchLeaguePage(league.url);
     const standings = parseStandings(html);
-    res.json({ league: league.name, standings, source: 'yahoo' });
+    res.json({ league: league.name, standings, source: 'yahoo', html_length: html.length });
   } catch (err) {
     console.error('Scraper standings error:', err.message);
     res.status(500).json({ error: err.message });
@@ -160,15 +216,15 @@ router.get('/all/standings', async (req, res) => {
   res.json(results);
 });
 
-module.exports = router;
-
 router.get('/:leagueId/raw', async (req, res) => {
   const league = LEAGUES[req.params.leagueId];
   if (!league) return res.status(404).json({ error: 'League not found' });
   try {
     const html = await fetchLeaguePage(league.url);
-    res.send(html.substring(0, 5000));
+    res.json({ length: html.length, preview: html.substring(0, 2000) });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
+module.exports = router;
