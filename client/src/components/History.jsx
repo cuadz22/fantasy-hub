@@ -41,12 +41,14 @@ const HISTORY = {
   'gentlemens-league': {
     seasons: [
       { year: 2025, champion: { team: 'Sir', record: '12-2-0', points: '169.95 (Final)' }, runnerUp: 'Mr. Electricity', thirdPlace: 'Bo Meets World ⚡️', url: 'https://football.fantasysports.yahoo.com/2025/f1/127687' },
+      { year: 2024, champion: { team: 'Magneto Was Right', record: '2-seed', points: '221.95 (Final)' }, runnerUp: 'Lights Camera Jackson 🎬', thirdPlace: 'Maliks Naber-Hood', url: 'https://football.fantasysports.yahoo.com/league/gentlemensleague_/2024' },
+      { year: 2023, champion: { team: 'King Quon', record: '6-seed', points: '186.25 (Final)' }, runnerUp: 'I Was At The Draft', thirdPlace: 'Sir', url: 'https://football.fantasysports.yahoo.com/league/gentlemensleague_/2023' },
     ],
     records: [
+      { label: 'Most points in a final', value: '221.95', holder: 'Magneto Was Right (2024)' },
       { label: 'Most points in a game', value: '232.00', holder: 'Bo Meets World ⚡️ (2025 QF)' },
-      { label: 'Semi score', value: '179.50', holder: 'Sir (2025 Semi)' },
+      { label: 'Biggest upset', value: '6-seed wins', holder: 'King Quon (2023)' },
       { label: 'Best regular season', value: '12-2', holder: 'Sir (2025)' },
-      { label: 'Championship score', value: '169.95', holder: 'Sir (2025)' },
     ],
   },
   'shoot-the-shits': {
