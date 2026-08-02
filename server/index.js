@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth');
 const leagueRoutes = require('./routes/leagues');
 const playerRoutes = require('./routes/players');
 const scraperRoutes = require('./routes/scraper');
+const syncRoutes = require('./routes/sync');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -13,11 +14,12 @@ const PORT = process.env.PORT || 8080;
 const allowedOrigins = [
   'https://fantasy-hub-bice.vercel.app',
   'http://localhost:5173',
+  'chrome-extension://',
 ];
 
 app.use(cors({
   origin: function(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.some(o => origin.startsWith(o))) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -35,6 +37,7 @@ app.use('/auth', authRoutes);
 app.use('/api/leagues', leagueRoutes);
 app.use('/api/players', playerRoutes);
 app.use('/api/scraper', scraperRoutes);
+app.use('/api/sync', syncRoutes);
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 

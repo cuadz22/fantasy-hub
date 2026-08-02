@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #1E1E1E;
+      color: #E8E8E8;
+      width: 300px;
+      padding: 0;
+    }
+    .header {
+      background: #161616;
+      padding: 14px 16px;
+      border-bottom: 0.5px solid #2a2a2a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo {
+      font-size: 16px;
+      font-weight: 600;
+      color: #D64040;
+      letter-spacing: 0.04em;
+    }
+    .subtitle {
+      font-size: 10px;
+      color: #555;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .content { padding: 14px 16px; }
+    .league-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 0.5px solid #2a2a2a;
+    }
+    .league-row:last-child { border-bottom: none; }
+    .league-name { font-size: 12px; color: #E8E8E8; }
+    .league-sub { font-size: 10px; color: #555; margin-top: 2px; }
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #333;
+    }
+    .dot.success { background: #4a9a4a; }
+    .dot.error { background: #D64040; }
+    .dot.pending { background: #888; }
+    .footer {
+      padding: 12px 16px;
+      border-top: 0.5px solid #2a2a2a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-link {
+      font-size: 11px;
+      color: #D64040;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .footer-text { font-size: 10px; color: #444; }
+    .tip {
+      background: #161616;
+      border: 0.5px solid #2a2a2a;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      font-size: 11px;
+      color: #666;
+      line-height: 1.5;
+    }
+    .tip strong { color: #aaa; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <div class="logo">Fantasy Hub</div>
+      <div class="subtitle">League Sync</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="tip">
+      <strong>How it works:</strong> Visit any of your Yahoo league pages and your data syncs automatically.
+    </div>
+    <div id="leagues"></div>
+  </div>
+  <div class="footer">
+    <a class="footer-link" href="https://fantasy-hub-bice.vercel.app" target="_blank">Open Fantasy Hub →</a>
+    <div class="footer-text" id="last-sync">Never synced</div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Fantasy Hub Sync",
+  "version": "1.0",
+  "description": "Syncs your Yahoo Fantasy leagues to Fantasy Hub automatically",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://football.fantasysports.yahoo.com/*",
+    "https://fantasy-hub-production.up.railway.app/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://football.fantasysports.yahoo.com/f1/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Fantasy Hub Sync"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
