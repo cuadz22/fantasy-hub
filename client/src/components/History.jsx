@@ -1,30 +1,29 @@
 const HISTORY = {
   'beaners-husseins': {
     seasons: [
-      {
-        year: 2025,
-        champion: { team: 'The Bijan Era', record: '11-3-0', points: '161.65 (Final)' },
-        runnerUp: 'The Bowery',
-        thirdPlace: 'Chase What Matters',
-        url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2025',
-      },
+      { year: 2025, champion: { team: 'The Bijan Era', record: '11-3-0', points: '161.65 (Final)' }, runnerUp: 'The Bowery', thirdPlace: 'Chase What Matters', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2025' },
+      { year: 2024, champion: { team: 'Olivas FC', record: '5-seed', points: '155.30 (Final)' }, runnerUp: 'The Bowery', thirdPlace: 'Money O', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2024' },
+      { year: 2023, champion: { team: 'El Travador', record: '1-seed', points: '162.85 (Final)' }, runnerUp: 'bichote', thirdPlace: 'Reek Havoc', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2023' },
+      { year: 2022, champion: { team: 'King Tuttchdown', record: '6-seed', points: '118.50 (Final)' }, runnerUp: 'Hunting Szn', thirdPlace: 'Married to the Game 💍', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2022' },
+      { year: 2021, champion: { team: 'Allen Keys', record: '1-seed', points: '147.50 (Final)' }, runnerUp: 'fon', thirdPlace: 'KUPPLE of TDs', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2021' },
+      { year: 2020, champion: { team: 'Pack Attack', record: '—', points: '—' }, runnerUp: "Rollin' with Mahomes", thirdPlace: 'My Fellow Kamaracans', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2020' },
+      { year: 2019, champion: { team: 'dave & todd', record: '—', points: '—' }, runnerUp: 'Baby Chark', thirdPlace: 'PICKLE RICK', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2019' },
+      { year: 2018, champion: { team: 'Keenan and Kelce', record: '—', points: '—' }, runnerUp: 'The Shady Bunch', thirdPlace: 'To the Promise Land🙏', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2018' },
+      { year: 2017, champion: { team: 'BELLCOWS', record: '—', points: '—' }, runnerUp: 'Kyle Lopez', thirdPlace: 'Jesus Take The Wheel', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2017' },
+      { year: 2016, champion: { team: 'BellCow X X V I', record: '—', points: '—' }, runnerUp: 'The Shady Bunch', thirdPlace: "Don't Hit AJ's Green", url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2016' },
+      { year: 2015, champion: { team: 'The Shady Bunch', record: '—', points: '—' }, runnerUp: "Drinkin' Fortes", thirdPlace: 'All on the Fitz', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2015' },
+      { year: 2014, champion: { team: 'ARMY OF TWO', record: '—', points: '—' }, runnerUp: 'Charles IN Charge', thirdPlace: "Booz'n and Cruz'n", url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2014' },
     ],
     records: [
-      { label: 'Most points in a week', value: '190.45', holder: 'The Bijan Era (2025 Semi)' },
-      { label: 'Championship score', value: '161.65', holder: 'The Bijan Era (2025)' },
-      { label: 'Biggest blowout', value: '92.95 pts', holder: 'bichote vs Love Thy Nabers (2025 Semi)' },
-      { label: 'Most wins in a season', value: '11-3', holder: 'The Bijan Era (2025)' },
+      { label: 'Most points in a game', value: '209.50', holder: 'Allen Keys (2021 Semi)' },
+      { label: 'Championship score', value: '162.85', holder: 'El Travador (2023)' },
+      { label: 'Biggest upset', value: '6-seed wins', holder: 'King Tuttchdown (2022)' },
+      { label: 'Most championships', value: '1 each', holder: '11 different winners in 12 seasons' },
     ],
   },
   'rebirth': {
     seasons: [
-      {
-        year: 2025,
-        champion: { team: 'Nacua Matata', record: '8-6-0', points: '2221.70 pts' },
-        runnerUp: 'Rents Due',
-        thirdPlace: 'bichote',
-        url: 'https://football.fantasysports.yahoo.com/2025/f1/127692',
-      },
+      { year: 2025, champion: { team: 'Nacua Matata', record: '8-6-0', points: '2221.70 pts' }, runnerUp: 'Rents Due', thirdPlace: 'bichote', url: 'https://football.fantasysports.yahoo.com/2025/f1/127692' },
     ],
     records: [
       { label: 'Most points scored', value: '2337.14', holder: 'bichote (2025)' },
@@ -35,13 +34,7 @@ const HISTORY = {
   },
   'gentlemens-league': {
     seasons: [
-      {
-        year: 2025,
-        champion: { team: 'Sir', record: '12-2-0', points: '169.95 (Final)' },
-        runnerUp: 'Mr. Electricity',
-        thirdPlace: 'Bo Meets World ⚡️',
-        url: 'https://football.fantasysports.yahoo.com/2025/f1/127687',
-      },
+      { year: 2025, champion: { team: 'Sir', record: '12-2-0', points: '169.95 (Final)' }, runnerUp: 'Mr. Electricity', thirdPlace: 'Bo Meets World ⚡️', url: 'https://football.fantasysports.yahoo.com/2025/f1/127687' },
     ],
     records: [
       { label: 'Most points in a game', value: '232.00', holder: 'Bo Meets World ⚡️ (2025 QF)' },
@@ -52,13 +45,7 @@ const HISTORY = {
   },
   'shoot-the-shits': {
     seasons: [
-      {
-        year: 2025,
-        champion: { team: 'Baba Yaga', record: '11-3-0', points: '176.50 (Final)' },
-        runnerUp: 'Chase Jam',
-        thirdPlace: 'CDiss Golden Pears',
-        url: 'https://football.fantasysports.yahoo.com/2025/f1/917285',
-      },
+      { year: 2025, champion: { team: 'Baba Yaga', record: '11-3-0', points: '176.50 (Final)' }, runnerUp: 'Chase Jam', thirdPlace: 'CDiss Golden Pears', url: 'https://football.fantasysports.yahoo.com/2025/f1/917285' },
     ],
     records: [
       { label: 'Most points in a game', value: '239.95', holder: 'Baba Yaga (2025 Semi)' },
