@@ -23,12 +23,18 @@ const HISTORY = {
   },
   'rebirth': {
     seasons: [
-      { year: 2025, champion: { team: 'Nacua Matata', record: '8-6-0', points: '2221.70 pts' }, runnerUp: 'Rents Due', thirdPlace: 'bichote', url: 'https://football.fantasysports.yahoo.com/2025/f1/127692' },
+      { year: 2025, champion: { team: 'Nacua Matata', record: '—', points: '—' }, runnerUp: 'Rents Due', thirdPlace: 'bichote', url: 'https://football.fantasysports.yahoo.com/2025/f1/127692' },
+      { year: 2024, champion: { team: 'LaPorta Potty', record: '—', points: '—' }, runnerUp: 'Nacua Matata', thirdPlace: 'Rents Due', url: 'https://football.fantasysports.yahoo.com/league/rebirth/2024' },
+      { year: 2023, champion: { team: 'Hooligans', record: '—', points: '—' }, runnerUp: 'Young Gunnas', thirdPlace: 'RussellMania', url: 'https://football.fantasysports.yahoo.com/league/rebirth/2023' },
+      { year: 2022, champion: { team: '23', record: '—', points: '—' }, runnerUp: 'ALLENTOWN', thirdPlace: "Who's Tanking?", url: 'https://football.fantasysports.yahoo.com/league/rebirth/2022' },
+      { year: 2021, champion: { team: 'Taylor Made', record: '—', points: '—' }, runnerUp: 'SLEEPY JOE SAYS MASK UP 🎤😷', thirdPlace: "Who's Tanking ?", url: 'https://football.fantasysports.yahoo.com/league/rebirth/2021' },
+      { year: 2020, champion: { team: 'Tyreek & Destroy ✌️', record: '—', points: '—' }, runnerUp: "I'm the Captain Now", thirdPlace: 'Hooligans', url: 'https://football.fantasysports.yahoo.com/league/rebirth/2020' },
+      { year: 2019, champion: { team: 'Shit Out of Luck', record: '—', points: '—' }, runnerUp: 'seeing ghosts', thirdPlace: 'J Dalvin', url: 'https://football.fantasysports.yahoo.com/league/rebirth/2019' },
     ],
     records: [
       { label: 'Most points scored', value: '2337.14', holder: 'bichote (2025)' },
       { label: 'Best record', value: '11-3', holder: 'Stiff Arm That Njigba (2025)' },
-      { label: 'Points against', value: '2364.50', holder: 'LaPorta Potty (2025)' },
+      { label: 'Back-to-back runner up', value: '2x', holder: 'Nacua Matata & Rents Due (2024-25)' },
       { label: 'Champion', value: 'Nacua Matata', holder: '2025 Season' },
     ],
   },
