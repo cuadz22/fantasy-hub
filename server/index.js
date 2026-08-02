@@ -11,35 +11,22 @@ const syncRoutes = require('./routes/sync');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-const allowedOrigins = [
-  'https://fantasy-hub-bice.vercel.app',
-  'http://localhost:5173',
-  'chrome-extension://',
-];
-
-app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin || allowedOrigins.some(o => origin.startsWith(o))) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
-
 app.use(express.json());
 app.use(cookieParser(process.env.SESSION_SECRET));
 
-app.use('/auth', authRoutes);
-app.use('/api/leagues', leagueRoutes);
-app.use('/api/players', playerRoutes);
-app.use('/api/scraper', scraperRoutes);
-app.use('/api/sync', syncRoutes);
+const siteOrigins = [
+  'https://fantasy-hub-bice.vercel.app',
+  'http://localhost:5173',
+];
 
-app.get('/health', (req, res) => res.json({ status: 'ok' }));
+app.use('/auth', cors({ origin: siteOrigins, credentials: true }), authRoutes);
+app.use('/api/leagues', cors({ origin: siteOrigins, credentials: true }), leagueRoutes);
+app.use('/api/players', cors({ origin: siteOrigins, credentials: true }), playerRoutes);
+app.use('/api/scraper', cors({ origin: siteOrigins, credentials: true }), scraperRoutes);
+
+app.use('/api/sync', cors({ origin: '*' }), syncRoutes);
+
+app.get('/health', cors({ origin: '*' }), (req, res) => res.json({ status: 'ok' }));
 
 app.listen(PORT, () => {
   console.log(`Fantasy Hub server running on port ${PORT}`);
