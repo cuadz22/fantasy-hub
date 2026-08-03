@@ -21,7 +21,6 @@ const RULEBOOKS = {
           { text: 'PPR — 1 point per reception' },
           { text: '6 points per passing touchdown' },
           { text: '-1 point per interception thrown' },
-          { text: 'Standard Yahoo scoring for all other categories' },
         ],
       },
       {
@@ -30,9 +29,8 @@ const RULEBOOKS = {
           { text: 'Each team keeps 2 players every year.' },
           { text: 'Keepers are slotted in rounds 15 and 16 of the draft.' },
           { text: 'Keeper picks (rounds 15 & 16) cannot be traded under any circumstances.' },
-      
-          
-          { text: 'Keepers must be submitted before the deadline. If not submitted in time, the commissioner will select the 2 highest ranked players on the roster based on Yahoo Rankings.' },
+          { text: 'If a player is traded, their keeper year counter resets to Year 1 for the new owner.' },
+          { text: 'Keepers must be submitted one week before draft day. If not submitted in time, the commissioner will select the 2 highest ranked players on the roster based on Yahoo Rankings.' },
           {
             text: 'Anti-rental rule: If Team A trades a player to Team B, Team A cannot receive that player back directly from Team B. The player must pass through at least one additional team (Team C) before returning to Team A.',
             highlight: true,
@@ -42,9 +40,8 @@ const RULEBOOKS = {
       {
         title: 'Draft',
         content: [
-          { text: 'Snake draft format. Draft order is determined randomly and released once keepers are submitted and fees are collected.' },
+          { text: 'The draft order is determined via the website we have always used, unless other ideas are suggested. Keepers are due one week before draft day, and draft order is determined 5 days before draft day. Draft date is TBD and will be updated on the site when agreed on by the league.' },
           { text: 'Rounds 15 and 16 are reserved for keepers and cannot be traded under any circumstances.' },
-          { text: 'Draft picks for rounds 1–14 are eligible for trade until the draft locks (the day before the draft at 11:59pm).' },
           {
             text: 'There are NO redos or undos during the draft under any circumstance. Double check your selection before clicking Draft. The same way you are responsible for players you drop, you are responsible for players you draft.',
             highlight: true,
@@ -78,7 +75,6 @@ const RULEBOOKS = {
               { date: '2025 season', note: 'Trade deadline moved to Week 12 at 11:59pm.' },
             ],
           },
-          { text: 'Draft picks (rounds 1–14) are eligible for trade until 11:59pm the day before the draft. Once locked, no picks may be swapped.' },
           {
             text: "Can't Cut List rule: A player on Yahoo's official Can't Cut List at the time of the trade cannot be included in any trade that involves draft picks, unless both sides of the trade include a Can't Cut List player.",
             changelog: [
