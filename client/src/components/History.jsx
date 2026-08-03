@@ -1,48 +1,48 @@
 const HISTORY = {
   'beaners-husseins': {
     seasons: [
-      { year: 2025, champion: { team: 'The Bijan Era', record: '11-3-0', points: '161.65 (Final)' }, runnerUp: 'The Bowery', thirdPlace: 'Chase What Matters', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2025' },
-      { year: 2024, champion: { team: 'Olivas FC', record: '5-seed', points: '155.30 (Final)' }, runnerUp: 'The Bowery', thirdPlace: 'Money O', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2024' },
-      { year: 2023, champion: { team: 'El Travador', record: '1-seed', points: '162.85 (Final)' }, runnerUp: 'bichote', thirdPlace: 'Reek Havoc', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2023' },
-      { year: 2022, champion: { team: 'King Tuttchdown', record: '6-seed', points: '118.50 (Final)' }, runnerUp: 'Hunting Szn', thirdPlace: 'Married to the Game 💍', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2022' },
-      { year: 2021, champion: { team: 'Allen Keys', record: '1-seed', points: '147.50 (Final)' }, runnerUp: 'fon', thirdPlace: 'KUPPLE of TDs', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2021' },
-      { year: 2020, champion: { team: 'Pack Attack', record: '—', points: '—' }, runnerUp: "Rollin' with Mahomes", thirdPlace: 'My Fellow Kamaracans', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2020' },
-      { year: 2019, champion: { team: 'dave & todd', record: '—', points: '—' }, runnerUp: 'Baby Chark', thirdPlace: 'PICKLE RICK', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2019' },
-      { year: 2018, champion: { team: 'Keenan and Kelce', record: '—', points: '—' }, runnerUp: 'The Shady Bunch', thirdPlace: 'To the Promise Land🙏', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2018' },
-      { year: 2017, champion: { team: 'BELLCOWS', record: '—', points: '—' }, runnerUp: 'Kyle Lopez', thirdPlace: 'Jesus Take The Wheel', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2017' },
-      { year: 2016, champion: { team: 'BellCow X X V I', record: '—', points: '—' }, runnerUp: 'The Shady Bunch', thirdPlace: "Don't Hit AJ's Green", url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2016' },
-      { year: 2015, champion: { team: 'The Shady Bunch', record: '—', points: '—' }, runnerUp: "Drinkin' Fortes", thirdPlace: 'All on the Fitz', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2015' },
-      { year: 2014, champion: { team: 'ARMY OF TWO', record: '—', points: '—' }, runnerUp: 'Charles IN Charge', thirdPlace: "Booz'n and Cruz'n", url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2014' },
+      { year: 2025, champion: { team: 'The Bijan Era', owner: 'Alex Zarate', record: '11-3-0', points: '161.65 (Final)' }, runnerUp: 'The Bowery (Mina)', thirdPlace: 'Chase What Matters (Eduardo)', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2025' },
+      { year: 2024, champion: { team: 'Olivas FC', owner: 'Edwin', record: '5-seed', points: '155.30 (Final)' }, runnerUp: 'The Bowery (Mina)', thirdPlace: 'Money O (Oscar)', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2024' },
+      { year: 2023, champion: { team: 'El Travador', owner: 'Kevin Huertas', record: '1-seed', points: '162.85 (Final)' }, runnerUp: 'bichote (Jose)', thirdPlace: 'Reek Havoc (Alex Zarate)', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2023' },
+      { year: 2022, champion: { team: 'King Tuttchdown', owner: 'Bishoy', record: '6-seed', points: '118.50 (Final)' }, runnerUp: 'Hunting Szn (Giovanny)', thirdPlace: 'Married to the Game 💍 (Mina)', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2022' },
+      { year: 2021, champion: { team: 'Allen Keys', owner: 'Mina', record: '1-seed', points: '147.50 (Final)' }, runnerUp: 'fon (Jose)', thirdPlace: 'KUPPLE of TDs (Kyle)', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2021' },
+      { year: 2020, champion: { team: 'Pack Attack', owner: 'Cristian', record: '—', points: '—' }, runnerUp: "Rollin' with Mahomes (Alex Zarate)", thirdPlace: 'My Fellow Kamaracans (Giovanny)', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2020' },
+      { year: 2019, champion: { team: 'dave & todd', owner: 'Jose', record: '—', points: '—' }, runnerUp: 'Baby Chark (Bishoy)', thirdPlace: 'PICKLE RICK (Hihi)', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2019' },
+      { year: 2018, champion: { team: 'Keenan and Kelce', owner: 'Cristian', record: '—', points: '—' }, runnerUp: 'The Shady Bunch (Eduardo)', thirdPlace: 'To the Promise Land🙏 (Kevin Huertas)', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2018' },
+      { year: 2017, champion: { team: 'BELLCOWS', owner: 'Jose', record: '—', points: '—' }, runnerUp: 'Kyle Lopez (Kyle)', thirdPlace: 'Jesus Take The Wheel (Giovanny)', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2017' },
+      { year: 2016, champion: { team: 'BellCow X X V I', owner: 'Jose', record: '—', points: '—' }, runnerUp: 'The Shady Bunch (Eduardo)', thirdPlace: "Don't Hit AJ's Green (Oscar)", url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2016' },
+      { year: 2015, champion: { team: 'The Shady Bunch', owner: 'Eduardo', record: '—', points: '—' }, runnerUp: "Drinkin' Fortes (Alex Zarate)", thirdPlace: 'All on the Fitz (Kevin Huertas)', url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2015' },
+      { year: 2014, champion: { team: 'ARMY OF TWO', owner: 'Bishoy', record: '—', points: '—' }, runnerUp: 'Charles IN Charge (Oscar)', thirdPlace: "Booz'n and Cruz'n (Jose)", url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2014' },
     ],
     records: [
-      { label: 'Most points in a game', value: '209.50', holder: 'Allen Keys (2021 Semi)' },
-      { label: 'Championship score', value: '162.85', holder: 'El Travador (2023)' },
-      { label: 'Biggest upset', value: '6-seed wins', holder: 'King Tuttchdown (2022)' },
-      { label: 'Most championships', value: '1 each', holder: '11 different winners in 12 seasons' },
+      { label: 'Most points in a game', value: '209.50', holder: 'Allen Keys — Mina (2021 Semi)' },
+      { label: 'Championship score', value: '162.85', holder: 'El Travador — Kevin Huertas (2023)' },
+      { label: 'Biggest upset', value: '6-seed wins', holder: 'King Tuttchdown — Bishoy (2022)' },
+      { label: 'Most championships', value: '3', holder: 'Jose (2016, 2017, 2019)' },
     ],
   },
   'rebirth': {
     seasons: [
-      { year: 2025, champion: { team: 'Nacua Matata', record: '—', points: '—' }, runnerUp: 'Rents Due', thirdPlace: 'bichote', url: 'https://football.fantasysports.yahoo.com/2025/f1/127692' },
-      { year: 2024, champion: { team: 'LaPorta Potty', record: '—', points: '—' }, runnerUp: 'Nacua Matata', thirdPlace: 'Rents Due', url: 'https://football.fantasysports.yahoo.com/league/rebirth/2024' },
-      { year: 2023, champion: { team: 'Hooligans', record: '—', points: '—' }, runnerUp: 'Young Gunnas', thirdPlace: 'RussellMania', url: 'https://football.fantasysports.yahoo.com/league/rebirth/2023' },
-      { year: 2022, champion: { team: '23', record: '—', points: '—' }, runnerUp: 'ALLENTOWN', thirdPlace: "Who's Tanking?", url: 'https://football.fantasysports.yahoo.com/league/rebirth/2022' },
-      { year: 2021, champion: { team: 'Taylor Made', record: '—', points: '—' }, runnerUp: 'SLEEPY JOE SAYS MASK UP 🎤😷', thirdPlace: "Who's Tanking ?", url: 'https://football.fantasysports.yahoo.com/league/rebirth/2021' },
-      { year: 2020, champion: { team: 'Tyreek & Destroy ✌️', record: '—', points: '—' }, runnerUp: "I'm the Captain Now", thirdPlace: 'Hooligans', url: 'https://football.fantasysports.yahoo.com/league/rebirth/2020' },
-      { year: 2019, champion: { team: 'Shit Out of Luck', record: '—', points: '—' }, runnerUp: 'seeing ghosts', thirdPlace: 'J Dalvin', url: 'https://football.fantasysports.yahoo.com/league/rebirth/2019' },
+      { year: 2025, champion: { team: 'Nacua Matata', owner: 'Oscar', record: '—', points: '—' }, runnerUp: 'Rents Due (Giovanny)', thirdPlace: 'bichote (Jose)', url: 'https://football.fantasysports.yahoo.com/2025/f1/127692' },
+      { year: 2024, champion: { team: 'LaPorta Potty', owner: 'Hihi', record: '—', points: '—' }, runnerUp: 'Nacua Matata (Oscar)', thirdPlace: 'Rents Due (Giovanny)', url: 'https://football.fantasysports.yahoo.com/league/rebirth/2024' },
+      { year: 2023, champion: { team: 'Hooligans', owner: 'Alexis', record: '—', points: '—' }, runnerUp: 'Young Gunnas (Jonathan)', thirdPlace: 'RussellMania (JJ)', url: 'https://football.fantasysports.yahoo.com/league/rebirth/2023' },
+      { year: 2022, champion: { team: '23', owner: 'Jose', record: '—', points: '—' }, runnerUp: 'ALLENTOWN (Kevin Huertas)', thirdPlace: "Who's Tanking? (Jonathan)", url: 'https://football.fantasysports.yahoo.com/league/rebirth/2022' },
+      { year: 2021, champion: { team: 'Taylor Made', owner: 'Oscar', record: '—', points: '—' }, runnerUp: 'SLEEPY JOE SAYS MASK UP 🎤😷 (Addie)', thirdPlace: "Who's Tanking ? (Jonathan)", url: 'https://football.fantasysports.yahoo.com/league/rebirth/2021' },
+      { year: 2020, champion: { team: 'Tyreek & Destroy ✌️', owner: 'Kevin Huertas', record: '—', points: '—' }, runnerUp: "I'm the Captain Now (Giovanny)", thirdPlace: 'Hooligans (Alexis)', url: 'https://football.fantasysports.yahoo.com/league/rebirth/2020' },
+      { year: 2019, champion: { team: 'Shit Out of Luck', owner: 'Cristian', record: '—', points: '—' }, runnerUp: 'seeing ghosts (Jose)', thirdPlace: 'J Dalvin (Hihi)', url: 'https://football.fantasysports.yahoo.com/league/rebirth/2019' },
     ],
     records: [
-      { label: 'Most points scored', value: '2337.14', holder: 'bichote (2025)' },
-      { label: 'Best record', value: '11-3', holder: 'Stiff Arm That Njigba (2025)' },
-      { label: 'Back-to-back runner up', value: '2x', holder: 'Nacua Matata & Rents Due (2024-25)' },
-      { label: 'Champion', value: 'Nacua Matata', holder: '2025 Season' },
+      { label: 'Most points scored', value: '2337.14', holder: 'bichote — Jose (2025)' },
+      { label: 'Best record', value: '11-3', holder: 'Stiff Arm That Njigba — Big Vic (2025)' },
+      { label: 'Most championships', value: '2', holder: 'Oscar (2021, 2025)' },
+      { label: 'Back-to-back runner up', value: '2x', holder: 'Giovanny (2024, 2025)' },
     ],
   },
   'gentlemens-league': {
     seasons: [
-      { year: 2025, champion: { team: 'Sir', record: '12-2-0', points: '169.95 (Final)' }, runnerUp: 'Mr. Electricity', thirdPlace: 'Bo Meets World ⚡️', url: 'https://football.fantasysports.yahoo.com/2025/f1/127687' },
-      { year: 2024, champion: { team: 'Magneto Was Right', record: '2-seed', points: '221.95 (Final)' }, runnerUp: 'Lights Camera Jackson 🎬', thirdPlace: 'Maliks Naber-Hood', url: 'https://football.fantasysports.yahoo.com/league/gentlemensleague_/2024' },
-      { year: 2023, champion: { team: 'King Quon', record: '6-seed', points: '186.25 (Final)' }, runnerUp: 'I Was At The Draft', thirdPlace: 'Sir', url: 'https://football.fantasysports.yahoo.com/league/gentlemensleague_/2023' },
+      { year: 2025, champion: { team: 'Sir', owner: '—', record: '12-2-0', points: '169.95 (Final)' }, runnerUp: 'Mr. Electricity', thirdPlace: 'Bo Meets World ⚡️', url: 'https://football.fantasysports.yahoo.com/2025/f1/127687' },
+      { year: 2024, champion: { team: 'Magneto Was Right', owner: '—', record: '2-seed', points: '221.95 (Final)' }, runnerUp: 'Lights Camera Jackson 🎬', thirdPlace: 'Maliks Naber-Hood', url: 'https://football.fantasysports.yahoo.com/league/gentlemensleague_/2024' },
+      { year: 2023, champion: { team: 'King Quon', owner: '—', record: '6-seed', points: '186.25 (Final)' }, runnerUp: 'I Was At The Draft', thirdPlace: 'Sir', url: 'https://football.fantasysports.yahoo.com/league/gentlemensleague_/2023' },
     ],
     records: [
       { label: 'Most points in a final', value: '221.95', holder: 'Magneto Was Right (2024)' },
@@ -53,11 +53,11 @@ const HISTORY = {
   },
   'shoot-the-shits': {
     seasons: [
-      { year: 2025, champion: { team: 'Baba Yaga', record: '1-seed', points: '176.50 (Final)' }, runnerUp: 'Chase Jam', thirdPlace: 'CDiss Golden Pears', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2025' },
-      { year: 2024, champion: { team: 'The Hokage', record: '—', points: '—' }, runnerUp: 'Divine Intervention', thirdPlace: 'Youngbossbrian', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2024' },
-      { year: 2023, champion: { team: 'caught on kamara', record: '—', points: '—' }, runnerUp: "Giorgi's Crazy Team", thirdPlace: 'The Pollard Express', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2023' },
-      { year: 2022, champion: { team: 'The Skulls', record: '—', points: '—' }, runnerUp: '—', thirdPlace: 'Chupamela', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2022' },
-      { year: 2021, champion: { team: 'Killa Trav Trav', record: '—', points: '—' }, runnerUp: "Just Joshin'", thirdPlace: '—', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2021' },
+      { year: 2025, champion: { team: 'Baba Yaga', owner: '—', record: '1-seed', points: '176.50 (Final)' }, runnerUp: 'Chase Jam', thirdPlace: 'CDiss Golden Pears', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2025' },
+      { year: 2024, champion: { team: 'The Hokage', owner: '—', record: '—', points: '—' }, runnerUp: 'Divine Intervention', thirdPlace: 'Youngbossbrian', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2024' },
+      { year: 2023, champion: { team: 'caught on kamara', owner: '—', record: '—', points: '—' }, runnerUp: "Giorgi's Crazy Team", thirdPlace: 'The Pollard Express', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2023' },
+      { year: 2022, champion: { team: 'The Skulls', owner: '—', record: '—', points: '—' }, runnerUp: '—', thirdPlace: 'Chupamela', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2022' },
+      { year: 2021, champion: { team: 'Killa Trav Trav', owner: '—', record: '—', points: '—' }, runnerUp: "Just Joshin'", thirdPlace: '—', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2021' },
     ],
     records: [
       { label: 'Most points in a game', value: '239.95', holder: 'Baba Yaga (2025 Semi)' },
@@ -82,6 +82,9 @@ export default function History({ leagueId }) {
               <div style={styles.champBar} />
               <div style={styles.champYear}>{s.year}</div>
               <div style={styles.champName}>{s.champion.team}</div>
+              {s.champion.owner !== '—' && (
+                <div style={styles.champOwner}>{s.champion.owner}</div>
+              )}
               <div style={styles.champMeta}>
                 <span>{s.champion.record}</span>
                 <span>{s.champion.points}</span>
@@ -117,10 +120,11 @@ const styles = {
   wrap: { display: 'flex', flexDirection: 'column', gap: 36 },
   sectionTitle: { fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16, fontWeight: 400 },
   champGrid: { display: 'flex', gap: 12, flexWrap: 'wrap' },
-  champCard: { background: 'var(--bg2)', border: '0.5px solid var(--border)', borderRadius: 8, padding: '20px', minWidth: 220, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: 8 },
+  champCard: { background: 'var(--bg2)', border: '0.5px solid var(--border)', borderRadius: 8, padding: '20px', minWidth: 220, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: 6 },
   champBar: { position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'var(--red)' },
   champYear: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 13, color: 'var(--red)', letterSpacing: '0.1em' },
   champName: { fontSize: 15, fontWeight: 500, color: 'var(--text)' },
+  champOwner: { fontSize: 11, color: 'var(--text-muted)', marginTop: -2 },
   champMeta: { display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#444' },
   champPlaces: { display: 'flex', flexDirection: 'column', gap: 4, marginTop: 4 },
   place: { display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--text-muted)' },
