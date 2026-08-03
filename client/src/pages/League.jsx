@@ -5,6 +5,7 @@ import Matchups from '../components/Matchups';
 import Rulebook from '../components/Rulebook';
 import History from '../components/History';
 import Owners from '../components/Owners';
+import Keepers from '../components/Keepers';
 
 const LEAGUES = {
   'beaners-husseins': { name: "Beaners & Husseins", est: 2014, keeper: true },
@@ -14,7 +15,7 @@ const LEAGUES = {
 };
 
 const TABS = ['Standings', 'Matchups', 'History', 'Owners', 'Rulebook'];
-const KEEPER_TABS = ['Standings', 'Matchups', 'History', 'Owners', 'Rulebook'];
+const KEEPER_TABS = ['Standings', 'Matchups', 'History', 'Owners', 'Keepers', 'Rulebook'];
 const NON_KEEPER_TABS = ['Standings', 'Matchups', 'History', 'Rulebook'];
 
 export default function League() {
@@ -55,6 +56,7 @@ export default function League() {
         {tab === 'Matchups' && <Matchups leagueId={id} />}
         {tab === 'History' && <History leagueId={id} />}
         {tab === 'Owners' && <Owners leagueId={id} />}
+        {tab === 'Keepers' && <Keepers leagueId={id} />}
         {tab === 'Rulebook' && <Rulebook leagueId={id} />}
       </div>
     </div>
