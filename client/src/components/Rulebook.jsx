@@ -118,9 +118,116 @@ const RULEBOOKS = {
   'rebirth': {
     sections: [
       {
-        title: 'Rules',
+        title: 'Roster',
         content: [
-          { text: 'Rebirth rulebook coming soon.' },
+          { text: '1 QB — Quarterback' },
+          { text: '2 RB — Running Backs' },
+          { text: '3 WR — Wide Receivers' },
+          { text: '1 TE — Tight End' },
+          { text: '1 FLEX — WR/RB/TE' },
+          { text: '1 SUPERFLEX — QB/WR/RB/TE (any position)' },
+          { text: '1 K — Kicker' },
+          { text: '1 DEF — Defense/Special Teams' },
+          { text: '6 BN — Bench spots' },
+          { text: '1 IR — Injured Reserve' },
+        ],
+      },
+      {
+        title: 'Scoring',
+        content: [
+          { text: 'PPR — 1 point per reception' },
+          { text: '6 points per passing touchdown' },
+          { text: 'Kicker fractional points — field goal points are calculated based on distance (e.g. a 39-yard field goal = 3.9 points)' },
+          {
+            text: 'SUPERFLEX slot added in 2021 to replace the 2nd QB slot, giving teams more roster flexibility and reducing QB hoarding on the waiver wire.',
+            changelog: [
+              { date: '2020 season', note: '2nd QB slot was used, but caused issues with QB scarcity on the waiver wire.' },
+              { date: '2021 season', note: '2nd QB slot replaced with SUPERFLEX (Q/W/R/T) — any position can start in this slot.' },
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Keepers',
+        content: [
+          { text: 'Each team keeps 2 players every year.' },
+          { text: 'A player is kept for the round they were originally drafted or acquired, with a round penalty applied each year they are kept.' },
+          { text: 'The round penalty increases by 2 rounds per year of keeping. Example: If a player was drafted in round 4, keeping them costs a round 4 pick Year 1, round 2 pick Year 2, and round 1 pick Year 3.' },
+          { text: 'Players drafted in the top 2 rounds cannot be kept.' },
+          { text: 'A player can only be kept by the same owner for a maximum of 3 years. After 3 years they must be released.' },
+          { text: 'Free agent pickups can be kept for an 8th round pick.' },
+          { text: 'If a player is traded, the round penalty resets based on the round cost of the pick used in the trade.' },
+          { text: 'Keepers must be submitted before the deadline. If not submitted in time, the commissioner will select the 2 highest ranked players on the roster based on Yahoo Rankings.' },
+          {
+            text: 'Anti-rental rule: If Team A trades a player to Team B, Team A cannot receive that player back directly from Team B. The player must pass through at least one additional team (Team C) before returning to Team A.',
+            highlight: true,
+          },
+        ],
+      },
+      {
+        title: 'Draft',
+        content: [
+          { text: 'Snake draft format. Draft order is determined randomly and released once keepers are submitted and fees are collected.' },
+          {
+            text: 'There are NO redos or undos during the draft under any circumstance. Double check your selection before clicking Draft. The same way you are responsible for players you drop, you are responsible for players you draft.',
+            highlight: true,
+          },
+        ],
+      },
+      {
+        title: 'Waivers & Free Agents',
+        content: [
+          { text: 'Each team starts the season with a $100 FAAB (Free Agent Acquisition Budget).' },
+          { text: 'FAAB budget can be included in trades. Since Yahoo does not support FAAB trades, note the FAAB amount in the trade comments and notify the commissioner, who will adjust totals manually.' },
+          { text: 'Once the playoffs begin, only playoff teams may use FAAB for waiver claims. Non-playoff teams may still add free agents.' },
+          {
+            text: 'If you accidentally drop a player, they will NOT be returned to your team under any circumstance. Double check before dropping.',
+            highlight: true,
+          },
+        ],
+      },
+      {
+        title: 'Trades',
+        content: [
+          { text: 'All trades are pushed through by the commissioner. A trade will always be approved unless there is a suspicion of collusion.' },
+          {
+            text: 'If a trade is suspected of collusion, it will be reviewed by the league. 6 out of 10 active members must vote to approve the trade for it to go through.',
+            highlight: true,
+          },
+          { text: 'Trade deadline: Week 11 at 11:59pm.' },
+          {
+            text: "Can't Cut List rule: A player on Yahoo's official Can't Cut List cannot be included in any trade that involves draft picks, unless both sides of the trade include a Can't Cut List player. Both players must be on the Can't Cut List at the time the trade is accepted — not just when it is proposed. This rule has been implemented to continue to add balance to the league wherever possible.",
+            changelog: [
+              { date: 'Through 2024', note: "One Can't Cut player could be traded with only picks, with no requirement for the other side to include a Can't Cut player." },
+              { date: '2025 season', note: "Rule updated: Can't Cut players CAN be traded in a deal involving picks, as long as BOTH sides of the trade include a Can't Cut List player at the time the trade is accepted. Trading a Can't Cut player for picks alone is no longer allowed." },
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Playoffs',
+        content: [
+          { text: 'Top 6 teams qualify for the playoffs.' },
+          { text: 'Seeds 1 and 2 receive a first-round bye (Week 15).' },
+          { text: 'Playoffs use reseeding — after each round, remaining teams are reseeded so the highest remaining seed always plays the lowest remaining seed.' },
+          { text: 'Playoffs run Weeks 15, 16, and 17.' },
+          { text: 'Championship game is played in Week 17.' },
+        ],
+      },
+      {
+        title: 'Fees & Payouts',
+        content: [
+          {
+            text: 'Buy-in: $200 per team, due by draft day.',
+            changelog: [
+              { date: '2021 season', note: 'Buy-in was $125. Payouts: 1st $1,250 / 2nd $300 / Points Leader $250.' },
+              { date: 'Previous season', note: 'Buy-in was $175.' },
+              { date: 'Current', note: 'Buy-in increased to $200. Payouts: 1st $1,800 / 2nd $400 / Points Leader $200.' },
+            ],
+          },
+          { text: '1st Place (Champion): $1,800 — 9× buy-in' },
+          { text: '2nd Place: $400 — 2× buy-in' },
+          { text: 'Regular Season Points Leader: $200 — 1× buy-in' },
         ],
       },
     ],
