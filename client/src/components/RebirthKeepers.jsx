@@ -39,7 +39,7 @@ const KEEPERS = {
       { player: 'Kyler Murray', round: 12, year: 1 },
     ],
     2025: [
-      { player: 'Puka Nacua', round: 5, year: 2 },
+      { player: 'Puka Nacua', round: 6, year: 2 },
       { player: 'Chase Brown', round: 10, year: 1 },
     ],
   },
@@ -84,7 +84,7 @@ const KEEPERS = {
     ],
     2025: [
       { player: 'Malik Nabers', round: 2, year: 1 },
-      { player: 'Bo Nix', round: 13, year: 1 },
+      { player: 'Bo Nix', round: 12, year: 1 },
     ],
   },
   'Hihi': {
@@ -105,7 +105,7 @@ const KEEPERS = {
       { player: 'Sam LaPorta', round: 12, year: 1 },
     ],
     2025: [
-      { player: 'Ladd McConkey', round: 8, year: 1 },
+      { player: 'Ladd McConkey', round: 7, year: 1 },
       { player: 'Baker Mayfield', round: 9, year: 1 },
     ],
   },
@@ -171,7 +171,7 @@ const KEEPERS = {
       { player: 'Baker Mayfield', round: 11, year: 1 },
     ],
     2025: [
-      { player: 'Garrett Wilson', round: 6, year: 1 },
+      { player: 'Garrett Wilson', round: 10, year: 1 },
       { player: 'Kyler Murray', round: 10, year: 1 },
     ],
   },
@@ -193,7 +193,7 @@ const KEEPERS = {
       { player: 'Jordan Love', round: 9, year: 1 },
     ],
     2025: [
-      { player: 'Jordan Love', round: 6, year: 2 },
+      { player: 'Jordan Love', round: 7, year: 2 },
       { player: 'Bucky Irving', round: 16, year: 1 },
     ],
   },
@@ -237,8 +237,8 @@ const KEEPERS = {
       { player: "De'Von Achane", round: 14, year: 1 },
     ],
     2025: [
-      { player: 'Nico Collins', round: 10, year: 2 },
-      { player: "De'Von Achane", round: 15, year: 2 },
+      { player: 'Nico Collins', round: 9, year: 2 },
+      { player: "De'Von Achane", round: 12, year: 2 },
     ],
   },
   'Big Vic': {
