@@ -5,7 +5,7 @@ const KEEPERS = {
       { player: 'CeeDee Lamb', round: 9, year: 1 },
     ],
     2022: [
-      { player: 'CeeDee Lamb', round: 5, year: 2 },
+      { player: 'CeeDee Lamb', round: 7, year: 2 },
       { player: 'Mac Jones', round: 16, year: 1 },
     ],
     2023: [
