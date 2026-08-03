@@ -1,10 +1,10 @@
 const OWNERS = [
   {
     name: 'Alexis',
-    championships: 2,
+    championships: 1,
     years: {
       2025: 'Hooligans',
-      2024: 'Hooligans 🏆',
+      2024: 'Hooligans',
       2023: 'Hooligans 🏆',
       2022: 'Hooligans',
       2021: 'Hooligans',
