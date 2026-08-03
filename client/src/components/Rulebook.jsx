@@ -29,7 +29,6 @@ const RULEBOOKS = {
           { text: 'Each team keeps 2 players every year.' },
           { text: 'Keepers are slotted in rounds 15 and 16 of the draft.' },
           { text: 'Keeper picks (rounds 15 & 16) cannot be traded under any circumstances.' },
-          { text: 'If a player is traded, their keeper year counter resets to Year 1 for the new owner.' },
           { text: 'Keepers must be submitted one week before draft day. If not submitted in time, the commissioner will select the 2 highest ranked players on the roster based on Yahoo Rankings.' },
           {
             text: 'Anti-rental rule: If Team A trades a player to Team B, Team A cannot receive that player back directly from Team B. The player must pass through at least one additional team (Team C) before returning to Team A.',
@@ -76,10 +75,10 @@ const RULEBOOKS = {
             ],
           },
           {
-            text: "Can't Cut List rule: A player on Yahoo's official Can't Cut List at the time of the trade cannot be included in any trade that involves draft picks, unless both sides of the trade include a Can't Cut List player.",
+            text: "Can't Cut List rule: A player on Yahoo's official Can't Cut List cannot be included in any trade that involves draft picks, unless both sides of the trade include a Can't Cut List player. Both players must be on the Can't Cut List at the time the trade is accepted — not just when it is proposed.",
             changelog: [
               { date: 'Through 2021', note: "Can't Cut players could not be involved in any trade that included draft picks under any circumstances." },
-              { date: '2022 season (8/12/22)', note: "Rule updated: Can't Cut players CAN be traded in a deal involving picks, as long as BOTH sides of the trade include a Can't Cut List player. Example: Team A has Hopkins (Can't Cut) + 3rd round pick. Team B has Jefferson (Can't Cut) + 7th round pick. This trade is ALLOWED because both players are on the Can't Cut list. Trading a Can't Cut player for picks alone remains NOT allowed." },
+              { date: '2022 season (8/12/22)', note: "Rule updated: Can't Cut players CAN be traded in a deal involving picks, as long as BOTH sides of the trade include a Can't Cut List player at the time the trade is accepted. Example: Team A has Hopkins (Can't Cut) + 3rd round pick. Team B has Jefferson (Can't Cut) + 7th round pick. This trade is ALLOWED because both players are on the Can't Cut list at the time of acceptance. Trading a Can't Cut player for picks alone remains NOT allowed." },
             ],
           },
         ],
