@@ -53,7 +53,11 @@ const HISTORY = {
   },
   'shoot-the-shits': {
     seasons: [
-      { year: 2025, champion: { team: 'Baba Yaga', record: '11-3-0', points: '176.50 (Final)' }, runnerUp: 'Chase Jam', thirdPlace: 'CDiss Golden Pears', url: 'https://football.fantasysports.yahoo.com/2025/f1/917285' },
+      { year: 2025, champion: { team: 'Baba Yaga', record: '1-seed', points: '176.50 (Final)' }, runnerUp: 'Chase Jam', thirdPlace: 'CDiss Golden Pears', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2025' },
+      { year: 2024, champion: { team: 'The Hokage', record: '—', points: '—' }, runnerUp: 'Divine Intervention', thirdPlace: 'Youngbossbrian', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2024' },
+      { year: 2023, champion: { team: 'caught on kamara', record: '—', points: '—' }, runnerUp: "Giorgi's Crazy Team", thirdPlace: 'The Pollard Express', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2023' },
+      { year: 2022, champion: { team: 'The Skulls', record: '—', points: '—' }, runnerUp: '—', thirdPlace: 'Chupamela', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2022' },
+      { year: 2021, champion: { team: 'Killa Trav Trav', record: '—', points: '—' }, runnerUp: "Just Joshin'", thirdPlace: '—', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2021' },
     ],
     records: [
       { label: 'Most points in a game', value: '239.95', holder: 'Baba Yaga (2025 Semi)' },
