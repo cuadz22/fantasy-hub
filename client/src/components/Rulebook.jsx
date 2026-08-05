@@ -202,7 +202,7 @@ const RULEBOOKS = {
             ],
           },
           {
-            text: 'Top 8 QB Protection rule: Due to the elevated value of quarterbacks in a SUPERFLEX league, the top 8 QBs by Yahoo scoring rank are considered Protected Players and are subject to the same restrictions as Can't Cut List players. A top-8 QB cannot be included in any trade involving draft picks unless both sides of the trade include either a top-8 QB or a Can't Cut List player.',
+            text: "Top 8 QB Protection rule: Due to the elevated value of quarterbacks in a SUPERFLEX league, the top 8 QBs by Yahoo scoring rank are considered Protected Players and are subject to the same restrictions as Can't Cut List players. A top-8 QB cannot be included in any trade involving draft picks unless both sides of the trade include either a top-8 QB or a Can't Cut List player.",
             highlight: true,
           },
           {
