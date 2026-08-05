@@ -151,17 +151,16 @@ const RULEBOOKS = {
         title: 'Keepers',
         content: [
           { text: 'Each team keeps 2 players every year.' },
-          { text: 'A player is kept for the round they were originally drafted or acquired, with a round penalty applied each year they are kept.' },
-          { text: 'The round penalty increases by 2 rounds per year of keeping. Example: If a player was drafted in round 4, keeping them costs a round 4 pick Year 1, round 2 pick Year 2, and round 1 pick Year 3.' },
+          { text: 'A player is kept for the round they were originally drafted or acquired, with a 2-round penalty applied each additional year they are kept by the same owner. Example: a player drafted in round 4 costs a 4th round pick in Year 1, a 2nd round pick in Year 2, and a 1st round pick in Year 3.' },
+          { text: 'If a team does not have the exact round required for a keeper, the price becomes the next higher round available. Example: if a keeper is owed a 7th round pick but the team only has a 6th round pick available, the 6th round pick is used instead.' },
           { text: 'Players drafted in the top 2 rounds cannot be kept.' },
           { text: 'A player can only be kept by the same owner for a maximum of 3 years. After 3 years they must be released.' },
           { text: 'Free agent pickups can be kept for an 8th round pick.' },
-          { text: 'If a player is traded, the round penalty resets based on the round cost of the pick used in the trade.' },
-          { text: 'Keepers must be submitted before the deadline. If not submitted in time, the commissioner will select the 2 highest ranked players on the roster based on Yahoo Rankings.' },
           {
-            text: 'Anti-rental rule: If Team A trades a player to Team B, Team A cannot receive that player back directly from Team B. The player must pass through at least one additional team (Team C) before returning to Team A.',
+            text: 'If a player is traded, their 3-year keeper counter resets to zero the moment the trade is accepted — the new owner starts fresh at Year 1. The keeper price (round cost) carries over based on the round of the pick used in the trade. The anti-rental rule also applies — if Team A trades a player to Team B, Team A cannot receive that player back directly from Team B. The player must pass through at least one additional team (Team C) before returning to Team A.',
             highlight: true,
           },
+          { text: 'Keepers must be submitted before the deadline. If not submitted in time, the commissioner will select the 2 highest ranked players on the roster based on Yahoo Rankings.' },
         ],
       },
       {
@@ -194,13 +193,21 @@ const RULEBOOKS = {
             text: 'If a trade is suspected of collusion, it will be reviewed by the league. 6 out of 10 active members must vote to approve the trade for it to go through.',
             highlight: true,
           },
-          { text: 'Trade deadline: Week 11 at 11:59pm.' },
+          { text: 'Trade deadline follows Yahoo rules and is set to Week 11. No trades will be processed after the Week 11 deadline.' },
           {
             text: "Can't Cut List rule: A player on Yahoo's official Can't Cut List cannot be included in any trade that involves draft picks, unless both sides of the trade include a Can't Cut List player. Both players must be on the Can't Cut List at the time the trade is accepted — not just when it is proposed. This rule has been implemented to continue to add balance to the league wherever possible.",
             changelog: [
               { date: 'Through 2024', note: "One Can't Cut player could be traded with only picks, with no requirement for the other side to include a Can't Cut player." },
-              { date: '2025 season', note: "Rule updated: Can't Cut players CAN be traded in a deal involving picks, as long as BOTH sides of the trade include a Can't Cut List player at the time the trade is accepted. Trading a Can't Cut player for picks alone is no longer allowed." },
+              { date: '2026 season', note: "Rule updated: Can't Cut players CAN be traded in a deal involving picks, as long as BOTH sides of the trade include a Can't Cut List player at the time the trade is accepted. Trading a Can't Cut player for picks alone is no longer allowed." },
             ],
+          },
+          {
+            text: 'Top 8 QB Protection rule: Due to the elevated value of quarterbacks in a SUPERFLEX league, the top 8 QBs by Yahoo scoring rank are considered Protected Players and are subject to the same restrictions as Can't Cut List players. A top-8 QB cannot be included in any trade involving draft picks unless both sides of the trade include either a top-8 QB or a Can't Cut List player.',
+            highlight: true,
+          },
+          {
+            text: "What determines a top-8 QB? Yahoo's scoring rankings at the exact moment the trade is ACCEPTED — not when it is proposed, not when it is reviewed. Example: A QB ranked 9th plays on Thursday Night Football and climbs to 8th in scoring. If a trade involving that QB is accepted while he is ranked 8th, he is a Protected Player and the trade must comply with the protection rule. If by Monday morning that same QB has dropped back to 9th and the trade is accepted at that point, he is no longer protected and can be traded for picks alone. The moment of ACCEPTANCE is final.",
+            highlight: true,
           },
         ],
       },
