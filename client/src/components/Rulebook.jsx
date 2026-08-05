@@ -202,11 +202,11 @@ const RULEBOOKS = {
             ],
           },
           {
-            text: "Top 8 QB Protection rule: Due to the elevated value of quarterbacks in a SUPERFLEX league, the top 8 QBs by Yahoo scoring rank are considered Protected Players and are subject to the same restrictions as Can't Cut List players. A top-8 QB cannot be included in any trade involving draft picks unless both sides of the trade include either a top-8 QB or a Can't Cut List player.",
+            text: "Top 10 QB rule: In a SUPERFLEX league, QBs carry significantly more value than in standard formats. To reflect this, the top 10 QBs by Yahoo scoring rank are also subject to Can't Cut List trade rules — they cannot be traded for picks alone. If picks are involved in a trade with a top-10 QB, both sides must include a Can't Cut List player (or top-10 QB). If a player appears on both the Can't Cut List and the top-10 QB list, the overlap will not create an extra slot. Example: if Josh Allen is both on Yahoo's Can't Cut List and a top-10 QB, the list remains 10 QBs — the 11th ranked QB does not get added to fill his spot.",
             highlight: true,
           },
           {
-            text: "What determines a top-8 QB? Yahoo's scoring rankings at the exact moment the trade is ACCEPTED — not when it is proposed, not when it is reviewed. Example: A QB ranked 9th plays on Thursday Night Football and climbs to 8th in scoring. If a trade involving that QB is accepted while he is ranked 8th, he is a Protected Player and the trade must comply with the protection rule. If by Monday morning that same QB has dropped back to 9th and the trade is accepted at that point, he is no longer protected and can be traded for picks alone. The moment of ACCEPTANCE is final.",
+            text: "Timing: Yahoo's QB scoring rankings at the exact moment the trade is ACCEPTED determine whether a QB is in the top 10 — not when the trade is proposed or reviewed. Example: a QB ranked 11th plays Thursday Night Football and climbs to 10th. If the trade is accepted while he ranks 10th, Can't Cut rules apply. If by Monday morning he has dropped back to 11th and the trade is accepted then, he is no longer subject to those rules. The moment of ACCEPTANCE is final.",
             highlight: true,
           },
         ],
