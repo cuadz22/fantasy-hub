@@ -2,7 +2,6 @@ const OWNERS = ['Jose', 'Cristian', 'Alex Zarate', 'Alexis', 'Ed', 'Hihi', 'Jona
 
 const ROUNDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17];
 
-// Each owner's row shows which picks they own per round
 const DRAFT_BOARD = {
   'Jose':        { 1:['Jose'], 2:['Jose'], 3:[], 4:['Jose','Giovanny'], 5:[], 6:['Jose'], 7:['Jose','Hihi'], 8:['Jose'], 9:['Jose'], 10:['Jose'], 11:['Jose'], 12:['Jose'], 13:['Jose'], 14:['Hihi'], 15:['Jose'], 16:['Jose'], 17:['Jose'] },
   'Cristian':    { 1:['Cristian'], 2:['Cristian'], 3:['Cristian'], 4:['Cristian'], 5:['Cristian'], 6:['Cristian'], 7:['Cristian'], 8:['Cristian'], 9:['Cristian'], 10:['Cristian'], 11:['Cristian'], 12:['Cristian'], 13:['Cristian'], 14:['Cristian'], 15:['Cristian'], 16:['Cristian'], 17:['Cristian'] },
@@ -23,44 +22,49 @@ const OWNER_COLORS = {
   'Cristian':    '#4a9a4a',
   'Alex Zarate': '#5a8aba',
   'Alexis':      '#c8a832',
-  'Ed':          '#aa4aaa',
+  'Ed':          '#cc55cc',
   'Hihi':        '#4aaaaa',
   'Jonathan':    '#cc8833',
   'Oscar':       '#7aaa4a',
   'Giovanny':    '#9a6acc',
   'Big Vic':     '#cc4477',
-  'JJ':          '#7a4aaa',
+  'JJ':          '#9966cc',
   'Julio':       '#4acc88',
 };
 
-function PickBadge({ owner, isOwn }) {
+function PickBadge({ owner }) {
   const color = OWNER_COLORS[owner] || '#888';
   return (
-    <span style={{
-      fontSize: 10,
-      padding: '2px 7px',
-      borderRadius: 3,
+    <div style={{
+      fontSize: 9,
+      padding: '2px 5px',
+      borderRadius: 2,
       fontWeight: 600,
       whiteSpace: 'nowrap',
-      background: isOwn ? `${color}22` : `${color}33`,
+      background: `${color}20`,
       color: color,
-      border: `0.5px solid ${color}66`,
-      display: 'inline-block',
+      border: `1px solid ${color}55`,
       lineHeight: 1.5,
+      textAlign: 'center',
+      width: '100%',
+      boxSizing: 'border-box',
     }}>
       {owner}
-    </span>
+    </div>
   );
 }
 
-export default function RebirthDraftBoard({ leagueId }) {
+const CELL_WIDTH = 88;
+const CELL_HEIGHT = 88; // accounts for up to 4 badges
+
+export default function RebirthDraftBoard() {
   return (
     <div style={styles.wrap}>
       <div style={styles.intro}>
         2026 Rebirth draft pick ownership. Each cell shows whose pick(s) an owner holds in that round.
       </div>
       <div style={styles.legend}>
-        {OWNERS.map(owner => <PickBadge key={owner} owner={owner} isOwn={false} />)}
+        {OWNERS.map(owner => <PickBadge key={owner} owner={owner} />)}
       </div>
       <div style={styles.tableWrap}>
         <table style={styles.table}>
@@ -68,27 +72,39 @@ export default function RebirthDraftBoard({ leagueId }) {
             <tr>
               <th style={styles.thOwner}>Owner</th>
               {ROUNDS.map(r => (
-                <th key={r} style={styles.th}>R{r}</th>
+                <th key={r} style={{ ...styles.th, width: CELL_WIDTH, minWidth: CELL_WIDTH, maxWidth: CELL_WIDTH }}>
+                  Rd {r}
+                </th>
               ))}
             </tr>
           </thead>
           <tbody>
             {OWNERS.map((owner, i) => (
-              <tr key={owner} style={i % 2 === 0 ? styles.rowEven : styles.rowOdd}>
-                <td style={styles.tdOwner}>
-                  <PickBadge owner={owner} isOwn={true} />
+              <tr key={owner}>
+                <td style={{ ...styles.tdOwner, background: i % 2 === 0 ? 'var(--bg)' : 'var(--bg2)' }}>
+                  <div style={{ fontWeight: 600, fontSize: 11, color: OWNER_COLORS[owner] || 'var(--text)' }}>
+                    {owner}
+                  </div>
                 </td>
                 {ROUNDS.map(r => {
                   const picks = DRAFT_BOARD[owner][r] || [];
+                  const isEmpty = picks.length === 0;
                   return (
-                    <td key={r} style={styles.td}>
+                    <td key={r} style={{
+                      ...styles.td,
+                      width: CELL_WIDTH,
+                      minWidth: CELL_WIDTH,
+                      maxWidth: CELL_WIDTH,
+                      height: CELL_HEIGHT,
+                      background: isEmpty
+                        ? (i % 2 === 0 ? '#161616' : '#111111')
+                        : (i % 2 === 0 ? 'var(--bg)' : 'var(--bg2)'),
+                    }}>
                       <div style={styles.cellContent}>
-                        {picks.length === 0 ? (
+                        {isEmpty ? (
                           <span style={styles.empty}>—</span>
                         ) : (
-                          picks.map((p, j) => (
-                            <PickBadge key={j} owner={p} isOwn={p === owner} />
-                          ))
+                          picks.map((p, j) => <PickBadge key={j} owner={p} />)
                         )}
                       </div>
                     </td>
@@ -108,31 +124,63 @@ const styles = {
   intro: { fontSize: 12, color: 'var(--text-muted)', fontStyle: 'italic' },
   legend: { display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 4 },
   tableWrap: { overflowX: 'auto' },
-  table: { borderCollapse: 'collapse', fontSize: 11, width: '100%' },
+  table: {
+    borderCollapse: 'collapse',
+    fontSize: 11,
+    border: '1px solid var(--border)',
+  },
   thOwner: {
-    textAlign: 'left', padding: '10px 12px', color: 'var(--text-muted)',
-    fontWeight: 400, letterSpacing: '0.06em', textTransform: 'uppercase',
-    fontSize: 9, borderBottom: '0.5px solid var(--border)',
-    position: 'sticky', left: 0, background: 'var(--bg)', minWidth: 110, whiteSpace: 'nowrap',
+    textAlign: 'left',
+    padding: '10px 14px',
+    color: 'var(--text-muted)',
+    fontWeight: 400,
+    letterSpacing: '0.06em',
+    textTransform: 'uppercase',
+    fontSize: 9,
+    borderBottom: '1px solid var(--border)',
+    borderRight: '1px solid var(--border)',
+    position: 'sticky',
+    left: 0,
+    background: 'var(--bg2)',
+    minWidth: 110,
+    whiteSpace: 'nowrap',
   },
   th: {
-    textAlign: 'center', padding: '10px 4px', color: 'var(--text-muted)',
-    fontWeight: 400, fontSize: 10, borderBottom: '0.5px solid var(--border)',
-    whiteSpace: 'nowrap', minWidth: 80,
+    textAlign: 'center',
+    padding: '10px 4px',
+    color: 'var(--text-muted)',
+    fontWeight: 600,
+    fontSize: 10,
+    borderBottom: '1px solid var(--border)',
+    borderRight: '1px solid var(--border)',
+    background: 'var(--bg2)',
+    letterSpacing: '0.04em',
   },
-  rowEven: { background: 'var(--bg)' },
-  rowOdd: { background: 'var(--bg2)' },
   tdOwner: {
-    padding: '8px 12px', borderBottom: '0.5px solid var(--border)',
-    position: 'sticky', left: 0, background: 'inherit', whiteSpace: 'nowrap',
+    padding: '0 14px',
+    borderBottom: '1px solid var(--border)',
+    borderRight: '1px solid var(--border)',
+    position: 'sticky',
+    left: 0,
+    whiteSpace: 'nowrap',
+    height: 88,
+    verticalAlign: 'middle',
   },
   td: {
-    padding: '6px 4px', borderBottom: '0.5px solid var(--border)',
-    textAlign: 'center', minWidth: 80, height: 48,
+    padding: '6px 5px',
+    borderBottom: '1px solid var(--border)',
+    borderRight: '1px solid var(--border)',
+    textAlign: 'center',
+    verticalAlign: 'middle',
   },
   cellContent: {
-    display: 'flex', flexDirection: 'column', gap: 3,
-    alignItems: 'center', justifyContent: 'center', minHeight: 36,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 3,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
   },
-  empty: { color: '#2a2a2a', fontSize: 13 },
+  empty: { color: '#2a2a2a', fontSize: 16, fontWeight: 300 },
 };
