@@ -55,7 +55,7 @@ function PickBadge({ owner }) {
 }
 
 const CELL_WIDTH = 88;
-const CELL_HEIGHT = 88; // accounts for up to 4 badges
+const CELL_HEIGHT = 88;
 
 export default function RebirthDraftBoard() {
   return (
@@ -63,9 +63,19 @@ export default function RebirthDraftBoard() {
       <div style={styles.intro}>
         2026 Rebirth draft pick ownership. Each cell shows whose pick(s) an owner holds in that round.
       </div>
+
       <div style={styles.legend}>
-        {OWNERS.map(owner => <PickBadge key={owner} owner={owner} />)}
+        {OWNERS.map(owner => (
+          <span key={owner} style={{
+            fontSize: 11,
+            fontWeight: 600,
+            color: OWNER_COLORS[owner],
+          }}>
+            {owner}
+          </span>
+        ))}
       </div>
+
       <div style={styles.tableWrap}>
         <table style={styles.table}>
           <thead>
@@ -122,65 +132,40 @@ export default function RebirthDraftBoard() {
 const styles = {
   wrap: { display: 'flex', flexDirection: 'column', gap: 20 },
   intro: { fontSize: 12, color: 'var(--text-muted)', fontStyle: 'italic' },
-  legend: { display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 4 },
+  legend: { display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 4, alignItems: 'center' },
   tableWrap: { overflowX: 'auto' },
-  table: {
-    borderCollapse: 'collapse',
-    fontSize: 11,
-    border: '1px solid var(--border)',
-  },
+  table: { borderCollapse: 'collapse', fontSize: 11, border: '1px solid var(--border)' },
   thOwner: {
-    textAlign: 'left',
-    padding: '10px 14px',
-    color: 'var(--text-muted)',
-    fontWeight: 400,
-    letterSpacing: '0.06em',
-    textTransform: 'uppercase',
-    fontSize: 9,
-    borderBottom: '1px solid var(--border)',
+    textAlign: 'left', padding: '10px 14px',
+    color: '#ffffff', fontWeight: 600,
+    letterSpacing: '0.06em', textTransform: 'uppercase',
+    fontSize: 10, borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
-    position: 'sticky',
-    left: 0,
-    background: 'var(--bg2)',
-    minWidth: 110,
-    whiteSpace: 'nowrap',
+    position: 'sticky', left: 0,
+    background: 'var(--bg2)', minWidth: 110, whiteSpace: 'nowrap',
   },
   th: {
-    textAlign: 'center',
-    padding: '10px 4px',
-    color: 'var(--text-muted)',
-    fontWeight: 600,
-    fontSize: 10,
-    borderBottom: '1px solid var(--border)',
+    textAlign: 'center', padding: '10px 4px',
+    color: '#ffffff', fontWeight: 600,
+    fontSize: 10, borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
-    background: 'var(--bg2)',
-    letterSpacing: '0.04em',
+    background: 'var(--bg2)', letterSpacing: '0.04em',
   },
   tdOwner: {
-    padding: '0 14px',
-    borderBottom: '1px solid var(--border)',
+    padding: '0 14px', borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
-    position: 'sticky',
-    left: 0,
-    whiteSpace: 'nowrap',
-    height: 88,
-    verticalAlign: 'middle',
+    position: 'sticky', left: 0,
+    whiteSpace: 'nowrap', height: 88, verticalAlign: 'middle',
   },
   td: {
-    padding: '6px 5px',
-    borderBottom: '1px solid var(--border)',
+    padding: '6px 5px', borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
-    textAlign: 'center',
-    verticalAlign: 'middle',
+    textAlign: 'center', verticalAlign: 'middle',
   },
   cellContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 3,
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    width: '100%',
-    height: '100%',
+    display: 'flex', flexDirection: 'column', gap: 3,
+    alignItems: 'stretch', justifyContent: 'center',
+    width: '100%', height: '100%',
   },
   empty: { color: '#2a2a2a', fontSize: 16, fontWeight: 300 },
 };
