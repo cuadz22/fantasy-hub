@@ -8,6 +8,7 @@ import Owners from '../components/Owners';
 import Keepers from '../components/Keepers';
 import RebirthOwners from '../components/RebirthOwners';
 import RebirthKeepers from '../components/RebirthKeepers';
+import RebirthDraftBoard from '../components/RebirthDraftBoard';
 
 const LEAGUES = {
   'beaners-husseins': { name: "Beaners & Husseins", est: 2014, keeper: true },
@@ -16,7 +17,7 @@ const LEAGUES = {
   'shoot-the-shits': { name: 'Shoot the Shits', est: 2021, keeper: false },
 };
 
-const KEEPER_TABS = ['Standings', 'Matchups', 'History', 'Owners', 'Keepers', 'Rulebook'];
+const KEEPER_TABS = ['Standings', 'Matchups', 'History', 'Owners', 'Keepers', 'Draft Board', 'Rulebook'];
 const NON_KEEPER_TABS = ['Standings', 'Matchups', 'History', 'Rulebook'];
 
 export default function League() {
@@ -60,6 +61,7 @@ export default function League() {
         {tab === 'Owners' && id !== 'rebirth' && <Owners leagueId={id} />}
         {tab === 'Keepers' && id === 'rebirth' && <RebirthKeepers />}
         {tab === 'Keepers' && id !== 'rebirth' && <Keepers leagueId={id} />}
+        {tab === 'Draft Board' && id === 'rebirth' && <RebirthDraftBoard />}
         {tab === 'Rulebook' && <Rulebook leagueId={id} />}
       </div>
     </div>
@@ -72,7 +74,7 @@ const styles = {
   title: { fontSize: 22, fontWeight: 600, color: 'var(--text)', margin: 0 },
   meta: { fontSize: 12, color: 'var(--text-muted)', marginTop: 4, display: 'flex', alignItems: 'center', gap: 10 },
   keeperBadge: { fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--red)', border: '0.5px solid var(--red)', borderRadius: 4, padding: '2px 6px' },
-  tabs: { display: 'flex', gap: 0, borderBottom: '0.5px solid var(--border)', marginBottom: 28 },
+  tabs: { display: 'flex', gap: 0, borderBottom: '0.5px solid var(--border)', marginBottom: 28, flexWrap: 'wrap' },
   tab: { background: 'none', border: 'none', borderBottom: '2px solid transparent', color: 'var(--text-muted)', padding: '10px 18px', fontSize: 13, cursor: 'pointer', marginBottom: -1, transition: 'color 0.15s' },
   tabActive: { color: 'var(--text)', borderBottom: '2px solid var(--red)' },
   content: { minHeight: 400 },
