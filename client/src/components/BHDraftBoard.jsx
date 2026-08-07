@@ -147,8 +147,7 @@ export default function BHDraftBoard() {
         {OWNERS.map(o => (
           <div key={o.id} style={styles.legendItem}>
             <div style={{ width: 6, height: 6, borderRadius: '50%', background: COLORS[o.id] }} />
-            <span style={{ fontSize: 10, color: 'var(--text)', fontWeight: 600, letterSpacing: '0.04em' }}>{o.abbr}</span>
-            <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{o.owner}</span>
+            <span style={{ fontSize: 11, color: '#ffffff', fontWeight: 600 }}>{o.owner}</span>
           </div>
         ))}
       </div>
