@@ -44,35 +44,54 @@ const DRAFT_BOARD = {
   bow:     { 1:'bow',    2:'bow',     3:'bow',     4:'bow',     5:'bow',     6:'bow',     7:'bow',     8:'bow',     9:'bow',     10:'bow',     11:'bow',     12:'bow',     13:'bow',     14:'bow',     15:'bow',     16:'bow'     },
 };
 
-function PickCell({ holder, originalOwner }) {
+function PickCell({ holder, originalOwner, extras }) {
   const isOwn = holder === originalOwner;
-  const color = COLORS[holder] || '#666';
-  const abbr = OWNERS.find(o => o.id === holder)?.abbr || holder;
-
-  if (isOwn) {
-    return <span style={{ color: `${color}55`, fontSize: 13 }}>●</span>;
-  }
+  const holderColor = COLORS[holder] || '#666';
 
   return (
-    <span style={{
-      display: 'inline-block',
-      padding: '2px 7px',
-      borderRadius: 3,
-      background: `${color}20`,
-      border: `1px solid ${color}60`,
-      color: color,
-      fontSize: 9,
-      fontWeight: 700,
-      letterSpacing: '0.07em',
-      whiteSpace: 'nowrap',
-    }}>
-      {abbr}
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
+      {/* Own pick: faded dot. Traded away: solid dot in holder's color */}
+      <span style={{
+        display: 'inline-block',
+        width: 9,
+        height: 9,
+        borderRadius: '50%',
+        background: isOwn ? `${holderColor}44` : holderColor,
+        flexShrink: 0,
+      }} />
+      {/* Extra picks this team holds in this round */}
+      {extras.map(ownerId => {
+        const c = COLORS[ownerId] || '#666';
+        return (
+          <span key={ownerId} style={{
+            display: 'inline-block',
+            width: 7,
+            height: 7,
+            borderRadius: '50%',
+            background: c,
+            flexShrink: 0,
+          }} />
+        );
+      })}
     </span>
   );
 }
 
 export default function BHDraftBoard() {
   const rounds = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
+
+  // For each round, track which OTHER original owners' picks each holder also owns
+  const extraHeld = {};
+  rounds.forEach(r => {
+    extraHeld[r] = {};
+    OWNERS.forEach(o => {
+      const holder = DRAFT_BOARD[o.id][r];
+      if (holder !== o.id) {
+        if (!extraHeld[r][holder]) extraHeld[r][holder] = [];
+        extraHeld[r][holder].push(o.id);
+      }
+    });
+  });
 
   return (
     <div style={styles.wrap}>
@@ -103,10 +122,7 @@ export default function BHDraftBoard() {
                 }}>
                   <div style={styles.ownerCell}>
                     <div style={{ width: 8, height: 8, borderRadius: '50%', background: COLORS[o.id], flexShrink: 0 }} />
-                    <div>
-                      <div style={styles.teamName}>{o.team}</div>
-                      <div style={styles.ownerName}>{o.owner}</div>
-                    </div>
+                    <div style={styles.ownerName}>{o.owner}</div>
                   </div>
                 </td>
                 {rounds.map(r => (
@@ -114,7 +130,11 @@ export default function BHDraftBoard() {
                     ...styles.td,
                     background: r >= 15 ? '#0a0800' : (i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.012)'),
                   }}>
-                    <PickCell holder={DRAFT_BOARD[o.id][r]} originalOwner={o.id} />
+                    <PickCell
+                      holder={DRAFT_BOARD[o.id][r]}
+                      originalOwner={o.id}
+                      extras={extraHeld[r][o.id] || []}
+                    />
                   </td>
                 ))}
               </tr>
@@ -176,9 +196,8 @@ const styles = {
     zIndex: 1,
     borderRight: '0.5px solid var(--border)',
   },
-  ownerCell: { display: 'flex', alignItems: 'center', gap: 9, padding: '2px 4px', minWidth: 160 },
-  teamName: { fontSize: 11, color: 'var(--text)', fontWeight: 500, whiteSpace: 'nowrap' },
-  ownerName: { fontSize: 9.5, color: 'var(--text-muted)', marginTop: 1 },
+  ownerCell: { display: 'flex', alignItems: 'center', gap: 9, padding: '2px 4px', minWidth: 100 },
+  ownerName: { fontSize: 12, color: 'var(--text)', fontWeight: 500, whiteSpace: 'nowrap' },
   legend: { display: 'flex', flexWrap: 'wrap', gap: '6px 18px', paddingTop: 14, borderTop: '0.5px solid var(--border)' },
   legendItem: { display: 'flex', alignItems: 'center', gap: 6 },
 };
