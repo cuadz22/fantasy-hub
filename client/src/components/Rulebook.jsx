@@ -38,8 +38,8 @@ const RULEBOOKS = {
       {
         title: 'Draft',
         content: [
-          { text: 'Draft date: September 1st.' },
-          { text: 'Keepers are due by end of day August 25th. If not submitted in time, the commissioner will select the 2 highest ranked players on the roster based on Yahoo Rankings.' },
+          { text: 'Draft date: August 27th at 7:30pm.' },
+          { text: 'Keepers are due by end of day August 23rd. If not submitted in time, the commissioner will select the 2 highest ranked players on the roster based on Yahoo Rankings.' },
           { text: 'Draft order will be determined at the apartment building on Thursday, August 13th.' },
           { text: 'Rounds 15 and 16 are reserved for keepers and cannot be traded under any circumstances.' },
           {

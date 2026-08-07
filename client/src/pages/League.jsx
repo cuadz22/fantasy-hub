@@ -9,6 +9,7 @@ import Keepers from '../components/Keepers';
 import RebirthOwners from '../components/RebirthOwners';
 import RebirthKeepers from '../components/RebirthKeepers';
 import RebirthDraftBoard from '../components/RebirthDraftBoard';
+import BHDraftBoard from '../components/BHDraftBoard';
 import OffseasonTrades from '../components/OffseasonTrades';
 
 const LEAGUES = {
@@ -63,7 +64,8 @@ export default function League() {
         {tab === 'Keepers' && id === 'rebirth' && <RebirthKeepers />}
         {tab === 'Keepers' && id !== 'rebirth' && <Keepers leagueId={id} />}
         {tab === 'Draft Picks Board' && id === 'rebirth' && <RebirthDraftBoard />}
-        {tab === 'Draft Picks Board' && id !== 'rebirth' && (
+        {tab === 'Draft Picks Board' && id === 'beaners-husseins' && <BHDraftBoard />}
+        {tab === 'Draft Picks Board' && id !== 'rebirth' && id !== 'beaners-husseins' && (
           <div style={{ padding: '40px 0', color: 'var(--text-muted)', fontSize: 13 }}>Draft picks board coming soon.</div>
         )}
         {tab === 'Off-Season Trades' && <OffseasonTrades leagueId={id} />}
