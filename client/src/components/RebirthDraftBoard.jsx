@@ -44,32 +44,34 @@ const OWNER_COLORS = {
   'Julio':       '#4acc88',
 };
 
-function PickBadge({ owner, small }) {
+function PickBadge({ owner, mobile }) {
   const color = OWNER_COLORS[owner] || '#888';
+  const label = mobile ? owner.slice(0, 3) : owner;
   return (
     <div style={{
-      fontSize: small ? 7 : 9,
-      padding: small ? '1px 3px' : '2px 5px',
+      fontSize: mobile ? 6 : 9,
+      padding: mobile ? '1px 2px' : '2px 5px',
       borderRadius: 2,
       fontWeight: 600,
       whiteSpace: 'nowrap',
       background: `${color}20`,
       color: color,
       border: `1px solid ${color}55`,
-      lineHeight: 1.5,
+      lineHeight: 1.4,
       textAlign: 'center',
       width: '100%',
       boxSizing: 'border-box',
     }}>
-      {owner}
+      {label}
     </div>
   );
 }
 
 export default function RebirthDraftBoard() {
-  const isMobile = useIsMobile();
-  const CELL_WIDTH = isMobile ? 52 : 88;
-  const CELL_HEIGHT = isMobile ? 52 : 88;
+  const mobile = useIsMobile();
+  const CELL_WIDTH = mobile ? 28 : 88;
+  const CELL_HEIGHT = mobile ? 28 : 88;
+  const OWNER_COL = mobile ? 44 : 110;
 
   return (
     <div style={styles.wrap}>
@@ -79,11 +81,7 @@ export default function RebirthDraftBoard() {
 
       <div style={styles.legend}>
         {OWNERS.map(owner => (
-          <span key={owner} style={{
-            fontSize: 11,
-            fontWeight: 600,
-            color: OWNER_COLORS[owner],
-          }}>
+          <span key={owner} style={{ fontSize: mobile ? 10 : 11, fontWeight: 600, color: OWNER_COLORS[owner] }}>
             {owner}
           </span>
         ))}
@@ -93,10 +91,17 @@ export default function RebirthDraftBoard() {
         <table style={styles.table}>
           <thead>
             <tr>
-              <th style={styles.thOwner}>Owner</th>
+              <th style={{ ...styles.thOwner, minWidth: OWNER_COL, maxWidth: OWNER_COL }}>
+                {mobile ? '' : 'Owner'}
+              </th>
               {ROUNDS.map(r => (
-                <th key={r} style={{ ...styles.th, width: CELL_WIDTH, minWidth: CELL_WIDTH, maxWidth: CELL_WIDTH }}>
-                  Rd {r}
+                <th key={r} style={{
+                  ...styles.th,
+                  width: CELL_WIDTH, minWidth: CELL_WIDTH, maxWidth: CELL_WIDTH,
+                  fontSize: mobile ? 8 : 10,
+                  padding: mobile ? '4px 1px' : '10px 4px',
+                }}>
+                  {mobile ? r : `Rd ${r}`}
                 </th>
               ))}
             </tr>
@@ -104,9 +109,15 @@ export default function RebirthDraftBoard() {
           <tbody>
             {OWNERS.map((owner, i) => (
               <tr key={owner}>
-                <td style={{ ...styles.tdOwner, background: i % 2 === 0 ? 'var(--bg)' : 'var(--bg2)' }}>
-                  <div style={{ fontWeight: 600, fontSize: 11, color: OWNER_COLORS[owner] || 'var(--text)' }}>
-                    {owner}
+                <td style={{
+                  ...styles.tdOwner,
+                  minWidth: OWNER_COL, maxWidth: OWNER_COL,
+                  height: CELL_HEIGHT,
+                  padding: mobile ? '0 4px' : '0 14px',
+                  background: i % 2 === 0 ? 'var(--bg)' : 'var(--bg2)',
+                }}>
+                  <div style={{ fontWeight: 600, fontSize: mobile ? 7 : 11, color: OWNER_COLORS[owner] || 'var(--text)' }}>
+                    {mobile ? owner.slice(0, 4) : owner}
                   </div>
                 </td>
                 {ROUNDS.map(r => {
@@ -115,19 +126,18 @@ export default function RebirthDraftBoard() {
                   return (
                     <td key={r} style={{
                       ...styles.td,
-                      width: CELL_WIDTH,
-                      minWidth: CELL_WIDTH,
-                      maxWidth: CELL_WIDTH,
+                      width: CELL_WIDTH, minWidth: CELL_WIDTH, maxWidth: CELL_WIDTH,
                       height: CELL_HEIGHT,
+                      padding: mobile ? '2px 2px' : '6px 5px',
                       background: isEmpty
                         ? (i % 2 === 0 ? '#161616' : '#111111')
                         : (i % 2 === 0 ? 'var(--bg)' : 'var(--bg2)'),
                     }}>
                       <div style={styles.cellContent}>
                         {isEmpty ? (
-                          <span style={styles.empty}>—</span>
+                          <span style={{ ...styles.empty, fontSize: mobile ? 10 : 16 }}>—</span>
                         ) : (
-                          picks.map((p, j) => <PickBadge key={j} owner={p} small={isMobile} />)
+                          picks.map((p, j) => <PickBadge key={j} owner={p} mobile={mobile} />)
                         )}
                       </div>
                     </td>
@@ -165,18 +175,18 @@ const styles = {
     background: 'var(--bg2)', letterSpacing: '0.04em',
   },
   tdOwner: {
-    padding: '0 14px', borderBottom: '1px solid var(--border)',
+    borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
     position: 'sticky', left: 0,
-    whiteSpace: 'nowrap', height: 88, verticalAlign: 'middle',
+    whiteSpace: 'nowrap', verticalAlign: 'middle',
   },
   td: {
-    padding: '6px 5px', borderBottom: '1px solid var(--border)',
+    borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
     textAlign: 'center', verticalAlign: 'middle',
   },
   cellContent: {
-    display: 'flex', flexDirection: 'column', gap: 3,
+    display: 'flex', flexDirection: 'column', gap: 2,
     alignItems: 'stretch', justifyContent: 'center',
     width: '100%', height: '100%',
   },

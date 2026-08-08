@@ -45,32 +45,35 @@ const DRAFT_BOARD = {
   'Mina':     { 1:['Mina'], 2:['Mina'], 3:['Mina'], 4:['Mina'], 5:['Mina'], 6:['Mina'], 7:['Mina'], 8:['Mina'], 9:['Mina'], 10:['Mina'], 11:['Mina'], 12:['Mina'], 13:['Mina'], 14:['Mina'], 15:['Mina'], 16:['Mina'] },
 };
 
-function PickBadge({ owner, small }) {
+function PickBadge({ owner, mobile }) {
   const color = OWNER_COLORS[owner] || '#888';
+  const label = mobile ? owner.slice(0, 3) : owner;
   return (
     <div style={{
-      fontSize: small ? 7 : 9,
-      padding: small ? '1px 3px' : '2px 5px',
+      fontSize: mobile ? 6 : 9,
+      padding: mobile ? '1px 2px' : '2px 5px',
       borderRadius: 2,
       fontWeight: 600,
       whiteSpace: 'nowrap',
       background: `${color}20`,
       color: color,
       border: `1px solid ${color}55`,
-      lineHeight: 1.5,
+      lineHeight: 1.4,
       textAlign: 'center',
       width: '100%',
       boxSizing: 'border-box',
     }}>
-      {owner}
+      {label}
     </div>
   );
 }
 
 export default function BHDraftBoard() {
-  const isMobile = useIsMobile();
-  const CELL_WIDTH = isMobile ? 52 : 88;
-  const CELL_HEIGHT = isMobile ? 52 : 88;
+  const mobile = useIsMobile();
+  const CELL_W = mobile ? 28 : 88;
+  const CELL_H = mobile ? 28 : 88;
+  const OWNER_COL = mobile ? 44 : 80;
+
   return (
     <div style={styles.wrap}>
       <div style={styles.intro}>
@@ -79,7 +82,7 @@ export default function BHDraftBoard() {
 
       <div style={styles.legend}>
         {OWNERS.map(owner => (
-          <span key={owner} style={{ fontSize: 11, fontWeight: 600, color: OWNER_COLORS[owner] }}>
+          <span key={owner} style={{ fontSize: mobile ? 10 : 11, fontWeight: 600, color: OWNER_COLORS[owner] }}>
             {owner}
           </span>
         ))}
@@ -89,15 +92,19 @@ export default function BHDraftBoard() {
         <table style={styles.table}>
           <thead>
             <tr>
-              <th style={styles.thOwner}>Owner</th>
+              <th style={{ ...styles.thOwner, minWidth: OWNER_COL, maxWidth: OWNER_COL }}>
+                {mobile ? '' : 'Owner'}
+              </th>
               {ROUNDS.map(r => (
                 <th key={r} style={{
                   ...styles.th,
-                  width: CELL_WIDTH, minWidth: CELL_WIDTH, maxWidth: CELL_WIDTH,
+                  width: CELL_W, minWidth: CELL_W, maxWidth: CELL_W,
+                  fontSize: mobile ? 8 : 10,
+                  padding: mobile ? '4px 1px' : '10px 4px',
                   ...(r >= 15 ? styles.keeperTh : {}),
                 }}>
-                  <div>Rd {r}</div>
-                  {r >= 15 && <div style={styles.keeperLabel}>KEEPER</div>}
+                  <div>{mobile ? r : `Rd ${r}`}</div>
+                  {r >= 15 && !mobile && <div style={styles.keeperLabel}>KEEPER</div>}
                 </th>
               ))}
             </tr>
@@ -105,9 +112,15 @@ export default function BHDraftBoard() {
           <tbody>
             {OWNERS.map((owner, i) => (
               <tr key={owner}>
-                <td style={{ ...styles.tdOwner, background: i % 2 === 0 ? 'var(--bg)' : 'var(--bg2)' }}>
-                  <div style={{ fontWeight: 600, fontSize: 11, color: OWNER_COLORS[owner] || 'var(--text)' }}>
-                    {owner}
+                <td style={{
+                  ...styles.tdOwner,
+                  minWidth: OWNER_COL, maxWidth: OWNER_COL,
+                  height: CELL_H,
+                  padding: mobile ? '0 4px' : '0 14px',
+                  background: i % 2 === 0 ? 'var(--bg)' : 'var(--bg2)',
+                }}>
+                  <div style={{ fontWeight: 600, fontSize: mobile ? 7 : 11, color: OWNER_COLORS[owner] || 'var(--text)' }}>
+                    {mobile ? owner.slice(0, 4) : owner}
                   </div>
                 </td>
                 {ROUNDS.map(r => {
@@ -117,8 +130,9 @@ export default function BHDraftBoard() {
                   return (
                     <td key={r} style={{
                       ...styles.td,
-                      width: CELL_WIDTH, minWidth: CELL_WIDTH, maxWidth: CELL_WIDTH,
-                      height: CELL_HEIGHT,
+                      width: CELL_W, minWidth: CELL_W, maxWidth: CELL_W,
+                      height: CELL_H,
+                      padding: mobile ? '2px 2px' : '6px 5px',
                       background: isEmpty
                         ? (i % 2 === 0 ? '#161616' : '#111111')
                         : isKeeper
@@ -127,9 +141,9 @@ export default function BHDraftBoard() {
                     }}>
                       <div style={styles.cellContent}>
                         {isEmpty ? (
-                          <span style={styles.empty}>—</span>
+                          <span style={{ ...styles.empty, fontSize: mobile ? 10 : 16 }}>—</span>
                         ) : (
-                          picks.map((p, j) => <PickBadge key={j} owner={p} small={isMobile} />)
+                          picks.map((p, j) => <PickBadge key={j} owner={p} mobile={mobile} />)
                         )}
                       </div>
                     </td>
@@ -147,9 +161,9 @@ export default function BHDraftBoard() {
 const styles = {
   wrap: { display: 'flex', flexDirection: 'column', gap: 20 },
   intro: { fontSize: 12, color: 'var(--text-muted)', fontStyle: 'italic' },
-  legend: { display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 4, alignItems: 'center' },
+  legend: { display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 4, alignItems: 'center' },
   tableWrap: { overflowX: 'auto' },
-  table: { borderCollapse: 'collapse', fontSize: 11, border: '1px solid var(--border)' },
+  table: { borderCollapse: 'collapse', border: '1px solid var(--border)' },
   thOwner: {
     textAlign: 'left', padding: '8px 10px',
     color: '#ffffff', fontWeight: 600,
@@ -157,35 +171,32 @@ const styles = {
     fontSize: 10, borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
     position: 'sticky', left: 0,
-    background: 'var(--bg2)', minWidth: 80, whiteSpace: 'nowrap',
+    background: 'var(--bg2)', whiteSpace: 'nowrap',
   },
   th: {
-    textAlign: 'center', padding: '10px 4px',
+    textAlign: 'center',
     color: '#ffffff', fontWeight: 600,
-    fontSize: 10, borderBottom: '1px solid var(--border)',
+    borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
     background: 'var(--bg2)', letterSpacing: '0.04em',
   },
-  keeperTh: {
-    color: '#aa8800',
-    background: '#120e00',
-  },
+  keeperTh: { color: '#aa8800', background: '#120e00' },
   keeperLabel: { fontSize: 8, color: '#aa8800', marginTop: 2 },
   tdOwner: {
-    padding: '0 14px', borderBottom: '1px solid var(--border)',
+    borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
     position: 'sticky', left: 0,
-    whiteSpace: 'nowrap', height: 88, verticalAlign: 'middle',
+    whiteSpace: 'nowrap', verticalAlign: 'middle',
   },
   td: {
-    padding: '6px 5px', borderBottom: '1px solid var(--border)',
+    borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
     textAlign: 'center', verticalAlign: 'middle',
   },
   cellContent: {
-    display: 'flex', flexDirection: 'column', gap: 3,
+    display: 'flex', flexDirection: 'column', gap: 2,
     alignItems: 'stretch', justifyContent: 'center',
     width: '100%', height: '100%',
   },
-  empty: { color: '#2a2a2a', fontSize: 16, fontWeight: 300 },
+  empty: { color: '#2a2a2a', fontWeight: 300 },
 };
