@@ -1,3 +1,15 @@
+import { useState, useEffect } from 'react';
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return isMobile;
+}
+
 const OWNERS = ['Jose', 'Giovanny', 'Eduardo', 'Kyle', 'Kevin', 'Cristian', 'Edwin', 'Oscar', 'Hihi', 'Bishoy', 'Pru', 'Mina'];
 
 const ROUNDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
@@ -33,12 +45,12 @@ const DRAFT_BOARD = {
   'Mina':     { 1:['Mina'], 2:['Mina'], 3:['Mina'], 4:['Mina'], 5:['Mina'], 6:['Mina'], 7:['Mina'], 8:['Mina'], 9:['Mina'], 10:['Mina'], 11:['Mina'], 12:['Mina'], 13:['Mina'], 14:['Mina'], 15:['Mina'], 16:['Mina'] },
 };
 
-function PickBadge({ owner }) {
+function PickBadge({ owner, small }) {
   const color = OWNER_COLORS[owner] || '#888';
   return (
     <div style={{
-      fontSize: 9,
-      padding: '2px 5px',
+      fontSize: small ? 7 : 9,
+      padding: small ? '1px 3px' : '2px 5px',
       borderRadius: 2,
       fontWeight: 600,
       whiteSpace: 'nowrap',
@@ -55,10 +67,10 @@ function PickBadge({ owner }) {
   );
 }
 
-const CELL_WIDTH = 88;
-const CELL_HEIGHT = 88;
-
 export default function BHDraftBoard() {
+  const isMobile = useIsMobile();
+  const CELL_WIDTH = isMobile ? 52 : 88;
+  const CELL_HEIGHT = isMobile ? 52 : 88;
   return (
     <div style={styles.wrap}>
       <div style={styles.intro}>
@@ -117,7 +129,7 @@ export default function BHDraftBoard() {
                         {isEmpty ? (
                           <span style={styles.empty}>—</span>
                         ) : (
-                          picks.map((p, j) => <PickBadge key={j} owner={p} />)
+                          picks.map((p, j) => <PickBadge key={j} owner={p} small={isMobile} />)
                         )}
                       </div>
                     </td>
@@ -139,13 +151,13 @@ const styles = {
   tableWrap: { overflowX: 'auto' },
   table: { borderCollapse: 'collapse', fontSize: 11, border: '1px solid var(--border)' },
   thOwner: {
-    textAlign: 'left', padding: '10px 14px',
+    textAlign: 'left', padding: '8px 10px',
     color: '#ffffff', fontWeight: 600,
     letterSpacing: '0.06em', textTransform: 'uppercase',
     fontSize: 10, borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
     position: 'sticky', left: 0,
-    background: 'var(--bg2)', minWidth: 110, whiteSpace: 'nowrap',
+    background: 'var(--bg2)', minWidth: 80, whiteSpace: 'nowrap',
   },
   th: {
     textAlign: 'center', padding: '10px 4px',

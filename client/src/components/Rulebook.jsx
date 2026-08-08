@@ -108,7 +108,7 @@ const RULEBOOKS = {
           { text: '2nd Place: $450 — 2× buy-in' },
           { text: 'Regular Season Points Leader: $225 — 1× buy-in' },
           {
-            text: 'Last place must purchase the championship ring for the winner (minimum $100 value), due once the season is over.',
+            text: 'Last place (based on regular season standings) must purchase the championship ring for the winner (minimum $100 value), due once the season is over.',
             highlight: true,
           },
         ],
@@ -239,7 +239,7 @@ const RULEBOOKS = {
           { text: '2nd Place: $400 — 2× buy-in' },
           { text: 'Regular Season Points Leader: $200 — 1× buy-in' },
           {
-            text: 'Last place must purchase the championship ring for the winner (minimum $100 value), due once the season is over.',
+            text: 'Last place (based on regular season standings) must purchase the championship ring for the winner (minimum $100 value), due once the season is over.',
             highlight: true,
           },
         ],
