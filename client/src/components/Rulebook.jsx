@@ -108,7 +108,7 @@ const RULEBOOKS = {
           { text: '2nd Place: $450 — 2× buy-in' },
           { text: 'Regular Season Points Leader: $225 — 1× buy-in' },
           {
-            text: 'Last place must purchase the championship ring for the winner (minimum $100 value).',
+            text: 'Last place must purchase the championship ring for the winner (minimum $100 value), due once the season is over.',
             highlight: true,
           },
         ],
@@ -157,7 +157,7 @@ const RULEBOOKS = {
           { text: 'A player can only be kept by the same owner for a maximum of 3 years. After 3 years they must be released.' },
           { text: 'Free agent pickups can be kept for an 8th round pick.' },
           {
-            text: 'If a player is traded, their 3-year keeper counter resets to zero the moment the trade is accepted — the new owner starts fresh at Year 1. The keeper price (round cost) carries over based on the round of the pick used in the trade. The anti-rental rule also applies — if Team A trades a player to Team B, Team A cannot receive that player back directly from Team B. The player must pass through at least one additional team (Team C) before returning to Team A.',
+            text: 'If a player is traded, only the 3-year keeper counter resets to zero — the new owner starts fresh at Year 1. The keeper price and round bumps carry over fully to the new owner. Example: if a player was kept for a round 8 pick and was due to be kept with a round 6 pick the following year, those same rules still apply after a trade. The anti-rental rule also applies — if Team A trades a player to Team B, Team A cannot receive that player back directly from Team B. The player must pass through at least one additional team (Team C) before returning to Team A.',
             highlight: true,
           },
           { text: 'Keepers must be submitted before the deadline. If not submitted in time, the commissioner will select the 2 highest ranked players on the roster based on Yahoo Rankings.' },
@@ -166,7 +166,7 @@ const RULEBOOKS = {
       {
         title: 'Draft',
         content: [
-          { text: 'Draft date: September 1st.' },
+          { text: 'Draft date: September 1st at 7:30pm.' },
           { text: 'Keepers are due by end of day August 25th. If not submitted in time, the commissioner will select the 2 highest ranked players on the roster based on Yahoo Rankings.' },
           { text: 'Draft order will be determined at the apartment building on Thursday, August 13th.' },
           { text: 'Snake draft format.' },
@@ -238,6 +238,10 @@ const RULEBOOKS = {
           { text: '1st Place (Champion): $1,800 — 9× buy-in' },
           { text: '2nd Place: $400 — 2× buy-in' },
           { text: 'Regular Season Points Leader: $200 — 1× buy-in' },
+          {
+            text: 'Last place must purchase the championship ring for the winner (minimum $100 value), due once the season is over.',
+            highlight: true,
+          },
         ],
       },
     ],
