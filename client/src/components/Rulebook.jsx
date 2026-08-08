@@ -40,8 +40,7 @@ const RULEBOOKS = {
         content: [
           { text: 'Draft date: August 27th at 7:30pm.' },
           { text: 'Keepers are due by end of day August 23rd. If not submitted in time, the commissioner will select the 2 highest ranked players on the roster based on Yahoo Rankings.' },
-          { text: 'Draft order will be determined at the apartment building on Thursday, August 13th.' },
-          { text: 'Rounds 15 and 16 are reserved for keepers and cannot be traded under any circumstances.' },
+          { text: 'Draft order will be determined at my apartment building on Thursday, August 13th.' },
           {
             text: 'There are NO redos or undos during the draft under any circumstance. Double check your selection before clicking Draft. The same way you are responsible for players you drop, you are responsible for players you draft.',
             highlight: true,
@@ -109,7 +108,7 @@ const RULEBOOKS = {
           { text: '2nd Place: $450 — 2× buy-in' },
           { text: 'Regular Season Points Leader: $225 — 1× buy-in' },
           {
-            text: 'Last place must purchase the championship ring for the winner (minimum $80 value).',
+            text: 'Last place must purchase the championship ring for the winner (minimum $100 value).',
             highlight: true,
           },
         ],
