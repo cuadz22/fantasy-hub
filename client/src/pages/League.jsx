@@ -11,6 +11,7 @@ import RebirthKeepers from '../components/RebirthKeepers';
 import RebirthDraftBoard from '../components/RebirthDraftBoard';
 import BHDraftBoard from '../components/BHDraftBoard';
 import OffseasonTrades from '../components/OffseasonTrades';
+import KeeperSubmission from '../components/KeeperSubmission';
 
 const LEAGUES = {
   'beaners-husseins': { name: "Beaners & Husseins", est: 2014, keeper: true },
@@ -19,7 +20,7 @@ const LEAGUES = {
   'shoot-the-shits': { name: 'Shoot the Shits', est: 2021, keeper: false },
 };
 
-const KEEPER_TABS = ['Standings', 'Matchups', 'History', 'Owners', 'Keepers', 'Draft Picks Board', 'Off-Season Trades', 'Rulebook'];
+const KEEPER_TABS = ['Standings', 'Matchups', 'History', 'Owners', 'Keepers', 'Draft Picks Board', 'Off-Season Trades', 'Submit Keepers', 'Rulebook'];
 const NON_KEEPER_TABS = ['Standings', 'Matchups', 'History', 'Rulebook'];
 
 export default function League() {
@@ -69,6 +70,7 @@ export default function League() {
           <div style={{ padding: '40px 0', color: 'var(--text-muted)', fontSize: 13 }}>Draft picks board coming soon.</div>
         )}
         {tab === 'Off-Season Trades' && <OffseasonTrades leagueId={id} />}
+        {tab === 'Submit Keepers' && <KeeperSubmission leagueId={id} />}
         {tab === 'Rulebook' && <Rulebook leagueId={id} />}
       </div>
     </div>
