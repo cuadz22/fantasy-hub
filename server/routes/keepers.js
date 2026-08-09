@@ -33,23 +33,21 @@ router.get('/:leagueId', (req, res) => {
 
 router.post('/:leagueId', (req, res) => {
   const { leagueId } = req.params;
-  const { owner, players } = req.body;
+  const { owner, keepers } = req.body;
 
-  if (!owner || !Array.isArray(players)) {
-    return res.status(400).json({ error: 'owner and players array required' });
+  if (!owner || !Array.isArray(keepers)) {
+    return res.status(400).json({ error: 'owner and keepers array required' });
   }
 
-  if (players.length > 3) {
+  if (keepers.length > 3) {
     return res.status(400).json({ error: 'Maximum 3 keepers allowed' });
   }
-
-  const trimmedPlayers = players.map(p => (p || '').trim()).filter(Boolean);
 
   const data = readData();
   if (!data[leagueId]) data[leagueId] = {};
 
   data[leagueId][owner] = {
-    players: trimmedPlayers,
+    keepers,
     submittedAt: new Date().toISOString(),
   };
 
