@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const ADMIN_PASSWORD = 'commish2026';
 
 const ROUNDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17];
 
@@ -33,6 +34,10 @@ export default function KeeperSubmission({ leagueId }) {
   const [keepers, setKeepers] = useState(emptyKeepers(2));
   const [status, setStatus] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
+  const [adminOpen, setAdminOpen] = useState(false);
+  const [adminPass, setAdminPass] = useState('');
+  const [adminAuthed, setAdminAuthed] = useState(false);
+  const [adminMsg, setAdminMsg] = useState('');
 
   useEffect(() => {
     if (config) {
@@ -107,6 +112,39 @@ export default function KeeperSubmission({ leagueId }) {
     setOwner('');
     setKeepers(emptyKeepers(config.maxKeepers));
     setErrorMsg('');
+  }
+
+  function handleAdminLogin(e) {
+    e.preventDefault();
+    if (adminPass === ADMIN_PASSWORD) {
+      setAdminAuthed(true);
+      setAdminMsg('');
+    } else {
+      setAdminMsg('Incorrect password.');
+    }
+  }
+
+  async function handleClearAll() {
+    if (!window.confirm(`Clear ALL keeper submissions for ${config.label}? This cannot be undone.`)) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/keepers/${leagueId}/all`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to clear');
+      setAdminMsg('All submissions cleared.');
+      await fetchSubmissions();
+    } catch {
+      setAdminMsg('Error clearing submissions.');
+    }
+  }
+
+  async function handleClearOne(ownerName) {
+    if (!window.confirm(`Remove ${ownerName}'s submission?`)) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/keepers/${leagueId}/${encodeURIComponent(ownerName)}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed');
+      await fetchSubmissions();
+    } catch {
+      setAdminMsg('Error removing submission.');
+    }
   }
 
   if (!config) return <div style={{ color: 'var(--text-muted)', padding: 24 }}>Keeper submission not available for this league.</div>;
@@ -251,6 +289,51 @@ export default function KeeperSubmission({ leagueId }) {
           )}
         </div>
       </div>
+
+      {/* Admin panel */}
+      <div style={styles.adminWrap}>
+        {!adminOpen ? (
+          <button style={styles.adminToggle} onClick={() => setAdminOpen(true)}>⚙ Admin</button>
+        ) : (
+          <div style={styles.adminCard}>
+            <div style={styles.adminHeader}>
+              <span style={styles.adminTitle}>Admin</span>
+              <button style={styles.adminClose} onClick={() => { setAdminOpen(false); setAdminAuthed(false); setAdminPass(''); setAdminMsg(''); }}>✕</button>
+            </div>
+            {!adminAuthed ? (
+              <form onSubmit={handleAdminLogin} style={styles.adminForm}>
+                <input
+                  style={styles.input}
+                  type="password"
+                  placeholder="Password"
+                  value={adminPass}
+                  onChange={e => setAdminPass(e.target.value)}
+                  autoFocus
+                />
+                <button type="submit" style={styles.adminBtn}>Unlock</button>
+                {adminMsg && <div style={styles.adminMsg}>{adminMsg}</div>}
+              </form>
+            ) : (
+              <div style={styles.adminActions}>
+                {adminMsg && <div style={styles.adminMsgGreen}>{adminMsg}</div>}
+                <div style={styles.adminSubtitle}>Remove individual</div>
+                {config.owners.filter(o => submissions[o]).map(o => (
+                  <div key={o} style={styles.adminRow}>
+                    <span style={styles.adminOwnerName}>{o}</span>
+                    <button style={styles.adminRemoveBtn} onClick={() => handleClearOne(o)}>Remove</button>
+                  </div>
+                ))}
+                {config.owners.filter(o => submissions[o]).length === 0 && (
+                  <div style={styles.adminEmpty}>No submissions yet.</div>
+                )}
+                <button style={styles.adminClearAll} onClick={handleClearAll}>
+                  🗑 Clear all submissions
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -311,4 +394,21 @@ const styles = {
   pendingBadge: { fontSize: 10, fontWeight: 600, color: '#888', background: '#181818', border: '1px solid #333', borderRadius: 4, padding: '2px 7px' },
   dash: { color: '#333' },
   pendingNote: { marginTop: 14, fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5, borderTop: '1px solid var(--border)', paddingTop: 12 },
+  adminWrap: { display: 'flex', justifyContent: 'flex-end', marginTop: 8 },
+  adminToggle: { background: 'none', border: '1px solid var(--border)', color: 'var(--text-muted)', borderRadius: 6, padding: '5px 12px', fontSize: 11, cursor: 'pointer' },
+  adminCard: { background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: 18, minWidth: 260, maxWidth: 340 },
+  adminHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
+  adminTitle: { fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: 'var(--text-muted)' },
+  adminClose: { background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: 14, padding: 0 },
+  adminForm: { display: 'flex', flexDirection: 'column', gap: 8 },
+  adminBtn: { background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '7px 0', fontSize: 12, cursor: 'pointer', fontWeight: 600 },
+  adminMsg: { fontSize: 11, color: '#e05555' },
+  adminMsgGreen: { fontSize: 11, color: '#4acc88', marginBottom: 8 },
+  adminActions: { display: 'flex', flexDirection: 'column', gap: 6 },
+  adminSubtitle: { fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: 2 },
+  adminRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--border)' },
+  adminOwnerName: { fontSize: 12, color: 'var(--text)' },
+  adminRemoveBtn: { background: 'none', border: '1px solid #400', color: '#e05555', borderRadius: 4, padding: '2px 8px', fontSize: 11, cursor: 'pointer' },
+  adminEmpty: { fontSize: 12, color: 'var(--text-muted)', fontStyle: 'italic' },
+  adminClearAll: { marginTop: 8, background: '#200', border: '1px solid #500', color: '#e05555', borderRadius: 6, padding: '8px 0', fontSize: 12, fontWeight: 600, cursor: 'pointer' },
 };

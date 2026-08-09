@@ -55,6 +55,14 @@ router.post('/:leagueId', (req, res) => {
   res.json({ success: true, submission: data[leagueId][owner] });
 });
 
+router.delete('/:leagueId/all', (req, res) => {
+  const { leagueId } = req.params;
+  const data = readData();
+  data[leagueId] = {};
+  writeData(data);
+  res.json({ success: true });
+});
+
 router.delete('/:leagueId/:owner', (req, res) => {
   const { leagueId, owner } = req.params;
   const data = readData();
