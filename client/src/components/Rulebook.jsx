@@ -249,9 +249,69 @@ const RULEBOOKS = {
   'gentlemens-league': {
     sections: [
       {
-        title: 'Rules',
+        title: 'Roster',
         content: [
-          { text: "Gentlemen's League rulebook coming soon." },
+          { text: '1 QB — Quarterback' },
+          { text: '2 RB — Running Backs' },
+          { text: '3 WR — Wide Receivers' },
+          { text: '1 TE — Tight End' },
+          { text: '1 FLEX — WR/RB/TE' },
+          { text: '1 K — Kicker' },
+          { text: '1 DEF — Defense/Special Teams' },
+          { text: '6 BN — Bench spots' },
+          { text: '1 IR — Injured Reserve' },
+        ],
+      },
+      {
+        title: 'Scoring',
+        content: [
+          { text: 'PPR — 1 point per reception' },
+          { text: '6 points per passing touchdown' },
+          { text: '-1 point per interception thrown' },
+        ],
+      },
+      {
+        title: 'Draft',
+        content: [
+          { text: 'Snake draft format.' },
+          { text: 'Draft order will be determined at the apartment building on Thursday, August 13th — the same location and day as all other leagues.' },
+          { text: 'Draft date: August 30th at 3:00pm at Vic\'s house.' },
+          {
+            text: 'There are NO redos or undos during the draft under any circumstance. Double check your selection before clicking Draft. The same way you are responsible for players you drop, you are responsible for players you draft.',
+            highlight: true,
+          },
+        ],
+      },
+      {
+        title: 'Waivers & Free Agents',
+        content: [
+          {
+            text: 'If you accidentally drop a player, they will NOT be returned to your team under any circumstance. Double check before dropping.',
+            highlight: true,
+          },
+        ],
+      },
+      {
+        title: 'Trades',
+        content: [
+          { text: 'All trades are pushed through by the commissioner. A trade will always be approved unless there is a suspicion of collusion.' },
+          {
+            text: 'Anti-rental rule: If Team A trades a player to Team B, Team A cannot receive that player back directly from Team B. The player must pass through at least one additional team (Team C) before returning to Team A.',
+            highlight: true,
+          },
+          { text: 'Trade deadline: the day before Week 12 begins. No trades will be processed on or after that date.' },
+        ],
+      },
+      {
+        title: 'Fees & Payouts',
+        content: [
+          {
+            text: 'Buy-in: $500 per team. Half ($250) is due at the time of draft order being determined. The remaining $250 is due no later than draft day — appreciated if sent in advance to keep things smooth.',
+            highlight: true,
+          },
+          { text: 'Last place (based on regular season standings) pays a $160 fine.' },
+          { text: 'Every other non-playoff team pays a $35 fine.' },
+          { text: 'The fine pool is used to cover half the champion\'s buy-in and to purchase the championship ring.' },
         ],
       },
     ],
