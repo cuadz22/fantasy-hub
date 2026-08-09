@@ -274,7 +274,7 @@ const RULEBOOKS = {
         title: 'Draft',
         content: [
           { text: 'Snake draft format.' },
-          { text: 'Draft order will be determined at the apartment building on Thursday, August 13th — the same location and day as all other leagues.' },
+          { text: 'Draft order will be determined at my club room on Thursday, August 13th — the same day as all other leagues.' },
           { text: 'Draft date: August 30th at 3:00pm at Vic\'s house.' },
           {
             text: 'There are NO redos or undos during the draft under any circumstance. Double check your selection before clicking Draft. The same way you are responsible for players you drop, you are responsible for players you draft.',
@@ -285,6 +285,8 @@ const RULEBOOKS = {
       {
         title: 'Waivers & Free Agents',
         content: [
+          { text: 'Each team starts the season with a $100 FAAB (Free Agent Acquisition Budget).' },
+          { text: 'FAAB budget can be included in trades. Since Yahoo does not support FAAB trades, note the FAAB amount in the trade comments and notify the commissioner, who will adjust totals manually.' },
           {
             text: 'If you accidentally drop a player, they will NOT be returned to your team under any circumstance. Double check before dropping.',
             highlight: true,
@@ -309,6 +311,9 @@ const RULEBOOKS = {
             text: 'Buy-in: $500 per team. Half ($250) is due at the time of draft order being determined. The remaining $250 is due no later than draft day — appreciated if sent in advance to keep things smooth.',
             highlight: true,
           },
+          { text: '1st Place (Champion): $4,500' },
+          { text: '2nd Place: $1,000' },
+          { text: 'Regular Season Points Leader: $500' },
           { text: 'Last place (based on regular season standings) pays a $160 fine.' },
           { text: 'Every other non-playoff team pays a $35 fine.' },
           { text: 'The fine pool is used to cover half the champion\'s buy-in and to purchase the championship ring.' },
