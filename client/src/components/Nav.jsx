@@ -14,28 +14,22 @@ export default function Nav() {
     <header style={styles.header}>
       <Link to="/" style={styles.logo}>Cuadz Fantasy Network</Link>
       <div style={styles.navWrap}>
-        <nav style={styles.nav}>
-          {LEAGUES.map(l => {
-            const active = pathname === `/league/${l.id}`;
-            return (
-              <Link
-                key={l.id}
-                to={`/league/${l.id}`}
-                style={{ ...styles.tab, ...(active ? styles.tabActive : {}) }}
-              >
-                <span style={styles.tabDot(active)} />
-                {l.name}
-              </Link>
-            );
-          })}
-          <Link
-            to="/studio"
-            style={{ ...styles.tab, ...(pathname === '/studio' ? styles.tabActive : {}), marginLeft: 'auto', color: pathname === '/studio' ? 'var(--red)' : 'var(--text-muted)' }}
-          >
-            Studio
-          </Link>
-        </nav>
-        <div style={styles.fadeRight} />
+      <nav style={styles.nav}>
+        {LEAGUES.map(l => {
+          const active = pathname === `/league/${l.id}`;
+          return (
+            <Link
+              key={l.id}
+              to={`/league/${l.id}`}
+              style={{ ...styles.tab, ...(active ? styles.tabActive : {}) }}
+            >
+              <span style={styles.tabDot(active)} />
+              {l.name}
+            </Link>
+          );
+        })}
+      </nav>
+      <div style={styles.fadeRight} />
       </div>
     </header>
   );
