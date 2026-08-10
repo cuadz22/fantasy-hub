@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const API = 'https://fantasy-hub-production.up.railway.app';
+const STUDIO_PIN = '2121';
 
 const LEAGUES = [
   { id: 'beaners-husseins', name: "Beaners & Husseins" },
@@ -11,27 +12,66 @@ const LEAGUES = [
 
 const SAMPLE = {
   teamA: { name: 'TD Tyrants', score: 142, players: [
-    { pos: 'QB', name: 'J. Burrow', pts: 38.2 },
-    { pos: 'RB', name: 'D. Henry', pts: 29.6 },
-    { pos: 'WR', name: 'S. Diggs', pts: 22.4 },
-    { pos: 'WR', name: 'C. Lamb', pts: 18.8 },
-    { pos: 'TE', name: 'T. Kelce', pts: 16.1 },
+    { pos: 'QB', name: 'J. Burrow', pts: 38.2, proj: 28.4 },
+    { pos: 'RB', name: 'D. Henry', pts: 29.6, proj: 18.1 },
+    { pos: 'WR', name: 'S. Diggs', pts: 22.4, proj: 24.0 },
+    { pos: 'WR', name: 'C. Lamb', pts: 18.8, proj: 22.5 },
+    { pos: 'TE', name: 'T. Kelce', pts: 16.1, proj: 14.8 },
   ]},
   teamB: { name: 'Blitz Kings', score: 118, players: [
-    { pos: 'QB', name: 'L. Jackson', pts: 31.4 },
-    { pos: 'RB', name: 'C. McCaffrey', pts: 26.8 },
-    { pos: 'WR', name: 'T. Hill', pts: 21.2 },
-    { pos: 'TE', name: 'M. Andrews', pts: 17.6 },
-    { pos: 'WR', name: 'D. Adams', pts: 14.3 },
+    { pos: 'QB', name: 'L. Jackson', pts: 31.4, proj: 29.0 },
+    { pos: 'RB', name: 'C. McCaffrey', pts: 26.8, proj: 30.2 },
+    { pos: 'WR', name: 'T. Hill', pts: 21.2, proj: 19.5 },
+    { pos: 'TE', name: 'M. Andrews', pts: 17.6, proj: 15.0 },
+    { pos: 'WR', name: 'D. Adams', pts: 14.3, proj: 18.7 },
   ]},
 };
 
 export default function Studio() {
+  const [unlocked, setUnlocked] = useState(() => sessionStorage.getItem('studio_auth') === 'true');
+  const [pin, setPin] = useState('');
+  const [pinError, setPinError] = useState(false);
   const [connected, setConnected] = useState(false);
   const [league, setLeague] = useState(LEAGUES[0]);
   const [week, setWeek] = useState(11);
   const [playerCount, setPlayerCount] = useState(5);
   const [storing, setStoring] = useState(false);
+
+  const submitPin = () => {
+    if (pin === STUDIO_PIN) {
+      sessionStorage.setItem('studio_auth', 'true');
+      setUnlocked(true);
+      setPinError(false);
+    } else {
+      setPinError(true);
+      setPin('');
+    }
+  };
+
+  if (!unlocked) {
+    return (
+      <main style={styles.lockWrap}>
+        <div style={styles.lockBox}>
+          <div style={styles.lockBar} />
+          <div style={styles.lockTitle}>Studio</div>
+          <div style={styles.lockSub}>Enter PIN to continue</div>
+          <input
+            type="password"
+            inputMode="numeric"
+            maxLength={6}
+            value={pin}
+            onChange={e => { setPin(e.target.value); setPinError(false); }}
+            onKeyDown={e => e.key === 'Enter' && submitPin()}
+            style={{ ...styles.pinInput, ...(pinError ? styles.pinInputError : {}) }}
+            placeholder="••••"
+            autoFocus
+          />
+          {pinError && <div style={styles.pinErr}>Incorrect PIN</div>}
+          <button onClick={submitPin} style={styles.pinBtn}>Unlock</button>
+        </div>
+      </main>
+    );
+  }
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -140,24 +180,30 @@ export default function Studio() {
             <div style={styles.players}>
               <div style={styles.playerSide}>
                 <div style={styles.playerHd}>Top performers <span style={{ marginLeft: 'auto' }}>Pts</span></div>
-                {SAMPLE.teamA.players.slice(0, playerCount).map((p, i) => (
-                  <div key={i} style={styles.playerRow}>
-                    <span style={styles.pos}>{p.pos}</span>
-                    <span style={styles.pname}>{p.name}</span>
-                    <span style={{ ...styles.pts, color: i === 0 ? 'var(--red)' : '#555' }}>{p.pts.toFixed(1)}</span>
-                  </div>
-                ))}
+                {SAMPLE.teamA.players.slice(0, playerCount).map((p, i) => {
+                  const beat = p.pts > p.proj;
+                  return (
+                    <div key={i} style={styles.playerRow}>
+                      <span style={styles.pos}>{p.pos}</span>
+                      <span style={styles.pname}>{p.name}</span>
+                      <span style={{ ...styles.pts, color: beat ? '#4caf50' : (i === 0 ? 'var(--red)' : '#555') }}>{p.pts.toFixed(1)}</span>
+                    </div>
+                  );
+                })}
               </div>
               <div style={styles.playerDivider} />
               <div style={styles.playerSide}>
                 <div style={styles.playerHd}>Top performers <span style={{ marginLeft: 'auto' }}>Pts</span></div>
-                {SAMPLE.teamB.players.slice(0, playerCount).map((p, i) => (
-                  <div key={i} style={styles.playerRow}>
-                    <span style={styles.pos}>{p.pos}</span>
-                    <span style={styles.pname}>{p.name}</span>
-                    <span style={{ ...styles.pts, color: i === 0 ? 'var(--red)' : '#555' }}>{p.pts.toFixed(1)}</span>
-                  </div>
-                ))}
+                {SAMPLE.teamB.players.slice(0, playerCount).map((p, i) => {
+                  const beat = p.pts > p.proj;
+                  return (
+                    <div key={i} style={styles.playerRow}>
+                      <span style={styles.pos}>{p.pos}</span>
+                      <span style={styles.pname}>{p.name}</span>
+                      <span style={{ ...styles.pts, color: beat ? '#4caf50' : (i === 0 ? 'var(--red)' : '#555') }}>{p.pts.toFixed(1)}</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
             <div style={styles.cardFoot}>{league.name}</div>
@@ -170,6 +216,15 @@ export default function Studio() {
 }
 
 const styles = {
+  lockWrap: { display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 'calc(100vh - 52px)' },
+  lockBox: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, padding: '36px 40px', background: 'var(--bg2)', border: '0.5px solid var(--border)', borderRadius: 10, position: 'relative', minWidth: 240 },
+  lockBar: { position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'var(--red)', borderRadius: '10px 10px 0 0' },
+  lockTitle: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 28, letterSpacing: '0.06em', color: 'var(--text)' },
+  lockSub: { fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 },
+  pinInput: { width: 120, padding: '10px 14px', textAlign: 'center', fontSize: 18, letterSpacing: '0.2em', background: 'var(--bg)', border: '0.5px solid var(--border)', borderRadius: 6, color: 'var(--text)', outline: 'none' },
+  pinInputError: { borderColor: 'var(--red)' },
+  pinErr: { fontSize: 11, color: 'var(--red)', marginTop: -4 },
+  pinBtn: { marginTop: 4, padding: '9px 28px', background: 'var(--red)', color: '#fff', border: 'none', borderRadius: 6, fontSize: 12, fontWeight: 500, cursor: 'pointer' },
   main: { padding: '40px 32px', maxWidth: 1100, margin: '0 auto' },
   header: { display: 'flex', alignItems: 'center', gap: 16, marginBottom: 32, position: 'relative', paddingTop: 8 },
   bar: { position: 'absolute', top: 0, left: 0, width: 24, height: 2, background: 'var(--red)' },
