@@ -37,6 +37,7 @@ function computePowerRankings(leagueId) {
 
   const weeks = Object.keys(leagueWeekly).map(Number).sort((a, b) => a - b);
 
+  // Seed team stats from standings
   const teamStats = {};
   leagueStandings.forEach(team => {
     teamStats[team.name] = {
@@ -56,6 +57,7 @@ function computePowerRankings(leagueId) {
     };
   });
 
+  // Process weekly data: all-play record + actual weekly W/L
   weeks.forEach(week => {
     const weekData = leagueWeekly[week];
     if (!weekData || !weekData.scores) return;
@@ -64,6 +66,7 @@ function computePowerRankings(leagueId) {
     const matchups = weekData.matchups || [];
     const teamNames = Object.keys(scores);
 
+    // All-play
     teamNames.forEach(teamName => {
       if (!teamStats[teamName]) return;
       const myScore = scores[teamName];
@@ -77,6 +80,7 @@ function computePowerRankings(leagueId) {
       teamStats[teamName].allPlayLosses += apL;
     });
 
+    // Weekly W/L from matchup pairings
     matchups.forEach(({ home, away }) => {
       if (!teamStats[home] || !teamStats[away]) return;
       const homeScore = scores[home] || 0;
@@ -86,13 +90,17 @@ function computePowerRankings(leagueId) {
     });
   });
 
+  // Streak + recent form
   Object.values(teamStats).forEach(team => {
     const results = team.weeklyResults;
+
+    // Recent form: last 3 weeks
     const recent = results.slice(-3);
     team.recentWins = recent.filter(r => r === 'W').length;
     team.recentGames = recent.length;
     team.recentForm = team.recentGames > 0 ? team.recentWins / team.recentGames : 0.5;
 
+    // Streak: consecutive from most recent week going back
     if (results.length > 0) {
       const lastResult = results[results.length - 1];
       let streak = 0;
@@ -104,26 +112,32 @@ function computePowerRankings(leagueId) {
     }
   });
 
+  // Normalize PF and PA
   const pfValues = Object.values(teamStats).map(t => t.pointsFor);
   const paValues = Object.values(teamStats).map(t => t.pointsAgainst);
   const minPF = Math.min(...pfValues), maxPF = Math.max(...pfValues);
   const minPA = Math.min(...paValues), maxPA = Math.max(...paValues);
 
+  // Compute power score
   const teams = Object.values(teamStats).map(team => {
     const totalGames = team.wins + team.losses + team.ties;
     const actualWinPct = totalGames > 0 ? (team.wins + team.ties * 0.5) / totalGames : 0.5;
+
     const totalAllPlay = team.allPlayWins + team.allPlayLosses;
     const allPlayWinPct = totalAllPlay > 0 ? team.allPlayWins / totalAllPlay : 0.5;
+
     const normPF = normalize(team.pointsFor, minPF, maxPF);
     const normPA = normalize(team.pointsAgainst, minPA, maxPA);
 
+    // Weights: all-play 30%, PF 25%, recent form 15%, actual win% 15%, PA 15%
     const baseScore =
       allPlayWinPct * 0.30 +
-      normPF        * 0.25 +
+      normPF       * 0.25 +
       team.recentForm * 0.15 +
-      actualWinPct  * 0.15 +
-      normPA        * 0.15;
+      actualWinPct * 0.15 +
+      normPA       * 0.15;
 
+    // Streak multiplier: ±3% per consecutive game, capped at ±15%
     const streakMultiplier = 1 + Math.max(-0.15, Math.min(0.15, team.streak * 0.03));
     const powerScore = baseScore * streakMultiplier;
 
@@ -138,20 +152,23 @@ function computePowerRankings(leagueId) {
       allPlayLosses: team.allPlayLosses,
       streak: team.streak,
       recentForm: `${team.recentWins}-${team.recentGames - team.recentWins}`,
-      powerScore: Math.round(powerScore * 1000) / 10,
+      powerScore: Math.round(powerScore * 1000) / 10, // 0–100 scale
       hasWeeklyData: weeks.length > 0,
     };
   });
 
+  // Sort by power score descending
   teams.sort((a, b) => b.powerScore - a.powerScore);
 
+  // Rank change vs previous week
   const prevRankings = historyData[leagueId] || {};
   teams.forEach((team, i) => {
     team.rank = i + 1;
     const prevRank = prevRankings[team.name];
-    team.rankChange = prevRank != null ? prevRank - team.rank : null;
+    team.rankChange = prevRank != null ? prevRank - team.rank : null; // positive = moved up
   });
 
+  // Persist current rankings for next week's comparison
   const newHistory = {};
   teams.forEach(team => { newHistory[team.name] = team.rank; });
   const allHistory = readJSON(RANKINGS_HISTORY_FILE);
@@ -161,6 +178,7 @@ function computePowerRankings(leagueId) {
   return teams;
 }
 
+// GET /api/power/:leagueId
 router.get('/:leagueId', (req, res) => {
   try {
     const rankings = computePowerRankings(req.params.leagueId);

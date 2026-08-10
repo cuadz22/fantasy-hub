@@ -32,6 +32,7 @@ function computeCustomStandings(leagueId) {
   const leagueStandings = leaguesData[leagueId]?.standings || [];
   const weeks = Object.keys(leagueWeekly).map(Number).sort((a, b) => a - b);
 
+  // Seed team stats from standings
   const teamStats = {};
   leagueStandings.forEach(team => {
     teamStats[team.name] = {
@@ -47,6 +48,7 @@ function computeCustomStandings(leagueId) {
     };
   });
 
+  // Process each synced week
   weeks.forEach(week => {
     const weekData = leagueWeekly[week];
     if (!weekData || !weekData.scores) return;
@@ -54,17 +56,25 @@ function computeCustomStandings(leagueId) {
     const scores = weekData.scores;
     const matchups = weekData.matchups || [];
 
+    // Ensure all teams from this week are in stats
     Object.keys(scores).forEach(name => {
       if (!teamStats[name]) {
         teamStats[name] = {
-          name, wins: 0, losses: 0, pointsFor: 0,
-          customPoints: 0, winPointsEarned: 0,
-          highScorePointsEarned: 0, highScoreWeeks: 0, hasWeeklyData: true,
+          name,
+          wins: 0,
+          losses: 0,
+          pointsFor: 0,
+          customPoints: 0,
+          winPointsEarned: 0,
+          highScorePointsEarned: 0,
+          highScoreWeeks: 0,
+          hasWeeklyData: true,
         };
       }
       teamStats[name].pointsFor += scores[name] || 0;
     });
 
+    // Determine winners from matchup pairings
     matchups.forEach(({ home, away }) => {
       if (!teamStats[home] || !teamStats[away]) return;
       const homeScore = scores[home] || 0;
@@ -80,6 +90,7 @@ function computeCustomStandings(leagueId) {
         teamStats[away].customPoints += config.winPoints;
         teamStats[home].losses++;
       } else {
+        // Tie: give 2 pts each
         teamStats[home].winPointsEarned += 2;
         teamStats[home].customPoints += 2;
         teamStats[away].winPointsEarned += 2;
@@ -87,6 +98,7 @@ function computeCustomStandings(leagueId) {
       }
     });
 
+    // Top N scorers earn high score points
     const sorted = Object.entries(scores).sort(([, a], [, b]) => b - a);
     sorted.forEach(([teamName], idx) => {
       if (!teamStats[teamName]) return;
@@ -98,6 +110,7 @@ function computeCustomStandings(leagueId) {
     });
   });
 
+  // If no weekly data yet, fall back to W-L from standings scrape
   if (weeks.length === 0) {
     leagueStandings.forEach(team => {
       if (!teamStats[team.name]) return;
@@ -109,6 +122,7 @@ function computeCustomStandings(leagueId) {
     });
   }
 
+  // Sort: custom points desc, tiebreaker: points for
   const teams = Object.values(teamStats).sort((a, b) => {
     if (b.customPoints !== a.customPoints) return b.customPoints - a.customPoints;
     return b.pointsFor - a.pointsFor;

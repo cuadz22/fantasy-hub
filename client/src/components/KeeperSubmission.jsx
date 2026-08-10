@@ -71,6 +71,7 @@ export default function KeeperSubmission({ leagueId }) {
     e.preventDefault();
     if (!owner) { setErrorMsg('Please select your name.'); return; }
 
+    // Validate all keepers are filled
     for (let i = 0; i < config.maxKeepers; i++) {
       if (!keepers[i].name.trim()) {
         setErrorMsg(`Keeper ${i + 1} name is required.`);
@@ -154,6 +155,7 @@ export default function KeeperSubmission({ leagueId }) {
 
   function formatKeepers(sub) {
     if (!sub) return null;
+    // Support both old format (players array) and new format (keepers array)
     const list = sub.keepers || sub.players || [];
     return list.map(k =>
       typeof k === 'string' ? k : (k.round ? `${k.name} (Rd ${k.round})` : k.name)
@@ -162,6 +164,7 @@ export default function KeeperSubmission({ leagueId }) {
 
   return (
     <div style={styles.wrap}>
+
       <div style={styles.headerRow}>
         <div>
           <div style={styles.sectionTitle}>Submit Your Keepers</div>
@@ -176,6 +179,8 @@ export default function KeeperSubmission({ leagueId }) {
       </div>
 
       <div style={styles.cols}>
+
+        {/* Form */}
         <div style={styles.formCard}>
           {status === 'success' ? (
             <div style={styles.successBox}>
@@ -218,7 +223,7 @@ export default function KeeperSubmission({ leagueId }) {
                   <input
                     style={{ ...styles.input, flex: 1 }}
                     type="text"
-                    placeholder="Player name"
+                    placeholder={`Player name`}
                     value={keepers[i].name}
                     onChange={e => handleKeeperChange(i, 'name', e.target.value)}
                   />
@@ -254,6 +259,7 @@ export default function KeeperSubmission({ leagueId }) {
           )}
         </div>
 
+        {/* Status table */}
         <div style={styles.statusCard}>
           <div style={styles.cardTitle}>Submission Status</div>
           {loading ? (
@@ -282,6 +288,7 @@ export default function KeeperSubmission({ leagueId }) {
               </tbody>
             </table>
           )}
+
           {!loading && pending.length > 0 && (
             <div style={styles.pendingNote}>
               Still waiting on: {pending.join(', ')}
@@ -347,7 +354,9 @@ const styles = {
   progressBar: { width: 140, height: 6, borderRadius: 3, background: 'var(--border)', overflow: 'hidden' },
   progressFill: { height: '100%', background: 'var(--red)', borderRadius: 3, transition: 'width 0.4s ease' },
   progressLabel: { fontSize: 11, color: 'var(--text-muted)' },
+
   cols: { display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' },
+
   formCard: {
     flex: '0 0 340px', minWidth: 260,
     background: 'var(--bg2)', border: '1px solid var(--border)',
@@ -378,6 +387,7 @@ const styles = {
   successIcon: { fontSize: 32, color: '#4acc88' },
   successTitle: { fontSize: 15, fontWeight: 600, color: 'var(--text)' },
   successSub: { fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.5 },
+
   statusCard: {
     flex: 1, minWidth: 260,
     background: 'var(--bg2)', border: '1px solid var(--border)',
@@ -394,6 +404,7 @@ const styles = {
   pendingBadge: { fontSize: 10, fontWeight: 600, color: '#888', background: '#181818', border: '1px solid #333', borderRadius: 4, padding: '2px 7px' },
   dash: { color: '#333' },
   pendingNote: { marginTop: 14, fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5, borderTop: '1px solid var(--border)', paddingTop: 12 },
+
   adminWrap: { display: 'flex', justifyContent: 'flex-end', marginTop: 8 },
   adminToggle: { background: 'none', border: '1px solid var(--border)', color: 'var(--text-muted)', borderRadius: 6, padding: '5px 12px', fontSize: 11, cursor: 'pointer' },
   adminCard: { background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: 18, minWidth: 260, maxWidth: 340 },

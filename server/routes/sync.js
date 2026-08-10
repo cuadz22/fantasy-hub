@@ -6,9 +6,11 @@ const path = require('path');
 const DATA_FILE = path.join(__dirname, '..', 'data', 'leagues.json');
 const WEEKLY_SCORES_FILE = path.join(__dirname, '..', 'data', 'weekly-scores.json');
 
+// Make sure data directory exists
 const dataDir = path.join(__dirname, '..', 'data');
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir);
 
+// Initialize data file if it doesn't exist
 if (!fs.existsSync(DATA_FILE)) {
   fs.writeFileSync(DATA_FILE, JSON.stringify({}));
 }
@@ -36,6 +38,7 @@ function writeWeeklyScores(data) {
   fs.writeFileSync(WEEKLY_SCORES_FILE, JSON.stringify(data, null, 2));
 }
 
+// POST /api/sync — receive data from Chrome extension
 router.post('/', express.json(), (req, res) => {
   const { leagueId, standings, matchups, week, syncedAt } = req.body;
 
@@ -53,6 +56,7 @@ router.post('/', express.json(), (req, res) => {
 
   writeData(data);
 
+  // Store weekly scores snapshot for power rankings
   if (week && matchups && matchups.length > 0) {
     const weeklyScores = readWeeklyScores();
     if (!weeklyScores[leagueId]) weeklyScores[leagueId] = {};
@@ -75,6 +79,7 @@ router.post('/', express.json(), (req, res) => {
   res.json({ success: true, leagueId, teams: standings?.length, matchups: matchups?.length });
 });
 
+// GET /api/sync/:leagueId — get synced data for a league
 router.get('/:leagueId', (req, res) => {
   const data = readData();
   const league = data[req.params.leagueId];
@@ -82,6 +87,7 @@ router.get('/:leagueId', (req, res) => {
   res.json(league);
 });
 
+// GET /api/sync — get all synced data
 router.get('/', (req, res) => {
   const data = readData();
   res.json(data);

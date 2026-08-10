@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import useIsMobile from '../hooks/useIsMobile';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
@@ -6,6 +7,7 @@ export default function StsStandings({ leagueId }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setLoading(true);
@@ -44,10 +46,10 @@ export default function StsStandings({ leagueId }) {
           <div style={{ ...styles.col, ...styles.colName }}>Team</div>
           <div style={{ ...styles.col, ...styles.colPts }}>PTS</div>
           <div style={{ ...styles.col, ...styles.colStat }}>W-L</div>
-          <div style={{ ...styles.col, ...styles.colStat }}>Win Pts</div>
-          <div style={{ ...styles.col, ...styles.colStat }}>High Score Pts</div>
-          <div style={{ ...styles.col, ...styles.colStat }}>High Score Wks</div>
-          <div style={{ ...styles.col, ...styles.colStat }}>PF</div>
+          {!isMobile && <div style={{ ...styles.col, ...styles.colStat }}>Win Pts</div>}
+          {!isMobile && <div style={{ ...styles.col, ...styles.colStat }}>High Score Pts</div>}
+          {!isMobile && <div style={{ ...styles.col, ...styles.colStat }}>High Score Wks</div>}
+          {!isMobile && <div style={{ ...styles.col, ...styles.colStat }}>PF</div>}
         </div>
 
         {teams.map((team, i) => {
@@ -70,18 +72,24 @@ export default function StsStandings({ leagueId }) {
               <div style={{ ...styles.col, ...styles.colStat }}>
                 {team.wins}-{team.losses}
               </div>
-              <div style={{ ...styles.col, ...styles.colStat }}>
-                {team.winPointsEarned}
-              </div>
-              <div style={{ ...styles.col, ...styles.colStat }}>
-                {hasWeeklyData ? team.highScorePointsEarned : '—'}
-              </div>
-              <div style={{ ...styles.col, ...styles.colStat }}>
-                {hasWeeklyData ? team.highScoreWeeks : '—'}
-              </div>
-              <div style={{ ...styles.col, ...styles.colStat }}>
-                {team.pointsFor > 0 ? team.pointsFor.toFixed(1) : '—'}
-              </div>
+              {!isMobile && (
+                <div style={{ ...styles.col, ...styles.colStat }}>{team.winPointsEarned}</div>
+              )}
+              {!isMobile && (
+                <div style={{ ...styles.col, ...styles.colStat }}>
+                  {hasWeeklyData ? team.highScorePointsEarned : '—'}
+                </div>
+              )}
+              {!isMobile && (
+                <div style={{ ...styles.col, ...styles.colStat }}>
+                  {hasWeeklyData ? team.highScoreWeeks : '—'}
+                </div>
+              )}
+              {!isMobile && (
+                <div style={{ ...styles.col, ...styles.colStat }}>
+                  {team.pointsFor > 0 ? team.pointsFor.toFixed(1) : '—'}
+                </div>
+              )}
             </div>
           );
         })}
@@ -101,25 +109,25 @@ const styles = {
   empty: { color: 'var(--text-muted)', fontSize: 13, padding: '40px 0' },
   headerRow: { display: 'flex', flexDirection: 'column', gap: 8 },
   label: { fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)' },
-  scoring: { display: 'flex', gap: 8, flexWrap: 'wrap' },
+  scoring: { display: 'flex', gap: 6, flexWrap: 'wrap' },
   pill: { fontSize: 11, color: 'var(--text)', background: 'var(--surface)', border: '0.5px solid var(--border)', borderRadius: 4, padding: '4px 10px', display: 'flex', alignItems: 'center', gap: 4 },
   pillGreen: { color: '#4caf50' },
   pillMuted: { color: 'var(--text-muted)' },
   notice: { fontSize: 11, color: 'var(--red)', marginTop: 2 },
   table: { display: 'flex', flexDirection: 'column', borderRadius: 6, overflow: 'hidden', border: '0.5px solid var(--border)' },
-  thead: { display: 'flex', alignItems: 'center', padding: '8px 12px', background: 'var(--surface)', borderBottom: '0.5px solid var(--border)' },
-  row: { display: 'flex', alignItems: 'center', padding: '11px 12px', borderBottom: '0.5px solid var(--border)' },
+  thead: { display: 'flex', alignItems: 'center', padding: '8px 10px', background: 'var(--surface)', borderBottom: '0.5px solid var(--border)' },
+  row: { display: 'flex', alignItems: 'center', padding: '11px 10px', borderBottom: '0.5px solid var(--border)' },
   rowEven: { background: 'rgba(255,255,255,0.015)' },
   rowPlayoff: { borderLeft: '2px solid var(--red)' },
   col: { fontSize: 12, color: 'var(--text-muted)' },
-  colRank: { width: 32, flexShrink: 0 },
-  colName: { flex: 1, display: 'flex', alignItems: 'center', gap: 8 },
-  colPts: { width: 56, textAlign: 'center', flexShrink: 0 },
-  colStat: { width: 90, textAlign: 'center', flexShrink: 0 },
-  rankNum: { fontSize: 14, fontWeight: 600, color: 'var(--text-muted)' },
+  colRank: { width: 28, flexShrink: 0 },
+  colName: { flex: 1, display: 'flex', alignItems: 'center', gap: 6, minWidth: 0 },
+  colPts: { width: 48, textAlign: 'center', flexShrink: 0 },
+  colStat: { width: 88, textAlign: 'center', flexShrink: 0 },
+  rankNum: { fontSize: 13, fontWeight: 600, color: 'var(--text-muted)' },
   rankNumTop: { color: 'var(--text)' },
-  teamName: { fontSize: 13, color: 'var(--text)', fontWeight: 500 },
-  playoffBadge: { fontSize: 9, letterSpacing: '0.06em', color: 'var(--red)', border: '0.5px solid var(--red)', borderRadius: 3, padding: '1px 4px' },
-  bigPts: { fontSize: 16, fontWeight: 700, color: 'var(--text)' },
+  teamName: { fontSize: 13, color: 'var(--text)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' },
+  playoffBadge: { fontSize: 9, letterSpacing: '0.06em', color: 'var(--red)', border: '0.5px solid var(--red)', borderRadius: 3, padding: '1px 4px', flexShrink: 0 },
+  bigPts: { fontSize: 15, fontWeight: 700, color: 'var(--text)' },
   footer: { fontSize: 11, color: 'var(--text-muted)', marginTop: 4 },
 };

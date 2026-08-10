@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import useIsMobile from '../hooks/useIsMobile';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
@@ -20,11 +21,12 @@ function StreakBadge({ streak }) {
   );
 }
 
-function PowerBar({ score }) {
+function PowerBar({ score, isMobile }) {
   return (
     <div style={styles.barWrap}>
       <div style={{ ...styles.barFill, width: `${Math.max(4, score)}%` }} />
-      <span style={styles.barLabel}>{score.toFixed(1)}</span>
+      {!isMobile && <span style={styles.barLabel}>{score.toFixed(1)}</span>}
+      {isMobile && <span style={styles.barLabel}>{score.toFixed(0)}</span>}
     </div>
   );
 }
@@ -34,6 +36,7 @@ export default function PowerRankings({ leagueId }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [hasWeeklyData, setHasWeeklyData] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setLoading(true);
@@ -64,13 +67,15 @@ export default function PowerRankings({ leagueId }) {
         <div style={styles.meta}>
           Power Rankings
           {!hasWeeklyData && (
-            <span style={styles.preseasonBadge}>Pre-season estimate — based on standings only</span>
+            <span style={styles.preseasonBadge}>Pre-season estimate</span>
           )}
         </div>
-        <div style={styles.legend}>
-          <span style={styles.legendDot} />
-          <span style={styles.legendText}>All-play 30% · Points For 25% · Recent Form 15% · Win% 15% · Pts Against 15% · Streak ±15%</span>
-        </div>
+        {!isMobile && (
+          <div style={styles.legend}>
+            <span style={styles.legendDot} />
+            <span style={styles.legendText}>All-play 30% · Points For 25% · Recent Form 15% · Win% 15% · Pts Against 15% · Streak ±15%</span>
+          </div>
+        )}
       </div>
 
       <div style={styles.table}>
@@ -79,10 +84,10 @@ export default function PowerRankings({ leagueId }) {
           <div style={{ ...styles.col, ...styles.colMove }}></div>
           <div style={{ ...styles.col, ...styles.colName }}>Team</div>
           <div style={{ ...styles.col, ...styles.colStat }}>Record</div>
-          <div style={{ ...styles.col, ...styles.colStat }}>All-Play</div>
-          <div style={{ ...styles.col, ...styles.colStat }}>PF</div>
-          <div style={{ ...styles.col, ...styles.colStat }}>Recent</div>
-          <div style={{ ...styles.col, ...styles.colBar }}>Power Score</div>
+          {!isMobile && <div style={{ ...styles.col, ...styles.colStat }}>All-Play</div>}
+          {!isMobile && <div style={{ ...styles.col, ...styles.colStat }}>PF</div>}
+          {!isMobile && <div style={{ ...styles.col, ...styles.colStat }}>Recent</div>}
+          <div style={{ ...styles.col, ...(isMobile ? styles.colBarMobile : styles.colBar) }}>Score</div>
         </div>
 
         {rankings.map((team, i) => (
@@ -103,17 +108,23 @@ export default function PowerRankings({ leagueId }) {
             <div style={{ ...styles.col, ...styles.colStat }}>
               {team.wins}-{team.losses}{team.ties > 0 ? `-${team.ties}` : ''}
             </div>
-            <div style={{ ...styles.col, ...styles.colStat }}>
-              {hasWeeklyData ? `${team.allPlayWins}-${team.allPlayLosses}` : '—'}
-            </div>
-            <div style={{ ...styles.col, ...styles.colStat }}>
-              {team.pointsFor > 0 ? team.pointsFor.toFixed(1) : '—'}
-            </div>
-            <div style={{ ...styles.col, ...styles.colStat }}>
-              {hasWeeklyData ? team.recentForm : '—'}
-            </div>
-            <div style={{ ...styles.col, ...styles.colBar }}>
-              <PowerBar score={team.powerScore} />
+            {!isMobile && (
+              <div style={{ ...styles.col, ...styles.colStat }}>
+                {hasWeeklyData ? `${team.allPlayWins}-${team.allPlayLosses}` : '—'}
+              </div>
+            )}
+            {!isMobile && (
+              <div style={{ ...styles.col, ...styles.colStat }}>
+                {team.pointsFor > 0 ? team.pointsFor.toFixed(1) : '—'}
+              </div>
+            )}
+            {!isMobile && (
+              <div style={{ ...styles.col, ...styles.colStat }}>
+                {hasWeeklyData ? team.recentForm : '—'}
+              </div>
+            )}
+            <div style={{ ...styles.col, ...(isMobile ? styles.colBarMobile : styles.colBar) }}>
+              <PowerBar score={team.powerScore} isMobile={isMobile} />
             </div>
           </div>
         ))}
@@ -131,26 +142,33 @@ const styles = {
   legend: { display: 'flex', alignItems: 'center', gap: 6 },
   legendDot: { width: 6, height: 6, borderRadius: '50%', background: 'var(--red)', flexShrink: 0 },
   legendText: { fontSize: 10, color: 'var(--text-muted)' },
+
   table: { display: 'flex', flexDirection: 'column', borderRadius: 6, overflow: 'hidden', border: '0.5px solid var(--border)' },
-  theader: { display: 'flex', alignItems: 'center', padding: '8px 12px', background: 'var(--surface)', borderBottom: '0.5px solid var(--border)' },
-  row: { display: 'flex', alignItems: 'center', padding: '10px 12px', borderBottom: '0.5px solid var(--border)', transition: 'background 0.1s' },
+  theader: { display: 'flex', alignItems: 'center', padding: '8px 10px', background: 'var(--surface)', borderBottom: '0.5px solid var(--border)' },
+  row: { display: 'flex', alignItems: 'center', padding: '10px 10px', borderBottom: '0.5px solid var(--border)' },
   rowEven: { background: 'rgba(255,255,255,0.015)' },
+
   col: { fontSize: 12, color: 'var(--text-muted)' },
-  colRank: { width: 28, flexShrink: 0 },
-  colMove: { width: 36, flexShrink: 0 },
-  colName: { flex: 1, display: 'flex', alignItems: 'center', gap: 8 },
-  colStat: { width: 72, textAlign: 'center', flexShrink: 0 },
-  colBar: { width: 160, flexShrink: 0 },
-  rankNum: { fontSize: 14, fontWeight: 600, color: 'var(--text)' },
-  teamName: { fontSize: 13, color: 'var(--text)', fontWeight: 500 },
+  colRank: { width: 24, flexShrink: 0 },
+  colMove: { width: 32, flexShrink: 0 },
+  colName: { flex: 1, display: 'flex', alignItems: 'center', gap: 6, minWidth: 0 },
+  colStat: { width: 68, textAlign: 'center', flexShrink: 0 },
+  colBar: { width: 140, flexShrink: 0 },
+  colBarMobile: { width: 80, flexShrink: 0 },
+
+  rankNum: { fontSize: 13, fontWeight: 600, color: 'var(--text)' },
+  teamName: { fontSize: 12, color: 'var(--text)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' },
+
   rankChangeUp: { fontSize: 11, color: '#4caf50', fontWeight: 600 },
   rankChangeDown: { fontSize: 11, color: 'var(--red)', fontWeight: 600 },
   rankChangeSame: { fontSize: 11, color: 'var(--text-muted)' },
   rankChangeNew: { fontSize: 9, color: 'var(--text-muted)', letterSpacing: '0.05em', border: '0.5px solid var(--border)', borderRadius: 3, padding: '1px 3px' },
-  streak: { fontSize: 10, fontWeight: 700, letterSpacing: '0.05em', borderRadius: 4, padding: '2px 5px' },
+
+  streak: { fontSize: 10, fontWeight: 700, letterSpacing: '0.05em', borderRadius: 4, padding: '2px 5px', flexShrink: 0 },
   streakWin: { background: 'rgba(76,175,80,0.12)', color: '#4caf50' },
   streakLoss: { background: 'rgba(211,47,47,0.12)', color: 'var(--red)' },
-  barWrap: { display: 'flex', alignItems: 'center', gap: 8 },
-  barFill: { height: 6, borderRadius: 3, background: 'var(--red)', transition: 'width 0.3s ease' },
-  barLabel: { fontSize: 11, color: 'var(--text-muted)', minWidth: 28 },
+
+  barWrap: { display: 'flex', alignItems: 'center', gap: 6 },
+  barFill: { height: 6, borderRadius: 3, background: 'var(--red)', transition: 'width 0.3s ease', flexShrink: 0 },
+  barLabel: { fontSize: 11, color: 'var(--text-muted)', minWidth: 24 },
 };

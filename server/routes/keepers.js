@@ -5,6 +5,7 @@ const router = express.Router();
 
 const DATA_FILE = path.join(__dirname, '../data/keepers.json');
 
+// Ensure data directory and file exist
 function ensureDataFile() {
   const dir = path.dirname(DATA_FILE);
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -25,12 +26,14 @@ function writeData(data) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
 }
 
+// GET /api/keepers/:leagueId — fetch all submissions for a league
 router.get('/:leagueId', (req, res) => {
   const { leagueId } = req.params;
   const data = readData();
   res.json(data[leagueId] || {});
 });
 
+// POST /api/keepers/:leagueId — submit keepers for an owner
 router.post('/:leagueId', (req, res) => {
   const { leagueId } = req.params;
   const { owner, keepers } = req.body;
@@ -55,6 +58,7 @@ router.post('/:leagueId', (req, res) => {
   res.json({ success: true, submission: data[leagueId][owner] });
 });
 
+// DELETE /api/keepers/:leagueId/all — clear all submissions for a league (admin)
 router.delete('/:leagueId/all', (req, res) => {
   const { leagueId } = req.params;
   const data = readData();
@@ -63,6 +67,7 @@ router.delete('/:leagueId/all', (req, res) => {
   res.json({ success: true });
 });
 
+// DELETE /api/keepers/:leagueId/:owner — retract one submission (admin)
 router.delete('/:leagueId/:owner', (req, res) => {
   const { leagueId, owner } = req.params;
   const data = readData();

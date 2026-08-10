@@ -26,6 +26,7 @@ app.use('/auth', cors({ origin: siteOrigins, credentials: true }), authRoutes);
 app.use('/api/leagues', cors({ origin: siteOrigins, credentials: true }), leagueRoutes);
 app.use('/api/players', cors({ origin: siteOrigins, credentials: true }), playerRoutes);
 app.use('/api/scraper', cors({ origin: siteOrigins, credentials: true }), scraperRoutes);
+
 app.use('/api/sync', cors({ origin: '*' }), syncRoutes);
 app.use('/api/keepers', cors({ origin: siteOrigins, credentials: true }), keeperRoutes);
 app.use('/api/power', cors({ origin: siteOrigins, credentials: true }), powerRoutes);

@@ -32,7 +32,7 @@ export default function Home() {
 }
 
 const styles = {
-  main: { maxWidth: 1100, margin: '0 auto' },
+  main: { padding: '48px 32px', maxWidth: 1100, margin: '0 auto' },
   hero: { marginBottom: 48, position: 'relative', paddingTop: 8 },
   heroBar: { position: 'absolute', top: 0, left: 0, width: 32, height: 2, background: 'var(--red)' },
   heroTitle: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 48, letterSpacing: '0.04em', color: 'var(--text)', lineHeight: 1 },
