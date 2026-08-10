@@ -9,6 +9,7 @@ const scraperRoutes = require('./routes/scraper');
 const syncRoutes = require('./routes/sync');
 const keeperRoutes = require('./routes/keepers');
 const powerRoutes = require('./routes/power');
+const customStandingsRoutes = require('./routes/custom-standings');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -28,6 +29,7 @@ app.use('/api/scraper', cors({ origin: siteOrigins, credentials: true }), scrape
 app.use('/api/sync', cors({ origin: '*' }), syncRoutes);
 app.use('/api/keepers', cors({ origin: siteOrigins, credentials: true }), keeperRoutes);
 app.use('/api/power', cors({ origin: siteOrigins, credentials: true }), powerRoutes);
+app.use('/api/custom-standings', cors({ origin: siteOrigins, credentials: true }), customStandingsRoutes);
 
 app.get('/health', cors({ origin: '*' }), (req, res) => res.json({ status: 'ok' }));
 

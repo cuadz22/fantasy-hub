@@ -13,6 +13,7 @@ import BHDraftBoard from '../components/BHDraftBoard';
 import OffseasonTrades from '../components/OffseasonTrades';
 import KeeperSubmission from '../components/KeeperSubmission';
 import PowerRankings from '../components/PowerRankings';
+import StsStandings from '../components/StsStandings';
 
 const LEAGUES = {
   'beaners-husseins': { name: "Beaners & Husseins", est: 2014, keeper: true },
@@ -58,7 +59,8 @@ export default function League() {
       </div>
 
       <div style={styles.content}>
-        {tab === 'Standings' && <Standings leagueId={id} />}
+        {tab === 'Standings' && id === 'shoot-the-shits' && <StsStandings leagueId={id} />}
+        {tab === 'Standings' && id !== 'shoot-the-shits' && <Standings leagueId={id} />}
         {tab === 'Matchups' && <Matchups leagueId={id} />}
         {tab === 'Power Rankings' && <PowerRankings leagueId={id} />}
         {tab === 'History' && <History leagueId={id} />}
