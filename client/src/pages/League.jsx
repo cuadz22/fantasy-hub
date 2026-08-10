@@ -49,19 +49,24 @@ export default function League() {
         </div>
       </div>
 
-      <div style={styles.tabsOuter}>
-        <div style={styles.tabs}>
+      <div style={{ ...styles.tabsOuter, borderBottom: isMobile ? 'none' : '0.5px solid var(--border)' }}>
+        <div style={{ ...styles.tabs, flexWrap: isMobile ? 'wrap' : 'nowrap', overflowX: isMobile ? 'visible' : 'auto', gap: isMobile ? 4 : 0, paddingBottom: isMobile ? 12 : 0 }}>
           {tabs.map(t => (
             <button
               key={t}
               onClick={() => setTab(t)}
-              style={{ ...styles.tab, ...(tab === t ? styles.tabActive : {}) }}
+              style={{
+                ...styles.tab,
+                ...(tab === t ? styles.tabActive : {}),
+                ...(isMobile ? styles.tabMobile : {}),
+                ...(isMobile && tab === t ? styles.tabMobileActive : {}),
+              }}
             >
               {t}
             </button>
           ))}
         </div>
-        <div style={styles.tabFade} />
+        {!isMobile && <div style={styles.tabFade} />}
       </div>
 
       <div style={styles.content}>
@@ -94,10 +99,12 @@ const styles = {
   title: { fontWeight: 600, color: 'var(--text)', margin: 0 },
   meta: { fontSize: 12, color: 'var(--text-muted)', marginTop: 4, display: 'flex', alignItems: 'center', gap: 10 },
   keeperBadge: { fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--red)', border: '0.5px solid var(--red)', borderRadius: 4, padding: '2px 6px' },
-  tabsOuter: { position: 'relative', borderBottom: '0.5px solid var(--border)', marginBottom: 24 },
-  tabs: { display: 'flex', gap: 0, overflowX: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' },
+  tabsOuter: { position: 'relative', marginBottom: 24 },
+  tabs: { display: 'flex', scrollbarWidth: 'none', msOverflowStyle: 'none' },
   tab: { background: 'none', border: 'none', borderBottom: '2px solid transparent', color: 'var(--text-muted)', padding: '10px 16px', fontSize: 13, cursor: 'pointer', marginBottom: -1, transition: 'color 0.15s', whiteSpace: 'nowrap', flexShrink: 0 },
   tabActive: { color: 'var(--text)', borderBottom: '2px solid var(--red)' },
+  tabMobile: { padding: '6px 12px', fontSize: 11, borderBottom: 'none', marginBottom: 0, borderRadius: 20, border: '0.5px solid var(--border)', background: 'var(--bg2)', whiteSpace: 'nowrap', flexShrink: 0 },
+  tabMobileActive: { background: 'var(--red)', color: '#fff', borderColor: 'var(--red)' },
   tabFade: { position: 'absolute', top: 0, right: 0, width: 48, height: '100%', background: 'linear-gradient(to right, transparent, var(--bg))', pointerEvents: 'none' },
   content: { minHeight: 400 },
 };

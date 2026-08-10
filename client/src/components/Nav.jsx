@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import useIsMobile from '../hooks/useIsMobile';
 
 const LEAGUES = [
   { id: 'beaners-husseins', name: "Beaners & Husseins" },
@@ -9,27 +10,52 @@ const LEAGUES = [
 
 export default function Nav() {
   const { pathname } = useLocation();
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <header style={styles.headerMobile}>
+        <div style={styles.mobileTop}>
+          <Link to="/" style={styles.logo}>Cuadz Fantasy Network</Link>
+        </div>
+        <nav style={styles.navMobile}>
+          {LEAGUES.map(l => {
+            const active = pathname === `/league/${l.id}`;
+            return (
+              <Link
+                key={l.id}
+                to={`/league/${l.id}`}
+                style={{ ...styles.tabMobile, ...(active ? styles.tabMobileActive : {}) }}
+              >
+                {l.name}
+              </Link>
+            );
+          })}
+        </nav>
+      </header>
+    );
+  }
 
   return (
     <header style={styles.header}>
       <Link to="/" style={styles.logo}>Cuadz Fantasy Network</Link>
       <div style={styles.navWrap}>
-      <nav style={styles.nav}>
-        {LEAGUES.map(l => {
-          const active = pathname === `/league/${l.id}`;
-          return (
-            <Link
-              key={l.id}
-              to={`/league/${l.id}`}
-              style={{ ...styles.tab, ...(active ? styles.tabActive : {}) }}
-            >
-              <span style={styles.tabDot(active)} />
-              {l.name}
-            </Link>
-          );
-        })}
-      </nav>
-      <div style={styles.fadeRight} />
+        <nav style={styles.nav}>
+          {LEAGUES.map(l => {
+            const active = pathname === `/league/${l.id}`;
+            return (
+              <Link
+                key={l.id}
+                to={`/league/${l.id}`}
+                style={{ ...styles.tab, ...(active ? styles.tabActive : {}) }}
+              >
+                <span style={styles.tabDot(active)} />
+                {l.name}
+              </Link>
+            );
+          })}
+        </nav>
+        <div style={styles.fadeRight} />
       </div>
     </header>
   );
@@ -47,6 +73,38 @@ const styles = {
     position: 'sticky',
     top: 0,
     zIndex: 100,
+  },
+  headerMobile: {
+    display: 'flex',
+    flexDirection: 'column',
+    background: 'var(--bg2)',
+    borderBottom: '0.5px solid var(--border)',
+    position: 'sticky',
+    top: 0,
+    zIndex: 100,
+  },
+  mobileTop: {
+    padding: '10px 16px 8px',
+  },
+  navMobile: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: 4,
+    padding: '0 16px 10px',
+  },
+  tabMobile: {
+    fontSize: 11,
+    color: 'var(--text-muted)',
+    padding: '5px 10px',
+    borderRadius: 20,
+    border: '0.5px solid var(--border)',
+    background: 'var(--bg)',
+    whiteSpace: 'nowrap',
+  },
+  tabMobileActive: {
+    color: '#fff',
+    background: 'var(--red)',
+    borderColor: 'var(--red)',
   },
   logo: {
     fontFamily: "'Bebas Neue', sans-serif",
