@@ -12,6 +12,7 @@ import RebirthDraftBoard from '../components/RebirthDraftBoard';
 import BHDraftBoard from '../components/BHDraftBoard';
 import OffseasonTrades from '../components/OffseasonTrades';
 import KeeperSubmission from '../components/KeeperSubmission';
+import PowerRankings from '../components/PowerRankings';
 
 const LEAGUES = {
   'beaners-husseins': { name: "Beaners & Husseins", est: 2014, keeper: true },
@@ -20,8 +21,8 @@ const LEAGUES = {
   'shoot-the-shits': { name: 'Shoot the Shits', est: 2021, keeper: false },
 };
 
-const KEEPER_TABS = ['Standings', 'Matchups', 'History', 'Owners', 'Keepers', 'Draft Picks Board', 'Off-Season Trades', 'Submit Keepers', 'Rulebook'];
-const NON_KEEPER_TABS = ['Standings', 'Matchups', 'History', 'Rulebook'];
+const KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Owners', 'Keepers', 'Draft Picks Board', 'Off-Season Trades', 'Submit Keepers', 'Rulebook'];
+const NON_KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Rulebook'];
 
 export default function League() {
   const { id } = useParams();
@@ -59,6 +60,7 @@ export default function League() {
       <div style={styles.content}>
         {tab === 'Standings' && <Standings leagueId={id} />}
         {tab === 'Matchups' && <Matchups leagueId={id} />}
+        {tab === 'Power Rankings' && <PowerRankings leagueId={id} />}
         {tab === 'History' && <History leagueId={id} />}
         {tab === 'Owners' && id === 'rebirth' && <RebirthOwners />}
         {tab === 'Owners' && id !== 'rebirth' && <Owners leagueId={id} />}
