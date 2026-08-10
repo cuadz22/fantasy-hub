@@ -273,82 +273,143 @@ const DRAFT_2025 = [
   { round: 17, player: 'Daniel Jones', team: 'Manifested It' },
 ];
 
-// Notable waiver/FA adds in 2025 (all get Round 8 keeper price)
-// Note: includes players acquired mid-season; trades may have moved some further
+// Waiver/FA adds in 2025 (all get Round 8 keeper price).
+// Built from full 19-page transaction scrape. Each player listed under their
+// end-of-season team (most recent add wins; dropped players excluded).
+// Traded players who were originally drafted remain in DRAFT_2025 under their
+// original team; only waiver/FA-acquired players appear here.
 const WAIVER_FA_2025 = [
   // To Infinity and Bijan
-  { player: 'Tucker Kraft', team: 'To Infinity and Bijan', type: 'waiver' },
-  { player: 'Troy Franklin', team: 'To Infinity and Bijan', type: 'waiver' },
   { player: 'Amari Cooper', team: 'To Infinity and Bijan', type: 'waiver' },
-  { player: 'Cedric Tillman', team: 'To Infinity and Bijan', type: 'fa' },
+  { player: 'Tucker Kraft', team: 'To Infinity and Bijan', type: 'waiver' },      // LaPorta drafted Rd 12, waivered to To Infinity
+  { player: 'Cedric Tillman', team: 'To Infinity and Bijan', type: 'fa' },        // Rents Due Rd 13 → FA add
+  { player: 'Dallas Goedert', team: 'To Infinity and Bijan', type: 'waiver' },    // bichote Rd 13 → waiver add
+  { player: 'Jayden Higgins', team: 'To Infinity and Bijan', type: 'fa' },        // Stiff Arm Rd 11 → FA add
+  { player: 'Mark Andrews', team: 'To Infinity and Bijan', type: 'waiver' },      // Ashton 316 Rd 8 → Hooligans waiver → traded To Infinity
+
   // Stiff Arm That Njigba
-  { player: 'Shedeur Sanders', team: 'Stiff Arm That Njigba', type: 'waiver' },
-  { player: 'Dylan Sampson', team: 'Stiff Arm That Njigba', type: 'waiver' },
-  { player: 'Kayshon Boutte', team: 'Stiff Arm That Njigba', type: 'waiver' },
-  { player: 'Tyrone Tracy Jr.', team: 'Stiff Arm That Njigba', type: 'waiver' },
-  { player: 'DeMario Douglas', team: 'Stiff Arm That Njigba', type: 'waiver' },
-  { player: 'Evan Engram', team: 'Stiff Arm That Njigba', type: 'fa' },
   { player: 'Jalen Tolbert', team: 'Stiff Arm That Njigba', type: 'waiver' },
+  { player: 'Isaiah Bond', team: 'Stiff Arm That Njigba', type: 'fa' },
+  { player: 'Tyrone Tracy Jr.', team: 'Stiff Arm That Njigba', type: 'waiver' },  // Rents Due Rd 7 → waiver add
+  { player: 'DeMario Douglas', team: 'Stiff Arm That Njigba', type: 'waiver' },   // Rents Due Rd 12 → waiver add
+  { player: 'Devin Neal', team: 'Stiff Arm That Njigba', type: 'waiver' },
+  { player: 'Dylan Sampson', team: 'Stiff Arm That Njigba', type: 'fa' },         // Nacua Rd 13 → FA add
+  { player: 'Quinn Ewers', team: 'Stiff Arm That Njigba', type: 'fa' },
+
   // Hooligans
-  { player: 'Malik Nabers', team: 'Hooligans', type: 'waiver' },
-  { player: 'T.J. Hockenson', team: 'Hooligans', type: 'waiver' },
-  { player: 'Mark Andrews', team: 'Hooligans', type: 'fa' },
   { player: 'Woody Marks', team: 'Hooligans', type: 'waiver' },
   { player: 'Spencer Rattler', team: 'Hooligans', type: 'waiver' },
+  { player: 'Evan Engram', team: 'Hooligans', type: 'fa' },                       // LaPorta Rd 10 → FA add
+  { player: 'T.J. Hockenson', team: 'Hooligans', type: 'waiver' },               // Buck You Rd 8 → waiver add
+  { player: 'Sean Tucker', team: 'Hooligans', type: 'fa' },
+  { player: 'Tony Pollard', team: 'Hooligans', type: 'waiver' },                  // bichote Rd 5 → waiver add
+  { player: 'Cooper Kupp', team: 'Hooligans', type: 'waiver' },                   // Nacua Rd 9 → waiver add
+  { player: 'Andrei Iosivas', team: 'Hooligans', type: 'fa' },
+  { player: 'Shedeur Sanders', team: 'Hooligans', type: 'fa' },                   // Rents Due Rd 16 → FA add (most recent pickup)
+  { player: 'Jordan Mason', team: 'Hooligans', type: 'waiver' },                  // To Infinity Rd 8 → waiver add
+  { player: 'Tyreek Hill', team: 'Hooligans', type: 'waiver' },                   // Manifested It Rd 3 → waiver add
+  { player: 'Isiah Pacheco', team: 'Hooligans', type: 'waiver' },                 // Stiff Arm Rd 4 → waiver add
+
   // bichote
-  { player: 'Rico Dowdle', team: 'bichote', type: 'waiver' },
-  { player: 'Cam Ward', team: 'bichote', type: 'waiver' },
-  { player: 'Romeo Doubs', team: 'bichote', type: 'waiver' },
+  { player: 'Cam Ward', team: 'bichote', type: 'waiver' },                        // Killer Instinct Rd 7 → waiver add
   { player: 'Kendre Miller', team: 'bichote', type: 'waiver' },
   { player: 'Kendrick Bourne', team: 'bichote', type: 'waiver' },
-  { player: 'Dalton Kincaid', team: 'bichote', type: 'fa' },
-  { player: 'Cooper Rush', team: 'bichote', type: 'waiver' },
+  { player: 'Rico Dowdle', team: 'bichote', type: 'waiver' },                     // Hooligans Rd 15 → waiver add
+  { player: 'Darren Waller', team: 'bichote', type: 'waiver' },                   // Manifested It waiver → bichote waiver add
+  { player: 'Mack Hollins', team: 'bichote', type: 'waiver' },
+  { player: 'Bryce Young', team: 'bichote', type: 'waiver' },                     // Killer Instinct Rd 5 → waiver add
+  { player: 'Max Brosmer', team: 'bichote', type: 'waiver' },
+  { player: 'Brenton Strange', team: 'bichote', type: 'waiver' },
+  { player: 'Colston Loveland', team: 'bichote', type: 'fa' },                    // Nacua Rd 12 → KI waiver → bichote FA add (most recent)
+  { player: 'Jalen Coker', team: 'bichote', type: 'fa' },                         // To Infinity Rd 17 → FA add
+  { player: 'Jawhar Jordan', team: 'bichote', type: 'waiver' },
+  { player: 'Michael Carter', team: 'bichote', type: 'waiver' },
+
   // Rents Due
-  { player: 'Keon Coleman', team: 'Rents Due', type: 'waiver' },
-  { player: 'Ravens DEF', team: 'Rents Due', type: 'waiver' },
   { player: 'Will Shipley', team: 'Rents Due', type: 'waiver' },
   { player: 'Tyrod Taylor', team: 'Rents Due', type: 'waiver' },
+  { player: 'Jalen Royals', team: 'Rents Due', type: 'fa' },
+  { player: 'Dalton Kincaid', team: 'Rents Due', type: 'fa' },                    // bichote Rd 14 → FA add
+  { player: 'Ryan Flournoy', team: 'Rents Due', type: 'fa' },
+
   // Straight Outta Hampton
   { player: 'Carson Wentz', team: 'Straight Outta Hampton', type: 'waiver' },
-  { player: 'Rhamondre Stevenson', team: 'Straight Outta Hampton', type: 'waiver' },
-  { player: "Wan'Dale Robinson", team: 'Straight Outta Hampton', type: 'waiver' },
+  { player: "Wan'Dale Robinson", team: 'Straight Outta Hampton', type: 'waiver' }, // Manifested It Rd 16 → waiver add
   { player: 'Cam Skattebo', team: 'Straight Outta Hampton', type: 'waiver' },
+  { player: 'Olamide Zaccheaus', team: 'Straight Outta Hampton', type: 'waiver' },
+  { player: 'Darius Slayton', team: 'Straight Outta Hampton', type: 'fa' },
+  { player: 'Christian Watson', team: 'Straight Outta Hampton', type: 'waiver' },
+  { player: 'Brashard Smith', team: 'Straight Outta Hampton', type: 'fa' },
+  { player: 'Kayshon Boutte', team: 'Straight Outta Hampton', type: 'waiver' },   // Stiff Arm waiver → traded to Straight Outta Hampton
+  { player: 'Kimani Vidal', team: 'Straight Outta Hampton', type: 'waiver' },     // KI waiver → traded to Straight Outta Hampton
+  { player: 'Tyjae Spears', team: 'Straight Outta Hampton', type: 'waiver' },     // KI Rd 13 → re-added waiver → traded to Straight Outta Hampton
+  { player: 'Isaiah Davis', team: 'Straight Outta Hampton', type: 'fa' },
+  { player: 'Devaughn Vele', team: 'Straight Outta Hampton', type: 'fa' },
+  { player: 'Tyler Shough', team: 'Straight Outta Hampton', type: 'waiver' },
+
   // Buck You
-  { player: "Wan'Dale Robinson", team: 'Buck You', type: 'waiver' },
-  { player: 'Calvin Ridley', team: 'Buck You', type: 'waiver' },
-  { player: 'Mason Taylor', team: 'Buck You', type: 'waiver' },
+  { player: 'Calvin Ridley', team: 'Buck You', type: 'waiver' },                  // Straight Outta Hampton Rd 5 → waiver add
+  { player: 'KaVontae Turpin', team: 'Buck You', type: 'fa' },
+  { player: 'Tre Tucker', team: 'Buck You', type: 'waiver' },
+  { player: 'Romeo Doubs', team: 'Buck You', type: 'fa' },
+  { player: 'Mason Taylor', team: 'Buck You', type: 'fa' },
   { player: 'Theo Johnson', team: 'Buck You', type: 'waiver' },
+
   // Nacua Matata
-  { player: 'Tez Johnson', team: 'Nacua Matata', type: 'waiver' },
-  { player: 'Jameis Winston', team: 'Nacua Matata', type: 'waiver' },
-  { player: 'Will Reichard', team: 'Nacua Matata', type: 'waiver' },
+  { player: 'Jaylen Wright', team: 'Nacua Matata', type: 'waiver' },
+  { player: 'Colby Parkinson', team: 'Nacua Matata', type: 'waiver' },
+  { player: 'Chris Rodriguez Jr.', team: 'Nacua Matata', type: 'fa' },
+  { player: 'Tank Bigsby', team: 'Nacua Matata', type: 'fa' },                    // Rents Due Rd 10 → FA add
+  { player: 'Isaiah Likely', team: 'Nacua Matata', type: 'fa' },                  // bichote Rd 17 → FA add (most recent pickup)
+  { player: 'Chimere Dike', team: 'Nacua Matata', type: 'waiver' },               // LaPorta waiver → traded to Nacua
+  { player: 'Jake Tonges', team: 'Nacua Matata', type: 'fa' },
+  { player: "D'Ernest Johnson", team: 'Nacua Matata', type: 'fa' },
+
   // Killer Instinct
-  { player: 'Kimani Vidal', team: 'Killer Instinct', type: 'waiver' },
-  { player: 'Colston Loveland', team: 'Killer Instinct', type: 'waiver' },
-  { player: 'RJ Harvey', team: 'Killer Instinct', type: 'waiver' },
-  { player: 'Tyjae Spears', team: 'Killer Instinct', type: 'waiver' },
-  { player: 'Ray Davis', team: 'Killer Instinct', type: 'waiver' },
+  { player: 'Najee Harris', team: 'Killer Instinct', type: 'waiver' },
+  { player: 'Quentin Johnston', team: 'Killer Instinct', type: 'fa' },
+  { player: 'Chig Okonkwo', team: 'Killer Instinct', type: 'waiver' },
+  { player: 'RJ Harvey', team: 'Killer Instinct', type: 'waiver' },               // LaPorta Rd 6 → waiver add
+  { player: 'David Njoku', team: 'Killer Instinct', type: 'fa' },                 // Manifested It Rd 10 → FA add
+
   // Ashton 316
+  { player: 'Rashid Shaheed', team: 'Ashton 316', type: 'waiver' },
   { player: 'Harold Fannin Jr.', team: 'Ashton 316', type: 'waiver' },
   { player: 'Jake Browning', team: 'Ashton 316', type: 'waiver' },
-  { player: 'Rashid Shaheed', team: 'Ashton 316', type: 'waiver' },
   { player: 'Oronde Gadsden', team: 'Ashton 316', type: 'waiver' },
+  { player: 'Troy Franklin', team: 'Ashton 316', type: 'fa' },                    // Killer Instinct Rd 14 → FA add
+  { player: 'Dyami Brown', team: 'Ashton 316', type: 'fa' },
   { player: 'Kenny Gainwell', team: 'Ashton 316', type: 'waiver' },
+  { player: 'Michael Wilson', team: 'Ashton 316', type: 'fa' },
+  { player: 'Jordan Addison', team: 'Ashton 316', type: 'waiver' },               // bichote Rd 11 → waiver add
+
   // LaPorta Potty
-  { player: 'Tory Horton', team: 'LaPorta Potty', type: 'waiver' },
-  { player: 'Darius Slayton', team: 'LaPorta Potty', type: 'waiver' },
   { player: 'Calvin Austin III', team: 'LaPorta Potty', type: 'waiver' },
   { player: 'Zach Ertz', team: 'LaPorta Potty', type: 'waiver' },
-  { player: 'Hunter Henry', team: 'LaPorta Potty', type: 'waiver' },
-  { player: 'Kyle Monangai', team: 'LaPorta Potty', type: 'waiver' },
+  { player: 'Hunter Henry', team: 'LaPorta Potty', type: 'waiver' },              // Manifested It Rd 16 → waiver add
+  { player: 'Tory Horton', team: 'LaPorta Potty', type: 'waiver' },
   { player: 'Kameron Johnson', team: 'LaPorta Potty', type: 'waiver' },
+  { player: 'Kyle Monangai', team: 'LaPorta Potty', type: 'waiver' },
+  { player: 'Keon Coleman', team: 'LaPorta Potty', type: 'waiver' },              // Nacua Rd 9 → waiver add
   { player: 'Devin Singletary', team: 'LaPorta Potty', type: 'waiver' },
-  { player: 'Tyjae Spears', team: 'LaPorta Potty', type: 'waiver' },
+  { player: 'Bam Knight', team: 'LaPorta Potty', type: 'waiver' },
+  { player: 'Elic Ayomanor', team: 'LaPorta Potty', type: 'fa' },
+  { player: 'Greg Dortch', team: 'LaPorta Potty', type: 'fa' },
+  { player: 'John Metchie III', team: 'LaPorta Potty', type: 'fa' },
+  { player: 'Chris Godwin Jr.', team: 'LaPorta Potty', type: 'fa' },             // Ashton 316 Rd 11 → FA add
+  { player: 'Ollie Gordon II', team: 'LaPorta Potty', type: 'fa' },              // Nacua FA → traded to LaPorta
+  { player: 'Cade Otton', team: 'LaPorta Potty', type: 'waiver' },               // bichote waiver → traded to LaPorta
+
   // Manifested It
+  { player: 'Sterling Shepard', team: 'Manifested It', type: 'waiver' },
+  { player: 'Hassan Haskins', team: 'Manifested It', type: 'waiver' },
   { player: 'Luke McCaffrey', team: 'Manifested It', type: 'waiver' },
   { player: 'Xavier Legette', team: 'Manifested It', type: 'waiver' },
-  { player: 'Darren Waller', team: 'Manifested It', type: 'waiver' },
-  { player: 'Sterling Shepard', team: 'Manifested It', type: 'waiver' },
+  { player: 'Parker Washington', team: 'Manifested It', type: 'fa' },
+  { player: 'Darnell Mooney', team: 'Manifested It', type: 'waiver' },            // Ashton 316 Rd 9 → waiver add
+  { player: 'Adonai Mitchell', team: 'Manifested It', type: 'waiver' },
+  { player: 'Mason Rudolph', team: 'Manifested It', type: 'fa' },
+  { player: 'Rhamondre Stevenson', team: 'Manifested It', type: 'waiver' },       // bichote Rd 10 → SOH waiver → traded to Manifested It
 ];
 
 // Calculate 2026 keeper price from 2025 acquisition
