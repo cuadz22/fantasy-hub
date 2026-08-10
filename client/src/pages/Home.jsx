@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import useIsMobile from '../hooks/useIsMobile';
 
 const LEAGUES = [
   { id: 'beaners-husseins', name: "Beaners & Husseins", desc: 'Est. 2014' },
@@ -8,8 +9,9 @@ const LEAGUES = [
 ];
 
 export default function Home() {
+  const isMobile = useIsMobile();
   return (
-    <main style={styles.main}>
+    <main style={{ ...styles.main, padding: isMobile ? '28px 16px' : '48px 32px' }}>
       <div style={styles.hero}>
         <div style={styles.heroBar} />
         <h1 style={styles.heroTitle}>Cuadz Fantasy Network</h1>
@@ -30,7 +32,7 @@ export default function Home() {
 }
 
 const styles = {
-  main: { padding: '48px 32px', maxWidth: 1100, margin: '0 auto' },
+  main: { maxWidth: 1100, margin: '0 auto' },
   hero: { marginBottom: 48, position: 'relative', paddingTop: 8 },
   heroBar: { position: 'absolute', top: 0, left: 0, width: 32, height: 2, background: 'var(--red)' },
   heroTitle: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 48, letterSpacing: '0.04em', color: 'var(--text)', lineHeight: 1 },

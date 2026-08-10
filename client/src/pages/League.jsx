@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import useIsMobile from '../hooks/useIsMobile';
 import Standings from '../components/Standings';
 import Matchups from '../components/Matchups';
 import Rulebook from '../components/Rulebook';
@@ -29,16 +30,17 @@ export default function League() {
   const { id } = useParams();
   const league = LEAGUES[id];
   const [tab, setTab] = useState('Standings');
+  const isMobile = useIsMobile();
 
   if (!league) return <div style={{ padding: 40, color: 'var(--text-muted)' }}>League not found</div>;
 
   const tabs = league.keeper ? KEEPER_TABS : NON_KEEPER_TABS;
 
   return (
-    <div style={styles.wrap}>
+    <div style={{ ...styles.wrap, padding: isMobile ? '20px 14px' : '32px 24px' }}>
       <div style={styles.header}>
         <div>
-          <h1 style={styles.title}>{league.name}</h1>
+          <h1 style={{ ...styles.title, fontSize: isMobile ? 18 : 22 }}>{league.name}</h1>
           <div style={styles.meta}>
             Est. {league.est}
             {league.keeper && <span style={styles.keeperBadge}>Keeper</span>}
@@ -46,23 +48,25 @@ export default function League() {
         </div>
       </div>
 
-      <div style={styles.tabs}>
-        {tabs.map(t => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            style={{ ...styles.tab, ...(tab === t ? styles.tabActive : {}) }}
-          >
-            {t}
-          </button>
-        ))}
+      <div style={styles.tabsOuter}>
+        <div style={styles.tabs}>
+          {tabs.map(t => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              style={{ ...styles.tab, ...(tab === t ? styles.tabActive : {}) }}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+        <div style={styles.tabFade} />
       </div>
 
       <div style={styles.content}>
         {tab === 'Standings' && id === 'shoot-the-shits' && <StsStandings leagueId={id} />}
         {tab === 'Standings' && id !== 'shoot-the-shits' && <Standings leagueId={id} />}
         {tab === 'Matchups' && <Matchups leagueId={id} />}
-        {tab === 'Power Rankings' && <PowerRankings leagueId={id} />}
         {tab === 'History' && <History leagueId={id} />}
         {tab === 'Owners' && id === 'rebirth' && <RebirthOwners />}
         {tab === 'Owners' && id !== 'rebirth' && <Owners leagueId={id} />}
@@ -73,6 +77,7 @@ export default function League() {
         {tab === 'Draft Picks Board' && id !== 'rebirth' && id !== 'beaners-husseins' && (
           <div style={{ padding: '40px 0', color: 'var(--text-muted)', fontSize: 13 }}>Draft picks board coming soon.</div>
         )}
+        {tab === 'Power Rankings' && <PowerRankings leagueId={id} />}
         {tab === 'Off-Season Trades' && <OffseasonTrades leagueId={id} />}
         {tab === 'Submit Keepers' && <KeeperSubmission leagueId={id} />}
         {tab === 'Rulebook' && <Rulebook leagueId={id} />}
@@ -82,13 +87,15 @@ export default function League() {
 }
 
 const styles = {
-  wrap: { maxWidth: 1100, margin: '0 auto', padding: '32px 24px' },
-  header: { marginBottom: 28 },
-  title: { fontSize: 22, fontWeight: 600, color: 'var(--text)', margin: 0 },
+  wrap: { maxWidth: 1100, margin: '0 auto' },
+  header: { marginBottom: 24 },
+  title: { fontWeight: 600, color: 'var(--text)', margin: 0 },
   meta: { fontSize: 12, color: 'var(--text-muted)', marginTop: 4, display: 'flex', alignItems: 'center', gap: 10 },
   keeperBadge: { fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--red)', border: '0.5px solid var(--red)', borderRadius: 4, padding: '2px 6px' },
-  tabs: { display: 'flex', gap: 0, borderBottom: '0.5px solid var(--border)', marginBottom: 28, flexWrap: 'wrap' },
-  tab: { background: 'none', border: 'none', borderBottom: '2px solid transparent', color: 'var(--text-muted)', padding: '10px 18px', fontSize: 13, cursor: 'pointer', marginBottom: -1, transition: 'color 0.15s' },
+  tabsOuter: { position: 'relative', borderBottom: '0.5px solid var(--border)', marginBottom: 24 },
+  tabs: { display: 'flex', gap: 0, overflowX: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' },
+  tab: { background: 'none', border: 'none', borderBottom: '2px solid transparent', color: 'var(--text-muted)', padding: '10px 16px', fontSize: 13, cursor: 'pointer', marginBottom: -1, transition: 'color 0.15s', whiteSpace: 'nowrap', flexShrink: 0 },
   tabActive: { color: 'var(--text)', borderBottom: '2px solid var(--red)' },
+  tabFade: { position: 'absolute', top: 0, right: 0, width: 48, height: '100%', background: 'linear-gradient(to right, transparent, var(--bg))', pointerEvents: 'none' },
   content: { minHeight: 400 },
 };
