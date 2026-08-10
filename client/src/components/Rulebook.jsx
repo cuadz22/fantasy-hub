@@ -324,9 +324,86 @@ const RULEBOOKS = {
   'shoot-the-shits': {
     sections: [
       {
-        title: 'Rules',
+        title: 'Roster',
         content: [
-          { text: 'Shoot the Shits rulebook coming soon.' },
+          { text: '1 QB — Quarterback' },
+          { text: '2 RB — Running Backs' },
+          { text: '3 WR — Wide Receivers' },
+          { text: '1 TE — Tight End' },
+          { text: '1 FLEX — WR/RB/TE' },
+          { text: '1 K — Kicker' },
+          { text: '1 DEF — Defense/Special Teams' },
+          { text: '6 BN — Bench spots' },
+          { text: '1 IR — Injured Reserve' },
+        ],
+      },
+      {
+        title: 'Scoring',
+        content: [
+          { text: 'PPR — 1 point per reception' },
+          { text: '6 points per passing touchdown' },
+          { text: '-1 point per interception thrown' },
+        ],
+      },
+      {
+        title: 'Standings',
+        content: [
+          { text: 'Standings are determined by a custom points system — not solely by win/loss record. Each week, two things are tracked independently: whether you won your matchup, and where your score ranked among all teams that week.' },
+          {
+            text: 'Win your matchup + score in the top 6 = 7 points',
+            highlight: true,
+          },
+          { text: 'Win your matchup only (bottom half scorer) = 4 points' },
+          { text: 'Score in the top 6 only (lost your matchup) = 3 points' },
+          { text: 'Neither (lost and scored in the bottom half) = 0 points' },
+          { text: 'The two point buckets are completely independent — your matchup result and your weekly scoring rank do not affect each other. A team that consistently scores well will accumulate points even through unlucky losses.' },
+          { text: 'Standings are updated every Tuesday morning after weekly scores are finalized. Tiebreaker: total points scored on the season.' },
+        ],
+      },
+      {
+        title: 'Draft',
+        content: [
+          { text: 'Auction draft format. Each team receives a $200 budget to bid on players.' },
+          { text: 'Draft date: August 26th at 7:30pm in the club room.' },
+          {
+            text: 'There are NO redos or undos during the draft under any circumstance. Bid carefully — you are responsible for every player you win.',
+            highlight: true,
+          },
+        ],
+      },
+      {
+        title: 'Waivers & Free Agents',
+        content: [
+          { text: 'Each team starts the season with a $100 FAAB (Free Agent Acquisition Budget).' },
+          { text: 'FAAB budget can be included in trades. Since Yahoo does not support FAAB trades, note the FAAB amount in the trade comments and notify the commissioner, who will adjust totals manually.' },
+          {
+            text: 'If you accidentally drop a player, they will NOT be returned to your team under any circumstance. Double check before dropping.',
+            highlight: true,
+          },
+        ],
+      },
+      {
+        title: 'Trades',
+        content: [
+          { text: 'All trades are pushed through by the commissioner. A trade will always be approved unless there is a suspicion of collusion.' },
+          {
+            text: 'Anti-rental rule: If Team A trades a player to Team B, Team A cannot receive that player back directly from Team B. The player must pass through at least one additional team (Team C) before returning to Team A.',
+            highlight: true,
+          },
+          { text: 'Trade deadline: the day before Week 12 begins. No trades will be processed on or after that date.' },
+        ],
+      },
+      {
+        title: 'Fees & Payouts',
+        content: [
+          { text: 'Buy-in: $150 per team, due by draft day.' },
+          { text: '1st Place (Champion): $1,350 — 9× buy-in' },
+          { text: '2nd Place: $300 — 2× buy-in' },
+          { text: 'Regular Season Points Leader: $150 — 1× buy-in' },
+          {
+            text: 'Last place (based on regular season standings) must purchase the championship ring for the winner. Minimum ring budget: $60.',
+            highlight: true,
+          },
         ],
       },
     ],
