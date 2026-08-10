@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 
 const LEAGUES = [
-  { id: 'beaners-husseins', name: "Beaners & Husseins", desc: 'The original. Est. 2024.' },
-  { id: 'rebirth', name: 'Rebirth', desc: 'Second chances, first place.' },
-  { id: 'gentlemens-league', name: "Gentlemen's League", desc: 'Class in the streets, chaos on the field.' },
-  { id: 'shoot-the-shits', name: 'Shoot the Shits', desc: 'Talk the talk, walk the walk.' },
+  { id: 'beaners-husseins', name: "Beaners & Husseins", desc: 'Est. 2014' },
+  { id: 'rebirth', name: 'Rebirth', desc: 'Est. 2019' },
+  { id: 'gentlemens-league', name: "Gentlemen's League", desc: 'Est. 2023' },
+  { id: 'shoot-the-shits', name: 'Shoot the Shits', desc: 'Est. 2021' },
 ];
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
     <main style={styles.main}>
       <div style={styles.hero}>
         <div style={styles.heroBar} />
-        <h1 style={styles.heroTitle}>Fantasy Hub</h1>
+        <h1 style={styles.heroTitle}>Cuadz Fantasy Network</h1>
         <p style={styles.heroSub}>Four leagues. One place. All season long.</p>
       </div>
       <div style={styles.grid}>
