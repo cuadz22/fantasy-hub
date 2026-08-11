@@ -15,7 +15,9 @@ const HISTORY = {
       { year: 2014, champion: { team: 'ARMY OF TWO', owner: 'Bishoy', record: '—', points: '—' }, runnerUp: 'Charles IN Charge (Oscar)', thirdPlace: "Booz'n and Cruz'n (Jose)", url: 'https://football.fantasysports.yahoo.com/league/beanershussein/2014' },
     ],
     records: [
-      { label: 'Most points in a game', value: '209.50', holder: 'Allen Keys — Mina (2021 Semi)' },
+      { label: 'Most points in a game', value: '245.00', holder: 'Olivas FC — Edwin (2024, Wk 15)' },
+      { label: 'Biggest blowout', value: '222.45', holder: 'Money O vs. King Tuttchdown (2023, Wk 16)' },
+      { label: 'Best season total', value: '2666', holder: 'El Travador — Kevin Huertas (2023)' },
       { label: 'Championship score', value: '162.85', holder: 'El Travador — Kevin Huertas (2023)' },
       { label: 'Biggest upset', value: '6-seed wins', holder: 'King Tuttchdown — Bishoy (2022)' },
       { label: 'Most championships', value: '3', holder: 'Jose (2016, 2017, 2019)' },
@@ -32,8 +34,10 @@ const HISTORY = {
       { year: 2019, champion: { team: 'Shit Out of Luck', owner: 'Cristian', record: '—', points: '—' }, runnerUp: 'seeing ghosts (Jose)', thirdPlace: 'J Dalvin (Hihi)', url: 'https://football.fantasysports.yahoo.com/league/rebirth/2019' },
     ],
     records: [
-      { label: 'Most points scored', value: '2337.14', holder: 'bichote — Jose (2025)' },
-      { label: 'Best record', value: '11-3', holder: 'Stiff Arm That Njigba — Big Vic (2025)' },
+      { label: 'Most points in a game', value: '270.08', holder: 'LaPorta Potty vs. Nacua Matata (2024, Wk 17)' },
+      { label: 'Best season total', value: '3117', holder: 'LaPorta Potty — Hihi (2024)' },
+      { label: 'Biggest blowout', value: '155.52', holder: 'Hooligans vs. Donald Dak (2020, Wk 16)' },
+      { label: 'Best regular season', value: '11-3', holder: 'Stiff Arm That Njigba — Big Vic (2025)' },
       { label: 'Most championships', value: '2', holder: 'Oscar (2021, 2025)' },
       { label: 'Back-to-back runner up', value: '2x', holder: 'Giovanny (2024, 2025)' },
     ],
@@ -47,6 +51,7 @@ const HISTORY = {
     records: [
       { label: 'Most points in a final', value: '221.95', holder: 'Magneto Was Right (2024)' },
       { label: 'Most points in a game', value: '232.00', holder: 'Bo Meets World ⚡️ (2025 QF)' },
+      { label: 'Biggest blowout', value: '102.65', holder: 'Oppenheimer vs. Waller General (2023, Wk 17)' },
       { label: 'Biggest upset', value: '6-seed wins', holder: 'King Quon (2023)' },
       { label: 'Best regular season', value: '12-2', holder: 'Sir (2025)' },
     ],
@@ -60,7 +65,9 @@ const HISTORY = {
       { year: 2021, champion: { team: 'Killa Trav Trav', owner: '—', record: '—', points: '—' }, runnerUp: "Just Joshin'", thirdPlace: '—', url: 'https://football.fantasysports.yahoo.com/league/shoottheshits/2021' },
     ],
     records: [
-      { label: 'Most points in a game', value: '239.95', holder: 'Baba Yaga (2025 Semi)' },
+      { label: 'Most points in a game', value: '241.90', holder: 'Nacua matata vs. Giorgi\'s Crazy Team (2023, Wk 5)' },
+      { label: 'Biggest blowout', value: '133.32', holder: 'Just Joshin\' vs. 21/22 Fantasy champion (2021, Wk 16)' },
+      { label: 'Best season total', value: '3054', holder: 'Baba Yaga (2025)' },
       { label: 'Highest QF score', value: '204.85', holder: 'CDiss Golden Pears (2025)' },
       { label: 'Best regular season', value: '11-3', holder: 'Baba Yaga (2025)' },
       { label: 'Championship score', value: '176.50', holder: 'Baba Yaga (2025)' },
