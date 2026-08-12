@@ -20,8 +20,69 @@ const TRADES = {
         },
       ],
     },
+    {
+      id: 2,
+      label: '2026 Off-Season',
+      sides: [
+        {
+          from: 'Oscar',
+          fromOwner: 'Oscar',
+          to: 'Hihi',
+          toOwner: 'Hihi',
+          items: ["Kevin's 1st round pick", "Bishoy's 1st round pick", "Kevin's 2nd round pick"],
+        },
+        {
+          from: 'Hihi',
+          fromOwner: 'Hihi',
+          to: 'Oscar',
+          toOwner: 'Oscar',
+          items: ["Hihi's 4th round pick", "Hihi's 7th round pick", "Hihi's 8th round pick", 'Jahmyr Gibbs'],
+        },
+      ],
+    },
+    {
+      id: 3,
+      label: '2026 Off-Season',
+      sides: [
+        {
+          from: 'Oscar',
+          fromOwner: 'Oscar',
+          to: 'Pru',
+          toOwner: 'Pru',
+          items: ["Bishoy's 2nd round pick"],
+        },
+        {
+          from: 'Pru',
+          fromOwner: 'Pru',
+          to: 'Oscar',
+          toOwner: 'Oscar',
+          items: ["Pru's 4th round pick", 'James Cook'],
+        },
+      ],
+    },
   ],
-  'rebirth': [],
+  'rebirth': [
+    {
+      id: 1,
+      label: '2026 Off-Season',
+      sides: [
+        {
+          from: 'Alex Zarate',
+          fromOwner: 'Alex Zarate',
+          to: 'JJ',
+          toOwner: 'JJ',
+          items: ["Alex Zarate's 6th round pick"],
+        },
+        {
+          from: 'JJ',
+          fromOwner: 'JJ',
+          to: 'Alex Zarate',
+          toOwner: 'Alex Zarate',
+          items: ["Jonathan's 8th round pick", 'Cam Skattebo'],
+        },
+      ],
+    },
+  ],
 };
 
 export default function OffseasonTrades({ leagueId }) {

@@ -38,10 +38,10 @@ const DRAFT_BOARD = {
   'Kevin':    { 1:[], 2:[], 3:['Kevin'], 4:['Kevin'], 5:['Oscar'], 6:['Kevin','Oscar'], 7:['Kevin'], 8:['Kevin'], 9:['Kevin'], 10:['Kevin','Oscar'], 11:['Kevin'], 12:['Kevin'], 13:['Kevin'], 14:['Kevin'], 15:['Kevin'], 16:['Kevin'] },
   'Cristian': { 1:['Cristian'], 2:['Cristian'], 3:['Cristian'], 4:['Cristian'], 5:['Cristian'], 6:['Cristian'], 7:['Cristian'], 8:['Cristian'], 9:['Cristian'], 10:['Cristian'], 11:['Cristian'], 12:['Cristian'], 13:['Cristian'], 14:['Cristian'], 15:['Cristian'], 16:['Cristian'] },
   'Edwin':    { 1:['Edwin'], 2:['Edwin'], 3:['Edwin'], 4:['Edwin','Eduardo'], 5:['Edwin'], 6:['Edwin'], 7:['Edwin'], 8:['Edwin'], 9:['Edwin'], 10:['Edwin'], 11:['Edwin'], 12:['Edwin'], 13:[], 14:['Edwin'], 15:['Edwin'], 16:['Edwin'] },
-  'Oscar':    { 1:['Oscar','Kevin','Bishoy'], 2:['Oscar','Kevin','Bishoy'], 3:[], 4:['Oscar'], 5:['Kevin'], 6:['Pru'], 7:['Oscar'], 8:[], 9:['Oscar'], 10:[], 11:[], 12:['Oscar'], 13:['Oscar'], 14:['Oscar'], 15:['Oscar'], 16:['Oscar'] },
-  'Hihi':     { 1:['Hihi'], 2:['Hihi'], 3:['Hihi'], 4:['Hihi'], 5:['Hihi'], 6:['Hihi'], 7:['Hihi'], 8:['Hihi'], 9:['Hihi'], 10:['Hihi'], 11:['Hihi'], 12:['Hihi'], 13:['Hihi'], 14:['Hihi'], 15:['Hihi'], 16:['Hihi'] },
+  'Oscar':    { 1:['Oscar'], 2:['Oscar'], 3:[], 4:['Oscar','Hihi','Pru'], 5:['Kevin'], 6:['Pru'], 7:['Oscar','Hihi'], 8:['Hihi'], 9:['Oscar'], 10:[], 11:[], 12:['Oscar'], 13:['Oscar'], 14:['Oscar'], 15:['Oscar'], 16:['Oscar'] },
+  'Hihi':     { 1:['Hihi','Kevin','Bishoy'], 2:['Hihi','Kevin'], 3:['Hihi'], 4:[], 5:['Hihi'], 6:['Hihi'], 7:[], 8:[], 9:['Hihi'], 10:['Hihi'], 11:['Hihi'], 12:['Hihi'], 13:['Hihi'], 14:['Hihi'], 15:['Hihi'], 16:['Hihi'] },
   'Bishoy':   { 1:[], 2:[], 3:['Bishoy','Oscar'], 4:['Bishoy'], 5:['Bishoy'], 6:['Bishoy'], 7:['Bishoy'], 8:['Bishoy','Oscar'], 9:['Bishoy'], 10:['Bishoy'], 11:['Bishoy'], 12:['Bishoy'], 13:['Bishoy'], 14:['Bishoy'], 15:['Bishoy'], 16:['Bishoy'] },
-  'Pru':      { 1:['Pru'], 2:['Pru'], 3:['Pru'], 4:['Pru'], 5:['Pru'], 6:[], 7:['Pru'], 8:['Pru'], 9:['Pru'], 10:['Pru'], 11:['Pru','Oscar'], 12:['Pru'], 13:['Pru'], 14:['Pru'], 15:['Pru'], 16:['Pru'] },
+  'Pru':      { 1:['Pru'], 2:['Pru','Bishoy'], 3:['Pru'], 4:[], 5:['Pru'], 6:[], 7:['Pru'], 8:['Pru'], 9:['Pru'], 10:['Pru'], 11:['Pru','Oscar'], 12:['Pru'], 13:['Pru'], 14:['Pru'], 15:['Pru'], 16:['Pru'] },
   'Mina':     { 1:['Mina'], 2:['Mina'], 3:['Mina'], 4:['Mina'], 5:['Mina'], 6:['Mina'], 7:['Mina'], 8:['Mina'], 9:['Mina'], 10:['Mina'], 11:['Mina'], 12:['Mina'], 13:['Mina'], 14:['Mina'], 15:['Mina'], 16:['Mina'] },
 };
 
