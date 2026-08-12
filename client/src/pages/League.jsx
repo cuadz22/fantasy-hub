@@ -101,7 +101,7 @@ const styles = {
   keeperBadge: { fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--red)', border: '0.5px solid var(--red)', borderRadius: 4, padding: '2px 6px' },
   tabsOuter: { position: 'relative', marginBottom: 24 },
   tabs: { display: 'flex', scrollbarWidth: 'none', msOverflowStyle: 'none' },
-  tab: { background: 'none', border: 'none', borderBottom: '2px solid transparent', color: 'var(--text-muted)', padding: '10px 16px', fontSize: 13, cursor: 'pointer', marginBottom: -1, transition: 'color 0.15s', whiteSpace: 'nowrap', flexShrink: 0 },
+  tab: { background: 'none', border: 'none', borderBottom: '2px solid transparent', color: 'var(--text-muted)', padding: '10px 10px', fontSize: 12, cursor: 'pointer', marginBottom: -1, transition: 'color 0.15s', whiteSpace: 'nowrap', flexShrink: 0 },
   tabActive: { color: 'var(--text)', borderBottom: '2px solid var(--red)' },
   tabMobile: { padding: '6px 12px', fontSize: 11, borderBottom: 'none', marginBottom: 0, borderRadius: 20, border: '0.5px solid var(--border)', background: 'var(--bg2)', whiteSpace: 'nowrap', flexShrink: 0 },
   tabMobileActive: { background: 'var(--red)', color: '#fff', borderColor: 'var(--red)' },
