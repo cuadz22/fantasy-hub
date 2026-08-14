@@ -16,6 +16,7 @@ import KeeperSubmission from '../components/KeeperSubmission';
 import PowerRankings from '../components/PowerRankings';
 import StsStandings from '../components/StsStandings';
 import KeeperPriceCalc from '../components/KeeperPriceCalc';
+import DraftOrder from '../components/DraftOrder';
 
 const LEAGUES = {
   'beaners-husseins': { name: "Beaners & Husseins", est: 2014, keeper: true },
@@ -24,8 +25,9 @@ const LEAGUES = {
   'shoot-the-shits': { name: 'Shoot the Shits', est: 2021, keeper: false },
 };
 
-const KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Owners', 'Keepers', 'Keeper Prices', 'Draft Picks Board', 'Off-Season Trades', 'Submit Keepers', 'Rulebook'];
+const KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Owners', 'Keepers', 'Keeper Prices', 'Draft Picks Board', 'Draft Order', 'Off-Season Trades', 'Submit Keepers', 'Rulebook'];
 const NON_KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Rulebook'];
+const GENTS_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Draft Order', 'Rulebook'];
 
 export default function League() {
   const { id } = useParams();
@@ -35,7 +37,7 @@ export default function League() {
 
   if (!league) return <div style={{ padding: 40, color: 'var(--text-muted)' }}>League not found</div>;
 
-  const tabs = league.keeper ? KEEPER_TABS : NON_KEEPER_TABS;
+  const tabs = league.keeper ? KEEPER_TABS : (id === 'gentlemens-league' ? GENTS_TABS : NON_KEEPER_TABS);
 
   return (
     <div style={{ ...styles.wrap, padding: isMobile ? '20px 14px' : '32px 24px' }}>
@@ -84,6 +86,7 @@ export default function League() {
         {tab === 'Draft Picks Board' && id !== 'rebirth' && id !== 'beaners-husseins' && (
           <div style={{ padding: '40px 0', color: 'var(--text-muted)', fontSize: 13 }}>Draft picks board coming soon.</div>
         )}
+        {tab === 'Draft Order' && <DraftOrder leagueId={id} />}
         {tab === 'Power Rankings' && <PowerRankings leagueId={id} />}
         {tab === 'Off-Season Trades' && <OffseasonTrades leagueId={id} />}
         {tab === 'Submit Keepers' && <KeeperSubmission leagueId={id} />}
