@@ -82,6 +82,46 @@ const TRADES = {
         },
       ],
     },
+    {
+      id: 2,
+      label: '2026 Off-Season',
+      sides: [
+        {
+          from: 'Big Vic',
+          fromOwner: 'Big Vic',
+          to: 'Alexis',
+          toOwner: 'Alexis',
+          items: ["Big Vic's 1st round pick", "Big Vic's 11th round pick"],
+        },
+        {
+          from: 'Alexis',
+          fromOwner: 'Alexis',
+          to: 'Big Vic',
+          toOwner: 'Big Vic',
+          items: ["Alexis's 1st round pick", "Alexis's 3rd round pick"],
+        },
+      ],
+    },
+    {
+      id: 3,
+      label: '2026 Off-Season',
+      sides: [
+        {
+          from: 'JJ',
+          fromOwner: 'JJ',
+          to: 'Oscar',
+          toOwner: 'Oscar',
+          items: ["JJ's 3rd round pick"],
+        },
+        {
+          from: 'Oscar',
+          fromOwner: 'Oscar',
+          to: 'JJ',
+          toOwner: 'JJ',
+          items: ["Oscar's 4th round pick", 'Puka Nacua'],
+        },
+      ],
+    },
   ],
 };
 
