@@ -14,34 +14,20 @@ export default function DraftOrder({ leagueId }) {
   const order = DRAFT_ORDERS[leagueId];
   if (!order) return null;
 
-  const reversed = [...order].reverse();
-
   return (
     <div style={styles.wrap}>
       <div style={styles.note}>
-        Snake draft — odd rounds go 1→{order.length}, even rounds go {order.length}→1.
+        Snake draft — odd rounds go 1→{order.length}, even rounds reverse.
       </div>
 
-      <div style={styles.columns}>
-        <div style={styles.col}>
-          <div style={styles.colHeader}>Round 1 order</div>
-          {order.map((name, i) => (
-            <div key={i} style={styles.row}>
-              <span style={styles.pick}>{i + 1}</span>
-              <span style={styles.name}>{name}</span>
-            </div>
-          ))}
-        </div>
-
-        <div style={styles.col}>
-          <div style={styles.colHeader}>Round 2 order</div>
-          {reversed.map((name, i) => (
-            <div key={i} style={styles.row}>
-              <span style={styles.pick}>{order.length + i + 1}</span>
-              <span style={styles.name}>{name}</span>
-            </div>
-          ))}
-        </div>
+      <div style={styles.col}>
+        <div style={styles.colHeader}>Draft order</div>
+        {order.map((name, i) => (
+          <div key={i} style={styles.row}>
+            <span style={styles.pick}>{i + 1}</span>
+            <span style={styles.name}>{name}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
