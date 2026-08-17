@@ -120,7 +120,7 @@ export default function RebirthDraftBoard() {
                       maxWidth: CELL_WIDTH,
                       height: CELL_HEIGHT,
                       background: isEmpty
-                        ? (i % 2 === 0 ? '#161616' : '#111111')
+                        ? (i % 2 === 0 ? 'var(--bg3)' : 'var(--bg2)')
                         : (i % 2 === 0 ? 'var(--bg)' : 'var(--bg2)'),
                     }}>
                       <div style={styles.cellContent}>
