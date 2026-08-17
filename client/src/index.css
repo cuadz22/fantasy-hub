@@ -16,22 +16,22 @@
 }
 
 [data-theme="light"] {
-  --bg: #FAF8F4;
+  --bg: #F6F5F0;
   --bg2: #FFFFFF;
-  --bg3: #F0EDE7;
-  --surface: #F4F1EB;
-  --red: #78B820;
-  --red-dim: #E2F0C0;
-  --text: #0C0C0A;
+  --bg3: #EEEDEA;
+  --surface: #F0EFE9;
+  --red: #A8CC00;
+  --red-dim: #E8F5B0;
+  --text: #0A0A08;
   --text-muted: #7A7870;
   --text-dim: #C0BDB6;
-  --border: #E2DED6;
-  --border-light: #EDEAE4;
+  --border: #DEDAD2;
+  --border-light: #EEEDEA;
   --green: #2e7d2e;
 }
 
 [data-theme="light"] body {
-  font-weight: 500;
+  font-weight: 450;
 }
 
 html, body, #root {
