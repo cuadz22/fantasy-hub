@@ -11,7 +11,7 @@ function useIsMobile() {
 }
 
 // Draft slot order (pick 1 through 12 in round 1)
-const OWNERS = ['Jose', 'Cristian', 'Pru', 'Alexis', 'Ed', 'Hihi', 'Tello', 'Oscar', 'Gio', 'Vic', 'JJ', 'Julio'];
+const OWNERS = ['Vic', 'Gio', 'Oscar', 'Jose', 'Julio', 'Cristian', 'Hihi', 'JJ', 'Pru', 'Alexis', 'Ed', 'Tello'];
 const ROUNDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17];
 const NUM_TEAMS = OWNERS.length;
 
@@ -77,9 +77,8 @@ function pickNumber(round, slotIdx) {
 
 export default function RebirthPickBoard() {
   const mobile = useIsMobile();
-  const CELL_W = mobile ? 52 : 96;
-  const CELL_H = mobile ? 40 : 64;
-  const LABEL_W = mobile ? 36 : 52;
+  const CELL_H = mobile ? 36 : 60;
+  const LABEL_W = mobile ? 24 : 44;
 
   return (
     <div style={styles.wrap}>
@@ -99,18 +98,17 @@ export default function RebirthPickBoard() {
         <table style={styles.table}>
           <thead>
             <tr>
-              <th style={{ ...styles.thRound, minWidth: LABEL_W, maxWidth: LABEL_W }}>
+              <th style={{ ...styles.thRound, width: LABEL_W }}>
                 {mobile ? '' : 'Rd'}
               </th>
               {OWNERS.map((owner, i) => (
                 <th key={owner} style={{
                   ...styles.th,
-                  width: CELL_W, minWidth: CELL_W, maxWidth: CELL_W,
                   fontSize: mobile ? 7 : 10,
                   padding: mobile ? '4px 2px' : '8px 4px',
                 }}>
                   <div style={{ color: OWNER_COLORS[owner], fontWeight: 700 }}>
-                    {mobile ? owner.slice(0, 4) : owner}
+                    {mobile ? owner.slice(0, 3) : owner}
                   </div>
                   <div style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: mobile ? 6 : 9 }}>
                     Slot {i + 1}
@@ -126,7 +124,7 @@ export default function RebirthPickBoard() {
                 <tr key={r}>
                   <td style={{
                     ...styles.tdRound,
-                    minWidth: LABEL_W, maxWidth: LABEL_W,
+                    width: LABEL_W,
                     height: CELL_H,
                     background: r % 2 === 1 ? 'var(--bg2)' : 'var(--bg)',
                   }}>
@@ -145,7 +143,6 @@ export default function RebirthPickBoard() {
                     return (
                       <td key={slotOwner} style={{
                         ...styles.td,
-                        width: CELL_W, minWidth: CELL_W, maxWidth: CELL_W,
                         height: CELL_H,
                         background: holder
                           ? `${color}18`
@@ -162,7 +159,7 @@ export default function RebirthPickBoard() {
                           lineHeight: 1.2,
                           textAlign: 'center',
                         }}>
-                          {holder ? (mobile ? holder.slice(0, 4) : holder) : '—'}
+                          {holder ? (mobile ? holder.slice(0, 3) : holder) : '—'}
                         </div>
                         {!isOwn && holder && !mobile && (
                           <div style={{ fontSize: 8, color: 'var(--text-dim)', marginTop: 2, lineHeight: 1 }}>
@@ -186,8 +183,8 @@ const styles = {
   wrap: { display: 'flex', flexDirection: 'column', gap: 20 },
   intro: { fontSize: 12, color: 'var(--text-muted)', fontStyle: 'italic' },
   legend: { display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 4, alignItems: 'center' },
-  tableWrap: { overflowX: 'auto' },
-  table: { borderCollapse: 'collapse', border: '1px solid var(--border)' },
+  tableWrap: { width: '100%' },
+  table: { borderCollapse: 'collapse', border: '1px solid var(--border)', width: '100%', tableLayout: 'fixed' },
   thRound: {
     textAlign: 'center',
     padding: '8px 4px',
