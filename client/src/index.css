@@ -15,6 +15,21 @@
   --green: #4a9a4a;
 }
 
+[data-theme="light"] {
+  --bg: #F5F5F2;
+  --bg2: #FFFFFF;
+  --bg3: #EBEBEA;
+  --surface: #F0F0EE;
+  --red: #ACF910;
+  --red-dim: #E4FBAA;
+  --text: #0C0C0A;
+  --text-muted: #888880;
+  --text-dim: #C0BDB6;
+  --border: #E0DED8;
+  --border-light: #EEEDEA;
+  --green: #2e7d2e;
+}
+
 html, body, #root {
   height: 100%;
   background: var(--bg);
