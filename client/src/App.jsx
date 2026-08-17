@@ -4,14 +4,11 @@ import League from './pages/League';
 import Studio from './pages/Studio';
 import Connect from './pages/Connect';
 import Nav from './components/Nav';
-import useTheme from './hooks/useTheme';
 
 export default function App() {
-  const { theme, toggle } = useTheme();
-
   return (
     <BrowserRouter>
-      <Nav theme={theme} onToggleTheme={toggle} />
+      <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/league/:id" element={<League />} />

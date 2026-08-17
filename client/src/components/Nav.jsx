@@ -8,19 +8,15 @@ const LEAGUES = [
   { id: 'shoot-the-shits', name: 'Shoot the Shits' },
 ];
 
-export default function Nav({ theme, onToggleTheme }) {
+export default function Nav() {
   const { pathname } = useLocation();
   const isMobile = useIsMobile();
-  const isDark = theme === 'dark';
 
   if (isMobile) {
     return (
       <header style={styles.headerMobile}>
         <div style={styles.mobileTop}>
           <Link to="/" style={styles.logo}>Cuadz Fantasy Network</Link>
-          <button onClick={onToggleTheme} style={styles.themeBtn} title="Toggle theme">
-            {isDark ? '☀️' : '🌙'}
-          </button>
         </div>
         <nav style={styles.navMobile}>
           {LEAGUES.map(l => {
@@ -61,9 +57,6 @@ export default function Nav({ theme, onToggleTheme }) {
         </nav>
         <div style={styles.fadeRight} />
       </div>
-      <button onClick={onToggleTheme} style={styles.themeBtn} title="Toggle theme">
-        {isDark ? '☀️' : '🌙'}
-      </button>
     </header>
   );
 }
@@ -90,6 +83,9 @@ const styles = {
     top: 0,
     zIndex: 100,
   },
+  mobileTop: {
+    padding: '10px 16px 8px',
+  },
   navMobile: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -106,7 +102,7 @@ const styles = {
     whiteSpace: 'nowrap',
   },
   tabMobileActive: {
-    color: '#fff',
+    color: '#111',
     background: 'var(--red)',
     borderColor: 'var(--red)',
   },
@@ -146,14 +142,13 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: 7,
-    padding: '6px 14px',
+    padding: '0 14px',
     height: '100%',
     fontSize: 12,
     color: 'var(--text-muted)',
     whiteSpace: 'nowrap',
     transition: 'color 0.12s',
     borderBottom: '2px solid transparent',
-    borderRadius: 0,
   },
   tabActive: {
     color: 'var(--text)',
@@ -163,25 +158,7 @@ const styles = {
     width: 5,
     height: 5,
     borderRadius: '50%',
-    background: active ? 'var(--red)' : 'var(--border-light)',
+    background: active ? 'var(--red)' : '#333',
     flexShrink: 0,
   }),
-  themeBtn: {
-    background: 'none',
-    border: 'none',
-    fontSize: 16,
-    cursor: 'pointer',
-    padding: '4px 6px',
-    borderRadius: 6,
-    flexShrink: 0,
-    lineHeight: 1,
-    opacity: 0.8,
-    transition: 'opacity 0.15s',
-  },
-  mobileTop: {
-    padding: '10px 16px 8px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
 };

@@ -5,33 +5,14 @@
   --bg2: #161616;
   --bg3: #252525;
   --surface: #1c1c1c;
-  --red: #D64040;
-  --red-dim: #7a2424;
+  --red: #ACF910;
+  --red-dim: #2c3f00;
   --text: #E8E8E8;
   --text-muted: #666;
   --text-dim: #3D3D3D;
   --border: #2a2a2a;
   --border-light: #333;
   --green: #4a9a4a;
-}
-
-[data-theme="light"] {
-  --bg: #F6F5F0;
-  --bg2: #FFFFFF;
-  --bg3: #EEEDEA;
-  --surface: #F0EFE9;
-  --red: #A8CC00;
-  --red-dim: #E8F5B0;
-  --text: #0A0A08;
-  --text-muted: #7A7870;
-  --text-dim: #C0BDB6;
-  --border: #DEDAD2;
-  --border-light: #EEEDEA;
-  --green: #2e7d2e;
-}
-
-[data-theme="light"] body {
-  font-weight: 450;
 }
 
 html, body, #root {
