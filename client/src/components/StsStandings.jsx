@@ -117,7 +117,7 @@ const styles = {
   table: { display: 'flex', flexDirection: 'column', borderRadius: 6, overflow: 'hidden', border: '0.5px solid var(--border)' },
   thead: { display: 'flex', alignItems: 'center', padding: '8px 10px', background: 'var(--surface)', borderBottom: '0.5px solid var(--border)' },
   row: { display: 'flex', alignItems: 'center', padding: '11px 10px', borderBottom: '0.5px solid var(--border)' },
-  rowEven: { background: 'rgba(255,255,255,0.015)' },
+  rowEven: { background: 'var(--bg3)' },
   rowPlayoff: { borderLeft: '2px solid var(--red)' },
   col: { fontSize: 12, color: 'var(--text-muted)' },
   colRank: { width: 28, flexShrink: 0 },

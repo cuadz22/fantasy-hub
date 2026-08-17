@@ -49,7 +49,7 @@ export default function Standings({ leagueId }) {
               {!isMobile && <td style={{ ...styles.td, textAlign: 'center', color: 'var(--text-muted)' }}>{team.losses}</td>}
               {!isMobile && <td style={{ ...styles.td, textAlign: 'center', color: 'var(--text-muted)' }}>{team.ties}</td>}
               <td style={{ ...styles.td, textAlign: 'right', fontFamily: "'Bebas Neue', sans-serif", fontSize: isMobile ? 14 : 16 }}>{team.points_for.toFixed(1)}</td>
-              {!isMobile && <td style={{ ...styles.td, textAlign: 'right', color: '#444', fontFamily: "'Bebas Neue', sans-serif", fontSize: 16 }}>{team.points_against.toFixed(1)}</td>}
+              {!isMobile && <td style={{ ...styles.td, textAlign: 'right', color: 'var(--text-muted)', fontFamily: "'Bebas Neue', sans-serif", fontSize: 16 }}>{team.points_against.toFixed(1)}</td>}
             </tr>
           ))}
         </tbody>
@@ -63,8 +63,8 @@ const styles = {
   table: { width: '100%', borderCollapse: 'collapse' },
   th: { fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', padding: '8px 10px', borderBottom: '0.5px solid var(--border)', textAlign: 'center', fontWeight: 400 },
   row: { borderBottom: '0.5px solid var(--border)' },
-  rowFirst: { borderBottom: '0.5px solid var(--border)', background: '#1a1616' },
+  rowFirst: { borderBottom: '0.5px solid var(--border)', background: 'var(--red-dim)' },
   td: { padding: '11px 10px', fontSize: 13, color: 'var(--text)' },
   loading: { color: 'var(--text-muted)', fontSize: 13, padding: '24px 0' },
-  note: { fontSize: 11, color: '#333', marginTop: 16, textAlign: 'right' },
+  note: { fontSize: 11, color: 'var(--text-muted)', marginTop: 16, textAlign: 'right' },
 };

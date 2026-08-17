@@ -134,9 +134,9 @@ export default function BHDraftBoard() {
                       height: CELL_H,
                       padding: mobile ? '2px 2px' : '6px 5px',
                       background: isEmpty
-                        ? (i % 2 === 0 ? '#161616' : '#111111')
+                        ? (i % 2 === 0 ? 'var(--bg3)' : 'var(--bg2)')
                         : isKeeper
-                          ? (i % 2 === 0 ? '#120e00' : '#0e0a00')
+                          ? 'var(--red-dim)'
                           : (i % 2 === 0 ? 'var(--bg)' : 'var(--bg2)'),
                     }}>
                       <div style={styles.cellContent}>
@@ -180,8 +180,8 @@ const styles = {
     borderRight: '1px solid var(--border)',
     background: 'var(--bg2)', letterSpacing: '0.04em',
   },
-  keeperTh: { color: '#aa8800', background: '#120e00' },
-  keeperLabel: { fontSize: 8, color: '#aa8800', marginTop: 2 },
+  keeperTh: { color: 'var(--text-muted)', background: 'var(--red-dim)' },
+  keeperLabel: { fontSize: 8, color: 'var(--text-muted)', marginTop: 2 },
   tdOwner: {
     borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
@@ -198,5 +198,5 @@ const styles = {
     alignItems: 'stretch', justifyContent: 'center',
     width: '100%', height: '100%',
   },
-  empty: { color: '#2a2a2a', fontWeight: 300 },
+  empty: { color: 'var(--text-dim)', fontWeight: 300 },
 };

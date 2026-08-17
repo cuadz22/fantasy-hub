@@ -130,7 +130,7 @@ export default function RebirthDraftBoard() {
                       height: CELL_HEIGHT,
                       padding: mobile ? '2px 2px' : '6px 5px',
                       background: isEmpty
-                        ? (i % 2 === 0 ? '#161616' : '#111111')
+                        ? (i % 2 === 0 ? 'var(--bg3)' : 'var(--bg2)')
                         : (i % 2 === 0 ? 'var(--bg)' : 'var(--bg2)'),
                     }}>
                       <div style={styles.cellContent}>
@@ -190,5 +190,5 @@ const styles = {
     alignItems: 'stretch', justifyContent: 'center',
     width: '100%', height: '100%',
   },
-  empty: { color: '#2a2a2a', fontSize: 16, fontWeight: 300 },
+  empty: { color: 'var(--text-dim)', fontSize: 16, fontWeight: 300 },
 };
