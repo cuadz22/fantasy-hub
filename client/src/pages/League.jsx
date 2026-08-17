@@ -10,6 +10,7 @@ import Keepers from '../components/Keepers';
 import RebirthOwners from '../components/RebirthOwners';
 import RebirthKeepers from '../components/RebirthKeepers';
 import RebirthDraftBoard from '../components/RebirthDraftBoard';
+import RebirthPickBoard from '../components/RebirthPickBoard';
 import BHDraftBoard from '../components/BHDraftBoard';
 import OffseasonTrades from '../components/OffseasonTrades';
 import KeeperSubmission from '../components/KeeperSubmission';
@@ -25,7 +26,7 @@ const LEAGUES = {
   'shoot-the-shits': { name: 'Shoot the Shits', est: 2021, keeper: false },
 };
 
-const KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Owners', 'Keepers', 'Keeper Prices', 'Draft Picks Board', 'Draft Order', 'Off-Season Trades', 'Submit Keepers', 'Rulebook'];
+const KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Owners', 'Keepers', 'Keeper Prices', 'Draft Picks Board', 'Pick Order', 'Draft Order', 'Off-Season Trades', 'Submit Keepers', 'Rulebook'];
 const NON_KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Rulebook'];
 const GENTS_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Draft Order', 'Rulebook'];
 
@@ -82,6 +83,7 @@ export default function League() {
         {tab === 'Keepers' && id !== 'rebirth' && <Keepers leagueId={id} />}
         {tab === 'Keeper Prices' && id === 'rebirth' && <KeeperPriceCalc />}
         {tab === 'Draft Picks Board' && id === 'rebirth' && <RebirthDraftBoard />}
+        {tab === 'Pick Order' && id === 'rebirth' && <RebirthPickBoard />}
         {tab === 'Draft Picks Board' && id === 'beaners-husseins' && <BHDraftBoard />}
         {tab === 'Draft Picks Board' && id !== 'rebirth' && id !== 'beaners-husseins' && (
           <div style={{ padding: '40px 0', color: 'var(--text-muted)', fontSize: 13 }}>Draft picks board coming soon.</div>
