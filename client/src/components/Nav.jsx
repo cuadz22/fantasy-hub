@@ -162,7 +162,7 @@ const styles = {
     width: 5,
     height: 5,
     borderRadius: '50%',
-    background: active ? 'var(--red)' : '#333',
+    background: active ? 'var(--red)' : 'var(--border-light)',
     flexShrink: 0,
   }),
   themeBtn: {
