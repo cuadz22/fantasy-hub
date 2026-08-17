@@ -10,23 +10,23 @@ function useIsMobile() {
   return isMobile;
 }
 
-const OWNERS = ['Jose', 'Cristian', 'Pru', 'Alexis', 'Ed', 'Hihi', 'Jonathan', 'Oscar', 'Giovanny', 'Big Vic', 'JJ', 'Julio'];
+const OWNERS = ['Jose', 'Cristian', 'Pru', 'Alexis', 'Ed', 'Hihi', 'Tello', 'Oscar', 'Gio', 'Vic', 'JJ', 'Julio'];
 
 const ROUNDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17];
 
 const DRAFT_BOARD = {
-  'Jose':     { 1:['Jose','JJ'], 2:[], 3:[], 4:['Giovanny','Ed'], 5:['JJ'], 6:[], 7:['Hihi'], 8:['Jose'], 9:['Jose'], 10:['Jose','Ed'], 11:['Jose'], 12:['Jose'], 13:['Jose'], 14:['Hihi'], 15:['Jose'], 16:['Jose'], 17:['Jose'] },
+  'Jose':     { 1:['Jose','JJ'], 2:[], 3:[], 4:['Gio','Ed'], 5:['JJ'], 6:[], 7:['Hihi'], 8:['Jose'], 9:['Jose'], 10:['Jose','Ed'], 11:['Jose'], 12:['Jose'], 13:['Jose'], 14:['Hihi'], 15:['Jose'], 16:['Jose'], 17:['Jose'] },
   'Cristian': { 1:['Cristian'], 2:['Cristian'], 3:['Cristian'], 4:['Cristian'], 5:['Cristian'], 6:['Cristian'], 7:['Cristian'], 8:['Cristian'], 9:['Cristian'], 10:['Cristian'], 11:['Cristian'], 12:['Cristian'], 13:['Cristian'], 14:['Cristian'], 15:['Cristian'], 16:['Cristian'], 17:['Cristian'] },
-  'Pru':      { 1:['Pru'], 2:[], 3:[], 4:['Pru'], 5:['Pru','Jonathan'], 6:[], 7:['Pru'], 8:['Pru','Jonathan'], 9:['Pru'], 10:['Pru'], 11:['Pru'], 12:['Jonathan'], 13:['Pru'], 14:['Pru'], 15:['Pru'], 16:['Pru'], 17:['Pru','JJ'] },
-  'Alexis':   { 1:['Julio','Big Vic'], 2:['Alexis','Julio'], 3:['Julio'], 4:['Alexis','JJ'], 5:['Alexis','Ed'], 6:['Alexis'], 7:['Alexis'], 8:['Ed'], 9:['Alexis'], 10:[], 11:['Big Vic'], 12:[], 13:['Alexis'], 14:['Alexis'], 15:['Alexis'], 16:[], 17:[] },
-  'Ed':       { 1:['Ed'], 2:[], 3:['Ed'], 4:['Jonathan'], 5:[], 6:['Jose'], 7:['Ed','Jose'], 8:[], 9:['Ed'], 10:['JJ'], 11:['Alexis','Ed'], 12:['Ed','JJ'], 13:['Ed'], 14:['Ed'], 15:['Ed'], 16:['Alexis','Ed'], 17:['Ed'] },
-  'Hihi':     { 1:['Hihi','Oscar','Giovanny'], 2:['Hihi','Big Vic'], 3:['Jose','Hihi','Oscar','Giovanny'], 4:[], 5:['Jose'], 6:['Hihi'], 7:[], 8:['Hihi'], 9:['Hihi'], 10:['Hihi'], 11:['Hihi'], 12:[], 13:['Hihi'], 14:[], 15:[], 16:[], 17:['Hihi'] },
-  'Jonathan': { 1:['Jonathan'], 2:['Jonathan','JJ'], 3:['Pru','Jonathan'], 4:['Julio'], 5:['Giovanny'], 6:['Jonathan','Giovanny'], 7:[], 8:[], 9:['Jonathan'], 10:['Jonathan'], 11:['Jonathan'], 12:['Pru'], 13:['Jonathan'], 14:['Jonathan'], 15:['Jonathan'], 16:[], 17:[] },
+  'Pru':      { 1:['Pru'], 2:[], 3:[], 4:['Pru'], 5:['Pru','Tello'], 6:[], 7:['Pru'], 8:['Pru','Tello'], 9:['Pru'], 10:['Pru'], 11:['Pru'], 12:['Tello'], 13:['Pru'], 14:['Pru'], 15:['Pru'], 16:['Pru'], 17:['Pru','JJ'] },
+  'Alexis':   { 1:['Julio','Vic'], 2:['Alexis','Julio'], 3:['Julio'], 4:['Alexis','JJ'], 5:['Alexis','Ed'], 6:['Alexis'], 7:['Alexis'], 8:['Ed'], 9:['Alexis'], 10:[], 11:['Vic'], 12:[], 13:['Alexis'], 14:['Alexis'], 15:['Alexis'], 16:[], 17:[] },
+  'Ed':       { 1:['Ed'], 2:[], 3:['Ed'], 4:['Tello'], 5:[], 6:['Jose'], 7:['Ed','Jose'], 8:[], 9:['Ed'], 10:['JJ'], 11:['Alexis','Ed'], 12:['Ed','JJ'], 13:['Ed'], 14:['Ed'], 15:['Ed'], 16:['Alexis','Ed'], 17:['Ed'] },
+  'Hihi':     { 1:['Hihi','Oscar','Gio'], 2:['Hihi','Vic'], 3:['Jose','Hihi','Oscar','Gio'], 4:[], 5:['Jose'], 6:['Hihi'], 7:[], 8:['Hihi'], 9:['Hihi'], 10:['Hihi'], 11:['Hihi'], 12:[], 13:['Hihi'], 14:[], 15:[], 16:[], 17:['Hihi'] },
+  'Tello': { 1:['Tello'], 2:['Tello','JJ'], 3:['Pru','Tello'], 4:['Julio'], 5:['Gio'], 6:['Tello','Gio'], 7:[], 8:[], 9:['Tello'], 10:['Tello'], 11:['Tello'], 12:['Pru'], 13:['Tello'], 14:['Tello'], 15:['Tello'], 16:[], 17:[] },
   'Oscar':    { 1:[], 2:['Oscar'], 3:['JJ'], 4:['Hihi'], 5:['Oscar'], 6:['Oscar'], 7:['Oscar'], 8:['Oscar'], 9:['Oscar'], 10:['Oscar'], 11:['Oscar'], 12:['Hihi','Oscar'], 13:['Oscar'], 14:['Oscar'], 15:['Oscar'], 16:['Oscar'], 17:['Oscar'] },
-  'Giovanny': { 1:[], 2:['Giovanny'], 3:[], 4:[], 5:[], 6:[], 7:['Giovanny'], 8:['Giovanny'], 9:['Giovanny'], 10:['Giovanny'], 11:['Giovanny'], 12:['Giovanny'], 13:['Giovanny'], 14:['Jose','Giovanny'], 15:['Hihi','Giovanny'], 16:['Hihi','Jonathan','Giovanny'], 17:['Jonathan','Giovanny'] },
-  'Big Vic':  { 1:['Alexis'], 2:[], 3:['Alexis'], 4:['Big Vic'], 5:['Hihi','Big Vic'], 6:['Big Vic'], 7:['Big Vic'], 8:['Big Vic'], 9:['Big Vic'], 10:['Big Vic'], 11:[], 12:['Big Vic'], 13:['Big Vic'], 14:['Big Vic'], 15:['Big Vic','JJ'], 16:['Big Vic'], 17:['Big Vic'] },
-  'JJ':       { 1:[], 2:['Pru','Ed','Jose'], 3:['Big Vic'], 4:['Oscar','Jose'], 5:['Julio'], 6:['Ed','JJ','Pru'], 7:['JJ'], 8:['Alexis','JJ'], 9:['JJ'], 10:[], 11:['JJ'], 12:[], 13:['JJ'], 14:['JJ'], 15:[], 16:[], 17:[] },
-  'Julio':    { 1:[], 2:[], 3:[], 4:[], 5:[], 6:['Julio'], 7:['Jonathan','Julio'], 8:['Julio'], 9:['Julio'], 10:['Alexis','Julio'], 11:['Julio'], 12:['Alexis','Julio'], 13:['Julio'], 14:['Julio'], 15:['Julio'], 16:['JJ','Julio'], 17:['Alexis','Julio'] },
+  'Gio': { 1:[], 2:['Gio'], 3:[], 4:[], 5:[], 6:[], 7:['Gio'], 8:['Gio'], 9:['Gio'], 10:['Gio'], 11:['Gio'], 12:['Gio'], 13:['Gio'], 14:['Jose','Gio'], 15:['Hihi','Gio'], 16:['Hihi','Tello','Gio'], 17:['Tello','Gio'] },
+  'Vic':  { 1:['Alexis'], 2:[], 3:['Alexis'], 4:['Vic'], 5:['Hihi','Vic'], 6:['Vic'], 7:['Vic'], 8:['Vic'], 9:['Vic'], 10:['Vic'], 11:[], 12:['Vic'], 13:['Vic'], 14:['Vic'], 15:['Vic','JJ'], 16:['Vic'], 17:['Vic'] },
+  'JJ':       { 1:[], 2:['Pru','Ed','Jose'], 3:['Vic'], 4:['Oscar','Jose'], 5:['Julio'], 6:['Ed','JJ','Pru'], 7:['JJ'], 8:['Alexis','JJ'], 9:['JJ'], 10:[], 11:['JJ'], 12:[], 13:['JJ'], 14:['JJ'], 15:[], 16:[], 17:[] },
+  'Julio':    { 1:[], 2:[], 3:[], 4:[], 5:[], 6:['Julio'], 7:['Tello','Julio'], 8:['Julio'], 9:['Julio'], 10:['Alexis','Julio'], 11:['Julio'], 12:['Alexis','Julio'], 13:['Julio'], 14:['Julio'], 15:['Julio'], 16:['JJ','Julio'], 17:['Alexis','Julio'] },
 };
 
 const OWNER_COLORS = {
@@ -36,10 +36,10 @@ const OWNER_COLORS = {
   'Alexis':   '#c8a832',
   'Ed':       '#cc55cc',
   'Hihi':     '#4aaaaa',
-  'Jonathan': '#cc8833',
+  'Tello': '#cc8833',
   'Oscar':    '#7aaa4a',
-  'Giovanny': '#9a6acc',
-  'Big Vic':  '#cc4477',
+  'Gio': '#9a6acc',
+  'Vic':  '#cc4477',
   'JJ':       '#9966cc',
   'Julio':    '#4acc88',
 };
