@@ -8,15 +8,19 @@ const LEAGUES = [
   { id: 'shoot-the-shits', name: 'Shoot the Shits' },
 ];
 
-export default function Nav() {
+export default function Nav({ theme, onToggleTheme }) {
   const { pathname } = useLocation();
   const isMobile = useIsMobile();
+  const isDark = theme === 'dark';
 
   if (isMobile) {
     return (
       <header style={styles.headerMobile}>
         <div style={styles.mobileTop}>
           <Link to="/" style={styles.logo}>Cuadz Fantasy Network</Link>
+          <button onClick={onToggleTheme} style={styles.themeBtn} title="Toggle theme">
+            {isDark ? '☀️' : '🌙'}
+          </button>
         </div>
         <nav style={styles.navMobile}>
           {LEAGUES.map(l => {
@@ -57,6 +61,9 @@ export default function Nav() {
         </nav>
         <div style={styles.fadeRight} />
       </div>
+      <button onClick={onToggleTheme} style={styles.themeBtn} title="Toggle theme">
+        {isDark ? '☀️' : '🌙'}
+      </button>
     </header>
   );
 }
@@ -82,9 +89,6 @@ const styles = {
     position: 'sticky',
     top: 0,
     zIndex: 100,
-  },
-  mobileTop: {
-    padding: '10px 16px 8px',
   },
   navMobile: {
     display: 'flex',
@@ -161,4 +165,22 @@ const styles = {
     background: active ? 'var(--red)' : '#333',
     flexShrink: 0,
   }),
+  themeBtn: {
+    background: 'none',
+    border: 'none',
+    fontSize: 16,
+    cursor: 'pointer',
+    padding: '4px 6px',
+    borderRadius: 6,
+    flexShrink: 0,
+    lineHeight: 1,
+    opacity: 0.8,
+    transition: 'opacity 0.15s',
+  },
+  mobileTop: {
+    padding: '10px 16px 8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
 };
