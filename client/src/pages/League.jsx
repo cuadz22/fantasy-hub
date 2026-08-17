@@ -12,6 +12,7 @@ import RebirthKeepers from '../components/RebirthKeepers';
 import RebirthDraftBoard from '../components/RebirthDraftBoard';
 import RebirthPickBoard from '../components/RebirthPickBoard';
 import BHDraftBoard from '../components/BHDraftBoard';
+import BHPickBoard from '../components/BHPickBoard';
 import OffseasonTrades from '../components/OffseasonTrades';
 import KeeperSubmission from '../components/KeeperSubmission';
 import PowerRankings from '../components/PowerRankings';
@@ -84,6 +85,7 @@ export default function League() {
         {tab === 'Keeper Prices' && id === 'rebirth' && <KeeperPriceCalc />}
         {tab === 'Draft Picks Board' && id === 'rebirth' && <RebirthDraftBoard />}
         {tab === 'Pick Order' && id === 'rebirth' && <RebirthPickBoard />}
+        {tab === 'Pick Order' && id === 'beaners-husseins' && <BHPickBoard />}
         {tab === 'Draft Picks Board' && id === 'beaners-husseins' && <BHDraftBoard />}
         {tab === 'Draft Picks Board' && id !== 'rebirth' && id !== 'beaners-husseins' && (
           <div style={{ padding: '40px 0', color: 'var(--text-muted)', fontSize: 13 }}>Draft picks board coming soon.</div>
