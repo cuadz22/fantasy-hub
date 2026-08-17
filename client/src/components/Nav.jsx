@@ -8,15 +8,64 @@ const LEAGUES = [
   { id: 'shoot-the-shits', name: 'Shoot the Shits' },
 ];
 
-export default function Nav() {
+function ThemeToggle({ isDark, onToggle }) {
+  return (
+    <button
+      onClick={onToggle}
+      title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 6,
+        background: 'none',
+        border: '1px solid var(--border)',
+        borderRadius: 999,
+        padding: '4px 10px 4px 8px',
+        cursor: 'pointer',
+        flexShrink: 0,
+        transition: 'border-color 0.15s',
+      }}
+    >
+      {/* sliding pill track */}
+      <div style={{
+        position: 'relative',
+        width: 28,
+        height: 16,
+        borderRadius: 999,
+        background: isDark ? '#2a2a2a' : '#ACF910',
+        border: '1px solid var(--border)',
+        transition: 'background 0.2s',
+        flexShrink: 0,
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: 2,
+          left: isDark ? 2 : 12,
+          width: 10,
+          height: 10,
+          borderRadius: '50%',
+          background: isDark ? '#666' : '#111',
+          transition: 'left 0.2s, background 0.2s',
+        }} />
+      </div>
+      <span style={{ fontSize: 11, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+        {isDark ? 'Dark' : 'Light'}
+      </span>
+    </button>
+  );
+}
+
+export default function Nav({ theme, onToggleTheme }) {
   const { pathname } = useLocation();
   const isMobile = useIsMobile();
+  const isDark = theme === 'dark';
 
   if (isMobile) {
     return (
       <header style={styles.headerMobile}>
         <div style={styles.mobileTop}>
           <Link to="/" style={styles.logo}>Cuadz Fantasy Network</Link>
+          <ThemeToggle isDark={isDark} onToggle={onToggleTheme} />
         </div>
         <nav style={styles.navMobile}>
           {LEAGUES.map(l => {
@@ -57,6 +106,7 @@ export default function Nav() {
         </nav>
         <div style={styles.fadeRight} />
       </div>
+      <ThemeToggle isDark={isDark} onToggle={onToggleTheme} />
     </header>
   );
 }
@@ -85,6 +135,9 @@ const styles = {
   },
   mobileTop: {
     padding: '10px 16px 8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   navMobile: {
     display: 'flex',
