@@ -150,7 +150,7 @@ const styles = {
   table: { borderCollapse: 'collapse', fontSize: 11, border: '1px solid var(--border)' },
   thOwner: {
     textAlign: 'left', padding: '8px 10px',
-    color: '#ffffff', fontWeight: 600,
+    color: 'var(--text)', fontWeight: 600,
     letterSpacing: '0.06em', textTransform: 'uppercase',
     fontSize: 10, borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
@@ -159,7 +159,7 @@ const styles = {
   },
   th: {
     textAlign: 'center', padding: '10px 4px',
-    color: '#ffffff', fontWeight: 600,
+    color: 'var(--text)', fontWeight: 600,
     fontSize: 10, borderBottom: '1px solid var(--border)',
     borderRight: '1px solid var(--border)',
     background: 'var(--bg2)', letterSpacing: '0.04em',
@@ -180,5 +180,5 @@ const styles = {
     alignItems: 'stretch', justifyContent: 'center',
     width: '100%', height: '100%',
   },
-  empty: { color: '#2a2a2a', fontSize: 16, fontWeight: 300 },
+  empty: { color: 'var(--text-dim)', fontSize: 16, fontWeight: 300 },
 };
