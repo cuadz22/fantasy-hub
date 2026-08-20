@@ -29,7 +29,7 @@ const LEAGUES = {
 
 const KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Owners', 'Keepers', 'Keeper Prices', 'Draft Picks Board', 'Pick Order', 'Draft Order', 'Off-Season Trades', 'Submit Keepers', 'Rulebook'];
 const NON_KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Rulebook'];
-const GENTS_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Draft Order', 'Rulebook'];
+const GENTS_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Draft Order', 'Rivalry Week', 'Rulebook'];
 
 export default function League() {
   const { id } = useParams();
@@ -94,6 +94,13 @@ export default function League() {
         {tab === 'Power Rankings' && <PowerRankings leagueId={id} />}
         {tab === 'Off-Season Trades' && <OffseasonTrades leagueId={id} />}
         {tab === 'Submit Keepers' && <KeeperSubmission leagueId={id} />}
+        {tab === 'Rivalry Week' && id === 'gentlemens-league' && (
+          <iframe
+            src="/rivalry-week.html"
+            style={{ width: '100%', height: 'calc(100vh - 160px)', border: 'none', borderRadius: 8 }}
+            title="Rivalry Week"
+          />
+        )}
         {tab === 'Rulebook' && <Rulebook leagueId={id} />}
       </div>
     </div>
