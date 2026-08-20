@@ -359,30 +359,53 @@
     .lb-row > :nth-child(5), .lb-row > :nth-child(6) { display: none; }
     .matchup-row { grid-template-columns: 50px 1fr auto 1fr 50px; font-size: 12px; }
     .score-cell { font-size: 13px; }
-    .photo-row { height: 220px; }
+    .photo-row { height: 160px; }
   }
 
   /* Toggle button */
   .mode-toggle {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 14px;
+    right: 16px;
     z-index: 1000;
-    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
     border: 1px solid rgba(255,255,255,0.2);
-    color: #fff;
-    padding: 8px 16px;
-    border-radius: 20px;
+    border-radius: 999px;
+    padding: 4px 10px 4px 8px;
     cursor: pointer;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    backdrop-filter: blur(8px);
-    transition: all 0.2s;
     font-family: inherit;
+    transition: border-color 0.15s;
   }
-  .mode-toggle:hover {
-    background: rgba(255,255,255,0.18);
+  .mode-toggle:hover { border-color: rgba(255,255,255,0.4); }
+  .toggle-track {
+    position: relative;
+    width: 28px;
+    height: 16px;
+    border-radius: 999px;
+    background: #2a2a2a;
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .toggle-track.is-light { background: #ACF910; border-color: #ACF910; }
+  .toggle-knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #666;
+    transition: left 0.2s, background 0.2s;
+  }
+  .toggle-track.is-light .toggle-knob { left: 14px; background: #111; }
+  .toggle-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    white-space: nowrap;
   }
 
   /* Light mode overrides */
@@ -390,14 +413,9 @@
     background: #f0f2f5;
     color: #1a1a1a;
   }
-  body.light-mode .mode-toggle {
-    background: rgba(0,0,0,0.08);
-    border-color: rgba(0,0,0,0.15);
-    color: #1a1a1a;
-  }
-  body.light-mode .mode-toggle:hover {
-    background: rgba(0,0,0,0.13);
-  }
+  body.light-mode .mode-toggle { border-color: rgba(0,0,0,0.15); }
+  body.light-mode .mode-toggle:hover { border-color: rgba(0,0,0,0.3); }
+  body.light-mode .toggle-label { color: rgba(0,0,0,0.45); }
   body.light-mode .matchup-card {
     background: #ffffff;
     border-color: #e0e0e0;
@@ -484,7 +502,16 @@
 </style>
 </head>
 <body>
-<button class="mode-toggle" onclick="document.body.classList.toggle('light-mode'); this.textContent = document.body.classList.contains('light-mode') ? '🌙 Dark Mode' : '☀️ Light Mode'">☀️ Light Mode</button>
+<button class="mode-toggle" id="themeToggle" onclick="
+  const isLight = document.body.classList.toggle('light-mode');
+  document.getElementById('toggleTrack').classList.toggle('is-light', isLight);
+  document.getElementById('toggleLbl').textContent = isLight ? 'Light' : 'Dark';
+">
+  <div class="toggle-track" id="toggleTrack">
+    <div class="toggle-knob"></div>
+  </div>
+  <span class="toggle-label" id="toggleLbl">Dark</span>
+</button>
 
 <header>
   <div class="league-badge">Gentlemen's League · 2026</div>
