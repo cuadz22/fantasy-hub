@@ -80,6 +80,9 @@ export default function Nav({ theme, onToggleTheme }) {
               </Link>
             );
           })}
+          <a href="/rivalry-week.html" style={styles.rivalryTabMobile}>
+            ⚔️ Rivalry Week
+          </a>
         </nav>
       </header>
     );
@@ -103,6 +106,12 @@ export default function Nav({ theme, onToggleTheme }) {
               </Link>
             );
           })}
+          <a
+            href="/rivalry-week.html"
+            style={styles.rivalryTab}
+          >
+            ⚔️ Rivalry Week
+          </a>
         </nav>
         <div style={styles.fadeRight} />
       </div>
@@ -214,4 +223,27 @@ const styles = {
     background: active ? 'var(--red)' : '#333',
     flexShrink: 0,
   }),
+  rivalryTab: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 6,
+    padding: '0 14px',
+    height: '100%',
+    fontSize: 12,
+    color: '#ACF910',
+    whiteSpace: 'nowrap',
+    borderBottom: '2px solid transparent',
+    marginLeft: 8,
+    fontWeight: 600,
+  },
+  rivalryTabMobile: {
+    fontSize: 11,
+    color: '#111',
+    padding: '5px 10px',
+    borderRadius: 20,
+    border: '0.5px solid #ACF910',
+    background: '#ACF910',
+    whiteSpace: 'nowrap',
+    fontWeight: 600,
+  },
 };
