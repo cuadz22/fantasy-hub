@@ -69,7 +69,7 @@ export default function League() {
       </div>
 
       <div style={{ ...styles.tabsOuter, borderBottom: isMobile ? 'none' : '0.5px solid var(--border)' }}>
-        <div style={{ ...styles.tabs, flexWrap: isMobile ? 'wrap' : 'nowrap', overflowX: isMobile ? 'visible' : 'auto', gap: isMobile ? 4 : 0, paddingBottom: isMobile ? 12 : 0 }}>
+        <div style={{ ...styles.tabs, flexWrap: 'wrap', overflowX: 'visible', gap: isMobile ? 4 : 0, paddingBottom: isMobile ? 12 : 8 }}>
           {tabs.map(t => (
             <button
               key={t}
