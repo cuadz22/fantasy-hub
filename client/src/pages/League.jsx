@@ -27,9 +27,16 @@ const LEAGUES = {
   'shoot-the-shits': { name: 'Shoot the Shits', est: 2021, keeper: false },
 };
 
-const KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Owners', 'Keepers', 'Keeper Prices', 'Draft Picks Board', 'Pick Order', 'Draft Order', 'Off-Season Trades', 'Submit Keepers', 'Rulebook'];
-const NON_KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Rulebook'];
-const GENTS_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Draft Order', 'Rulebook'];
+const KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Owners', 'Keepers', 'Keeper Prices', 'Draft Picks Board', 'Pick Order', 'Draft Order', 'Off-Season Trades', 'Submit Keepers', 'Draft Report', 'Rulebook'];
+const NON_KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Draft Report', 'Rulebook'];
+const GENTS_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Draft Order', 'Draft Report', 'Rulebook'];
+
+const DRAFT_REPORTS = {
+  'gentlemens-league': '/gl-draft-report-2026.html',
+  'shoot-the-shits': '/sts-draft-report-2026.html',
+  'rebirth': '/rebirth-draft-report-2026.html',
+  'beaners-husseins': '/bh-draft-report-2026.html',
+};
 
 export default function League() {
   const { id } = useParams();
@@ -40,6 +47,14 @@ export default function League() {
   if (!league) return <div style={{ padding: 40, color: 'var(--text-muted)' }}>League not found</div>;
 
   const tabs = league.keeper ? KEEPER_TABS : (id === 'gentlemens-league' ? GENTS_TABS : NON_KEEPER_TABS);
+
+  const handleTabClick = (t) => {
+    if (t === 'Draft Report' && DRAFT_REPORTS[id]) {
+      window.open(DRAFT_REPORTS[id], '_blank');
+    } else {
+      setTab(t);
+    }
+  };
 
   return (
     <div style={{ ...styles.wrap, padding: isMobile ? '20px 14px' : '32px 24px' }}>
@@ -58,15 +73,16 @@ export default function League() {
           {tabs.map(t => (
             <button
               key={t}
-              onClick={() => setTab(t)}
+              onClick={() => handleTabClick(t)}
               style={{
                 ...styles.tab,
                 ...(tab === t ? styles.tabActive : {}),
                 ...(isMobile ? styles.tabMobile : {}),
                 ...(isMobile && tab === t ? styles.tabMobileActive : {}),
+                ...(t === 'Draft Report' ? styles.tabExternal : {}),
               }}
             >
-              {t}
+              {t}{t === 'Draft Report' ? ' ↗' : ''}
             </button>
           ))}
         </div>
@@ -86,7 +102,6 @@ export default function League() {
         {tab === 'Draft Picks Board' && id === 'rebirth' && <RebirthDraftBoard />}
         {tab === 'Pick Order' && id === 'rebirth' && <RebirthPickBoard />}
         {tab === 'Pick Order' && id === 'beaners-husseins' && <BHPickBoard />}
-        {tab === 'Draft Picks Board' && id === 'beaners-husseins' && <BHDraftBoard />}
         {tab === 'Draft Picks Board' && id !== 'rebirth' && id !== 'beaners-husseins' && (
           <div style={{ padding: '40px 0', color: 'var(--text-muted)', fontSize: 13 }}>Draft picks board coming soon.</div>
         )}
@@ -110,6 +125,7 @@ const styles = {
   tabs: { display: 'flex', scrollbarWidth: 'none', msOverflowStyle: 'none' },
   tab: { background: 'none', border: 'none', borderBottom: '2px solid transparent', color: 'var(--text-muted)', padding: '10px 8px', fontSize: 11, cursor: 'pointer', marginBottom: -1, transition: 'color 0.15s', whiteSpace: 'nowrap', flexShrink: 0 },
   tabActive: { color: 'var(--text)', borderBottom: '2px solid var(--red)' },
+  tabExternal: { color: 'var(--red)', opacity: 0.8 },
   tabMobile: { padding: '6px 12px', fontSize: 11, borderBottom: 'none', marginBottom: 0, borderRadius: 20, border: '0.5px solid var(--border)', background: 'var(--bg2)', whiteSpace: 'nowrap', flexShrink: 0 },
   tabMobileActive: { background: 'var(--red)', color: '#fff', borderColor: 'var(--red)' },
   tabFade: { position: 'absolute', top: 0, right: 0, width: 48, height: '100%', background: 'linear-gradient(to right, transparent, var(--bg))', pointerEvents: 'none' },
