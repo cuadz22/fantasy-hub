@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shoot the Shits — 2026 Auction Draft Report</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2d3148;
+    --text: #e8eaf6;
+    --muted: #7b82b0;
+    --blue: #5c9dff;
+    --green: #4fc3f7;
+    --pos-qb: #ef5350;
+    --pos-rb: #66bb6a;
+    --pos-wr: #5c9dff;
+    --pos-te: #ffa726;
+    --pos-k: #ab47bc;
+    --pos-def: #78909c;
+    --steal-big: #00c853;
+    --steal: #69f0ae;
+    --over-big: #ff1744;
+    --over: #ff6e40;
+    --fair: #b0bec5;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; min-height: 100vh; }
+  .header { background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%); border-bottom: 1px solid var(--border); padding: 20px 24px 0; }
+  .header h1 { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+  .header .subtitle { color: var(--muted); font-size: 12px; margin-top: 3px; }
+  .tabs { display: flex; gap: 2px; margin-top: 16px; }
+  .tab { padding: 8px 16px; cursor: pointer; color: var(--muted); font-size: 12px; font-weight: 500; border-radius: 6px 6px 0 0; border: 1px solid transparent; border-bottom: none; transition: all .15s; }
+  .tab:hover { color: var(--text); background: var(--surface2); }
+  .tab.active { color: var(--blue); background: var(--surface); border-color: var(--border); border-top: 2px solid var(--blue); }
+  .content { padding: 20px 24px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Rosters grid */
+  .rosters-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media(max-width:1100px){ .rosters-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media(max-width:700px){ .rosters-grid { grid-template-columns: repeat(2, 1fr); } }
+  .roster-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .roster-header { padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+  .roster-name { font-size: 12px; font-weight: 700; color: var(--text); }
+  .roster-budget { font-size: 11px; color: var(--muted); }
+  .roster-grade { font-size: 16px; font-weight: 800; }
+  .player-row { display: flex; align-items: center; padding: 5px 10px; gap: 6px; border-bottom: 1px solid rgba(45,49,72,.4); transition: background .1s; }
+  .player-row:last-child { border-bottom: none; }
+  .player-row:hover { background: var(--surface2); }
+  .pos-badge { font-size: 9px; font-weight: 700; padding: 2px 4px; border-radius: 3px; min-width: 24px; text-align: center; }
+  .pos-badge.qb { background: rgba(239,83,80,.2); color: var(--pos-qb); }
+  .pos-badge.rb { background: rgba(102,187,106,.2); color: var(--pos-rb); }
+  .pos-badge.wr { background: rgba(92,157,255,.2); color: var(--pos-wr); }
+  .pos-badge.te { background: rgba(255,167,38,.2); color: var(--pos-te); }
+  .pos-badge.k  { background: rgba(171,71,188,.2); color: var(--pos-k); }
+  .pos-badge.def{ background: rgba(120,144,156,.2); color: var(--pos-def); }
+  .player-name { flex: 1; font-size: 11px; color: var(--text); }
+  .player-price { font-size: 11px; font-weight: 700; color: var(--text); min-width: 30px; text-align: right; }
+  .player-delta { font-size: 10px; font-weight: 600; min-width: 38px; text-align: right; }
+  .player-delta.big-steal { color: var(--steal-big); }
+  .player-delta.steal { color: var(--steal); }
+  .player-delta.big-over { color: var(--over-big); }
+  .player-delta.over { color: var(--over); }
+  .player-delta.fair { color: var(--fair); }
+
+  /* Value analysis table */
+  .value-table-wrap { overflow-x: auto; }
+  .value-table { width: 100%; border-collapse: collapse; }
+  .value-table th { background: var(--surface2); color: var(--muted); font-size: 11px; font-weight: 600; padding: 8px 10px; text-align: left; border-bottom: 2px solid var(--border); position: sticky; top: 0; }
+  .value-table td { padding: 7px 10px; border-bottom: 1px solid rgba(45,49,72,.4); font-size: 12px; }
+  .value-table tr:hover td { background: var(--surface2); }
+  .section-label { font-size: 11px; font-weight: 700; color: var(--muted); padding: 10px 10px 4px; letter-spacing: .5px; background: rgba(22,25,36,.6); }
+  .big-steal-row td { color: var(--steal-big); }
+  .steal-row td { color: var(--steal); }
+  .big-over-row td { color: var(--over-big) !important; }
+  .over-row td { color: var(--over); }
+  .fair-row td { }
+  .delta-pill { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .delta-pill.big-steal { background: rgba(0,200,83,.15); color: var(--steal-big); }
+  .delta-pill.steal { background: rgba(105,240,174,.12); color: var(--steal); }
+  .delta-pill.big-over { background: rgba(255,23,68,.15); color: var(--over-big); }
+  .delta-pill.over { background: rgba(255,110,64,.12); color: var(--over); }
+  .delta-pill.fair { background: rgba(176,190,197,.08); color: var(--fair); }
+
+  /* Roster construction */
+  .construction-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media(max-width:900px){ .construction-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media(max-width:600px){ .construction-grid { grid-template-columns: 1fr; } }
+  .construct-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .construct-header { padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+  .construct-name { font-size: 13px; font-weight: 700; }
+  .grade-badge { font-size: 20px; font-weight: 800; }
+  .grade-Aplus { color: #FFD700; }
+  .grade-A     { color: #4fc3f7; }
+  .grade-Am    { color: #4fc3f7; }
+  .grade-Bp    { color: #81c784; }
+  .grade-B     { color: #81c784; }
+  .grade-Bm    { color: #aed581; }
+  .grade-Cp    { color: #ffb74d; }
+  .grade-C     { color: #e57373; }
+  .construct-body { padding: 12px 14px; }
+  .construct-body ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .construct-body li { font-size: 12px; color: #b0b8d8; line-height: 1.5; padding-left: 12px; position: relative; }
+  .construct-body li::before { content: '·'; position: absolute; left: 2px; color: var(--muted); }
+  .construct-body strong { color: var(--text); }
+
+  .pos-summary { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
+  .pos-chip { font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 3px; }
+  .pos-chip.qb { background: rgba(239,83,80,.2); color: var(--pos-qb); }
+  .pos-chip.rb { background: rgba(102,187,106,.2); color: var(--pos-rb); }
+  .pos-chip.wr { background: rgba(92,157,255,.2); color: var(--pos-wr); }
+  .pos-chip.te { background: rgba(255,167,38,.2); color: var(--pos-te); }
+
+  /* Grade summary bar */
+  .grade-summary { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+  .grade-chip { padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; background: var(--surface); border: 1px solid var(--border); }
+
+  .legend { display: flex; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🎯 Shoot the Shits — 2026 Auction Draft Report</h1>
+  <div class="subtitle">Yahoo Auction · 12 Teams · $200 Budget · Half-PPR</div>
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('rosters')">Team Rosters</div>
+    <div class="tab" onclick="showTab('value')">Value Analysis</div>
+    <div class="tab" onclick="showTab('construction')">Roster Construction</div>
+  </div>
+</div>
+<div class="content">
+<div class="tab-panel active" id="tab-rosters">
+<div class="legend" style="margin-bottom:16px;"><span class="legend-item"><span class="legend-dot" style="background:var(--steal-big)"></span> Big steal (≥$10 below avg)</span><span class="legend-item"><span class="legend-dot" style="background:var(--steal)"></span> Steal ($4–9 below)</span><span class="legend-item"><span class="legend-dot" style="background:var(--fair)"></span> Fair value</span><span class="legend-item"><span class="legend-dot" style="background:var(--over)"></span> Overpay ($4–9 above)</span><span class="legend-item"><span class="legend-dot" style="background:var(--over-big)"></span> Big overpay (≥$10 above)</span></div>
+<div class="rosters-grid">
+<div class="roster-card">
+<div class="roster-header"><div><div class="roster-name">The Bidfather</div><div class="roster-budget" style="margin-top:2px;">Spent: $200 / $200</div></div><div class="roster-grade grade-badge grade-Bm">B-</div></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">James Cook III</span><span class="player-price">$52</span><span class="player-delta big-over">▲+$14</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Kenneth Walker III</span><span class="player-price">$46</span><span class="player-delta big-over">▲+$18</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Jeremiyah Love</span><span class="player-price">$28</span><span class="player-delta over">▲+$6</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Emeka Egbuka</span><span class="player-price">$24</span><span class="player-delta over">▲+$6</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Garrett Wilson</span><span class="player-price">$20</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Jameson Williams</span><span class="player-price">$13</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Jayden Daniels</span><span class="player-price">$6</span><span class="player-delta steal">▼$4</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Dallas Goedert</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Alec Pierce</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Woody Marks</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Malik Willis</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">James Conner</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Isiah Pacheco</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Dontayvion Wicks</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge def">DEF</span><span class="player-name">Bills</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge k">K</span><span class="player-name">Cairo Santos</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+</div>
+<div class="roster-card">
+<div class="roster-header"><div><div class="roster-name">Chasing Flowers</div><div class="roster-budget" style="margin-top:2px;">Spent: $188 / $200</div></div><div class="roster-grade grade-badge grade-B">B</div></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Ja'Marr Chase</span><span class="player-price">$67</span><span class="player-delta over">▲+$9</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Brock Bowers</span><span class="player-price">$35</span><span class="player-delta steal">▼$5</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Zay Flowers</span><span class="player-price">$22</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Bucky Irving</span><span class="player-price">$16</span><span class="player-delta over">▲+$4</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Rhamondre Stevenson</span><span class="player-price">$7</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Carnell Tate</span><span class="player-price">$5</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Tony Pollard</span><span class="player-price">$6</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Courtland Sutton</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">RJ Harvey</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Bo Nix</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Jakobi Meyers</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Matthew Stafford</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Brian Robinson</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Jordyn Tyson</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge def">DEF</span><span class="player-name">Texans</span><span class="player-price">$7</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge k">K</span><span class="player-name">Brandon Aubrey</span><span class="player-price">$6</span><span class="player-delta fair">≈</span></div>
+</div>
+<div class="roster-card">
+<div class="roster-header"><div><div class="roster-name">Stripper Draft Julio</div><div class="roster-budget" style="margin-top:2px;">Spent: $200 / $200</div></div><div class="roster-grade grade-badge grade-Bm">B-</div></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Ashton Jeanty</span><span class="player-price">$29</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Kyren Williams</span><span class="player-price">$29</span><span class="player-delta over">▲+$5</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Luther Burden III</span><span class="player-price">$25</span><span class="player-delta over">▲+$7</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Tyler Warren</span><span class="player-price">$15</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">DeVonta Smith</span><span class="player-price">$25</span><span class="player-delta over">▲+$9</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Brian Thomas Jr.</span><span class="player-price">$12</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Parker Washington</span><span class="player-price">$13</span><span class="player-delta over">▲+$4</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Jonathon Brooks</span><span class="player-price">$10</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Romeo Doubs</span><span class="player-price">$10</span><span class="player-delta over">▲+$4</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Stefon Diggs</span><span class="player-price">$6</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Trevor Lawrence</span><span class="player-price">$5</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Kyle Monangai</span><span class="player-price">$9</span><span class="player-delta over">▲+$4</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Wan'Dale Robinson</span><span class="player-price">$5</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Kenny Gainwell</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Rashid Shaheed</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge def">DEF</span><span class="player-name">Broncos</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+</div>
+<div class="roster-card">
+<div class="roster-header"><div><div class="roster-name">cuadz build 004</div><div class="roster-budget" style="margin-top:2px;">Spent: $200 / $200</div></div><div class="roster-grade grade-badge grade-Cp">C+</div></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Jahmyr Gibbs</span><span class="player-price">$72</span><span class="player-delta big-over">▲+$16</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Chase Brown</span><span class="player-price">$55</span><span class="player-delta big-over">▲+$29</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Cam Skattebo</span><span class="player-price">$19</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Terry McLaurin</span><span class="player-price">$11</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">DJ Moore</span><span class="player-price">$24</span><span class="player-delta big-over">▲+$14</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Justin Herbert</span><span class="player-price">$5</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">George Kittle</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Dalton Kincaid</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Adonai Mitchell</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Denzel Boston</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Tre Tucker</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Kayshon Boutte</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Tre' Harris</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Jalen McMillan</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge def">DEF</span><span class="player-name">Chiefs</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge k">K</span><span class="player-name">Trey Smack</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+</div>
+<div class="roster-card">
+<div class="roster-header"><div><div class="roster-name">The Hokage</div><div class="roster-budget" style="margin-top:2px;">Spent: $200 / $200</div></div><div class="roster-grade grade-badge grade-Bp">B+</div></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Bijan Robinson</span><span class="player-price">$81</span><span class="player-delta big-over">▲+$23</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Lamar Jackson</span><span class="player-price">$14</span><span class="player-delta big-steal">▼$24</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Jaylen Waddle</span><span class="player-price">$28</span><span class="player-delta over">▲+$8</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Marvin Harrison Jr.</span><span class="player-price">$13</span><span class="player-delta steal">▼$7</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Rome Odunze</span><span class="player-price">$18</span><span class="player-delta over">▲+$4</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Quinshon Judkins</span><span class="player-price">$10</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">TreVeyon Henderson</span><span class="player-price">$11</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Travis Kelce</span><span class="player-price">$6</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">DK Metcalf</span><span class="player-price">$4</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Quentin Johnston</span><span class="player-price">$5</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Odell Beckham Jr.</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Mark Andrews</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Makai Lemon</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Tyler Allgeier</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge def">DEF</span><span class="player-name">Seahawks</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge k">K</span><span class="player-name">Jake Bates</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+</div>
+<div class="roster-card">
+<div class="roster-header"><div><div class="roster-name">Strib club Tets</div><div class="roster-budget" style="margin-top:2px;">Spent: $198 / $200</div></div><div class="roster-grade grade-badge grade-B">B</div></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Saquon Barkley</span><span class="player-price">$49</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Derrick Henry</span><span class="player-price">$31</span><span class="player-delta big-steal">▼$13</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Bhayshul Tuten</span><span class="player-price">$13</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Tetairoa McMillan</span><span class="player-price">$21</span><span class="player-delta over">▲+$7</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Jalen Hurts</span><span class="player-price">$7</span><span class="player-delta steal">▼$7</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Mike Evans</span><span class="player-price">$14</span><span class="player-delta over">▲+$4</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Christian Watson</span><span class="player-price">$18</span><span class="player-delta big-over">▲+$10</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Isaiah Likely</span><span class="player-price">$7</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Michael Wilson</span><span class="player-price">$9</span><span class="player-delta over">▲+$4</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">De'Zhaun Stribling</span><span class="player-price">$6</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Kyle Pitts Sr.</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Blake Corum</span><span class="player-price">$5</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Brock Purdy</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Chris Godwin Jr.</span><span class="player-price">$6</span><span class="player-delta over">▲+$5</span></div>
+<div class="player-row"><span class="pos-badge def">DEF</span><span class="player-name">Rams</span><span class="player-price">$5</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge k">K</span><span class="player-name">Ka'imi Fairbairn</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+</div>
+<div class="roster-card">
+<div class="roster-header"><div><div class="roster-name">Jaxon Five</div><div class="roster-budget" style="margin-top:2px;">Spent: $176 / $200</div></div><div class="roster-grade grade-badge grade-Bm">B-</div></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Jaxon Smith-Njigba</span><span class="player-price">$63</span><span class="player-delta big-over">▲+$19</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Omarion Hampton</span><span class="player-price">$43</span><span class="player-delta big-over">▲+$11</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Tee Higgins</span><span class="player-price">$18</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Patrick Mahomes</span><span class="player-price">$8</span><span class="player-delta steal">▼$8</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Harold Fannin Jr.</span><span class="player-price">$4</span><span class="player-delta steal">▼$4</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Chuba Hubbard</span><span class="player-price">$6</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Michael Pittman Jr.</span><span class="player-price">$4</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Jordan Addison</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Khalil Shakir</span><span class="player-price">$4</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Alvin Kamara</span><span class="player-price">$5</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Kyler Murray</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Aaron Jones Sr.</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Xavier Worthy</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Mike Washington Jr.</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge def">DEF</span><span class="player-name">Chargers</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge k">K</span><span class="player-name">Jason Myers</span><span class="player-price">$9</span><span class="player-delta over">▲+$6</span></div>
+</div>
+<div class="roster-card">
+<div class="roster-header"><div><div class="roster-name">Allen or Nothing</div><div class="roster-budget" style="margin-top:2px;">Spent: $200 / $200</div></div><div class="roster-grade grade-badge grade-Bp">B+</div></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Christian McCaffrey</span><span class="player-price">$60</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Malik Nabers</span><span class="player-price">$34</span><span class="player-delta steal">▼$6</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">A.J. Brown</span><span class="player-price">$34</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">George Pickens</span><span class="player-price">$37</span><span class="player-delta big-over">▲+$11</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Travis Etienne Jr.</span><span class="player-price">$20</span><span class="player-delta over">▲+$4</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Caleb Williams</span><span class="player-price">$3</span><span class="player-delta steal">▼$5</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Keenan Allen</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Jayden Higgins</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Baker Mayfield</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Cyrus Allen</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Juwan Johnson</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Tank Bigsby</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Chig Okonkwo</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Tyler Shough</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge def">DEF</span><span class="player-name">Vikings</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge k">K</span><span class="player-name">Will Reichard</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+</div>
+<div class="roster-card">
+<div class="roster-header"><div><div class="roster-name">That's Amari</div><div class="roster-budget" style="margin-top:2px;">Spent: $200 / $200</div></div><div class="roster-grade grade-badge grade-Bp">B+</div></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Justin Jefferson</span><span class="player-price">$52</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Jonathan Taylor</span><span class="player-price">$51</span><span class="player-delta over">▲+$5</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">De'Von Achane</span><span class="player-price">$47</span><span class="player-delta over">▲+$7</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Trey McBride</span><span class="player-price">$25</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Jaxson Dart</span><span class="player-price">$4</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Rico Dowdle</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Jordan Mason</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Jalen Coker</span><span class="player-price">$4</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Jordan Love</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Jayden Reed</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Matthew Golden</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">MarShawn Lloyd</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Malachi Fields</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Tyjae Spears</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge def">DEF</span><span class="player-name">Giants</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge k">K</span><span class="player-name">Tyler Loop</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+</div>
+<div class="roster-card">
+<div class="roster-header"><div><div class="roster-name">Baba Yaga</div><div class="roster-budget" style="margin-top:2px;">Spent: $200 / $200</div></div><div class="roster-grade grade-badge grade-Cp">C+</div></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Nico Collins</span><span class="player-price">$32</span><span class="player-delta over">▲+$6</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Chris Olave</span><span class="player-price">$36</span><span class="player-delta big-over">▲+$14</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Drake London</span><span class="player-price">$31</span><span class="player-delta big-over">▲+$11</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Breece Hall</span><span class="player-price">$24</span><span class="player-delta over">▲+$6</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Josh Jacobs</span><span class="player-price">$19</span><span class="player-delta over">▲+$5</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Colston Loveland</span><span class="player-price">$18</span><span class="player-delta over">▲+$6</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Drake Maye</span><span class="player-price">$9</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">David Montgomery</span><span class="player-price">$14</span><span class="player-delta over">▲+$6</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Jacory Croskey-Merritt</span><span class="player-price">$4</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Josh Downs</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">KC Concepcion</span><span class="player-price">$3</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Keaton Mitchell</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Jake Ferguson</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Jared Goff</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge k">K</span><span class="player-name">Cameron Dicker</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge def">DEF</span><span class="player-name">Patriots</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+</div>
+<div class="roster-card">
+<div class="roster-header"><div><div class="roster-name">Youngbossbrian</div><div class="roster-budget" style="margin-top:2px;">Spent: $200 / $200</div></div><div class="roster-grade grade-badge grade-Bp">B+</div></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">CeeDee Lamb</span><span class="player-price">$52</span><span class="player-delta over">▲+$4</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Josh Allen</span><span class="player-price">$45</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Puka Nacua</span><span class="player-price">$58</span><span class="player-delta big-over">▲+$28</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">D'Andre Swift</span><span class="player-price">$22</span><span class="player-delta big-over">▲+$10</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Sam LaPorta</span><span class="player-price">$4</span><span class="player-delta steal">▼$4</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Jaylen Warren</span><span class="player-price">$5</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">J.K. Dobbins</span><span class="player-price">$5</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Jauan Jennings</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Dalton Schultz</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Cooper Kupp</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Jalen Nailor</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Calvin Ridley</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Kimani Vidal</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Ray Davis</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge def">DEF</span><span class="player-name">Lions</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge k">K</span><span class="player-name">Cam Little</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+</div>
+<div class="roster-card">
+<div class="roster-header"><div><div class="roster-name">A Jeantyman Never Tells</div><div class="roster-budget" style="margin-top:2px;">Spent: $200 / $200</div></div><div class="roster-grade grade-badge grade-B">B</div></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Amon-Ra St. Brown</span><span class="player-price">$61</span><span class="player-delta big-over">▲+$11</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Rashee Rice</span><span class="player-price">$28</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Ladd McConkey</span><span class="player-price">$33</span><span class="player-delta big-over">▲+$11</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Joe Burrow</span><span class="player-price">$7</span><span class="player-delta big-steal">▼$13</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Javonte Williams</span><span class="player-price">$22</span><span class="player-delta big-over">▲+$12</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Jadarian Price</span><span class="player-price">$16</span><span class="player-delta over">▲+$6</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Davante Adams</span><span class="player-price">$18</span><span class="player-delta big-over">▲+$10</span></div>
+<div class="player-row"><span class="pos-badge te">TE</span><span class="player-name">Tucker Kraft</span><span class="player-price">$5</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge qb">QB</span><span class="player-name">Dak Prescott</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Rachaad White</span><span class="player-price">$2</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Zach Charbonnet</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Chris Rodriguez Jr.</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Deebo Samuel Sr.</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge wr">WR</span><span class="player-name">Jerry Jeudy</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge rb">RB</span><span class="player-name">Tyrone Tracy Jr.</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+<div class="player-row"><span class="pos-badge def">DEF</span><span class="player-name">Eagles</span><span class="player-price">$1</span><span class="player-delta fair">≈</span></div>
+</div>
+</div>
+</div>
+<div class="tab-panel" id="tab-value">
+<div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;"><div style="background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);border-radius:8px;padding:10px 16px;"><div style="font-size:20px;font-weight:800;color:var(--steal-big)">3</div><div style="font-size:11px;color:var(--muted)">Big Steals</div></div><div style="background:rgba(105,240,174,.08);border:1px solid rgba(105,240,174,.2);border-radius:8px;padding:10px 16px;"><div style="font-size:20px;font-weight:800;color:var(--steal)">9</div><div style="font-size:11px;color:var(--muted)">Steals</div></div><div style="background:rgba(176,190,197,.05);border:1px solid var(--border);border-radius:8px;padding:10px 16px;"><div style="font-size:20px;font-weight:800;color:var(--fair)">114</div><div style="font-size:11px;color:var(--muted)">Fair Value</div></div><div style="background:rgba(255,110,64,.08);border:1px solid rgba(255,110,64,.2);border-radius:8px;padding:10px 16px;"><div style="font-size:20px;font-weight:800;color:var(--over)">26</div><div style="font-size:11px;color:var(--muted)">Overpays</div></div><div style="background:rgba(255,23,68,.1);border:1px solid rgba(255,23,68,.3);border-radius:8px;padding:10px 16px;"><div style="font-size:20px;font-weight:800;color:var(--over-big)">18</div><div style="font-size:11px;color:var(--muted)">Big Overpays</div></div></div>
+<div class="value-table-wrap"><table class="value-table">
+<tr><th>#</th><th>Player</th><th>Pos</th><th>Team</th><th>Paid</th><th>Avg Val</th><th>Delta</th><th>Verdict</th></tr>
+<tr class="big-steal-row"><td style="color:var(--muted)">1</td><td><strong>Lamar Jackson</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$14</strong></td><td>$38</td><td><span class="delta-pill big-steal">$-24</span></td><td style="color:var(--steal-big);font-weight:600;">Big Steal 🔥</td></tr>
+<tr class="big-steal-row"><td style="color:var(--muted)">2</td><td><strong>Derrick Henry</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$31</strong></td><td>$44</td><td><span class="delta-pill big-steal">$-13</span></td><td style="color:var(--steal-big);font-weight:600;">Big Steal 🔥</td></tr>
+<tr class="big-steal-row"><td style="color:var(--muted)">3</td><td><strong>Joe Burrow</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$7</strong></td><td>$20</td><td><span class="delta-pill big-steal">$-13</span></td><td style="color:var(--steal-big);font-weight:600;">Big Steal 🔥</td></tr>
+<tr class="steal-row"><td style="color:var(--muted)">4</td><td><strong>Patrick Mahomes</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$8</strong></td><td>$16</td><td><span class="delta-pill steal">$-8</span></td><td style="color:var(--steal);font-weight:600;">Steal ✅</td></tr>
+<tr class="steal-row"><td style="color:var(--muted)">5</td><td><strong>Marvin Harrison Jr.</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$13</strong></td><td>$20</td><td><span class="delta-pill steal">$-7</span></td><td style="color:var(--steal);font-weight:600;">Steal ✅</td></tr>
+<tr class="steal-row"><td style="color:var(--muted)">6</td><td><strong>Jalen Hurts</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$7</strong></td><td>$14</td><td><span class="delta-pill steal">$-7</span></td><td style="color:var(--steal);font-weight:600;">Steal ✅</td></tr>
+<tr class="steal-row"><td style="color:var(--muted)">7</td><td><strong>Malik Nabers</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$34</strong></td><td>$40</td><td><span class="delta-pill steal">$-6</span></td><td style="color:var(--steal);font-weight:600;">Steal ✅</td></tr>
+<tr class="steal-row"><td style="color:var(--muted)">8</td><td><strong>Brock Bowers</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$35</strong></td><td>$40</td><td><span class="delta-pill steal">$-5</span></td><td style="color:var(--steal);font-weight:600;">Steal ✅</td></tr>
+<tr class="steal-row"><td style="color:var(--muted)">9</td><td><strong>Caleb Williams</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$3</strong></td><td>$8</td><td><span class="delta-pill steal">$-5</span></td><td style="color:var(--steal);font-weight:600;">Steal ✅</td></tr>
+<tr class="steal-row"><td style="color:var(--muted)">10</td><td><strong>Sam LaPorta</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$4</strong></td><td>$8</td><td><span class="delta-pill steal">$-4</span></td><td style="color:var(--steal);font-weight:600;">Steal ✅</td></tr>
+<tr class="steal-row"><td style="color:var(--muted)">11</td><td><strong>Jayden Daniels</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$6</strong></td><td>$10</td><td><span class="delta-pill steal">$-4</span></td><td style="color:var(--steal);font-weight:600;">Steal ✅</td></tr>
+<tr class="steal-row"><td style="color:var(--muted)">12</td><td><strong>Harold Fannin Jr.</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$4</strong></td><td>$8</td><td><span class="delta-pill steal">$-4</span></td><td style="color:var(--steal);font-weight:600;">Steal ✅</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">13</td><td><strong>Saquon Barkley</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$49</strong></td><td>$52</td><td><span class="delta-pill fair">$-3</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">14</td><td><strong>Tyler Warren</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$15</strong></td><td>$18</td><td><span class="delta-pill fair">$-3</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">15</td><td><strong>Drake Maye</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$9</strong></td><td>$12</td><td><span class="delta-pill fair">$-3</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">16</td><td><strong>George Kittle</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$3</strong></td><td>$6</td><td><span class="delta-pill fair">$-3</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">17</td><td><strong>A.J. Brown</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$34</strong></td><td>$36</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">18</td><td><strong>Christian McCaffrey</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$60</strong></td><td>$62</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">19</td><td><strong>Justin Jefferson</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$52</strong></td><td>$54</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">20</td><td><strong>DK Metcalf</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$4</strong></td><td>$6</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">21</td><td><strong>Justin Herbert</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$5</strong></td><td>$7</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">22</td><td><strong>Dak Prescott</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$2</strong></td><td>$4</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">23</td><td><strong>Travis Kelce</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$6</strong></td><td>$8</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">24</td><td><strong>Jaxson Dart</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$4</strong></td><td>$6</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">25</td><td><strong>Jordan Addison</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$2</strong></td><td>$4</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">26</td><td><strong>Kyler Murray</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$2</strong></td><td>$4</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">27</td><td><strong>Dallas Goedert</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$3</strong></td><td>$5</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">28</td><td><strong>Xavier Worthy</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$1</strong></td><td>$3</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">29</td><td><strong>Mark Andrews</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$1</strong></td><td>$3</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">30</td><td><strong>Jordan Love</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$1</strong></td><td>$3</td><td><span class="delta-pill fair">$-2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">31</td><td><strong>Josh Allen</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$45</strong></td><td>$46</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">32</td><td><strong>Ashton Jeanty</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$29</strong></td><td>$30</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">33</td><td><strong>Bhayshul Tuten</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$13</strong></td><td>$14</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">34</td><td><strong>Quinshon Judkins</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$10</strong></td><td>$11</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">35</td><td><strong>Tucker Kraft</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$5</strong></td><td>$6</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">36</td><td><strong>Rico Dowdle</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$3</strong></td><td>$4</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">37</td><td><strong>Kyle Pitts Sr.</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$3</strong></td><td>$4</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">38</td><td><strong>Odell Beckham Jr.</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$2</strong></td><td>$3</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">39</td><td><strong>Courtland Sutton</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$3</strong></td><td>$4</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">40</td><td><strong>Matthew Stafford</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$1</strong></td><td>$2</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">41</td><td><strong>Brock Purdy</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$2</strong></td><td>$3</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">42</td><td><strong>Jayden Reed</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$1</strong></td><td>$2</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">43</td><td><strong>Bo Nix</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$2</strong></td><td>$3</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">44</td><td><strong>Alec Pierce</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$1</strong></td><td>$2</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">45</td><td><strong>Jayden Higgins</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$1</strong></td><td>$2</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">46</td><td><strong>Matthew Golden</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$1</strong></td><td>$2</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">47</td><td><strong>Jakobi Meyers</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$2</strong></td><td>$3</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">48</td><td><strong>Zach Charbonnet</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$1</strong></td><td>$2</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">49</td><td><strong>Woody Marks</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$1</strong></td><td>$2</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">50</td><td><strong>Jake Ferguson</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$1</strong></td><td>$2</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">51</td><td><strong>Baker Mayfield</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$1</strong></td><td>$2</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">52</td><td><strong>Adonai Mitchell</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$1</strong></td><td>$2</td><td><span class="delta-pill fair">$-1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">53</td><td><strong>Rashee Rice</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$28</strong></td><td>$28</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">54</td><td><strong>Carnell Tate</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$5</strong></td><td>$5</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">55</td><td><strong>Aaron Jones Sr.</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$3</strong></td><td>$3</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">56</td><td><strong>Jaylen Warren</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$5</strong></td><td>$5</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">57</td><td><strong>Trevor Lawrence</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$5</strong></td><td>$5</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">58</td><td><strong>J.K. Dobbins</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$5</strong></td><td>$5</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">59</td><td><strong>Michael Pittman Jr.</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$4</strong></td><td>$4</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">60</td><td><strong>Josh Downs</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$3</strong></td><td>$3</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">61</td><td><strong>Keenan Allen</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$3</strong></td><td>$3</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">62</td><td><strong>RJ Harvey</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$3</strong></td><td>$3</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">63</td><td><strong>Mike Washington Jr.</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$2</strong></td><td>$2</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">64</td><td><strong>Jordan Mason</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$3</strong></td><td>$3</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">65</td><td><strong>Dalton Kincaid</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$3</strong></td><td>$3</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">66</td><td><strong>Khalil Shakir</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$4</strong></td><td>$4</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">67</td><td><strong>Rachaad White</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$2</strong></td><td>$2</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">68</td><td><strong>Malachi Fields</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$2</strong></td><td>$2</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">69</td><td><strong>Rashid Shaheed</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$2</strong></td><td>$2</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">70</td><td><strong>Keaton Mitchell</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$2</strong></td><td>$2</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">71</td><td><strong>Tyler Allgeier</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$2</strong></td><td>$2</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">72</td><td><strong>Cyrus Allen</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">73</td><td><strong>Jauan Jennings</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">74</td><td><strong>Chris Rodriguez Jr.</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">75</td><td><strong>Malik Willis</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">76</td><td><strong>Denzel Boston</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">77</td><td><strong>Juwan Johnson</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">78</td><td><strong>Deebo Samuel Sr.</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">79</td><td><strong>James Conner</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">80</td><td><strong>Tre Tucker</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">81</td><td><strong>Tyjae Spears</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">82</td><td><strong>Jerry Jeudy</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">83</td><td><strong>Isiah Pacheco</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">84</td><td><strong>Kayshon Boutte</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">85</td><td><strong>Tank Bigsby</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">86</td><td><strong>Dalton Schultz</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">87</td><td><strong>Dontayvion Wicks</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">88</td><td><strong>Tre' Harris</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">89</td><td><strong>Chig Okonkwo</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">90</td><td><strong>Cooper Kupp</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">91</td><td><strong>Tyrone Tracy Jr.</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">92</td><td><strong>Tyler Shough</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">93</td><td><strong>Jalen Nailor</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">94</td><td><strong>Jalen McMillan</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">95</td><td><strong>Calvin Ridley</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">96</td><td><strong>Kimani Vidal</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">97</td><td><strong>Ray Davis</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$1</strong></td><td>$1</td><td><span class="delta-pill fair">$0</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">98</td><td><strong>Trey McBride</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$25</strong></td><td>$24</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">99</td><td><strong>Cam Skattebo</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$19</strong></td><td>$18</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">100</td><td><strong>Terry McLaurin</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$11</strong></td><td>$10</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">101</td><td><strong>Stefon Diggs</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$6</strong></td><td>$5</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">102</td><td><strong>Rhamondre Stevenson</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$7</strong></td><td>$6</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">103</td><td><strong>Tony Pollard</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$6</strong></td><td>$5</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">104</td><td><strong>Chuba Hubbard</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$6</strong></td><td>$5</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">105</td><td><strong>Isaiah Likely</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$7</strong></td><td>$6</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">106</td><td><strong>Makai Lemon</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$3</strong></td><td>$2</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">107</td><td><strong>Blake Corum</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$5</strong></td><td>$4</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">108</td><td><strong>Quentin Johnston</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$5</strong></td><td>$4</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">109</td><td><strong>Jacory Croskey-Merritt</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$4</strong></td><td>$3</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">110</td><td><strong>KC Concepcion</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$3</strong></td><td>$2</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">111</td><td><strong>Kenny Gainwell</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$3</strong></td><td>$2</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">112</td><td><strong>Brian Robinson</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$3</strong></td><td>$2</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">113</td><td><strong>Jalen Coker</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$4</strong></td><td>$3</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">114</td><td><strong>Alvin Kamara</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$5</strong></td><td>$4</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">115</td><td><strong>MarShawn Lloyd</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$3</strong></td><td>$2</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">116</td><td><strong>Jared Goff</strong></td><td><span class="pos-badge qb">QB</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$2</strong></td><td>$1</td><td><span class="delta-pill fair">+$1</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">117</td><td><strong>Zay Flowers</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$22</strong></td><td>$20</td><td><span class="delta-pill fair">+$2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">118</td><td><strong>Tee Higgins</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$18</strong></td><td>$16</td><td><span class="delta-pill fair">+$2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">119</td><td><strong>Garrett Wilson</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$20</strong></td><td>$18</td><td><span class="delta-pill fair">+$2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">120</td><td><strong>Brian Thomas Jr.</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$12</strong></td><td>$10</td><td><span class="delta-pill fair">+$2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">121</td><td><strong>De'Zhaun Stribling</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$6</strong></td><td>$4</td><td><span class="delta-pill fair">+$2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">122</td><td><strong>Wan'Dale Robinson</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$5</strong></td><td>$3</td><td><span class="delta-pill fair">+$2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">123</td><td><strong>Jordyn Tyson</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$3</strong></td><td>$1</td><td><span class="delta-pill fair">+$2</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">124</td><td><strong>Jameson Williams</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$13</strong></td><td>$10</td><td><span class="delta-pill fair">+$3</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">125</td><td><strong>TreVeyon Henderson</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$11</strong></td><td>$8</td><td><span class="delta-pill fair">+$3</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="fair-row"><td style="color:var(--muted)">126</td><td><strong>Jonathon Brooks</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$10</strong></td><td>$7</td><td><span class="delta-pill fair">+$3</span></td><td style="color:var(--fair);font-weight:600;">Fair Value</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">127</td><td><strong>CeeDee Lamb</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$52</strong></td><td>$48</td><td><span class="delta-pill over">+$4</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">128</td><td><strong>Travis Etienne Jr.</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$20</strong></td><td>$16</td><td><span class="delta-pill over">+$4</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">129</td><td><strong>Rome Odunze</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$18</strong></td><td>$14</td><td><span class="delta-pill over">+$4</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">130</td><td><strong>Parker Washington</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$13</strong></td><td>$9</td><td><span class="delta-pill over">+$4</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">131</td><td><strong>Mike Evans</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$14</strong></td><td>$10</td><td><span class="delta-pill over">+$4</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">132</td><td><strong>Bucky Irving</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$16</strong></td><td>$12</td><td><span class="delta-pill over">+$4</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">133</td><td><strong>Romeo Doubs</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$10</strong></td><td>$6</td><td><span class="delta-pill over">+$4</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">134</td><td><strong>Michael Wilson</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$9</strong></td><td>$5</td><td><span class="delta-pill over">+$4</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">135</td><td><strong>Kyle Monangai</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$9</strong></td><td>$5</td><td><span class="delta-pill over">+$4</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">136</td><td><strong>Jonathan Taylor</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$51</strong></td><td>$46</td><td><span class="delta-pill over">+$5</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">137</td><td><strong>Kyren Williams</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$29</strong></td><td>$24</td><td><span class="delta-pill over">+$5</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">138</td><td><strong>Josh Jacobs</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$19</strong></td><td>$14</td><td><span class="delta-pill over">+$5</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">139</td><td><strong>Chris Godwin Jr.</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$6</strong></td><td>$1</td><td><span class="delta-pill over">+$5</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">140</td><td><strong>Nico Collins</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$32</strong></td><td>$26</td><td><span class="delta-pill over">+$6</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">141</td><td><strong>Emeka Egbuka</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$24</strong></td><td>$18</td><td><span class="delta-pill over">+$6</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">142</td><td><strong>Jeremiyah Love</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$28</strong></td><td>$22</td><td><span class="delta-pill over">+$6</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">143</td><td><strong>David Montgomery</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$14</strong></td><td>$8</td><td><span class="delta-pill over">+$6</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">144</td><td><strong>Breece Hall</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$24</strong></td><td>$18</td><td><span class="delta-pill over">+$6</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">145</td><td><strong>Colston Loveland</strong></td><td><span class="pos-badge te">TE</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$18</strong></td><td>$12</td><td><span class="delta-pill over">+$6</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">146</td><td><strong>Jadarian Price</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$16</strong></td><td>$10</td><td><span class="delta-pill over">+$6</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">147</td><td><strong>De'Von Achane</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">That's Amari</td><td><strong>$47</strong></td><td>$40</td><td><span class="delta-pill over">+$7</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">148</td><td><strong>Luther Burden III</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$25</strong></td><td>$18</td><td><span class="delta-pill over">+$7</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">149</td><td><strong>Tetairoa McMillan</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$21</strong></td><td>$14</td><td><span class="delta-pill over">+$7</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">150</td><td><strong>Jaylen Waddle</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$28</strong></td><td>$20</td><td><span class="delta-pill over">+$8</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">151</td><td><strong>Ja'Marr Chase</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Chasing Flowers</td><td><strong>$67</strong></td><td>$58</td><td><span class="delta-pill over">+$9</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="over-row"><td style="color:var(--muted)">152</td><td><strong>DeVonta Smith</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Stripper Draft Julio</td><td><strong>$25</strong></td><td>$16</td><td><span class="delta-pill over">+$9</span></td><td style="color:var(--over);font-weight:600;">Slight Overpay</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">153</td><td><strong>Davante Adams</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$18</strong></td><td>$8</td><td><span class="delta-pill big-over">+$10</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">154</td><td><strong>D'Andre Swift</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$22</strong></td><td>$12</td><td><span class="delta-pill big-over">+$10</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">155</td><td><strong>Christian Watson</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Strib club Tets</td><td><strong>$18</strong></td><td>$8</td><td><span class="delta-pill big-over">+$10</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">156</td><td><strong>Amon-Ra St. Brown</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$61</strong></td><td>$50</td><td><span class="delta-pill big-over">+$11</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">157</td><td><strong>George Pickens</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Allen or Nothing</td><td><strong>$37</strong></td><td>$26</td><td><span class="delta-pill big-over">+$11</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">158</td><td><strong>Omarion Hampton</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$43</strong></td><td>$32</td><td><span class="delta-pill big-over">+$11</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">159</td><td><strong>Drake London</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$31</strong></td><td>$20</td><td><span class="delta-pill big-over">+$11</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">160</td><td><strong>Ladd McConkey</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$33</strong></td><td>$22</td><td><span class="delta-pill big-over">+$11</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">161</td><td><strong>Javonte Williams</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">A Jeantyman Never Tells</td><td><strong>$22</strong></td><td>$10</td><td><span class="delta-pill big-over">+$12</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">162</td><td><strong>James Cook III</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$52</strong></td><td>$38</td><td><span class="delta-pill big-over">+$14</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">163</td><td><strong>Chris Olave</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Baba Yaga</td><td><strong>$36</strong></td><td>$22</td><td><span class="delta-pill big-over">+$14</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">164</td><td><strong>DJ Moore</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$24</strong></td><td>$10</td><td><span class="delta-pill big-over">+$14</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">165</td><td><strong>Jahmyr Gibbs</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$72</strong></td><td>$56</td><td><span class="delta-pill big-over">+$16</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">166</td><td><strong>Kenneth Walker III</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">The Bidfather</td><td><strong>$46</strong></td><td>$28</td><td><span class="delta-pill big-over">+$18</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">167</td><td><strong>Jaxon Smith-Njigba</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Jaxon Five</td><td><strong>$63</strong></td><td>$44</td><td><span class="delta-pill big-over">+$19</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">168</td><td><strong>Bijan Robinson</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">The Hokage</td><td><strong>$81</strong></td><td>$58</td><td><span class="delta-pill big-over">+$23</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">169</td><td><strong>Puka Nacua</strong></td><td><span class="pos-badge wr">WR</span></td><td style="color:var(--muted)">Youngbossbrian</td><td><strong>$58</strong></td><td>$30</td><td><span class="delta-pill big-over">+$28</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+<tr class="big-over-row"><td style="color:var(--muted)">170</td><td><strong>Chase Brown</strong></td><td><span class="pos-badge rb">RB</span></td><td style="color:var(--muted)">cuadz build 004</td><td><strong>$55</strong></td><td>$26</td><td><span class="delta-pill big-over">+$29</span></td><td style="color:var(--over-big);font-weight:600;">Overpay ❌</td></tr>
+</table></div>
+</div>
+<div class="tab-panel" id="tab-construction">
+<div class="grade-summary">
+<div class="grade-chip"><span class="grade-Bm" style="margin-right:5px;">B-</span><span style="color:var(--muted);font-size:11px;">The Bidfather</span></div>
+<div class="grade-chip"><span class="grade-B" style="margin-right:5px;">B</span><span style="color:var(--muted);font-size:11px;">Chasing Flowers</span></div>
+<div class="grade-chip"><span class="grade-Bm" style="margin-right:5px;">B-</span><span style="color:var(--muted);font-size:11px;">Stripper Draft Julio</span></div>
+<div class="grade-chip"><span class="grade-Cp" style="margin-right:5px;">C+</span><span style="color:var(--muted);font-size:11px;">cuadz build 004</span></div>
+<div class="grade-chip"><span class="grade-Bp" style="margin-right:5px;">B+</span><span style="color:var(--muted);font-size:11px;">The Hokage</span></div>
+<div class="grade-chip"><span class="grade-B" style="margin-right:5px;">B</span><span style="color:var(--muted);font-size:11px;">Strib club Tets</span></div>
+<div class="grade-chip"><span class="grade-Bm" style="margin-right:5px;">B-</span><span style="color:var(--muted);font-size:11px;">Jaxon Five</span></div>
+<div class="grade-chip"><span class="grade-Bp" style="margin-right:5px;">B+</span><span style="color:var(--muted);font-size:11px;">Allen or Nothing</span></div>
+<div class="grade-chip"><span class="grade-Bp" style="margin-right:5px;">B+</span><span style="color:var(--muted);font-size:11px;">That's Amari</span></div>
+<div class="grade-chip"><span class="grade-Cp" style="margin-right:5px;">C+</span><span style="color:var(--muted);font-size:11px;">Baba Yaga</span></div>
+<div class="grade-chip"><span class="grade-Bp" style="margin-right:5px;">B+</span><span style="color:var(--muted);font-size:11px;">Youngbossbrian</span></div>
+<div class="grade-chip"><span class="grade-B" style="margin-right:5px;">B</span><span style="color:var(--muted);font-size:11px;">A Jeantyman Never Tells</span></div>
+</div>
+<div class="construction-grid">
+<div class="construct-card">
+<div class="construct-header"><div><div class="construct-name">The Hokage</div><div style="color:var(--muted);font-size:11px;margin-top:2px;">$200 spent</div></div><span class="grade-badge grade-Bp">B+</span></div>
+<div class="construct-body"><ul>
+<li>Solid QB: <strong>Lamar Jackson</strong> at $14 (avg $38)</li>
+<li>Top RB: <strong>Bijan Robinson</strong> at $81 (avg $58)</li>
+<li>RB depth: 4 running backs total — led by Bijan Robinson and Quinshon Judkins</li>
+<li>Top WR: <strong>Jaylen Waddle</strong> at $28 (avg $20), 7 WRs total</li>
+<li>Streaming TE: <strong>Travis Kelce</strong> at $6</li>
+<li>Near market rate: $198 spent for $197 in avg value</li>
+<li>Key steals: Lamar Jackson ($14 vs avg $38)</li>
+<li>Paid premium for: Bijan Robinson ($81 vs avg $58)</li>
+</ul><div class="pos-summary"><span class="pos-chip qb">1 QB</span><span class="pos-chip rb">4 RB</span><span class="pos-chip wr">7 WR</span><span class="pos-chip te">2 TE</span></div></div>
+</div>
+<div class="construct-card">
+<div class="construct-header"><div><div class="construct-name">Allen or Nothing</div><div style="color:var(--muted);font-size:11px;margin-top:2px;">$200 spent</div></div><span class="grade-badge grade-Bp">B+</span></div>
+<div class="construct-body"><ul>
+<li>QB depth: <strong>Caleb Williams</strong> at $3 — limited upside at the position</li>
+<li>Backup QB: <strong>Baker Mayfield</strong> at $1</li>
+<li>Top RB: <strong>Christian McCaffrey</strong> at $60 (avg $62)</li>
+<li>RB depth: 3 running backs total — led by Christian McCaffrey and Travis Etienne Jr.</li>
+<li>Top WR: <strong>Malik Nabers</strong> at $34 (avg $40), 6 WRs total</li>
+<li>Streaming TE: <strong>Juwan Johnson</strong> at $1</li>
+<li>Near market rate: $198 spent for $200 in avg value</li>
+<li>Paid premium for: George Pickens ($37 vs avg $26)</li>
+</ul><div class="pos-summary"><span class="pos-chip qb">3 QB</span><span class="pos-chip rb">3 RB</span><span class="pos-chip wr">6 WR</span><span class="pos-chip te">2 TE</span></div></div>
+</div>
+<div class="construct-card">
+<div class="construct-header"><div><div class="construct-name">That's Amari</div><div style="color:var(--muted);font-size:11px;margin-top:2px;">$200 spent</div></div><span class="grade-badge grade-Bp">B+</span></div>
+<div class="construct-body"><ul>
+<li>QB depth: <strong>Jaxson Dart</strong> at $4 — limited upside at the position</li>
+<li>Backup QB: <strong>Jordan Love</strong> at $1</li>
+<li>Top RB: <strong>Jonathan Taylor</strong> at $51 (avg $46)</li>
+<li>RB depth: 6 running backs total — led by Jonathan Taylor and De'Von Achane</li>
+<li>Top WR: <strong>Justin Jefferson</strong> at $52 (avg $54), 5 WRs total</li>
+<li>Premium TE: <strong>Trey McBride</strong> at $25 (avg $24)</li>
+<li>Near market rate: $198 spent for $192 in avg value</li>
+</ul><div class="pos-summary"><span class="pos-chip qb">2 QB</span><span class="pos-chip rb">6 RB</span><span class="pos-chip wr">5 WR</span><span class="pos-chip te">1 TE</span></div></div>
+</div>
+<div class="construct-card">
+<div class="construct-header"><div><div class="construct-name">Youngbossbrian</div><div style="color:var(--muted);font-size:11px;margin-top:2px;">$200 spent</div></div><span class="grade-badge grade-Bp">B+</span></div>
+<div class="construct-body"><ul>
+<li>Elite QB anchor: <strong>Josh Allen</strong> (avg $46, paid $45 — fair value)</li>
+<li>Top RB: <strong>D'Andre Swift</strong> at $22 (avg $12)</li>
+<li>RB depth: 5 running backs total — led by D'Andre Swift and Jaylen Warren</li>
+<li>Top WR: <strong>CeeDee Lamb</strong> at $52 (avg $48), 6 WRs total</li>
+<li>Streaming TE: <strong>Sam LaPorta</strong> at $4</li>
+<li>Paid above market: $198 spent for $161 in avg value (19% premium)</li>
+<li>Paid premium for: Puka Nacua ($58 vs avg $30), D'Andre Swift ($22 vs avg $12)</li>
+</ul><div class="pos-summary"><span class="pos-chip qb">1 QB</span><span class="pos-chip rb">5 RB</span><span class="pos-chip wr">6 WR</span><span class="pos-chip te">2 TE</span></div></div>
+</div>
+<div class="construct-card">
+<div class="construct-header"><div><div class="construct-name">Chasing Flowers</div><div style="color:var(--muted);font-size:11px;margin-top:2px;">$188 spent</div></div><span class="grade-badge grade-B">B</span></div>
+<div class="construct-body"><ul>
+<li>QB depth: <strong>Bo Nix</strong> at $2 — limited upside at the position</li>
+<li>Backup QB: <strong>Matthew Stafford</strong> at $1</li>
+<li>Top RB: <strong>Bucky Irving</strong> at $16 (avg $12)</li>
+<li>RB depth: 5 running backs total — led by Bucky Irving and Rhamondre Stevenson</li>
+<li>Top WR: <strong>Ja'Marr Chase</strong> at $67 (avg $58), 6 WRs total</li>
+<li>Premium TE: <strong>Brock Bowers</strong> at $35 (avg $40)</li>
+<li>Paid above market: $175 spent for $164 in avg value (6% premium)</li>
+</ul><div class="pos-summary"><span class="pos-chip qb">2 QB</span><span class="pos-chip rb">5 RB</span><span class="pos-chip wr">6 WR</span><span class="pos-chip te">1 TE</span></div></div>
+</div>
+<div class="construct-card">
+<div class="construct-header"><div><div class="construct-name">Strib club Tets</div><div style="color:var(--muted);font-size:11px;margin-top:2px;">$198 spent</div></div><span class="grade-badge grade-B">B</span></div>
+<div class="construct-body"><ul>
+<li>QB depth: <strong>Jalen Hurts</strong> at $7 — limited upside at the position</li>
+<li>Backup QB: <strong>Brock Purdy</strong> at $2</li>
+<li>Top RB: <strong>Saquon Barkley</strong> at $49 (avg $52)</li>
+<li>RB depth: 4 running backs total — led by Saquon Barkley and Derrick Henry</li>
+<li>Top WR: <strong>Tetairoa McMillan</strong> at $21 (avg $14), 6 WRs total</li>
+<li>Streaming TE: <strong>Isaiah Likely</strong> at $7</li>
+<li>Near market rate: $191 spent for $183 in avg value</li>
+<li>Key steals: Derrick Henry ($31 vs avg $44)</li>
+<li>Paid premium for: Christian Watson ($18 vs avg $8)</li>
+</ul><div class="pos-summary"><span class="pos-chip qb">2 QB</span><span class="pos-chip rb">4 RB</span><span class="pos-chip wr">6 WR</span><span class="pos-chip te">2 TE</span></div></div>
+</div>
+<div class="construct-card">
+<div class="construct-header"><div><div class="construct-name">A Jeantyman Never Tells</div><div style="color:var(--muted);font-size:11px;margin-top:2px;">$200 spent</div></div><span class="grade-badge grade-B">B</span></div>
+<div class="construct-body"><ul>
+<li>Solid QB: <strong>Joe Burrow</strong> at $7 (avg $20)</li>
+<li>Backup QB: <strong>Dak Prescott</strong> at $2</li>
+<li>Top RB: <strong>Javonte Williams</strong> at $22 (avg $10)</li>
+<li>RB depth: 6 running backs total — led by Javonte Williams and Jadarian Price</li>
+<li>Top WR: <strong>Amon-Ra St. Brown</strong> at $61 (avg $50), 6 WRs total</li>
+<li>Streaming TE: <strong>Tucker Kraft</strong> at $5</li>
+<li>Paid above market: $199 spent for $166 in avg value (17% premium)</li>
+<li>Key steals: Joe Burrow ($7 vs avg $20)</li>
+<li>Paid premium for: Javonte Williams ($22 vs avg $10), Amon-Ra St. Brown ($61 vs avg $50)</li>
+</ul><div class="pos-summary"><span class="pos-chip qb">2 QB</span><span class="pos-chip rb">6 RB</span><span class="pos-chip wr">6 WR</span><span class="pos-chip te">1 TE</span></div></div>
+</div>
+<div class="construct-card">
+<div class="construct-header"><div><div class="construct-name">The Bidfather</div><div style="color:var(--muted);font-size:11px;margin-top:2px;">$200 spent</div></div><span class="grade-badge grade-Bm">B-</span></div>
+<div class="construct-body"><ul>
+<li>QB depth: <strong>Jayden Daniels</strong> at $6 — limited upside at the position</li>
+<li>Backup QB: <strong>Malik Willis</strong> at $1</li>
+<li>Top RB: <strong>James Cook III</strong> at $52 (avg $38)</li>
+<li>RB depth: 6 running backs total — led by James Cook III and Kenneth Walker III</li>
+<li>Top WR: <strong>Emeka Egbuka</strong> at $24 (avg $18), 5 WRs total</li>
+<li>Streaming TE: <strong>Dallas Goedert</strong> at $3</li>
+<li>Paid above market: $198 spent for $157 in avg value (21% premium)</li>
+<li>Paid premium for: Kenneth Walker III ($46 vs avg $28), James Cook III ($52 vs avg $38)</li>
+</ul><div class="pos-summary"><span class="pos-chip qb">2 QB</span><span class="pos-chip rb">6 RB</span><span class="pos-chip wr">5 WR</span><span class="pos-chip te">1 TE</span></div></div>
+</div>
+<div class="construct-card">
+<div class="construct-header"><div><div class="construct-name">Stripper Draft Julio</div><div style="color:var(--muted);font-size:11px;margin-top:2px;">$200 spent</div></div><span class="grade-badge grade-Bm">B-</span></div>
+<div class="construct-body"><ul>
+<li>QB depth: <strong>Trevor Lawrence</strong> at $5 — limited upside at the position</li>
+<li>Top RB: <strong>Ashton Jeanty</strong> at $29 (avg $30)</li>
+<li>RB depth: 5 running backs total — led by Ashton Jeanty and Kyren Williams</li>
+<li>Top WR: <strong>Luther Burden III</strong> at $25 (avg $18), 8 WRs total</li>
+<li>Premium TE: <strong>Tyler Warren</strong> at $15 (avg $18)</li>
+<li>Paid above market: $198 spent for $160 in avg value (19% premium)</li>
+</ul><div class="pos-summary"><span class="pos-chip qb">1 QB</span><span class="pos-chip rb">5 RB</span><span class="pos-chip wr">8 WR</span><span class="pos-chip te">1 TE</span></div></div>
+</div>
+<div class="construct-card">
+<div class="construct-header"><div><div class="construct-name">Jaxon Five</div><div style="color:var(--muted);font-size:11px;margin-top:2px;">$176 spent</div></div><span class="grade-badge grade-Bm">B-</span></div>
+<div class="construct-body"><ul>
+<li>QB depth: <strong>Patrick Mahomes</strong> at $8 — limited upside at the position</li>
+<li>Backup QB: <strong>Kyler Murray</strong> at $2</li>
+<li>Top RB: <strong>Omarion Hampton</strong> at $43 (avg $32)</li>
+<li>RB depth: 5 running backs total — led by Omarion Hampton and Chuba Hubbard</li>
+<li>Top WR: <strong>Jaxon Smith-Njigba</strong> at $63 (avg $44), 6 WRs total</li>
+<li>Streaming TE: <strong>Harold Fannin Jr.</strong> at $4</li>
+<li>Paid above market: $165 spent for $149 in avg value (10% premium)</li>
+<li>Key steals: Patrick Mahomes ($8 vs avg $16)</li>
+<li>Paid premium for: Jaxon Smith-Njigba ($63 vs avg $44), Omarion Hampton ($43 vs avg $32)</li>
+</ul><div class="pos-summary"><span class="pos-chip qb">2 QB</span><span class="pos-chip rb">5 RB</span><span class="pos-chip wr">6 WR</span><span class="pos-chip te">1 TE</span></div></div>
+</div>
+<div class="construct-card">
+<div class="construct-header"><div><div class="construct-name">cuadz build 004</div><div style="color:var(--muted);font-size:11px;margin-top:2px;">$200 spent</div></div><span class="grade-badge grade-Cp">C+</span></div>
+<div class="construct-body"><ul>
+<li>QB depth: <strong>Justin Herbert</strong> at $5 — limited upside at the position</li>
+<li>Top RB: <strong>Jahmyr Gibbs</strong> at $72 (avg $56)</li>
+<li>RB depth: 3 running backs total — led by Jahmyr Gibbs and Chase Brown</li>
+<li>Top WR: <strong>Terry McLaurin</strong> at $11 (avg $10), 8 WRs total</li>
+<li>Streaming TE: <strong>George Kittle</strong> at $3</li>
+<li>Paid above market: $198 spent for $143 in avg value (28% premium)</li>
+<li>Paid premium for: Chase Brown ($55 vs avg $26), Jahmyr Gibbs ($72 vs avg $56)</li>
+</ul><div class="pos-summary"><span class="pos-chip qb">1 QB</span><span class="pos-chip rb">3 RB</span><span class="pos-chip wr">8 WR</span><span class="pos-chip te">2 TE</span></div></div>
+</div>
+<div class="construct-card">
+<div class="construct-header"><div><div class="construct-name">Baba Yaga</div><div style="color:var(--muted);font-size:11px;margin-top:2px;">$200 spent</div></div><span class="grade-badge grade-Cp">C+</span></div>
+<div class="construct-body"><ul>
+<li>QB depth: <strong>Drake Maye</strong> at $9 — limited upside at the position</li>
+<li>Backup QB: <strong>Jared Goff</strong> at $2</li>
+<li>Top RB: <strong>Breece Hall</strong> at $24 (avg $18)</li>
+<li>RB depth: 5 running backs total — led by Breece Hall and Josh Jacobs</li>
+<li>Top WR: <strong>Nico Collins</strong> at $32 (avg $26), 5 WRs total</li>
+<li>Streaming TE: <strong>Colston Loveland</strong> at $18</li>
+<li>Paid above market: $198 spent for $145 in avg value (27% premium)</li>
+<li>Paid premium for: Chris Olave ($36 vs avg $22), Drake London ($31 vs avg $20)</li>
+</ul><div class="pos-summary"><span class="pos-chip qb">2 QB</span><span class="pos-chip rb">5 RB</span><span class="pos-chip wr">5 WR</span><span class="pos-chip te">2 TE</span></div></div>
+</div>
+</div>
+</div>
+</div>
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  const idx = {rosters:0, value:1, construction:2}[name];
+  document.querySelectorAll('.tab')[idx].classList.add('active');
+}
+</script>
+</body>
+</html>
