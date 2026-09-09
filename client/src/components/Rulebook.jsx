@@ -68,17 +68,19 @@ const RULEBOOKS = {
             highlight: true,
           },
           {
-            text: 'Trade deadline: Week 12 at 11:59pm.',
+            text: "Trade deadline: Week 13 at 11:59pm EST (December 2nd). Yahoo settings will show no trade deadline — the agreed cutoff is end of day December 2nd, the night before the first game of Week 13. A trade counts as valid only when both parties have accepted it on Yahoo by 11:59pm EST on that date.",
             changelog: [
               { date: 'Through 2024', note: 'Trade deadline was the day before playoffs (end of Week 14).' },
               { date: '2025 season', note: 'Trade deadline moved to Week 12 at 11:59pm.' },
+              { date: '2026 season', note: 'Trade deadline pushed back one week to Week 13 (December 2nd) following a league vote. Yahoo will show no trade deadline — the cutoff is 11:59pm EST on December 2nd, when both parties must have accepted on Yahoo.' },
             ],
           },
           {
-            text: "Can't Cut List rule: A player on Yahoo's official Can't Cut List cannot be included in any trade that involves draft picks, unless both sides of the trade include a Can't Cut List player. Both players must be on the Can't Cut List at the time the trade is accepted — not just when it is proposed.",
+            text: "Can't Cut List rule: A player on Yahoo's official Can't Cut List cannot be included in any trade that involves draft picks, unless both sides of the trade include a Can't Cut List player. Both players must be on the Can't Cut List at the time the trade is accepted — not just when it is proposed. Additionally, the number of Can't Cut players on each side of any such trade must be equal. For example, if Team A sends 2 Can't Cut players and picks, Team B must also send exactly 2 Can't Cut players back along with picks. You cannot send Justin Jefferson and a 2nd round pick for Gibbs, Amon-Ra, and a 1st round pick.",
             changelog: [
               { date: 'Through 2021', note: "Can't Cut players could not be involved in any trade that included draft picks under any circumstances." },
               { date: '2022 season (8/12/22)', note: "Rule updated: Can't Cut players CAN be traded in a deal involving picks, as long as BOTH sides of the trade include a Can't Cut List player at the time the trade is accepted. Example: Team A has Hopkins (Can't Cut) + 3rd round pick. Team B has Jefferson (Can't Cut) + 7th round pick. This trade is ALLOWED because both players are on the Can't Cut list at the time of acceptance. Trading a Can't Cut player for picks alone remains NOT allowed." },
+              { date: '2026 season', note: "Clarification added: the number of Can't Cut players on each side of a trade must be equal. If one side sends 2 Can't Cut players, the other side must also send 2 Can't Cut players." },
             ],
           },
         ],
@@ -198,10 +200,11 @@ const RULEBOOKS = {
           },
           { text: 'Trade deadline follows Yahoo rules and is set to Week 11. No trades will be processed after the Week 11 deadline.' },
           {
-            text: "Can't Cut List rule: A player on Yahoo's official Can't Cut List cannot be included in any trade that involves draft picks, unless both sides of the trade include a Can't Cut List player. Both players must be on the Can't Cut List at the time the trade is accepted — not just when it is proposed. This rule has been implemented to continue to add balance to the league wherever possible.",
+            text: "Can't Cut List rule: A player on Yahoo's official Can't Cut List cannot be included in any trade that involves draft picks, unless both sides of the trade include a Can't Cut List player. Both players must be on the Can't Cut List at the time the trade is accepted — not just when it is proposed. Additionally, the number of Can't Cut players on each side of any such trade must be equal. For example, if Team A sends 2 Can't Cut players and picks, Team B must also send exactly 2 Can't Cut players back along with picks. You cannot send Justin Jefferson and a 2nd round pick for Gibbs, Amon-Ra, and a 1st round pick. This rule has been implemented to continue to add balance to the league wherever possible.",
             changelog: [
               { date: 'Through 2024', note: "One Can't Cut player could be traded with only picks, with no requirement for the other side to include a Can't Cut player." },
               { date: '2026 season', note: "Rule updated: Can't Cut players CAN be traded in a deal involving picks, as long as BOTH sides of the trade include a Can't Cut List player at the time the trade is accepted. Trading a Can't Cut player for picks alone is no longer allowed." },
+              { date: '2026 season', note: "Clarification added: the number of Can't Cut players on each side of a trade must be equal. If one side sends 2 Can't Cut players, the other side must also send 2 Can't Cut players." },
             ],
           },
           {
