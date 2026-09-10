@@ -2,17 +2,17 @@
   "week": 1,
   "updated": "2026-09-10",
   "teams": [
-    { "rank": 1,  "name": "cuadz build 002",      "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 2,  "name": "An Underdog Story",     "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 3,  "name": "The JeantyMen's Club",  "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 4,  "name": "Hit it til it Hurts",   "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 5,  "name": "Arroz con Chivo",        "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 95  },
-    { "rank": 6,  "name": "Love Thy Nabers",        "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 7,  "name": "McConkey Kong",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 8,  "name": "Money O",                "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 9,  "name": "Waddle Me This",         "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 99  },
-    { "rank": 10, "name": "Olivas FC",              "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 11, "name": "The Bijan Era",           "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 98  },
-    { "rank": 12, "name": "The Bowery",             "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 }
+    { "rank": 1,  "name": "cuadz build 002",     "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 2,  "name": "An Underdog Story",    "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 3,  "name": "The JeantyMen's Club", "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 4,  "name": "Hit it til it Hurts",  "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 5,  "name": "Arroz con Chivo",      "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 6,  "name": "Love Thy Nabers",      "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 7,  "name": "McConkey Kong",        "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 8,  "name": "Money O",              "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 9,  "name": "Waddle Me This",       "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 10, "name": "Olivas FC",            "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 11, "name": "The Bijan Era",        "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 12, "name": "The Bowery",           "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 }
   ]
 }

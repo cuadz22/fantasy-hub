@@ -11,6 +11,7 @@ const KEEPERS = {
     2023: ['Tyreek Hill', 'Rhamondre Stevenson'],
     2024: ['Bijan Robinson', 'Tyreek Hill'],
     2025: ['Bijan Robinson', 'Nico Collins'],
+    2026: ['Bijan Robinson', 'Nico Collins'],
   },
   'Jose': {
     2015: ['Le\'Veon Bell', 'Jordy Nelson'],
@@ -24,6 +25,7 @@ const KEEPERS = {
     2023: ['Justin Jefferson', 'Christian McCaffrey'],
     2024: ['Christian McCaffrey', 'Justin Jefferson'],
     2025: ['Christian McCaffrey', 'Justin Jefferson'],
+    2026: ['Christian McCaffrey', 'Justin Jefferson'],
   },
   'Cristian': {
     2015: ['Eddie Lacy', 'Aaron Rodgers'],
@@ -37,6 +39,7 @@ const KEEPERS = {
     2023: ['Davante Adams', 'Jaylen Waddle'],
     2024: ['Davante Adams', 'Breece Hall'],
     2025: ['Malik Nabers', 'Trey McBride'],
+    2026: ['Malik Nabers', 'Trey McBride'],
   },
   'Bishoy': {
     2015: ['Adrian Peterson', 'Odell Beckham Jr.'],
@@ -50,6 +53,7 @@ const KEEPERS = {
     2023: ['Stefon Diggs', 'Travis Etienne Jr.'],
     2024: ['De\'Von Achane', 'Travis Etienne Jr.'],
     2025: ['Bucky Irving', 'Drake London'],
+    2026: ['Drake London', 'Jaylen Waddle'],
   },
   'Kevin Huertas': {
     2015: ['C.J. Anderson', 'Demaryius Thomas'],
@@ -63,6 +67,7 @@ const KEEPERS = {
     2023: ['Travis Kelce', 'CeeDee Lamb'],
     2024: ['Deebo Samuel', 'CeeDee Lamb'],
     2025: ['Lamar Jackson', 'CeeDee Lamb'],
+    2026: ['CeeDee Lamb', 'Rashee Rice'],
   },
   'Edwin': {
     2015: ['Marshawn Lynch', 'T.Y. Hilton'],
@@ -76,6 +81,7 @@ const KEEPERS = {
     2023: ['A.J. Brown', 'Aaron Jones Sr.'],
     2024: ['Josh Jacobs', 'A.J. Brown'],
     2025: ['Brian Thomas Jr.', 'Josh Jacobs'],
+    2026: ['Jaxon Smith-Njigba', 'Quinshon Judkins'],
   },
   'Eduardo': {
     2015: ['Julio Jones', 'LeSean McCoy'],
@@ -89,6 +95,7 @@ const KEEPERS = {
     2023: ['Ja\'Marr Chase', 'Jalen Hurts'],
     2024: ['Ja\'Marr Chase', 'Isiah Pacheco'],
     2025: ['Ja\'Marr Chase', 'Amon-Ra St. Brown'],
+    2026: ['Ja\'Marr Chase', 'Amon-Ra St. Brown'],
   },
   'Oscar': {
     2015: ['Jeremy Hill', 'Alshon Jeffery'],
@@ -102,6 +109,7 @@ const KEEPERS = {
     2023: ['Saquon Barkley', 'Nick Chubb'],
     2024: ['Jonathan Taylor', 'Puka Nacua'],
     2025: ['Jonathan Taylor', 'Garrett Wilson'],
+    2026: ['Jahmyr Gibbs', 'James Cook III'],
   },
   'Kyle': {
     2015: ['Jamaal Charles', 'Randall Cobb'],
@@ -115,6 +123,7 @@ const KEEPERS = {
     2023: ['Cooper Kupp', 'DeVonta Smith'],
     2024: ['Saquon Barkley', 'Cooper Kupp'],
     2025: ['Chase Brown', 'Saquon Barkley'],
+    2026: ['Chase Brown', 'Saquon Barkley'],
   },
   'Giovanny': {
     2015: ['Calvin Johnson', 'DeMarco Murray'],
@@ -128,6 +137,7 @@ const KEEPERS = {
     2023: ['Derrick Henry', 'Josh Allen'],
     2024: ['Josh Allen', 'Drake London'],
     2025: ['Josh Allen', 'Derrick Henry'],
+    2026: ['Jonathan Taylor', 'Josh Allen'],
   },
   'Mina': {
     2019: ['Mike Evans', 'James Conner'],
@@ -137,6 +147,7 @@ const KEEPERS = {
     2023: ['Austin Ekeler', 'Garrett Wilson'],
     2024: ['Kyren Williams', 'Garrett Wilson'],
     2025: ['Puka Nacua', 'Brock Bowers'],
+    2026: ['De\'Von Achane', 'Puka Nacua'],
   },
   'Hihi': {
     2015: ['Andrew Luck', 'A.J. Green'],
@@ -150,10 +161,11 @@ const KEEPERS = {
     2023: ['Patrick Mahomes', 'Amon-Ra St. Brown'],
     2024: ['Amon-Ra St. Brown', 'Jahmyr Gibbs'],
     2025: ['Ladd McConkey', 'Jahmyr Gibbs'],
+    2026: ['Omarion Hampton', 'Emeka Egbuka'],
   },
 };
 
-const YEARS = [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015];
+const YEARS = [2026, 2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015];
 
 const OWNER_ORDER = [
   'Jose', 'Cristian', 'Bishoy', 'Kevin Huertas', 'Edwin',

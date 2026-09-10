@@ -2,17 +2,17 @@
   "week": 1,
   "updated": "2026-09-10",
   "teams": [
-    { "rank": 1,  "name": "cuadz build 001",       "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 97  },
-    { "rank": 2,  "name": "Jameson On The Rocks",  "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 3,  "name": "Nico de Gallo",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 96  },
-    { "rank": 4,  "name": "Chupamela HPT",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 98  },
-    { "rank": 5,  "name": "Woodridge lore",         "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 99  },
-    { "rank": 6,  "name": "MAGNETO IS STILL RIGHT", "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 99  },
+    { "rank": 1,  "name": "cuadz build 001",        "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 2,  "name": "Jameson On The Rocks",   "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 3,  "name": "Nico de Gallo",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 4,  "name": "Chupamela HPT",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 5,  "name": "Woodridge lore",         "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 6,  "name": "MAGNETO IS STILL RIGHT", "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
     { "rank": 7,  "name": "Run CMC",                "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
     { "rank": 8,  "name": "Malik's Naber Hood",     "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 98  },
-    { "rank": 9,  "name": "Mr. Electricity",        "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 99  },
-    { "rank": 10, "name": "The Arbiter",            "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 94  },
-    { "rank": 11, "name": "Sir",                    "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 98  },
+    { "rank": 9,  "name": "Mr. Electricity",        "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 10, "name": "The Arbiter",            "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 11, "name": "Sir",                    "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
     { "rank": 12, "name": "The Veterans",           "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 }
   ]
 }

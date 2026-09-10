@@ -2,17 +2,17 @@
   "week": 1,
   "updated": "2026-09-10",
   "teams": [
-    { "rank": 1,  "name": "cuadz build 003",       "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 97  },
-    { "rank": 2,  "name": "K-9 Unit 🦴🐕",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 3,  "name": "Love Yourz",             "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 98  },
-    { "rank": 4,  "name": "Hooligans",              "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 5,  "name": "The Lazarus Pit",        "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 99  },
-    { "rank": 6,  "name": "LaPorta Potty",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 7,  "name": "Manifested It",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 8,  "name": "Nacua Matata",           "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 9,  "name": "Rents Due",              "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 10, "name": "Stiff Arm That Njigba",  "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 98  },
-    { "rank": 11, "name": "Loveland Island USA",    "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 99  },
+    { "rank": 1,  "name": "cuadz build 003",       "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 2,  "name": "K-9 Unit 🦴🐕",         "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 3,  "name": "Love Yourz",            "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 4,  "name": "Hooligans",             "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 5,  "name": "The Lazarus Pit",       "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 6,  "name": "LaPorta Potty",         "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 7,  "name": "Manifested It",         "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 8,  "name": "Nacua Matata",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 9,  "name": "Rents Due",             "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 10, "name": "Stiff Arm That Njigba", "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 11, "name": "Loveland Island USA",   "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
     { "rank": 12, "name": "I'm Better Than Kev",   "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 }
   ]
 }
