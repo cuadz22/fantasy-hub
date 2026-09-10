@@ -1,0 +1,19 @@
+{
+  "week": 1,
+  "updated": "2026-09-10",
+  "hasWeeklyData": false,
+  "teams": [
+    { "rank": 1,  "name": "cuadz build 004",    "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 96  },
+    { "rank": 2,  "name": "Amon a Mi$$ion",     "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 97  },
+    { "rank": 3,  "name": "Allen or Nothing",   "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 99  },
+    { "rank": 4,  "name": "Baba Yaga",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 99  },
+    { "rank": 5,  "name": "Strib club Tets",    "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 98  },
+    { "rank": 6,  "name": "Jaxon Five",         "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 7,  "name": "Chasing Flowers",    "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 8,  "name": "Stripper Draft Julio","wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 99  },
+    { "rank": 9,  "name": "That's Amari",       "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 10, "name": "The Hokage",         "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
+    { "rank": 11, "name": "The Bidfather",      "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 98  },
+    { "rank": 12, "name": "Youngbossbrian",     "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 }
+  ]
+}

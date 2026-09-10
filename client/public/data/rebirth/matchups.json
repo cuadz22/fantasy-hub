@@ -1,0 +1,13 @@
+{
+  "week": 1,
+  "updated": "2026-09-10",
+  "status": "in_progress",
+  "matchups": [
+    { "teamA": { "name": "cuadz build 003",      "score": 12.96, "projected": 161.25 }, "teamB": { "name": "Love Yourz",            "score": 0.00,  "projected": 147.59 } },
+    { "teamA": { "name": "K-9 Unit 🦴🐕",          "score": 10.82, "projected": 132.47 }, "teamB": { "name": "Manifested It",         "score": 0.00,  "projected": 165.71 } },
+    { "teamA": { "name": "Hooligans",             "score": 8.00,  "projected": 174.61 }, "teamB": { "name": "I'm Better Than Kev",  "score": 0.00,  "projected": 125.52 } },
+    { "teamA": { "name": "The Lazarus Pit",       "score": 0.00,  "projected": 143.53 }, "teamB": { "name": "LaPorta Potty",         "score": 5.60,  "projected": 172.53 } },
+    { "teamA": { "name": "Nacua Matata",          "score": 0.00,  "projected": 148.84 }, "teamB": { "name": "Stiff Arm That Njigba", "score": 0.00,  "projected": 131.52 } },
+    { "teamA": { "name": "Rents Due",             "score": 0.00,  "projected": 126.26 }, "teamB": { "name": "Loveland Island USA",   "score": 0.00,  "projected": 162.55 } }
+  ]
+}

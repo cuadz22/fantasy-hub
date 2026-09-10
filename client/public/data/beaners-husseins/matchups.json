@@ -1,0 +1,13 @@
+{
+  "week": 1,
+  "updated": "2026-09-10",
+  "status": "in_progress",
+  "matchups": [
+    { "teamA": { "name": "cuadz build 002",     "score": 0.00,  "projected": 135.75 }, "teamB": { "name": "Money O",             "score": 0.00,  "projected": 136.17 } },
+    { "teamA": { "name": "An Underdog Story",   "score": 0.00,  "projected": 138.45 }, "teamB": { "name": "The Bowery",          "score": 8.00,  "projected": 116.59 } },
+    { "teamA": { "name": "The JeantyMen's Club","score": 0.00,  "projected": 143.35 }, "teamB": { "name": "The Bijan Era",        "score": 0.00,  "projected": 144.97 } },
+    { "teamA": { "name": "Hit it til it Hurts", "score": 5.60,  "projected": 137.66 }, "teamB": { "name": "Olivas FC",           "score": 14.50, "projected": 136.36 } },
+    { "teamA": { "name": "Arroz con Chivo",      "score": 0.00,  "projected": 119.97 }, "teamB": { "name": "Waddle Me This",      "score": 0.00,  "projected": 130.63 } },
+    { "teamA": { "name": "Love Thy Nabers",      "score": 0.00,  "projected": 138.75 }, "teamB": { "name": "McConkey Kong",       "score": 19.20, "projected": 140.90 } }
+  ]
+}

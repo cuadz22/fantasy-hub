@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import useIsMobile from '../hooks/useIsMobile';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:8080';
-
 export default function StsStandings({ leagueId }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -11,8 +9,8 @@ export default function StsStandings({ leagueId }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${API}/api/custom-standings/${leagueId}`)
-      .then(r => r.json())
+    fetch(`/data/${leagueId}/standings.json`)
+      .then(r => { if (!r.ok) throw new Error('Not found'); return r.json(); })
       .then(d => { setData(d); setLoading(false); })
       .catch(err => { setError(err.message); setLoading(false); });
   }, [leagueId]);

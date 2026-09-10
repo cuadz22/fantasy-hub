@@ -1,79 +1,87 @@
-import { useState } from 'react';
-
-const SAMPLE_MATCHUPS = [
-  { teamA: { name: 'Team Alpha', score: 142.4 }, teamB: { name: 'Team Delta', score: 118.6 } },
-  { teamA: { name: 'Team Bravo', score: 127.8 }, teamB: { name: 'Team Golf', score: 134.2 } },
-  { teamA: { name: 'Team Charlie', score: 108.3 }, teamB: { name: 'Team Echo', score: 99.1 } },
-  { teamA: { name: 'Team Foxtrot', score: 156.7 }, teamB: { name: 'Team Hotel', score: 88.4 } },
-];
+import { useState, useEffect } from 'react';
 
 export default function Matchups({ leagueId }) {
-  const [week, setWeek] = useState(11);
-  const weeks = Array.from({ length: 14 }, (_, i) => i + 1);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`/data/${leagueId}/matchups.json`)
+      .then(r => { if (!r.ok) throw new Error('Not found'); return r.json(); })
+      .then(d => { setData(d); setLoading(false); })
+      .catch(() => setLoading(false));
+  }, [leagueId]);
+
+  if (loading) return <div style={styles.note}>Loading matchups...</div>;
+  if (!data) return <div style={styles.note}>Could not load matchups.</div>;
+
+  const { week, matchups, status, rivalryWeek, updated } = data;
+  const isLive = status === 'in_progress';
 
   return (
     <div>
-      <div style={styles.weekRow}>
-        <span style={styles.weekLabel}>Week</span>
-        <div style={styles.weekPills}>
-          {weeks.map(w => (
-            <button
-              key={w}
-              onClick={() => setWeek(w)}
-              style={{ ...styles.pill, ...(week === w ? styles.pillActive : {}) }}
-            >
-              {w}
-            </button>
-          ))}
-        </div>
+      <div style={styles.header}>
+        <span style={styles.weekLabel}>Week {week}</span>
+        {isLive && <span style={styles.liveBadge}>● Live</span>}
+        {rivalryWeek && <span style={styles.rivalryBadge}>Rivalry Week</span>}
       </div>
+
       <div style={styles.grid}>
-        {SAMPLE_MATCHUPS.map((m, i) => {
+        {matchups.map((m, i) => {
           const aWins = m.teamA.score > m.teamB.score;
+          const bWins = m.teamB.score > m.teamA.score;
+          const tied = m.teamA.score === m.teamB.score;
+
           return (
             <div key={i} style={styles.card}>
               <div style={styles.cardBar} />
               <div style={styles.matchup}>
                 <div style={styles.team}>
-                  <div style={{ ...styles.score, color: aWins ? 'var(--red)' : '#333' }}>
+                  <div style={{ ...styles.score, color: aWins ? 'var(--red)' : tied ? 'var(--text-muted)' : 'var(--text-muted)' }}>
                     {m.teamA.score.toFixed(1)}
                   </div>
                   <div style={{ ...styles.teamName, color: aWins ? 'var(--text)' : 'var(--text-muted)' }}>
                     {m.teamA.name}
                   </div>
+                  {m.teamA.projected > 0 && (
+                    <div style={styles.proj}>proj {m.teamA.projected.toFixed(1)}</div>
+                  )}
                 </div>
                 <div style={styles.sep} />
                 <div style={styles.team}>
-                  <div style={{ ...styles.score, color: !aWins ? 'var(--red)' : '#333' }}>
+                  <div style={{ ...styles.score, color: bWins ? 'var(--red)' : tied ? 'var(--text-muted)' : 'var(--text-muted)' }}>
                     {m.teamB.score.toFixed(1)}
                   </div>
-                  <div style={{ ...styles.teamName, color: !aWins ? 'var(--text)' : 'var(--text-muted)' }}>
+                  <div style={{ ...styles.teamName, color: bWins ? 'var(--text)' : 'var(--text-muted)' }}>
                     {m.teamB.name}
                   </div>
+                  {m.teamB.projected > 0 && (
+                    <div style={styles.proj}>proj {m.teamB.projected.toFixed(1)}</div>
+                  )}
                 </div>
               </div>
             </div>
           );
         })}
       </div>
-      <p style={styles.note}>Connect Yahoo in Studio to load live matchups.</p>
+      <p style={styles.note}>Updated {updated}</p>
     </div>
   );
 }
 
 const styles = {
-  weekRow: { display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 },
-  weekLabel: { fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)' },
-  weekPills: { display: 'flex', gap: 4, flexWrap: 'wrap' },
-  pill: { padding: '4px 10px', borderRadius: 20, fontSize: 11, border: '0.5px solid var(--border)', background: 'var(--bg2)', color: 'var(--text-muted)', transition: 'all 0.12s' },
-  pillActive: { background: 'var(--red)', color: '#fff', borderColor: 'var(--red)' },
+  header: { display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 },
+  weekLabel: { fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-muted)' },
+  liveBadge: { fontSize: 10, color: '#4caf50', fontWeight: 600, letterSpacing: '0.05em' },
+  rivalryBadge: { fontSize: 10, color: 'var(--red)', border: '0.5px solid var(--red)', borderRadius: 4, padding: '2px 7px', letterSpacing: '0.05em' },
   grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 12 },
   card: { background: 'var(--bg2)', border: '0.5px solid var(--border)', borderRadius: 8, padding: '20px 16px', position: 'relative', overflow: 'hidden' },
   cardBar: { position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'var(--red)' },
   matchup: { display: 'flex', alignItems: 'center', gap: 12 },
-  team: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 },
-  score: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 42, lineHeight: 1 },
+  team: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 },
+  score: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 40, lineHeight: 1 },
   teamName: { fontSize: 10, letterSpacing: '0.06em', textTransform: 'uppercase', textAlign: 'center' },
+  proj: { fontSize: 9, color: 'var(--text-muted)', opacity: 0.6 },
   sep: { width: 1, height: 48, background: 'var(--border)' },
-  note: { fontSize: 11, color: '#333', marginTop: 16, textAlign: 'right' },
+  note: { fontSize: 11, color: 'var(--text-muted)', marginTop: 16, textAlign: 'right' },
 };

@@ -1,0 +1,14 @@
+{
+  "week": 1,
+  "updated": "2026-09-10",
+  "status": "in_progress",
+  "rivalryWeek": true,
+  "matchups": [
+    { "teamA": { "name": "cuadz build 001",        "score": 5.40,  "projected": 141.85 }, "teamB": { "name": "Jameson On The Rocks",  "score": 8.00,  "projected": 134.08 } },
+    { "teamA": { "name": "Nico de Gallo",           "score": 3.90,  "projected": 131.58 }, "teamB": { "name": "Sir",                   "score": 0.00,  "projected": 133.27 } },
+    { "teamA": { "name": "Chupamela HPT",           "score": 10.30, "projected": 145.89 }, "teamB": { "name": "Malik's Naber Hood",    "score": 0.00,  "projected": 130.00 } },
+    { "teamA": { "name": "Woodridge lore",          "score": 0.00,  "projected": 143.34 }, "teamB": { "name": "Mr. Electricity",       "score": 0.00,  "projected": 131.84 } },
+    { "teamA": { "name": "MAGNETO IS STILL RIGHT",  "score": 19.40, "projected": 135.80 }, "teamB": { "name": "The Veterans",          "score": 0.00,  "projected": 110.56 } },
+    { "teamA": { "name": "Run CMC",                 "score": 0.00,  "projected": 133.70 }, "teamB": { "name": "The Arbiter",           "score": 0.00,  "projected": 134.16 } }
+  ]
+}

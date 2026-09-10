@@ -1,0 +1,13 @@
+{
+  "week": 1,
+  "updated": "2026-09-10",
+  "status": "in_progress",
+  "matchups": [
+    { "teamA": { "name": "cuadz build 004",    "score": 0.00,  "projected": 141.28 }, "teamB": { "name": "The Bidfather",      "score": 0.00,  "projected": 128.98 } },
+    { "teamA": { "name": "Amon a Mi$$ion",     "score": 3.90,  "projected": 142.31 }, "teamB": { "name": "Jaxon Five",         "score": 10.30, "projected": 129.47 } },
+    { "teamA": { "name": "Allen or Nothing",   "score": 5.60,  "projected": 134.24 }, "teamB": { "name": "Baba Yaga",          "score": 15.00, "projected": 147.39 } },
+    { "teamA": { "name": "Strib club Tets",    "score": 0.00,  "projected": 133.89 }, "teamB": { "name": "The Hokage",         "score": 8.00,  "projected": 130.08 } },
+    { "teamA": { "name": "Chasing Flowers",    "score": 5.40,  "projected": 125.43 }, "teamB": { "name": "Stripper Draft Julio","score": 0.00,  "projected": 122.28 } },
+    { "teamA": { "name": "That's Amari",       "score": 0.00,  "projected": 143.50 }, "teamB": { "name": "Youngbossbrian",     "score": 0.00,  "projected": 134.08 } }
+  ]
+}
