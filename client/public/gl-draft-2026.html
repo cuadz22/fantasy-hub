@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GL 2026 Draft Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --bg2: #161616;
+    --bg3: #1e1e1e;
+    --border: #2a2a2a;
+    --text: #f0f0f0;
+    --muted: #777;
+    --green: #ACF910;
+    --rb: #4ade80;
+    --wr: #60a5fa;
+    --qb: #f87171;
+    --te: #fb923c;
+    --k: #a78bfa;
+    --def: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 13px; }
+
+  /* HEADER */
+  .page-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 28px 16px;
+    display: flex; align-items: flex-end; gap: 20px; flex-wrap: wrap;
+  }
+  .page-header h1 { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--text); letter-spacing: 0.04em; line-height: 1; }
+  .page-header .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .league-badge { background: var(--green); color: #000; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; align-self: center; }
+
+  /* TABS */
+  .tab-bar { display: flex; border-bottom: 1px solid var(--border); background: var(--bg2); padding: 0 28px; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  .tab-bar button { background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); padding: 12px 14px; font-size: 12px; font-family: inherit; cursor: pointer; white-space: nowrap; transition: color 0.15s; margin-bottom: -1px; }
+  .tab-bar button.active { color: var(--text); border-bottom-color: var(--green); }
+
+  /* CONTENT */
+  .content { padding: 24px 28px; max-width: 1400px; margin: 0 auto; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+  .dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+  /* DRAFT BOARD */
+  .board-wrap { overflow-x: auto; }
+  .board { border-collapse: collapse; white-space: nowrap; font-size: 11px; }
+  .board th { background: var(--bg3); color: var(--muted); font-weight: 600; padding: 8px 10px; border: 1px solid var(--border); text-align: center; font-size: 10px; letter-spacing: 0.05em; position: sticky; top: 0; z-index: 2; min-width: 110px; }
+  .board th:first-child { min-width: 64px; position: sticky; left: 0; z-index: 3; background: var(--bg3); }
+  .board td { border: 1px solid var(--border); padding: 6px 8px; vertical-align: top; min-width: 110px; }
+  .board td:first-child { background: var(--bg3); color: var(--muted); font-weight: 700; text-align: center; font-size: 11px; position: sticky; left: 0; }
+  .pick-cell { }
+  .pick-num { font-size: 9px; color: var(--muted); margin-bottom: 2px; }
+  .pick-player { font-weight: 600; color: var(--text); font-size: 11px; line-height: 1.3; }
+  .pick-pos { display: inline-block; font-size: 9px; font-weight: 700; padding: 1px 4px; border-radius: 3px; color: #000; margin-top: 2px; }
+  .pos-RB { background: var(--rb); }
+  .pos-WR { background: var(--wr); }
+  .pos-QB { background: var(--qb); }
+  .pos-TE { background: var(--te); }
+  .pos-K { background: var(--k); }
+  .pos-DEF { background: var(--def); }
+
+  /* TEAM CARDS */
+  .teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .team-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .team-card-header { padding: 14px 16px 10px; border-bottom: 1px solid var(--border); }
+  .team-name { font-weight: 700; font-size: 14px; color: var(--text); }
+  .manager-name { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .draft-slot { font-size: 10px; color: var(--green); font-weight: 600; margin-top: 4px; }
+  .pos-bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin: 10px 16px 0; }
+  .pos-bar-seg { transition: width 0.3s; }
+  .pos-bar-labels { display: flex; gap: 8px; padding: 6px 16px 12px; flex-wrap: wrap; }
+  .pos-label { font-size: 10px; color: var(--muted); }
+  .pos-label span { font-weight: 700; color: var(--text); }
+  .pick-list { padding: 0 16px 14px; }
+  .pick-row { display: flex; align-items: center; gap: 8px; padding: 4px 0; border-bottom: 1px solid #1a1a1a; }
+  .pick-row:last-child { border-bottom: none; }
+  .pick-rd { font-size: 10px; color: var(--muted); width: 24px; flex-shrink: 0; }
+  .pick-name { flex: 1; font-size: 12px; color: var(--text); }
+  .pick-badge { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; color: #000; }
+
+  /* ANALYSIS */
+  .analysis-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-bottom: 28px; }
+  .analysis-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .analysis-card h3 { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+  .timeline { display: flex; flex-direction: column; gap: 8px; }
+  .tl-row { display: flex; align-items: center; gap: 10px; }
+  .tl-pos { width: 36px; font-size: 10px; font-weight: 700; text-align: right; flex-shrink: 0; }
+  .tl-track { flex: 1; position: relative; height: 18px; background: var(--bg3); border-radius: 3px; overflow: hidden; }
+  .tl-bar { position: absolute; top: 0; height: 100%; border-radius: 3px; opacity: 0.85; }
+  .tl-label { font-size: 9px; color: var(--muted); white-space: nowrap; }
+
+  .storyline-list { display: flex; flex-direction: column; gap: 10px; }
+  .storyline-item { padding: 10px 12px; background: var(--bg3); border-radius: 7px; border-left: 3px solid var(--green); }
+  .storyline-item.reach { border-left-color: var(--qb); }
+  .storyline-item.value { border-left-color: var(--rb); }
+  .storyline-item.neutral { border-left-color: var(--wr); }
+  .storyline-title { font-weight: 600; font-size: 12px; color: var(--text); margin-bottom: 3px; }
+  .storyline-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  .stat-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--border); align-items: center; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { font-size: 11px; color: var(--muted); }
+  .stat-val { font-size: 12px; font-weight: 600; color: var(--text); }
+  .stat-val.green { color: var(--rb); }
+  .stat-val.red { color: var(--qb); }
+
+  .pos-count-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+  .pos-count-item { background: var(--bg3); border-radius: 6px; padding: 8px 4px; text-align: center; }
+  .pos-count-num { font-size: 20px; font-weight: 700; }
+  .pos-count-lbl { font-size: 9px; color: var(--muted); margin-top: 2px; }
+
+  @media (max-width: 600px) {
+    .content { padding: 16px; }
+    .page-header { padding: 16px; }
+    .tab-bar { padding: 0 16px; }
+    .teams-grid { grid-template-columns: 1fr; }
+    .analysis-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>2026 Draft Report</h1>
+    <div class="sub">Gentlemen's League &nbsp;·&nbsp; 12 Teams &nbsp;·&nbsp; 16 Rounds &nbsp;·&nbsp; Snake Draft</div>
+  </div>
+  <div class="league-badge">GL</div>
+</div>
+
+<div class="tab-bar">
+  <button class="active" onclick="showTab('board', this)">Draft Board</button>
+  <button onclick="showTab('teams', this)">By Team</button>
+  <button onclick="showTab('analysis', this)">Analysis</button>
+</div>
+
+<div class="content">
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="dot" style="background:var(--rb)"></div> RB</div>
+    <div class="legend-item"><div class="dot" style="background:var(--wr)"></div> WR</div>
+    <div class="legend-item"><div class="dot" style="background:var(--qb)"></div> QB</div>
+    <div class="legend-item"><div class="dot" style="background:var(--te)"></div> TE</div>
+    <div class="legend-item"><div class="dot" style="background:var(--k)"></div> K</div>
+    <div class="legend-item"><div class="dot" style="background:var(--def)"></div> DEF</div>
+  </div>
+
+  <!-- DRAFT BOARD -->
+  <div id="board" class="section active">
+    <div class="board-wrap">
+      <table class="board" id="draftTable"></table>
+    </div>
+  </div>
+
+  <!-- BY TEAM -->
+  <div id="teams" class="section">
+    <div class="teams-grid" id="teamsGrid"></div>
+  </div>
+
+  <!-- ANALYSIS -->
+  <div id="analysis" class="section">
+    <div class="analysis-grid" id="analysisGrid"></div>
+  </div>
+
+</div>
+
+<script>
+const PICKS = [{"round":1,"pick":1,"overall":1,"player":"Jahmyr Gibbs","nflTeam":"Det","pos":"RB","ffTeam":"Woodridge lore"},{"round":1,"pick":2,"overall":2,"player":"Bijan Robinson","nflTeam":"Atl","pos":"RB","ffTeam":"cuadz build 001"},{"round":1,"pick":3,"overall":3,"player":"Puka Nacua","nflTeam":"LAR","pos":"WR","ffTeam":"Nico de Gallo"},{"round":1,"pick":4,"overall":4,"player":"Ja'Marr Chase","nflTeam":"Cin","pos":"WR","ffTeam":"Jameson On The Rocks"},{"round":1,"pick":5,"overall":5,"player":"Christian McCaffrey","nflTeam":"SF","pos":"RB","ffTeam":"Run CMC"},{"round":1,"pick":6,"overall":6,"player":"Jonathan Taylor","nflTeam":"Ind","pos":"RB","ffTeam":"Mr. Electricity"},{"round":1,"pick":7,"overall":7,"player":"Saquon Barkley","nflTeam":"Phi","pos":"RB","ffTeam":"The Veterans"},{"round":1,"pick":8,"overall":8,"player":"Jaxon Smith-Njigba","nflTeam":"Sea","pos":"WR","ffTeam":"Chupamela HPT"},{"round":1,"pick":9,"overall":9,"player":"Justin Jefferson","nflTeam":"Min","pos":"WR","ffTeam":"Malik's Naber Hood"},{"round":1,"pick":10,"overall":10,"player":"James Cook III","nflTeam":"Buf","pos":"RB","ffTeam":"Sir"},{"round":1,"pick":11,"overall":11,"player":"Amon-Ra St. Brown","nflTeam":"Det","pos":"WR","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":1,"pick":12,"overall":12,"player":"CeeDee Lamb","nflTeam":"Dal","pos":"WR","ffTeam":"The Arbiter"},{"round":2,"pick":1,"overall":13,"player":"Chase Brown","nflTeam":"Cin","pos":"RB","ffTeam":"The Arbiter"},{"round":2,"pick":2,"overall":14,"player":"A.J. Brown","nflTeam":"NE","pos":"WR","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":2,"pick":3,"overall":15,"player":"Derrick Henry","nflTeam":"Bal","pos":"RB","ffTeam":"Sir"},{"round":2,"pick":4,"overall":16,"player":"Malik Nabers","nflTeam":"NYG","pos":"WR","ffTeam":"Malik's Naber Hood"},{"round":2,"pick":5,"overall":17,"player":"De'Von Achane","nflTeam":"Mia","pos":"RB","ffTeam":"Chupamela HPT"},{"round":2,"pick":6,"overall":18,"player":"Kyren Williams","nflTeam":"LAR","pos":"RB","ffTeam":"The Veterans"},{"round":2,"pick":7,"overall":19,"player":"Kenneth Walker III","nflTeam":"KC","pos":"RB","ffTeam":"Mr. Electricity"},{"round":2,"pick":8,"overall":20,"player":"Nico Collins","nflTeam":"Hou","pos":"WR","ffTeam":"Run CMC"},{"round":2,"pick":9,"overall":21,"player":"Omarion Hampton","nflTeam":"LAC","pos":"RB","ffTeam":"Jameson On The Rocks"},{"round":2,"pick":10,"overall":22,"player":"George Pickens","nflTeam":"Dal","pos":"WR","ffTeam":"Nico de Gallo"},{"round":2,"pick":11,"overall":23,"player":"Jeremiyah Love","nflTeam":"SF","pos":"RB","ffTeam":"cuadz build 001"},{"round":2,"pick":12,"overall":24,"player":"Breece Hall","nflTeam":"NYJ","pos":"RB","ffTeam":"Woodridge lore"},{"round":3,"pick":1,"overall":25,"player":"Ladd McConkey","nflTeam":"LAC","pos":"WR","ffTeam":"Woodridge lore"},{"round":3,"pick":2,"overall":26,"player":"Drake London","nflTeam":"Atl","pos":"WR","ffTeam":"cuadz build 001"},{"round":3,"pick":3,"overall":27,"player":"Sam LaPorta","nflTeam":"Det","pos":"TE","ffTeam":"Nico de Gallo"},{"round":3,"pick":4,"overall":28,"player":"Jaylen Waddle","nflTeam":"Mia","pos":"WR","ffTeam":"Jameson On The Rocks"},{"round":3,"pick":5,"overall":29,"player":"Travis Kelce","nflTeam":"KC","pos":"TE","ffTeam":"Run CMC"},{"round":3,"pick":6,"overall":30,"player":"Zay Flowers","nflTeam":"Bal","pos":"WR","ffTeam":"Mr. Electricity"},{"round":3,"pick":7,"overall":31,"player":"Evan Engram","nflTeam":"Jax","pos":"TE","ffTeam":"The Veterans"},{"round":3,"pick":8,"overall":32,"player":"Brock Purdy","nflTeam":"SF","pos":"QB","ffTeam":"Chupamela HPT"},{"round":3,"pick":9,"overall":33,"player":"Tank Dell","nflTeam":"Hou","pos":"WR","ffTeam":"Malik's Naber Hood"},{"round":3,"pick":10,"overall":34,"player":"Michael Pittman Jr.","nflTeam":"Ind","pos":"WR","ffTeam":"Sir"},{"round":3,"pick":11,"overall":35,"player":"Jayden Daniels","nflTeam":"Was","pos":"QB","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":3,"pick":12,"overall":36,"player":"Tee Higgins","nflTeam":"Cin","pos":"WR","ffTeam":"The Arbiter"},{"round":4,"pick":1,"overall":37,"player":"Lamar Jackson","nflTeam":"Bal","pos":"QB","ffTeam":"The Arbiter"},{"round":4,"pick":2,"overall":38,"player":"Justin Herbert","nflTeam":"LAC","pos":"QB","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":4,"pick":3,"overall":39,"player":"Patrick Mahomes","nflTeam":"KC","pos":"QB","ffTeam":"Sir"},{"round":4,"pick":4,"overall":40,"player":"Caleb Williams","nflTeam":"Chi","pos":"QB","ffTeam":"Malik's Naber Hood"},{"round":4,"pick":5,"overall":41,"player":"Josh Allen","nflTeam":"Buf","pos":"QB","ffTeam":"Chupamela HPT"},{"round":4,"pick":6,"overall":42,"player":"Davante Adams","nflTeam":"LV","pos":"WR","ffTeam":"Mr. Electricity"},{"round":4,"pick":7,"overall":43,"player":"Jalen Hurts","nflTeam":"Phi","pos":"QB","ffTeam":"The Veterans"},{"round":4,"pick":8,"overall":44,"player":"Jonathon Brooks","nflTeam":"Car","pos":"RB","ffTeam":"Run CMC"},{"round":4,"pick":9,"overall":45,"player":"Amari Cooper","nflTeam":"Buf","pos":"WR","ffTeam":"Jameson On The Rocks"},{"round":4,"pick":10,"overall":46,"player":"Brian Thomas Jr.","nflTeam":"Jax","pos":"WR","ffTeam":"Nico de Gallo"},{"round":4,"pick":11,"overall":47,"player":"Davante Adams","nflTeam":"LV","pos":"WR","ffTeam":"cuadz build 001"},{"round":4,"pick":12,"overall":48,"player":"James Conner","nflTeam":"Ari","pos":"RB","ffTeam":"Woodridge lore"},{"round":5,"pick":1,"overall":49,"player":"Jaylen Warren","nflTeam":"Pit","pos":"RB","ffTeam":"Woodridge lore"},{"round":5,"pick":2,"overall":50,"player":"Cam Skattebo","nflTeam":"NYG","pos":"RB","ffTeam":"cuadz build 001"},{"round":5,"pick":3,"overall":51,"player":"Terry McLaurin","nflTeam":"Was","pos":"WR","ffTeam":"Nico de Gallo"},{"round":5,"pick":4,"overall":52,"player":"Juju Smith-Schuster","nflTeam":"NE","pos":"WR","ffTeam":"Jameson On The Rocks"},{"round":5,"pick":5,"overall":53,"player":"Jameson Williams","nflTeam":"Det","pos":"WR","ffTeam":"Run CMC"},{"round":5,"pick":6,"overall":54,"player":"Davante Adams","nflTeam":"LV","pos":"WR","ffTeam":"Mr. Electricity"},{"round":5,"pick":7,"overall":55,"player":"Rashee Rice","nflTeam":"KC","pos":"WR","ffTeam":"The Veterans"},{"round":5,"pick":8,"overall":56,"player":"Jordan Love","nflTeam":"GB","pos":"QB","ffTeam":"Chupamela HPT"},{"round":5,"pick":9,"overall":57,"player":"Kyle Pitts","nflTeam":"Atl","pos":"TE","ffTeam":"Malik's Naber Hood"},{"round":5,"pick":10,"overall":58,"player":"Stefon Diggs","nflTeam":"Hou","pos":"WR","ffTeam":"Sir"},{"round":5,"pick":11,"overall":59,"player":"Travis Etienne Jr.","nflTeam":"Jax","pos":"RB","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":5,"pick":12,"overall":60,"player":"Dalton Kincaid","nflTeam":"Buf","pos":"TE","ffTeam":"The Arbiter"},{"round":6,"pick":1,"overall":61,"player":"Mark Andrews","nflTeam":"Bal","pos":"TE","ffTeam":"The Arbiter"},{"round":6,"pick":2,"overall":62,"player":"Nick Chubb","nflTeam":"Cle","pos":"RB","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":6,"pick":3,"overall":63,"player":"Jaylen McBride-King","nflTeam":"NO","pos":"WR","ffTeam":"Sir"},{"round":6,"pick":4,"overall":64,"player":"Joe Burrow","nflTeam":"Cin","pos":"QB","ffTeam":"Malik's Naber Hood"},{"round":6,"pick":5,"overall":65,"player":"Gus Edwards","nflTeam":"LAC","pos":"RB","ffTeam":"Chupamela HPT"},{"round":6,"pick":6,"overall":66,"player":"Rhamondre Stevenson","nflTeam":"NE","pos":"RB","ffTeam":"Mr. Electricity"},{"round":6,"pick":7,"overall":67,"player":"D'Andre Swift","nflTeam":"Chi","pos":"RB","ffTeam":"The Veterans"},{"round":6,"pick":8,"overall":68,"player":"Keenan Allen","nflTeam":"Chi","pos":"WR","ffTeam":"Run CMC"},{"round":6,"pick":9,"overall":69,"player":"Rashod Bateman","nflTeam":"Bal","pos":"WR","ffTeam":"Jameson On The Rocks"},{"round":6,"pick":10,"overall":70,"player":"Dak Prescott","nflTeam":"Dal","pos":"QB","ffTeam":"Nico de Gallo"},{"round":6,"pick":11,"overall":71,"player":"Rhamondre Stevenson","nflTeam":"NE","pos":"RB","ffTeam":"cuadz build 001"},{"round":6,"pick":12,"overall":72,"player":"Jaylen McBride-King","nflTeam":"NO","pos":"WR","ffTeam":"Woodridge lore"},{"round":7,"pick":1,"overall":73,"player":"Chris Olave","nflTeam":"NO","pos":"WR","ffTeam":"Woodridge lore"},{"round":7,"pick":2,"overall":74,"player":"Joe Burrow","nflTeam":"Cin","pos":"QB","ffTeam":"cuadz build 001"},{"round":7,"pick":3,"overall":75,"player":"Josh Downs","nflTeam":"Ind","pos":"WR","ffTeam":"Nico de Gallo"},{"round":7,"pick":4,"overall":76,"player":"Chig Okonkwo","nflTeam":"Was","pos":"TE","ffTeam":"Jameson On The Rocks"},{"round":7,"pick":5,"overall":77,"player":"Rashee Rice","nflTeam":"KC","pos":"WR","ffTeam":"Run CMC"},{"round":7,"pick":6,"overall":78,"player":"Javonte Williams","nflTeam":"Den","pos":"RB","ffTeam":"Mr. Electricity"},{"round":7,"pick":7,"overall":79,"player":"Zach Charbonnet","nflTeam":"Sea","pos":"RB","ffTeam":"The Veterans"},{"round":7,"pick":8,"overall":80,"player":"Cedric Tillman","nflTeam":"Cle","pos":"WR","ffTeam":"Chupamela HPT"},{"round":7,"pick":9,"overall":81,"player":"Keon Coleman","nflTeam":"Buf","pos":"WR","ffTeam":"Malik's Naber Hood"},{"round":7,"pick":10,"overall":82,"player":"Tyjae Spears","nflTeam":"Ten","pos":"RB","ffTeam":"Sir"},{"round":7,"pick":11,"overall":83,"player":"Wan'Dale Robinson","nflTeam":"NYG","pos":"WR","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":7,"pick":12,"overall":84,"player":"Dameon Pierce","nflTeam":"Hou","pos":"RB","ffTeam":"The Arbiter"},{"round":8,"pick":1,"overall":85,"player":"Tony Pollard","nflTeam":"Ten","pos":"RB","ffTeam":"The Arbiter"},{"round":8,"pick":2,"overall":86,"player":"Jaylen McBride-King","nflTeam":"NO","pos":"WR","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":8,"pick":3,"overall":87,"player":"Javonte Williams","nflTeam":"Den","pos":"RB","ffTeam":"Sir"},{"round":8,"pick":4,"overall":88,"player":"Jordan Addison","nflTeam":"Min","pos":"WR","ffTeam":"Malik's Naber Hood"},{"round":8,"pick":5,"overall":89,"player":"Christian Watson","nflTeam":"GB","pos":"WR","ffTeam":"Chupamela HPT"},{"round":8,"pick":6,"overall":90,"player":"Sam Darnold","nflTeam":"Sea","pos":"QB","ffTeam":"Mr. Electricity"},{"round":8,"pick":7,"overall":91,"player":"Deebo Samuel","nflTeam":"SF","pos":"WR","ffTeam":"The Veterans"},{"round":8,"pick":8,"overall":92,"player":"Alvin Kamara","nflTeam":"NO","pos":"RB","ffTeam":"Run CMC"},{"round":8,"pick":9,"overall":93,"player":"Jaylen McBride-King","nflTeam":"NO","pos":"WR","ffTeam":"Jameson On The Rocks"},{"round":8,"pick":10,"overall":94,"player":"Brandin Cooks","nflTeam":"LAR","pos":"WR","ffTeam":"Nico de Gallo"},{"round":8,"pick":11,"overall":95,"player":"Quentin Johnston","nflTeam":"LAC","pos":"WR","ffTeam":"cuadz build 001"},{"round":8,"pick":12,"overall":96,"player":"Khalil Shakir","nflTeam":"Buf","pos":"WR","ffTeam":"Woodridge lore"},{"round":9,"pick":1,"overall":97,"player":"Jaleel McLaughlin","nflTeam":"Den","pos":"RB","ffTeam":"Woodridge lore"},{"round":9,"pick":2,"overall":98,"player":"MarShawn Lloyd","nflTeam":"GB","pos":"RB","ffTeam":"cuadz build 001"},{"round":9,"pick":3,"overall":99,"player":"Jalen McMillan","nflTeam":"TB","pos":"WR","ffTeam":"Nico de Gallo"},{"round":9,"pick":4,"overall":100,"player":"Elijah Moore","nflTeam":"Cle","pos":"WR","ffTeam":"Jameson On The Rocks"},{"round":9,"pick":5,"overall":101,"player":"Jared Goff","nflTeam":"Det","pos":"QB","ffTeam":"Run CMC"},{"round":9,"pick":6,"overall":102,"player":"Anthony Richardson","nflTeam":"Ind","pos":"QB","ffTeam":"Mr. Electricity"},{"round":9,"pick":7,"overall":103,"player":"Tyreek Hill","nflTeam":"Mia","pos":"WR","ffTeam":"The Veterans"},{"round":9,"pick":8,"overall":104,"player":"Chig Okonkwo","nflTeam":"Was","pos":"TE","ffTeam":"Chupamela HPT"},{"round":9,"pick":9,"overall":105,"player":"Garrett Wilson","nflTeam":"NYJ","pos":"WR","ffTeam":"Malik's Naber Hood"},{"round":9,"pick":10,"overall":106,"player":"Joshua Palmer","nflTeam":"LAC","pos":"WR","ffTeam":"Sir"},{"round":9,"pick":11,"overall":107,"player":"Bucky Irving","nflTeam":"TB","pos":"RB","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":9,"pick":12,"overall":108,"player":"Tyjae Spears","nflTeam":"Ten","pos":"RB","ffTeam":"The Arbiter"},{"round":10,"pick":1,"overall":109,"player":"Rashod Bateman","nflTeam":"Bal","pos":"WR","ffTeam":"The Arbiter"},{"round":10,"pick":2,"overall":110,"player":"Isaiah Likely","nflTeam":"Bal","pos":"TE","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":10,"pick":3,"overall":111,"player":"Dontayvion Wicks","nflTeam":"GB","pos":"WR","ffTeam":"Sir"},{"round":10,"pick":4,"overall":112,"player":"Tyrone Tracy Jr.","nflTeam":"NYG","pos":"RB","ffTeam":"Malik's Naber Hood"},{"round":10,"pick":5,"overall":113,"player":"Demarcus Robinson","nflTeam":"LAR","pos":"WR","ffTeam":"Chupamela HPT"},{"round":10,"pick":6,"overall":114,"player":"Tank Bigsby","nflTeam":"Jax","pos":"RB","ffTeam":"Mr. Electricity"},{"round":10,"pick":7,"overall":115,"player":"Rome Odunze","nflTeam":"Chi","pos":"WR","ffTeam":"The Veterans"},{"round":10,"pick":8,"overall":116,"player":"Jonnu Smith","nflTeam":"Mia","pos":"TE","ffTeam":"Run CMC"},{"round":10,"pick":9,"overall":117,"player":"Xavier Worthy","nflTeam":"KC","pos":"WR","ffTeam":"Jameson On The Rocks"},{"round":10,"pick":10,"overall":118,"player":"Jaylen McBride-King","nflTeam":"NO","pos":"WR","ffTeam":"Nico de Gallo"},{"round":10,"pick":11,"overall":119,"player":"Cyrus Allen","nflTeam":"NO","pos":"WR","ffTeam":"cuadz build 001"},{"round":10,"pick":12,"overall":120,"player":"Jalen Tolbert","nflTeam":"Dal","pos":"WR","ffTeam":"Woodridge lore"},{"round":11,"pick":1,"overall":121,"player":"Luke Musgrave","nflTeam":"GB","pos":"TE","ffTeam":"Woodridge lore"},{"round":11,"pick":2,"overall":122,"player":"Dalton Kincaid","nflTeam":"Buf","pos":"TE","ffTeam":"cuadz build 001"},{"round":11,"pick":3,"overall":123,"player":"Dyami Brown","nflTeam":"Was","pos":"WR","ffTeam":"Nico de Gallo"},{"round":11,"pick":4,"overall":124,"player":"Jaylen McBride-King","nflTeam":"NO","pos":"WR","ffTeam":"Jameson On The Rocks"},{"round":11,"pick":5,"overall":125,"player":"Isaac Guerendo","nflTeam":"SF","pos":"RB","ffTeam":"Run CMC"},{"round":11,"pick":6,"overall":126,"player":"Dawson Knox","nflTeam":"Buf","pos":"TE","ffTeam":"Mr. Electricity"},{"round":11,"pick":7,"overall":127,"player":"Allen Lazard","nflTeam":"NYJ","pos":"WR","ffTeam":"The Veterans"},{"round":11,"pick":8,"overall":128,"player":"Evan Engram","nflTeam":"Jax","pos":"TE","ffTeam":"Chupamela HPT"},{"round":11,"pick":9,"overall":129,"player":"Jordan Love","nflTeam":"GB","pos":"QB","ffTeam":"Malik's Naber Hood"},{"round":11,"pick":10,"overall":130,"player":"Ke'Shawn Vaughn","nflTeam":"TB","pos":"RB","ffTeam":"Sir"},{"round":11,"pick":11,"overall":131,"player":"Jordan Addison","nflTeam":"Min","pos":"WR","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":11,"pick":12,"overall":132,"player":"Rachaad White","nflTeam":"TB","pos":"RB","ffTeam":"The Arbiter"},{"round":12,"pick":1,"overall":133,"player":"Damiere Byrd","nflTeam":"Ari","pos":"WR","ffTeam":"The Arbiter"},{"round":12,"pick":2,"overall":134,"player":"Gabe Davis","nflTeam":"Jax","pos":"WR","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":12,"pick":3,"overall":135,"player":"Keaton Mitchell","nflTeam":"Bal","pos":"RB","ffTeam":"Sir"},{"round":12,"pick":4,"overall":136,"player":"Tyler Lockett","nflTeam":"Sea","pos":"WR","ffTeam":"Malik's Naber Hood"},{"round":12,"pick":5,"overall":137,"player":"Boston Scott","nflTeam":"Phi","pos":"RB","ffTeam":"Chupamela HPT"},{"round":12,"pick":6,"overall":138,"player":"Jaylen McBride-King","nflTeam":"NO","pos":"WR","ffTeam":"Mr. Electricity"},{"round":12,"pick":7,"overall":139,"player":"Joshua Palmer","nflTeam":"LAC","pos":"WR","ffTeam":"The Veterans"},{"round":12,"pick":8,"overall":140,"player":"Ameer Abdullah","nflTeam":"LV","pos":"RB","ffTeam":"Run CMC"},{"round":12,"pick":9,"overall":141,"player":"Hayden Hurst","nflTeam":"Car","pos":"TE","ffTeam":"Jameson On The Rocks"},{"round":12,"pick":10,"overall":142,"player":"Cam Akers","nflTeam":"Min","pos":"RB","ffTeam":"Nico de Gallo"},{"round":12,"pick":11,"overall":143,"player":"Patrick Mahomes","nflTeam":"KC","pos":"QB","ffTeam":"cuadz build 001"},{"round":12,"pick":12,"overall":144,"player":"Tommy DeVito","nflTeam":"NYG","pos":"QB","ffTeam":"Woodridge lore"},{"round":13,"pick":1,"overall":145,"player":"Texans","nflTeam":"Hou","pos":"DEF","ffTeam":"Woodridge lore"},{"round":13,"pick":2,"overall":146,"player":"Texans","nflTeam":"Hou","pos":"DEF","ffTeam":"cuadz build 001"},{"round":13,"pick":3,"overall":147,"player":"Bills","nflTeam":"Buf","pos":"DEF","ffTeam":"Nico de Gallo"},{"round":13,"pick":4,"overall":148,"player":"Lions","nflTeam":"Det","pos":"DEF","ffTeam":"Jameson On The Rocks"},{"round":13,"pick":5,"overall":149,"player":"Chiefs","nflTeam":"KC","pos":"DEF","ffTeam":"Run CMC"},{"round":13,"pick":6,"overall":150,"player":"Steelers","nflTeam":"Pit","pos":"DEF","ffTeam":"Mr. Electricity"},{"round":13,"pick":7,"overall":151,"player":"Falcons","nflTeam":"Atl","pos":"DEF","ffTeam":"The Veterans"},{"round":13,"pick":8,"overall":152,"player":"Rams","nflTeam":"LAR","pos":"DEF","ffTeam":"Chupamela HPT"},{"round":13,"pick":9,"overall":153,"player":"Seahawks","nflTeam":"Sea","pos":"DEF","ffTeam":"Malik's Naber Hood"},{"round":13,"pick":10,"overall":154,"player":"Cowboys","nflTeam":"Dal","pos":"DEF","ffTeam":"Sir"},{"round":13,"pick":11,"overall":155,"player":"Bengals","nflTeam":"Cin","pos":"DEF","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":13,"pick":12,"overall":156,"player":"Broncos","nflTeam":"Den","pos":"DEF","ffTeam":"The Arbiter"},{"round":14,"pick":1,"overall":157,"player":"Jake Moody","nflTeam":"SF","pos":"K","ffTeam":"The Arbiter"},{"round":14,"pick":2,"overall":158,"player":"Younghoe Koo","nflTeam":"Atl","pos":"K","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":14,"pick":3,"overall":159,"player":"Evan McPherson","nflTeam":"Cin","pos":"K","ffTeam":"Sir"},{"round":14,"pick":4,"overall":160,"player":"Tyler Bass","nflTeam":"Buf","pos":"K","ffTeam":"Malik's Naber Hood"},{"round":14,"pick":5,"overall":161,"player":"Graham Gano","nflTeam":"NYG","pos":"K","ffTeam":"Chupamela HPT"},{"round":14,"pick":6,"overall":162,"player":"Chad Ryland","nflTeam":"NE","pos":"K","ffTeam":"Mr. Electricity"},{"round":14,"pick":7,"overall":163,"player":"Jason Sanders","nflTeam":"Mia","pos":"K","ffTeam":"The Veterans"},{"round":14,"pick":8,"overall":164,"player":"Evan McPherson","nflTeam":"Cin","pos":"K","ffTeam":"Run CMC"},{"round":14,"pick":9,"overall":165,"player":"Brandon Aubrey","nflTeam":"Dal","pos":"K","ffTeam":"Jameson On The Rocks"},{"round":14,"pick":10,"overall":166,"player":"Cairo Santos","nflTeam":"Chi","pos":"K","ffTeam":"Nico de Gallo"},{"round":14,"pick":11,"overall":167,"player":"Cameron Dicker","nflTeam":"LAC","pos":"K","ffTeam":"cuadz build 001"},{"round":14,"pick":12,"overall":168,"player":"Greg Joseph","nflTeam":"Min","pos":"K","ffTeam":"Woodridge lore"},{"round":15,"pick":1,"overall":169,"player":"Darien Butler","nflTeam":"Ari","pos":"WR","ffTeam":"Woodridge lore"},{"round":15,"pick":2,"overall":170,"player":"Kayshon Boutte","nflTeam":"NE","pos":"WR","ffTeam":"cuadz build 001"},{"round":15,"pick":3,"overall":171,"player":"Jaelon Darden","nflTeam":"Atl","pos":"WR","ffTeam":"Nico de Gallo"},{"round":15,"pick":4,"overall":172,"player":"Mecole Hardman","nflTeam":"KC","pos":"WR","ffTeam":"Jameson On The Rocks"},{"round":15,"pick":5,"overall":173,"player":"Tyler Shough","nflTeam":"NO","pos":"QB","ffTeam":"Run CMC"},{"round":15,"pick":6,"overall":174,"player":"Vikings","nflTeam":"Min","pos":"DEF","ffTeam":"Mr. Electricity"},{"round":15,"pick":7,"overall":175,"player":"Alvin Kamara","nflTeam":"NO","pos":"RB","ffTeam":"The Veterans"},{"round":15,"pick":8,"overall":176,"player":"Tyler Loop","nflTeam":"Bal","pos":"K","ffTeam":"Chupamela HPT"},{"round":15,"pick":9,"overall":177,"player":"Eagles","nflTeam":"Phi","pos":"DEF","ffTeam":"Malik's Naber Hood"},{"round":15,"pick":10,"overall":178,"player":"Sam Darnold","nflTeam":"Sea","pos":"QB","ffTeam":"Sir"},{"round":15,"pick":11,"overall":179,"player":"Pat Bryant","nflTeam":"Den","pos":"WR","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":15,"pick":12,"overall":180,"player":"Ravens","nflTeam":"Bal","pos":"DEF","ffTeam":"The Arbiter"},{"round":16,"pick":1,"overall":181,"player":"Cowboys","nflTeam":"Dal","pos":"DEF","ffTeam":"The Arbiter"},{"round":16,"pick":2,"overall":182,"player":"Chargers","nflTeam":"LAC","pos":"DEF","ffTeam":"MAGNETO IS STILL RIGHT"},{"round":16,"pick":3,"overall":183,"player":"Ryan Flournoy","nflTeam":"Dal","pos":"WR","ffTeam":"Sir"},{"round":16,"pick":4,"overall":184,"player":"Will Reichard","nflTeam":"Min","pos":"K","ffTeam":"Malik's Naber Hood"},{"round":16,"pick":5,"overall":185,"player":"Hunter Henry","nflTeam":"NE","pos":"TE","ffTeam":"Chupamela HPT"},{"round":16,"pick":6,"overall":186,"player":"Kenyon Sadiq","nflTeam":"NYJ","pos":"TE","ffTeam":"The Veterans"},{"round":16,"pick":7,"overall":187,"player":"Nicholas Singleton","nflTeam":"Ten","pos":"RB","ffTeam":"Mr. Electricity"},{"round":16,"pick":8,"overall":188,"player":"Chig Okonkwo","nflTeam":"Was","pos":"TE","ffTeam":"Run CMC"},{"round":16,"pick":9,"overall":189,"player":"Terrance Ferguson","nflTeam":"LAR","pos":"TE","ffTeam":"Jameson On The Rocks"},{"round":16,"pick":10,"overall":190,"player":"Harrison Butker","nflTeam":"KC","pos":"K","ffTeam":"Nico de Gallo"},{"round":16,"pick":11,"overall":191,"player":"Oronde Gadsden","nflTeam":"LAC","pos":"TE","ffTeam":"cuadz build 001"},{"round":16,"pick":12,"overall":192,"player":"Jaguars","nflTeam":"Jax","pos":"DEF","ffTeam":"Woodridge lore"}];
+
+const MANAGERS = {
+  "Woodridge lore": "Ramon",
+  "cuadz build 001": "Jose",
+  "Nico de Gallo": "JJ",
+  "Jameson On The Rocks": "Gio",
+  "Run CMC": "Alex Z.",
+  "Mr. Electricity": "Julio",
+  "The Veterans": "Jonathan",
+  "Chupamela HPT": "Chupamela",
+  "Malik's Naber Hood": "Oscar",
+  "Sir": "Alexis",
+  "MAGNETO IS STILL RIGHT": "Ed",
+  "The Arbiter": "Kevin"
+};
+
+const DRAFT_ORDER = ["Woodridge lore","cuadz build 001","Nico de Gallo","Jameson On The Rocks","Run CMC","Mr. Electricity","The Veterans","Chupamela HPT","Malik's Naber Hood","Sir","MAGNETO IS STILL RIGHT","The Arbiter"];
+
+const POS_COLORS = { RB: '#4ade80', WR: '#60a5fa', QB: '#f87171', TE: '#fb923c', K: '#a78bfa', DEF: '#94a3b8' };
+
+function posColor(pos) { return POS_COLORS[pos] || '#888'; }
+
+// Group picks by team
+const teamPicks = {};
+DRAFT_ORDER.forEach(t => teamPicks[t] = []);
+PICKS.forEach(p => { if (teamPicks[p.ffTeam]) teamPicks[p.ffTeam].push(p); });
+
+// ---- DRAFT BOARD ----
+function buildBoard() {
+  const table = document.getElementById('draftTable');
+  // header
+  let html = '<thead><tr><th>RD</th>';
+  DRAFT_ORDER.forEach(t => {
+    html += `<th>${t}<br><span style="color:var(--green);font-size:9px">${MANAGERS[t]}</span></th>`;
+  });
+  html += '</tr></thead><tbody>';
+
+  for (let r = 1; r <= 16; r++) {
+    html += `<tr><td>R${r}</td>`;
+    DRAFT_ORDER.forEach((team, ti) => {
+      // snake: odd rounds forward, even rounds reverse
+      const slotInRound = (r % 2 === 1) ? ti + 1 : 12 - ti;
+      const overall = (r - 1) * 12 + slotInRound;
+      const pick = PICKS.find(p => p.overall === overall);
+      if (pick) {
+        const c = posColor(pick.pos);
+        html += `<td class="pick-cell">
+          <div class="pick-num">${r}.${pick.pick} (${overall})</div>
+          <div class="pick-player">${pick.player}</div>
+          <span class="pick-pos pos-${pick.pos}">${pick.pos}</span>
+        </td>`;
+      } else {
+        html += '<td>—</td>';
+      }
+    });
+    html += '</tr>';
+  }
+  html += '</tbody>';
+  table.innerHTML = html;
+}
+
+// ---- TEAMS ----
+function buildTeams() {
+  const grid = document.getElementById('teamsGrid');
+  let html = '';
+  DRAFT_ORDER.forEach((team, idx) => {
+    const picks = teamPicks[team];
+    const posCounts = {};
+    picks.forEach(p => { posCounts[p.pos] = (posCounts[p.pos] || 0) + 1; });
+    const total = picks.length;
+
+    // bar segments
+    const barSegs = Object.entries(posCounts).map(([pos, cnt]) => {
+      const pct = (cnt / total * 100).toFixed(1);
+      return `<div class="pos-bar-seg" style="width:${pct}%;background:${posColor(pos)}"></div>`;
+    }).join('');
+
+    const posLabels = Object.entries(posCounts).map(([pos, cnt]) =>
+      `<div class="pos-label">${pos}: <span>${cnt}</span></div>`
+    ).join('');
+
+    const skillPicks = picks.filter(p => ['RB','WR','QB','TE'].includes(p.pos));
+
+    html += `<div class="team-card">
+      <div class="team-card-header">
+        <div class="team-name">${team}</div>
+        <div class="manager-name">${MANAGERS[team]}</div>
+        <div class="draft-slot">Pick #${idx + 1}</div>
+      </div>
+      <div class="pos-bar">${barSegs}</div>
+      <div class="pos-bar-labels">${posLabels}</div>
+      <div class="pick-list">`;
+
+    skillPicks.forEach(p => {
+      html += `<div class="pick-row">
+        <div class="pick-rd">R${p.round}</div>
+        <div class="pick-name">${p.player}</div>
+        <span class="pick-badge pos-${p.pos}">${p.pos}</span>
+      </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+  grid.innerHTML = html;
+}
+
+// ---- ANALYSIS ----
+function buildAnalysis() {
+  const grid = document.getElementById('analysisGrid');
+
+  // Position breakdown totals
+  const totals = {};
+  PICKS.forEach(p => { totals[p.pos] = (totals[p.pos] || 0) + 1; });
+
+  // First pick by position
+  const firstByPos = {};
+  PICKS.forEach(p => {
+    if (!firstByPos[p.pos]) firstByPos[p.pos] = p;
+  });
+
+  // QB picks in rounds 1-6
+  const earlyQBs = PICKS.filter(p => p.pos === 'QB' && p.round <= 6);
+  const lateQBs = PICKS.filter(p => p.pos === 'QB' && p.round >= 7);
+
+  // Teams without early QB (picked after round 6)
+  const qbPickRound = {};
+  PICKS.filter(p => p.pos === 'QB').forEach(p => {
+    if (!qbPickRound[p.ffTeam] || p.round < qbPickRound[p.ffTeam]) qbPickRound[p.ffTeam] = p.round;
+  });
+
+  // Position run in rounds 3-4 (QB panic)
+  const r3r4 = PICKS.filter(p => (p.round === 3 || p.round === 4) && p.pos === 'QB');
+
+  // TE round analysis
+  const tePicks = PICKS.filter(p => p.pos === 'TE');
+  const earlyTEs = tePicks.filter(p => p.round <= 5);
+
+  // Roster construction by team
+  const teamConstruction = {};
+  DRAFT_ORDER.forEach(t => {
+    const p = teamPicks[t];
+    teamConstruction[t] = {
+      RB: p.filter(x => x.pos === 'RB').length,
+      WR: p.filter(x => x.pos === 'WR').length,
+      QB: p.filter(x => x.pos === 'QB').length,
+      TE: p.filter(x => x.pos === 'TE').length,
+    };
+  });
+
+  // Most RBs
+  const rbHeavy = Object.entries(teamConstruction).sort((a,b) => b[1].RB - a[1].RB)[0];
+  const wrHeavy = Object.entries(teamConstruction).sort((a,b) => b[1].WR - a[1].WR)[0];
+  const qbHeavy = Object.entries(teamConstruction).sort((a,b) => b[1].QB - a[1].QB)[0];
+
+  // Position timeline bars (which round each position mostly went)
+  const posRoundAvg = {};
+  ['QB','RB','WR','TE'].forEach(pos => {
+    const picks = PICKS.filter(p => p.pos === pos);
+    posRoundAvg[pos] = {
+      first: picks[0]?.round,
+      last: picks[picks.length-1]?.round,
+      avg: +(picks.reduce((s,p) => s + p.round, 0) / picks.length).toFixed(1),
+      count: picks.length
+    };
+  });
+
+  let html = '';
+
+  // Card 1: Position overview
+  html += `<div class="analysis-card">
+    <h3>Position Breakdown</h3>
+    <div class="pos-count-grid">
+      ${['RB','WR','QB','TE','K','DEF'].map(pos => `
+        <div class="pos-count-item">
+          <div class="pos-count-num" style="color:${posColor(pos)}">${totals[pos]||0}</div>
+          <div class="pos-count-lbl">${pos}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="margin-top:16px">
+      ${Object.entries({
+        'Most RB-heavy': `${rbHeavy[0]} (${rbHeavy[1].RB} RBs) — ${MANAGERS[rbHeavy[0]]}`,
+        'Most WR-heavy': `${wrHeavy[0]} (${wrHeavy[1].WR} WRs) — ${MANAGERS[wrHeavy[0]]}`,
+        'Most QBs drafted': `${qbHeavy[0]} (${qbHeavy[1].QB} QBs) — ${MANAGERS[qbHeavy[0]]}`,
+      }).map(([k,v]) => `<div class="stat-row"><div class="stat-label">${k}</div><div class="stat-val" style="font-size:11px;max-width:160px;text-align:right">${v}</div></div>`).join('')}
+    </div>
+  </div>`;
+
+  // Card 2: QB timeline
+  html += `<div class="analysis-card">
+    <h3>The QB Panic — Rds 3–4</h3>
+    <div class="storyline-list">
+      <div class="storyline-item reach">
+        <div class="storyline-title">8 QBs taken in rounds 3–4</div>
+        <div class="storyline-desc">Purdy (3.8, Chupamela), Daniels (3.11, Ed) started it. Then Lamar, Herbert, Mahomes, Caleb, Allen, Hurts went back-to-back in rounds 4.1–4.7. Massive run that forced managers off their boards.</div>
+      </div>
+      ${r3r4.map(p => `<div class="stat-row">
+        <div class="stat-label">${p.round}.${p.pick} · ${MANAGERS[p.ffTeam]}</div>
+        <div class="stat-val">${p.player}</div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+
+  // Card 3: TE analysis
+  html += `<div class="analysis-card">
+    <h3>Tight End Landscape</h3>
+    <div class="storyline-list">
+      <div class="storyline-item value">
+        <div class="storyline-title">TE run in round 3</div>
+        <div class="storyline-desc">LaPorta (3.3), Kelce (3.5), and Engram (3.7) all went in round 3. Alex Z. getting Kelce at pick 29 is the premier TE1 grab of the draft.</div>
+      </div>
+    </div>
+    <div style="margin-top:12px">
+      ${earlyTEs.map(p => `<div class="stat-row">
+        <div class="stat-label">R${p.round} · ${MANAGERS[p.ffTeam]}</div>
+        <div class="stat-val">${p.player}</div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+
+  // Card 4: Key storylines
+  html += `<div class="analysis-card">
+    <h3>Key Storylines</h3>
+    <div class="storyline-list">
+      <div class="storyline-item value">
+        <div class="storyline-title">Kevin: CeeDee + Chase Brown at 12/13</div>
+        <div class="storyline-desc">Picking 12th overall, Kevin landed CeeDee Lamb (WR1) in round 1 then Chase Brown (RB2 upside) turning the corner. Elite value from the 12 spot.</div>
+      </div>
+      <div class="storyline-item value">
+        <div class="storyline-title">Ed: Daniels + Herbert, Double QB</div>
+        <div class="storyline-desc">Ed drafted Jayden Daniels in round 3 then Justin Herbert in round 4 — two QB1s. Massive trade chip or a hedge that limits his flexibility.</div>
+      </div>
+      <div class="storyline-item reach">
+        <div class="storyline-title">WR depth thin in rounds 5–7</div>
+        <div class="storyline-desc">With 8 QBs gone by end of round 4, mid-round WR options like Juju, Jameson Williams, and Rashee Rice were the best available — slim pickings at the position.</div>
+      </div>
+      <div class="storyline-item neutral">
+        <div class="storyline-title">Ramon: Gibbs + Hall, RB1-RB2 stack</div>
+        <div class="storyline-desc">Ramon took Gibbs #1 overall then Breece Hall at 2.12. Two workhorse RBs to anchor his lineup heading into the season.</div>
+      </div>
+    </div>
+  </div>`;
+
+  // Card 5: Roster construction table
+  html += `<div class="analysis-card" style="grid-column: span 2">
+    <h3>Roster Construction — Skill Positions</h3>
+    <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:11px">
+      <thead>
+        <tr style="color:var(--muted)">
+          <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">Team</th>
+          <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">Mgr</th>
+          <th style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--rb)">RB</th>
+          <th style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--wr)">WR</th>
+          <th style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--qb)">QB</th>
+          <th style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--te)">TE</th>
+          <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">Strategy</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${DRAFT_ORDER.map(team => {
+          const c = teamConstruction[team];
+          const strategy = c.QB >= 2 ? '2-QB stack' : c.RB >= 6 ? 'RB heavy' : c.WR >= 7 ? 'WR heavy' : c.TE >= 3 ? 'TE premium' : 'Balanced';
+          return `<tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:6px 8px;font-weight:500">${team}</td>
+            <td style="padding:6px 8px;color:var(--muted)">${MANAGERS[team]}</td>
+            <td style="padding:6px 8px;text-align:center;color:var(--rb);font-weight:700">${c.RB}</td>
+            <td style="padding:6px 8px;text-align:center;color:var(--wr);font-weight:700">${c.WR}</td>
+            <td style="padding:6px 8px;text-align:center;color:var(--qb);font-weight:700">${c.QB}</td>
+            <td style="padding:6px 8px;text-align:center;color:var(--te);font-weight:700">${c.TE}</td>
+            <td style="padding:6px 8px;color:var(--muted);font-size:10px">${strategy}</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+    </div>
+  </div>`;
+
+  grid.innerHTML = html;
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+buildBoard();
+buildTeams();
+buildAnalysis();
+</script>
+</body>
+</html>

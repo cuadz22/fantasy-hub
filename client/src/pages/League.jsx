@@ -9,15 +9,8 @@ import Owners from '../components/Owners';
 import Keepers from '../components/Keepers';
 import RebirthOwners from '../components/RebirthOwners';
 import RebirthKeepers from '../components/RebirthKeepers';
-import RebirthDraftBoard from '../components/RebirthDraftBoard';
-import RebirthPickBoard from '../components/RebirthPickBoard';
-import BHDraftBoard from '../components/BHDraftBoard';
-import BHPickBoard from '../components/BHPickBoard';
-import OffseasonTrades from '../components/OffseasonTrades';
-import KeeperSubmission from '../components/KeeperSubmission';
 import PowerRankings from '../components/PowerRankings';
 import StsStandings from '../components/StsStandings';
-import KeeperPriceCalc from '../components/KeeperPriceCalc';
 import DraftOrder from '../components/DraftOrder';
 
 const LEAGUES = {
@@ -27,7 +20,7 @@ const LEAGUES = {
   'shoot-the-shits': { name: 'Shoot the Shits', est: 2021, keeper: false },
 };
 
-const KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Owners', 'Keepers', 'Keeper Prices', 'Draft Picks Board', 'Pick Order', 'Draft Order', 'Off-Season Trades', 'Submit Keepers', 'Draft Report', 'Rulebook'];
+const KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Owners', 'Keepers', 'Draft Report', 'Rulebook'];
 const NON_KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Draft Report', 'Rulebook'];
 const GENTS_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Draft Order', 'Draft Report', 'Rulebook'];
 
@@ -98,17 +91,8 @@ export default function League() {
         {tab === 'Owners' && id !== 'rebirth' && <Owners leagueId={id} />}
         {tab === 'Keepers' && id === 'rebirth' && <RebirthKeepers />}
         {tab === 'Keepers' && id !== 'rebirth' && <Keepers leagueId={id} />}
-        {tab === 'Keeper Prices' && id === 'rebirth' && <KeeperPriceCalc />}
-        {tab === 'Draft Picks Board' && id === 'rebirth' && <RebirthDraftBoard />}
-        {tab === 'Pick Order' && id === 'rebirth' && <RebirthPickBoard />}
-        {tab === 'Pick Order' && id === 'beaners-husseins' && <BHPickBoard />}
-        {tab === 'Draft Picks Board' && id !== 'rebirth' && id !== 'beaners-husseins' && (
-          <div style={{ padding: '40px 0', color: 'var(--text-muted)', fontSize: 13 }}>Draft picks board coming soon.</div>
-        )}
         {tab === 'Draft Order' && <DraftOrder leagueId={id} />}
         {tab === 'Power Rankings' && <PowerRankings leagueId={id} />}
-        {tab === 'Off-Season Trades' && <OffseasonTrades leagueId={id} />}
-        {tab === 'Submit Keepers' && <KeeperSubmission leagueId={id} />}
         {tab === 'Rulebook' && <Rulebook leagueId={id} />}
       </div>
     </div>
