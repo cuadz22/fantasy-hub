@@ -1,18 +1,18 @@
 {
   "week": 1,
-  "updated": "2026-09-10",
+  "updated": "2026-09-15",
   "teams": [
-    { "rank": 1,  "name": "cuadz build 001",        "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 2,  "name": "Jameson On The Rocks",   "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 3,  "name": "Nico de Gallo",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 4,  "name": "Chupamela HPT",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 5,  "name": "Woodridge lore",         "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 6,  "name": "MAGNETO IS STILL RIGHT", "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 7,  "name": "Run CMC",                "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 8,  "name": "Malik's Naber Hood",     "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 98  },
-    { "rank": 9,  "name": "Mr. Electricity",        "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 10, "name": "The Arbiter",            "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 11, "name": "Sir",                    "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 12, "name": "The Veterans",           "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "streak": "-", "faab": 100 }
+    { "rank": 1,  "name": "Mr. Electricity",          "wins": 1, "losses": 0, "ties": 0, "pf": 235.40, "pa": 156.10, "streak": "W1", "faab": 100 },
+    { "rank": 2,  "name": "Chupamela HPT",             "wins": 1, "losses": 0, "ties": 0, "pf": 184.95, "pa": 144.80, "streak": "W1", "faab": 100 },
+    { "rank": 3,  "name": "The Arbiter",               "wins": 1, "losses": 0, "ties": 0, "pf": 161.65, "pa": 154.20, "streak": "W1", "faab": 100 },
+    { "rank": 4,  "name": "The Veterans",              "wins": 1, "losses": 0, "ties": 0, "pf": 131.25, "pa": 92.10,  "streak": "W1", "faab": 100 },
+    { "rank": 5,  "name": "Sir",                       "wins": 1, "losses": 0, "ties": 0, "pf": 127.55, "pa": 84.05,  "streak": "W1", "faab": 100 },
+    { "rank": 6,  "name": "Jameson On The Rocks",      "wins": 1, "losses": 0, "ties": 0, "pf": 122.55, "pa": 115.40, "streak": "W1", "faab": 100 },
+    { "rank": 7,  "name": "Woodridge lore",            "wins": 0, "losses": 1, "ties": 0, "pf": 156.10, "pa": 235.40, "streak": "L1", "faab": 100 },
+    { "rank": 8,  "name": "Run CMC",                   "wins": 0, "losses": 1, "ties": 0, "pf": 154.20, "pa": 161.65, "streak": "L1", "faab": 100 },
+    { "rank": 9,  "name": "Wide receiver university",  "wins": 0, "losses": 1, "ties": 0, "pf": 144.80, "pa": 184.95, "streak": "L1", "faab": 100 },
+    { "rank": 10, "name": "cuadz build 001",           "wins": 0, "losses": 1, "ties": 0, "pf": 115.40, "pa": 122.55, "streak": "L1", "faab": 100 },
+    { "rank": 11, "name": "MAGNETO IS STILL RIGHT",   "wins": 0, "losses": 1, "ties": 0, "pf": 92.10,  "pa": 131.25, "streak": "L1", "faab": 100 },
+    { "rank": 12, "name": "Nico de Gallo",             "wins": 0, "losses": 1, "ties": 0, "pf": 84.05,  "pa": 127.55, "streak": "L1", "faab": 100 }
   ]
 }

@@ -1,19 +1,18 @@
 {
   "week": 1,
-  "updated": "2026-09-10",
-  "hasWeeklyData": false,
+  "updated": "2026-09-15",
   "teams": [
-    { "rank": 1,  "name": "cuadz build 004",     "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 2,  "name": "Amon a Mi$$ion",      "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 3,  "name": "Allen or Nothing",    "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 4,  "name": "Baba Yaga",           "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 5,  "name": "Strib club Tets",     "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 6,  "name": "Jaxon Five",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 7,  "name": "Chasing Flowers",     "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 8,  "name": "Stripper Draft Julio","wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 9,  "name": "That's Amari",        "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 10, "name": "The Hokage",          "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 },
-    { "rank": 11, "name": "The Bidfather",       "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 98  },
-    { "rank": 12, "name": "Youngbossbrian",      "wins": 0, "losses": 0, "ties": 0, "pf": 0.00, "pa": 0.00, "customPoints": 0, "winPointsEarned": 0, "highScorePointsEarned": 0, "highScoreWeeks": 0, "pointsFor": 0.00, "streak": "-", "faab": 100 }
+    { "rank": 1,  "name": "That's Amari",        "wins": 1, "losses": 0, "ties": 0, "pf": 205.40, "pa": 154.60, "streak": "W1", "faab": 100 },
+    { "rank": 2,  "name": "Strib club Tets",     "wins": 1, "losses": 0, "ties": 0, "pf": 163.75, "pa": 120.00, "streak": "W1", "faab": 100 },
+    { "rank": 3,  "name": "Stripper Draft Julio", "wins": 1, "losses": 0, "ties": 0, "pf": 162.45, "pa": 97.95,  "streak": "W1", "faab": 100 },
+    { "rank": 4,  "name": "The Bidfather",        "wins": 1, "losses": 0, "ties": 0, "pf": 159.70, "pa": 149.45, "streak": "W1", "faab": 100 },
+    { "rank": 5,  "name": "Baba Yaga",            "wins": 1, "losses": 0, "ties": 0, "pf": 145.80, "pa": 138.25, "streak": "W1", "faab": 100 },
+    { "rank": 6,  "name": "Amon a Mi$$ion",       "wins": 1, "losses": 0, "ties": 0, "pf": 131.10, "pa": 88.90,  "streak": "W1", "faab": 100 },
+    { "rank": 7,  "name": "Youngbossbrian",       "wins": 0, "losses": 1, "ties": 0, "pf": 154.60, "pa": 205.40, "streak": "L1", "faab": 100 },
+    { "rank": 8,  "name": "cuadz build 004",      "wins": 0, "losses": 1, "ties": 0, "pf": 149.45, "pa": 159.70, "streak": "L1", "faab": 100 },
+    { "rank": 9,  "name": "Iceman",               "wins": 0, "losses": 1, "ties": 0, "pf": 138.25, "pa": 145.80, "streak": "L1", "faab": 100 },
+    { "rank": 10, "name": "The Hokage",           "wins": 0, "losses": 1, "ties": 0, "pf": 120.00, "pa": 163.75, "streak": "L1", "faab": 100 },
+    { "rank": 11, "name": "Chasing Flowers",      "wins": 0, "losses": 1, "ties": 0, "pf": 97.95,  "pa": 162.45, "streak": "L1", "faab": 100 },
+    { "rank": 12, "name": "Jaxon Five",           "wins": 0, "losses": 1, "ties": 0, "pf": 88.90,  "pa": 131.10, "streak": "L1", "faab": 100 }
   ]
 }
