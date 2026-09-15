@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import useIsMobile from '../hooks/useIsMobile';
-import NetworkStandings from '../components/NetworkStandings';
 
 const LEAGUES = [
   { id: 'beaners-husseins', name: "Beaners & Husseins", desc: 'Est. 2014' },
@@ -28,7 +27,10 @@ export default function Home() {
           </Link>
         ))}
       </div>
-      <NetworkStandings />
+      <Link to="/network" style={styles.networkCta}>
+        <span>🏆 View Network Standings</span>
+        <span style={styles.ctaArrow}>→</span>
+      </Link>
     </main>
   );
 }
@@ -51,4 +53,19 @@ const styles = {
   cardName: { fontSize: 15, fontWeight: 500, color: 'var(--text)' },
   cardDesc: { fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.5, flex: 1 },
   cardArrow: { fontSize: 16, color: 'var(--red)', marginTop: 8 },
+  networkCta: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 24,
+    padding: '16px 20px',
+    background: 'var(--bg2)',
+    border: '0.5px solid var(--red)',
+    borderRadius: 8,
+    fontSize: 13,
+    color: 'var(--red)',
+    fontWeight: 600,
+    cursor: 'pointer',
+  },
+  ctaArrow: { fontSize: 16 },
 };

@@ -26,7 +26,6 @@ function ThemeToggle({ isDark, onToggle }) {
         transition: 'border-color 0.15s',
       }}
     >
-      {/* sliding pill track */}
       <div style={{
         position: 'relative',
         width: 28,
@@ -59,6 +58,7 @@ export default function Nav({ theme, onToggleTheme }) {
   const { pathname } = useLocation();
   const isMobile = useIsMobile();
   const isDark = theme === 'dark';
+  const networkActive = pathname === '/network';
 
   if (isMobile) {
     return (
@@ -68,6 +68,12 @@ export default function Nav({ theme, onToggleTheme }) {
           <ThemeToggle isDark={isDark} onToggle={onToggleTheme} />
         </div>
         <nav style={styles.navMobile}>
+          <Link
+            to="/network"
+            style={{ ...styles.tabMobile, ...(networkActive ? styles.tabMobileActive : styles.tabMobileNetwork) }}
+          >
+            🏆 Network
+          </Link>
           {LEAGUES.map(l => {
             const active = pathname === `/league/${l.id}`;
             return (
@@ -91,6 +97,14 @@ export default function Nav({ theme, onToggleTheme }) {
       <Link to="/" style={styles.logo}>Cuadz Fantasy Network</Link>
       <div style={styles.navWrap}>
         <nav style={styles.nav}>
+          <Link
+            to="/network"
+            style={{ ...styles.tab, ...(networkActive ? styles.tabActive : {}), ...styles.networkTab }}
+          >
+            <span style={styles.tabDot(networkActive)} />
+            Network
+          </Link>
+          <div style={styles.divider} />
           {LEAGUES.map(l => {
             const active = pathname === `/league/${l.id}`;
             return (
@@ -161,6 +175,11 @@ const styles = {
     background: 'var(--red)',
     borderColor: 'var(--red)',
   },
+  tabMobileNetwork: {
+    color: 'var(--red)',
+    borderColor: 'var(--red)',
+    fontWeight: 600,
+  },
   logo: {
     fontFamily: "'Bebas Neue', sans-serif",
     fontSize: 17,
@@ -209,6 +228,10 @@ const styles = {
     color: 'var(--text)',
     borderBottom: '2px solid var(--red)',
   },
+  networkTab: {
+    color: 'var(--red)',
+    fontWeight: 600,
+  },
   tabDot: (active) => ({
     width: 5,
     height: 5,
@@ -216,6 +239,13 @@ const styles = {
     background: active ? 'var(--red)' : '#333',
     flexShrink: 0,
   }),
+  divider: {
+    width: 1,
+    height: 18,
+    background: 'var(--border)',
+    margin: '0 8px',
+    flexShrink: 0,
+  },
   rivalryTab: {
     display: 'flex',
     alignItems: 'center',
