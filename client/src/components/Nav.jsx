@@ -72,7 +72,7 @@ export default function Nav({ theme, onToggleTheme }) {
             to="/network"
             style={{ ...styles.tabMobile, ...(networkActive ? styles.tabMobileActive : styles.tabMobileNetwork) }}
           >
-            🏆 Network
+            CFN Standings
           </Link>
           {LEAGUES.map(l => {
             const active = pathname === `/league/${l.id}`;
@@ -102,7 +102,7 @@ export default function Nav({ theme, onToggleTheme }) {
             style={{ ...styles.tab, ...(networkActive ? styles.tabActive : {}), ...styles.networkTab }}
           >
             <span style={styles.tabDot(networkActive)} />
-            Network
+            CFN Standings
           </Link>
           <div style={styles.divider} />
           {LEAGUES.map(l => {

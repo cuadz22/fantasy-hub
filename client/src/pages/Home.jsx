@@ -17,6 +17,10 @@ export default function Home() {
         <h1 style={styles.heroTitle}>Cuadz Fantasy Network</h1>
         <p style={styles.heroSub}>Four leagues. One place. All season long.</p>
       </div>
+      <Link to="/network" style={styles.networkCta}>
+        <span>CFN Standings →</span>
+        
+      </Link>
       <div style={styles.grid}>
         {LEAGUES.map((l, i) => (
           <Link key={l.id} to={`/league/${l.id}`} style={styles.card}>
@@ -27,10 +31,6 @@ export default function Home() {
           </Link>
         ))}
       </div>
-      <Link to="/network" style={styles.networkCta}>
-        <span>🏆 View Network Standings</span>
-        <span style={styles.ctaArrow}>→</span>
-      </Link>
     </main>
   );
 }
@@ -41,7 +41,7 @@ const styles = {
   heroBar: { position: 'absolute', top: 0, left: 0, width: 32, height: 2, background: 'var(--red)' },
   heroTitle: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 48, letterSpacing: '0.04em', color: 'var(--text)', lineHeight: 1 },
   heroSub: { fontSize: 13, color: 'var(--text-muted)', marginTop: 8 },
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 },
+  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginTop: 16 },
   card: {
     display: 'flex', flexDirection: 'column', gap: 8,
     padding: '24px 20px', background: 'var(--bg2)',
@@ -57,7 +57,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 24,
+    marginBottom: 0,
     padding: '16px 20px',
     background: 'var(--bg2)',
     border: '0.5px solid var(--red)',
