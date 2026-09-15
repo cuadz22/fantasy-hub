@@ -1,0 +1,21 @@
+{
+  "weeks": [
+    {
+      "week": 1,
+      "teams": [
+        { "name": "The Bijan Era",           "score": 183.85, "won": true  },
+        { "name": "Arroz con Chivo",          "score": 165.55, "won": true  },
+        { "name": "cuadz build 002",          "score": 154.30, "won": true  },
+        { "name": "An Underdog Story",        "score": 152.00, "won": true  },
+        { "name": "Olivas FC",                "score": 151.90, "won": true  },
+        { "name": "The JeantyMen's Club",     "score": 150.45, "won": false },
+        { "name": "Love Thy Nabers",          "score": 144.55, "won": true  },
+        { "name": "Money O",                  "score": 140.15, "won": false },
+        { "name": "Touchdown's and Dragons",  "score": 132.10, "won": false },
+        { "name": "The Bowery",               "score": 122.80, "won": false },
+        { "name": "Waddle Me This",           "score": 103.45, "won": false },
+        { "name": "Hit it til it Hurts",      "score": 101.10, "won": false }
+      ]
+    }
+  ]
+}

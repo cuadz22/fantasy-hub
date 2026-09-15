@@ -1,0 +1,21 @@
+{
+  "weeks": [
+    {
+      "week": 1,
+      "teams": [
+        { "name": "Mr. Electricity",         "score": 235.40, "won": true  },
+        { "name": "Chupamela HPT",            "score": 184.95, "won": true  },
+        { "name": "The Arbiter",              "score": 161.65, "won": true  },
+        { "name": "Woodridge lore",           "score": 156.10, "won": false },
+        { "name": "Run CMC",                  "score": 154.20, "won": false },
+        { "name": "Wide receiver university", "score": 144.80, "won": false },
+        { "name": "The Veterans",             "score": 131.25, "won": true  },
+        { "name": "Jameson On The Rocks",     "score": 122.55, "won": true  },
+        { "name": "cuadz build 001",          "score": 115.40, "won": false },
+        { "name": "Sir",                      "score": 127.55, "won": true  },
+        { "name": "MAGNETO IS STILL RIGHT",  "score": 92.10,  "won": false },
+        { "name": "Nico de Gallo",            "score": 84.05,  "won": false }
+      ]
+    }
+  ]
+}

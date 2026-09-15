@@ -1,0 +1,21 @@
+{
+  "weeks": [
+    {
+      "week": 1,
+      "teams": [
+        { "name": "That's Amari",            "score": 205.40, "won": true  },
+        { "name": "Strib club Tets",         "score": 163.75, "won": true  },
+        { "name": "Stripper Draft Julio",    "score": 162.45, "won": true  },
+        { "name": "The Bidfather",           "score": 159.70, "won": true  },
+        { "name": "Youngbossbrian",           "score": 154.60, "won": false },
+        { "name": "cuadz build 004",         "score": 149.45, "won": false },
+        { "name": "Baba Yaga",               "score": 145.80, "won": true  },
+        { "name": "Iceman",                  "score": 138.25, "won": false },
+        { "name": "Amon a Mi$$ion",          "score": 131.10, "won": true  },
+        { "name": "The Hokage",              "score": 120.00, "won": false },
+        { "name": "Chasing Flowers",         "score": 97.95,  "won": false },
+        { "name": "Jaxon Five",              "score": 88.90,  "won": false }
+      ]
+    }
+  ]
+}
