@@ -1,13 +1,20 @@
 {
   "week": 1,
-  "updated": "2026-09-10",
-  "status": "in_progress",
+  "status": "final",
+  "rivalryWeek": false,
+  "updated": "2026-09-15",
   "matchups": [
-    { "teamA": { "name": "cuadz build 002",     "score": 0.00,  "projected": 135.75 }, "teamB": { "name": "Money O",             "score": 0.00,  "projected": 136.17 } },
-    { "teamA": { "name": "An Underdog Story",   "score": 0.00,  "projected": 138.45 }, "teamB": { "name": "The Bowery",          "score": 8.00,  "projected": 116.59 } },
-    { "teamA": { "name": "The JeantyMen's Club","score": 0.00,  "projected": 143.35 }, "teamB": { "name": "The Bijan Era",        "score": 0.00,  "projected": 144.97 } },
-    { "teamA": { "name": "Hit it til it Hurts", "score": 5.60,  "projected": 137.66 }, "teamB": { "name": "Olivas FC",           "score": 14.50, "projected": 136.36 } },
-    { "teamA": { "name": "Arroz con Chivo",      "score": 0.00,  "projected": 119.97 }, "teamB": { "name": "Waddle Me This",      "score": 0.00,  "projected": 130.63 } },
-    { "teamA": { "name": "Love Thy Nabers",      "score": 0.00,  "projected": 138.75 }, "teamB": { "name": "McConkey Kong",       "score": 19.20, "projected": 140.90 } }
+    { "teamA": { "name": "The Bijan Era",          "score": 183.85, "projected": 0 },
+      "teamB": { "name": "The JeantyMen's Club",   "score": 150.45, "projected": 0 } },
+    { "teamA": { "name": "Arroz con Chivo",         "score": 165.55, "projected": 0 },
+      "teamB": { "name": "Waddle Me This",          "score": 103.45, "projected": 0 } },
+    { "teamA": { "name": "cuadz build 002",         "score": 154.30, "projected": 0 },
+      "teamB": { "name": "Money O",                 "score": 140.15, "projected": 0 } },
+    { "teamA": { "name": "An Underdog Story",       "score": 152.00, "projected": 0 },
+      "teamB": { "name": "The Bowery",              "score": 122.80, "projected": 0 } },
+    { "teamA": { "name": "Olivas FC",               "score": 151.90, "projected": 0 },
+      "teamB": { "name": "Hit it til it Hurts",     "score": 101.10, "projected": 0 } },
+    { "teamA": { "name": "Love Thy Nabers",         "score": 144.55, "projected": 0 },
+      "teamB": { "name": "Touchdown's and Dragons", "score": 132.10, "projected": 0 } }
   ]
 }

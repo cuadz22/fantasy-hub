@@ -1,13 +1,20 @@
 {
   "week": 1,
-  "updated": "2026-09-10",
-  "status": "in_progress",
+  "status": "final",
+  "rivalryWeek": false,
+  "updated": "2026-09-15",
   "matchups": [
-    { "teamA": { "name": "cuadz build 004",    "score": 0.00,  "projected": 141.28 }, "teamB": { "name": "The Bidfather",      "score": 0.00,  "projected": 128.98 } },
-    { "teamA": { "name": "Amon a Mi$$ion",     "score": 3.90,  "projected": 142.31 }, "teamB": { "name": "Jaxon Five",         "score": 10.30, "projected": 129.47 } },
-    { "teamA": { "name": "Allen or Nothing",   "score": 5.60,  "projected": 134.24 }, "teamB": { "name": "Baba Yaga",          "score": 15.00, "projected": 147.39 } },
-    { "teamA": { "name": "Strib club Tets",    "score": 0.00,  "projected": 133.89 }, "teamB": { "name": "The Hokage",         "score": 8.00,  "projected": 130.08 } },
-    { "teamA": { "name": "Chasing Flowers",    "score": 5.40,  "projected": 125.43 }, "teamB": { "name": "Stripper Draft Julio","score": 0.00,  "projected": 122.28 } },
-    { "teamA": { "name": "That's Amari",       "score": 0.00,  "projected": 143.50 }, "teamB": { "name": "Youngbossbrian",     "score": 0.00,  "projected": 134.08 } }
+    { "teamA": { "name": "That's Amari",            "score": 205.40, "projected": 0 },
+      "teamB": { "name": "Youngbossbrian",           "score": 154.60, "projected": 0 } },
+    { "teamA": { "name": "Strib club Tets",         "score": 163.75, "projected": 0 },
+      "teamB": { "name": "The Hokage",              "score": 120.00, "projected": 0 } },
+    { "teamA": { "name": "Stripper Draft Julio",    "score": 162.45, "projected": 0 },
+      "teamB": { "name": "Chasing Flowers",         "score": 97.95,  "projected": 0 } },
+    { "teamA": { "name": "The Bidfather",           "score": 159.70, "projected": 0 },
+      "teamB": { "name": "cuadz build 004",         "score": 149.45, "projected": 0 } },
+    { "teamA": { "name": "Baba Yaga",               "score": 145.80, "projected": 0 },
+      "teamB": { "name": "Iceman",                  "score": 138.25, "projected": 0 } },
+    { "teamA": { "name": "Amon a Mi$$ion",          "score": 131.10, "projected": 0 },
+      "teamB": { "name": "Jaxon Five",              "score": 88.90,  "projected": 0 } }
   ]
 }
