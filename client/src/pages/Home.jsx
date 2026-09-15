@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import useIsMobile from '../hooks/useIsMobile';
+import NetworkStandings from '../components/NetworkStandings';
 
 const LEAGUES = [
   { id: 'beaners-husseins', name: "Beaners & Husseins", desc: 'Est. 2014' },
@@ -27,6 +28,7 @@ export default function Home() {
           </Link>
         ))}
       </div>
+      <NetworkStandings />
     </main>
   );
 }
