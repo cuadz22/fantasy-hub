@@ -4,17 +4,149 @@
   "rivalryWeek": false,
   "updated": "2026-09-15",
   "matchups": [
-    { "teamA": { "name": "Benchwarmers",            "score": 207.88, "projected": 0 },
-      "teamB": { "name": "The Lazarus Pit",          "score": 129.46, "projected": 0 } },
-    { "teamA": { "name": "Manifested It",            "score": 197.70, "projected": 0 },
-      "teamB": { "name": "K-9 Unit 🦴🐕",           "score": 165.62, "projected": 0 } },
-    { "teamA": { "name": "Champ",                    "score": 161.36, "projected": 0 },
-      "teamB": { "name": "Stiff Arm That Njigba",    "score": 146.06, "projected": 0 } },
-    { "teamA": { "name": "Hooligans",                "score": 158.76, "projected": 0 },
-      "teamB": { "name": "I'm Better Than Kev",      "score": 117.24, "projected": 0 } },
-    { "teamA": { "name": "Rents Due",                "score": 150.10, "projected": 0 },
-      "teamB": { "name": "Loveland Island USA",      "score": 143.36, "projected": 0 } },
-    { "teamA": { "name": "cuadz build 003",          "score": 131.92, "projected": 0 },
-      "teamB": { "name": "Love Yourz",               "score": 129.28, "projected": 0 } }
+    {
+      "teamA": {
+        "name": "Benchwarmers",
+        "score": 207.88,
+        "projected": 0,
+        "players": [
+          { "name": "Josh Allen", "position": "QB", "points": 41.66 },
+          { "name": "Ashton Jeanty", "position": "RB", "points": 34.70 },
+          { "name": "Bijan Robinson", "position": "RB", "points": 31.30 },
+          { "name": "Chris Olave", "position": "WR", "points": 31.20 }
+        ]
+      },
+      "teamB": {
+        "name": "The Lazarus Pit",
+        "score": 129.46,
+        "projected": 0,
+        "players": [
+          { "name": "Lamar Jackson", "position": "QB", "points": 26.96 },
+          { "name": "Nico Collins", "position": "WR", "points": 21.20 },
+          { "name": "Malik Willis", "position": "QB", "points": 16.70 },
+          { "name": "Travis Etienne Jr.", "position": "RB", "points": 14.80 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "Manifested It",
+        "score": 197.70,
+        "projected": 0,
+        "players": [
+          { "name": "Derrick Henry", "position": "RB", "points": 37.30 },
+          { "name": "Justin Jefferson", "position": "WR", "points": 31.20 },
+          { "name": "Amon-Ra St. Brown", "position": "WR", "points": 28.70 },
+          { "name": "Breece Hall", "position": "RB", "points": 21.80 }
+        ]
+      },
+      "teamB": {
+        "name": "K-9 Unit 🦴🐕",
+        "score": 165.62,
+        "projected": 0,
+        "players": [
+          { "name": "Kenneth Walker", "position": "RB", "points": 36.10 },
+          { "name": "Trevor Lawrence", "position": "QB", "points": 34.10 },
+          { "name": "Jaxon Smith-Njigba", "position": "WR", "points": 29.20 },
+          { "name": "Parker Washington", "position": "WR", "points": 19.30 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "Champ",
+        "score": 161.36,
+        "projected": 0,
+        "players": [
+          { "name": "Jaxson Dart", "position": "QB", "points": 32.60 },
+          { "name": "David Montgomery", "position": "RB", "points": 28.90 },
+          { "name": "Patrick Mahomes", "position": "QB", "points": 25.66 },
+          { "name": "Chase Brown", "position": "RB", "points": 18.80 }
+        ]
+      },
+      "teamB": {
+        "name": "Stiff Arm That Njigba",
+        "score": 146.06,
+        "projected": 0,
+        "players": [
+          { "name": "Caleb Williams", "position": "QB", "points": 41.26 },
+          { "name": "Tyler Shough", "position": "QB", "points": 31.20 },
+          { "name": "Tetairoa McMillan", "position": "WR", "points": 10.50 },
+          { "name": "James Cook III", "position": "RB", "points": 9.90 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "Hooligans",
+        "score": 158.76,
+        "projected": 0,
+        "players": [
+          { "name": "Jahmyr Gibbs", "position": "RB", "points": 35.60 },
+          { "name": "Ladd McConkey", "position": "WR", "points": 19.20 },
+          { "name": "Dak Prescott", "position": "QB", "points": 18.40 },
+          { "name": "Joe Burrow", "position": "QB", "points": 16.16 }
+        ]
+      },
+      "teamB": {
+        "name": "I'm Better Than Kev",
+        "score": 117.24,
+        "projected": 0,
+        "players": [
+          { "name": "Isaiah Likely", "position": "TE", "points": 27.80 },
+          { "name": "Mike Evans", "position": "WR", "points": 16.90 },
+          { "name": "Tyler Loop", "position": "K", "points": 15.20 },
+          { "name": "Cam Ward", "position": "QB", "points": 13.70 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "Rents Due",
+        "score": 150.10,
+        "projected": 0,
+        "players": [
+          { "name": "Jalen Coker", "position": "WR", "points": 36.80 },
+          { "name": "Jayden Daniels", "position": "QB", "points": 21.66 },
+          { "name": "Juwan Johnson", "position": "TE", "points": 14.40 },
+          { "name": "Jacory Croskey-Merritt", "position": "RB", "points": 12.60 }
+        ]
+      },
+      "teamB": {
+        "name": "Loveland Island USA",
+        "score": 143.36,
+        "projected": 0,
+        "players": [
+          { "name": "D'Andre Swift", "position": "RB", "points": 34.40 },
+          { "name": "Zay Flowers", "position": "WR", "points": 30.00 },
+          { "name": "Trey McBride", "position": "TE", "points": 24.50 },
+          { "name": "Tyler Bass", "position": "K", "points": 14.30 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "cuadz build 003",
+        "score": 131.92,
+        "projected": 0,
+        "players": [
+          { "name": "Brock Purdy", "position": "QB", "points": 27.10 },
+          { "name": "DJ Moore", "position": "WR", "points": 24.00 },
+          { "name": "Matthew Golden", "position": "WR", "points": 16.50 },
+          { "name": "Drake Maye", "position": "QB", "points": 11.82 }
+        ]
+      },
+      "teamB": {
+        "name": "Love Yourz",
+        "score": 129.28,
+        "projected": 0,
+        "players": [
+          { "name": "Jordan Love", "position": "QB", "points": 25.48 },
+          { "name": "Jonathan Taylor", "position": "RB", "points": 25.10 },
+          { "name": "Dalton Kincaid", "position": "TE", "points": 20.00 },
+          { "name": "Evan McPherson", "position": "K", "points": 19.50 }
+        ]
+      }
+    }
   ]
 }

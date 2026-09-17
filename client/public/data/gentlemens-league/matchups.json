@@ -4,17 +4,149 @@
   "rivalryWeek": true,
   "updated": "2026-09-15",
   "matchups": [
-    { "teamA": { "name": "Mr. Electricity",         "score": 235.40, "projected": 0 },
-      "teamB": { "name": "Woodridge lore",           "score": 156.10, "projected": 0 } },
-    { "teamA": { "name": "Chupamela HPT",            "score": 184.95, "projected": 0 },
-      "teamB": { "name": "Wide receiver university", "score": 144.80, "projected": 0 } },
-    { "teamA": { "name": "The Arbiter",              "score": 161.65, "projected": 0 },
-      "teamB": { "name": "Run CMC",                  "score": 154.20, "projected": 0 } },
-    { "teamA": { "name": "The Veterans",             "score": 131.25, "projected": 0 },
-      "teamB": { "name": "MAGNETO IS STILL RIGHT",  "score": 92.10,  "projected": 0 } },
-    { "teamA": { "name": "Sir",                      "score": 127.55, "projected": 0 },
-      "teamB": { "name": "Nico de Gallo",            "score": 84.05,  "projected": 0 } },
-    { "teamA": { "name": "Jameson On The Rocks",     "score": 122.55, "projected": 0 },
-      "teamB": { "name": "cuadz build 001",          "score": 115.40, "projected": 0 } }
+    {
+      "teamA": {
+        "name": "Mr. Electricity",
+        "score": 235.40,
+        "projected": 0,
+        "players": [
+          { "name": "Kenneth Walker", "position": "RB", "points": 37.10 },
+          { "name": "Jalen Coker", "position": "WR", "points": 35.80 },
+          { "name": "Christian Watson", "position": "WR", "points": 34.70 },
+          { "name": "Jonathan Taylor", "position": "RB", "points": 25.10 }
+        ]
+      },
+      "teamB": {
+        "name": "Woodridge lore",
+        "score": 156.10,
+        "projected": 0,
+        "players": [
+          { "name": "Jahmyr Gibbs", "position": "RB", "points": 36.60 },
+          { "name": "Trey McBride", "position": "TE", "points": 24.50 },
+          { "name": "Javonte Williams", "position": "RB", "points": 24.20 },
+          { "name": "Travis Etienne Jr.", "position": "RB", "points": 14.80 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "Chupamela HPT",
+        "score": 184.95,
+        "projected": 0,
+        "players": [
+          { "name": "D'Andre Swift", "position": "RB", "points": 35.40 },
+          { "name": "Jalen Hurts", "position": "QB", "points": 32.75 },
+          { "name": "Jaxon Smith-Njigba", "position": "WR", "points": 28.20 },
+          { "name": "Zay Flowers", "position": "WR", "points": 28.00 }
+        ]
+      },
+      "teamB": {
+        "name": "Wide receiver university",
+        "score": 144.80,
+        "projected": 0,
+        "players": [
+          { "name": "Josh Allen", "position": "QB", "points": 45.00 },
+          { "name": "Justin Jefferson", "position": "WR", "points": 31.20 },
+          { "name": "Ladd McConkey", "position": "WR", "points": 19.20 },
+          { "name": "Malik Nabers", "position": "WR", "points": 12.90 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "The Arbiter",
+        "score": 161.65,
+        "projected": 0,
+        "players": [
+          { "name": "Isaiah Likely", "position": "TE", "points": 27.80 },
+          { "name": "Chuba Hubbard", "position": "RB", "points": 23.70 },
+          { "name": "DJ Moore", "position": "WR", "points": 23.00 },
+          { "name": "Chase Brown", "position": "RB", "points": 18.80 }
+        ]
+      },
+      "teamB": {
+        "name": "Run CMC",
+        "score": 154.20,
+        "projected": 0,
+        "players": [
+          { "name": "Lamar Jackson", "position": "QB", "points": 30.20 },
+          { "name": "Chris Olave", "position": "WR", "points": 30.20 },
+          { "name": "David Montgomery", "position": "RB", "points": 28.90 },
+          { "name": "Nico Collins", "position": "WR", "points": 21.20 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "The Veterans",
+        "score": 131.25,
+        "projected": 0,
+        "players": [
+          { "name": "Ashton Jeanty", "position": "RB", "points": 35.70 },
+          { "name": "Mike Evans", "position": "WR", "points": 16.90 },
+          { "name": "Kyren Williams", "position": "RB", "points": 15.50 },
+          { "name": "Garrett Wilson", "position": "WR", "points": 13.90 }
+        ]
+      },
+      "teamB": {
+        "name": "MAGNETO IS STILL RIGHT",
+        "score": 92.10,
+        "projected": 0,
+        "players": [
+          { "name": "Amon-Ra St. Brown", "position": "WR", "points": 28.70 },
+          { "name": "Drake Maye", "position": "QB", "points": 13.60 },
+          { "name": "Jacory Croskey-Merritt", "position": "RB", "points": 12.60 },
+          { "name": "Tyler Warren", "position": "TE", "points": 10.30 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "Sir",
+        "score": 127.55,
+        "projected": 0,
+        "players": [
+          { "name": "Derrick Henry", "position": "RB", "points": 38.30 },
+          { "name": "Dak Prescott", "position": "QB", "points": 20.15 },
+          { "name": "Emeka Egbuka", "position": "WR", "points": 11.30 },
+          { "name": "James Cook III", "position": "RB", "points": 9.90 }
+        ]
+      },
+      "teamB": {
+        "name": "Nico de Gallo",
+        "score": 84.05,
+        "projected": 0,
+        "players": [
+          { "name": "Parker Washington", "position": "WR", "points": 19.30 },
+          { "name": "Puka Nacua", "position": "WR", "points": 12.40 },
+          { "name": "Michael Mayer", "position": "TE", "points": 9.20 },
+          { "name": "DK Metcalf", "position": "WR", "points": 8.00 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "Jameson On The Rocks",
+        "score": 122.55,
+        "projected": 0,
+        "players": [
+          { "name": "Caleb Williams", "position": "QB", "points": 43.95 },
+          { "name": "Jaylen Warren", "position": "RB", "points": 10.30 },
+          { "name": "Luther Burden III", "position": "WR", "points": 9.50 },
+          { "name": "Mark Andrews", "position": "TE", "points": 8.90 }
+        ]
+      },
+      "teamB": {
+        "name": "cuadz build 001",
+        "score": 115.40,
+        "projected": 0,
+        "players": [
+          { "name": "Bijan Robinson", "position": "RB", "points": 31.30 },
+          { "name": "Dalton Kincaid", "position": "TE", "points": 20.00 },
+          { "name": "Joe Burrow", "position": "QB", "points": 18.70 },
+          { "name": "Rhamondre Stevenson", "position": "RB", "points": 14.50 }
+        ]
+      }
+    }
   ]
 }

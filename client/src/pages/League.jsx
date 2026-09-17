@@ -12,6 +12,7 @@ import RebirthKeepers from '../components/RebirthKeepers';
 import PowerRankings from '../components/PowerRankings';
 import StsStandings from '../components/StsStandings';
 import DraftOrder from '../components/DraftOrder';
+import Waivers from '../components/Waivers';
 
 const LEAGUES = {
   'beaners-husseins': { name: "Beaners & Husseins", est: 2014, keeper: true },
@@ -20,9 +21,9 @@ const LEAGUES = {
   'shoot-the-shits': { name: 'Shoot the Shits', est: 2021, keeper: false },
 };
 
-const KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Owners', 'Keepers', 'Draft Report', 'Rulebook'];
-const NON_KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Draft Report', 'Rulebook'];
-const GENTS_TABS = ['Standings', 'Matchups', 'Power Rankings', 'History', 'Draft Order', 'Draft Report', 'Rulebook'];
+const KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'The Waivers', 'History', 'Owners', 'Keepers', 'Draft Report', 'Rulebook'];
+const NON_KEEPER_TABS = ['Standings', 'Matchups', 'Power Rankings', 'The Waivers', 'History', 'Draft Report', 'Rulebook'];
+const GENTS_TABS = ['Standings', 'Matchups', 'Power Rankings', 'The Waivers', 'History', 'Draft Order', 'Draft Report', 'Rulebook'];
 
 const DRAFT_REPORTS = {
   'gentlemens-league': '/gl-draft-report-2026.html',
@@ -93,6 +94,7 @@ export default function League() {
         {tab === 'Keepers' && id !== 'rebirth' && <Keepers leagueId={id} />}
         {tab === 'Draft Order' && <DraftOrder leagueId={id} />}
         {tab === 'Power Rankings' && <PowerRankings leagueId={id} />}
+        {tab === 'The Waivers' && <Waivers leagueId={id} />}
         {tab === 'Rulebook' && <Rulebook leagueId={id} />}
       </div>
     </div>

@@ -4,17 +4,149 @@
   "rivalryWeek": false,
   "updated": "2026-09-15",
   "matchups": [
-    { "teamA": { "name": "That's Amari",            "score": 205.40, "projected": 0 },
-      "teamB": { "name": "Youngbossbrian",           "score": 154.60, "projected": 0 } },
-    { "teamA": { "name": "Strib club Tets",         "score": 163.75, "projected": 0 },
-      "teamB": { "name": "The Hokage",              "score": 120.00, "projected": 0 } },
-    { "teamA": { "name": "Stripper Draft Julio",    "score": 162.45, "projected": 0 },
-      "teamB": { "name": "Chasing Flowers",         "score": 97.95,  "projected": 0 } },
-    { "teamA": { "name": "The Bidfather",           "score": 159.70, "projected": 0 },
-      "teamB": { "name": "cuadz build 004",         "score": 149.45, "projected": 0 } },
-    { "teamA": { "name": "Baba Yaga",               "score": 145.80, "projected": 0 },
-      "teamB": { "name": "Iceman",                  "score": 138.25, "projected": 0 } },
-    { "teamA": { "name": "Amon a Mi$$ion",          "score": 131.10, "projected": 0 },
-      "teamB": { "name": "Jaxon Five",              "score": 88.90,  "projected": 0 } }
+    {
+      "teamA": {
+        "name": "That's Amari",
+        "score": 205.40,
+        "projected": 0,
+        "players": [
+          { "name": "Jaxson Dart", "position": "QB", "points": 34.90 },
+          { "name": "Jalen Coker", "position": "WR", "points": 34.80 },
+          { "name": "Justin Jefferson", "position": "WR", "points": 31.20 },
+          { "name": "Jonathan Taylor", "position": "RB", "points": 25.10 }
+        ]
+      },
+      "teamB": {
+        "name": "Youngbossbrian",
+        "score": 154.60,
+        "projected": 0,
+        "players": [
+          { "name": "Josh Allen", "position": "QB", "points": 45.00 },
+          { "name": "D'Andre Swift", "position": "RB", "points": 35.40 },
+          { "name": "CeeDee Lamb", "position": "WR", "points": 15.40 },
+          { "name": "Cam Little", "position": "K", "points": 12.70 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "Strib club Tets",
+        "score": 163.75,
+        "projected": 0,
+        "players": [
+          { "name": "Derrick Henry", "position": "RB", "points": 38.30 },
+          { "name": "Christian Watson", "position": "WR", "points": 33.70 },
+          { "name": "Jalen Hurts", "position": "QB", "points": 32.75 },
+          { "name": "Mike Evans", "position": "WR", "points": 16.90 }
+        ]
+      },
+      "teamB": {
+        "name": "The Hokage",
+        "score": 120.00,
+        "projected": 0,
+        "players": [
+          { "name": "Bijan Robinson", "position": "RB", "points": 31.30 },
+          { "name": "Lamar Jackson", "position": "QB", "points": 30.20 },
+          { "name": "Travis Kelce", "position": "TE", "points": 10.10 },
+          { "name": "DK Metcalf", "position": "WR", "points": 8.00 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "Stripper Draft Julio",
+        "score": 162.45,
+        "projected": 0,
+        "players": [
+          { "name": "Trevor Lawrence", "position": "QB", "points": 36.55 },
+          { "name": "Ashton Jeanty", "position": "RB", "points": 35.70 },
+          { "name": "Evan McPherson", "position": "K", "points": 19.50 },
+          { "name": "Parker Washington", "position": "WR", "points": 19.30 }
+        ]
+      },
+      "teamB": {
+        "name": "Chasing Flowers",
+        "score": 97.95,
+        "projected": 0,
+        "players": [
+          { "name": "Zay Flowers", "position": "WR", "points": 27.00 },
+          { "name": "Bucky Irving", "position": "RB", "points": 20.30 },
+          { "name": "Rhamondre Stevenson", "position": "RB", "points": 14.50 },
+          { "name": "T.J. Hockenson", "position": "TE", "points": 13.60 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "The Bidfather",
+        "score": 159.70,
+        "projected": 0,
+        "players": [
+          { "name": "Kenneth Walker", "position": "RB", "points": 37.10 },
+          { "name": "Dallas Goedert", "position": "TE", "points": 23.70 },
+          { "name": "Jayden Daniels", "position": "QB", "points": 23.30 },
+          { "name": "Garrett Wilson", "position": "WR", "points": 13.90 }
+        ]
+      },
+      "teamB": {
+        "name": "cuadz build 004",
+        "score": 149.45,
+        "projected": 0,
+        "players": [
+          { "name": "Jahmyr Gibbs", "position": "RB", "points": 36.60 },
+          { "name": "DJ Moore", "position": "WR", "points": 22.00 },
+          { "name": "Chase Brown", "position": "RB", "points": 18.80 },
+          { "name": "Justin Herbert", "position": "QB", "points": 16.85 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "Baba Yaga",
+        "score": 145.80,
+        "projected": 0,
+        "players": [
+          { "name": "Chris Olave", "position": "WR", "points": 29.20 },
+          { "name": "David Montgomery", "position": "RB", "points": 28.90 },
+          { "name": "Breece Hall", "position": "RB", "points": 22.80 },
+          { "name": "Jared Goff", "position": "QB", "points": 22.50 }
+        ]
+      },
+      "teamB": {
+        "name": "Iceman",
+        "score": 138.25,
+        "projected": 0,
+        "players": [
+          { "name": "Caleb Williams", "position": "QB", "points": 43.95 },
+          { "name": "Travis Etienne Jr.", "position": "RB", "points": 14.80 },
+          { "name": "Juwan Johnson", "position": "TE", "points": 14.40 },
+          { "name": "Christian McCaffrey", "position": "RB", "points": 13.80 }
+        ]
+      }
+    },
+    {
+      "teamA": {
+        "name": "Amon a Mi$$ion",
+        "score": 131.10,
+        "projected": 0,
+        "players": [
+          { "name": "Amon-Ra St. Brown", "position": "WR", "points": 28.70 },
+          { "name": "Javonte Williams", "position": "RB", "points": 24.20 },
+          { "name": "Ladd McConkey", "position": "WR", "points": 19.20 },
+          { "name": "Joe Burrow", "position": "QB", "points": 18.20 }
+        ]
+      },
+      "teamB": {
+        "name": "Jaxon Five",
+        "score": 88.90,
+        "projected": 0,
+        "players": [
+          { "name": "Jaxon Smith-Njigba", "position": "WR", "points": 27.20 },
+          { "name": "Chuba Hubbard", "position": "RB", "points": 23.70 },
+          { "name": "Tee Higgins", "position": "WR", "points": 8.90 },
+          { "name": "Michael Pittman Jr.", "position": "WR", "points": 8.80 }
+        ]
+      }
+    }
   ]
 }

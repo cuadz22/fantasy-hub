@@ -4,17 +4,89 @@
   "rivalryWeek": false,
   "updated": "2026-09-15",
   "matchups": [
-    { "teamA": { "name": "The Bijan Era",          "score": 183.85, "projected": 0 },
-      "teamB": { "name": "The JeantyMen's Club",   "score": 150.45, "projected": 0 } },
-    { "teamA": { "name": "Arroz con Chivo",         "score": 165.55, "projected": 0 },
-      "teamB": { "name": "Waddle Me This",          "score": 103.45, "projected": 0 } },
-    { "teamA": { "name": "cuadz build 002",         "score": 154.30, "projected": 0 },
-      "teamB": { "name": "Money O",                 "score": 140.15, "projected": 0 } },
-    { "teamA": { "name": "An Underdog Story",       "score": 152.00, "projected": 0 },
-      "teamB": { "name": "The Bowery",              "score": 122.80, "projected": 0 } },
-    { "teamA": { "name": "Olivas FC",               "score": 151.90, "projected": 0 },
-      "teamB": { "name": "Hit it til it Hurts",     "score": 101.10, "projected": 0 } },
-    { "teamA": { "name": "Love Thy Nabers",         "score": 144.55, "projected": 0 },
-      "teamB": { "name": "Touchdown's and Dragons", "score": 132.10, "projected": 0 } }
+    { "teamA": { "name": "The Bijan Era",          "score": 183.85, "projected": 0,
+        "players": [
+          { "name": "Kenneth Walker", "position": "RB", "points": 34.10 },
+          { "name": "Bijan Robinson", "position": "RB", "points": 31.30 },
+          { "name": "David Montgomery", "position": "RB", "points": 28.90 },
+          { "name": "Nico Collins", "position": "WR", "points": 21.20 }
+        ]},
+      "teamB": { "name": "The JeantyMen's Club",   "score": 150.45, "projected": 0,
+        "players": [
+          { "name": "Ashton Jeanty", "position": "RB", "points": 32.70 },
+          { "name": "D'Andre Swift", "position": "RB", "points": 32.40 },
+          { "name": "Amon-Ra St. Brown", "position": "WR", "points": 28.70 },
+          { "name": "Chris Boswell", "position": "K", "points": 9.10 }
+        ]} },
+    { "teamA": { "name": "Arroz con Chivo",         "score": 165.55, "projected": 0,
+        "players": [
+          { "name": "Jalen Hurts", "position": "QB", "points": 32.75 },
+          { "name": "Isaiah Likely", "position": "TE", "points": 27.80 },
+          { "name": "Kyle Monangai", "position": "RB", "points": 20.40 },
+          { "name": "Bucky Irving", "position": "RB", "points": 20.30 }
+        ]},
+      "teamB": { "name": "Waddle Me This",          "score": 103.45, "projected": 0,
+        "players": [
+          { "name": "Brock Purdy", "position": "QB", "points": 30.15 },
+          { "name": "Evan McPherson", "position": "K", "points": 19.50 },
+          { "name": "Cam Skattebo", "position": "RB", "points": 14.10 },
+          { "name": "Sam LaPorta", "position": "TE", "points": 9.80 }
+        ]} },
+    { "teamA": { "name": "cuadz build 002",         "score": 154.30, "projected": 0,
+        "players": [
+          { "name": "Justin Jefferson", "position": "WR", "points": 31.20 },
+          { "name": "Lamar Jackson", "position": "QB", "points": 30.20 },
+          { "name": "DJ Moore", "position": "WR", "points": 21.00 },
+          { "name": "Juwan Johnson", "position": "TE", "points": 14.40 }
+        ]},
+      "teamB": { "name": "Money O",                 "score": 140.15, "projected": 0,
+        "players": [
+          { "name": "Caleb Williams", "position": "QB", "points": 43.95 },
+          { "name": "Jahmyr Gibbs", "position": "RB", "points": 33.60 },
+          { "name": "Mike Evans", "position": "WR", "points": 16.90 },
+          { "name": "Travis Kelce", "position": "TE", "points": 10.10 }
+        ]} },
+    { "teamA": { "name": "An Underdog Story",       "score": 152.00, "projected": 0,
+        "players": [
+          { "name": "Josh Allen", "position": "QB", "points": 43.00 },
+          { "name": "Christian Watson", "position": "WR", "points": 32.70 },
+          { "name": "Jonathan Taylor", "position": "RB", "points": 25.10 },
+          { "name": "Tetairoa McMillan", "position": "WR", "points": 10.50 }
+        ]},
+      "teamB": { "name": "The Bowery",              "score": 122.80, "projected": 0,
+        "players": [
+          { "name": "Zay Flowers", "position": "WR", "points": 26.00 },
+          { "name": "Jayden Daniels", "position": "QB", "points": 23.30 },
+          { "name": "Puka Nacua", "position": "WR", "points": 12.40 },
+          { "name": "De'Von Achane", "position": "RB", "points": 10.60 }
+        ]} },
+    { "teamA": { "name": "Olivas FC",               "score": 151.90, "projected": 0,
+        "players": [
+          { "name": "Jaxson Dart", "position": "QB", "points": 34.90 },
+          { "name": "Jaxon Smith-Njigba", "position": "WR", "points": 26.20 },
+          { "name": "Breece Hall", "position": "RB", "points": 19.80 },
+          { "name": "Dalton Kincaid", "position": "TE", "points": 18.00 }
+        ]},
+      "teamB": { "name": "Hit it til it Hurts",     "score": 101.10, "projected": 0,
+        "players": [
+          { "name": "Joe Burrow", "position": "QB", "points": 19.70 },
+          { "name": "Chase Brown", "position": "RB", "points": 18.80 },
+          { "name": "Eddy Pineiro", "position": "K", "points": 10.60 },
+          { "name": "Tyler Warren", "position": "TE", "points": 10.30 }
+        ]} },
+    { "teamA": { "name": "Love Thy Nabers",         "score": 144.55, "projected": 0,
+        "players": [
+          { "name": "Trey McBride", "position": "TE", "points": 24.50 },
+          { "name": "Javonte Williams", "position": "RB", "points": 24.20 },
+          { "name": "Dak Prescott", "position": "QB", "points": 21.15 },
+          { "name": "Parker Washington", "position": "WR", "points": 19.30 }
+        ]},
+      "teamB": { "name": "Touchdown's and Dragons", "score": 132.10, "projected": 0,
+        "players": [
+          { "name": "Derrick Henry", "position": "RB", "points": 35.30 },
+          { "name": "Chris Olave", "position": "WR", "points": 28.20 },
+          { "name": "Drake Maye", "position": "QB", "points": 16.60 },
+          { "name": "Rhamondre Stevenson", "position": "RB", "points": 14.50 }
+        ]} }
   ]
 }
