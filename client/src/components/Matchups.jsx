@@ -4,7 +4,9 @@ function PlayerScorers({ players }) {
   if (!players || players.length === 0) return null;
   const sorted = [...players].sort((a, b) => b.points - a.points);
   const top2 = sorted.slice(0, 2);
-  const bot2 = sorted.slice(-2).reverse();
+  // Only show Duds when we have full roster data (not just recap top-4)
+  const hasFullRoster = players.length >= 8;
+  const bot2 = hasFullRoster ? sorted.slice(-2).reverse() : [];
 
   return (
     <div style={pStyles.wrap}>
@@ -18,17 +20,17 @@ function PlayerScorers({ players }) {
           </div>
         ))}
       </div>
-      <div style={pStyles.divider} />
-      <div style={pStyles.section}>
-        <div style={pStyles.label}>Bot</div>
+      {hasFullRoster && <div style={pStyles.divider} />}
+      {hasFullRoster && <div style={pStyles.section}>
+        <div style={pStyles.label}>Duds</div>
         {bot2.map((p, i) => (
           <div key={i} style={pStyles.row}>
             <span style={pStyles.pos}>{p.position}</span>
             <span style={pStyles.name}>{p.name}</span>
-            <span style={{ ...pStyles.pts, color: 'var(--text-muted)' }}>{p.points.toFixed(1)}</span>
+            <span style={{ ...pStyles.pts, color: p.points <= 0 ? '#e57373' : 'var(--text-muted)' }}>{p.points.toFixed(1)}</span>
           </div>
         ))}
-      </div>
+      </div>}
     </div>
   );
 }
