@@ -1,4 +1,53 @@
 {
-  "updated": "2026-09-17",
-  "bids": []
+  "updated": "2026-09-18",
+  "waivers": [
+    {
+      "week": 1, "date": "Sep 16",
+      "player": "49ers", "position": "DEF", "nflTeam": "SF",
+      "winner": "Nico de Gallo",
+      "bids": [
+        { "manager": "Nico de Gallo",   "amount": 4, "won": true  },
+        { "manager": "The Arbiter",      "amount": 3, "won": false },
+        { "manager": "Chupamela HPT",    "amount": 2, "won": false }
+      ]
+    },
+    {
+      "week": 1, "date": "Sep 16",
+      "player": "Buccaneers", "position": "DEF", "nflTeam": "TB",
+      "winner": "Run CMC",
+      "bids": [
+        { "manager": "Run CMC",                 "amount": 5, "won": true  },
+        { "manager": "Nico de Gallo",           "amount": 4, "won": false },
+        { "manager": "cuadz build 001",         "amount": 3, "won": false },
+        { "manager": "Mr. Electricity",         "amount": 0, "won": false }
+      ]
+    },
+    {
+      "week": 1, "date": "Sep 16",
+      "player": "Antonio Williams", "position": "WR", "nflTeam": "Was",
+      "winner": "cuadz build 001",
+      "bids": [
+        { "manager": "cuadz build 001",         "amount": 8, "won": true  },
+        { "manager": "MAGNETO IS STILL RIGHT",  "amount": 2, "won": false }
+      ]
+    },
+    {
+      "week": 1, "date": "Sep 16",
+      "player": "Brock Purdy", "position": "QB", "nflTeam": "SF",
+      "winner": "The Arbiter",
+      "bids": [
+        { "manager": "The Arbiter",             "amount": 11, "won": true  },
+        { "manager": "The Veterans",            "amount": 8,  "won": false },
+        { "manager": "MAGNETO IS STILL RIGHT",  "amount": 5,  "won": false }
+      ]
+    },
+    {
+      "week": 1, "date": "Sep 2",
+      "player": "Jake Bates", "position": "K", "nflTeam": "Det",
+      "winner": "The Arbiter",
+      "bids": [
+        { "manager": "The Arbiter", "amount": 0, "won": true }
+      ]
+    }
+  ]
 }

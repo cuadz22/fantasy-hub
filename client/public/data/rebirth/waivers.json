@@ -1,4 +1,51 @@
 {
-  "updated": "2026-09-17",
-  "bids": []
+  "updated": "2026-09-18",
+  "waivers": [
+    {
+      "week": 1, "date": "Sep 16",
+      "player": "Buccaneers", "position": "DEF", "nflTeam": "TB",
+      "winner": "K-9 Unit 🦴🐕",
+      "bids": [
+        { "manager": "K-9 Unit 🦴🐕", "amount": 3, "won": true }
+      ]
+    },
+    {
+      "week": 1, "date": "Sep 16",
+      "player": "49ers", "position": "DEF", "nflTeam": "SF",
+      "winner": "cuadz build 003",
+      "bids": [
+        { "manager": "cuadz build 003",     "amount": 4, "won": true  },
+        { "manager": "K-9 Unit 🦴🐕",       "amount": 2, "won": false },
+        { "manager": "I'm Better Than Kev", "amount": 0, "won": false }
+      ]
+    },
+    {
+      "week": 1, "date": "Sep 16",
+      "player": "Chiefs", "position": "DEF", "nflTeam": "KC",
+      "winner": "Loveland Island USA",
+      "bids": [
+        { "manager": "Loveland Island USA", "amount": 6, "won": true  },
+        { "manager": "K-9 Unit 🦴🐕",       "amount": 0, "won": false }
+      ]
+    },
+    {
+      "week": 1, "date": "Sep 16",
+      "player": "Antonio Williams", "position": "WR", "nflTeam": "Was",
+      "winner": "cuadz build 003",
+      "bids": [
+        { "manager": "cuadz build 003", "amount": 8, "won": true  },
+        { "manager": "Benchwarmers",    "amount": 7, "won": false },
+        { "manager": "K-9 Unit 🦴🐕",   "amount": 0, "won": false }
+      ]
+    },
+    {
+      "week": 1, "date": "Sep 16",
+      "player": "Caleb Douglas", "position": "WR", "nflTeam": "Mia",
+      "winner": "The Lazarus Pit",
+      "bids": [
+        { "manager": "The Lazarus Pit",  "amount": 11, "won": true  },
+        { "manager": "cuadz build 003",  "amount": 6,  "won": false }
+      ]
+    }
+  ]
 }

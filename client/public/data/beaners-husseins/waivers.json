@@ -1,4 +1,33 @@
 {
-  "updated": "2026-09-17",
-  "bids": []
+  "updated": "2026-09-18",
+  "waivers": [
+    {
+      "week": 1, "date": "Sep 16",
+      "player": "Buccaneers", "position": "DEF", "nflTeam": "TB",
+      "winner": "The Bijan Era",
+      "bids": [
+        { "manager": "The Bijan Era",    "amount": 5, "won": true  },
+        { "manager": "cuadz build 002",  "amount": 3, "won": false },
+        { "manager": "Love Thy Nabers",  "amount": 0, "won": false }
+      ]
+    },
+    {
+      "week": 1, "date": "Sep 16",
+      "player": "Kalif Raymond", "position": "WR", "nflTeam": "Chi",
+      "winner": "Touchdown's and Dragons",
+      "bids": [
+        { "manager": "Touchdown's and Dragons", "amount": 9, "won": true  },
+        { "manager": "The Bowery",              "amount": 8, "won": false }
+      ]
+    },
+    {
+      "week": 1, "date": "Sep 16",
+      "player": "Antonio Williams", "position": "WR", "nflTeam": "Was",
+      "winner": "Love Thy Nabers",
+      "bids": [
+        { "manager": "Love Thy Nabers", "amount": 9, "won": true  },
+        { "manager": "cuadz build 002", "amount": 8, "won": false }
+      ]
+    }
+  ]
 }
