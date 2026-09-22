@@ -1,18 +1,18 @@
 {
-  "week": 1,
-  "updated": "2026-09-15",
+  "week": 2,
+  "updated": "2026-09-22",
   "teams": [
-    { "rank": 1,  "name": "Benchwarmers",         "wins": 1, "losses": 0, "ties": 0, "pf": 207.88, "pa": 129.46, "streak": "W1", "faab": 100 },
-    { "rank": 2,  "name": "Manifested It",         "wins": 1, "losses": 0, "ties": 0, "pf": 197.70, "pa": 165.62, "streak": "W1", "faab": 100 },
-    { "rank": 3,  "name": "Champ",                 "wins": 1, "losses": 0, "ties": 0, "pf": 161.36, "pa": 146.06, "streak": "W1", "faab": 100 },
-    { "rank": 4,  "name": "Hooligans",             "wins": 1, "losses": 0, "ties": 0, "pf": 158.76, "pa": 117.24, "streak": "W1", "faab": 100 },
-    { "rank": 5,  "name": "Rents Due",             "wins": 1, "losses": 0, "ties": 0, "pf": 150.10, "pa": 143.36, "streak": "W1", "faab": 100 },
-    { "rank": 6,  "name": "cuadz build 003",       "wins": 1, "losses": 0, "ties": 0, "pf": 131.92, "pa": 129.28, "streak": "W1", "faab": 100 },
-    { "rank": 7,  "name": "K-9 Unit 🦴🐕",        "wins": 0, "losses": 1, "ties": 0, "pf": 165.62, "pa": 197.70, "streak": "L1", "faab": 100 },
-    { "rank": 8,  "name": "Stiff Arm That Njigba", "wins": 0, "losses": 1, "ties": 0, "pf": 146.06, "pa": 161.36, "streak": "L1", "faab": 100 },
-    { "rank": 9,  "name": "Loveland Island USA",   "wins": 0, "losses": 1, "ties": 0, "pf": 143.36, "pa": 150.10, "streak": "L1", "faab": 100 },
-    { "rank": 10, "name": "The Lazarus Pit",        "wins": 0, "losses": 1, "ties": 0, "pf": 129.46, "pa": 207.88, "streak": "L1", "faab": 100 },
-    { "rank": 11, "name": "Love Yourz",             "wins": 0, "losses": 1, "ties": 0, "pf": 129.28, "pa": 131.92, "streak": "L1", "faab": 100 },
-    { "rank": 12, "name": "I'm Better Than Kev",   "wins": 0, "losses": 1, "ties": 0, "pf": 117.24, "pa": 158.76, "streak": "L1", "faab": 100 }
+    { "rank": 1,  "name": "Benchwarmers",             "wins": 2, "losses": 0, "ties": 0, "pf": 390.66, "pa": 271.16, "streak": "W2", "faab": 100 },
+    { "rank": 2,  "name": "Manifested It",            "wins": 2, "losses": 0, "ties": 0, "pf": 373.16, "pa": 279.10, "streak": "W2", "faab": 100 },
+    { "rank": 3,  "name": "Hooligans",                "wins": 2, "losses": 0, "ties": 0, "pf": 360.10, "pa": 222.32, "streak": "W2", "faab": 100 },
+    { "rank": 4,  "name": "K-9 Unit 🦴🐕",           "wins": 1, "losses": 1, "ties": 0, "pf": 310.00, "pa": 326.32, "streak": "W1", "faab": 100 },
+    { "rank": 5,  "name": "Love Yourz",               "wins": 1, "losses": 1, "ties": 0, "pf": 301.46, "pa": 220.84, "streak": "W1", "faab": 100 },
+    { "rank": 6,  "name": "I'm Better Than Kev",      "wins": 1, "losses": 1, "ties": 0, "pf": 261.78, "pa": 274.56, "streak": "W1", "faab": 100 },
+    { "rank": 7,  "name": "Champ",                    "wins": 1, "losses": 1, "ties": 0, "pf": 274.84, "pa": 321.52, "streak": "L1", "faab": 100 },
+    { "rank": 8,  "name": "Rents Due",                "wins": 1, "losses": 1, "ties": 0, "pf": 239.02, "pa": 315.54, "streak": "L1", "faab": 100 },
+    { "rank": 9,  "name": "cuadz build 003",          "wins": 1, "losses": 1, "ties": 0, "pf": 247.72, "pa": 273.82, "streak": "L1", "faab": 100 },
+    { "rank": 10, "name": "Stiff Arm That Njigba",    "wins": 0, "losses": 2, "ties": 0, "pf": 287.76, "pa": 344.14, "streak": "L2", "faab": 100 },
+    { "rank": 11, "name": "Loveland Island USA",      "wins": 0, "losses": 2, "ties": 0, "pf": 271.98, "pa": 294.48, "streak": "L2", "faab": 100 },
+    { "rank": 12, "name": "The Lazarus Pit",          "wins": 0, "losses": 2, "ties": 0, "pf": 234.54, "pa": 409.22, "streak": "L2", "faab": 100 }
   ]
 }

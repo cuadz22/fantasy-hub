@@ -3,18 +3,35 @@
     {
       "week": 1,
       "teams": [
-        { "name": "That's Amari",            "score": 205.40, "won": true  },
-        { "name": "Strib club Tets",         "score": 163.75, "won": true  },
-        { "name": "Stripper Draft Julio",    "score": 162.45, "won": true  },
-        { "name": "The Bidfather",           "score": 159.70, "won": true  },
-        { "name": "Youngbossbrian",           "score": 154.60, "won": false },
-        { "name": "cuadz build 004",         "score": 149.45, "won": false },
-        { "name": "Baba Yaga",               "score": 145.80, "won": true  },
-        { "name": "Iceman",                  "score": 138.25, "won": false },
-        { "name": "Amon a Mi$$ion",          "score": 131.10, "won": true  },
-        { "name": "The Hokage",              "score": 120.00, "won": false },
-        { "name": "Chasing Flowers",         "score": 97.95,  "won": false },
-        { "name": "Jaxon Five",              "score": 88.90,  "won": false }
+        { "name": "That's Amari",        "score": 205.40, "won": true  },
+        { "name": "I Like Tets",         "score": 163.75, "won": true  },
+        { "name": "Stripper Draft Julio","score": 162.45, "won": true  },
+        { "name": "The Bidfather",       "score": 159.70, "won": true  },
+        { "name": "Baba Yaga",           "score": 145.80, "won": true  },
+        { "name": "Amon a Mi$$ion",      "score": 131.10, "won": true  },
+        { "name": "Youngbossbrian",      "score": 154.60, "won": false },
+        { "name": "cuadz build 004",     "score": 149.45, "won": false },
+        { "name": "Iceman",              "score": 138.25, "won": false },
+        { "name": "The Hokage",          "score": 120.00, "won": false },
+        { "name": "Chasing Flowers",     "score":  97.95, "won": false },
+        { "name": "Jaxon Five",          "score":  88.90, "won": false }
+      ]
+    },
+    {
+      "week": 2,
+      "teams": [
+        { "name": "Jaxon Five",          "score": 172.00, "won": true  },
+        { "name": "Amon a Mi$$ion",      "score": 171.35, "won": true  },
+        { "name": "Youngbossbrian",      "score": 149.90, "won": true  },
+        { "name": "I Like Tets",         "score": 140.35, "won": true  },
+        { "name": "Baba Yaga",           "score": 140.85, "won": false },
+        { "name": "That's Amari",        "score": 134.05, "won": true  },
+        { "name": "Chasing Flowers",     "score": 132.75, "won": false },
+        { "name": "Stripper Draft Julio","score": 132.35, "won": true  },
+        { "name": "cuadz build 004",     "score": 125.00, "won": false },
+        { "name": "The Hokage",          "score": 123.45, "won": false },
+        { "name": "The Bidfather",       "score": 116.60, "won": false },
+        { "name": "Iceman",              "score":  95.20, "won": false }
       ]
     }
   ]

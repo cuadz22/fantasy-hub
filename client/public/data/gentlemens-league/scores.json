@@ -4,17 +4,34 @@
       "week": 1,
       "teams": [
         { "name": "Mr. Electricity",         "score": 235.40, "won": true  },
-        { "name": "Chupamela HPT",            "score": 184.95, "won": true  },
-        { "name": "The Arbiter",              "score": 161.65, "won": true  },
-        { "name": "Woodridge lore",           "score": 156.10, "won": false },
-        { "name": "Run CMC",                  "score": 154.20, "won": false },
-        { "name": "Wide receiver university", "score": 144.80, "won": false },
-        { "name": "The Veterans",             "score": 131.25, "won": true  },
-        { "name": "Jameson On The Rocks",     "score": 122.55, "won": true  },
-        { "name": "cuadz build 001",          "score": 115.40, "won": false },
-        { "name": "Sir",                      "score": 127.55, "won": true  },
-        { "name": "MAGNETO IS STILL RIGHT",  "score": 92.10,  "won": false },
-        { "name": "Nico de Gallo",            "score": 84.05,  "won": false }
+        { "name": "Chupamela HPT",           "score": 184.95, "won": true  },
+        { "name": "The Arbiter",             "score": 161.65, "won": true  },
+        { "name": "The Veterans",            "score": 131.25, "won": true  },
+        { "name": "Sir",                     "score": 127.55, "won": true  },
+        { "name": "Jameson On The Rocks",    "score": 122.55, "won": true  },
+        { "name": "Woodridge lore",          "score": 156.10, "won": false },
+        { "name": "Run CMC",                 "score": 154.20, "won": false },
+        { "name": "Wide receiver university","score": 144.80, "won": false },
+        { "name": "cuadz build 001",         "score": 115.40, "won": false },
+        { "name": "MAGNETO IS STILL RIGHT", "score":  92.10, "won": false },
+        { "name": "Nico de Gallo",           "score":  84.05, "won": false }
+      ]
+    },
+    {
+      "week": 2,
+      "teams": [
+        { "name": "Sir",                     "score": 169.85, "won": true  },
+        { "name": "cuadz build 001",         "score": 174.60, "won": true  },
+        { "name": "The Veterans",            "score": 151.85, "won": true  },
+        { "name": "The Arbiter",             "score": 150.25, "won": false },
+        { "name": "Jameson On The Rocks",    "score": 149.20, "won": false },
+        { "name": "Chupamela HPT",           "score": 138.60, "won": true  },
+        { "name": "Run CMC",                 "score": 129.15, "won": true  },
+        { "name": "MAGNETO IS STILL RIGHT", "score": 128.30, "won": false },
+        { "name": "Mr. Electricity",         "score": 146.80, "won": true  },
+        { "name": "Wide receiver university","score": 111.30, "won": false },
+        { "name": "Woodridge lore",          "score": 104.80, "won": false },
+        { "name": "Nico de Gallo",           "score":  90.65, "won": false }
       ]
     }
   ]

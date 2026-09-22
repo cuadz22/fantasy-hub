@@ -3,18 +3,35 @@
     {
       "week": 1,
       "teams": [
-        { "name": "Benchwarmers",            "score": 207.88, "won": true  },
-        { "name": "Manifested It",            "score": 197.70, "won": true  },
-        { "name": "K-9 Unit 🦴🐕",           "score": 165.62, "won": false },
-        { "name": "Champ",                    "score": 161.36, "won": true  },
-        { "name": "Hooligans",                "score": 158.76, "won": true  },
-        { "name": "Rents Due",                "score": 150.10, "won": true  },
-        { "name": "Stiff Arm That Njigba",    "score": 146.06, "won": false },
-        { "name": "Loveland Island USA",      "score": 143.36, "won": false },
-        { "name": "cuadz build 003",          "score": 131.92, "won": true  },
-        { "name": "The Lazarus Pit",          "score": 129.46, "won": false },
-        { "name": "Love Yourz",               "score": 129.28, "won": false },
-        { "name": "I'm Better Than Kev",      "score": 117.24, "won": false }
+        { "name": "Benchwarmers",          "score": 207.88, "won": true  },
+        { "name": "Manifested It",         "score": 197.70, "won": true  },
+        { "name": "Champ",                 "score": 161.36, "won": true  },
+        { "name": "Hooligans",             "score": 158.76, "won": true  },
+        { "name": "Rents Due",             "score": 150.10, "won": true  },
+        { "name": "cuadz build 003",       "score": 131.92, "won": true  },
+        { "name": "K-9 Unit 🦴🐕",        "score": 165.62, "won": false },
+        { "name": "Stiff Arm That Njigba", "score": 146.06, "won": false },
+        { "name": "Loveland Island USA",   "score": 143.36, "won": false },
+        { "name": "The Lazarus Pit",       "score": 129.46, "won": false },
+        { "name": "Love Yourz",            "score": 129.28, "won": false },
+        { "name": "I'm Better Than Kev",   "score": 117.24, "won": false }
+      ]
+    },
+    {
+      "week": 2,
+      "teams": [
+        { "name": "Hooligans",             "score": 201.34, "won": true  },
+        { "name": "Benchwarmers",          "score": 182.78, "won": true  },
+        { "name": "Manifested It",         "score": 175.46, "won": true  },
+        { "name": "Love Yourz",            "score": 172.18, "won": true  },
+        { "name": "I'm Better Than Kev",   "score": 144.54, "won": true  },
+        { "name": "K-9 Unit 🦴🐕",        "score": 144.38, "won": true  },
+        { "name": "Stiff Arm That Njigba", "score": 141.70, "won": false },
+        { "name": "Loveland Island USA",   "score": 128.62, "won": false },
+        { "name": "Champ",                 "score": 113.48, "won": false },
+        { "name": "The Lazarus Pit",       "score": 105.08, "won": false },
+        { "name": "cuadz build 003",       "score": 115.80, "won": false },
+        { "name": "Rents Due",             "score":  88.92, "won": false }
       ]
     }
   ]
