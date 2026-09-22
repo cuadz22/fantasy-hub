@@ -13,20 +13,20 @@
       "teamB": { "name": "Baba Yaga",           "score": 140.85, "projected": 0, "players": [] }
     },
     {
-      "teamA": { "name": "Jaxon Five",          "score": 172.00, "projected": 0, "players": [] },
-      "teamB": { "name": "The Bidfather",       "score": 116.60, "projected": 0, "players": [] }
-    },
-    {
-      "teamA": { "name": "That's Amari",        "score": 134.05, "projected": 0, "players": [] },
-      "teamB": { "name": "cuadz build 004",     "score": 125.00, "projected": 0, "players": [] }
+      "teamA": { "name": "cuadz build 004",     "score": 125.00, "projected": 0, "players": [] },
+      "teamB": { "name": "Stripper Draft Julio","score": 132.35, "projected": 0, "players": [] }
     },
     {
       "teamA": { "name": "I Like Tets",         "score": 140.35, "projected": 0, "players": [] },
-      "teamB": { "name": "The Hokage",          "score": 123.45, "projected": 0, "players": [] }
+      "teamB": { "name": "The Bidfather",       "score": 116.60, "projected": 0, "players": [] }
     },
     {
-      "teamA": { "name": "Stripper Draft Julio","score": 132.35, "projected": 0, "players": [] },
+      "teamA": { "name": "Jaxon Five",          "score": 172.00, "projected": 0, "players": [] },
       "teamB": { "name": "Chasing Flowers",     "score": 132.75, "projected": 0, "players": [] }
+    },
+    {
+      "teamA": { "name": "That's Amari",        "score": 134.05, "projected": 0, "players": [] },
+      "teamB": { "name": "The Hokage",          "score": 123.45, "projected": 0, "players": [] }
     }
   ]
 }
