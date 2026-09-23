@@ -1,14 +1,23 @@
 {
-  "updated": "2026-09-18",
+  "updated": "2026-09-23",
   "waivers": [
+    {
+      "week": 1, "date": "Aug 29",
+      "player": "Ja'Kobi Lane", "position": "WR", "nflTeam": "Bal",
+      "winner": "The Bidfather",
+      "bids": [
+        { "manager": "The Bidfather",  "amount": 2, "won": true  },
+        { "manager": "Amon a Mi$$ion", "amount": 0, "won": false }
+      ]
+    },
     {
       "week": 1, "date": "Sep 16",
       "player": "49ers", "position": "DEF", "nflTeam": "SF",
       "winner": "cuadz build 004",
       "bids": [
-        { "manager": "cuadz build 004",    "amount": 2, "won": true  },
-        { "manager": "That's Amari",        "amount": 1, "won": false },
-        { "manager": "Stripper Draft Julio","amount": 0, "won": false }
+        { "manager": "cuadz build 004",     "amount": 2, "won": true  },
+        { "manager": "That's Amari",         "amount": 1, "won": false },
+        { "manager": "Stripper Draft Julio", "amount": 0, "won": false }
       ]
     },
     {
@@ -16,9 +25,11 @@
       "player": "Devaughn Vele", "position": "WR", "nflTeam": "NO",
       "winner": "I Like Tets",
       "bids": [
-        { "manager": "I Like Tets",      "amount": 7, "won": true  },
-        { "manager": "Amon a Mi$$ion",   "amount": 5, "won": false },
-        { "manager": "The Hokage",       "amount": 5, "won": false }
+        { "manager": "I Like Tets",          "amount": 7, "won": true  },
+        { "manager": "cuadz build 004",      "amount": 7, "won": false },
+        { "manager": "Chasing Flowers",      "amount": 7, "won": false },
+        { "manager": "Amon a Mi$$ion",       "amount": 5, "won": false },
+        { "manager": "The Hokage",           "amount": 5, "won": false }
       ]
     },
     {
@@ -31,12 +42,30 @@
       ]
     },
     {
-      "week": 1, "date": "Aug 29",
-      "player": "Ja'Kobi Lane", "position": "WR", "nflTeam": "Bal",
-      "winner": "The Bidfather",
+      "week": 2, "date": "Sep 19",
+      "player": "Buccaneers", "position": "DEF", "nflTeam": "TB",
+      "winner": "Youngbossbrian",
       "bids": [
-        { "manager": "The Bidfather",  "amount": 2, "won": true  },
-        { "manager": "Amon a Mi$$ion", "amount": 0, "won": false }
+        { "manager": "Youngbossbrian", "amount": 5, "won": true  },
+        { "manager": "That's Amari",   "amount": 1, "won": false }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Panthers", "position": "DEF", "nflTeam": "Car",
+      "winner": "That's Amari",
+      "bids": [
+        { "manager": "That's Amari",         "amount": 0, "won": true  },
+        { "manager": "Stripper Draft Julio", "amount": 0, "won": false }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Adonai Mitchell", "position": "WR", "nflTeam": "NYJ",
+      "winner": "Iceman",
+      "bids": [
+        { "manager": "Iceman",       "amount": 20, "won": true  },
+        { "manager": "That's Amari", "amount": 0,  "won": false }
       ]
     }
   ]

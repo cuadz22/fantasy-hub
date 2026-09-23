@@ -1,6 +1,14 @@
 {
-  "updated": "2026-09-18",
+  "updated": "2026-09-23",
   "waivers": [
+    {
+      "week": 1, "date": "Sep 2",
+      "player": "Jake Bates", "position": "K", "nflTeam": "Det",
+      "winner": "The Arbiter",
+      "bids": [
+        { "manager": "The Arbiter", "amount": 0, "won": true }
+      ]
+    },
     {
       "week": 1, "date": "Sep 16",
       "player": "49ers", "position": "DEF", "nflTeam": "SF",
@@ -42,11 +50,91 @@
       ]
     },
     {
-      "week": 1, "date": "Sep 2",
-      "player": "Jake Bates", "position": "K", "nflTeam": "Det",
+      "week": 2, "date": "Sep 19",
+      "player": "Zach Charbonnet", "position": "RB", "nflTeam": "Sea",
+      "winner": "Sir",
+      "bids": [
+        { "manager": "Sir", "amount": 0, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 19",
+      "player": "Xavier Worthy", "position": "WR", "nflTeam": "KC",
+      "winner": "Chupamela HPT",
+      "bids": [
+        { "manager": "Chupamela HPT", "amount": 4, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Vikings", "position": "DEF", "nflTeam": "Min",
+      "winner": "Mr. Electricity",
+      "bids": [
+        { "manager": "Mr. Electricity", "amount": 0, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Chase McLaughlin", "position": "K", "nflTeam": "TB",
+      "winner": "cuadz build 001",
+      "bids": [
+        { "manager": "cuadz build 001", "amount": 1, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Giants", "position": "DEF", "nflTeam": "NYG",
+      "winner": "MAGNETO IS STILL RIGHT",
+      "bids": [
+        { "manager": "MAGNETO IS STILL RIGHT", "amount": 3, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Bengals", "position": "DEF", "nflTeam": "Cin",
+      "winner": "Nico de Gallo",
+      "bids": [
+        { "manager": "Nico de Gallo", "amount": 6, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Khalil Shakir", "position": "WR", "nflTeam": "Buf",
+      "winner": "Run CMC",
+      "bids": [
+        { "manager": "Run CMC", "amount": 7, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Emanuel Wilson", "position": "RB", "nflTeam": "Sea",
+      "winner": "MAGNETO IS STILL RIGHT",
+      "bids": [
+        { "manager": "MAGNETO IS STILL RIGHT", "amount": 7, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Kenyon Sadiq", "position": "TE", "nflTeam": "NYJ",
       "winner": "The Arbiter",
       "bids": [
-        { "manager": "The Arbiter", "amount": 0, "won": true }
+        { "manager": "The Arbiter", "amount": 9, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "C.J. Stroud", "position": "QB", "nflTeam": "Hou",
+      "winner": "Jameson On The Rocks",
+      "bids": [
+        { "manager": "Jameson On The Rocks", "amount": 12, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Tank Bigsby", "position": "RB", "nflTeam": "Phi",
+      "winner": "The Veterans",
+      "bids": [
+        { "manager": "The Veterans", "amount": 37, "won": true }
       ]
     }
   ]

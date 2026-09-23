@@ -2,17 +2,17 @@
   "week": 2,
   "updated": "2026-09-22",
   "teams": [
-    { "rank": 1,  "name": "Pretenders",              "wins": 2, "losses": 0, "ties": 0, "pf": 312.75, "pa": 193.00, "streak": "W2", "faab": 100 },
-    { "rank": 2,  "name": "Love Thy Nabers",          "wins": 2, "losses": 0, "ties": 0, "pf": 288.30, "pa": 266.60, "streak": "W2", "faab": 100 },
+    { "rank": 1,  "name": "Pretenders",              "wins": 2, "losses": 0, "ties": 0, "pf": 312.75, "pa": 193.00, "streak": "W2", "faab": 91 },
+    { "rank": 2,  "name": "Love Thy Nabers",          "wins": 2, "losses": 0, "ties": 0, "pf": 288.30, "pa": 266.60, "streak": "W2", "faab": 91 },
     { "rank": 3,  "name": "The JeantyMen's Club",     "wins": 1, "losses": 1, "ties": 0, "pf": 319.10, "pa": 327.75, "streak": "W1", "faab": 100 },
-    { "rank": 4,  "name": "Touchdown's and Dragons",  "wins": 1, "losses": 1, "ties": 0, "pf": 289.60, "pa": 267.55, "streak": "W1", "faab": 100 },
+    { "rank": 4,  "name": "Touchdown's and Dragons",  "wins": 1, "losses": 1, "ties": 0, "pf": 289.60, "pa": 267.55, "streak": "W1", "faab": 91 },
     { "rank": 5,  "name": "The Bowery",               "wins": 1, "losses": 1, "ties": 0, "pf": 246.40, "pa": 242.35, "streak": "W1", "faab": 100 },
     { "rank": 6,  "name": "Waddle Me This",           "wins": 1, "losses": 1, "ties": 0, "pf": 244.70, "pa": 279.25, "streak": "W1", "faab": 100 },
     { "rank": 7,  "name": "An Underdog Story",        "wins": 1, "losses": 1, "ties": 0, "pf": 295.90, "pa": 291.45, "streak": "L1", "faab": 100 },
     { "rank": 8,  "name": "cuadz build 002",          "wins": 1, "losses": 1, "ties": 0, "pf": 244.65, "pa": 263.75, "streak": "L1", "faab": 100 },
     { "rank": 9,  "name": "Olivas FC",                "wins": 1, "losses": 1, "ties": 0, "pf": 286.40, "pa": 244.85, "streak": "L1", "faab": 100 },
-    { "rank": 10, "name": "The Bijan Era",            "wins": 1, "losses": 1, "ties": 0, "pf": 306.85, "pa": 307.95, "streak": "L1", "faab": 100 },
-    { "rank": 11, "name": "Money O",                  "wins": 0, "losses": 2, "ties": 0, "pf": 253.85, "pa": 295.55, "streak": "L2", "faab": 100 },
+    { "rank": 10, "name": "The Bijan Era",            "wins": 1, "losses": 1, "ties": 0, "pf": 306.85, "pa": 307.95, "streak": "L1", "faab": 92 },
+    { "rank": 11, "name": "Money O",                  "wins": 0, "losses": 2, "ties": 0, "pf": 253.85, "pa": 295.55, "streak": "L2", "faab": 79 },
     { "rank": 12, "name": "Hit it til it Hurts",      "wins": 0, "losses": 2, "ties": 0, "pf": 190.65, "pa": 299.10, "streak": "L2", "faab": 100 }
   ]
 }

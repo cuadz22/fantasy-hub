@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-18",
+  "updated": "2026-09-23",
   "waivers": [
     {
       "week": 1, "date": "Sep 16",
@@ -45,6 +45,54 @@
       "bids": [
         { "manager": "The Lazarus Pit",  "amount": 11, "won": true  },
         { "manager": "cuadz build 003",  "amount": 6,  "won": false }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Harrison Butker", "position": "K", "nflTeam": "KC",
+      "winner": "cuadz build 003",
+      "bids": [
+        { "manager": "cuadz build 003", "amount": 2, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Vikings", "position": "DEF", "nflTeam": "Min",
+      "winner": "Loveland Island USA",
+      "bids": [
+        { "manager": "Loveland Island USA", "amount": 4, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Bengals", "position": "DEF", "nflTeam": "Cin",
+      "winner": "K-9 Unit 🦴🐕",
+      "bids": [
+        { "manager": "K-9 Unit 🦴🐕", "amount": 5, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Adonai Mitchell", "position": "WR", "nflTeam": "NYJ",
+      "winner": "K-9 Unit 🦴🐕",
+      "bids": [
+        { "manager": "K-9 Unit 🦴🐕", "amount": 12, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Marcus Mariota", "position": "QB", "nflTeam": "Was",
+      "winner": "Stiff Arm That Njigba",
+      "bids": [
+        { "manager": "Stiff Arm That Njigba", "amount": 21, "won": true }
+      ]
+    },
+    {
+      "week": 2, "date": "Sep 23",
+      "player": "Jameis Winston", "position": "QB", "nflTeam": "NYG",
+      "winner": "K-9 Unit 🦴🐕",
+      "bids": [
+        { "manager": "K-9 Unit 🦴🐕", "amount": 36, "won": true }
       ]
     }
   ]
