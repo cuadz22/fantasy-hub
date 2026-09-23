@@ -1,3 +1,7 @@
+import PlayerAvatar from './PlayerAvatar';
+
+const CURRENT_YEAR = 2026;
+
 const KEEPERS = {
   'Alex Zarate': {
     2015: ['Antonio Brown', 'Matt Forte'],
@@ -81,7 +85,7 @@ const KEEPERS = {
     2023: ['A.J. Brown', 'Aaron Jones Sr.'],
     2024: ['Josh Jacobs', 'A.J. Brown'],
     2025: ['Brian Thomas Jr.', 'Josh Jacobs'],
-    2026: ['Jaxon Smith-Njigba', 'Quinshon Judkins'],
+    2026: ['Jaxson Smith-Njigba', 'Quinshon Judkins'],
   },
   'Eduardo': {
     2015: ['Julio Jones', 'LeSean McCoy'],
@@ -184,7 +188,9 @@ export default function Keepers({ leagueId }) {
           <thead>
             <tr>
               <th style={styles.thOwner}>Owner</th>
-              {YEARS.map(y => <th key={y} style={styles.th}>{y}</th>)}
+              {YEARS.map(y => (
+                <th key={y} style={{ ...styles.th, ...(y === CURRENT_YEAR ? styles.thCurrent : {}) }}>{y}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
@@ -195,12 +201,17 @@ export default function Keepers({ leagueId }) {
                   <td style={styles.tdOwner}>{owner}</td>
                   {YEARS.map(y => {
                     const picks = data[y];
+                    const isCurrent = y === CURRENT_YEAR;
                     return (
-                      <td key={y} style={styles.td}>
+                      <td key={y} style={{ ...styles.td, ...(isCurrent ? styles.tdCurrent : {}) }}>
                         {picks ? (
                           <div style={styles.pickCell}>
-                            <span style={styles.pick}>{picks[0]}</span>
-                            <span style={styles.pick}>{picks[1]}</span>
+                            {picks.map((name, j) => (
+                              <div key={j} style={isCurrent ? styles.pickRowCurrent : styles.pickRowLegacy}>
+                                {isCurrent && <PlayerAvatar name={name} size={20} />}
+                                <span style={styles.pick}>{name}</span>
+                              </div>
+                            ))}
                           </div>
                         ) : (
                           <span style={styles.na}>—</span>
@@ -250,6 +261,11 @@ const styles = {
     whiteSpace: 'nowrap',
     minWidth: 140,
   },
+  thCurrent: {
+    color: 'var(--text)',
+    fontWeight: 700,
+    borderBottom: '1.5px solid var(--red)',
+  },
   rowEven: { background: 'var(--bg)' },
   rowOdd: { background: 'var(--bg2)' },
   tdOwner: {
@@ -268,10 +284,23 @@ const styles = {
     borderBottom: '0.5px solid var(--border)',
     verticalAlign: 'top',
   },
+  tdCurrent: {
+    background: 'rgba(230, 57, 70, 0.04)',
+  },
   pickCell: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 3,
+    gap: 5,
+  },
+  pickRowCurrent: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 7,
+  },
+  pickRowLegacy: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 0,
   },
   pick: {
     color: 'var(--text-muted)',

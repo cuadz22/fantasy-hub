@@ -1,3 +1,7 @@
+import PlayerAvatar from './PlayerAvatar';
+
+const CURRENT_YEAR = 2026;
+
 const KEEPERS = {
   'Alexis': {
     2021: [
@@ -322,7 +326,9 @@ export default function RebirthKeepers() {
           <thead>
             <tr>
               <th style={styles.thOwner}>Owner</th>
-              {YEARS.map(y => <th key={y} style={styles.th}>{y}</th>)}
+              {YEARS.map(y => (
+                <th key={y} style={{ ...styles.th, ...(y === CURRENT_YEAR ? styles.thCurrent : {}) }}>{y}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
@@ -333,19 +339,23 @@ export default function RebirthKeepers() {
                   <td style={styles.tdOwner}>{owner}</td>
                   {YEARS.map(y => {
                     const picks = data[y];
+                    const isCurrent = y === CURRENT_YEAR;
                     return (
-                      <td key={y} style={styles.td}>
+                      <td key={y} style={{ ...styles.td, ...(isCurrent ? styles.tdCurrent : {}) }}>
                         {picks ? (
                           <div style={styles.pickCell}>
                             {picks.map((p, j) => (
                               <div key={j} style={styles.pickRow}>
-                                <span style={{
-                                  ...styles.pick,
-                                  color: p.year === 3 ? '#D64040' : 'var(--text-muted)',
-                                }}>{p.player}</span>
-                                <div style={styles.pickMeta}>
-                                  <span style={styles.round}>Rd {p.round}</span>
-                                  <YearBadge year={p.year} />
+                                {isCurrent && <PlayerAvatar name={p.player} size={20} />}
+                                <div style={styles.pickInfo}>
+                                  <span style={{
+                                    ...styles.pick,
+                                    color: p.year === 3 ? '#D64040' : 'var(--text-muted)',
+                                  }}>{p.player}</span>
+                                  <div style={styles.pickMeta}>
+                                    <span style={styles.round}>Rd {p.round}</span>
+                                    <YearBadge year={p.year} />
+                                  </div>
                                 </div>
                               </div>
                             ))}
@@ -378,7 +388,10 @@ const styles = {
   tdOwner: { padding: '10px 12px', whiteSpace: 'nowrap', borderBottom: '0.5px solid var(--border)', position: 'sticky', left: 0, background: 'inherit', color: 'var(--text)', fontWeight: 500, fontSize: 12 },
   td: { padding: '6px 10px', borderBottom: '0.5px solid var(--border)', verticalAlign: 'top' },
   pickCell: { display: 'flex', flexDirection: 'column', gap: 6 },
-  pickRow: { display: 'flex', flexDirection: 'column', gap: 2 },
+  thCurrent: { color: 'var(--text)', fontWeight: 700, borderBottom: '1.5px solid var(--red)' },
+  tdCurrent: { background: 'rgba(230, 57, 70, 0.04)' },
+  pickRow: { display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 7 },
+  pickInfo: { display: 'flex', flexDirection: 'column', gap: 2 },
   pick: { fontSize: 11, lineHeight: 1.3 },
   pickMeta: { display: 'flex', gap: 6, alignItems: 'center' },
   round: { fontSize: 9, color: '#444' },
