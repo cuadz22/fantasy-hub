@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PlayerAvatar from './PlayerAvatar';
 
 const POS_COLORS = {
   QB: '#e53935', RB: '#1976d2', WR: '#388e3c', TE: '#f57c00',
@@ -63,14 +64,21 @@ export default function Waivers({ leagueId }) {
               <div key={ci} style={styles.claimCard}>
                 {/* Player header */}
                 <div style={styles.playerHeader}>
-                  <span style={{ ...styles.posBadge, background: POS_COLORS[claim.position] || '#555' }}>
-                    {claim.position}
-                  </span>
-                  <span style={styles.playerName}>{claim.player}</span>
-                  {claim.nflTeam && (
-                    <span style={styles.nflTeam}>{claim.nflTeam}</span>
-                  )}
-                  <span style={styles.claimDate}>{claim.date}</span>
+                  <PlayerAvatar name={claim.player} position={claim.position} size={40} />
+                  <div style={styles.playerInfo}>
+                    <div style={styles.playerNameRow}>
+                      <span style={styles.playerName}>{claim.player}</span>
+                      {claim.nflTeam && (
+                        <span style={styles.nflTeam}>{claim.nflTeam}</span>
+                      )}
+                    </div>
+                    <div style={styles.playerMeta}>
+                      <span style={{ ...styles.posBadge, background: POS_COLORS[claim.position] || '#555' }}>
+                        {claim.position}
+                      </span>
+                      <span style={styles.claimDate}>{claim.date}</span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Bid ladder */}
@@ -129,18 +137,21 @@ const styles = {
   playerHeader: {
     display: 'flex',
     alignItems: 'center',
-    gap: 8,
-    padding: '10px 14px',
+    gap: 12,
+    padding: '12px 14px',
     background: 'var(--surface)',
     borderBottom: '0.5px solid var(--border)',
   },
+  playerInfo: { display: 'flex', flexDirection: 'column', gap: 4, flex: 1, minWidth: 0 },
+  playerNameRow: { display: 'flex', alignItems: 'center', gap: 8 },
+  playerName: { fontSize: 13, fontWeight: 600, color: 'var(--text)' },
+  nflTeam: { fontSize: 11, color: 'var(--text-muted)', opacity: 0.5, flexShrink: 0 },
+  playerMeta: { display: 'flex', alignItems: 'center', gap: 6 },
   posBadge: {
     fontSize: 9, fontWeight: 700, color: '#fff',
     padding: '2px 5px', borderRadius: 3, flexShrink: 0,
   },
-  playerName: { fontSize: 13, fontWeight: 600, color: 'var(--text)', flex: 1 },
-  nflTeam: { fontSize: 11, color: 'var(--text-muted)', opacity: 0.5, flexShrink: 0 },
-  claimDate: { fontSize: 11, color: 'var(--text-muted)', opacity: 0.5, flexShrink: 0, marginLeft: 4 },
+  claimDate: { fontSize: 11, color: 'var(--text-muted)', opacity: 0.5 },
 
   bidLadder: { display: 'flex', flexDirection: 'column' },
 

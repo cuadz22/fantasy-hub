@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PlayerAvatar from './PlayerAvatar';
 
 function PlayerScorers({ players }) {
   if (!players || players.length === 0) return null;
@@ -14,6 +15,7 @@ function PlayerScorers({ players }) {
         <div style={pStyles.label}>Top</div>
         {top2.map((p, i) => (
           <div key={i} style={pStyles.row}>
+            <PlayerAvatar name={p.name} position={p.position} size={22} />
             <span style={pStyles.pos}>{p.position}</span>
             <span style={pStyles.name}>{p.name}</span>
             <span style={{ ...pStyles.pts, color: 'var(--red)' }}>{p.points.toFixed(1)}</span>
@@ -25,6 +27,7 @@ function PlayerScorers({ players }) {
         <div style={pStyles.label}>Duds</div>
         {bot2.map((p, i) => (
           <div key={i} style={pStyles.row}>
+            <PlayerAvatar name={p.name} position={p.position} size={22} />
             <span style={pStyles.pos}>{p.position}</span>
             <span style={pStyles.name}>{p.name}</span>
             <span style={{ ...pStyles.pts, color: p.points <= 0 ? '#e57373' : 'var(--text-muted)' }}>{p.points.toFixed(1)}</span>
@@ -37,7 +40,7 @@ function PlayerScorers({ players }) {
 
 const pStyles = {
   wrap: { marginTop: 14, borderTop: '0.5px solid var(--border)', paddingTop: 12, display: 'flex', flexDirection: 'column', gap: 0 },
-  section: { display: 'flex', flexDirection: 'column', gap: 3 },
+  section: { display: 'flex', flexDirection: 'column', gap: 4 },
   divider: { height: 8 },
   label: { fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-muted)', opacity: 0.5, marginBottom: 2 },
   row: { display: 'flex', alignItems: 'center', gap: 5 },
