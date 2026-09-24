@@ -4,16 +4,16 @@ import PlayerAvatar from './PlayerAvatar';
 function PlayerScorers({ players }) {
   if (!players || players.length === 0) return null;
   const sorted = [...players].sort((a, b) => b.points - a.points);
-  const top2 = sorted.slice(0, 2);
+  const top3 = sorted.slice(0, 3);
   // Only show Duds when we have full roster data (not just recap top-4)
   const hasFullRoster = players.length >= 8;
-  const bot2 = hasFullRoster ? sorted.slice(-2).reverse() : [];
+  const bot3 = hasFullRoster ? sorted.slice(-3).reverse() : [];
 
   return (
     <div style={pStyles.wrap}>
       <div style={pStyles.section}>
         <div style={pStyles.label}>Top</div>
-        {top2.map((p, i) => (
+        {top3.map((p, i) => (
           <div key={i} style={pStyles.row}>
             <PlayerAvatar name={p.name} position={p.position} size={22} />
             <span style={pStyles.pos}>{p.position}</span>
@@ -25,7 +25,7 @@ function PlayerScorers({ players }) {
       {hasFullRoster && <div style={pStyles.divider} />}
       {hasFullRoster && <div style={pStyles.section}>
         <div style={pStyles.label}>Duds</div>
-        {bot2.map((p, i) => (
+        {bot3.map((p, i) => (
           <div key={i} style={pStyles.row}>
             <PlayerAvatar name={p.name} position={p.position} size={22} />
             <span style={pStyles.pos}>{p.position}</span>
