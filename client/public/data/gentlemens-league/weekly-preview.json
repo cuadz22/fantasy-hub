@@ -1,0 +1,37 @@
+{
+  "week": 3,
+  "status": "upcoming",
+  "updated": "Sep 25, 2026",
+  "matchups": [
+    {
+      "teamA": { "name": "cuadz build 001", "owner": "Jose", "record": "1-1-0", "projected": 175.96 },
+      "teamB": { "name": "The Veterans", "owner": "Jonathan", "record": "2-0-0", "projected": 129.62 },
+      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+    },
+    {
+      "teamA": { "name": "Jameson On The Rocks", "owner": "Giovanny", "record": "1-1-0", "projected": 144.90 },
+      "teamB": { "name": "Chupamela HPT", "owner": "Chupamela", "record": "2-0-0", "projected": 134.56 },
+      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+    },
+    {
+      "teamA": { "name": "Nico de Gallo", "owner": "JJ", "record": "0-2-0", "projected": 127.46 },
+      "teamB": { "name": "Woodridge lore", "owner": "Ramon", "record": "0-2-0", "projected": 136.42 },
+      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+    },
+    {
+      "teamA": { "name": "MAGNETO IS STILL RIGHT", "owner": "Ed", "record": "0-2-0", "projected": 135.74 },
+      "teamB": { "name": "Run CMC", "owner": "Alex Zarate", "record": "1-1-0", "projected": 130.93 },
+      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+    },
+    {
+      "teamA": { "name": "Wide receiver university", "owner": "Oscar", "record": "0-2-0", "projected": 131.03 },
+      "teamB": { "name": "Sir", "owner": "Alexis", "record": "2-0-0", "projected": 128.59 },
+      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+    },
+    {
+      "teamA": { "name": "Mr. Electricity", "owner": "julio", "record": "2-0-0", "projected": 153.83 },
+      "teamB": { "name": "The Arbiter", "owner": "Kevin Huertas", "record": "1-1-0", "projected": 141.37 },
+      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+    }
+  ]
+}

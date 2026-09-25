@@ -14,6 +14,7 @@ import StsStandings from '../components/StsStandings';
 import DraftOrder from '../components/DraftOrder';
 import Waivers from '../components/Waivers';
 import WeeklyReport from '../components/WeeklyReport';
+import WeeklyPreview from '../components/WeeklyPreview';
 
 const LEAGUES = {
   'beaners-husseins': { name: "Beaners & Husseins", est: 2014, keeper: true },
@@ -22,9 +23,9 @@ const LEAGUES = {
   'shoot-the-shits': { name: 'Shoot the Shits', est: 2021, keeper: false },
 };
 
-const KEEPER_TABS = ['Standings', 'Matchups', 'Weekly Report', 'Power Rankings', 'The Waivers', 'History', 'Owners', 'Keepers', 'Draft Report', 'Rulebook'];
-const NON_KEEPER_TABS = ['Standings', 'Matchups', 'Weekly Report', 'Power Rankings', 'The Waivers', 'History', 'Draft Report', 'Rulebook'];
-const GENTS_TABS = ['Standings', 'Matchups', 'Weekly Report', 'Power Rankings', 'The Waivers', 'History', 'Draft Order', 'Draft Report', 'Rulebook'];
+const KEEPER_TABS = ['Standings', 'Weekly Preview', 'Matchups', 'Weekly Report', 'Power Rankings', 'The Waivers', 'History', 'Owners', 'Keepers', 'Draft Report', 'Rulebook'];
+const NON_KEEPER_TABS = ['Standings', 'Weekly Preview', 'Matchups', 'Weekly Report', 'Power Rankings', 'The Waivers', 'History', 'Draft Report', 'Rulebook'];
+const GENTS_TABS = ['Standings', 'Weekly Preview', 'Matchups', 'Weekly Report', 'Power Rankings', 'The Waivers', 'History', 'Draft Order', 'Draft Report', 'Rulebook'];
 
 const DRAFT_REPORTS = {
   'gentlemens-league': '/gl-draft-report-2026.html',
@@ -87,6 +88,7 @@ export default function League() {
       <div style={styles.content}>
         {tab === 'Standings' && id === 'shoot-the-shits' && <StsStandings leagueId={id} />}
         {tab === 'Standings' && id !== 'shoot-the-shits' && <Standings leagueId={id} />}
+        {tab === 'Weekly Preview' && <WeeklyPreview leagueId={id} />}
         {tab === 'Matchups' && <Matchups leagueId={id} />}
         {tab === 'Weekly Report' && <WeeklyReport leagueId={id} />}
         {tab === 'History' && <History leagueId={id} />}

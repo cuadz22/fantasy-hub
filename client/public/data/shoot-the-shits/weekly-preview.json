@@ -1,0 +1,37 @@
+{
+  "week": 3,
+  "status": "upcoming",
+  "updated": "Sep 25, 2026",
+  "matchups": [
+    {
+      "teamA": { "name": "cuadz build 004", "owner": "Jose", "record": "0-2-0", "projected": 138.89 },
+      "teamB": { "name": "I Like Tets", "owner": "Oscar", "record": "2-0-0", "projected": 146.52 },
+      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+    },
+    {
+      "teamA": { "name": "Amon a Mi$$ion", "owner": "Bryan", "record": "2-0-0", "projected": 140.62 },
+      "teamB": { "name": "Youngbossbrian", "owner": "brian", "record": "1-1-0", "projected": 137.31 },
+      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+    },
+    {
+      "teamA": { "name": "Iceman", "owner": "Oscar", "record": "0-2-0", "projected": 129.27 },
+      "teamB": { "name": "Chasing Flowers", "owner": "Mina", "record": "0-2-0", "projected": 134.63 },
+      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+    },
+    {
+      "teamA": { "name": "Baba Yaga", "owner": "Ed", "record": "1-1-0", "projected": 145.54 },
+      "teamB": { "name": "The Hokage", "owner": "Edwin", "record": "0-2-0", "projected": 159.64 },
+      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+    },
+    {
+      "teamA": { "name": "Jaxon Five", "owner": "Kevin Huertas", "record": "1-1-0", "projected": 141.07 },
+      "teamB": { "name": "Stripper Draft Julio", "owner": "Julio Ambrosio", "record": "2-0-0", "projected": 134.60 },
+      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+    },
+    {
+      "teamA": { "name": "That's Amari", "owner": "Alex Zarate", "record": "2-0-0", "projected": 155.87 },
+      "teamB": { "name": "The Bidfather", "owner": "julio", "record": "1-1-0", "projected": 137.21 },
+      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+    }
+  ]
+}
