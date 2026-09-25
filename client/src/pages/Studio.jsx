@@ -306,8 +306,8 @@ function MatchupCard({ matchup, week, leagueName, imageCache }) {
 function StandingsCard({ standingsData, week, leagueName, mode = 'record' }) {
   // mode: 'record' = W-L standings, 'points' = points-for standings (STS)
   const rows = mode === 'points'
-    ? (standingsData.points_standings || [])
-    : (standingsData.standings || []);
+    ? (standingsData.teams || []).slice().sort((a, b) => (b.customPoints || 0) - (a.customPoints || 0))
+    : (standingsData.teams || []);
 
   const title = mode === 'points' ? 'POINTS STANDINGS' : 'STANDINGS';
   const subtitle = mode === 'points' ? 'Ranked by total points scored' : `After Week ${week}`;
@@ -345,7 +345,7 @@ function StandingsCard({ standingsData, week, leagueName, mode = 'record' }) {
       </div>
 
       {/* Rows */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, overflow: 'hidden', minHeight: 0 }}>
         {rows.map((row, i) => {
           const isFirst = row.rank === 1 || i === 0;
           const isTop3 = (row.rank || i + 1) <= 3;
@@ -485,8 +485,8 @@ export default function Studio() {
     if (!data) return [];
     const slides = [{ type: 'weekly', label: '📊 Weekly Report' }];
     data.matchups.forEach((_, i) => slides.push({ type: 'matchup', index: i, label: `⚔️ Matchup ${i + 1}` }));
-    if (standingsData?.standings?.length) slides.push({ type: 'standings', label: '📈 Standings' });
-    if (standingsData?.points_standings?.length) slides.push({ type: 'points_standings', label: '🏅 Points Standings' });
+    if (standingsData?.teams?.length) slides.push({ type: 'standings', label: '📈 Standings' });
+    if (standingsData?.teams?.some(t => t.customPoints != null)) slides.push({ type: 'points_standings', label: '🏅 Points Standings' });
     if (rankingsData?.rankings?.length) slides.push({ type: 'power', label: '⚡ Power Rankings' });
     return slides;
   };
