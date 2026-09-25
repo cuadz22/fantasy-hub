@@ -214,6 +214,9 @@ export default function WeeklyReport({ leagueId }) {
         </section>
       )}
 
+      {/* ── Man of the Matchup ── */}
+      {r.hasPlayers && <MotmGrid motms={r.motms} />}
+
       {/* ── Team awards ── */}
       <section style={S.section}>
         <h2 style={S.sectionTitle}>Team Awards</h2>
@@ -260,9 +263,6 @@ export default function WeeklyReport({ leagueId }) {
           />
         </div>
       </section>
-
-      {/* ── Man of the Matchup ── */}
-      {r.hasPlayers && <MotmGrid motms={r.motms} />}
 
       <p style={S.note}>Based on Week {r.week} final scores · Updated {data.updated}</p>
     </div>
