@@ -66,20 +66,24 @@ function computeReport(data) {
   return { median, lineupOfWeek, closest, biggestBlowout, luckyWinner, unluckyLoser, mvp, bust, hasPlayers, motms };
 }
 
+// Route through weserv.nl which adds CORS headers, so fetch() can get data URLs
+const IMG_PROXY = 'https://images.weserv.nl/?url=';
+
 async function prefetchImages(matchups, playerImagesDb) {
   const cache = {};
   const players = matchups.flatMap(m => [...(m.teamA.players || []), ...(m.teamB.players || [])]);
   const unique = [...new Map(players.map(p => [p.name, p])).values()];
 
-  // Fetch in small batches to avoid Sleeper CDN rate-limiting
-  const BATCH = 4;
+  // Fetch in batches of 5 — weserv.nl handles rate limiting gracefully
+  const BATCH = 5;
   for (let i = 0; i < unique.length; i += BATCH) {
     await Promise.allSettled(unique.slice(i, i + BATCH).map(async p => {
       const entry = playerImagesDb[p.name];
       if (!entry?.sleeper_id) return;
-      const url = `https://sleepercdn.com/content/nfl/players/thumb/${entry.sleeper_id}.jpg`;
+      // Proxy URL: strips https://, weserv.nl re-fetches with CORS headers
+      const proxyUrl = `${IMG_PROXY}sleepercdn.com/content/nfl/players/thumb/${entry.sleeper_id}.jpg`;
       try {
-        const res = await fetch(url);
+        const res = await fetch(proxyUrl);
         if (!res.ok) return;
         const blob = await res.blob();
         cache[p.name] = await new Promise(resolve => {
@@ -89,7 +93,7 @@ async function prefetchImages(matchups, playerImagesDb) {
         });
       } catch {}
     }));
-    if (i + BATCH < unique.length) await new Promise(r => setTimeout(r, 120));
+    if (i + BATCH < unique.length) await new Promise(r => setTimeout(r, 80));
   }
   return cache;
 }
@@ -100,7 +104,7 @@ function CardFooter({ leagueName }) {
   return (
     <div style={{ borderTop: `1px solid ${GREEN}25`, paddingTop: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
       <span style={{ fontSize: 9, color: GREEN, opacity: 0.65, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{leagueName}</span>
-      <span style={{ fontSize: 9, color: GREEN, opacity: 0.4, letterSpacing: '0.06em' }}>@cfn_cuadz</span>
+      <span style={{ fontSize: 9, color: GREEN, opacity: 0.4, letterSpacing: '0.06em' }}>@cuadzfantasynetwork</span>
     </div>
   );
 }
@@ -321,6 +325,7 @@ export default function Studio() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [playerImagesDb, setPlayerImagesDb] = useState({});
   const [imageCache, setImageCache] = useState({});
+  const [imagesPrefetched, setImagesPrefetched] = useState(false);
   const cardRefs = useRef([]);
 
   const submitPin = () => {
@@ -334,13 +339,13 @@ export default function Studio() {
 
   useEffect(() => {
     if (!unlocked) return;
-    setLoading(true); setData(null); setActiveSlide(0); setImageCache({});
+    setLoading(true); setData(null); setActiveSlide(0); setImageCache({}); setImagesPrefetched(false);
     fetch(`/data/${league.id}/matchups.json`).then(r => r.ok ? r.json() : null).then(d => { setData(d); setLoading(false); }).catch(() => setLoading(false));
   }, [league, unlocked]);
 
   useEffect(() => {
     if (!data || !Object.keys(playerImagesDb).length) return;
-    prefetchImages(data.matchups, playerImagesDb).then(setImageCache);
+    prefetchImages(data.matchups, playerImagesDb).then(cache => { setImageCache(cache); setImagesPrefetched(true); });
   }, [data, playerImagesDb]);
 
   const handleExport = async () => {
@@ -387,7 +392,7 @@ export default function Studio() {
   const report = data ? computeReport(data) : null;
   const slideCount = data ? 1 + data.matchups.length : 0;
   const hasPlayerData = data?.matchups?.some(m => (m.teamA.players?.length ?? 0) > 0);
-  const imagesReady = !hasPlayerData || Object.keys(imageCache).length > 0;
+  const imagesReady = !hasPlayerData || imagesPrefetched;
 
   return (
     <main style={S.main}>
