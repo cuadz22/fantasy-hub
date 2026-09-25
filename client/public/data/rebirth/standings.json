@@ -5,110 +5,110 @@
     {
       "rank": 1,
       "name": "Benchwarmers",
-      "wins": 0,
+      "wins": 2,
       "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "pf": 390.66,
+      "pa": 141.7,
+      "streak": "W2"
     },
     {
       "rank": 2,
-      "name": "Stiff Arm That Njigba",
-      "wins": 0,
+      "name": "Manifested It",
+      "wins": 2,
       "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "pf": 373.16,
+      "pa": 113.48,
+      "streak": "W2"
     },
     {
       "rank": 3,
-      "name": "Manifested It",
-      "wins": 0,
+      "name": "Hooligans",
+      "wins": 2,
       "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "pf": 360.1,
+      "pa": 105.08,
+      "streak": "W2"
     },
     {
       "rank": 4,
-      "name": "Champ",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "K-9 Unit \ud83e\uddb4\ud83d\udc15",
+      "wins": 1,
+      "losses": 1,
+      "pf": 310.0,
+      "pa": 128.62,
+      "streak": "W1"
     },
     {
       "rank": 5,
-      "name": "Hooligans",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "Love Yourz",
+      "wins": 1,
+      "losses": 1,
+      "pf": 301.46,
+      "pa": 88.92,
+      "streak": "W1"
     },
     {
       "rank": 6,
-      "name": "The Lazarus Pit",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "Champ",
+      "wins": 1,
+      "losses": 1,
+      "pf": 274.84,
+      "pa": 175.46,
+      "streak": "L1"
     },
     {
       "rank": 7,
-      "name": "K-9 Unit 🦴🐕",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "I'm Better Than Kev",
+      "wins": 1,
+      "losses": 1,
+      "pf": 261.78,
+      "pa": 115.8,
+      "streak": "W1"
     },
     {
       "rank": 8,
-      "name": "Loveland Island USA",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "cuadz build 003",
+      "wins": 1,
+      "losses": 1,
+      "pf": 247.72,
+      "pa": 144.54,
+      "streak": "L1"
     },
     {
       "rank": 9,
-      "name": "Love Yourz",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "Rents Due",
+      "wins": 1,
+      "losses": 1,
+      "pf": 239.02,
+      "pa": 172.18,
+      "streak": "L1"
     },
     {
       "rank": 10,
-      "name": "Rents Due",
+      "name": "Stiff Arm That Njigba",
       "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "losses": 2,
+      "pf": 287.76,
+      "pa": 182.78,
+      "streak": "L2"
     },
     {
       "rank": 11,
-      "name": "I'm Better Than Kev",
+      "name": "Loveland Island USA",
       "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "losses": 2,
+      "pf": 271.98,
+      "pa": 144.38,
+      "streak": "L2"
     },
     {
       "rank": 12,
-      "name": "cuadz build 003",
+      "name": "The Lazarus Pit",
       "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "losses": 2,
+      "pf": 234.54,
+      "pa": 201.34,
+      "streak": "L2"
     }
   ]
 }

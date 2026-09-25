@@ -4,111 +4,111 @@
   "standings": [
     {
       "rank": 1,
-      "name": "cuadz build 002",
-      "wins": 0,
+      "name": "Pretenders",
+      "wins": 2,
       "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "pf": 312.75,
+      "pa": 89.55,
+      "streak": "W2"
     },
     {
       "rank": 2,
-      "name": "The Bowery",
-      "wins": 0,
+      "name": "Love Thy Nabers",
+      "wins": 2,
       "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "pf": 288.3,
+      "pa": 134.5,
+      "streak": "W2"
     },
     {
       "rank": 3,
-      "name": "An Underdog Story",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "The JeantyMen's Club",
+      "wins": 1,
+      "losses": 1,
+      "pf": 319.1,
+      "pa": 143.9,
+      "streak": "W1"
     },
     {
       "rank": 4,
-      "name": "The JeantyMen's Club",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "The Bijan Era",
+      "wins": 1,
+      "losses": 1,
+      "pf": 306.85,
+      "pa": 157.5,
+      "streak": "L1"
     },
     {
       "rank": 5,
-      "name": "Hit it til it Hurts",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "An Underdog Story",
+      "wins": 1,
+      "losses": 1,
+      "pf": 295.9,
+      "pa": 168.65,
+      "streak": "L1"
     },
     {
       "rank": 6,
-      "name": "Pretenders",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "Touchdown's and Dragons",
+      "wins": 1,
+      "losses": 1,
+      "pf": 289.6,
+      "pa": 123.0,
+      "streak": "W1"
     },
     {
       "rank": 7,
-      "name": "Love Thy Nabers",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "Olivas FC",
+      "wins": 1,
+      "losses": 1,
+      "pf": 286.4,
+      "pa": 143.75,
+      "streak": "L1"
     },
     {
       "rank": 8,
-      "name": "Olivas FC",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "The Bowery",
+      "wins": 1,
+      "losses": 1,
+      "pf": 246.4,
+      "pa": 90.35,
+      "streak": "W1"
     },
     {
       "rank": 9,
-      "name": "Touchdown's and Dragons",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "Waddle Me This",
+      "wins": 1,
+      "losses": 1,
+      "pf": 244.7,
+      "pa": 113.7,
+      "streak": "W1"
     },
     {
       "rank": 10,
-      "name": "The Bijan Era",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "cuadz build 002",
+      "wins": 1,
+      "losses": 1,
+      "pf": 244.65,
+      "pa": 123.6,
+      "streak": "L1"
     },
     {
       "rank": 11,
-      "name": "Waddle Me This",
+      "name": "Money O",
       "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "losses": 2,
+      "pf": 253.85,
+      "pa": 141.25,
+      "streak": "L2"
     },
     {
       "rank": 12,
-      "name": "Money O",
+      "name": "Hit it til it Hurts",
       "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "losses": 2,
+      "pf": 190.65,
+      "pa": 147.2,
+      "streak": "L2"
     }
   ]
 }

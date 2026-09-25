@@ -5,110 +5,110 @@
     {
       "rank": 1,
       "name": "Mr. Electricity",
-      "wins": 0,
+      "wins": 2,
       "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "pf": 382.2,
+      "pa": 90.65,
+      "streak": "W2"
     },
     {
       "rank": 2,
-      "name": "Nico de Gallo",
-      "wins": 0,
+      "name": "Chupamela HPT",
+      "wins": 2,
       "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "pf": 323.55,
+      "pa": 128.3,
+      "streak": "W2"
     },
     {
       "rank": 3,
-      "name": "Chupamela HPT",
-      "wins": 0,
+      "name": "Sir",
+      "wins": 2,
       "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "pf": 297.4,
+      "pa": 150.25,
+      "streak": "W2"
     },
     {
       "rank": 4,
-      "name": "MAGNETO IS STILL RIGHT",
-      "wins": 0,
+      "name": "The Veterans",
+      "wins": 2,
       "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "pf": 283.1,
+      "pa": 149.2,
+      "streak": "W2"
     },
     {
       "rank": 5,
-      "name": "Sir",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "The Arbiter",
+      "wins": 1,
+      "losses": 1,
+      "pf": 311.9,
+      "pa": 169.85,
+      "streak": "L1"
     },
     {
       "rank": 6,
-      "name": "The Arbiter",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "cuadz build 001",
+      "wins": 1,
+      "losses": 1,
+      "pf": 290.0,
+      "pa": 104.8,
+      "streak": "W1"
     },
     {
       "rank": 7,
-      "name": "The Veterans",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "Run CMC",
+      "wins": 1,
+      "losses": 1,
+      "pf": 283.35,
+      "pa": 111.3,
+      "streak": "W1"
     },
     {
       "rank": 8,
       "name": "Jameson On The Rocks",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "wins": 1,
+      "losses": 1,
+      "pf": 271.75,
+      "pa": 151.85,
+      "streak": "L1"
     },
     {
       "rank": 9,
-      "name": "cuadz build 001",
+      "name": "Woodridge lore",
       "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "losses": 2,
+      "pf": 260.9,
+      "pa": 174.6,
+      "streak": "L2"
     },
     {
       "rank": 10,
-      "name": "Woodridge lore",
+      "name": "Wide receiver university",
       "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "losses": 2,
+      "pf": 256.1,
+      "pa": 129.15,
+      "streak": "L2"
     },
     {
       "rank": 11,
-      "name": "Run CMC",
+      "name": "MAGNETO IS STILL RIGHT",
       "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "losses": 2,
+      "pf": 220.4,
+      "pa": 138.6,
+      "streak": "L2"
     },
     {
       "rank": 12,
-      "name": "Wide receiver university",
+      "name": "Nico de Gallo",
       "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "losses": 2,
+      "pf": 174.7,
+      "pa": 146.8,
+      "streak": "L2"
     }
   ]
 }

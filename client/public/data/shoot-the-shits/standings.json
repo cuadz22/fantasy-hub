@@ -4,197 +4,197 @@
   "standings": [
     {
       "rank": 1,
-      "name": "Amon a Mi$$ion",
-      "wins": 0,
+      "name": "That's Amari",
+      "wins": 2,
       "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "pf": 339.45,
+      "pa": 123.45,
+      "streak": "W2"
     },
     {
       "rank": 2,
-      "name": "Iceman",
-      "wins": 0,
+      "name": "I Like Tets",
+      "wins": 2,
       "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "pf": 304.1,
+      "pa": 116.6,
+      "streak": "W2"
     },
     {
       "rank": 3,
-      "name": "Youngbossbrian",
-      "wins": 0,
+      "name": "Amon a Mi$$ion",
+      "wins": 2,
       "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "pf": 302.45,
+      "pa": 95.2,
+      "streak": "W2"
     },
     {
       "rank": 4,
-      "name": "Baba Yaga",
-      "wins": 0,
+      "name": "Stripper Draft Julio",
+      "wins": 2,
       "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "pf": 294.8,
+      "pa": 125.0,
+      "streak": "W2"
     },
     {
       "rank": 5,
-      "name": "cuadz build 004",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "Youngbossbrian",
+      "wins": 1,
+      "losses": 1,
+      "pf": 304.5,
+      "pa": 140.85,
+      "streak": "W1"
     },
     {
       "rank": 6,
-      "name": "Stripper Draft Julio",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "Baba Yaga",
+      "wins": 1,
+      "losses": 1,
+      "pf": 286.65,
+      "pa": 149.9,
+      "streak": "L1"
     },
     {
       "rank": 7,
-      "name": "I Like Tets",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "The Bidfather",
+      "wins": 1,
+      "losses": 1,
+      "pf": 276.3,
+      "pa": 140.35,
+      "streak": "L1"
     },
     {
       "rank": 8,
-      "name": "The Bidfather",
-      "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "name": "Jaxon Five",
+      "wins": 1,
+      "losses": 1,
+      "pf": 260.9,
+      "pa": 132.75,
+      "streak": "W1"
     },
     {
       "rank": 9,
-      "name": "Jaxon Five",
+      "name": "cuadz build 004",
       "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "losses": 2,
+      "pf": 274.45,
+      "pa": 132.35,
+      "streak": "L2"
     },
     {
       "rank": 10,
-      "name": "Chasing Flowers",
+      "name": "The Hokage",
       "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "losses": 2,
+      "pf": 243.45,
+      "pa": 134.05,
+      "streak": "L2"
     },
     {
       "rank": 11,
-      "name": "That's Amari",
+      "name": "Iceman",
       "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "losses": 2,
+      "pf": 233.45,
+      "pa": 171.35,
+      "streak": "L2"
     },
     {
       "rank": 12,
-      "name": "The Hokage",
+      "name": "Chasing Flowers",
       "wins": 0,
-      "losses": 0,
-      "pf": 0.0,
-      "pa": 0.0,
-      "streak": "—"
+      "losses": 2,
+      "pf": 230.7,
+      "pa": 172.0,
+      "streak": "L2"
     }
   ],
   "points_standings": [
     {
       "rank": 1,
-      "name": "Amon a Mi$$ion",
-      "pf": 0.0,
-      "wins": 0,
+      "name": "That's Amari",
+      "pf": 339.45,
+      "wins": 2,
       "losses": 0
     },
     {
       "rank": 2,
-      "name": "Iceman",
-      "pf": 0.0,
-      "wins": 0,
-      "losses": 0
+      "name": "Youngbossbrian",
+      "pf": 304.5,
+      "wins": 1,
+      "losses": 1
     },
     {
       "rank": 3,
-      "name": "Youngbossbrian",
-      "pf": 0.0,
-      "wins": 0,
+      "name": "I Like Tets",
+      "pf": 304.1,
+      "wins": 2,
       "losses": 0
     },
     {
       "rank": 4,
-      "name": "Baba Yaga",
-      "pf": 0.0,
-      "wins": 0,
+      "name": "Amon a Mi$$ion",
+      "pf": 302.45,
+      "wins": 2,
       "losses": 0
     },
     {
       "rank": 5,
-      "name": "cuadz build 004",
-      "pf": 0.0,
-      "wins": 0,
+      "name": "Stripper Draft Julio",
+      "pf": 294.8,
+      "wins": 2,
       "losses": 0
     },
     {
       "rank": 6,
-      "name": "Stripper Draft Julio",
-      "pf": 0.0,
-      "wins": 0,
-      "losses": 0
+      "name": "Baba Yaga",
+      "pf": 286.65,
+      "wins": 1,
+      "losses": 1
     },
     {
       "rank": 7,
-      "name": "I Like Tets",
-      "pf": 0.0,
-      "wins": 0,
-      "losses": 0
+      "name": "The Bidfather",
+      "pf": 276.3,
+      "wins": 1,
+      "losses": 1
     },
     {
       "rank": 8,
-      "name": "The Bidfather",
-      "pf": 0.0,
+      "name": "cuadz build 004",
+      "pf": 274.45,
       "wins": 0,
-      "losses": 0
+      "losses": 2
     },
     {
       "rank": 9,
       "name": "Jaxon Five",
-      "pf": 0.0,
-      "wins": 0,
-      "losses": 0
+      "pf": 260.9,
+      "wins": 1,
+      "losses": 1
     },
     {
       "rank": 10,
-      "name": "Chasing Flowers",
-      "pf": 0.0,
+      "name": "The Hokage",
+      "pf": 243.45,
       "wins": 0,
-      "losses": 0
+      "losses": 2
     },
     {
       "rank": 11,
-      "name": "That's Amari",
-      "pf": 0.0,
+      "name": "Iceman",
+      "pf": 233.45,
       "wins": 0,
-      "losses": 0
+      "losses": 2
     },
     {
       "rank": 12,
-      "name": "The Hokage",
-      "pf": 0.0,
+      "name": "Chasing Flowers",
+      "pf": 230.7,
       "wins": 0,
-      "losses": 0
+      "losses": 2
     }
   ]
 }
