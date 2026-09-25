@@ -232,8 +232,13 @@ function PlayerRow({ player, imageSrc }) {
 
 function StarterColumn({ players, imageCache }) {
   if (!players || players.length === 0) return <div style={{ flex: 1 }} />;
-  // Sort all players by score descending — show every starter
-  const sorted = [...players].sort((a, b) => b.points - a.points);
+  // Sort by positional order: QB → RB → WR → TE → FLEX → K → DEF
+  const POS_ORDER = ['QB', 'RB', 'WR', 'TE', 'FLEX', 'K', 'DEF'];
+  const sorted = [...players].sort((a, b) => {
+    const ai = POS_ORDER.indexOf(a.position); const bi = POS_ORDER.indexOf(b.position);
+    if (ai !== bi) return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+    return b.points - a.points;
+  });
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
       {sorted.map((p, i) => <PlayerRow key={i} player={p} imageSrc={imageCache?.[p.name]} />)}
