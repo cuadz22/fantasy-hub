@@ -1,7 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import html2canvas from 'html2canvas';
+import JSZip from 'jszip';
 
-const API = 'https://fantasy-hub-production.up.railway.app';
-const STUDIO_PIN = '2121';
+const GREEN = '#7dff00';
+const BLACK = '#0a0a0a';
+
+const POS_COLORS = {
+  QB: '#e53935', RB: '#1976d2', WR: '#388e3c', TE: '#f57c00',
+  K: '#7b1fa2', DEF: '#455a64', FLEX: '#0288d1',
+};
 
 const LEAGUES = [
   { id: 'beaners-husseins', name: "Beaners & Husseins" },
@@ -10,257 +17,393 @@ const LEAGUES = [
   { id: 'shoot-the-shits', name: 'Shoot the Shits' },
 ];
 
-const SAMPLE = {
-  teamA: { name: 'TD Tyrants', score: 142, players: [
-    { pos: 'QB', name: 'J. Burrow', pts: 38.2, proj: 28.4 },
-    { pos: 'RB', name: 'D. Henry', pts: 29.6, proj: 18.1 },
-    { pos: 'WR', name: 'S. Diggs', pts: 22.4, proj: 24.0 },
-    { pos: 'WR', name: 'C. Lamb', pts: 18.8, proj: 22.5 },
-    { pos: 'TE', name: 'T. Kelce', pts: 16.1, proj: 14.8 },
-  ]},
-  teamB: { name: 'Blitz Kings', score: 118, players: [
-    { pos: 'QB', name: 'L. Jackson', pts: 31.4, proj: 29.0 },
-    { pos: 'RB', name: 'C. McCaffrey', pts: 26.8, proj: 30.2 },
-    { pos: 'WR', name: 'T. Hill', pts: 21.2, proj: 19.5 },
-    { pos: 'TE', name: 'M. Andrews', pts: 17.6, proj: 15.0 },
-    { pos: 'WR', name: 'D. Adams', pts: 14.3, proj: 18.7 },
-  ]},
-};
+const STUDIO_PIN = '2121';
+
+// ─── Data helpers ──────────────────────────────────────────────────────────────
+
+function computeReport(data) {
+  const { matchups } = data;
+  const allTeams = matchups.flatMap(m => [
+    { ...m.teamA, won: m.teamA.score > m.teamB.score },
+    { ...m.teamB, won: m.teamB.score > m.teamA.score },
+  ]);
+  const scores = [...allTeams.map(t => t.score)].sort((a, b) => a - b);
+  const mid = Math.floor(scores.length / 2);
+  const median = scores.length % 2 === 0 ? (scores[mid - 1] + scores[mid]) / 2 : scores[mid];
+  const lineupOfWeek = allTeams.reduce((b, t) => t.score > b.score ? t : b);
+  const withMargin = matchups.map(m => ({
+    ...m,
+    margin: Math.abs(m.teamA.score - m.teamB.score),
+    winner: m.teamA.score > m.teamB.score ? m.teamA : m.teamB,
+    loser:  m.teamA.score > m.teamB.score ? m.teamB : m.teamA,
+  }));
+  const closest = withMargin.reduce((b, m) => m.margin < b.margin ? m : b);
+  const biggestBlowout = withMargin.reduce((b, m) => m.margin > b.margin ? m : b);
+  const winners = allTeams.filter(t => t.won);
+  const losers  = allTeams.filter(t => !t.won);
+  const luckyWinner  = winners.length ? winners.reduce((w, t) => t.score < w.score ? t : w) : null;
+  const unluckyLoser = losers.length  ? losers.reduce((b, t) => t.score > b.score ? t : b) : null;
+  const hasPlayers = matchups.some(m => (m.teamA.players?.length ?? 0) > 0);
+  let mvp = null, bust = null;
+  if (hasPlayers) {
+    const all = matchups.flatMap(m => [
+      ...(m.teamA.players || []).map(p => ({ ...p, team: m.teamA.name })),
+      ...(m.teamB.players || []).map(p => ({ ...p, team: m.teamB.name })),
+    ]).filter(p => p.position !== 'DEF');
+    if (all.length) {
+      mvp  = all.reduce((b, p) => p.points > b.points ? p : b);
+      bust = all.reduce((w, p) => p.points < w.points ? p : w);
+    }
+  }
+  return { median, lineupOfWeek, closest, biggestBlowout, luckyWinner, unluckyLoser, mvp, bust, hasPlayers };
+}
+
+// ─── Shared card pieces ────────────────────────────────────────────────────────
+
+function CardFooter({ leagueName }) {
+  return (
+    <div style={{ borderTop: `1px solid ${GREEN}25`, paddingTop: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
+      <span style={{ fontSize: 9, color: GREEN, opacity: 0.65, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{leagueName}</span>
+      <span style={{ fontSize: 9, color: GREEN, opacity: 0.4, letterSpacing: '0.06em' }}>@cfn_cuadz</span>
+    </div>
+  );
+}
+
+function AwardRow({ icon, label, name, sub, value, highlight }) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 8,
+      background: highlight ? `${GREEN}12` : 'transparent',
+      borderRadius: 5, padding: '5px 7px',
+      border: `0.5px solid ${highlight ? GREEN + '30' : 'transparent'}`,
+    }}>
+      <span style={{ fontSize: 15, flexShrink: 0, lineHeight: 1 }}>{icon}</span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: 7.5, color: '#ffffff40', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 1 }}>{label}</div>
+        <div style={{ fontSize: 11.5, fontWeight: 700, color: highlight ? GREEN : '#ffffff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.2 }}>{name}</div>
+        {sub && <div style={{ fontSize: 8.5, color: '#ffffff40', marginTop: 1 }}>{sub}</div>}
+      </div>
+      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 17, color: highlight ? GREEN : '#ffffff70', flexShrink: 0, lineHeight: 1 }}>{value}</div>
+    </div>
+  );
+}
+
+function PlayerPerf({ player, first }) {
+  const bg = POS_COLORS[player.position] || '#555';
+  const initials = player.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+      <div style={{ width: 22, height: 22, borderRadius: '50%', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 7.5, fontWeight: 700, color: '#fff', flexShrink: 0 }}>
+        {initials}
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: first ? 11 : 10, fontWeight: first ? 700 : 500, color: first ? '#fff' : '#ffffff99', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {player.name}
+        </div>
+      </div>
+      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 16, color: first ? GREEN : '#ffffff70', flexShrink: 0 }}>
+        {player.points.toFixed(1)}
+      </div>
+    </div>
+  );
+}
+
+// ─── Card: Weekly Report ───────────────────────────────────────────────────────
+
+function WeeklyReportCard({ report, week, leagueName }) {
+  const { mvp, bust, lineupOfWeek, closest, biggestBlowout, luckyWinner, unluckyLoser, hasPlayers } = report;
+  return (
+    <div style={{ width: 540, height: 675, background: BLACK, padding: '22px 28px 18px', display: 'flex', flexDirection: 'column', boxSizing: 'border-box', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      {/* Logo */}
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 14 }}>
+        <img src="/cfn-logo.png" alt="CFN" crossOrigin="anonymous" style={{ height: 60, width: 'auto' }} />
+      </div>
+      {/* Title */}
+      <div style={{ textAlign: 'center', marginBottom: 12 }}>
+        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 15, color: GREEN, letterSpacing: '0.22em' }}>WEEK {week} RECAP</div>
+        <div style={{ fontSize: 10, color: '#ffffff55', letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 2 }}>{leagueName}</div>
+      </div>
+      <div style={{ height: 1, background: `${GREEN}30`, marginBottom: 12 }} />
+      {/* Awards */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 7 }}>
+        {hasPlayers && mvp    && <AwardRow icon="🏆" label="MVP of the Week"      name={mvp.name}  sub={`${mvp.position} · ${mvp.team}`}   value={`${mvp.points.toFixed(1)}`}          highlight />}
+        {hasPlayers && bust   && <AwardRow icon="💀" label="Dud of the Week"      name={bust.name} sub={`${bust.position} · ${bust.team}`} value={`${bust.points.toFixed(1)}`} />}
+        <AwardRow icon="🔥" label="Lineup of the Week"   name={lineupOfWeek.name}                value={`${lineupOfWeek.score.toFixed(1)}`} highlight />
+        <AwardRow icon="🤏" label="Closest Game"         name={`${closest.winner.name} def. ${closest.loser.name}`}       value={`${closest.margin.toFixed(1)} gap`} />
+        <AwardRow icon="💣" label="Biggest Blowout"      name={`${biggestBlowout.winner.name} def. ${biggestBlowout.loser.name}`} value={`${biggestBlowout.margin.toFixed(1)} gap`} />
+        {luckyWinner  && <AwardRow icon="🎰" label="Lucky Winner"   name={luckyWinner.name}  value={`${luckyWinner.score.toFixed(1)}`} />}
+        {unluckyLoser && <AwardRow icon="😤" label="Unlucky Loser"  name={unluckyLoser.name} value={`${unluckyLoser.score.toFixed(1)}`} />}
+      </div>
+      <CardFooter leagueName={leagueName} />
+    </div>
+  );
+}
+
+// ─── Card: Matchup ────────────────────────────────────────────────────────────
+
+function MatchupCard({ matchup, week, leagueName }) {
+  const { teamA, teamB } = matchup;
+  const aWins = teamA.score > teamB.score;
+  const hasPlayers = (teamA.players?.length ?? 0) > 0 || (teamB.players?.length ?? 0) > 0;
+  const topA = [...(teamA.players || [])].filter(p => p.position !== 'DEF').sort((a, b) => b.points - a.points).slice(0, 3);
+  const topB = [...(teamB.players || [])].filter(p => p.position !== 'DEF').sort((a, b) => b.points - a.points).slice(0, 3);
+
+  return (
+    <div style={{ width: 540, height: 675, background: BLACK, padding: '18px 24px 16px', display: 'flex', flexDirection: 'column', boxSizing: 'border-box', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+        <img src="/cfn-logo.png" alt="CFN" crossOrigin="anonymous" style={{ height: 30, width: 'auto' }} />
+        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 13, color: GREEN, letterSpacing: '0.2em' }}>WEEK {week}</div>
+      </div>
+      {/* Status */}
+      <div style={{ textAlign: 'center', marginBottom: 6 }}>
+        <span style={{ fontSize: 8, letterSpacing: '0.25em', color: '#ffffff30', textTransform: 'uppercase' }}>FINAL</span>
+      </div>
+      {/* Scores */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 14 }}>
+        <div style={{ flex: 1, textAlign: 'center' }}>
+          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 72, lineHeight: 1, color: aWins ? GREEN : '#ffffff44' }}>{teamA.score.toFixed(1)}</div>
+          <div style={{ fontSize: 9.5, fontWeight: 700, color: aWins ? '#ffffffcc' : '#ffffff44', letterSpacing: '0.07em', textTransform: 'uppercase', marginTop: 4, lineHeight: 1.3 }}>{teamA.name}</div>
+        </div>
+        <div style={{ fontSize: 11, color: '#ffffff18', fontWeight: 700, paddingBottom: 22, flexShrink: 0 }}>VS</div>
+        <div style={{ flex: 1, textAlign: 'center' }}>
+          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 72, lineHeight: 1, color: !aWins ? GREEN : '#ffffff44' }}>{teamB.score.toFixed(1)}</div>
+          <div style={{ fontSize: 9.5, fontWeight: 700, color: !aWins ? '#ffffffcc' : '#ffffff44', letterSpacing: '0.07em', textTransform: 'uppercase', marginTop: 4, lineHeight: 1.3 }}>{teamB.name}</div>
+        </div>
+      </div>
+      <div style={{ height: 1, background: `${GREEN}30`, marginBottom: 14 }} />
+      {/* Top performers */}
+      {hasPlayers && (
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 8, color: GREEN, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 10, opacity: 0.8 }}>TOP PERFORMERS</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr', gap: 0 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingRight: 14 }}>
+              {topA.map((p, i) => <PlayerPerf key={i} player={p} first={i === 0} />)}
+            </div>
+            <div style={{ background: `${GREEN}20` }} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingLeft: 14 }}>
+              {topB.map((p, i) => <PlayerPerf key={i} player={p} first={i === 0} />)}
+            </div>
+          </div>
+        </div>
+      )}
+      <CardFooter leagueName={leagueName} />
+    </div>
+  );
+}
+
+// ─── Main Studio component ────────────────────────────────────────────────────
 
 export default function Studio() {
   const [unlocked, setUnlocked] = useState(() => sessionStorage.getItem('studio_auth') === 'true');
   const [pin, setPin] = useState('');
   const [pinError, setPinError] = useState(false);
-  const [connected, setConnected] = useState(false);
   const [league, setLeague] = useState(LEAGUES[0]);
-  const [week, setWeek] = useState(11);
-  const [playerCount, setPlayerCount] = useState(5);
-  const [storing, setStoring] = useState(false);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [exporting, setExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState('');
+  const [activeSlide, setActiveSlide] = useState(0);
+  const cardRefs = useRef([]);
 
   const submitPin = () => {
-    if (pin === STUDIO_PIN) {
-      sessionStorage.setItem('studio_auth', 'true');
-      setUnlocked(true);
-      setPinError(false);
-    } else {
-      setPinError(true);
-      setPin('');
-    }
+    if (pin === STUDIO_PIN) { sessionStorage.setItem('studio_auth', 'true'); setUnlocked(true); setPinError(false); }
+    else { setPinError(true); setPin(''); }
   };
 
+  useEffect(() => {
+    if (!unlocked) return;
+    setLoading(true); setData(null); setActiveSlide(0);
+    fetch(`/data/${league.id}/matchups.json`)
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { setData(d); setLoading(false); })
+      .catch(() => setLoading(false));
+  }, [league, unlocked]);
+
+  const handleExport = async () => {
+    if (!data || exporting) return;
+    setExporting(true);
+    try {
+      await document.fonts.ready;
+      const zip = new JSZip();
+      const total = cardRefs.current.filter(Boolean).length;
+      for (let i = 0; i < cardRefs.current.length; i++) {
+        const el = cardRefs.current[i];
+        if (!el) continue;
+        setExportProgress(`Rendering slide ${i + 1} of ${total}…`);
+        const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: BLACK, logging: false });
+        const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+        const label = i === 0 ? 'slide-1-weekly-report' : `slide-${i + 1}-matchup-${i}`;
+        zip.file(`${league.id}-week${data.week}-${label}.png`, blob);
+      }
+      setExportProgress('Zipping…');
+      const zipBlob = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(zipBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `CFN-${league.id}-week${data.week}.zip`;
+      a.click();
+      URL.revokeObjectURL(url);
+      setExportProgress('');
+    } catch (err) {
+      console.error(err);
+      setExportProgress('Export failed — try again');
+    }
+    setExporting(false);
+  };
+
+  // ── PIN lock ──
   if (!unlocked) {
     return (
-      <main style={styles.lockWrap}>
-        <div style={styles.lockBox}>
-          <div style={styles.lockBar} />
-          <div style={styles.lockTitle}>Studio</div>
-          <div style={styles.lockSub}>Enter PIN to continue</div>
+      <main style={S.lockWrap}>
+        <div style={S.lockBox}>
+          <div style={S.lockAccent} />
+          <img src="/cfn-logo.png" alt="CFN" style={{ height: 64, width: 'auto', marginBottom: 4 }} />
+          <div style={S.lockSub}>Social Studio — Enter PIN</div>
           <input
-            type="password"
-            inputMode="numeric"
-            maxLength={6}
-            value={pin}
+            type="password" inputMode="numeric" maxLength={6} value={pin}
             onChange={e => { setPin(e.target.value); setPinError(false); }}
             onKeyDown={e => e.key === 'Enter' && submitPin()}
-            style={{ ...styles.pinInput, ...(pinError ? styles.pinInputError : {}) }}
-            placeholder="••••"
-            autoFocus
+            style={{ ...S.pinInput, ...(pinError ? S.pinInputError : {}) }}
+            placeholder="••••" autoFocus
           />
-          {pinError && <div style={styles.pinErr}>Incorrect PIN</div>}
-          <button onClick={submitPin} style={styles.pinBtn}>Unlock</button>
+          {pinError && <div style={S.pinErr}>Incorrect PIN</div>}
+          <button onClick={submitPin} style={S.pinBtn}>Unlock</button>
         </div>
       </main>
     );
   }
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token');
-
-    if (token) {
-      setStoring(true);
-      fetch(`${API}/auth/store-token`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token }),
-      })
-        .then(r => r.json())
-        .then(d => {
-          if (d.success) {
-            setConnected(true);
-            localStorage.setItem('yahoo_connected', 'true');
-          }
-          setStoring(false);
-          window.history.replaceState({}, '', '/studio');
-        })
-        .catch(() => setStoring(false));
-    } else if (localStorage.getItem('yahoo_connected') === 'true') {
-      fetch(`${API}/auth/status`, { credentials: 'include' })
-        .then(r => r.json())
-        .then(d => {
-          setConnected(d.connected);
-          if (!d.connected) localStorage.removeItem('yahoo_connected');
-        })
-        .catch(() => {});
-    }
-  }, []);
-
-  const aWins = SAMPLE.teamA.score > SAMPLE.teamB.score;
+  const report = data ? computeReport(data) : null;
+  const slideCount = data ? 1 + data.matchups.length : 0;
 
   return (
-    <main style={styles.main}>
-      <div style={styles.header}>
-        <div style={styles.bar} />
-        <h1 style={styles.title}>Social Studio</h1>
-        {storing && <div style={{ fontSize: 12, color: 'var(--text-muted)', marginLeft: 8 }}>Connecting...</div>}
-        {!storing && (
-          <div style={styles.connBadge(connected)}>
-            <div style={styles.connDot(connected)} />
-            {connected ? 'Yahoo connected' : 'Yahoo not connected'}
-          </div>
-        )}
-        {!connected && !storing && (
-          <a href={`${API}/auth/login`} style={styles.connectBtn}>Connect Yahoo</a>
-        )}
-        {connected && (
-          <a href={`${API}/auth/logout`} style={styles.disconnectBtn} onClick={() => localStorage.removeItem('yahoo_connected')}>Disconnect</a>
-        )}
+    <main style={S.main}>
+      {/* Header */}
+      <div style={S.header}>
+        <img src="/cfn-logo.png" alt="CFN" style={{ height: 40, width: 'auto' }} />
+        <div style={S.headerText}>
+          <div style={S.title}>Social Studio</div>
+          <div style={S.subtitle}>Instagram export · 1080 × 1350 · 4:5 portrait</div>
+        </div>
       </div>
 
-      <div style={styles.layout}>
-        <div style={styles.controls}>
-          <div style={styles.ctrlGroup}>
-            <div style={styles.ctrlLabel}>League</div>
-            {LEAGUES.map(l => (
-              <button
-                key={l.id}
-                onClick={() => setLeague(l)}
-                style={{ ...styles.ctrlBtn, ...(league.id === l.id ? styles.ctrlBtnActive : {}) }}
-              >
-                {l.name}
-              </button>
-            ))}
-          </div>
-          <div style={styles.ctrlGroup}>
-            <div style={styles.ctrlLabel}>Week</div>
-            <div style={styles.pills}>
-              {[10,11,12,13,14].map(w => (
-                <button key={w} onClick={() => setWeek(w)} style={{ ...styles.pill, ...(week === w ? styles.pillActive : {}) }}>{w}</button>
+      <div style={S.layout}>
+        {/* ── Sidebar ── */}
+        <div style={S.sidebar}>
+          <div style={S.sideLabel}>League</div>
+          {LEAGUES.map(l => (
+            <button key={l.id} onClick={() => setLeague(l)} style={{ ...S.leagueBtn, ...(league.id === l.id ? S.leagueBtnActive : {}) }}>
+              {l.name}
+            </button>
+          ))}
+
+          {data && (
+            <>
+              <div style={{ ...S.sideLabel, marginTop: 20 }}>Slides</div>
+              {Array.from({ length: slideCount }, (_, i) => (
+                <button key={i} onClick={() => setActiveSlide(i)} style={{ ...S.slideThumb, ...(activeSlide === i ? S.slideThumbActive : {}) }}>
+                  {i === 0 ? '📊 Weekly Report' : `⚔️ Matchup ${i}`}
+                </button>
               ))}
-            </div>
-          </div>
-          <div style={styles.ctrlGroup}>
-            <div style={styles.ctrlLabel}>Top players</div>
-            <div style={styles.pills}>
-              {[3, 5].map(n => (
-                <button key={n} onClick={() => setPlayerCount(n)} style={{ ...styles.pill, ...(playerCount === n ? styles.pillActive : {}) }}>Top {n}</button>
-              ))}
-            </div>
+            </>
+          )}
+
+          <div style={{ marginTop: 'auto', paddingTop: 20 }}>
+            {exportProgress && <div style={S.progressMsg}>{exportProgress}</div>}
+            <button
+              onClick={handleExport}
+              disabled={!data || exporting}
+              style={{ ...S.exportBtn, ...(!data || exporting ? S.exportBtnDisabled : {}) }}
+            >
+              {exporting ? 'Exporting…' : `↓ Export ${slideCount} slides as ZIP`}
+            </button>
           </div>
         </div>
 
-        <div style={styles.preview}>
-          <div style={styles.previewLabel}>Preview — Week {week} · {league.name}</div>
-          <div style={styles.card}>
-            <div style={styles.cardAccent} />
-            <div style={styles.cardWeek}>Week {week}</div>
-            <div style={styles.scores}>
-              <div style={styles.team}>
-                <div style={{ ...styles.score, color: aWins ? 'var(--red)' : '#333' }}>{SAMPLE.teamA.score}</div>
-                <div style={{ ...styles.teamName, color: aWins ? 'var(--red-dim)' : '#3a3a3a' }}>{SAMPLE.teamA.name}</div>
+        {/* ── Preview ── */}
+        <div style={S.previewArea}>
+          {loading && <div style={S.msg}>Loading {league.name}…</div>}
+          {!loading && !data && <div style={S.msg}>Could not load data for {league.name}</div>}
+
+          {data && report && (
+            <>
+              <div style={S.previewLabel}>
+                Preview — Slide {activeSlide + 1} of {slideCount}
               </div>
-              <div style={styles.scoreSep} />
-              <div style={styles.team}>
-                <div style={{ ...styles.score, color: !aWins ? 'var(--red)' : '#333' }}>{SAMPLE.teamB.score}</div>
-                <div style={{ ...styles.teamName, color: !aWins ? 'var(--red-dim)' : '#3a3a3a' }}>{SAMPLE.teamB.name}</div>
+              {/* Visible preview at 50% scale */}
+              <div style={S.previewWrapper}>
+                <div style={S.previewScale}>
+                  {activeSlide === 0
+                    ? <WeeklyReportCard report={report} week={data.week} leagueName={league.name} />
+                    : <MatchupCard matchup={data.matchups[activeSlide - 1]} week={data.week} leagueName={league.name} />
+                  }
+                </div>
               </div>
-            </div>
-            <div style={styles.divider} />
-            <div style={styles.players}>
-              <div style={styles.playerSide}>
-                <div style={styles.playerHd}>Top performers <span style={{ marginLeft: 'auto' }}>Pts</span></div>
-                {SAMPLE.teamA.players.slice(0, playerCount).map((p, i) => {
-                  const beat = p.pts > p.proj;
-                  return (
-                    <div key={i} style={styles.playerRow}>
-                      <span style={styles.pos}>{p.pos}</span>
-                      <span style={styles.pname}>{p.name}</span>
-                      <span style={{ ...styles.pts, color: beat ? '#4caf50' : (i === 0 ? 'var(--red)' : '#555') }}>{p.pts.toFixed(1)}</span>
-                    </div>
-                  );
-                })}
+              <div style={S.slideNav}>
+                <button onClick={() => setActiveSlide(s => Math.max(0, s - 1))} disabled={activeSlide === 0} style={S.navBtn}>← Prev</button>
+                <span style={S.navCount}>{activeSlide + 1} / {slideCount}</span>
+                <button onClick={() => setActiveSlide(s => Math.min(slideCount - 1, s + 1))} disabled={activeSlide === slideCount - 1} style={S.navBtn}>Next →</button>
               </div>
-              <div style={styles.playerDivider} />
-              <div style={styles.playerSide}>
-                <div style={styles.playerHd}>Top performers <span style={{ marginLeft: 'auto' }}>Pts</span></div>
-                {SAMPLE.teamB.players.slice(0, playerCount).map((p, i) => {
-                  const beat = p.pts > p.proj;
-                  return (
-                    <div key={i} style={styles.playerRow}>
-                      <span style={styles.pos}>{p.pos}</span>
-                      <span style={styles.pname}>{p.name}</span>
-                      <span style={{ ...styles.pts, color: beat ? '#4caf50' : (i === 0 ? 'var(--red)' : '#555') }}>{p.pts.toFixed(1)}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <div style={styles.cardFoot}>{league.name}</div>
-          </div>
-          <button style={styles.exportBtn}>Export for Instagram / Twitter</button>
+            </>
+          )}
         </div>
       </div>
+
+      {/* Hidden cards for html2canvas capture — rendered off-screen at full size */}
+      {data && report && (
+        <div style={{ position: 'fixed', left: -1200, top: 0, pointerEvents: 'none' }}>
+          <div ref={el => cardRefs.current[0] = el}>
+            <WeeklyReportCard report={report} week={data.week} leagueName={league.name} />
+          </div>
+          {data.matchups.map((m, i) => (
+            <div key={i} ref={el => cardRefs.current[i + 1] = el}>
+              <MatchupCard matchup={m} week={data.week} leagueName={league.name} />
+            </div>
+          ))}
+        </div>
+      )}
     </main>
   );
 }
 
-const styles = {
-  lockWrap: { display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 'calc(100vh - 52px)' },
-  lockBox: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, padding: '36px 40px', background: 'var(--bg2)', border: '0.5px solid var(--border)', borderRadius: 10, position: 'relative', minWidth: 240 },
-  lockBar: { position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'var(--red)', borderRadius: '10px 10px 0 0' },
-  lockTitle: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 28, letterSpacing: '0.06em', color: 'var(--text)' },
-  lockSub: { fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 },
-  pinInput: { width: 120, padding: '10px 14px', textAlign: 'center', fontSize: 18, letterSpacing: '0.2em', background: 'var(--bg)', border: '0.5px solid var(--border)', borderRadius: 6, color: 'var(--text)', outline: 'none' },
-  pinInputError: { borderColor: 'var(--red)' },
-  pinErr: { fontSize: 11, color: 'var(--red)', marginTop: -4 },
-  pinBtn: { marginTop: 4, padding: '9px 28px', background: 'var(--red)', color: '#fff', border: 'none', borderRadius: 6, fontSize: 12, fontWeight: 500, cursor: 'pointer' },
-  main: { padding: '40px 32px', maxWidth: 1100, margin: '0 auto' },
-  header: { display: 'flex', alignItems: 'center', gap: 16, marginBottom: 32, position: 'relative', paddingTop: 8 },
-  bar: { position: 'absolute', top: 0, left: 0, width: 24, height: 2, background: 'var(--red)' },
-  title: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 36, letterSpacing: '0.04em' },
-  connBadge: (c) => ({ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: c ? 'var(--green)' : 'var(--text-muted)', marginLeft: 8 }),
-  connDot: (c) => ({ width: 6, height: 6, borderRadius: '50%', background: c ? 'var(--green)' : '#444' }),
-  connectBtn: { marginLeft: 8, padding: '7px 14px', borderRadius: 6, background: 'var(--red)', color: '#fff', fontSize: 12, fontWeight: 500 },
-  disconnectBtn: { marginLeft: 8, padding: '7px 14px', borderRadius: 6, background: '#222', color: '#888', border: '0.5px solid #333', fontSize: 12, fontWeight: 500 },
-  layout: { display: 'grid', gridTemplateColumns: '200px 1fr', gap: 24 },
-  controls: { display: 'flex', flexDirection: 'column', gap: 20 },
-  ctrlGroup: { display: 'flex', flexDirection: 'column', gap: 5 },
-  ctrlLabel: { fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#444', marginBottom: 4 },
-  ctrlBtn: { padding: '8px 10px', background: 'var(--bg2)', border: '0.5px solid var(--border)', borderRadius: 6, fontSize: 11, color: 'var(--text-muted)', textAlign: 'left', transition: 'all 0.12s' },
-  ctrlBtnActive: { borderColor: 'var(--red)', color: 'var(--text)', background: '#1a1616' },
-  pills: { display: 'flex', gap: 4, flexWrap: 'wrap' },
-  pill: { padding: '5px 10px', borderRadius: 20, fontSize: 11, border: '0.5px solid var(--border)', background: 'var(--bg2)', color: 'var(--text-muted)' },
-  pillActive: { background: 'var(--red)', color: '#fff', borderColor: 'var(--red)' },
-  preview: { display: 'flex', flexDirection: 'column', gap: 14 },
-  previewLabel: { fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#444' },
-  card: { background: 'var(--bg2)', border: '0.5px solid var(--border)', borderRadius: 8, padding: '20px', position: 'relative', maxWidth: 440 },
-  cardAccent: { position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'var(--red)', borderRadius: '8px 8px 0 0' },
-  cardWeek: { fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#333', marginBottom: 14 },
-  scores: { display: 'flex', alignItems: 'center', gap: 0, marginBottom: 16 },
-  team: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 },
-  score: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 58, lineHeight: 1 },
-  teamName: { fontSize: 9, letterSpacing: '0.08em', textTransform: 'uppercase', textAlign: 'center' },
-  scoreSep: { width: 1, height: 60, background: '#252525', margin: '0 10px' },
-  divider: { height: '0.5px', background: '#252525', marginBottom: 14 },
-  players: { display: 'grid', gridTemplateColumns: '1fr 0.5px 1fr', gap: 0 },
-  playerSide: { display: 'flex', flexDirection: 'column', gap: 0 },
-  playerDivider: { background: '#252525' },
-  playerHd: { display: 'flex', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#444', marginBottom: 8, padding: '0 8px' },
-  playerRow: { display: 'flex', alignItems: 'center', gap: 6, padding: '5px 8px', borderTop: '0.5px solid #222' },
-  pos: { fontSize: 9, color: '#444', width: 20 },
-  pname: { fontSize: 11, color: '#999', flex: 1 },
-  pts: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 15 },
-  cardFoot: { fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#2a2a2a', textAlign: 'center', marginTop: 14 },
-  exportBtn: { padding: '10px 20px', background: 'var(--red)', color: '#fff', border: 'none', borderRadius: 6, fontSize: 12, fontWeight: 500, maxWidth: 440, cursor: 'pointer' },
+// ─── Styles ────────────────────────────────────────────────────────────────────
+
+const S = {
+  lockWrap: { display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 'calc(100vh - 52px)', background: BLACK },
+  lockBox: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, padding: '36px 40px', background: '#111', border: `0.5px solid ${GREEN}40`, borderRadius: 10, position: 'relative' },
+  lockAccent: { position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: GREEN, borderRadius: '10px 10px 0 0' },
+  lockSub: { fontSize: 12, color: '#ffffff55', marginBottom: 4, letterSpacing: '0.06em' },
+  pinInput: { width: 120, padding: '10px 14px', textAlign: 'center', fontSize: 18, letterSpacing: '0.2em', background: '#1a1a1a', border: `0.5px solid #333`, borderRadius: 6, color: '#fff', outline: 'none' },
+  pinInputError: { borderColor: GREEN },
+  pinErr: { fontSize: 11, color: GREEN, marginTop: -4 },
+  pinBtn: { marginTop: 4, padding: '9px 28px', background: GREEN, color: BLACK, border: 'none', borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: 'pointer', letterSpacing: '0.06em' },
+
+  main: { padding: '32px 24px', maxWidth: 1100, margin: '0 auto' },
+  header: { display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28 },
+  headerText: { display: 'flex', flexDirection: 'column', gap: 3 },
+  title: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 30, letterSpacing: '0.04em', color: 'var(--text)', lineHeight: 1 },
+  subtitle: { fontSize: 10, color: 'var(--text-muted)', letterSpacing: '0.08em' },
+
+  layout: { display: 'grid', gridTemplateColumns: '200px 1fr', gap: 24, minHeight: 600 },
+
+  sidebar: { display: 'flex', flexDirection: 'column', gap: 5 },
+  sideLabel: { fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-muted)', opacity: 0.5, marginBottom: 2 },
+  leagueBtn: { padding: '8px 10px', background: 'var(--bg2)', border: '0.5px solid var(--border)', borderRadius: 6, fontSize: 11, color: 'var(--text-muted)', textAlign: 'left', cursor: 'pointer' },
+  leagueBtnActive: { borderColor: GREEN, color: '#fff', background: '#1a1f10' },
+  slideThumb: { padding: '6px 10px', background: 'none', border: '0.5px solid transparent', borderRadius: 5, fontSize: 10, color: 'var(--text-muted)', textAlign: 'left', cursor: 'pointer' },
+  slideThumbActive: { borderColor: `${GREEN}50`, color: 'var(--text)', background: '#1a1f10' },
+  progressMsg: { fontSize: 10, color: GREEN, opacity: 0.8, marginBottom: 8, textAlign: 'center' },
+  exportBtn: { width: '100%', padding: '11px', background: GREEN, color: BLACK, border: 'none', borderRadius: 7, fontSize: 12, fontWeight: 700, cursor: 'pointer', letterSpacing: '0.04em' },
+  exportBtnDisabled: { opacity: 0.4, cursor: 'not-allowed' },
+
+  previewArea: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 },
+  previewLabel: { fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-muted)', opacity: 0.5, alignSelf: 'flex-start' },
+  // Cards render at 540×675; preview at 50% → 270×337
+  previewWrapper: { width: 270, height: 337, overflow: 'hidden', border: `0.5px solid ${GREEN}25`, borderRadius: 6, boxShadow: `0 0 40px ${GREEN}15`, flexShrink: 0 },
+  previewScale: { transform: 'scale(0.5)', transformOrigin: 'top left', width: 540, height: 675 },
+  slideNav: { display: 'flex', alignItems: 'center', gap: 16 },
+  navBtn: { padding: '7px 14px', background: 'var(--bg2)', border: '0.5px solid var(--border)', borderRadius: 5, fontSize: 11, color: 'var(--text-muted)', cursor: 'pointer' },
+  navCount: { fontSize: 11, color: 'var(--text-muted)' },
+  msg: { color: 'var(--text-muted)', fontSize: 13, marginTop: 60 },
 };
