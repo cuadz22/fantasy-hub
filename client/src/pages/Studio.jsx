@@ -70,21 +70,27 @@ async function prefetchImages(matchups, playerImagesDb) {
   const cache = {};
   const players = matchups.flatMap(m => [...(m.teamA.players || []), ...(m.teamB.players || [])]);
   const unique = [...new Map(players.map(p => [p.name, p])).values()];
-  await Promise.allSettled(unique.map(async p => {
-    const entry = playerImagesDb[p.name];
-    if (!entry?.sleeper_id) return;
-    const url = `https://sleepercdn.com/content/nfl/players/thumb/${entry.sleeper_id}.jpg`;
-    try {
-      const res = await fetch(url);
-      if (!res.ok) return;
-      const blob = await res.blob();
-      cache[p.name] = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onload = e => resolve(e.target.result);
-        reader.readAsDataURL(blob);
-      });
-    } catch {}
-  }));
+
+  // Fetch in small batches to avoid Sleeper CDN rate-limiting
+  const BATCH = 4;
+  for (let i = 0; i < unique.length; i += BATCH) {
+    await Promise.allSettled(unique.slice(i, i + BATCH).map(async p => {
+      const entry = playerImagesDb[p.name];
+      if (!entry?.sleeper_id) return;
+      const url = `https://sleepercdn.com/content/nfl/players/thumb/${entry.sleeper_id}.jpg`;
+      try {
+        const res = await fetch(url);
+        if (!res.ok) return;
+        const blob = await res.blob();
+        cache[p.name] = await new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = e => resolve(e.target.result);
+          reader.readAsDataURL(blob);
+        });
+      } catch {}
+    }));
+    if (i + BATCH < unique.length) await new Promise(r => setTimeout(r, 120));
+  }
   return cache;
 }
 
@@ -102,11 +108,14 @@ function CardFooter({ leagueName }) {
 function PlayerCircle({ player, size, imageSrc }) {
   const bg = POS_COLORS[player.position] || '#555';
   const initials = player.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  const base = { width: size, height: size, minWidth: size, borderRadius: '50%', flexShrink: 0 };
   if (imageSrc) {
-    return <img src={imageSrc} alt={player.name} style={{ width: size, height: size, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: `1px solid ${GREEN}40` }} />;
+    return (
+      <div style={{ ...base, backgroundImage: `url("${imageSrc}")`, backgroundSize: 'cover', backgroundPosition: 'center top', border: `1px solid ${GREEN}40` }} />
+    );
   }
   return (
-    <div style={{ width: size, height: size, borderRadius: '50%', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.36, fontWeight: 700, color: '#fff', flexShrink: 0 }}>
+    <div style={{ ...base, background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.36, fontWeight: 700, color: '#fff' }}>
       {initials}
     </div>
   );
