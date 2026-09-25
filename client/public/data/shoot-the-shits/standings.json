@@ -1,139 +1,200 @@
 {
   "week": 2,
-  "updated": "2026-09-22",
-  "hasWeeklyData": true,
-  "teams": [
+  "updated": "Week 2 Final",
+  "standings": [
     {
       "rank": 1,
-      "name": "That's Amari",
-      "wins": 2, "losses": 0, "ties": 0,
-      "customPoints": 14,
-      "winPointsEarned": 8,
-      "highScorePointsEarned": 6,
-      "highScoreWeeks": 2,
-      "pointsFor": 339.45,
-      "streak": "W2", "faab": 100
+      "name": "Amon a Mi$$ion",
+      "wins": 0,
+      "losses": 0,
+      "pf": 0.0,
+      "pa": 0.0,
+      "streak": "—"
     },
     {
       "rank": 2,
-      "name": "I Like Tets",
-      "wins": 2, "losses": 0, "ties": 0,
-      "customPoints": 14,
-      "winPointsEarned": 8,
-      "highScorePointsEarned": 6,
-      "highScoreWeeks": 2,
-      "pointsFor": 304.10,
-      "streak": "W2", "faab": 93
+      "name": "Iceman",
+      "wins": 0,
+      "losses": 0,
+      "pf": 0.0,
+      "pa": 0.0,
+      "streak": "—"
     },
     {
       "rank": 3,
-      "name": "Amon a Mi$$ion",
-      "wins": 2, "losses": 0, "ties": 0,
-      "customPoints": 11,
-      "winPointsEarned": 8,
-      "highScorePointsEarned": 3,
-      "highScoreWeeks": 1,
-      "pointsFor": 302.45,
-      "streak": "W2", "faab": 100
+      "name": "Youngbossbrian",
+      "wins": 0,
+      "losses": 0,
+      "pf": 0.0,
+      "pa": 0.0,
+      "streak": "—"
     },
     {
       "rank": 4,
-      "name": "Stripper Draft Julio",
-      "wins": 2, "losses": 0, "ties": 0,
-      "customPoints": 11,
-      "winPointsEarned": 8,
-      "highScorePointsEarned": 3,
-      "highScoreWeeks": 1,
-      "pointsFor": 294.80,
-      "streak": "W2", "faab": 100
+      "name": "Baba Yaga",
+      "wins": 0,
+      "losses": 0,
+      "pf": 0.0,
+      "pa": 0.0,
+      "streak": "—"
     },
     {
       "rank": 5,
-      "name": "Youngbossbrian",
-      "wins": 1, "losses": 1, "ties": 0,
-      "customPoints": 10,
-      "winPointsEarned": 4,
-      "highScorePointsEarned": 6,
-      "highScoreWeeks": 2,
-      "pointsFor": 304.50,
-      "streak": "W1", "faab": 95
+      "name": "cuadz build 004",
+      "wins": 0,
+      "losses": 0,
+      "pf": 0.0,
+      "pa": 0.0,
+      "streak": "—"
     },
     {
       "rank": 6,
-      "name": "Baba Yaga",
-      "wins": 1, "losses": 1, "ties": 0,
-      "customPoints": 7,
-      "winPointsEarned": 4,
-      "highScorePointsEarned": 3,
-      "highScoreWeeks": 1,
-      "pointsFor": 286.65,
-      "streak": "L1", "faab": 100
+      "name": "Stripper Draft Julio",
+      "wins": 0,
+      "losses": 0,
+      "pf": 0.0,
+      "pa": 0.0,
+      "streak": "—"
     },
     {
       "rank": 7,
-      "name": "The Bidfather",
-      "wins": 1, "losses": 1, "ties": 0,
-      "customPoints": 7,
-      "winPointsEarned": 4,
-      "highScorePointsEarned": 3,
-      "highScoreWeeks": 1,
-      "pointsFor": 276.30,
-      "streak": "L1", "faab": 87
+      "name": "I Like Tets",
+      "wins": 0,
+      "losses": 0,
+      "pf": 0.0,
+      "pa": 0.0,
+      "streak": "—"
     },
     {
       "rank": 8,
-      "name": "Jaxon Five",
-      "wins": 1, "losses": 1, "ties": 0,
-      "customPoints": 7,
-      "winPointsEarned": 4,
-      "highScorePointsEarned": 3,
-      "highScoreWeeks": 1,
-      "pointsFor": 260.90,
-      "streak": "W1", "faab": 100
+      "name": "The Bidfather",
+      "wins": 0,
+      "losses": 0,
+      "pf": 0.0,
+      "pa": 0.0,
+      "streak": "—"
     },
     {
       "rank": 9,
-      "name": "cuadz build 004",
-      "wins": 0, "losses": 2, "ties": 0,
-      "customPoints": 3,
-      "winPointsEarned": 0,
-      "highScorePointsEarned": 3,
-      "highScoreWeeks": 1,
-      "pointsFor": 274.45,
-      "streak": "L2", "faab": 98
+      "name": "Jaxon Five",
+      "wins": 0,
+      "losses": 0,
+      "pf": 0.0,
+      "pa": 0.0,
+      "streak": "—"
     },
     {
       "rank": 10,
-      "name": "The Hokage",
-      "wins": 0, "losses": 2, "ties": 0,
-      "customPoints": 0,
-      "winPointsEarned": 0,
-      "highScorePointsEarned": 0,
-      "highScoreWeeks": 0,
-      "pointsFor": 243.45,
-      "streak": "L2", "faab": 100
+      "name": "Chasing Flowers",
+      "wins": 0,
+      "losses": 0,
+      "pf": 0.0,
+      "pa": 0.0,
+      "streak": "—"
     },
     {
       "rank": 11,
-      "name": "Iceman",
-      "wins": 0, "losses": 2, "ties": 0,
-      "customPoints": 0,
-      "winPointsEarned": 0,
-      "highScorePointsEarned": 0,
-      "highScoreWeeks": 0,
-      "pointsFor": 233.45,
-      "streak": "L2", "faab": 80
+      "name": "That's Amari",
+      "wins": 0,
+      "losses": 0,
+      "pf": 0.0,
+      "pa": 0.0,
+      "streak": "—"
     },
     {
       "rank": 12,
+      "name": "The Hokage",
+      "wins": 0,
+      "losses": 0,
+      "pf": 0.0,
+      "pa": 0.0,
+      "streak": "—"
+    }
+  ],
+  "points_standings": [
+    {
+      "rank": 1,
+      "name": "Amon a Mi$$ion",
+      "pf": 0.0,
+      "wins": 0,
+      "losses": 0
+    },
+    {
+      "rank": 2,
+      "name": "Iceman",
+      "pf": 0.0,
+      "wins": 0,
+      "losses": 0
+    },
+    {
+      "rank": 3,
+      "name": "Youngbossbrian",
+      "pf": 0.0,
+      "wins": 0,
+      "losses": 0
+    },
+    {
+      "rank": 4,
+      "name": "Baba Yaga",
+      "pf": 0.0,
+      "wins": 0,
+      "losses": 0
+    },
+    {
+      "rank": 5,
+      "name": "cuadz build 004",
+      "pf": 0.0,
+      "wins": 0,
+      "losses": 0
+    },
+    {
+      "rank": 6,
+      "name": "Stripper Draft Julio",
+      "pf": 0.0,
+      "wins": 0,
+      "losses": 0
+    },
+    {
+      "rank": 7,
+      "name": "I Like Tets",
+      "pf": 0.0,
+      "wins": 0,
+      "losses": 0
+    },
+    {
+      "rank": 8,
+      "name": "The Bidfather",
+      "pf": 0.0,
+      "wins": 0,
+      "losses": 0
+    },
+    {
+      "rank": 9,
+      "name": "Jaxon Five",
+      "pf": 0.0,
+      "wins": 0,
+      "losses": 0
+    },
+    {
+      "rank": 10,
       "name": "Chasing Flowers",
-      "wins": 0, "losses": 2, "ties": 0,
-      "customPoints": 0,
-      "winPointsEarned": 0,
-      "highScorePointsEarned": 0,
-      "highScoreWeeks": 0,
-      "pointsFor": 230.70,
-      "streak": "L2", "faab": 100
+      "pf": 0.0,
+      "wins": 0,
+      "losses": 0
+    },
+    {
+      "rank": 11,
+      "name": "That's Amari",
+      "pf": 0.0,
+      "wins": 0,
+      "losses": 0
+    },
+    {
+      "rank": 12,
+      "name": "The Hokage",
+      "pf": 0.0,
+      "wins": 0,
+      "losses": 0
     }
   ]
 }
