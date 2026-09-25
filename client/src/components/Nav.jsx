@@ -87,6 +87,7 @@ export default function Nav({ theme, onToggleTheme }) {
             );
           })}
           <a href="/rivalry-week.html" style={styles.rivalryTabMobile}>⚔️ Rivalry Week</a>
+          <Link to="/studio" style={styles.studioTabMobile}>📸 Studio</Link>
         </nav>
       </header>
     );
@@ -119,6 +120,7 @@ export default function Nav({ theme, onToggleTheme }) {
             );
           })}
           <a href="/rivalry-week.html" style={styles.rivalryTab}>⚔️ Rivalry Week</a>
+          <Link to="/studio" style={styles.studioTab}>📸 Studio</Link>
         </nav>
         <div style={styles.fadeRight} />
       </div>
@@ -260,6 +262,29 @@ const styles = {
     fontWeight: 600,
   },
   rivalryTabMobile: {
+    fontSize: 11,
+    color: '#111',
+    padding: '5px 10px',
+    borderRadius: 20,
+    border: '0.5px solid #ACF910',
+    background: '#ACF910',
+    whiteSpace: 'nowrap',
+    fontWeight: 600,
+  },
+  studioTab: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 6,
+    padding: '0 14px',
+    height: '100%',
+    fontSize: 12,
+    color: '#ACF910',
+    whiteSpace: 'nowrap',
+    borderBottom: '2px solid transparent',
+    marginLeft: 4,
+    fontWeight: 600,
+  },
+  studioTabMobile: {
     fontSize: 11,
     color: '#111',
     padding: '5px 10px',
