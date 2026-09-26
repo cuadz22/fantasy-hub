@@ -23,7 +23,7 @@ function H2HBar({ aWins, bWins, ties, ownerA, ownerB, pending }) {
       <div style={h2hStyles.wrap}>
         <div style={h2hStyles.label}>All-Time H2H</div>
         <div style={h2hStyles.noData}>
-          {pending ? 'Historical data loading...' : 'First meeting'}
+          {pending ? 'Coming soon' : 'First meeting'}
         </div>
       </div>
     );
