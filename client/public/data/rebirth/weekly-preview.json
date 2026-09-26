@@ -6,32 +6,32 @@
     {
       "teamA": { "name": "cuadz build 003", "owner": "Jose", "record": "1-1-0", "projected": 167.90 },
       "teamB": { "name": "Rents Due", "owner": "Giovanny", "record": "1-1-0", "projected": 119.03 },
-      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+      "h2h": { "aWins": 1, "bWins": 1, "ties": 0 }
     },
     {
       "teamA": { "name": "K-9 Unit", "owner": "Cristian", "record": "1-1-0", "projected": 137.53 },
       "teamB": { "name": "Love Yourz", "owner": "Alex Zarate", "record": "1-1-0", "projected": 125.48 },
-      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+      "h2h": { "aWins": 1, "bWins": 0, "ties": 0 }
     },
     {
       "teamA": { "name": "Hooligans", "owner": "Alexis", "record": "2-0-0", "projected": 190.60 },
       "teamB": { "name": "Stiff Arm That Njigba", "owner": "Big Vic", "record": "0-2-0", "projected": 142.68 },
-      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+      "h2h": { "aWins": 0, "bWins": 1, "ties": 0 }
     },
     {
       "teamA": { "name": "The Lazarus Pit", "owner": "Ed", "record": "0-2-0", "projected": 138.69 },
       "teamB": { "name": "I'm Better Than Kev", "owner": "julio", "record": "1-1-0", "projected": 133.82 },
-      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+      "h2h": { "aWins": 0, "bWins": 0, "ties": 0 }
     },
     {
       "teamA": { "name": "Benchwarmers", "owner": "jmena", "record": "2-0-0", "projected": 188.27 },
       "teamB": { "name": "Manifested It", "owner": "Jonathan", "record": "2-0-0", "projected": 163.07 },
-      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+      "h2h": { "aWins": 1, "bWins": 0, "ties": 0 }
     },
     {
       "teamA": { "name": "Champ", "owner": "Oscar", "record": "1-1-0", "projected": 140.96 },
       "teamB": { "name": "Loveland Island USA", "owner": "JJ", "record": "0-2-0", "projected": 166.60 },
-      "h2h": { "aWins": 0, "bWins": 0, "ties": 0, "note": "historical pending" }
+      "h2h": { "aWins": 1, "bWins": 1, "ties": 0 }
     }
   ]
 }
