@@ -1,0 +1,174 @@
+{
+  "currentWeek": 3,
+  "updated": "Sep 28, 2026",
+  "weeks": [
+    {
+      "week": 1,
+      "status": "final",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004", "score": 149.45 }, "teamB": { "name": "The Bidfather", "score": 159.7 } },
+        { "teamA": { "name": "Amon a Mi$$ion", "score": 131.1 }, "teamB": { "name": "Jaxon Five", "score": 88.9 } },
+        { "teamA": { "name": "Iceman", "score": 138.25 }, "teamB": { "name": "Baba Yaga", "score": 145.8 } },
+        { "teamA": { "name": "I Like Tets", "score": 163.75 }, "teamB": { "name": "The Hokage", "score": 120.0 } },
+        { "teamA": { "name": "Chasing Flowers", "score": 97.95 }, "teamB": { "name": "Stripper Draft Julio", "score": 162.45 } },
+        { "teamA": { "name": "That's Amari", "score": 205.4 }, "teamB": { "name": "Youngbossbrian", "score": 154.6 } }
+      ]
+    },
+    {
+      "week": 2,
+      "status": "final",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004", "score": 125.0 }, "teamB": { "name": "Stripper Draft Julio", "score": 132.35 } },
+        { "teamA": { "name": "Amon a Mi$$ion", "score": 171.35 }, "teamB": { "name": "Iceman", "score": 95.2 } },
+        { "teamA": { "name": "Baba Yaga", "score": 140.85 }, "teamB": { "name": "Youngbossbrian", "score": 149.9 } },
+        { "teamA": { "name": "I Like Tets", "score": 140.35 }, "teamB": { "name": "The Bidfather", "score": 116.6 } },
+        { "teamA": { "name": "Jaxon Five", "score": 172.0 }, "teamB": { "name": "Chasing Flowers", "score": 132.75 } },
+        { "teamA": { "name": "That's Amari", "score": 134.05 }, "teamB": { "name": "The Hokage", "score": 123.45 } }
+      ]
+    },
+    {
+      "week": 3,
+      "status": "upcoming",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004", "projected": 138.89 }, "teamB": { "name": "I Like Tets", "projected": 146.52 } },
+        { "teamA": { "name": "Amon a Mi$$ion", "projected": 140.62 }, "teamB": { "name": "Youngbossbrian", "projected": 137.31 } },
+        { "teamA": { "name": "Iceman", "projected": 129.27 }, "teamB": { "name": "Chasing Flowers", "projected": 134.63 } },
+        { "teamA": { "name": "Baba Yaga", "projected": 145.54 }, "teamB": { "name": "The Hokage", "projected": 159.64 } },
+        { "teamA": { "name": "Jaxon Five", "projected": 141.07 }, "teamB": { "name": "Stripper Draft Julio", "projected": 134.6 } },
+        { "teamA": { "name": "That's Amari", "projected": 155.87 }, "teamB": { "name": "The Bidfather", "projected": 137.21 } }
+      ]
+    },
+    {
+      "week": 4,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004" }, "teamB": { "name": "Jaxon Five" } },
+        { "teamA": { "name": "Amon a Mi$$ion" }, "teamB": { "name": "The Hokage" } },
+        { "teamA": { "name": "Iceman" }, "teamB": { "name": "Stripper Draft Julio" } },
+        { "teamA": { "name": "Baba Yaga" }, "teamB": { "name": "The Bidfather" } },
+        { "teamA": { "name": "I Like Tets" }, "teamB": { "name": "That's Amari" } },
+        { "teamA": { "name": "Chasing Flowers" }, "teamB": { "name": "Youngbossbrian" } }
+      ]
+    },
+    {
+      "week": 5,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004" }, "teamB": { "name": "That's Amari" } },
+        { "teamA": { "name": "Amon a Mi$$ion" }, "teamB": { "name": "The Bidfather" } },
+        { "teamA": { "name": "Iceman" }, "teamB": { "name": "Jaxon Five" } },
+        { "teamA": { "name": "Baba Yaga" }, "teamB": { "name": "I Like Tets" } },
+        { "teamA": { "name": "Chasing Flowers" }, "teamB": { "name": "The Hokage" } },
+        { "teamA": { "name": "Stripper Draft Julio" }, "teamB": { "name": "Youngbossbrian" } }
+      ]
+    },
+    {
+      "week": 6,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004" }, "teamB": { "name": "Iceman" } },
+        { "teamA": { "name": "Amon a Mi$$ion" }, "teamB": { "name": "I Like Tets" } },
+        { "teamA": { "name": "Baba Yaga" }, "teamB": { "name": "That's Amari" } },
+        { "teamA": { "name": "Jaxon Five" }, "teamB": { "name": "Youngbossbrian" } },
+        { "teamA": { "name": "Chasing Flowers" }, "teamB": { "name": "The Bidfather" } },
+        { "teamA": { "name": "Stripper Draft Julio" }, "teamB": { "name": "The Hokage" } }
+      ]
+    },
+    {
+      "week": 7,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004" }, "teamB": { "name": "Baba Yaga" } },
+        { "teamA": { "name": "Amon a Mi$$ion" }, "teamB": { "name": "That's Amari" } },
+        { "teamA": { "name": "Iceman" }, "teamB": { "name": "Youngbossbrian" } },
+        { "teamA": { "name": "I Like Tets" }, "teamB": { "name": "Chasing Flowers" } },
+        { "teamA": { "name": "Jaxon Five" }, "teamB": { "name": "The Hokage" } },
+        { "teamA": { "name": "Stripper Draft Julio" }, "teamB": { "name": "The Bidfather" } }
+      ]
+    },
+    {
+      "week": 8,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004" }, "teamB": { "name": "Youngbossbrian" } },
+        { "teamA": { "name": "Amon a Mi$$ion" }, "teamB": { "name": "Baba Yaga" } },
+        { "teamA": { "name": "Iceman" }, "teamB": { "name": "The Hokage" } },
+        { "teamA": { "name": "I Like Tets" }, "teamB": { "name": "Stripper Draft Julio" } },
+        { "teamA": { "name": "Jaxon Five" }, "teamB": { "name": "The Bidfather" } },
+        { "teamA": { "name": "Chasing Flowers" }, "teamB": { "name": "That's Amari" } }
+      ]
+    },
+    {
+      "week": 9,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004" }, "teamB": { "name": "Amon a Mi$$ion" } },
+        { "teamA": { "name": "Iceman" }, "teamB": { "name": "The Bidfather" } },
+        { "teamA": { "name": "Baba Yaga" }, "teamB": { "name": "Chasing Flowers" } },
+        { "teamA": { "name": "I Like Tets" }, "teamB": { "name": "Jaxon Five" } },
+        { "teamA": { "name": "Stripper Draft Julio" }, "teamB": { "name": "That's Amari" } },
+        { "teamA": { "name": "The Hokage" }, "teamB": { "name": "Youngbossbrian" } }
+      ]
+    },
+    {
+      "week": 10,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004" }, "teamB": { "name": "The Hokage" } },
+        { "teamA": { "name": "Amon a Mi$$ion" }, "teamB": { "name": "Chasing Flowers" } },
+        { "teamA": { "name": "Iceman" }, "teamB": { "name": "I Like Tets" } },
+        { "teamA": { "name": "Baba Yaga" }, "teamB": { "name": "Stripper Draft Julio" } },
+        { "teamA": { "name": "Jaxon Five" }, "teamB": { "name": "That's Amari" } },
+        { "teamA": { "name": "The Bidfather" }, "teamB": { "name": "Youngbossbrian" } }
+      ]
+    },
+    {
+      "week": 11,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004" }, "teamB": { "name": "Chasing Flowers" } },
+        { "teamA": { "name": "Amon a Mi$$ion" }, "teamB": { "name": "Stripper Draft Julio" } },
+        { "teamA": { "name": "Iceman" }, "teamB": { "name": "That's Amari" } },
+        { "teamA": { "name": "Baba Yaga" }, "teamB": { "name": "Jaxon Five" } },
+        { "teamA": { "name": "I Like Tets" }, "teamB": { "name": "Youngbossbrian" } },
+        { "teamA": { "name": "The Hokage" }, "teamB": { "name": "The Bidfather" } }
+      ]
+    },
+    {
+      "week": 12,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004" }, "teamB": { "name": "The Bidfather" } },
+        { "teamA": { "name": "Amon a Mi$$ion" }, "teamB": { "name": "Jaxon Five" } },
+        { "teamA": { "name": "Iceman" }, "teamB": { "name": "Baba Yaga" } },
+        { "teamA": { "name": "I Like Tets" }, "teamB": { "name": "The Hokage" } },
+        { "teamA": { "name": "Chasing Flowers" }, "teamB": { "name": "Stripper Draft Julio" } },
+        { "teamA": { "name": "That's Amari" }, "teamB": { "name": "Youngbossbrian" } }
+      ]
+    },
+    {
+      "week": 13,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004" }, "teamB": { "name": "Stripper Draft Julio" } },
+        { "teamA": { "name": "Amon a Mi$$ion" }, "teamB": { "name": "Iceman" } },
+        { "teamA": { "name": "Baba Yaga" }, "teamB": { "name": "Youngbossbrian" } },
+        { "teamA": { "name": "I Like Tets" }, "teamB": { "name": "The Bidfather" } },
+        { "teamA": { "name": "Jaxon Five" }, "teamB": { "name": "Chasing Flowers" } },
+        { "teamA": { "name": "That's Amari" }, "teamB": { "name": "The Hokage" } }
+      ]
+    },
+    {
+      "week": 14,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 004" }, "teamB": { "name": "I Like Tets" } },
+        { "teamA": { "name": "Amon a Mi$$ion" }, "teamB": { "name": "Youngbossbrian" } },
+        { "teamA": { "name": "Iceman" }, "teamB": { "name": "Chasing Flowers" } },
+        { "teamA": { "name": "Baba Yaga" }, "teamB": { "name": "The Hokage" } },
+        { "teamA": { "name": "Jaxon Five" }, "teamB": { "name": "Stripper Draft Julio" } },
+        { "teamA": { "name": "That's Amari" }, "teamB": { "name": "The Bidfather" } }
+      ]
+    }
+  ]
+}

@@ -6,7 +6,7 @@
     {
       "teamA": { "name": "cuadz build 001", "owner": "Jose", "record": "1-1-0", "projected": 175.96 },
       "teamB": { "name": "The Veterans", "owner": "Jonathan", "record": "2-0-0", "projected": 129.62 },
-      "h2h": { "aWins": 3, "bWins": 1, "ties": 0 }
+      "h2h": { "aWins": 2, "bWins": 1, "ties": 0 }
     },
     {
       "teamA": { "name": "Jameson On The Rocks", "owner": "Giovanny", "record": "1-1-0", "projected": 144.90 },

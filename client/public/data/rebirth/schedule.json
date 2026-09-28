@@ -1,0 +1,174 @@
+{
+  "currentWeek": 3,
+  "updated": "Sep 28, 2026",
+  "weeks": [
+    {
+      "week": 1,
+      "status": "final",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003", "score": 131.92 }, "teamB": { "name": "Love Yourz", "score": 129.28 } },
+        { "teamA": { "name": "K-9 Unit 🦴🐕", "score": 165.62 }, "teamB": { "name": "Manifested It", "score": 197.7 } },
+        { "teamA": { "name": "Hooligans", "score": 158.76 }, "teamB": { "name": "I'm Better Than Kev", "score": 117.24 } },
+        { "teamA": { "name": "The Lazarus Pit", "score": 129.46 }, "teamB": { "name": "Benchwarmers", "score": 207.88 } },
+        { "teamA": { "name": "Champ", "score": 161.36 }, "teamB": { "name": "Stiff Arm That Njigba", "score": 146.06 } },
+        { "teamA": { "name": "Rents Due", "score": 150.1 }, "teamB": { "name": "Loveland Island USA", "score": 143.36 } }
+      ]
+    },
+    {
+      "week": 2,
+      "status": "final",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003", "score": 115.8 }, "teamB": { "name": "I'm Better Than Kev", "score": 144.54 } },
+        { "teamA": { "name": "K-9 Unit 🦴🐕", "score": 144.38 }, "teamB": { "name": "Loveland Island USA", "score": 128.62 } },
+        { "teamA": { "name": "Love Yourz", "score": 172.18 }, "teamB": { "name": "Rents Due", "score": 88.92 } },
+        { "teamA": { "name": "Hooligans", "score": 201.34 }, "teamB": { "name": "The Lazarus Pit", "score": 105.08 } },
+        { "teamA": { "name": "Benchwarmers", "score": 182.78 }, "teamB": { "name": "Stiff Arm That Njigba", "score": 141.7 } },
+        { "teamA": { "name": "Manifested It", "score": 175.46 }, "teamB": { "name": "Champ", "score": 113.48 } }
+      ]
+    },
+    {
+      "week": 3,
+      "status": "upcoming",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003", "projected": 167.9 }, "teamB": { "name": "Rents Due", "projected": 119.03 } },
+        { "teamA": { "name": "K-9 Unit 🦴🐕", "projected": 137.53 }, "teamB": { "name": "Love Yourz", "projected": 125.48 } },
+        { "teamA": { "name": "Hooligans", "projected": 190.6 }, "teamB": { "name": "Stiff Arm That Njigba", "projected": 142.68 } },
+        { "teamA": { "name": "The Lazarus Pit", "projected": 138.69 }, "teamB": { "name": "I'm Better Than Kev", "projected": 133.82 } },
+        { "teamA": { "name": "Benchwarmers", "projected": 188.27 }, "teamB": { "name": "Manifested It", "projected": 163.07 } },
+        { "teamA": { "name": "Champ", "projected": 140.96 }, "teamB": { "name": "Loveland Island USA", "projected": 166.6 } }
+      ]
+    },
+    {
+      "week": 4,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003" }, "teamB": { "name": "K-9 Unit 🦴🐕" } },
+        { "teamA": { "name": "Love Yourz" }, "teamB": { "name": "Champ" } },
+        { "teamA": { "name": "Hooligans" }, "teamB": { "name": "Manifested It" } },
+        { "teamA": { "name": "The Lazarus Pit" }, "teamB": { "name": "Stiff Arm That Njigba" } },
+        { "teamA": { "name": "Benchwarmers" }, "teamB": { "name": "Loveland Island USA" } },
+        { "teamA": { "name": "Rents Due" }, "teamB": { "name": "I'm Better Than Kev" } }
+      ]
+    },
+    {
+      "week": 5,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003" }, "teamB": { "name": "Champ" } },
+        { "teamA": { "name": "K-9 Unit 🦴🐕" }, "teamB": { "name": "Rents Due" } },
+        { "teamA": { "name": "Love Yourz" }, "teamB": { "name": "Benchwarmers" } },
+        { "teamA": { "name": "Hooligans" }, "teamB": { "name": "Loveland Island USA" } },
+        { "teamA": { "name": "The Lazarus Pit" }, "teamB": { "name": "Manifested It" } },
+        { "teamA": { "name": "Stiff Arm That Njigba" }, "teamB": { "name": "I'm Better Than Kev" } }
+      ]
+    },
+    {
+      "week": 6,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003" }, "teamB": { "name": "Benchwarmers" } },
+        { "teamA": { "name": "K-9 Unit 🦴🐕" }, "teamB": { "name": "I'm Better Than Kev" } },
+        { "teamA": { "name": "Love Yourz" }, "teamB": { "name": "Hooligans" } },
+        { "teamA": { "name": "The Lazarus Pit" }, "teamB": { "name": "Loveland Island USA" } },
+        { "teamA": { "name": "Manifested It" }, "teamB": { "name": "Stiff Arm That Njigba" } },
+        { "teamA": { "name": "Champ" }, "teamB": { "name": "Rents Due" } }
+      ]
+    },
+    {
+      "week": 7,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003" }, "teamB": { "name": "Hooligans" } },
+        { "teamA": { "name": "K-9 Unit 🦴🐕" }, "teamB": { "name": "Champ" } },
+        { "teamA": { "name": "Love Yourz" }, "teamB": { "name": "The Lazarus Pit" } },
+        { "teamA": { "name": "Benchwarmers" }, "teamB": { "name": "Rents Due" } },
+        { "teamA": { "name": "Manifested It" }, "teamB": { "name": "I'm Better Than Kev" } },
+        { "teamA": { "name": "Stiff Arm That Njigba" }, "teamB": { "name": "Loveland Island USA" } }
+      ]
+    },
+    {
+      "week": 8,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003" }, "teamB": { "name": "The Lazarus Pit" } },
+        { "teamA": { "name": "K-9 Unit 🦴🐕" }, "teamB": { "name": "Benchwarmers" } },
+        { "teamA": { "name": "Love Yourz" }, "teamB": { "name": "Stiff Arm That Njigba" } },
+        { "teamA": { "name": "Hooligans" }, "teamB": { "name": "Rents Due" } },
+        { "teamA": { "name": "Manifested It" }, "teamB": { "name": "Loveland Island USA" } },
+        { "teamA": { "name": "Champ" }, "teamB": { "name": "I'm Better Than Kev" } }
+      ]
+    },
+    {
+      "week": 9,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003" }, "teamB": { "name": "Stiff Arm That Njigba" } },
+        { "teamA": { "name": "K-9 Unit 🦴🐕" }, "teamB": { "name": "Hooligans" } },
+        { "teamA": { "name": "Love Yourz" }, "teamB": { "name": "Manifested It" } },
+        { "teamA": { "name": "The Lazarus Pit" }, "teamB": { "name": "Rents Due" } },
+        { "teamA": { "name": "Benchwarmers" }, "teamB": { "name": "Champ" } },
+        { "teamA": { "name": "Loveland Island USA" }, "teamB": { "name": "I'm Better Than Kev" } }
+      ]
+    },
+    {
+      "week": 10,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003" }, "teamB": { "name": "Manifested It" } },
+        { "teamA": { "name": "K-9 Unit 🦴🐕" }, "teamB": { "name": "The Lazarus Pit" } },
+        { "teamA": { "name": "Love Yourz" }, "teamB": { "name": "Loveland Island USA" } },
+        { "teamA": { "name": "Hooligans" }, "teamB": { "name": "Champ" } },
+        { "teamA": { "name": "Benchwarmers" }, "teamB": { "name": "I'm Better Than Kev" } },
+        { "teamA": { "name": "Rents Due" }, "teamB": { "name": "Stiff Arm That Njigba" } }
+      ]
+    },
+    {
+      "week": 11,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003" }, "teamB": { "name": "Loveland Island USA" } },
+        { "teamA": { "name": "K-9 Unit 🦴🐕" }, "teamB": { "name": "Stiff Arm That Njigba" } },
+        { "teamA": { "name": "Love Yourz" }, "teamB": { "name": "I'm Better Than Kev" } },
+        { "teamA": { "name": "Hooligans" }, "teamB": { "name": "Benchwarmers" } },
+        { "teamA": { "name": "The Lazarus Pit" }, "teamB": { "name": "Champ" } },
+        { "teamA": { "name": "Manifested It" }, "teamB": { "name": "Rents Due" } }
+      ]
+    },
+    {
+      "week": 12,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003" }, "teamB": { "name": "Love Yourz" } },
+        { "teamA": { "name": "K-9 Unit 🦴🐕" }, "teamB": { "name": "Manifested It" } },
+        { "teamA": { "name": "Hooligans" }, "teamB": { "name": "I'm Better Than Kev" } },
+        { "teamA": { "name": "The Lazarus Pit" }, "teamB": { "name": "Benchwarmers" } },
+        { "teamA": { "name": "Champ" }, "teamB": { "name": "Stiff Arm That Njigba" } },
+        { "teamA": { "name": "Rents Due" }, "teamB": { "name": "Loveland Island USA" } }
+      ]
+    },
+    {
+      "week": 13,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003" }, "teamB": { "name": "I'm Better Than Kev" } },
+        { "teamA": { "name": "K-9 Unit 🦴🐕" }, "teamB": { "name": "Loveland Island USA" } },
+        { "teamA": { "name": "Love Yourz" }, "teamB": { "name": "Rents Due" } },
+        { "teamA": { "name": "Hooligans" }, "teamB": { "name": "The Lazarus Pit" } },
+        { "teamA": { "name": "Benchwarmers" }, "teamB": { "name": "Stiff Arm That Njigba" } },
+        { "teamA": { "name": "Manifested It" }, "teamB": { "name": "Champ" } }
+      ]
+    },
+    {
+      "week": 14,
+      "status": "future",
+      "matchups": [
+        { "teamA": { "name": "cuadz build 003" }, "teamB": { "name": "Rents Due" } },
+        { "teamA": { "name": "K-9 Unit 🦴🐕" }, "teamB": { "name": "Love Yourz" } },
+        { "teamA": { "name": "Hooligans" }, "teamB": { "name": "Stiff Arm That Njigba" } },
+        { "teamA": { "name": "The Lazarus Pit" }, "teamB": { "name": "I'm Better Than Kev" } },
+        { "teamA": { "name": "Benchwarmers" }, "teamB": { "name": "Manifested It" } },
+        { "teamA": { "name": "Champ" }, "teamB": { "name": "Loveland Island USA" } }
+      ]
+    }
+  ]
+}
