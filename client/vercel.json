@@ -1,4 +1,7 @@
 {
+  "redirects": [
+    { "source": "/", "destination": "/cfn.html", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/((?!.*\\.html$).*)", "destination": "/index.html" }
   ]
