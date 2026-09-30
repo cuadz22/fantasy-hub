@@ -1109,8 +1109,44 @@ function stPowerCard(d){
    +'<div style="font-size:7px;color:#ffffff40;letter-spacing:.05em;margin:6px 0 6px;line-height:1.4">Power = all-play 35% · last-3 all-play 15% · points for 25% · win% 20% · points against 5% · streak bonus up to ±10%. AP = all-play record.</div>'+stFooter(d.name);
   return stCardBase(inner,'16px 22px 12px');
 }
-function stSlideHTML(d,i){ return i===0 ? stWeeklyCard(d) : (i===d.matchups.length+1 ? stPowerCard(d) : stMatchCard(d.matchups[i-1],d)); }
-function stSlideLabel(i,d){ return i===0 ? '📊 Weekly Report' : (i===d.matchups.length+1 ? '⚡ Power Rankings' : '⚔️ Matchup '+i); }
+var AWARDS = {"gl": [{"mgr": "Julio Z", "team": "Mr. Electricity", "score": 96.4, "rec": "3-0", "pf": "552.90", "pfRank": 1, "ap": "27-6", "players": [["Kenneth Walker III", "RB", 85.2], ["Christian Watson", "WR", 71.4]], "wk": [[235.4, "Woodridge lore", 156.1, 1], [146.8, "Nico de Gallo", 90.65, 6], [170.7, "The Arbiter", 126.95, 2]], "note": "Mr. Electricity opened with a league-high 235.40 in Week 1 and never looked back, going 3-0 with a league-best 552.90 points, 87 more than anyone else. Kenneth Walker III and Christian Watson led the charge, and the all-play record (27-6) says no one in the league was better.", "board": [["Julio Z", "Mr. Electricity", 96.4], ["Alexis", "Sir", 80.9], ["Cuadz", "cuadz build 001", 68.2]], "month": "September", "weeks": "Weeks 1–3", "studio": true}], "rb": [{"mgr": "Hihi", "team": "Benchwarmers", "score": 98.2, "rec": "3-0", "pf": "569.80", "pfRank": 1, "ap": "30-3", "players": [["Josh Allen", "QB", 105.9], ["Bijan Robinson", "RB", 79.7]], "wk": [[207.88, "The Lazarus Pit", 129.46, 1], [182.78, "Stiff Arm That Njigba", 141.7, 2], [179.1, "Manifested It", 148.3, 3]], "note": "Benchwarmers finished no lower than 3rd in league scoring any week (207.88, 182.78, 179.10) and went 3-0 with a league-best 569.80 points, edging Hooligans by 10.6. Josh Allen scored 105.9 on his own, including 46.82 in Week 2, and the all-play record of 30-3 was the best in any league.", "board": [["Hihi", "Benchwarmers", 98.2], ["Alexis", "Hooligans", 95.4], ["Cris", "K-9 Unit", 71.5]], "month": "September", "weeks": "Weeks 1–3", "studio": true}], "bh": [{"mgr": "Cris", "team": "Love Thy Nabers", "score": 80.6, "rec": "3-0", "pf": "417.90", "pfRank": 7, "ap": "15-18", "players": [["Dak Prescott", "QB", 85.4], ["Trey McBride", "TE", 59.1]], "wk": [[144.55, "Touchdown’s and Dragons", 132.1, 7], [143.75, "Olivas FC", 134.5, 5], [129.6, "Pretenders", 101.25, 9]], "note": "The only unbeaten team in Beaners & Hussein. Love Thy Nabers never led the league in scoring, but won every matchup (144.55-132.10, 143.75-134.50, 129.60-101.25) with Dak Prescott and Trey McBride doing the work. It’s a record-first win: the points ranked 7th, and The Bijan Era was close behind.", "board": [["Cris", "Love Thy Nabers", 80.6], ["Pru", "The Bijan Era", 76.7], ["Eddie", "The JeantyMen’s Club", 75.2]], "month": "September", "weeks": "Weeks 1–3", "studio": true}], "sts": [{"mgr": "Oscar S", "team": "I Like Tets", "score": 87.5, "rec": "3-0", "pf": "446.70", "pfRank": 2, "ap": "24-9", "players": [["Derrick Henry", "RB", 77.9], ["Brock Purdy", "QB", 77.6]], "wk": [[163.75, "The Hokage", 120.0, 2], [140.35, "The Bidfather", 116.6, 5], [142.55, "cuadz build 004", 125.1, 5]], "note": "I Like Tets won every week and finished in the top 6 in scoring every week, taking all 21 of the 21 possible points in the STS scoring system. Derrick Henry and Brock Purdy (42.25 in Week 3) drove a month that was as steady as it was good.", "board": [["Oscar S", "I Like Tets", 87.5], ["Kevin", "The Bidfather", 75.5], ["Julio Z", "That’s Amari", 66.6]], "month": "September", "weeks": "Weeks 1–3", "studio": true}]};
+
+function awCard(k,a){
+  var G=ST_GREEN, L=CFN_DATA[k].name, M='MR. '+a.month.toUpperCase();
+  var pl=a.players.map(function(p,i){
+    return '<div style="width:140px;text-align:center">'+stAv(p[0],p[1],104)+'<div style="font-size:11px;font-weight:700;color:#fff;margin-top:6px;line-height:1.2">'+stEsc(p[0])+'</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:20px;color:'+G+';line-height:1.1">'+p[2].toFixed(1)+' <span style="font-size:11px;color:#ffffff70;font-family:system-ui">PTS</span></div></div>';
+  });
+  var tile=function(lbl,val,sub){return '<div style="flex:1;background:'+G+'0d;border:.5px solid '+G+'25;border-radius:7px;padding:6px 4px;text-align:center"><div style="font-size:7.5px;color:#ffffff55;letter-spacing:.12em">'+lbl+'</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:24px;color:#fff;line-height:1.1">'+val+'</div><div style="font-size:7.5px;color:#ffffff55">'+sub+'</div></div>';};
+  var ord=function(n){return n+(n%10==1&&n!=11?'st':n%10==2&&n!=12?'nd':n%10==3&&n!=13?'rd':'th');};
+  var wk=a.wk.map(function(w,i){return '<div style="flex:1;border:.5px solid #ffffff18;border-radius:6px;padding:5px 6px;text-align:center;background:#ffffff06"><div style="font-size:7.5px;color:'+G+';letter-spacing:.14em">WEEK '+(i+1)+' · W</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:20px;color:#fff;line-height:1.1">'+w[0].toFixed(2)+'</div><div style="font-size:7.5px;color:#ffffff60;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">def. '+stEsc(w[1])+' '+w[2].toFixed(2)+'</div><div style="font-size:7.5px;color:#ffffff40">'+ord(w[3])+' in league scoring</div></div>';}).join('');
+  var bd=a.board.map(function(b,i){return '<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:.5px solid #ffffff0d"><span style="font-family:\'Bebas Neue\',sans-serif;font-size:16px;width:16px;color:'+(i?'#ffffff60':G)+'">'+(i+1)+'</span><span style="flex:1;font-size:10.5px;color:'+(i?'#ffffffc0':'#fff')+';font-weight:'+(i?500:700)+'">'+stEsc(b[0])+' <span style="color:#ffffff55;font-weight:400">· '+stEsc(b[1])+'</span></span><span style="font-family:\'Bebas Neue\',sans-serif;font-size:16px;color:'+(i?'#fff':G)+'">'+b[2].toFixed(1)+'</span></div>';}).join('');
+  var inner='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><img src="'+CFN_LOGO+'" alt="CFN" style="height:28px;width:auto"><div style="text-align:right"><div style="font-size:9px;color:#ffffff55;letter-spacing:.14em;text-transform:uppercase">'+stEsc(L)+' · '+a.weeks+'</div></div></div>'
+   +'<div style="height:1px;background:'+G+'30;margin-bottom:10px"></div>'
+   +'<div style="display:flex;align-items:flex-start;justify-content:space-between">'+pl[0]
+   +'<div style="flex:1;text-align:center;padding:0 4px"><div style="font-size:26px;line-height:1">🏆</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:31px;color:'+G+';letter-spacing:.08em;line-height:1.05;margin-top:2px">'+M+'</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:34px;color:#fff;letter-spacing:.03em;line-height:1.05;margin-top:4px">'+stEsc(a.mgr.toUpperCase())+'</div><div style="font-size:10px;color:#ffffff90;margin-top:2px">'+stEsc(a.team)+'</div></div>'
+   +pl[1]+'</div>'
+   +'<div style="display:flex;gap:6px;margin:10px 0 8px">'+tile('RECORD',a.rec,'Weeks 1–3')+tile('POINTS FOR',a.pf.replace(/0$/,''),ord(a.pfRank)+' in league')+tile('ALL-PLAY',a.ap,'vs whole league')+tile('AWARD SCORE',a.score.toFixed(1),'out of 100')+'</div>'
+   +'<div style="display:flex;gap:6px;margin-bottom:8px">'+wk+'</div>'
+   +'<div style="font-size:12.5px;line-height:1.55;color:#ffffffd0;margin-bottom:12px">'+stEsc(a.note)+'</div>'
+   +'<div style="font-size:7.5px;color:'+G+';letter-spacing:.14em;margin-bottom:2px">TOP 3 THIS MONTH</div>'+bd
+   +'<div style="font-size:6.5px;color:#ffffff40;letter-spacing:.04em;margin:5px 0 5px;line-height:1.4">Award score = record 50% · points scored 30% · all-play 20%. Winning record required. Tiebreaker: total points. Header shows the winner’s top two scorers for the month.</div>'+stFooter(L);
+  return stCardBase(inner,'16px 22px 12px');
+}
+function awLatest(k){ var a=AWARDS[k]; return a&&a.length?a[a.length-1]:null; }
+function awStudio(k){ var a=awLatest(k); return a&&a.studio?1:0; }
+function awTab(p,k){
+  var list=(AWARDS[k]||[]).slice().reverse();
+  if(!list.length){ p.innerHTML='<div style="color:var(--muted);font-size:12px">No monthly awards yet.</div>'; return; }
+  var intro=document.createElement('p'); intro.style.cssText='font-size:11px;color:var(--muted);line-height:1.5;margin:0 0 12px'; intro.textContent='Monthly award: the manager with the best month, scored on record (50%), points scored (30%) and all-play record (20%). Winning record required.'; p.appendChild(intro);
+  list.forEach(function(a){
+    var wrap=document.createElement('div'); wrap.style.cssText='margin:0 0 18px;width:100%;overflow:hidden';
+    var inner=document.createElement('div'); inner.style.cssText='width:540px;transform-origin:top left'; inner.innerHTML=awCard(k,a);
+    wrap.appendChild(inner); p.appendChild(wrap);
+    var s=Math.min(1,(p.clientWidth||540)/540); inner.style.transform='scale('+s+')'; wrap.style.height=(675*s)+'px';
+  });
+}
+function stSlideHTML(d,i){ return i===0 ? stWeeklyCard(d) : (i===d.matchups.length+1 ? stPowerCard(d) : (i===d.matchups.length+2 ? awCard(d.id,awLatest(d.id)) : stMatchCard(d.matchups[i-1],d))); }
+function stSlideLabel(i,d){ return i===0 ? '📊 Weekly Report' : (i===d.matchups.length+1 ? '⚡ Power Rankings' : (i===d.matchups.length+2 ? '🏆 Mr. '+awLatest(d.id).month : '⚔️ Matchup '+i)); }
 
 function stRender(){
   var root=document.getElementById('studio-root');
@@ -1119,7 +1155,7 @@ function stRender(){
     var inp=document.getElementById('st-pin'); inp.addEventListener('keydown',function(e){if(e.key==='Enter')stUnlock();});
     return;
   }
-  var d=CFN_DATA[stState.league], n=2+d.matchups.length;
+  var d=CFN_DATA[stState.league], n=2+d.matchups.length+awStudio(d.id);
   var h='<div class="st-wrap"><div class="st-side"><div class="st-lbl" style="margin-top:0">League</div>';
   ST_ORDER.forEach(function(k){h+='<button class="st-btn'+(k===stState.league?' on':'')+'" onclick="stPick(\''+k+'\')">'+stEsc(CFN_DATA[k].name)+'</button>';});
   h+='<div class="st-lbl">Slides</div>';
@@ -1152,14 +1188,14 @@ function stCopy(i){
 }
 async function stExport(){
   if(stState.busy) return; stState.busy=true; stState.imgs=[]; stRender();
-  var d=CFN_DATA[stState.league], n=2+d.matchups.length, off=document.getElementById('st-off'), msg=document.getElementById('st-msg');
+  var d=CFN_DATA[stState.league], n=2+d.matchups.length+awStudio(d.id), off=document.getElementById('st-off'), msg=document.getElementById('st-msg');
   try{
     if(document.fonts&&document.fonts.ready) await document.fonts.ready;
     for(var i=0;i<n;i++){
       msg=document.getElementById('st-msg'); if(msg) msg.textContent='Rendering slide '+(i+1)+' of '+n+'…';
       off=document.getElementById('st-off'); off.innerHTML=stSlideHTML(d,i);
       var canvas=await html2canvas(off.firstChild,{scale:2,useCORS:true,backgroundColor:ST_BLACK,logging:false});
-      stState.imgs.push({url:canvas.toDataURL('image/png'),label:(i===0?'weekly-report':(i===n-1?'power-rankings':'matchup-'+i))});
+      stState.imgs.push({url:canvas.toDataURL('image/png'),label:(i===0?'weekly-report':(i===d.matchups.length+1?'power-rankings':(i===d.matchups.length+2?'award':'matchup-'+i)))});
     }
     stState.busy=false; stRender(); msg=document.getElementById('st-msg'); if(msg) msg.textContent='Done — '+n+' slides ready (1080 × 1350)';
   }catch(e){ stState.busy=false; stRender(); msg=document.getElementById('st-msg'); if(msg) msg.textContent='Render failed — try again'; }
@@ -1209,7 +1245,7 @@ function showLeague(k, tab){
 }
 function lgTab(t){ lgState.tab = t; lgState.wk = 'All'; lgRender(); }
 function lgTabs(){
-  var L = LGI[lgState.k], tabs = ['Standings','Matchups','Power Rankings','Waivers','History'];
+  var L = LGI[lgState.k], tabs = ['Standings','Matchups','Power Rankings','Awards','Waivers','History'];
   if(L.keeper) tabs.push('Keepers');
   tabs.push('Rulebook');
   var h = tabs.map(function(t){ return '<button class="lg-tab'+(t===lgState.tab?' on':'')+'" onclick="lgTab(\''+t+'\')">'+t+'</button>'; }).join('');
@@ -1233,6 +1269,7 @@ function lgRender(){
     ['Matchups','Man of the Match','Weekly Awards','Week 4 Preview'].forEach(function(pre){ lgSub(k,pre).forEach(function(n){ p.appendChild(n); }); });
   } else if(t==='Power Rankings'){
     lgSub(k,'Power Rankings').forEach(function(n){ p.appendChild(n); });
+  } else if(t==='Awards'){ awTab(p,k);
   } else if(t==='Waivers'){ lgWaivers(p,k);
   } else if(t==='History'){ lgHistory(p,k);
   } else if(t==='Keepers'){ lgKeepers(p,k);
