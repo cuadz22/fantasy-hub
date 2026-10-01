@@ -477,7 +477,7 @@ nav::-webkit-scrollbar{display:none}
       <button class="ntab" id="ntab-rb" onclick="showLeague('rb')"><span class="dot"></span>Rebirth</button>
       <button class="ntab" id="ntab-sts" onclick="showLeague('sts')"><span class="dot"></span>Shoot the Shits</button>
       <div class="nav-divider"></div>
-      <button class="ntab" id="ntab-trades" onclick="TC.open('hub')"><span class="dot"></span>Trades</button>
+      <button class="ntab" id="ntab-trades" onclick="TC.open('hub')"><span class="dot"></span>Market Analyzer</button>
       <button class="ntab" id="ntab-studio" onclick="showStudio()"><span class="dot"></span>Studio</button>
     </nav>
     <div class="nav-fade"></div>
@@ -615,8 +615,8 @@ nav::-webkit-scrollbar{display:none}
 <div id="view-trades" class="page" hidden>
   <div><button class="art-back" onclick="showHome()">← Network Home</button></div>
   <div class="art-hd">
-    <div class="art-eye">CFN · Trade Center</div>
-    <div class="art-title">Trade Center</div>
+    <div class="art-eye">CFN · Market Analyzer</div>
+    <div class="art-title">Market Analyzer</div>
     <div class="art-meta">Blended values from four free sources · updated Sep 30 · Week 4 rosters</div>
   </div>
   <div class="tcx" id="tc-root">
@@ -1400,7 +1400,7 @@ function showLeague(k, tab){
 }
 function lgTab(t){ lgState.tab = t; lgState.wk = 'All'; lgRender(); }
 function lgTabs(){
-  var L = LGI[lgState.k], tabs = ['Standings','Matchups','Power Rankings','Awards','Waivers','Trades','History'];
+  var L = LGI[lgState.k], tabs = ['Standings','Matchups','Power Rankings','Awards','Waivers','Market','History'];
   if(L.keeper) tabs.push('Keepers');
   tabs.push('Rulebook');
   var h = tabs.map(function(t){ return '<button class="lg-tab'+(t===lgState.tab?' on':'')+'" onclick="lgTab(\''+t+'\')">'+t+'</button>'; }).join('');
@@ -1426,7 +1426,7 @@ function lgRender(){
     lgSub(k,'Power Rankings').forEach(function(n){ p.appendChild(n); });
   } else if(t==='Awards'){ awTab(p,k);
   } else if(t==='Waivers'){ lgWaivers(p,k);
-  } else if(t==='Trades'){ TC.leagueTab(p,k);
+  } else if(t==='Market'){ TC.leagueTab(p,k);
   } else if(t==='History'){ lgHistory(p,k);
   } else if(t==='Keepers'){ lgKeepers(p,k);
   } else if(t==='Rulebook'){ lgRules(p,k); }
