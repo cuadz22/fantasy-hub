@@ -1565,9 +1565,8 @@ function pack(list){ var v=list.map(function(k){return V(k);}).sort(function(a,b
 function tname(s){ return teamSel[s]?TEAMS[teamSel[s]-1].mgr:(s==='A'?'Side A':'Side B'); }
 function renderSrc(){
   var w=weights(LG), sf=PROF[LG].sf;
-  $('srcs').innerHTML = SRC.map(function(S){ var on=w[S.id]>0;
-    return '<div class="tc-src"><span class="tc-pill '+(on?'good':'na')+'">'+(on?'On':'Off')+'</span><div><b>'+esc(S.lab+(sf&&S.id!=='pj'?' (superflex)':''))+'</b><small>'+esc(S.sub)+'</small></div><span class="tc-w" style="'+(on?'':'color:var(--tc-dim)')+'">'+Math.round(w[S.id]*100)+'%</span></div>'; }).join('')+
-    '<p class="tc-note" style="margin:10px 0 0">Flock Fantasy, FantasyPros and KeepTradeCut aren’t blended in: their terms don’t allow reuse of their numbers. Every source above is free and open.</p>';
+  $('srcs').innerHTML = SRC.filter(function(S){return w[S.id]>0;}).map(function(S){ var on=true;
+    return '<div class="tc-src"><span class="tc-pill '+(on?'good':'na')+'">'+(on?'On':'Off')+'</span><div><b>'+esc(S.lab+(sf&&S.id!=='pj'?' (superflex)':''))+'</b><small>'+esc(S.sub)+'</small></div><span class="tc-w" style="'+(on?'':'color:var(--tc-dim)')+'">'+Math.round(w[S.id]*100)+'%</span></div>'; }).join('');
   var p=PROF[LG];
   $('lgnote').textContent=(p.keeper?'Keeper league: long-term value counts for half the blend. ':'Redraft: only this season counts. ')+(p.sf?'Superflex: QBs are priced up.':'');
   var kw=$('kwnote');
@@ -1701,9 +1700,7 @@ function renderHub(){
   var lgs=Object.keys(LGN).map(function(k){ return '<div class="tc-row"><div class="tc-nm">'+esc(LGN[k])+'</div><div class="tc-num">'+(byLg[k]||0)+'</div></div>'; }).join('');
   $('hubBody').innerHTML='<div class="tc-grid tc-g3"><div class="tc-panel tc-kpi"><b>'+all.length+'</b><span>Trades in 2026</span></div><div class="tc-panel tc-kpi"><b>'+Object.keys(cnt).length+'</b><span>Managers who have traded</span></div><div class="tc-panel tc-kpi"><b>'+(top||'–')+'</b><span>Most active'+(top?' ('+cnt[top]+' trades)':'')+'</span></div></div>'+
    '<div class="tc-grid tc-g2"><div class="tc-panel"><h3>Most trades, 2026</h3><div class="tc-sub">Every league combined.</div>'+bars(cnt,mx)+'</div><div class="tc-panel"><h3>Trade partners</h3><div class="tc-sub">Pairs of managers who have made a deal this season.</div>'+bars(pr,pm)+'</div></div>'+
-   '<div class="tc-grid tc-g2"><div class="tc-panel"><h3>By league</h3><div class="tc-sub">Tap a league’s Trades tab for the full log.</div>'+lgs+'</div><div class="tc-panel"><h3>All-time trade partners</h3><div class="tc-sub">Like the all-time head-to-head record, but for deals.</div><p class="tc-note">Fills in once past seasons’ trades are pulled from Yahoo. It will show repeat partners across all four leagues, with callouts like “Cuadz and Julio Z have made 5 trades.”</p></div></div>'+
-   '<div class="tc-panel"><h3>Trade badges (proposed)</h3><div class="tc-sub">Ideas to pair with the Mr. September awards.</div><ul class="tc-clean">'+
-   [['DM','Dealmaker of the Month','Most completed trades in the month, with a card in the Awards tab.'],['FT','Fair Trade streak','Trades the analyzer grades as even (within 6%) build a streak. Lopsided deals break it.'],['NP','New Partner','First trade with someone you have never dealt with.'],['PF','Perfect Fit','A trade that fills a need Team Needs flagged for both managers.']].map(function(b){ return '<li class="tc-badge"><div class="tc-ic">'+b[0]+'</div><div><b style="color:var(--text)">'+b[1]+'</b><div class="tc-note">'+b[2]+'</div></div></li>'; }).join('')+'</ul></div>';
+   '<div class="tc-grid tc-g2"><div class="tc-panel"><h3>By league</h3><div class="tc-sub">Tap a league’s Trades tab for the full log.</div>'+lgs+'</div><div class="tc-panel"><h3>All-time trade partners</h3><div class="tc-sub">Coming soon.</div></div></div>';
 }
 
 /* ---------- shell ---------- */
