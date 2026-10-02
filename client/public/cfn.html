@@ -463,6 +463,9 @@ nav::-webkit-scrollbar{display:none}
 .tc-wire{margin-top:12px;border-top:.5px solid var(--tc-line);padding-top:10px}
 .tc-badge{display:flex;gap:10px;align-items:flex-start}.tc-ic{width:34px;height:34px;border-radius:8px;background:var(--tc-panel2);border:.5px solid var(--tc-line);display:grid;place-items:center;font:400 18px var(--tc-disp);color:var(--text);flex:none}
 .tc-clean{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+
+.tcx .tc-pill{display:inline-block;font-size:11px;letter-spacing:.04em;padding:2px 7px;margin:2px 4px 2px 0;border-radius:10px;background:var(--tc-panel2);color:var(--tc-dim);border:.5px solid var(--tc-line)}
+.tcx .tc-trade-m{padding:4px 14px 12px}
 </style>
 
 <!-- HEADER -->
@@ -1542,8 +1545,12 @@ function gradeHTML(t,lg){
   if(d<.06) return '<span class="tc-pill good">Even</span><span>Within '+Math.round(d*100)+'% ('+fmt(Math.abs(A-B))+' points apart).</span>';
   return '<span class="tc-pill '+(d<.15?'warn':'bad')+'">Favors '+esc(fav)+'</span><span>'+Math.round(d*100)+'% gap in today’s blended values.</span>';
 }
+function meterHTML(t,lg){
+  var A=sumSide(t.a,lg), B=sumSide(t.b,lg), hi=Math.max(A,B)||1, d=(B-A)/hi, pos=50+Math.max(-1,Math.min(1,d*1.6))*50;
+  return '<div class="tc-trade-m"><div class="tc-meter" role="img" aria-label="Who won this trade"><i style="left:'+pos+'%"></i></div><div class="tc-ml"><span>Favors '+esc(t.a.mgr)+'</span><span>Even</span><span>Favors '+esc(t.b.mgr)+'</span></div></div>';
+}
 function tradeCard(t,lg,i){
-  return '<article class="tc-trade"><div class="tc-trade-h"><span><b style="color:var(--text)">'+esc(t.date)+'</b> &middot; '+t.a.gets.length+'-for-'+t.b.gets.length+'</span><span>'+esc(LGN[lg])+'</span></div><div class="tc-trade-b">'+sideHTML(t.a,lg)+sideHTML(t.b,lg)+'</div><div class="tc-trade-f">'+gradeHTML(t,lg)+'<button class="tc-ghost" style="margin-left:auto" onclick="TC.load(\''+lg+'\','+i+')">Open in analyzer</button></div></article>';
+  return '<article class="tc-trade"><div class="tc-trade-h"><span><b style="color:var(--text)">'+esc(t.date)+'</b> &middot; '+t.a.gets.length+'-for-'+t.b.gets.length+'</span><span>'+esc(LGN[lg])+'</span></div><div class="tc-trade-b">'+sideHTML(t.a,lg)+sideHTML(t.b,lg)+'</div>'+meterHTML(t,lg)+'<div class="tc-trade-f">'+gradeHTML(t,lg)+'<button class="tc-ghost" style="margin-left:auto" onclick="TC.load(\''+lg+'\','+i+')">Open in analyzer</button></div></article>';
 }
 function tradeCards(lg){
   var list=D.trades[lg]||[];
@@ -1701,6 +1708,29 @@ function renderNeeds(){
 
 /* ---------- hub ---------- */
 function bars(obj,max){ return Object.keys(obj).sort(function(a,b){return obj[b]-obj[a]||a.localeCompare(b);}).map(function(k){ return '<div class="tc-row"><div class="tc-nm">'+esc(k)+'</div><div class="tc-bar"><i style="width:'+(obj[k]/max*100)+'%"></i></div><div class="tc-num">'+obj[k]+'</div></div>'; }).join('')||'<p class="tc-note">Nothing yet.</p>'; }
+
+/* ---------- all-time trade partners ---------- */
+var ATL={gl:'GL',bh:'BH',rb:'RB',sts:'STS'};
+function atRows(){ var r=[]; Object.keys(D.alltime).forEach(function(k){ var p=k.split('&'),o=D.alltime[k],t=0; for(var l in o) t+=o[l]; r.push({a:p[0],b:p[1],o:o,t:t,n:Object.keys(o).length}); }); return r; }
+function atChips(o){ return Object.keys(ATL).filter(function(l){return o[l];}).map(function(l){return '<span class="tc-pill">'+ATL[l]+' '+o[l]+'</span>';}).join(''); }
+function renderAT(who){
+  var el=$('atp'); if(!el) return; var R=atRows(), tot={}, part={};
+  R.forEach(function(r){ [r.a,r.b].forEach(function(m){ tot[m]=(tot[m]||0)+r.t; part[m]=(part[m]||0)+1; }); });
+  var names=Object.keys(tot).sort(function(a,b){return tot[b]-tot[a];});
+  var sel='<select id="tc-atw" style="margin:6px 0 10px;max-width:100%" onchange="TC.at(this.value)"><option value="">Everyone</option>'+names.map(function(n){return '<option'+(n===who?' selected':'')+'>'+esc(n)+'</option>';}).join('')+'</select>';
+  var rows=R.filter(function(r){return !who||r.a===who||r.b===who;}).sort(function(a,b){return b.t-a.t||a.a.localeCompare(b.a);});
+  var mx=rows.length?rows[0].t:1, h='<h3>All-time trade partners</h3><div class="tc-sub">Every trade across all four leagues and every season.</div>'+sel;
+  if(!who){
+    var rep=R.filter(function(r){return r.n>1;}).sort(function(a,b){return b.t-a.t;}).slice(0,3);
+    h+=rep.map(function(r){return '<p class="tc-note"><b>'+esc(r.a)+'</b> and <b>'+esc(r.b)+'</b> have made '+r.t+' trades across '+r.n+' leagues.</p>';}).join('');
+    var wide=names[0]; names.slice().sort(function(a,b){return part[b]-part[a];}).slice(0,1).forEach(function(n){ h+='<p class="tc-note"><b>'+esc(n)+'</b> has traded with '+part[n]+' different managers.</p>'; });
+  } else {
+    var cur=names.filter(function(n){return n!==who&&!rows.some(function(r){return r.a===n||r.b===n;});});
+    h+='<p class="tc-note"><b>'+esc(who)+'</b>: '+tot[who]+' trades with '+part[who]+' managers.'+(cur.length&&cur.length<9?' Never traded with '+cur.map(esc).join(', ')+'.':'')+'</p>';
+  }
+  h+=rows.slice(0,who?40:12).map(function(r){ var nm=who?(r.a===who?r.b:r.a):r.a+' & '+r.b; return '<div class="tc-row" style="flex-wrap:wrap"><div class="tc-nm" style="min-width:110px">'+esc(nm)+'</div><div class="tc-bar"><i style="width:'+(r.t/mx*100)+'%"></i></div><div class="tc-num">'+r.t+'</div><div style="flex-basis:100%;padding-left:2px">'+atChips(r.o)+'</div></div>'; }).join('');
+  el.innerHTML=h;
+}
 function renderHub(){
   var all=allTrades(), cnt={}, pr={}, byLg={};
   all.forEach(function(x){ var t=x.t; [t.a.mgr,t.b.mgr].forEach(function(m){cnt[m]=(cnt[m]||0)+1;}); var k=[t.a.mgr,t.b.mgr].sort().join(' & '); pr[k]=(pr[k]||0)+1; byLg[x.lg]=(byLg[x.lg]||0)+1; });
@@ -1734,7 +1764,7 @@ function init(){
   $('clr').onclick=function(){ sides={A:[],B:[]}; renderAn(); };
   bindSearch(); setLG('gl'); showTab('hub');
 }
-return {init:init,open:open,leagueTab:leagueTab,load:loadTrade};
+return {at:renderAT,init:init,open:open,leagueTab:leagueTab,load:loadTrade};
 })();
 
 TC.init();
