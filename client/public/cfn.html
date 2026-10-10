@@ -492,6 +492,7 @@ nav::-webkit-scrollbar{display:none}
       <div class="nav-divider"></div>
       <button class="ntab" id="ntab-trades" onclick="TC.open('hub')"><span class="dot"></span>Market Analyzer</button>
       <button class="ntab" id="ntab-studio" onclick="showStudio()"><span class="dot"></span>Studio</button>
+      <button class="ntab" id="ntab-pickem" onclick="showPickem()"><span class="dot"></span>Pick'em</button>
     </nav>
     <div class="nav-fade"></div>
   </div>
@@ -624,6 +625,55 @@ nav::-webkit-scrollbar{display:none}
   </div>
 </div>
 
+
+<style id="pickem-css">
+#pk-root{display:flex;flex-direction:column;gap:14px}
+.pk-card{background:var(--bg2);border:.5px solid var(--border);border-radius:8px;padding:16px 18px}
+.pk-h{font-size:9px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:10px}
+.pk-lock{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;justify-content:space-between}
+.pk-lock b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:24px;letter-spacing:.04em}
+.pk-sub{font-size:12px;color:var(--muted)}
+.pk-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.pk-chip{font-size:11px;padding:4px 10px;border-radius:999px;border:.5px solid var(--border-l);color:var(--muted)}
+.pk-chip.on{border-color:var(--accent);color:var(--accent)}
+.pk-login{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.pk-field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.pk-field label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.pk-field select,.pk-field input{background:var(--bg3);color:var(--text);border:.5px solid var(--border-l);border-radius:6px;padding:10px 12px;font-size:14px;font-family:'Inter',sans-serif;min-width:150px}
+.pk-field input{width:110px;letter-spacing:.3em;text-align:center}
+.pk-btn{background:var(--accent);color:#0a0a0a;border:none;border-radius:6px;padding:11px 18px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif}
+.pk-btn:disabled{opacity:.4;cursor:default}
+.pk-btn.ghost{background:none;color:var(--muted);border:.5px solid var(--border-l)}
+.pk-msg{font-size:12px;margin-top:10px;min-height:16px;color:var(--muted)}
+.pk-msg.err{color:#ff8a65}.pk-msg.ok{color:var(--accent)}
+.pk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:12px}
+.pk-m{display:flex;flex-direction:column;gap:8px;background:var(--bg2);border:.5px solid var(--border);border-radius:8px;padding:8px;min-width:0}
+.pk-fit{width:100%;overflow:hidden;border-radius:6px;background:#0b0c0a}
+.pk-sc{width:540px;height:675px;transform-origin:top left}
+.pk-pickrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pk-opt{display:flex;flex-direction:row;align-items:center;gap:10px;text-align:left;padding:8px 10px;border-radius:8px;border:.5px solid var(--border-l);background:var(--bg3);color:var(--text);cursor:pointer;font-family:'Inter',sans-serif;min-width:0}
+.pk-opt img{width:40px;height:40px;border-radius:50%;object-fit:cover;display:block;flex:0 0 auto}
+.pk-ot{display:flex;flex-direction:column;min-width:0}
+.pk-opt .pk-nm{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:.04em;line-height:1}
+.pk-opt .pk-tm{font-size:10px;color:var(--muted);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pk-opt:disabled{cursor:default;opacity:.6}
+.pk-opt.sel{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.pk-opt.sel .pk-nm{color:var(--accent)}
+.pk-split{grid-column:1/-1;display:flex;height:6px;border-radius:3px;overflow:hidden;background:var(--bg3)}
+.pk-split span{display:block}
+.pk-who{grid-column:1/-1;display:flex;justify-content:space-between;gap:12px;font-size:11px;color:var(--muted)}
+.pk-who b{color:var(--text);font-weight:600}
+.pk-save{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+@media (max-width:480px){.pk-grid{grid-template-columns:1fr}.pk-field select,.pk-field input{min-width:0;width:100%}.pk-field{flex:1 1 140px}.pk-field input{width:100%}}
+</style>
+<div id="view-pickem" class="page" hidden>
+  <div class="art-hd">
+    <div class="art-eye">Gentlemen's League · Week 5</div>
+    <div class="art-title">Pick'em</div>
+    <div class="art-meta">Pick the winner of each matchup. Picks stay hidden until they close, then everyone's picks are revealed.</div>
+  </div>
+  <div id="pk-root"></div>
+</div>
 
 <div id="view-studio" class="page" hidden>
   <div class="art-hd">
@@ -2407,6 +2457,98 @@ return {at:renderAT,init:init,open:open,leagueTab:leagueTab,load:loadTrade};
 })();
 
 TC.init();
+</script>
+
+<script id="pickem-js">
+(function(){
+var PK={week:5,state:null,name:'',pin:'',picks:{},authed:false,busy:false,msg:'',cls:''};
+function api(opts){
+  return fetch('/api/pickem'+(opts.q||''),{method:opts.body?'POST':'GET',headers:opts.body?{'Content-Type':'application/json'}:{},body:opts.body?JSON.stringify(opts.body):undefined,cache:'no-store'})
+    .then(function(r){ return r.json().then(function(j){ j._status=r.status; return j; }); });
+}
+function cards(){ return (window.ST_BIG&&ST_BIG.cards&&ST_BIG.cards.gl&&ST_BIG.cards.gl.w5)||[]; }
+function head(m){ var s=window.ST_BIG&&ST_BIG.heads&&ST_BIG.heads[m]; return s?'<img src="'+s+'" alt="">':'<span class="pav pav-fb" style="width:40px;height:40px">'+lgEsc(m).slice(0,2).toUpperCase()+'</span>'; }
+function fmtLock(iso){
+  try{ return new Date(iso).toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET'; }catch(e){ return iso; }
+}
+function names(){ var o=[]; cards().forEach(function(c){ o.push(c.a.m,c.b.m); }); return o; }
+function setMsg(t,c){ PK.msg=t; PK.cls=c||''; var m=document.getElementById('pk-msg'); if(m){ m.textContent=t; m.className='pk-msg '+(c||''); } }
+function opt(c,side,i){
+  var t=c[side], sel=PK.picks[i]===t.id, dis=!PK.authed||PK.state.locked||PK.busy;
+  return '<button class="pk-opt'+(sel?' sel':'')+'" '+(dis?'disabled ':'')+'onclick="PKpick('+i+','+t.id+')" aria-pressed="'+sel+'">'+head(t.m)+'<span class="pk-ot"><span class="pk-nm">'+lgEsc(t.m)+'</span><span class="pk-tm">'+lgEsc(t.t)+'</span></span></button>';
+}
+function fit(){
+  document.querySelectorAll('#pk-root .pk-fit').forEach(function(f){
+    var s=f.clientWidth/540, sc=f.firstChild; if(!sc||!f.clientWidth) return;
+    sc.style.transform='scale('+s+')'; f.style.height=(675*s)+'px';
+  });
+}
+window.addEventListener('resize',fit);
+function render(){
+  var root=document.getElementById('pk-root'); if(!root) return;
+  var S=PK.state, cs=cards(), h='';
+  if(!S){ root.innerHTML='<div class="pk-card"><div class="pk-sub">Loading…</div></div>'; return; }
+  if(S.error==='not_configured'){ root.innerHTML='<div class="pk-card"><div class="pk-h">Coming soon</div><div class="pk-sub">Pick\'em voting opens soon. Check back later this week.</div></div>'; return; }
+  if(S.error){ root.innerHTML='<div class="pk-card"><div class="pk-sub">Couldn\'t load Pick\'em right now. Try again in a minute.</div></div>'; return; }
+  var voted=S.voted||[];
+  h+='<div class="pk-card"><div class="pk-lock"><b>'+(S.locked?'Picks closed':'Picks close '+lgEsc(fmtLock(S.lockAt)))+'</b><span class="pk-sub">'+voted.length+' of 12 have picked</span></div><div class="pk-chips">'+names().sort().map(function(n){ return '<span class="pk-chip'+(voted.indexOf(n)>=0?' on':'')+'">'+lgEsc(n)+'</span>'; }).join('')+'</div></div>';
+  if(!S.locked&&!PK.authed){
+    h+='<div class="pk-card"><div class="pk-h">Your picks</div><div class="pk-login"><div class="pk-field"><label for="pk-name">Manager</label><select id="pk-name">'+'<option value="">Select your name</option>'+names().sort().map(function(n){ return '<option'+(PK.name===n?' selected':'')+'>'+lgEsc(n)+'</option>'; }).join('')+'</select></div><div class="pk-field"><label for="pk-pin">PIN</label><input id="pk-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="••••"></div><button class="pk-btn" id="pk-go" onclick="PKlogin()">Unlock</button></div><div class="pk-msg '+PK.cls+'" id="pk-msg">'+lgEsc(PK.msg)+'</div></div>';
+  }
+  if(!S.locked&&PK.authed){
+    h+='<div class="pk-card pk-save"><span class="pk-sub" style="flex:1 1 200px">Picking as <b style="color:var(--text)">'+lgEsc(PK.name)+'</b>. Tap a manager to pick the winner. You can change picks until they close.</span><button class="pk-btn" onclick="PKsave()" '+(PK.busy?'disabled':'')+'>Save my picks ('+Object.keys(PK.picks).length+'/'+cs.length+')</button><button class="pk-btn ghost" onclick="PKlogout()">Switch</button></div><div class="pk-msg '+PK.cls+'" id="pk-msg" style="margin:-4px 2px 0">'+lgEsc(PK.msg)+'</div>';
+  }
+  h+='<div class="pk-grid'+(S.locked?' pk-lk':'')+'">'+cs.map(function(c,i){
+    var card=''; try{ card=bigCardFeed(CFN_DATA.gl,c,'w5'); }catch(e){ card=''; }
+    var inner='<div class="pk-m"><div class="pk-fit"><div class="pk-sc">'+card+'</div></div><div class="pk-pickrow">'+opt(c,'a',i)+opt(c,'b',i)+'</div>';
+    if(S.locked&&S.picks){
+      var A=[],B=[]; Object.keys(S.picks).sort().forEach(function(n){ var p=S.picks[n][i]; if(p===c.a.id) A.push(n); else if(p===c.b.id) B.push(n); });
+      var tot=A.length+B.length, pa=tot?Math.round(100*A.length/tot):50;
+      inner+='<div class="pk-split"><span style="width:'+pa+'%;background:var(--accent)"></span><span style="flex:1;background:var(--border-l)"></span></div><div class="pk-who"><span><b>'+A.length+'</b> · '+A.map(lgEsc).join(', ')+'</span><span style="text-align:right">'+B.map(lgEsc).join(', ')+' · <b>'+B.length+'</b></span></div>';
+    }
+    return inner+'</div>';
+  }).join('')+'</div>';
+  root.innerHTML=h; fit();
+}
+window.PKpick=function(i,tid){ if(PK.busy||!PK.authed||PK.state.locked) return; PK.picks[i]=tid; setMsg('',''); render(); };
+window.PKlogout=function(){ PK.authed=false; PK.pin=''; PK.picks={}; setMsg('',''); render(); };
+window.PKlogin=function(){
+  var n=document.getElementById('pk-name').value, p=document.getElementById('pk-pin').value;
+  if(!n||!/^\d{4}$/.test(p)){ setMsg('Choose your name and enter your 4-digit PIN.','err'); return; }
+  PK.name=n; PK.busy=true; setMsg('Checking…','');
+  api({body:{action:'mine',week:PK.week,name:n,pin:p}}).then(function(j){
+    PK.busy=false;
+    if(j.ok){ PK.pin=p; PK.authed=true; PK.picks={}; Object.keys(j.picks||{}).forEach(function(k){ PK.picks[k]=j.picks[k]; }); setMsg('',''); render(); }
+    else if(j._status===429){ setMsg('Too many wrong PINs. Wait 10 minutes and try again.','err'); }
+    else if(j._status===401){ setMsg('That PIN doesn\'t match. Check with Cuadz.','err'); }
+    else { setMsg('Something went wrong. Try again.','err'); }
+  }).catch(function(){ PK.busy=false; setMsg('Couldn\'t reach the server. Try again.','err'); });
+};
+window.PKsave=function(){
+  if(!Object.keys(PK.picks).length){ setMsg('Pick at least one matchup first.','err'); return; }
+  PK.busy=true; render(); setMsg('Saving…','');
+  api({body:{week:PK.week,name:PK.name,pin:PK.pin,picks:PK.picks}}).then(function(j){
+    PK.busy=false;
+    if(j.ok){ var n=Object.keys(j.picks).length; setMsg('Saved '+n+' pick'+(n===1?'':'s')+'. You can change them until picks close.','ok'); load(true); }
+    else if(j.error==='locked'){ setMsg('Picks are closed.','err'); load(); }
+    else { setMsg('Couldn\'t save. Try again.','err'); render(); }
+  }).catch(function(){ PK.busy=false; setMsg('Couldn\'t reach the server. Try again.','err'); render(); });
+};
+function load(keepMsg){
+  api({q:'?week='+PK.week}).then(function(j){ PK.state=j; if(j.locked) PK.authed=false; var m=PK.msg,c=PK.cls; render(); if(keepMsg) setMsg(m,c); }).catch(function(){ PK.state={error:'net'}; render(); });
+}
+window.showPickem=function(){
+  ['view-home','view-article','view-studio','view-trades','view-league'].forEach(function(id){ var e=document.getElementById(id); if(e) e.hidden=true; });
+  document.getElementById('view-pickem').hidden=false; setNav('ntab-pickem');
+  render(); load(); window.scrollTo({top:0,behavior:'smooth'});
+};
+/* every other nav action must hide the Pick'em view */
+['showHome','showArticle','showStudio','showLeague'].forEach(function(n){
+  var f=window[n]; if(typeof f!=='function') return;
+  window[n]=function(){ var v=document.getElementById('view-pickem'); if(v) v.hidden=true; return f.apply(this,arguments); };
+});
+if(window.TC&&typeof TC.open==='function'){ var o=TC.open; TC.open=function(){ var v=document.getElementById('view-pickem'); if(v) v.hidden=true; return o.apply(this,arguments); }; }
+})();
 </script>
 
 </body></html>
