@@ -3,6 +3,6 @@
     { "source": "/", "destination": "/cfn.html", "permanent": false }
   ],
   "rewrites": [
-    { "source": "/((?!.*\\.html$).*)", "destination": "/index.html" }
+    { "source": "/((?!api/)(?!.*\\.html$).*)", "destination": "/index.html" }
   ]
 }
