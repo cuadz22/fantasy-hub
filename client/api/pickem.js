@@ -7,7 +7,8 @@ const HASHES = require('./pickem-hashes.json');
 const MANAGERS = { 1:'Cuadz', 2:'Gio', 3:'Jeff', 4:'Vic', 5:'Ramon', 6:'Ed', 7:'Pru', 8:'Oscar', 9:'Julio Z', 10:'Kevin', 11:'Alexis', 12:'John' };
 // week -> { lock: ISO time picks close, pairs: [[teamIdA, teamIdB], ...] }
 const WEEKS = {
-  5: { lock: '2026-10-11T17:00:00Z', pairs: [[1,7],[2,11],[3,8],[4,12],[5,10],[6,9]] }
+  5: { lock: '2026-10-11T17:00:00Z', pairs: [[1,7],[2,11],[3,8],[4,12],[5,10],[6,9]] },
+  6: { lock: '2026-10-18T17:00:00Z', pairs: [[1,11],[2,9],[3,6],[4,5],[7,12],[8,10]] }
 };
 
 const URL_ = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
