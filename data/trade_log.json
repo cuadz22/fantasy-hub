@@ -1,0 +1,255 @@
+{
+ "gl": [
+  {
+   "date": "Oct 13",
+   "a": {
+    "mgr": "Ramon",
+    "team": "Woodridge lore",
+    "gets": [
+     "Josh Allen"
+    ]
+   },
+   "b": {
+    "mgr": "Oscar",
+    "team": "Wide receiver university",
+    "gets": [
+     "Aaron Jones Sr.",
+     "Ollie Gordon II"
+    ]
+   },
+   "at": {
+    "src": "Oct 13",
+    "a": [
+     5784
+    ],
+    "b": [
+     1172,
+     1886
+    ]
+   }
+  },
+  {
+   "date": "Oct 1",
+   "a": {
+    "mgr": "Jeff",
+    "team": "Nico de Gallo",
+    "gets": [
+     "Marvin Harrison Jr.",
+     "Alvin Kamara"
+    ]
+   },
+   "b": {
+    "mgr": "John",
+    "team": "The Veterans",
+    "gets": [
+     "DK Metcalf"
+    ]
+   },
+   "at": {
+    "src": "Sep 30",
+    "a": [
+     1512,
+     437
+    ],
+    "b": [
+     1473
+    ]
+   }
+  },
+  {
+   "date": "Sep 29",
+   "a": {
+    "mgr": "Pru",
+    "team": "Run CMC",
+    "gets": [
+     "KC Concepcion Jr."
+    ]
+   },
+   "b": {
+    "mgr": "Kevin",
+    "team": "The Arbiter",
+    "gets": [
+     "Makai Lemon"
+    ]
+   },
+   "at": {
+    "src": "Sep 30",
+    "a": [
+     671
+    ],
+    "b": [
+     809
+    ]
+   }
+  },
+  {
+   "date": "Sep 22",
+   "a": {
+    "mgr": "Cuadz",
+    "team": "cuadz build 001",
+    "gets": [
+     "Rashee Rice"
+    ]
+   },
+   "b": {
+    "mgr": "Ed",
+    "team": "MAGNETO IS STILL RIGHT",
+    "gets": [
+     "Cam Skattebo"
+    ]
+   },
+   "at": {
+    "src": "Sep 30",
+    "a": [
+     3369
+    ],
+    "b": [
+     1666
+    ]
+   }
+  },
+  {
+   "date": "Sep 3",
+   "a": {
+    "mgr": "Julio Z",
+    "team": "Mr. Electricity",
+    "gets": [
+     "Carnell Tate"
+    ]
+   },
+   "b": {
+    "mgr": "Kevin",
+    "team": "The Arbiter",
+    "gets": [
+     "KC Concepcion Jr."
+    ]
+   },
+   "at": {
+    "src": "Sep 30",
+    "a": [
+     2022
+    ],
+    "b": [
+     671
+    ]
+   }
+  }
+ ],
+ "bh": [],
+ "rb": [
+  {
+   "date": "Oct 7",
+   "a": {
+    "mgr": "John",
+    "team": "Manifested It",
+    "gets": [
+     "Travis Kelce",
+     "Round 5 pick"
+    ]
+   },
+   "b": {
+    "mgr": "Oscar",
+    "team": "Champ",
+    "gets": [
+     "Kyler Murray",
+     "Round 8 pick"
+    ]
+   },
+   "at": {
+    "src": "Sep 30",
+    "a": [
+     1012,
+     null
+    ],
+    "b": [
+     3698,
+     null
+    ]
+   }
+  },
+  {
+   "date": "Oct 6",
+   "a": {
+    "mgr": "Jeff",
+    "team": "Loveland Island USA",
+    "gets": [
+     "Alvin Kamara",
+     "Aaron Rodgers"
+    ]
+   },
+   "b": {
+    "mgr": "John",
+    "team": "Manifested It",
+    "gets": [
+     "Kyler Murray",
+     "Jaylen Waddle"
+    ]
+   },
+   "at": {
+    "src": "Sep 30",
+    "a": [
+     494,
+     1514
+    ],
+    "b": [
+     3698,
+     2326
+    ]
+   }
+  }
+ ],
+ "sts": [
+  {
+   "date": "Oct 13",
+   "a": {
+    "mgr": "Ed",
+    "team": "Baba Yaga",
+    "gets": [
+     "Woody Marks"
+    ]
+   },
+   "b": {
+    "mgr": "Kevin",
+    "team": "The Bidfather",
+    "gets": [
+     "Jared Goff"
+    ]
+   },
+   "at": {
+    "src": "Oct 13",
+    "a": [
+     684
+    ],
+    "b": [
+     1325
+    ]
+   }
+  },
+  {
+   "date": "Oct 11",
+   "a": {
+    "mgr": "Cuadz",
+    "team": "cuadz build 004",
+    "gets": [
+     "Jayden Daniels"
+    ]
+   },
+   "b": {
+    "mgr": "Kevin",
+    "team": "The Bidfather",
+    "gets": [
+     "Dalton Kincaid"
+    ]
+   },
+   "at": {
+    "src": "Oct 13",
+    "a": [
+     1459
+    ],
+    "b": [
+     1140
+    ]
+   }
+  }
+ ]
+}
