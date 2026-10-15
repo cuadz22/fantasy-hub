@@ -1,6 +1,36 @@
 {
  "gl": [
   {
+   "date": "Oct 15",
+   "a": {
+    "mgr": "John",
+    "team": "The Veterans",
+    "gets": [
+     "Cam Skattebo",
+     "A.J. Brown"
+    ]
+   },
+   "b": {
+    "mgr": "Ed",
+    "team": "MAGNETO IS STILL RIGHT",
+    "gets": [
+     "Ashton Jeanty",
+     "Stefon Diggs"
+    ]
+   },
+   "at": {
+    "src": "Oct 15",
+    "a": [
+     2275,
+     3453
+    ],
+    "b": [
+     5807,
+     1040
+    ]
+   }
+  },
+  {
    "date": "Oct 13",
    "a": {
     "mgr": "Ramon",
