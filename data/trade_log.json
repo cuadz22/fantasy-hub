@@ -169,6 +169,44 @@
   {
    "date": "Oct 20",
    "a": {
+    "mgr": "Kyle",
+    "team": "Hit it til it Hurts",
+    "gets": [
+     "Najee Harris",
+     "Terry McLaurin",
+     "Round 1 pick",
+     "Round 4 pick"
+    ]
+   },
+   "b": {
+    "mgr": "Eddie",
+    "team": "The JeantyMen's Club",
+    "gets": [
+     "A.J. Brown",
+     "Tyler Warren",
+     "Round 7 pick",
+     "Round 10 pick"
+    ]
+   },
+   "at": {
+    "src": "Oct 20",
+    "a": [
+     188,
+     1434,
+     null,
+     null
+    ],
+    "b": [
+     3484,
+     2724,
+     null,
+     null
+    ]
+   }
+  },
+  {
+   "date": "Oct 20",
+   "a": {
     "mgr": "Cuadz",
     "team": "cuadz build 002",
     "gets": [
