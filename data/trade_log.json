@@ -165,7 +165,76 @@
    }
   }
  ],
- "bh": [],
+ "bh": [
+  {
+   "date": "Oct 20",
+   "a": {
+    "mgr": "Cuadz",
+    "team": "cuadz build 002",
+    "gets": [
+     "CeeDee Lamb",
+     "Round 7 pick",
+     "Round 9 pick"
+    ]
+   },
+   "b": {
+    "mgr": "Kevin",
+    "team": "Pretenders",
+    "gets": [
+     "Lamar Jackson",
+     "Round 1 pick",
+     "Round 3 pick"
+    ]
+   },
+   "at": {
+    "src": "Oct 15",
+    "a": [
+     7613,
+     null,
+     null
+    ],
+    "b": [
+     3853,
+     null,
+     null
+    ]
+   }
+  },
+  {
+   "date": "Oct 20",
+   "a": {
+    "mgr": "Pru",
+    "team": "The Bijan Era",
+    "gets": [
+     "Rashee Rice",
+     "Isaiah Likely",
+     "Round 6 pick"
+    ]
+   },
+   "b": {
+    "mgr": "Kevin",
+    "team": "Pretenders",
+    "gets": [
+     "Malachi Fields",
+     "Colts DEF",
+     "Round 2 pick"
+    ]
+   },
+   "at": {
+    "src": "Oct 15",
+    "a": [
+     3670,
+     1853,
+     null
+    ],
+    "b": [
+     471,
+     null,
+     null
+    ]
+   }
+  }
+ ],
  "rb": [
   {
    "date": "Oct 7",
