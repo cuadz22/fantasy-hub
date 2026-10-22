@@ -11,5 +11,5 @@ module.exports = async (req, res) => {
     };
     walk(d);
     json(res, 200, { connected: true, leagues: out });
-  } catch (e) { json(res, e.message === 'not_connected' ? 200 : 500, { connected: false, error: String(e.message || e).slice(0, 200) }); }
+  } catch (e) { json(res, e.message === 'not_connected' ? 200 : 500, { connected: false, error: String(e.message || e).slice(0, 900) }); }
 };
