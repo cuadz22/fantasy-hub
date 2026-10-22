@@ -2966,7 +2966,7 @@ async function fmCard(k,theme){
   var BB="'Bebas Neue','Impact',sans-serif", IN="Inter,system-ui,sans-serif", ACC='#acf910';
   try{ await document.fonts.load("40px 'Bebas Neue'"); await document.fonts.load("700 24px Inter"); await document.fonts.load("500 24px Inter"); }catch(e){}
   var F=FM[k], T=F.teams.slice().sort(function(a,b){return b.delta-a.delta;}), n=T.length;
-  var W=1600, H=1180, hdr=210, ftr=100, PX=46, panelY=hdr+34, panelH=H-hdr-ftr-68;
+  var W=1600, H=1180, hdr=210, ftr=124, PX=46, panelY=hdr+34, panelH=H-hdr-ftr-68;
   var cv=document.createElement('canvas'); cv.width=W; cv.height=H; var c=cv.getContext('2d');
   c.fillStyle=P.bg; c.fillRect(0,0,W,H);
   /* header */
@@ -2974,8 +2974,7 @@ async function fmCard(k,theme){
   var imgs=await Promise.all([wvImg(CFN_LOGO), wvImg(LG_LOGO[k])]);
   wvT(c,'THE FRAUD METER',PX+4,106,'92px '+BB,'#ffffff','left',3);
   wvT(c,'Rest-of-season wins vs. a typical team with the same record (all-play + matchup strength)',PX+6,158,'500 26px '+IN,'#aab08f','left');
-  if(imgs[1]) wvDraw(imgs[1],c,W-PX-96,34,96,120,'left');
-  if(imgs[0]) wvDraw(imgs[0],c,W-PX-96-30-210,40,210,110,'right');
+  if(imgs[1]) wvDraw(imgs[1],c,W-18,30,140,150,'right');
   /* panel */
   wvRR(c,PX,panelY,W-2*PX,panelH,26); c.fillStyle=P.panel; c.fill();
   var R=Math.max(2,Math.ceil(Math.max.apply(null,T.map(function(t){return Math.abs(t.delta);}))*2+0.2)/2);
@@ -3003,10 +3002,9 @@ async function fmCard(k,theme){
   wvT(c,'Potential frauds ↓',x1,panelY+206,'700 46px '+IN,P.red,'right');
   wvT(c,'↑ Better than their record',x0+4,panelY+panelH-40,'700 46px '+IN,P.green,'left');
   /* footer */
-  c.fillStyle=ACC; c.fillRect(0,H-ftr,W,ftr);
-  wvRR(c,PX,H-ftr+14,150,72,14); c.fillStyle='#0e0f0a'; c.fill(); if(imgs[0]) wvDraw(imgs[0],c,PX+10,H-ftr+20,130,60,'left');
-  wvT(c,'cuadzfantasynetwork.com',PX+176,H-ftr+60,'800 32px '+IN,'#0e0f0a','left');
-  wvT(c,'THROUGH WEEK '+F.week+' · '+LGI[k].name.toUpperCase(),W-PX,H-ftr+60,'800 26px '+IN,'#0e0f0a','right',3);
+  c.fillStyle='#000000'; c.fillRect(0,H-ftr,W,ftr); c.fillStyle=ACC; c.fillRect(0,H-ftr,W,4);
+  if(imgs[0]) wvDraw(imgs[0],c,PX,H-ftr+12,260,100,'left');
+  wvT(c,'THROUGH WEEK '+F.week+' · '+LGI[k].name.toUpperCase(),W-PX,H-ftr+72,'800 26px '+IN,ACC,'right',3);
   return cv;
 }
 function mix(a,b,t){ function h(x){ return [1,3,5].map(function(i){return parseInt(x.slice(i,i+2),16);}); } var A=h(a),B=h(b); return 'rgb('+A.map(function(v,i){return Math.round(v+(B[i]-v)*t);}).join(',')+')'; }
