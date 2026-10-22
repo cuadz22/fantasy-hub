@@ -1,8 +1,19 @@
 {
   "redirects": [
-    { "source": "/", "destination": "/cfn.html", "permanent": false }
+    {
+      "source": "/",
+      "destination": "/cfn.html",
+      "permanent": false
+    }
   ],
   "rewrites": [
-    { "source": "/((?!api/)(?!.*\\.html$).*)", "destination": "/index.html" }
+    {
+      "source": "/api/yahoo/:p",
+      "destination": "/api/yahoo-:p"
+    },
+    {
+      "source": "/((?!api/)(?!.*\\.html$).*)",
+      "destination": "/index.html"
+    }
   ]
 }
