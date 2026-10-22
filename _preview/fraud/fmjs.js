@@ -48,7 +48,7 @@ async function fmCard(k,theme){
   /* footer */
   c.fillStyle=ACC; c.fillRect(0,H-ftr,W,ftr);
   wvRR(c,PX,H-ftr+14,150,72,14); c.fillStyle='#0e0f0a'; c.fill(); if(imgs[0]) wvDraw(imgs[0],c,PX+10,H-ftr+20,130,60,'left');
-  wvT(c,'fantasy-hub-bice.vercel.app',PX+176,H-ftr+60,'800 32px '+IN,'#0e0f0a','left');
+  wvT(c,'cuadzfantasynetwork.com',PX+176,H-ftr+60,'800 32px '+IN,'#0e0f0a','left');
   wvT(c,'THROUGH WEEK '+F.week+' · '+LGI[k].name.toUpperCase(),W-PX,H-ftr+60,'800 26px '+IN,'#0e0f0a','right',3);
   return cv;
 }

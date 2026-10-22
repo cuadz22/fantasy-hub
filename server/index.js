@@ -18,6 +18,8 @@ app.use(express.json());
 app.use(cookieParser(process.env.SESSION_SECRET));
 
 const siteOrigins = [
+  'https://cuadzfantasynetwork.com',
+  'https://www.cuadzfantasynetwork.com',
   'https://fantasy-hub-bice.vercel.app',
   'http://localhost:5173',
 ];
