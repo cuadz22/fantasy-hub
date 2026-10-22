@@ -17,5 +17,10 @@
       "destination": "/cfn.html",
       "permanent": false
     }
-  ]
+  ],
+  "functions": {
+    "api/yahoo-*.js": {
+      "maxDuration": 30
+    }
+  }
 }
