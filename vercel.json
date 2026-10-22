@@ -3,6 +3,10 @@
   "outputDirectory": "client/dist",
   "rewrites": [
     {
+      "source": "/api/yahoo/:p",
+      "destination": "/api/yahoo-:p"
+    },
+    {
       "source": "/((?!api/)(?!.*\\.html$).*)",
       "destination": "/index.html"
     }

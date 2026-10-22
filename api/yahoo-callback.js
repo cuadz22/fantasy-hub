@@ -1,4 +1,4 @@
-const { REDIRECT, json, html, sign, tokenCall, saveTokens } = require('../_yahoo');
+const { REDIRECT, json, html, sign, tokenCall, saveTokens } = require('./_yahoo');
 module.exports = async (req, res) => {
   try {
     const u = new URL(req.url, 'http://x');

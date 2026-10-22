@@ -1,5 +1,5 @@
 // Test endpoint: lists the connected account's NFL leagues. /api/yahoo/leagues?key=ADMIN_KEY
-const { json, adminOk, yahooGet } = require('../_yahoo');
+const { json, adminOk, yahooGet } = require('./_yahoo');
 module.exports = async (req, res) => {
   try {
     const u = new URL(req.url, 'http://x');

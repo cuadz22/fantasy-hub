@@ -1,5 +1,5 @@
 // Visit /api/yahoo/login?key=YOUR_ADMIN_KEY once to connect the owner's Yahoo account.
-const { REDIRECT, json, sign, adminOk } = require('../_yahoo');
+const { REDIRECT, json, sign, adminOk } = require('./_yahoo');
 module.exports = (req, res) => {
   const u = new URL(req.url, 'http://x');
   if (!adminOk(u.searchParams.get('key'))) return json(res, 403, { error: 'forbidden' });
