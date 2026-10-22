@@ -6,6 +6,6 @@ module.exports = (req, res) => {
   if (!process.env.YAHOO_CLIENT_ID) return json(res, 500, { error: 'YAHOO_CLIENT_ID not set' });
   const ts = String(Date.now());
   const state = ts + '.' + sign('state:' + ts);
-  const q = new URLSearchParams({ client_id: process.env.YAHOO_CLIENT_ID, redirect_uri: REDIRECT, response_type: 'code', scope: 'fspt-r', state });
+  const q = new URLSearchParams({ client_id: process.env.YAHOO_CLIENT_ID, redirect_uri: REDIRECT, response_type: 'code', state });
   res.statusCode = 302; res.setHeader('Location', 'https://api.login.yahoo.com/oauth2/request_auth?' + q.toString()); res.end();
 };
