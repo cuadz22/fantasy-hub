@@ -1,4 +1,130 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><style id="rc-css">
+:where(.rc *){margin:0}
+.rc *{box-sizing:border-box}
+.rc{--bg:#0a0b08;--card:#11130e;--line:#22261a;--tx:#f2f4ea;--mut:#8d9479;--dim:#5d6350;--A:#acf910;--B:#4cc3ff;margin:6px auto 22px;color:#f2f4ea;font-family:Inter,system-ui,sans-serif;box-sizing:border-box;width:min(430px,calc(100% - 8px));background:linear-gradient(180deg,#0e1109,#090a07 40%);border-radius:34px;border:1px solid var(--line);padding:16px 12px 22px;overflow:hidden}
+.rc-chips{display:flex;gap:8px;overflow:hidden;margin:0 -12px 14px;padding:0 12px}
+.rc-chip{flex:0 0 118px;border:1px solid var(--line);border-radius:12px;padding:8px 10px;background:#0d0f0a}
+.rc-chip.rc-on{border-color:#3a5a0c;background:#121a07}
+.rc-cs{font-size:11px;color:var(--mut);margin-bottom:4px}
+.rc-on .rc-cs{color:var(--A)}
+.rc-cr{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--mut)}
+.rc-cr em{font-style:normal;font-variant-numeric:tabular-nums}
+.rc-cr em.rc-g{color:var(--tx)}
+.rc-nav{display:flex;align-items:center;justify-content:space-between;margin:6px 2px 14px}
+.rc-bk,.rc-dots{color:var(--tx);font-size:22px}
+.rc-seg{display:flex;background:#161910;border:1px solid var(--line);border-radius:22px;padding:4px;font-size:15px;font-weight:600}
+.rc-seg u{text-decoration:none;background:#272b1c;border-radius:18px;padding:6px 16px}
+.rc-seg s{text-decoration:none;color:var(--mut);padding:6px 12px}
+.rc-seg em{font-style:normal;background:#e23b2e;color:#fff;border-radius:9px;font-size:11px;padding:2px 6px;margin-left:4px}
+.rc-crumb{color:var(--mut);font-size:13px;margin:4px 2px}
+.rc-crumb i{font-style:normal;padding:0 4px}
+.rc h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:31px;letter-spacing:.3px;line-height:1.05;margin:2px 2px 16px}
+.rc-score{display:grid;grid-template-columns:1fr 88px 1fr;align-items:start;margin-bottom:14px}
+.rc-tm{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.rc-tm.rc-rt{align-items:flex-end}
+.rc-tr{display:flex;align-items:center;gap:6px}
+.rc-hd{width:50px;height:50px;flex:none;border-radius:50%;object-fit:cover;background:#171a12;border:2px solid}
+.rc-hd.rc-A{border-color:var(--A)}
+.rc-hd.rc-B{border-color:var(--B)}
+.rc-sc{font-family:'Bebas Neue';font-size:44px;line-height:.9;font-variant-numeric:tabular-nums}
+.rc-sc.rc-A,.rc-sc.rc-dimA{color:var(--A)}
+.rc-sc.rc-B,.rc-sc.rc-dimB{color:var(--B)}
+.rc-sc.rc-dimA,.rc-sc.rc-dimB{opacity:.62}
+.rc-mg{font-size:13px;font-weight:600;color:var(--mut);letter-spacing:.5px}
+.rc-mid{text-align:center;padding-top:0}
+.rc-fin{color:var(--A);font-size:16px;font-weight:600}
+.rc-mr{color:var(--mut);font-size:13px;margin-top:3px}
+.rc-lgl{width:30px;height:30px;object-fit:contain;opacity:.55;margin-top:8px;filter:grayscale(.3)}
+.rc-lgn{font-size:10px;color:var(--dim);margin-top:3px;line-height:1.2}
+.rc-sd{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.rc-sdc{border:1px solid var(--line);border-radius:14px;padding:11px 12px;background:var(--card)}
+.rc-sdc.rc-A{border-left:3px solid var(--A)}
+.rc-sdc.rc-B{border-right:3px solid var(--B);text-align:right}
+.rc-sdh{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rc-sdh.rc-d2{margin-top:9px}
+.rc-sdv{font-family:'Bebas Neue';font-size:26px;line-height:1.1}
+.rc-A .rc-sdv{color:var(--A)}
+.rc-B .rc-sdv{color:var(--B)}
+.rc-sdv.rc-dd{color:var(--mut)!important;font-size:22px}
+.rc-sdv small{font-family:Inter;font-size:11px;color:var(--mut)}
+.rc-tag{font-size:9.5px;letter-spacing:.8px;border-radius:5px;padding:2px 5px;margin-right:6px;font-weight:700}
+.rc-tag.rc-s{background:#1c2a06;color:var(--A)}
+.rc-tag.rc-d{background:#2a1512;color:#ff7a66}
+.rc-B .rc-tag{margin:0 0 0 6px;order:2}
+.rc-B .rc-sdh{direction:rtl}
+.rc-tabs{display:flex;gap:18px;font-size:15px;color:var(--mut);margin:0 2px 8px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.rc-tabs b{color:var(--tx);font-weight:500;margin-right:auto}
+.rc-tabs .rc-on{color:var(--tx);box-shadow:0 8px 0 -6px var(--A)}
+.rc-lr,.rc-tot{display:grid;grid-template-columns:minmax(0,1fr) 50px minmax(0,1fr);column-gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid #15180f}
+.rc-l,.rc-r{position:relative;display:flex;gap:8px;align-items:baseline;font-size:13px;color:var(--mut);padding-bottom:6px}
+.rc-l{justify-content:flex-end;text-align:right}
+.rc-r{justify-content:flex-start}
+.rc-l .rc-nm{order:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.rc-l b{order:2}
+.rc-r b{order:0}
+.rc-l b,.rc-r b{font-family:'Bebas Neue';font-weight:400;font-size:20px;font-variant-numeric:tabular-nums;color:var(--mut)}
+.rc-l.rc-w b{color:var(--A)}
+.rc-r.rc-w b{color:var(--B)}
+.rc-w .rc-nm{color:var(--tx)}
+.rc-l,.rc-r{flex-direction:row}
+.rc-l{flex-direction:row}
+.rc-lr i{display:block;position:absolute;bottom:0;height:3px;border-radius:2px;opacity:.55}
+.rc-l i{right:0;background:var(--A)}
+.rc-r i{left:0;background:var(--B)}
+.rc-l i,.rc-r i{max-width:100%}
+.rc-ps{text-align:center;font-size:11px;font-weight:700;letter-spacing:.6px;color:var(--dim);background:#14170e;border:1px solid var(--line);border-radius:7px;padding:3px 0}
+.rc-tot{border:0;padding-top:12px}
+.rc-tot .rc-l,.rc-tot .rc-r{font-family:'Bebas Neue';font-size:30px;padding:0;color:var(--mut)}
+.rc-tot .rc-l{justify-content:flex-end}
+.rc-tot .rc-l.rc-w{color:var(--A)}
+.rc-tot .rc-r.rc-w{color:var(--B)}
+.rc-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.rc-btns div{text-align:center;border-radius:14px;padding:14px 8px;font-weight:600;font-size:15px}
+.rc-bA{background:var(--A);color:#10160a}
+.rc-bB{border:1px solid #3a4a1c;color:var(--A)}
+.rc-chips{overflow-x:auto;scrollbar-width:none;cursor:pointer}
+.rc-chips::-webkit-scrollbar{display:none}
+.rc-chip{cursor:pointer;transition:.15s}
+.rc-chip:active{transform:scale(.97)}
+.rc-lr{grid-template-columns:30px minmax(0,1fr) 46px minmax(0,1fr) 30px!important;column-gap:7px!important}
+.rc-ph{width:30px;height:30px;border-radius:50%;object-fit:cover;background:#1a1d14;border:1.5px solid #2a2e20;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--dim);margin-bottom:6px}
+.rc-ph.rc-wA{border-color:var(--A)}
+.rc-ph.rc-wB{border-color:var(--B)}
+.rc-ps{border-radius:7px;padding:3px 0;border:1px solid}
+.rc-ps.rc-QB{color:#5aa2ff;background:#5aa2ff1f;border-color:#5aa2ff55}
+.rc-ps.rc-RB{color:#2fd3a4;background:#2fd3a41f;border-color:#2fd3a455}
+.rc-ps.rc-WR{color:#ff9d2e;background:#ff9d2e1f;border-color:#ff9d2e55}
+.rc-ps.rc-TE{color:#ff5fa6;background:#ff5fa61f;border-color:#ff5fa655}
+.rc-ps.rc-FLX{background:#14170e;border-color:#2e3322;letter-spacing:1px}
+.rc-ps.rc-FLX .rc-cw{color:#ff9d2e}
+.rc-ps.rc-FLX .rc-cr2{color:#2fd3a4}
+.rc-ps.rc-FLX .rc-ct{color:#ff5fa6}
+.rc-sdc .rc-ph{display:inline-flex;margin:0 8px 0 0;vertical-align:middle;width:26px;height:26px}
+.rc-sdc.rc-B .rc-ph{margin:0 0 0 8px}
+.rc-sdr{display:flex;align-items:center;gap:0}
+.rc-sdc.rc-B .rc-sdr{flex-direction:row-reverse}
+.rc-note{font-size:10.5px;color:var(--dim);text-align:center;margin-top:2px}
+.rc-l,.rc-r{padding-bottom:7px}
+.rc .rc-hd{width:56px;height:56px}
+.rc .rc-lr{grid-template-columns:36px minmax(0,1fr) 44px minmax(0,1fr) 36px!important;column-gap:6px!important}
+.rc .rc-ph{width:36px;height:36px}
+.rc .rc-sdc .rc-ph{width:28px;height:28px}
+.rc .rc-l b,.rc .rc-r b{font-size:19px}
+.rc .rc-l,.rc .rc-r{gap:5px;font-size:12px}
+.rc .rc-chips{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.rc .rc-chips::-webkit-scrollbar{display:none}
+.rc .rc-chip{cursor:pointer;font:inherit;color:inherit;text-align:left;background:#0d0f0a;display:block}
+.rc .rc-chip.rc-on{border-color:#3a5a0c;background:#121a07}
+.rc button{font-family:inherit}
+.rc .rc-btns div{cursor:pointer}
+.rc .rc-sc{font-size:44px}
+@media (max-width:440px){.rc .rc-sc{font-size:38px}.rc .rc-hd{width:50px;height:50px}.rc .rc-score{grid-template-columns:auto minmax(60px,1fr) auto;column-gap:4px}.rc h1{font-size:27px}.rc .rc-lgn{font-size:9px}.rc .rc-mr{font-size:11px}}
+
+.rc .rc-hd,.rc .rc-ph,.rc .rc-ph.rc-wA,.rc .rc-ph.rc-wB{border:0!important}
+.rc .rc-rec{font-size:11.5px;font-weight:500;color:#5d6350;letter-spacing:.3px;margin-top:-3px}
+.rc .rc-tm{gap:4px}
+</style>
+</head><body>
 <title>Cuadz Fantasy Network</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap">
 <style>
@@ -3230,6 +3356,7 @@ function lgRender(){
     d.innerHTML = '<div class="subsec-hd">'+(k==='sts'?'Win-Loss (reference)':'Standings')+'</div>'+LGD.stand[k]+'<p style="font-size:10px;color:var(--dim)">Ranked by wins, then points for · Strk = current streak</p>';
     p.appendChild(d);
   } else if(t==='Matchups'){
+    try{ p.appendChild(rcView(k)); }catch(e){ console.error(e); }
     p.appendChild(liveSub(k));
     ['Storylines','Matchups','Man of the Match','Weekly Awards','Week 8 Preview'].forEach(function(pre){ lgSub(k,pre).forEach(function(n){ p.appendChild(n); }); });
   } else if(t==='Power Rankings'){
@@ -4326,4 +4453,154 @@ if(window.TC&&typeof TC.open==='function'){ var o=TC.open; TC.open=function(){ v
 })();
 </script>
 
+<script id="rc-js">
+var RCP={"week":7,"lg":{"gl":[{"t":[1,9],"s":[118.2,116.2],"L":[[["QB","Joe Burrow",39.8],["RB","Bijan Robinson",17.2],["RB","Rhamondre Stevenson",22.5],["WR","Drake London",19.6],["WR","Germie Bernard",5.7],["WR","Jaylin Noel",1.7],["TE","Tyler Higbee",3.4],["W/R/T","Ted Hurst III",0.0]],[["QB","Jordan Love",23.7],["RB","Jonathan Taylor",19.0],["RB","Kenneth Walker III",9.7],["WR","Christian Watson",10.7],["WR","Carnell Tate",9.9],["WR","Jalen Coker",1.9],["TE","George Kittle",14.8],["W/R/T","Woody Marks",9.1]]],"sd":[[["Joe Burrow",39.8],["Ted Hurst III",0.0,9.15]],[["Jordan Love",23.7],["Jalen Coker",1.9,15.29]]]},{"t":[2,3],"s":[150.8,141.65],"L":[[["QB","Caleb Williams",29.2],["RB","Jaylen Warren",19.7],["RB","George Holani",3.3],["WR","Luther Burden III",25.7],["WR","Jameson Williams",26.1],["WR","Ja'Marr Chase",17.2],["TE","Mark Andrews",5.3],["W/R/T","Jordan Addison",4.3]],[["QB","Matthew Stafford",25.45],["RB","Braelon Allen",22.4],["RB","Alvin Kamara",13.2],["WR","Puka Nacua",21.8],["WR","George Pickens",15.7],["WR","Kalif Raymond",0.0],["TE","Brock Bowers",13.3],["W/R/T","Rico Dowdle",14.6]]],"sd":[[["Caleb Williams",29.2],["Jordan Addison",4.3,10.12]],[["Matthew Stafford",25.45],["Kalif Raymond",0.0,7.47]]]},{"t":[4,7],"s":[172.65,140.1],"L":[[["QB","Jared Goff",25.05],["RB","D'Andre Swift",19.0],["RB","Bucky Irving",27.0],["WR","Jaxon Smith-Njigba",33.3],["WR","Zay Flowers",29.7],["WR","Xavier Worthy",4.1],["TE","Tucker Kraft",14.8],["W/R/T","Keenan Allen",6.1]],[["QB","Tyler Huntley",20.1],["RB","Christian McCaffrey",22.0],["RB","Tony Pollard",39.5],["WR","Nico Collins",2.6],["WR","Chris Olave",11.6],["WR","DeMario Douglas",5.3],["TE","Sam LaPorta",2.8],["W/R/T","KC Concepcion Jr.",25.2]]],"sd":[[["Jaxon Smith-Njigba",33.3],["Xavier Worthy",4.1,12.53]],[["Tony Pollard",39.5],["Nico Collins",2.6,17.05]]]},{"t":[5,8],"s":[176.3,147.55],"L":[[["QB","Bo Nix",30.5],["RB","Javonte Williams",24.5],["RB","Jahmyr Gibbs",20.3],["WR","Tre Tucker",23.3],["WR","Courtland Sutton",7.5],["WR","Chris Godwin Jr.",6.7],["TE","Trey McBride",29.1],["W/R/T","Colston Loveland",19.9]],[["QB","Kirk Cousins",27.35],["RB","Ollie Gordon II",20.3],["RB","Aaron Jones Sr.",3.6],["WR","Malik Nabers",20.1],["WR","Justin Jefferson",8.4],["WR","Michael Wilson",10.6],["TE","Harold Fannin Jr.",13.1],["W/R/T","Quinshon Judkins",23.4]]],"sd":[[["Bo Nix",30.5],["Chris Godwin Jr.",6.7,12.32]],[["Kirk Cousins",27.35],["Aaron Jones Sr.",3.6,11.8]]]},{"t":[6,10],"s":[141.85,114.5],"L":[[["QB","Drake Maye",34.65],["RB","Ashton Jeanty",21.6],["RB","Tyler Allgeier",7.9],["WR","Amon-Ra St. Brown",26.2],["WR","Matthew Golden",9.9],["WR","Denzel Boston",5.7],["TE","Hunter Henry",14.1],["W/R/T","Jaylen Waddle",8.8]],[["QB","Brock Purdy",16.9],["RB","Chuba Hubbard",10.0],["RB","Chase Brown",9.8],["WR","CeeDee Lamb",24.4],["WR","Tetairoa McMillan",8.0],["WR","Makai Lemon",19.7],["TE","Isaiah Likely",3.2],["W/R/T","T.J. Hockenson",13.5]]],"sd":[[["Drake Maye",34.65],["Denzel Boston",5.7,11.23]],[["CeeDee Lamb",24.4],["Isaiah Likely",3.2,13.14]]]},{"t":[11,12],"s":[122.9,108.55],"L":[[["QB","Dak Prescott",31.4],["RB","Derrick Henry",5.9],["RB","Roschon Johnson",1.3],["WR","Tee Higgins",28.8],["WR","Rome Odunze",10.9],["WR","Ryan Flournoy",11.0],["TE","Kyle Pitts Sr.",13.2],["W/R/T","Josh Downs",3.8]],[["QB","Bryce Young",9.05],["RB","Kyren Williams",18.1],["RB","Josh Jacobs",20.1],["WR","Garrett Wilson",4.6],["WR","A.J. Brown",7.8],["WR","DK Metcalf",7.6],["TE","Travis Kelce",8.4],["W/R/T","Saquon Barkley",15.1]]],"sd":[[["Dak Prescott",31.4],["Roschon Johnson",1.3,7.98]],[["Josh Jacobs",20.1],["Garrett Wilson",4.6,16.66]]]}],"bh":[{"t":[1,2],"s":[127.85,141.5],"L":[[["QB","Kirk Cousins",27.35],["RB","Christian McCaffrey",22.0],["RB","Josh Jacobs",20.1],["WR","Justin Jefferson",8.4],["WR","CeeDee Lamb",24.4],["WR","Matthew Golden",9.9],["TE","Juwan Johnson",1.7],["W/R/T","Germie Bernard",5.7]],[["QB","Kyler Murray",17.4],["RB","Jaylen Warren",16.7],["RB","Jonathan Taylor",19.0],["WR","Christian Watson",10.7],["WR","DK Metcalf",7.6],["WR","Tetairoa McMillan",8.0],["TE","Colston Loveland",19.9],["W/R/T","Bucky Irving",24.0]]],"sd":[[["Kirk Cousins",27.35],["Juwan Johnson",1.7,9.66]],[["Bucky Irving",24.0],["Tetairoa McMillan",8.0,15.61]]]},{"t":[3,8],"s":[139.15,125.2],"L":[[["QB","Jared Goff",25.05],["RB","Ashton Jeanty",21.6],["RB","D'Andre Swift",19.0],["WR","Ja'Marr Chase",17.2],["WR","Amon-Ra St. Brown",24.2],["WR","A.J. Brown",7.8],["TE","Tyler Higbee",3.4],["W/R/T","Malik Washington",6.5]],[["QB","Caleb Williams",29.2],["RB","Jahmyr Gibbs",17.3],["RB","Aaron Jones Sr.",3.6],["WR","George Pickens",15.7],["WR","Carnell Tate",9.9],["WR","Marvin Harrison Jr.",7.6],["TE","George Kittle",14.8],["W/R/T","Travis Kelce",8.4]]],"sd":[[["Jared Goff",25.05],["Tyler Higbee",3.4,9.75]],[["Caleb Williams",29.2],["Jahmyr Gibbs",17.3,26.06]]]},{"t":[4,6],"s":[79.5,175.6],"L":[[["QB","Joe Burrow",39.8],["RB","Tyler Allgeier",7.9],["RB","Chase Brown",9.8],["WR","Josh Downs",3.8],["WR","Rome Odunze",10.9],["WR","Jordan Addison",4.3],["TE","Pat Freiermuth",4.0],["W/R/T","Dontayvion Wicks",0.0]],[["QB","Dak Prescott",31.4],["RB","Javonte Williams",21.5],["RB","Kyren Williams",18.1],["WR","Malik Nabers",18.1],["WR","Jalen Coker",1.9],["WR","Jameson Williams",26.1],["TE","Trey McBride",27.1],["W/R/T","Braelon Allen",19.4]]],"sd":[[["Joe Burrow",39.8],["Chase Brown",9.8,14.82]],[["Dak Prescott",31.4],["Jalen Coker",1.9,15.29]]]},{"t":[5,7],"s":[91.7,144.55],"L":[[["QB","Tyler Huntley",21.1],["RB","Kendre Miller",5.8],["RB","Samaje Perine",7.6],["WR","Wan'Dale Robinson",4.7],["WR","KC Concepcion Jr.",23.2],["WR","Jaylin Noel",1.7],["TE","T.J. Hockenson",13.5],["W/R/T","TreVeyon Henderson",4.3]],[["QB","Drake Maye",35.65],["RB","Derrick Henry",5.9],["RB","Rhamondre Stevenson",22.5],["WR","Garrett Wilson",4.6],["WR","Chris Olave",11.6],["WR","Devaughn Vele",16.4],["TE","Hunter Henry",14.1],["W/R/T","Kyle Pitts Sr.",13.2]]],"sd":[[["KC Concepcion Jr.",23.2],["Jaylin Noel",1.7,7.51]],[["Drake Maye",35.65],["Garrett Wilson",4.6,16.66]]]},{"t":[9,11],"s":[125.4,97.25],"L":[[["QB","Brock Purdy",18.9],["RB","Tony Pollard",36.5],["RB","Rico Dowdle",14.6],["WR","Drake London",19.6],["WR","Xavier Worthy",4.1],["WR","Jaylen Waddle",8.8],["TE","Sam LaPorta",2.8],["W/R/T","Woody Marks",9.1]],[["QB","C.J. Stroud",22.05],["RB","Bijan Robinson",17.2],["RB","Kenneth Walker III",9.7],["WR","Nico Collins",2.6],["WR","Kendrick Bourne",3.9],["WR","Konata Mumpfield",2.5],["TE","Tucker Kraft",14.8],["W/R/T","Isaiah Likely",3.2]]],"sd":[[["Tony Pollard",36.5],["Sam LaPorta",2.8,12.98]],[["C.J. Stroud",22.05],["Nico Collins",2.6,17.05]]]},{"t":[10,12],"s":[165.9,137.45],"L":[[["QB","Jordan Love",24.7],["RB","Chuba Hubbard",10.0],["RB","Quinshon Judkins",23.4],["WR","Jaxon Smith-Njigba",31.3],["WR","Luther Burden III",23.7],["WR","Tee Higgins",26.8],["TE","Michael Mayer",6.2],["W/R/T","J.K. Dobbins",8.3]],[["QB","Bryce Young",11.05],["RB","Ollie Gordon II",17.3],["RB","Bam Knight",9.3],["WR","Courtland Sutton",7.5],["WR","Zay Flowers",27.7],["WR","Puka Nacua",21.8],["TE","Brock Bowers",13.3],["W/R/T","Dalton Schultz",9.5]]],"sd":[[["Jaxon Smith-Njigba",31.3],["Jordan Love",24.7,27.28]],[["Zay Flowers",27.7],["Puka Nacua",21.8,24.14]]]}],"rb":[{"t":[1,4],"s":[151.26,221.86],"L":[[["QB","Brock Purdy",14.02],["RB","Saquon Barkley",15.1],["RB","Ollie Gordon II",19.3],["WR","Ja'Marr Chase",17.2],["WR","Matthew Golden",9.9],["WR","Rome Odunze",10.9],["TE","Tucker Kraft",14.8],["W/R/T","Isaiah Likely",3.2]],[["QB","Dak Prescott",29.28],["RB","Jahmyr Gibbs",19.3],["RB","Bucky Irving",26.0],["WR","CeeDee Lamb",24.4],["WR","Drake London",19.6],["WR","Malik Nabers",20.1],["TE","George Kittle",14.8],["W/R/T","Tyler Allgeier",7.9]]],"sd":[[["Ollie Gordon II",19.3],["Isaiah Likely",3.2,13.18]],[["Dak Prescott",29.28],["Tyler Allgeier",7.9,10.33]]]},{"t":[2,8],"s":[136.38,94.2],"L":[[["QB","Sam Darnold",15.98],["RB","Kenneth Walker III",9.7],["RB","Emanuel Wilson",20.5],["WR","Jaxon Smith-Njigba",32.3],["WR","Devaughn Vele",16.4],["WR","Konata Mumpfield",2.5],["TE","Harold Fannin Jr.",13.1],["W/R/T","Kendrick Bourne",3.9]],[["QB","Patrick Mahomes",6.0],["RB","Chase Brown",9.8],["RB","Tyrone Tracy Jr.",8.7],["WR","Luther Burden III",25.7],["WR","Darius Cooper",2.7],["WR","Marvin Harrison Jr.",7.6],["TE","Sam LaPorta",2.8],["W/R/T","Pat Freiermuth",4.0]]],"sd":[[["Jaxon Smith-Njigba",32.3],["Konata Mumpfield",2.5,5.62]],[["Luther Burden III",25.7],["Sam LaPorta",2.8,13.04]]]},{"t":[3,5],"s":[190.06,150.4],"L":[[["QB","Matthew Stafford",23.5],["RB","Jonathan Taylor",19.0],["RB","Josh Jacobs",20.1],["WR","Jameson Williams",26.1],["WR","Keenan Allen",6.1],["WR","DeMario Douglas",5.3],["TE","T.J. Hockenson",13.5],["W/R/T","Tony Pollard",38.5]],[["QB","Jacoby Brissett",18.48],["RB","RJ Harvey",16.0],["RB","Roschon Johnson",1.3],["WR","Nico Collins",2.6],["WR","Tee Higgins",29.8],["WR","Omar Cooper Jr.",25.5],["TE","Mark Andrews",5.3],["W/R/T","Jaylin Noel",1.7]]],"sd":[[["Tony Pollard",38.5],["DeMario Douglas",5.3,9.82]],[["Tee Higgins",29.8],["Roschon Johnson",1.3,7.99]]]},{"t":[6,9],"s":[125.12,75.16],"L":[[["QB","Bryce Young",7.42],["RB","Bijan Robinson",17.2],["RB","Christian McCaffrey",22.0],["WR","Chris Olave",11.6],["WR","A.J. Brown",7.8],["WR","Chris Godwin Jr.",6.7],["TE","Mike Gesicki",7.6],["W/R/T","Chuba Hubbard",10.0]],[["QB","Kirk Cousins",24.4],["RB","George Holani",3.3],["RB","Kenny Gainwell",8.8],["WR","Michael Wilson",10.6],["WR","Jalen Coker",1.9],["WR","Jordan Addison",4.3],["TE","Juwan Johnson",1.7],["W/R/T","Courtland Sutton",7.5]]],"sd":[[["Christian McCaffrey",22.0],["Bijan Robinson",17.2,23.76]],[["Kirk Cousins",24.4],["Jalen Coker",1.9,15.39]]]},{"t":[7,12],"s":[136.9,139.62],"L":[[["QB","Jared Goff",22.02],["RB","Kyren Williams",18.1],["RB","Derrick Henry",5.9],["WR","Amon-Ra St. Brown",26.2],["WR","Justin Jefferson",8.4],["WR","Garrett Wilson",4.6],["TE","Travis Kelce",8.4],["W/R/T","Jaylen Waddle",8.8]],[["QB","Bo Nix",28.28],["RB","Jaylen Warren",18.7],["RB","Woody Marks",9.1],["WR","Xavier Worthy",4.1],["WR","KC Concepcion Jr.",24.2],["WR","Malik Washington",6.5],["TE","Dallas Goedert",9.8],["W/R/T","Braelon Allen",21.4]]],"sd":[[["Amon-Ra St. Brown",26.2],["Garrett Wilson",4.6,16.76]],[["Bo Nix",28.28],["Xavier Worthy",4.1,12.6]]]},{"t":[10,11],"s":[120.24,190.6],"L":[[["QB","Caleb Williams",26.12],["RB","Blake Corum",17.1],["RB","TreVeyon Henderson",4.3],["WR","Tetairoa McMillan",8.0],["WR","Germie Bernard",5.7],["WR","Ja'Kobi Lane",5.5],["TE","Brock Bowers",13.3],["W/R/T","Carnell Tate",9.9]],[["QB","C.J. Stroud",20.52],["RB","D'Andre Swift",19.0],["RB","J.K. Dobbins",8.3],["WR","Puka Nacua",21.8],["WR","Zay Flowers",30.7],["WR","George Pickens",15.7],["TE","Trey McBride",28.1],["W/R/T","Christian Watson",10.7]]],"sd":[[["Caleb Williams",26.12],["TreVeyon Henderson",4.3,7.24]],[["Zay Flowers",30.7],["Puka Nacua",21.8,25.32]]]}],"sts":[{"t":[1,4],"s":[124.05,149.25],"L":[[["QB","C.J. Stroud",22.05],["RB","Jahmyr Gibbs",20.3],["RB","Chase Brown",9.8],["WR","Denzel Boston",5.7],["WR","Caleb Douglas",21.0],["WR","Christian Kirk",0.0],["TE","George Kittle",14.8],["W/R/T","Cam Skattebo",22.1]],[["QB","Drake Maye",34.15],["RB","Woody Marks",9.1],["RB","Josh Jacobs",20.1],["WR","Chris Olave",11.6],["WR","Nico Collins",2.6],["WR","Drake London",19.6],["TE","Colston Loveland",19.9],["W/R/T","KC Concepcion Jr.",24.2]]],"sd":[[["Cam Skattebo",22.1],["Christian Kirk",0.0,6.73]],[["Drake Maye",34.15],["Nico Collins",2.6,17.05]]]},{"t":[2,9],"s":[141.5,134.4],"L":[[["QB","Joe Burrow",39.8],["RB","Javonte Williams",24.5],["RB","Emanuel Wilson",21.5],["WR","Amon-Ra St. Brown",25.2],["WR","DeMario Douglas",5.3],["WR","Ted Hurst III",0.0],["TE","Tucker Kraft",14.8],["W/R/T","Tyler Higbee",3.4]],[["QB","Jordan Love",23.2],["RB","Jonathan Taylor",19.0],["RB","Ollie Gordon II",20.3],["WR","Matthew Golden",9.9],["WR","Jalen Coker",1.9],["WR","Justin Jefferson",8.4],["TE","Trey McBride",28.1],["W/R/T","Jordan Mason",6.8]]],"sd":[[["Joe Burrow",39.8],["Ted Hurst III",0.0,9.15]],[["Trey McBride",28.1],["Jalen Coker",1.9,15.29]]]},{"t":[3,12],"s":[143.7,168.35],"L":[[["QB","Caleb Williams",29.2],["RB","Christian McCaffrey",22.0],["RB","Braelon Allen",22.4],["WR","Malik Nabers",19.1],["WR","George Pickens",15.7],["WR","A.J. Brown",7.8],["TE","Juwan Johnson",1.7],["W/R/T","Keenan Allen",6.1]],[["QB","Geno Smith",31.85],["RB","D'Andre Swift",19.0],["RB","Jaylen Warren",19.7],["WR","CeeDee Lamb",24.4],["WR","Puka Nacua",21.8],["WR","Malik Washington",6.5],["TE","Sam LaPorta",2.8],["W/R/T","Hunter Henry",14.1]]],"sd":[[["Caleb Williams",29.2],["Juwan Johnson",1.7,9.66]],[["Geno Smith",31.85],["Sam LaPorta",2.8,12.98]]]},{"t":[5,7],"s":[95.6,199.65],"L":[[["QB","Brock Purdy",15.9],["RB","Derrick Henry",5.9],["RB","Saquon Barkley",15.1],["WR","Christian Watson",10.7],["WR","Tetairoa McMillan",8.0],["WR","Michael Wilson",10.6],["TE","Isaiah Likely",3.2],["W/R/T","Chris Godwin Jr.",6.7]],[["QB","Matthew Stafford",24.95],["RB","Bucky Irving",27.0],["RB","Rhamondre Stevenson",22.5],["WR","Zay Flowers",28.7],["WR","Carnell Tate",9.9],["WR","Ja'Marr Chase",17.2],["TE","Brock Bowers",13.3],["W/R/T","Tony Pollard",39.5]]],"sd":[[["Brock Purdy",15.9],["Derrick Henry",5.9,17.4]],[["Tony Pollard",39.5],["Carnell Tate",9.9,12.01]]]},{"t":[6,10],"s":[118.25,113.2],"L":[[["QB","Patrick Mahomes",7.15],["RB","Chuba Hubbard",10.0],["RB","Alvin Kamara",13.2],["WR","Jaxon Smith-Njigba",32.3],["WR","Tee Higgins",27.8],["WR","Xavier Worthy",4.1],["TE","Harold Fannin Jr.",13.1],["W/R/T","Aaron Jones Sr.",3.6]],[["QB","Aaron Rodgers",17.2],["RB","Bijan Robinson",17.2],["RB","Quinshon Judkins",23.4],["WR","DK Metcalf",7.6],["WR","Jaylen Waddle",8.8],["WR","Rome Odunze",10.9],["TE","Travis Kelce",8.4],["W/R/T","Mark Andrews",5.3]]],"sd":[[["Jaxon Smith-Njigba",32.3],["Aaron Jones Sr.",3.6,11.8]],[["Quinshon Judkins",23.4],["Bijan Robinson",17.2,23.73]]]},{"t":[8,11],"s":[125.6,112.65],"L":[[["QB","Deshaun Watson",20.8],["RB","Ashton Jeanty",21.6],["RB","Kyren Williams",18.1],["WR","Luther Burden III",24.7],["WR","Germie Bernard",5.7],["WR","Wan'Dale Robinson",4.7],["TE","Dallas Goedert",9.8],["W/R/T","Cade Otton",0.0]],[["QB","Jared Goff",25.05],["RB","Kenneth Walker III",9.7],["RB","Bam Knight",9.3],["WR","Garrett Wilson",4.6],["WR","Jameson Williams",26.1],["WR","Jaylin Noel",1.7],["TE","Kyle Pitts Sr.",13.2],["W/R/T","Tyrone Tracy Jr.",8.7]]],"sd":[[["Luther Burden III",24.7],["Cade Otton",0.0,9.18]],[["Jameson Williams",26.1],["Garrett Wilson",4.6,16.66]]]}]}};
+/* ---------- Matchup recap screens (prediction-market style) ---------- */
+var RC_STATE={};
+function rcShort(n){ var t=String(n).split(' '); while(t.length>1&&/^(jr|sr|ii|iii|iv)\.?$/i.test(t[t.length-1])) t=t.slice(0,-1); if(t.length===1) return t[0]; return t[0].charAt(0)+'. '+t.slice(1).join(' '); }
+function rcIni(s){ var w=String(s).replace('. ',' ').split(' '); return (w[0].charAt(0)+(w.length>1?w[w.length-1].charAt(0):'')).toUpperCase(); }
+function rcPhoto(n){ return (typeof PHOTOS!=='undefined'&&PHOTOS[n])||null; }
+function rcAvatar(k,mgr,tid){ var H=ST_BIG.heads||{}; if(H[mgr]) return H[mgr]; var L=ST_BIG.logos&&ST_BIG.logos[k]&&ST_BIG.logos[k][String(tid)]; return L||null; }
+var RC_PF={'Roschon Johnson':10235,'Germie Bernard':13274};
+function rcPfId(n){ return (typeof PF!=='undefined'&&PF[n])||RC_PF[n]||null; }
+function rcLoadPhotos(names,done){ var todo=[]; names.forEach(function(n){ if(!rcPhoto(n)&&rcPfId(n)&&todo.indexOf(n)<0) todo.push(n); }); if(!todo.length) return Promise.resolve(false);
+  return Promise.all(todo.map(function(n){ return new Promise(function(res){ var im=new Image(); im.crossOrigin='anonymous'; var t=setTimeout(function(){res(false);},7000);
+    im.onload=function(){ clearTimeout(t); try{ var cv=document.createElement('canvas'); cv.width=im.naturalWidth; cv.height=im.naturalHeight; cv.getContext('2d').drawImage(im,0,0); PHOTOS[n]=cv.toDataURL('image/jpeg',.85); res(true); }catch(e){ res(false); } };
+    im.onerror=function(){ clearTimeout(t); res(false); }; im.src='https://sleepercdn.com/content/nfl/players/'+rcPfId(n)+'.jpg'; }); })).then(function(r){ return r.some(Boolean); }); }
+function rcNames(I){ var a=[]; [I.A,I.B].forEach(function(S){ S.rows.forEach(function(r){ a.push(r[1]); }); a.push(S.star[0]); a.push(S.dud[0]); }); return a; }
+var RC_REC=null;
+function rcRec(k,team){ if(!RC_REC){ RC_REC={}; var C=(ST_BIG.cards||{}); Object.keys(C).forEach(function(l){ RC_REC[l]={}; (C[l].w4||[]).forEach(function(c){ RC_REC[l][c.a.t]=c.a.r; RC_REC[l][c.b.t]=c.b.r; }); }); } return (RC_REC[k]&&RC_REC[k][team])||''; }
+function rcF(x){ return Number(x).toFixed(1); }
+function rcEsc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function rcPh(full,cls,sz){ var s=rcPhoto(full), st=sz?' style="width:'+sz+'px;height:'+sz+'px"':''; return s?'<img class="rc-ph '+cls+'" src="'+s+'"'+st+' alt="">':'<div class="rc-ph '+cls+'"'+st+'>'+rcIni(rcShort(full))+'</div>'; }
+function rcPos(p){ return p==='W/R/T'?'<div class="rc-ps FLX"><span class="cw">W</span><span class="cr2">R</span><span class="ct">T</span></div>':'<div class="rc-ps '+p+'">'+p+'</div>'; }
+function rcLabel(d){ return d<3?'Photo finish':d<10?'Close one':d<30?'Solid win':'Blowout'; }
+function rcFn(m){ return String(m).split(' ')[0].toUpperCase().slice(0,6); }
+function rcInfo(k,i){
+  var m=RCP.lg[k][i], T=ST_BIG.tid[k], inv={}; Object.keys(T).forEach(function(n){ inv[T[n]]=n; });
+  var sides=[0,1].map(function(j){ var id=m.t[j], tm=inv[id]; return {team:tm,mgr:ST_BIG.mgr[k][tm],rec:rcRec(k,tm),id:id,rows:m.L[j],star:m.sd[j][0],dud:m.sd[j][1],s:m.s[j]}; });
+  return {m:m,A:sides[0],B:sides[1]};
+}
+function rcPre(h){ return h.replace(/class="([^"]*)"/g,function(m,v){ return 'class="'+v.split(/\s+/).filter(Boolean).map(function(t){ return 'rc-'+t; }).join(' ')+'"'; }); }
+function rcView(k){
+  var wrap=document.createElement('div'); wrap.className='rc'; wrap.id='rc-'+k;
+  if(RC_STATE[k]==null) RC_STATE[k]=0;
+  function draw(){
+    var cur=RC_STATE[k], I=rcInfo(k,cur), A=I.A, B=I.B, sa=A.s, sb=B.s, wA=sa>=sb;
+    var mx=0; A.rows.concat(B.rows).forEach(function(r){ if(r[2]>mx) mx=r[2]; }); if(mx<=0) mx=1;
+    var chips=RCP.lg[k].map(function(_,i){ var q=rcInfo(k,i);
+      return '<button class="chip'+(i===cur?' on':'')+'" data-i="'+i+'"><div class="cs">Final</div><div class="cr"><span>'+rcEsc(rcFn(q.A.mgr))+'</span><em class="'+(q.A.s>=q.B.s?'g':'')+'">'+rcF(q.A.s)+'</em></div><div class="cr"><span>'+rcEsc(rcFn(q.B.mgr))+'</span><em class="'+(q.B.s>q.A.s?'g':'')+'">'+rcF(q.B.s)+'</em></div></button>'; }).join('');
+    function av(S,c){ var a=rcAvatar(k,S.mgr,S.id); return a?'<img class="hd '+c+'" src="'+a+'" alt="">':'<div class="hd '+c+'">'+rcIni(S.mgr)+'</div>'; }
+    function php(full,cls,t){ var s=rcPhoto(full); return s?'<img class="ph '+cls+'" src="'+s+'" alt="">':'<div class="ph '+cls+'">'+rcIni(t)+'</div>'; }
+    function sd(S,c){ return '<div class="sdc '+c+'"><div class="sdr">'+php(S.star[0],'w'+c,rcShort(S.star[0]))+'<div class="sdh"><span class="tag s">STAR</span>'+rcEsc(rcShort(S.star[0]))+'</div></div><div class="sdv">'+rcF(S.star[1])+' <small>pts</small></div><div class="sdr d2">'+php(S.dud[0],'',rcShort(S.dud[0]))+'<div class="sdh"><span class="tag d">DUD</span>'+rcEsc(rcShort(S.dud[0]))+'</div></div><div class="sdv dd">'+rcF(S.dud[1])+' <small>vs '+rcF(S.dud[2])+' proj</small></div></div>'; }
+    function pos(p){ return p==='W/R/T'?'<div class="ps FLX"><span class="cw">W</span><span class="cr2">R</span><span class="ct">T</span></div>':'<div class="ps '+p+'">'+p+'</div>'; }
+    var rows=A.rows.map(function(a,i){ var b=B.rows[i], wa=a[2]>b[2], wb=b[2]>a[2];
+      return '<div class="lr">'+php(a[1],wa?'wA':'',rcShort(a[1]))+'<div class="l '+(wa?'w':'')+'"><span class="nm">'+rcEsc(rcShort(a[1]))+'</span><b>'+rcF(a[2])+'</b><i style="width:'+Math.max(0,a[2]/mx*100)+'%"></i></div>'+pos(a[0])+'<div class="r '+(wb?'w':'')+'"><b>'+rcF(b[2])+'</b><span class="nm">'+rcEsc(rcShort(b[1]))+'</span><i style="width:'+Math.max(0,b[2]/mx*100)+'%"></i></div>'+php(b[1],wb?'wB':'',rcShort(b[1]))+'</div>'; }).join('');
+    var h='<div class="chips">'+chips+'</div>'
+     +'<div class="nav"><span class="bk">‹</span><div class="seg"><u>Game</u><s>Chat <em>3.6K</em></s></div><span class="dots">···</span></div>'
+     +'<div class="crumb">Fantasy <i>•</i> '+rcEsc(LGI[k].name)+' · Week '+RCP.week+'</div>'
+     +'<h1>'+rcEsc(A.team.toUpperCase())+' VS '+rcEsc(B.team.toUpperCase())+'</h1>'
+     +'<div class="score"><div class="tm"><div class="tr">'+av(A,'A')+'<div class="sc A'+(wA?'':' dim')+'">'+rcF(sa)+'</div></div><div class="mg">'+rcEsc(A.mgr.toUpperCase())+'</div>'+(A.rec?'<div class="rec">'+rcEsc(A.rec)+'</div>':'')+'</div>'
+     +'<div class="mid"><div class="fin">Final</div><div class="mr">'+rcLabel(Math.abs(sa-sb))+'</div>'+(LG_LOGO[k]?'<img class="lgl" src="'+LG_LOGO[k]+'" alt="">':'')+'<div class="lgn">'+rcEsc(LGI[k].name)+'</div></div>'
+     +'<div class="tm rt"><div class="tr"><div class="sc B'+(wA?' dim':'')+'">'+rcF(sb)+'</div>'+av(B,'B')+'</div><div class="mg">'+rcEsc(B.mgr.toUpperCase())+'</div>'+(B.rec?'<div class="rec">'+rcEsc(B.rec)+'</div>':'')+'</div></div>'
+     +'<div class="sd">'+sd(A,'A')+sd(B,'B')+'</div>'
+     +'<div class="tabs"><b>Stats</b><span>Lineups</span><span class="on">Matchup</span><span>Bench</span></div>'
+     +'<div class="lu">'+rows+'</div>'
+     +'<div class="btns"><div class="bA" data-a="share">Share recap</div><div class="bB" data-a="next">Week '+(RCP.week+1)+' preview ›</div></div>';
+    wrap.innerHTML=rcPre(h);
+    wrap.querySelectorAll('.rc-chip').forEach(function(c){ c.onclick=function(){ var sx=wrap.querySelector('.rc-chips').scrollLeft; RC_STATE[k]=+c.dataset.i; draw(); rcLoadPhotos(rcNames(rcInfo(k,RC_STATE[k]))).then(function(ch){ if(ch&&RC_STATE[k]===+c.dataset.i) { var s2=wrap.querySelector('.rc-chips').scrollLeft; draw(); wrap.querySelector('.rc-chips').scrollLeft=s2; } }); wrap.querySelector('.rc-chips').scrollLeft=sx; }; });
+    wrap.querySelector('[data-a="share"]').onclick=function(){ rcShare(k,RC_STATE[k]); };
+    wrap.querySelector('[data-a="next"]').onclick=function(){ var n=wrap.nextElementSibling; if(n) n.scrollIntoView({behavior:'smooth',block:'start'}); };
+  }
+  draw();
+  rcLoadPhotos(rcNames(rcInfo(k,RC_STATE[k]))).then(function(ch){ if(ch&&document.body.contains(wrap)) draw(); });
+  return wrap;
+}
+/* ---- share image (no star/dud) ---- */
+async function rcCard(k,i){
+  var BB="'Bebas Neue','Impact',sans-serif", IN="Inter,system-ui,sans-serif", AC='#acf910', BC='#4cc3ff', MUT='#8d9479';
+  try{ await document.fonts.load("40px 'Bebas Neue'"); await document.fonts.load("700 24px Inter"); await document.fonts.load("500 24px Inter"); }catch(e){}
+  var I=rcInfo(k,i), A=I.A, B=I.B, n=A.rows.length, u=2.4, CW=402, PADX=16, rowH=54;
+  await rcLoadPhotos(rcNames(I));
+  var CH=16+14+8+34+16+66+8+16+16+22+n*rowH+14+44+16;   /* card height in css px */
+  var OUT=36, W=Math.round((CW+2*PADX)*u+2*OUT), H=Math.round(CH*u+2*OUT);
+  var cv=document.createElement('canvas'); cv.width=W; cv.height=H; var c=cv.getContext('2d');
+  c.fillStyle='#050604'; c.fillRect(0,0,W,H);
+  var ox=OUT, oy=OUT, cw=(CW+2*PADX)*u, ch=CH*u, x0=ox+PADX*u, iw=CW*u;
+  var g=c.createLinearGradient(0,oy,0,oy+ch); g.addColorStop(0,'#0e1109'); g.addColorStop(.4,'#090a07'); g.addColorStop(1,'#090a07');
+  wvRR(c,ox,oy,cw,ch,30*u); c.fillStyle=g; c.fill(); c.lineWidth=2; c.strokeStyle='#22261a'; c.stroke();
+  var imgs=await Promise.all([wvImg(CFN_LOGO), wvImg(LG_LOGO[k]), wvImg(rcAvatar(k,A.mgr,A.id)), wvImg(rcAvatar(k,B.mgr,B.id))]);
+  if(!imgs[2]&&!(ST_BIG.heads||{})[A.mgr]) imgs[2]=await fmLogo(k,A.id);
+  if(!imgs[3]&&!(ST_BIG.heads||{})[B.mgr]) imgs[3]=await fmLogo(k,B.id);
+  var y=16;
+  wvT(c,LGI[k].name+' · Week '+RCP.week,x0+2*u,oy+(y+10)*u,'500 '+(12.5*u)+'px '+IN,MUT,'left');
+  y+=14+8;
+  var title=(A.team+' VS '+B.team).toUpperCase();
+  wvT(c,title,x0+2*u,oy+(y+26)*u,wvFit(c,title,iw-4*u,'#px '+BB,31*u,16*u),'#f2f4ea','left',.3);
+  y+=34+16;
+  var hd=66, r=hd/2*u, cyH=oy+(y+hd/2)*u, wA=A.s>=B.s;
+  function head(im,S,cx,col){ c.save(); c.beginPath(); c.arc(cx,cyH,r,0,Math.PI*2); c.closePath(); c.clip();
+    if(im){ var s2=Math.max(2*r/im.width,2*r/im.height); c.drawImage(im,cx-im.width*s2/2,cyH-im.height*s2/2,im.width*s2,im.height*s2); } else { c.fillStyle='#171a12'; c.fillRect(cx-r,cyH-r,2*r,2*r); wvT(c,rcIni(S.mgr),cx,cyH+7*u,(19*u)+'px '+IN,MUT,'center'); }
+    c.restore(); }
+  head(imgs[2],A,x0+hd/2*u,AC); head(imgs[3],B,x0+iw-hd/2*u,BC);
+  wvT(c,rcF(A.s),x0+(hd+8)*u,cyH+13*u,(44*u)+'px '+BB,wA?AC:'#759f10','left',1);
+  wvT(c,rcF(B.s),x0+iw-(hd+8)*u,cyH+13*u,(44*u)+'px '+BB,wA?'#2f7ea3':BC,'right',1);
+  var cx=x0+iw/2;
+  wvT(c,'Final',cx,cyH-4*u,'600 '+(16*u)+'px '+IN,AC,'center');
+  wvT(c,rcLabel(Math.abs(A.s-B.s)),cx,cyH+14*u,'500 '+(12.5*u)+'px '+IN,MUT,'center');
+  if(imgs[1]) wvDraw(imgs[1],c,cx-15*u,cyH+22*u,30*u,30*u,'left');
+  y+=hd+8;
+  wvT(c,A.mgr.toUpperCase(),x0+2*u,oy+(y+10)*u,'700 '+(12.5*u)+'px '+IN,MUT,'left',1.5);
+  wvT(c,B.mgr.toUpperCase(),x0+iw-2*u,oy+(y+10)*u,'700 '+(12.5*u)+'px '+IN,MUT,'right',1.5);
+  if(A.rec) wvT(c,A.rec,x0+2*u,oy+(y+28)*u,'500 '+(11.5*u)+'px '+IN,'#5d6350','left',.3);
+  if(B.rec) wvT(c,B.rec,x0+iw-2*u,oy+(y+28)*u,'500 '+(11.5*u)+'px '+IN,'#5d6350','right',.3);
+  y+=16+16+22;
+  wvT(c,'Lineup',x0+2*u,oy+y*u,'500 '+(13*u)+'px '+IN,MUT,'left');
+  wvT(c,'Week '+RCP.week+' · points',x0+iw-2*u,oy+y*u,'500 '+(13*u)+'px '+IN,MUT,'right');
+  y+=8; c.strokeStyle='#22261a'; c.lineWidth=2; c.beginPath(); c.moveTo(x0,oy+y*u); c.lineTo(x0+iw,oy+y*u); c.stroke();
+  var mx=0; A.rows.concat(B.rows).forEach(function(q){ if(q[2]>mx) mx=q[2]; }); if(mx<=0) mx=1;
+  var PC={QB:'#5aa2ff',RB:'#2fd3a4',WR:'#ff9d2e',TE:'#ff5fa6'}, mid=x0+iw/2, pw=44*u, gap=6*u, cw2=(iw-2*36*u-pw-4*gap)/2;
+  var lL=x0+36*u+gap, lR=lL+cw2, rL=lR+gap+pw+gap, rR=rL+cw2;
+  async function ph(full,xc,cy,ring){ var src=rcPhoto(full), im=src?await wvImg(src):null, rr=18*u;
+    c.save(); c.beginPath(); c.arc(xc,cy,rr,0,Math.PI*2); c.closePath(); c.clip();
+    if(im){ var s2=Math.max(2*rr/im.width,2*rr/im.height); c.drawImage(im,xc-im.width*s2/2,cy-im.height*s2/2,im.width*s2,im.height*s2); } else { c.fillStyle='#1a1d14'; c.fillRect(xc-rr,cy-rr,2*rr,2*rr); wvT(c,rcIni(rcShort(full)),xc,cy+4*u,'700 '+(12*u)+'px '+IN,MUT,'center'); }
+    c.restore(); }
+  for(var q=0;q<n;q++){ var a=A.rows[q], b=B.rows[q], top=oy+(y+q*rowH)*u, cy=top+(rowH/2-3)*u;
+    var wa=a[2]>b[2], wb=b[2]>a[2], DIM='#8d9479';
+    await ph(a[1],x0+18*u,cy,wa?AC:null); await ph(b[1],x0+iw-18*u,cy,wb?BC:null);
+    var ptsW=34*u;
+    wvT(c,rcF(a[2]),lR,cy+4*u,(20*u)+'px '+BB,wa?AC:DIM,'right'); wvT(c,rcF(b[2]),rL,cy+4*u,(20*u)+'px '+BB,wb?BC:DIM,'left');
+    var nf=wvFit(c,rcShort(a[1]),cw2-ptsW-6*u,'500 #px '+IN,12.5*u,9*u); wvT(c,rcShort(a[1]),lR-ptsW-6*u,cy+3*u,nf,wa?'#f2f4ea':DIM,'right');
+    nf=wvFit(c,rcShort(b[1]),cw2-ptsW-6*u,'500 #px '+IN,12.5*u,9*u); wvT(c,rcShort(b[1]),rL+ptsW+6*u,cy+3*u,nf,wb?'#f2f4ea':DIM,'left');
+    var bwA=Math.max(3*u,a[2]/mx*cw2), bwB=Math.max(3*u,b[2]/mx*cw2);
+    c.globalAlpha=.55; c.fillStyle=AC; wvRR(c,lR-bwA,cy+14*u,bwA,3*u,1.5*u); c.fill(); c.fillStyle=BC; wvRR(c,rL,cy+14*u,bwB,3*u,1.5*u); c.fill(); c.globalAlpha=1;
+    var p=a[0], pxl=lR+gap, pyt=cy-12*u; wvRR(c,pxl,pyt,pw,24*u,7*u); c.fillStyle=p==='W/R/T'?'#14170e':PC[p]+'1f'; c.fill(); c.lineWidth=u; c.strokeStyle=p==='W/R/T'?'#2e3322':PC[p]+'66'; c.stroke();
+    var pcx=pxl+pw/2, pcy=cy+4*u;
+    if(p==='W/R/T'){ wvT(c,'W',pcx-9*u,pcy,'700 '+(10.5*u)+'px '+IN,'#ff9d2e','center'); wvT(c,'R',pcx,pcy,'700 '+(10.5*u)+'px '+IN,'#2fd3a4','center'); wvT(c,'T',pcx+9*u,pcy,'700 '+(10.5*u)+'px '+IN,'#ff5fa6','center'); }
+    else wvT(c,p,pcx,pcy,'700 '+(11*u)+'px '+IN,PC[p],'center',.6);
+    c.strokeStyle='#15180f'; c.lineWidth=2; c.beginPath(); c.moveTo(x0,top+rowH*u-2*u); c.lineTo(x0+iw,top+rowH*u-2*u); c.stroke();
+  }
+  y+=n*rowH+14;
+  if(imgs[0]) wvDraw(imgs[0],c,x0+2*u,oy+y*u,90*u,38*u,'left');
+  wvT(c,'CUADZFANTASYNETWORK.COM',x0+iw-2*u,oy+(y+26)*u,(19*u)+'px '+BB,AC,'right',1.5);
+  return cv;
+}
+async function rcShare(k,i){
+  var ov=document.createElement('div'); ov.setAttribute('style','position:fixed;inset:0;z-index:99999;background:rgba(6,7,4,.88);display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow:auto');
+  ov.innerHTML='<div style="width:100%;max-width:520px;background:#14160f;border:1px solid #262a1b;border-radius:16px;padding:14px"><div id="rcBox"></div></div>';
+  document.body.appendChild(ov); ov.addEventListener('click',function(e){ if(e.target===ov) ov.remove(); });
+  var box=ov.querySelector('#rcBox');
+  box.innerHTML='<div style="color:#9aa089;font:500 14px Inter,sans-serif;text-align:center;padding:40px 0">Building your recap card…</div>';
+  var cv; try{ cv=await rcCard(k,i); }catch(e){ box.innerHTML='<div style="color:#ff8a80;font:500 14px Inter,sans-serif;text-align:center;padding:30px 0">Could not build the card.</div><button class="tc-ghost" id="rcX">Close</button>'; document.getElementById('rcX').onclick=function(){ ov.remove(); }; return; }
+  var I=rcInfo(k,i), url, fn='cfn-recap-'+k+'-week-'+RCP.week+'-'+I.A.mgr.replace(/\W+/g,'')+'-vs-'+I.B.mgr.replace(/\W+/g,'')+'.png';
+  try{ url=cv.toDataURL('image/png'); }catch(e){ box.innerHTML='<div style="color:#ff8a80;font:500 14px Inter,sans-serif;text-align:center;padding:30px 0">Could not export the card (a photo blocked it).</div><button class="tc-ghost" id="rcX">Close</button>'; document.getElementById('rcX').onclick=function(){ ov.remove(); }; return; }
+  var blob=await new Promise(function(r){ cv.toBlob(r,'image/png'); }), file=null, can=false;
+  try{ file=new File([blob],fn,{type:'image/png'}); can=!!(navigator.canShare&&navigator.canShare({files:[file]})); }catch(e){}
+  box.innerHTML='<img alt="Matchup recap" src="'+url+'" style="width:100%;height:auto;border-radius:14px;border:1px solid #262a1b;display:block"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="tc-btn" id="rcGo" style="flex:1">'+(can?'Share':'Save image')+'</button>'+(can?'<button class="tc-ghost" id="rcDl">Save</button>':'')+'<button class="tc-ghost" id="rcCl">Close</button></div><div id="rcMsg" style="color:#9aa089;font:500 12px Inter,sans-serif;margin-top:8px"></div>';
+  function save(){ var a=document.createElement('a'); a.href=url; a.download=fn; document.body.appendChild(a); a.click(); a.remove(); document.getElementById('rcMsg').textContent='Image saved. On a phone, press and hold the card to save it to Photos.'; }
+  document.getElementById('rcCl').onclick=function(){ ov.remove(); };
+  if(can){ document.getElementById('rcGo').onclick=function(){ navigator.share({files:[file],title:I.A.team+' vs '+I.B.team,text:'Week '+RCP.week+' · '+LGI[k].name+' on the Cuadz Fantasy Network'}).catch(function(){}); }; document.getElementById('rcDl').onclick=save; }
+  else document.getElementById('rcGo').onclick=save;
+}
+</script>
 </body></html>
