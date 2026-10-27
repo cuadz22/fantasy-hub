@@ -8,7 +8,7 @@ function pmImg(name,sz){ var s=rcPhoto(name); if(s) return '<img src="'+s+'" sty
 function pmHead(k,mgr,id,sz,col){
   var H=k==='gl'?(ST_BIG.heads||{})[mgr]:null, u=((ST_BIG.logos||{})[k]||{})[String(id)], d=u&&BIG_LOGO_DATA[u];
   if(H) return '<img src="'+H+'" style="width:'+sz+'px;height:'+sz+'px;object-fit:contain;display:block;flex:none">';
-  if(d) return '<img src="'+d+'" style="width:'+sz+'px;height:'+sz+'px;border-radius:14px;object-fit:cover;display:block;flex:none">';
+  if(d) return '<img src="'+d+'" style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;object-fit:cover;display:block;flex:none">';
   return '<div style="width:'+sz+'px;height:'+sz+'px;color:'+col+';font-weight:700;font-size:'+Math.round(sz*.34)+'px;display:flex;align-items:center;justify-content:center;flex:none">'+stEsc(rcIni(mgr))+'</div>'; }
 function pmFrame(d,kick,inner){
   var lg=LG_LOGO[d.id];
@@ -125,6 +125,30 @@ function pmPreviewHTML(k,i){
    +'<div style="margin-top:auto;padding-top:6px">'+foot+'</div></div>';
 }
 function pmPreview(d,i){ pmEnsureP(d.id); return pmPreviewHTML(d.id,i); }
+
+/* ---------- Mr. October (month award v2: record, points, margin, all-play + 3 MVPs) ---------- */
+function awCard2(k,a){
+  var G=ST_GREEN, L=rcLg(k), M='MR. '+a.month.toUpperCase();
+  var ord=function(n){return n+(n%10==1&&n!=11?'st':n%10==2&&n!=12?'nd':n%10==3&&n!=13?'rd':'th');};
+  var tile=function(lbl,val,sub){return '<div style="flex:1;background:'+G+'0d;border:.5px solid '+G+'25;border-radius:7px;padding:5px 3px;text-align:center"><div style="font-size:7.5px;color:#ffffff55;letter-spacing:.12em">'+lbl+'</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:23px;color:#fff;line-height:1.1">'+val+'</div><div style="font-size:7.5px;color:#ffffff55">'+sub+'</div></div>';};
+  var mv=a.players.map(function(p){ return '<div style="flex:1;text-align:center">'+stAv(p[0],p[1],72)+'<div style="font-size:11px;font-weight:700;color:#fff;margin-top:5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+stEsc(p[0])+'</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:21px;color:'+G+';line-height:1.05">'+p[2].toFixed(1)+' <span style="font-size:10px;color:#ffffff70;font-family:system-ui">PTS</span></div><div style="font-size:8px;color:#ffffff50">'+p[1]+' · '+p[3]+' games</div></div>'; }).join('');
+  var wk=a.wk.map(function(w){ var win=w[0]>w[2]; return '<div style="flex:1;min-width:0;border:.5px solid #ffffff18;border-radius:6px;padding:4px 5px;text-align:center;background:#ffffff06"><div style="font-size:7.5px;color:'+(win?G:'#ff7a66')+';letter-spacing:.14em">WEEK '+w[4]+' · '+(win?'W':'L')+'</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:19px;color:#fff;line-height:1.1">'+w[0].toFixed(2)+'</div><div style="font-size:7.5px;color:#ffffff60;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+(win?'def. ':'lost to ')+stEsc(w[1])+' '+w[2].toFixed(2)+'</div><div style="font-size:7.5px;color:#ffffff40">'+ord(w[3])+' in league scoring</div></div>'; }).join('');
+  var bd=a.board.map(function(b,i){return '<div style="display:flex;align-items:center;gap:8px;padding:3px 0;border-bottom:.5px solid #ffffff0d"><span style="font-family:\'Bebas Neue\',sans-serif;font-size:15px;width:16px;color:'+(i?'#ffffff60':G)+'">'+(i+1)+'</span><span style="flex:1;font-size:10.5px;color:'+(i?'#ffffffc0':'#fff')+';font-weight:'+(i?500:700)+'">'+stEsc(b[0])+' <span style="color:#ffffff55;font-weight:400">· '+stEsc(b[1])+'</span></span><span style="font-family:\'Bebas Neue\',sans-serif;font-size:15px;color:'+(i?'#fff':G)+'">'+b[2].toFixed(1)+'</span></div>';}).join('');
+  var inner='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><img src="'+CFN_LOGO+'" alt="CFN" style="height:28px;width:auto"><div style="font-size:9px;color:#ffffff55;letter-spacing:.14em;text-transform:uppercase">'+stEsc(L)+' · '+a.weeks+'</div></div>'
+   +'<div style="height:1px;background:'+G+'30;margin-bottom:8px"></div>'
+   +'<div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:8px">'+(LG_LOGO[k]?'<img src="'+LG_LOGO[k]+'" alt="" style="height:56px;width:auto;max-width:90px;object-fit:contain">':'')
+   +'<div style="text-align:center"><div style="font-size:15px;line-height:1">🏆</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:26px;color:'+G+';letter-spacing:.08em;line-height:1.05">'+M+'</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:36px;color:#fff;letter-spacing:.03em;line-height:1">'+stEsc(a.mgr.toUpperCase())+'</div><div style="font-size:10px;color:#ffffff90;margin-top:1px">'+stEsc(a.team)+'</div></div>'
+   +'<div style="text-align:center;width:90px"><div style="font-size:7.5px;color:#ffffff55;letter-spacing:.14em">AWARD SCORE</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:40px;color:'+G+';line-height:1">'+a.score.toFixed(1)+'</div><div style="font-size:7.5px;color:#ffffff55">out of 100</div></div></div>'
+   +'<div style="font-size:7.5px;color:'+G+';letter-spacing:.14em;margin-bottom:5px;text-align:center">MONTH MVPs</div><div style="display:flex;gap:6px;margin-bottom:9px">'+mv+'</div>'
+   +'<div style="display:flex;gap:6px;margin-bottom:7px">'+tile('RECORD',a.rec,a.weeks)+tile('POINTS FOR',a.pf.replace(/0$/,''),ord(a.pfRank)+' in league')+tile('AVG MARGIN','+'+a.margin.toFixed(1),'per game')+tile('ALL-PLAY',a.ap,'vs whole league')+'</div>'
+   +'<div style="display:flex;gap:5px;margin-bottom:7px">'+wk+'</div>'
+   +'<div style="font-size:11px;line-height:1.45;color:#ffffffd0;margin-bottom:7px">'+stEsc(a.note||'')+'</div>'
+   +'<div style="font-size:7.5px;color:'+G+';letter-spacing:.14em;margin-bottom:1px">TOP 3 THIS MONTH</div>'+bd
+   +'<div style="font-size:6.5px;color:#ffffff40;letter-spacing:.04em;margin:4px 0 4px;line-height:1.35">Award score = record 30% · points scored 30% · average margin of victory 20% · all-play 20%, each scaled within the league. Winning record required. MVPs are the winner’s top three scorers while in his starting lineup.</div>'+stFooter(L);
+  return stCardBase(inner,'14px 22px 10px');
+}
+var _awCard=awCard; awCard=function(k,a){ return a&&a.v===2?awCard2(k,a):_awCard(k,a); };
+if(RCP.oct) Object.keys(RCP.oct).forEach(function(k){ if(AWARDS[k]&&!AWARDS[k].some(function(x){ return x.month==='October'; })) AWARDS[k].push(RCP.oct[k]); });
 /* hook into Studio */
 var _stSlideHTML=stSlideHTML;
 stSlideHTML=function(d,i){ if(stState.style!=='classic'){ var m=d.matchups.length; if(i===0) return pmWeekly(d); if(i<=m) return pmSquare(d,i); if(i<=2*m) return pmPreview(d,i-m-1); } return _stSlideHTML(d,i); };

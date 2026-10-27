@@ -29,6 +29,7 @@ for k in ['gl','bh','rb','sts']:
             L.append(sk); SD.append([[star[1],star[2]],[dud[0],dud[1],dud[2]]])
         out.append({'t':[a,b],'s':m['s'],'L':L,'sd':SD})
     RCP['lg'][k]=out
+RCP['oct']=json.load(open('w7/oct.json'))
 RCP['od']=json.load(open('w7/od.json'))   # win-probability checkpoints (pre, after 1pm, after 4pm, after SNF), team-A perspective
 css=open('rc_css.css').read(); js=open('rc_js.js').read()+'\n'+open('pm_studio.js').read()
 assert h.count('</head>')==1
