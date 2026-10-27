@@ -48,7 +48,9 @@ function rcInfo(k,i){
   return {m:m,A:sides[0],B:sides[1]};
 }
 function rcPre(h){ return h.replace(/class="([^"]*)"/g,function(m,v){ return 'class="'+v.split(/\s+/).filter(Boolean).map(function(t){ return 'rc-'+t; }).join(' ')+'"'; }); }
+function rcFitTitle(w){ var h=w.querySelector('h1'); if(!h) return; h.style.fontSize=''; var fs=parseFloat(getComputedStyle(h).fontSize)||27, i=0; while(h.scrollWidth>h.clientWidth+1&&fs>14&&i<40){ fs-=1; h.style.fontSize=fs+'px'; i++; } }
 function rcFit(w){
+  rcFitTitle(w); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){ rcFitTitle(w); });
   function go(){ w.style.zoom=''; if(!w.isConnected||innerWidth<900) return; var H=w.offsetHeight; if(!H) return;
     var top=Math.max(0,w.getBoundingClientRect().top), avail=innerHeight-84; var z=Math.min(1,avail/H); if(z<1) w.style.zoom=z.toFixed(3); }
   if(!w._rcf){ w._rcf=1; addEventListener('resize',go); if(window.IntersectionObserver) new IntersectionObserver(function(e){ if(e[0].isIntersecting) go(); }).observe(w); }
@@ -74,7 +76,7 @@ function rcView(k){
      +'<div class="crumb">Fantasy <i>•</i> '+rcEsc(rcLg(k))+' · Week '+RCP.week+'</div>'
      +'<h1>'+rcEsc(A.team.toUpperCase())+' VS '+rcEsc(B.team.toUpperCase())+'</h1>'
      +'<div class="score"><div class="tm"><div class="tr">'+av(A,'A')+'<div class="sc A'+(wA?'':' dim')+'">'+rcF(sa)+'</div></div><div class="mg">'+rcEsc(A.mgr.toUpperCase())+'</div>'+(A.rec?'<div class="rec">'+rcEsc(A.rec)+'</div>':'')+'</div>'
-     +'<div class="mid"><div class="fin">Final</div><div class="mr">'+rcLabel(Math.abs(sa-sb))+'</div>'+(LG_LOGO[k]?'<img class="lgl" src="'+LG_LOGO[k]+'" alt="">':'')+(k==='bh'?'':'<div class="lgn">'+rcEsc(rcLg(k))+'</div>')+'</div>'
+     +'<div class="mid"><div class="fin">Final</div><div class="mr">'+rcLabel(Math.abs(sa-sb))+'</div>'+(LG_LOGO[k]?'<img class="lgl" src="'+LG_LOGO[k]+'" alt="">':'')+'</div>'
      +'<div class="tm rt"><div class="tr"><div class="sc B'+(wA?' dim':'')+'">'+rcF(sb)+'</div>'+av(B,'B')+'</div><div class="mg">'+rcEsc(B.mgr.toUpperCase())+'</div>'+(B.rec?'<div class="rec">'+rcEsc(B.rec)+'</div>':'')+'</div></div>'
      +'<div class="sd">'+sd(A,'A')+sd(B,'B')+'</div>'
      +(function(){ var tr=rcTrail(k,cur); if(!tr) return ''; return '<div class="od"><div class="odh"><span class="odl">Win probability · '+rcEsc(tr.S.team)+'</span><span class="odt">'+rcEsc(tr.tag)+'</span></div>'+rcTrailHTML(tr,{h:104,t:24,b:24})+'</div>'; })()
@@ -108,7 +110,7 @@ function rcView(k){
      +'<div class="crumb">Fantasy <i>•</i> '+rcEsc(rcLg(k))+' · Week '+(RCP.week+1)+' preview</div>'
      +'<h1>'+rcEsc(A.team.toUpperCase())+' VS '+rcEsc(B.team.toUpperCase())+'</h1>'
      +'<div class="score"><div class="tm"><div class="tr">'+av(A,'A')+'<div class="sc A'+(favA?'':' dim')+'">'+rcF(A.s)+'</div></div><div class="mg">'+rcEsc(A.mgr.toUpperCase())+'</div>'+(A.rec?'<div class="rec">'+rcEsc(A.rec)+'</div>':'')+'</div>'
-     +'<div class="mid"><div class="fin">Week '+(RCP.week+1)+'</div><div class="mr">Projected</div>'+(LG_LOGO[k]?'<img class="lgl" src="'+LG_LOGO[k]+'" alt="">':'')+(k==='bh'?'':'<div class="lgn">'+rcEsc(rcLg(k))+'</div>')+'</div>'
+     +'<div class="mid"><div class="fin">Week '+(RCP.week+1)+'</div><div class="mr">Projected</div>'+(LG_LOGO[k]?'<img class="lgl" src="'+LG_LOGO[k]+'" alt="">':'')+'</div>'
      +'<div class="tm rt"><div class="tr"><div class="sc B'+(favA?' dim':'')+'">'+rcF(B.s)+'</div>'+av(B,'B')+'</div><div class="mg">'+rcEsc(B.mgr.toUpperCase())+'</div>'+(B.rec?'<div class="rec">'+rcEsc(B.rec)+'</div>':'')+'</div></div>'
      +'<div class="sd">'+sdp(A,'A',oA,I.wp)+sdp(B,'B',oB,100-I.wp)+'</div>'
      +(I.h2h?'<div class="h2h">'+rcEsc(I.h2h.replace(/^\ud83d\udd25 /,''))+(I.riv?'<span class="rv">Rivalry</span>':'')+'</div>':'')
@@ -149,8 +151,7 @@ async function rcCard(k,i){
   var cx=x0+iw/2;
   wvT(c,'Final',cx,cyH-4*u,'600 '+(16*u)+'px '+IN,AC,'center');
   wvT(c,rcLabel(Math.abs(A.s-B.s)),cx,cyH+14*u,'500 '+(12.5*u)+'px '+IN,MUT,'center');
-  if(imgs[1]) wvDraw(imgs[1],c,cx-15*u,cyH+22*u,30*u,30*u,'left');
-  if(k!=='bh') wvT(c,rcLg(k),cx,cyH+62*u,'500 '+(10*u)+'px '+IN,'#5d6350','center');
+  if(imgs[1]) wvDraw(imgs[1],c,cx-26*u,cyH+20*u,52*u,52*u,'left');
   y+=hd+8;
   wvT(c,A.mgr.toUpperCase(),x0+2*u,oy+(y+10)*u,'700 '+(12.5*u)+'px '+IN,MUT,'left',1.5);
   wvT(c,B.mgr.toUpperCase(),x0+iw-2*u,oy+(y+10)*u,'700 '+(12.5*u)+'px '+IN,MUT,'right',1.5);
