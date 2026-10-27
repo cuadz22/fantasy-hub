@@ -2,7 +2,7 @@ import json,sys
 BASE,OUT=sys.argv[1],sys.argv[2]
 h=open(BASE).read()
 o,_=json.JSONDecoder().raw_decode(h[h.index('{',h.index('ST_BIG=')):])
-SK=('QB','RB','WR','TE','W/R/T')
+SK=('QB','RB','WR','TE','W/R/T','Q/W/R/T')
 def parse(x):
     r=[]
     for s in x.split(';'):
@@ -19,7 +19,7 @@ for k in ['gl','bh','rb','sts']:
         a,b=m['t']; lu=full['%dv%d'%(a,b)]
         L=[];SD=[]
         for j in (0,1):
-            sk=[[p,n,pt] for p,n,pt in lu[j] if p in SK]
+            sk=[['SFX' if p=='Q/W/R/T' else p,n,pt] for p,n,pt in lu[j] if p in SK]
             kk=m['k'][j]; pj={}
             for g in kk['top']+kk['bot']+kk['bn']:
                 nm,v=g.rsplit(' ',1); ac,pr=v.split('/'); pj[nm]=(float(ac),float(pr))
@@ -29,6 +29,7 @@ for k in ['gl','bh','rb','sts']:
             L.append(sk); SD.append([[star[1],star[2]],[dud[0],dud[1],dud[2]]])
         out.append({'t':[a,b],'s':m['s'],'L':L,'sd':SD})
     RCP['lg'][k]=out
+RCP['od']=json.load(open('w7/od.json'))   # win-probability checkpoints (pre, after 1pm, after 4pm, after SNF), team-A perspective
 css=open('rc_css.css').read(); js=open('rc_js.js').read()+'\n'+open('pm_studio.js').read()
 assert h.count('</head>')==1
 h=h.replace('</head>','<style id="rc-css">\n'+css+'</style>\n</head>')

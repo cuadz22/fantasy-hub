@@ -171,3 +171,13 @@
 .rc .rc-chip{flex:1;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:12px 18px}
 .rc .rc-cs{font-size:12px}.rc .rc-cr{font-size:16px}
 }
+
+/* ---- win probability + preview additions ---- */
+.rc .rc-od{margin:4px 0 14px;padding:12px 14px 6px;border:1px solid var(--line);border-radius:16px;background:#0c0e09}
+.rc .rc-odh{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rc .rc-odl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#5d6350;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.rc .rc-odt{font-size:11px;font-weight:700;color:#acf910;background:rgba(172,249,16,.1);border-radius:7px;padding:4px 8px;white-space:nowrap;flex:none}
+.rc .rc-tag.rc-n{background:rgba(141,148,121,.16);color:#8d9479}
+.rc .rc-h2h{font-size:12px;color:#8d9479;text-align:center;border:1px solid var(--line);border-radius:12px;padding:9px 10px;margin:2px 0 14px}
+.rc .rc-h2h .rc-rv{margin-left:8px;color:#ff9d2e;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:10.5px}
+.rc .rc-ps.rc-SFX{background:rgba(197,139,255,.12);border-color:rgba(197,139,255,.4);color:#c58bff}

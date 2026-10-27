@@ -1,5 +1,25 @@
 /* ---------- Matchup recap screens (prediction-market style) ---------- */
-var RC_STATE={};
+var RC_STATE={}, RC_MODE={};
+function rcLg(k){ return k==='gl'?'GENTS':LGI[k].name; }
+function rcAm(p){ var q=Math.min(.97,Math.max(.03,p/100*1.025)), o; if(q>=.5){ o=-100*q/(1-q); o=Math.round(o/5)*5; if(o>-100) o=-100; if(o<-2000) o=-2000; return String(o); } o=100*(1-q)/q; o=Math.round(o/5)*5; if(o<100) o=100; if(o>2000) o=2000; return '+'+o; }
+var RC_OLB=['Pre-game','After 1 PM','After 4 PM','After SNF','Final'];
+function rcTrail(k,i){ var od=RCP.od&&RCP.od[k]&&RCP.od[k][i]; if(!od) return null; var I=rcInfo(k,i), wA=I.A.s>=I.B.s, s=od.slice(); s.push(wA?100:0); if(!wA) s=s.map(function(x){ return 100-x; });
+  var pre=s[0], mid=Math.min(s[1],s[2],s[3]), tag;
+  if(s[3]<50) tag='Monday night comeback'; else if(mid<50) tag='Comeback win'; else if(pre<40) tag='Upset'; else if(s[3]<75) tag='Held on'; else if(pre>=65) tag='Never in doubt'; else tag='Pulled away';
+  return {s:s,wA:wA,S:wA?I.A:I.B,tag:tag,col:wA?'#acf910':'#4cc3ff'}; }
+function rcTrailHTML(tr,o){ o=o||{}; var H=o.h||90, M=o.m||30, T=o.t||22, B=o.b||22, col=tr.col, fs=o.fs||10.5, ax=o.ax||9;
+  var pts=tr.s.map(function(p,n){ return (n*25)+','+(100-p); }).join(' ');
+  var dots=tr.s.map(function(p,n){ var last=n===4, x=n*25, y=100-p;
+    return '<div style="position:absolute;left:'+x+'%;top:'+y+'%;width:'+(last?11:9)+'px;height:'+(last?11:9)+'px;margin:-'+(last?5.5:4.5)+'px 0 0 -'+(last?5.5:4.5)+'px;border-radius:50%;background:'+col+';box-shadow:0 0 0 2px #0b0c08"></div>'
+     +'<div style="position:absolute;left:'+x+'%;top:'+y+'%;transform:translate(-50%,-165%);font:700 '+(last?fs+1.5:fs)+'px Inter,sans-serif;color:'+col+';white-space:nowrap;line-height:1">'+p+'%</div>'
+     +'<div style="position:absolute;left:'+x+'%;top:100%;transform:translateX(-50%);margin-top:'+(o.ay||9)+'px;font:500 '+ax+'px Inter,sans-serif;color:#5d6350;white-space:nowrap;line-height:1">'+RC_OLB[n]+'</div>'; }).join('');
+  return '<div style="position:relative;height:'+H+'px"><div style="position:absolute;left:'+M+'px;right:'+M+'px;top:'+T+'px;bottom:'+B+'px">'
+   +'<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible"><line x1="0" y1="50" x2="100" y2="50" stroke="#2a2f1f" stroke-width="1" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/><polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>'+dots+'</div></div>'; }
+function rcPrevInfo(k,i){ var c=ST_BIG.cards[k].w5[i];
+  function side(x){ return {team:x.t,mgr:x.m,rec:x.r,id:x.id,s:x.s,lo:x.lo,hi:x.hi,rows:x.rows.map(function(r){ return [r[0]==='FLX'?'W/R/T':r[0],r[1],r[2]]; })}; }
+  return {A:side(c.a),B:side(c.b),wp:c.wp,h2h:c.h2h||'',riv:c.riv}; }
+function rcNamesP(I){ var a=[]; [I.A,I.B].forEach(function(S){ S.rows.forEach(function(r){ if(r[1]!=='\u2014') a.push(r[1]); }); }); return a; }
+
 function rcShort(n){ var t=String(n).split(' '); while(t.length>1&&/^(jr|sr|ii|iii|iv)\.?$/i.test(t[t.length-1])) t=t.slice(0,-1); if(t.length===1) return t[0]; return t[0].charAt(0)+'. '+t.slice(1).join(' '); }
 function rcIni(s){ var w=String(s).replace('. ',' ').split(' '); return (w[0].charAt(0)+(w.length>1?w[w.length-1].charAt(0):'')).toUpperCase(); }
 function rcPhoto(n){ return (typeof PHOTOS!=='undefined'&&PHOTOS[n])||null; }
@@ -38,6 +58,7 @@ function rcView(k){
   var wrap=document.createElement('div'); wrap.className='rc'; wrap.id='rc-'+k;
   if(RC_STATE[k]==null) RC_STATE[k]=0;
   function draw(){
+    if(RC_MODE[k]==='p') return drawP();
     var cur=RC_STATE[k], I=rcInfo(k,cur), A=I.A, B=I.B, sa=A.s, sb=B.s, wA=sa>=sb;
     var mx=0; A.rows.concat(B.rows).forEach(function(r){ if(r[2]>mx) mx=r[2]; }); if(mx<=0) mx=1;
     var chips=RCP.lg[k].map(function(_,i){ var q=rcInfo(k,i);
@@ -50,20 +71,51 @@ function rcView(k){
       return '<div class="lr">'+php(a[1],wa?'wA':'',rcShort(a[1]))+'<div class="l '+(wa?'w':'')+'"><span class="nm">'+rcEsc(rcShort(a[1]))+'</span><b>'+rcF(a[2])+'</b><i style="width:'+Math.max(0,a[2]/mx*100)+'%"></i></div>'+pos(a[0])+'<div class="r '+(wb?'w':'')+'"><b>'+rcF(b[2])+'</b><span class="nm">'+rcEsc(rcShort(b[1]))+'</span><i style="width:'+Math.max(0,b[2]/mx*100)+'%"></i></div>'+php(b[1],wb?'wB':'',rcShort(b[1]))+'</div>'; }).join('');
     var h='<div class="side"><div class="sidehd">Week '+RCP.week+' matchups</div><div class="chips">'+chips+'</div></div><div class="main">'
      +'<div class="nav"><span class="bk">‹</span><div class="seg"><u>Matchup</u></div><span class="dots">···</span></div>'
-     +'<div class="crumb">Fantasy <i>•</i> '+rcEsc(LGI[k].name)+' · Week '+RCP.week+'</div>'
+     +'<div class="crumb">Fantasy <i>•</i> '+rcEsc(rcLg(k))+' · Week '+RCP.week+'</div>'
      +'<h1>'+rcEsc(A.team.toUpperCase())+' VS '+rcEsc(B.team.toUpperCase())+'</h1>'
      +'<div class="score"><div class="tm"><div class="tr">'+av(A,'A')+'<div class="sc A'+(wA?'':' dim')+'">'+rcF(sa)+'</div></div><div class="mg">'+rcEsc(A.mgr.toUpperCase())+'</div>'+(A.rec?'<div class="rec">'+rcEsc(A.rec)+'</div>':'')+'</div>'
-     +'<div class="mid"><div class="fin">Final</div><div class="mr">'+rcLabel(Math.abs(sa-sb))+'</div>'+(LG_LOGO[k]?'<img class="lgl" src="'+LG_LOGO[k]+'" alt="">':'')+(k==='bh'?'':'<div class="lgn">'+rcEsc(LGI[k].name)+'</div>')+'</div>'
+     +'<div class="mid"><div class="fin">Final</div><div class="mr">'+rcLabel(Math.abs(sa-sb))+'</div>'+(LG_LOGO[k]?'<img class="lgl" src="'+LG_LOGO[k]+'" alt="">':'')+(k==='bh'?'':'<div class="lgn">'+rcEsc(rcLg(k))+'</div>')+'</div>'
      +'<div class="tm rt"><div class="tr"><div class="sc B'+(wA?' dim':'')+'">'+rcF(sb)+'</div>'+av(B,'B')+'</div><div class="mg">'+rcEsc(B.mgr.toUpperCase())+'</div>'+(B.rec?'<div class="rec">'+rcEsc(B.rec)+'</div>':'')+'</div></div>'
      +'<div class="sd">'+sd(A,'A')+sd(B,'B')+'</div>'
+     +(function(){ var tr=rcTrail(k,cur); if(!tr) return ''; return '<div class="od"><div class="odh"><span class="odl">Win probability · '+rcEsc(tr.S.team)+'</span><span class="odt">'+rcEsc(tr.tag)+'</span></div>'+rcTrailHTML(tr,{h:104,t:24,b:24})+'</div>'; })()
      +'<div class="tabs"><b>Stats</b><span class="on">Matchup</span></div>'
      +'<div class="lu">'+rows+'</div>'
      +'<div class="btns"><div class="bA" data-a="share">Share recap</div><div class="bB" data-a="next">Week '+(RCP.week+1)+' preview ›</div></div></div>';
-    wrap.innerHTML=rcPre(h);
-    wrap.querySelectorAll('.rc-chip').forEach(function(c){ c.onclick=function(){ var sx=wrap.querySelector('.rc-chips').scrollLeft; RC_STATE[k]=+c.dataset.i; draw(); rcLoadPhotos(rcNames(rcInfo(k,RC_STATE[k]))).then(function(ch){ if(ch&&RC_STATE[k]===+c.dataset.i) { var s2=wrap.querySelector('.rc-chips').scrollLeft; draw(); wrap.querySelector('.rc-chips').scrollLeft=s2; } }); wrap.querySelector('.rc-chips').scrollLeft=sx; }; });
-    wrap.querySelector('[data-a="share"]').onclick=function(){ rcShare(k,RC_STATE[k]); };
-    rcFit(wrap);
-    wrap.querySelector('[data-a="next"]').onclick=function(){ var n=wrap.nextElementSibling; if(n) n.scrollIntoView({behavior:'smooth',block:'start'}); };
+    wrap.innerHTML=rcPre(h); bind(false);
+  }
+  function bind(P){ var sk=P?k+'p':k;
+    wrap.querySelectorAll('.rc-chip').forEach(function(c){ c.onclick=function(){ var sx=wrap.querySelector('.rc-chips').scrollLeft, ix=+c.dataset.i; RC_STATE[sk]=ix; draw();
+      var nm=P?rcNamesP(rcPrevInfo(k,ix)):rcNames(rcInfo(k,ix));
+      rcLoadPhotos(nm).then(function(ch){ if(ch&&RC_STATE[sk]===ix){ var s2=wrap.querySelector('.rc-chips').scrollLeft; draw(); wrap.querySelector('.rc-chips').scrollLeft=s2; } }); wrap.querySelector('.rc-chips').scrollLeft=sx; }; });
+    wrap.querySelector('[data-a="share"]').onclick=function(){ rcShare(k,RC_STATE[sk],P); };
+    wrap.querySelector('[data-a="next"]').onclick=function(){ RC_MODE[k]=P?'r':'p'; if(RC_STATE[k+'p']==null) RC_STATE[k+'p']=0; draw();
+      var pm=RC_MODE[k]==='p', ix=RC_STATE[pm?k+'p':k]; rcLoadPhotos(pm?rcNamesP(rcPrevInfo(k,ix)):rcNames(rcInfo(k,ix))).then(function(ch){ if(ch) draw(); }); };
+    rcFit(wrap); }
+  function drawP(){
+    var cur=RC_STATE[k+'p']||0, I=rcPrevInfo(k,cur), A=I.A, B=I.B, favA=I.wp>=50, oA=rcAm(I.wp), oB=rcAm(100-I.wp);
+    var mx=0; A.rows.concat(B.rows).forEach(function(r){ if(r[2]>mx) mx=r[2]; }); if(mx<=0) mx=1;
+    var W5=ST_BIG.cards[k].w5;
+    var chips=W5.map(function(c,i){ var p=c.wp, on=i===cur;
+      return '<button class="chip'+(on?' on':'')+'" data-i="'+i+'"><div class="cs">Preview</div><div class="cr"><span>'+rcEsc(rcFn(c.a.m))+'</span><em class="'+(p>=50?'g':'')+'">'+rcAm(p)+'</em></div><div class="cr"><span>'+rcEsc(rcFn(c.b.m))+'</span><em class="'+(p<50?'g':'')+'">'+rcAm(100-p)+'</em></div></button>'; }).join('');
+    function av(S,c){ var a=rcAvatar(k,S.mgr,S.id); return a?'<img class="hd '+c+(k==='gl'?'':' lg')+'" src="'+a+'" alt="">':'<div class="hd '+c+'">'+rcIni(S.mgr)+'</div>'; }
+    function php(full,cls,t){ if(full==='\u2014') return '<div class="ph '+cls+'">–</div>'; var s=rcPhoto(full); return s?'<img class="ph '+cls+'" src="'+s+'" alt="">':'<div class="ph '+cls+'">'+rcIni(t)+'</div>'; }
+    function pos(p){ return p==='W/R/T'?'<div class="ps FLX"><span class="cw">W</span><span class="cr2">R</span><span class="ct">T</span></div>':'<div class="ps '+p+'">'+p+'</div>'; }
+    function sdp(S,c,odd,pc){ return '<div class="sdc '+c+'"><div class="sdr"><span class="tag s">ODDS</span><div class="sdh">To win</div></div><div class="sdv">'+odd+' <small>'+pc+'%</small></div><div class="sdr d2"><span class="tag n">RANGE</span><div class="sdh">Floor – ceiling</div></div><div class="sdv dd">'+S.lo+'–'+S.hi+' <small>pts</small></div></div>'; }
+    var rows=A.rows.map(function(a,i){ var b=B.rows[i], wa=a[2]>b[2], wb=b[2]>a[2], ea=a[1]==='\u2014', eb=b[1]==='\u2014';
+      return '<div class="lr">'+php(a[1],'',rcShort(a[1]))+'<div class="l '+(wa?'w':'')+'"><span class="nm">'+rcEsc(ea?'Empty slot':rcShort(a[1]))+'</span><b>'+rcF(a[2])+'</b><i style="width:'+Math.max(0,a[2]/mx*100)+'%"></i></div>'+pos(a[0])+'<div class="r '+(wb?'w':'')+'"><b>'+rcF(b[2])+'</b><span class="nm">'+rcEsc(eb?'Empty slot':rcShort(b[1]))+'</span><i style="width:'+Math.max(0,b[2]/mx*100)+'%"></i></div>'+php(b[1],'',rcShort(b[1]))+'</div>'; }).join('');
+    var h='<div class="side"><div class="sidehd">Week '+(RCP.week+1)+' matchups</div><div class="chips">'+chips+'</div></div><div class="main">'
+     +'<div class="nav"><span class="bk">‹</span><div class="seg"><u>Preview</u></div><span class="dots">···</span></div>'
+     +'<div class="crumb">Fantasy <i>•</i> '+rcEsc(rcLg(k))+' · Week '+(RCP.week+1)+' preview</div>'
+     +'<h1>'+rcEsc(A.team.toUpperCase())+' VS '+rcEsc(B.team.toUpperCase())+'</h1>'
+     +'<div class="score"><div class="tm"><div class="tr">'+av(A,'A')+'<div class="sc A'+(favA?'':' dim')+'">'+rcF(A.s)+'</div></div><div class="mg">'+rcEsc(A.mgr.toUpperCase())+'</div>'+(A.rec?'<div class="rec">'+rcEsc(A.rec)+'</div>':'')+'</div>'
+     +'<div class="mid"><div class="fin">Week '+(RCP.week+1)+'</div><div class="mr">Projected</div>'+(LG_LOGO[k]?'<img class="lgl" src="'+LG_LOGO[k]+'" alt="">':'')+(k==='bh'?'':'<div class="lgn">'+rcEsc(rcLg(k))+'</div>')+'</div>'
+     +'<div class="tm rt"><div class="tr"><div class="sc B'+(favA?' dim':'')+'">'+rcF(B.s)+'</div>'+av(B,'B')+'</div><div class="mg">'+rcEsc(B.mgr.toUpperCase())+'</div>'+(B.rec?'<div class="rec">'+rcEsc(B.rec)+'</div>':'')+'</div></div>'
+     +'<div class="sd">'+sdp(A,'A',oA,I.wp)+sdp(B,'B',oB,100-I.wp)+'</div>'
+     +(I.h2h?'<div class="h2h">'+rcEsc(I.h2h.replace(/^\ud83d\udd25 /,''))+(I.riv?'<span class="rv">Rivalry</span>':'')+'</div>':'')
+     +'<div class="tabs"><b>Lineups</b><span class="on">Projected</span></div>'
+     +'<div class="lu">'+rows+'</div>'
+     +'<div class="btns"><div class="bA" data-a="share">Share preview</div><div class="bB" data-a="next">‹ Week '+RCP.week+' recap</div></div></div>';
+    wrap.innerHTML=rcPre(h); bind(true);
   }
   draw();
   rcLoadPhotos(rcNames(rcInfo(k,RC_STATE[k]))).then(function(ch){ if(ch&&document.body.contains(wrap)) draw(); });
@@ -84,7 +136,7 @@ async function rcCard(k,i){
   wvRR(c,ox,oy,cw,ch,30*u); c.fillStyle=g; c.fill(); c.lineWidth=2; c.strokeStyle='#22261a'; c.stroke();
   var imgs=await Promise.all([wvImg(CFN_LOGO), wvImg(LG_LOGO[k]), (k==='gl'?wvImg(rcAvatar(k,A.mgr,A.id)):fmLogo(k,A.id)), (k==='gl'?wvImg(rcAvatar(k,B.mgr,B.id)):fmLogo(k,B.id))]);
   var y=16;
-  wvT(c,LGI[k].name+' · Week '+RCP.week,x0+2*u,oy+(y+10)*u,'500 '+(12.5*u)+'px '+IN,MUT,'left');
+  wvT(c,rcLg(k)+' · Week '+RCP.week,x0+2*u,oy+(y+10)*u,'500 '+(12.5*u)+'px '+IN,MUT,'left');
   y+=14+8;
   var title=(A.team+' VS '+B.team).toUpperCase();
   wvT(c,title,x0+2*u,oy+(y+26)*u,wvFit(c,title,iw-4*u,'#px '+BB,31*u,16*u),'#f2f4ea','left',.3);
@@ -98,7 +150,7 @@ async function rcCard(k,i){
   wvT(c,'Final',cx,cyH-4*u,'600 '+(16*u)+'px '+IN,AC,'center');
   wvT(c,rcLabel(Math.abs(A.s-B.s)),cx,cyH+14*u,'500 '+(12.5*u)+'px '+IN,MUT,'center');
   if(imgs[1]) wvDraw(imgs[1],c,cx-15*u,cyH+22*u,30*u,30*u,'left');
-  if(k!=='bh') wvT(c,LGI[k].name,cx,cyH+62*u,'500 '+(10*u)+'px '+IN,'#5d6350','center');
+  if(k!=='bh') wvT(c,rcLg(k),cx,cyH+62*u,'500 '+(10*u)+'px '+IN,'#5d6350','center');
   y+=hd+8;
   wvT(c,A.mgr.toUpperCase(),x0+2*u,oy+(y+10)*u,'700 '+(12.5*u)+'px '+IN,MUT,'left',1.5);
   wvT(c,B.mgr.toUpperCase(),x0+iw-2*u,oy+(y+10)*u,'700 '+(12.5*u)+'px '+IN,MUT,'right',1.5);
@@ -109,7 +161,7 @@ async function rcCard(k,i){
   wvT(c,'Week '+RCP.week+' · points',x0+iw-2*u,oy+y*u,'500 '+(13*u)+'px '+IN,MUT,'right');
   y+=8; c.strokeStyle='#22261a'; c.lineWidth=2; c.beginPath(); c.moveTo(x0,oy+y*u); c.lineTo(x0+iw,oy+y*u); c.stroke();
   var mx=0; A.rows.concat(B.rows).forEach(function(q){ if(q[2]>mx) mx=q[2]; }); if(mx<=0) mx=1;
-  var PC={QB:'#5aa2ff',RB:'#2fd3a4',WR:'#ff9d2e',TE:'#ff5fa6'}, mid=x0+iw/2, pw=44*u, gap=6*u, cw2=(iw-2*36*u-pw-4*gap)/2;
+  var PC={QB:'#5aa2ff',RB:'#2fd3a4',WR:'#ff9d2e',TE:'#ff5fa6',SFX:'#c58bff'}, mid=x0+iw/2, pw=44*u, gap=6*u, cw2=(iw-2*36*u-pw-4*gap)/2;
   var lL=x0+36*u+gap, lR=lL+cw2, rL=lR+gap+pw+gap, rR=rL+cw2;
   async function ph(full,xc,cy,ring){ var src=rcPhoto(full), im=src?await wvImg(src):null, rr=18*u;
     c.save(); c.beginPath(); c.arc(xc,cy,rr,0,Math.PI*2); c.closePath(); c.clip();
@@ -135,20 +187,27 @@ async function rcCard(k,i){
   wvT(c,'CUADZFANTASYNETWORK.COM',x0+iw-2*u,oy+(y+26)*u,(19*u)+'px '+BB,AC,'right',1.5);
   return cv;
 }
-async function rcShare(k,i){
+async function rcShare(k,i,P){
   var ov=document.createElement('div'); ov.setAttribute('style','position:fixed;inset:0;z-index:99999;background:rgba(6,7,4,.88);display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow:auto');
   ov.innerHTML='<div style="width:100%;max-width:520px;background:#14160f;border:1px solid #262a1b;border-radius:16px;padding:14px"><div id="rcBox"></div></div>';
   document.body.appendChild(ov); ov.addEventListener('click',function(e){ if(e.target===ov) ov.remove(); });
   var box=ov.querySelector('#rcBox');
-  box.innerHTML='<div style="color:#9aa089;font:500 14px Inter,sans-serif;text-align:center;padding:40px 0">Building your recap card…</div>';
-  var cv; try{ cv=await rcCard(k,i); }catch(e){ box.innerHTML='<div style="color:#ff8a80;font:500 14px Inter,sans-serif;text-align:center;padding:30px 0">Could not build the card.</div><button class="tc-ghost" id="rcX">Close</button>'; document.getElementById('rcX').onclick=function(){ ov.remove(); }; return; }
-  var I=rcInfo(k,i), url, fn='cfn-recap-'+k+'-week-'+RCP.week+'-'+I.A.mgr.replace(/\W+/g,'')+'-vs-'+I.B.mgr.replace(/\W+/g,'')+'.png';
+  box.innerHTML='<div style="color:#9aa089;font:500 14px Inter,sans-serif;text-align:center;padding:40px 0">Building your card…</div>';
+  var cv; try{ cv=await (P?rcCardP(k,i):rcCard(k,i)); }catch(e){ box.innerHTML='<div style="color:#ff8a80;font:500 14px Inter,sans-serif;text-align:center;padding:30px 0">Could not build the card.</div><button class="tc-ghost" id="rcX">Close</button>'; document.getElementById('rcX').onclick=function(){ ov.remove(); }; return; }
+  var I=P?rcPrevInfo(k,i):rcInfo(k,i), url, fn='cfn-'+(P?'preview-'+k+'-week-'+(RCP.week+1):'recap-'+k+'-week-'+RCP.week)+'-'+I.A.mgr.replace(/\W+/g,'')+'-vs-'+I.B.mgr.replace(/\W+/g,'')+'.png';
   try{ url=cv.toDataURL('image/png'); }catch(e){ box.innerHTML='<div style="color:#ff8a80;font:500 14px Inter,sans-serif;text-align:center;padding:30px 0">Could not export the card (a photo blocked it).</div><button class="tc-ghost" id="rcX">Close</button>'; document.getElementById('rcX').onclick=function(){ ov.remove(); }; return; }
   var blob=await new Promise(function(r){ cv.toBlob(r,'image/png'); }), file=null, can=false;
   try{ file=new File([blob],fn,{type:'image/png'}); can=!!(navigator.canShare&&navigator.canShare({files:[file]})); }catch(e){}
   box.innerHTML='<img alt="Matchup recap" src="'+url+'" style="width:100%;height:auto;border-radius:14px;border:1px solid #262a1b;display:block"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="tc-btn" id="rcGo" style="flex:1">'+(can?'Share':'Save image')+'</button>'+(can?'<button class="tc-ghost" id="rcDl">Save</button>':'')+'<button class="tc-ghost" id="rcCl">Close</button></div><div id="rcMsg" style="color:#9aa089;font:500 12px Inter,sans-serif;margin-top:8px"></div>';
   function save(){ var a=document.createElement('a'); a.href=url; a.download=fn; document.body.appendChild(a); a.click(); a.remove(); document.getElementById('rcMsg').textContent='Image saved. On a phone, press and hold the card to save it to Photos.'; }
   document.getElementById('rcCl').onclick=function(){ ov.remove(); };
-  if(can){ document.getElementById('rcGo').onclick=function(){ navigator.share({files:[file],title:I.A.team+' vs '+I.B.team,text:'Week '+RCP.week+' · '+LGI[k].name+' on the Cuadz Fantasy Network'}).catch(function(){}); }; document.getElementById('rcDl').onclick=save; }
+  if(can){ document.getElementById('rcGo').onclick=function(){ navigator.share({files:[file],title:I.A.team+' vs '+I.B.team,text:'Week '+(P?RCP.week+1:RCP.week)+(P?' preview':'')+' · '+rcLg(k)+' on the Cuadz Fantasy Network'}).catch(function(){}); }; document.getElementById('rcDl').onclick=save; }
   else document.getElementById('rcGo').onclick=save;
+}
+
+async function rcCardP(k,i){
+  try{ await document.fonts.ready; }catch(e){} try{ await BIG_PRELOAD; }catch(e){}
+  await rcLoadPhotos(rcNamesP(rcPrevInfo(k,i)));
+  var off=document.createElement('div'); off.setAttribute('style','position:fixed;left:-9999px;top:0;width:540px;height:675px'); off.innerHTML=pmPreviewHTML(k,i); document.body.appendChild(off);
+  try{ return await html2canvas(off.firstChild,{scale:2,useCORS:true,backgroundColor:'#0a0b08',logging:false}); } finally{ off.remove(); }
 }
