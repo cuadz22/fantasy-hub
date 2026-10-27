@@ -40,14 +40,14 @@ function rcView(k){
     var rows=A.rows.map(function(a,i){ var b=B.rows[i], wa=a[2]>b[2], wb=b[2]>a[2];
       return '<div class="lr">'+php(a[1],wa?'wA':'',rcShort(a[1]))+'<div class="l '+(wa?'w':'')+'"><span class="nm">'+rcEsc(rcShort(a[1]))+'</span><b>'+rcF(a[2])+'</b><i style="width:'+Math.max(0,a[2]/mx*100)+'%"></i></div>'+pos(a[0])+'<div class="r '+(wb?'w':'')+'"><b>'+rcF(b[2])+'</b><span class="nm">'+rcEsc(rcShort(b[1]))+'</span><i style="width:'+Math.max(0,b[2]/mx*100)+'%"></i></div>'+php(b[1],wb?'wB':'',rcShort(b[1]))+'</div>'; }).join('');
     var h='<div class="chips">'+chips+'</div>'
-     +'<div class="nav"><span class="bk">‹</span><div class="seg"><u>Game</u><s>Chat <em>3.6K</em></s></div><span class="dots">···</span></div>'
+     +'<div class="nav"><span class="bk">‹</span><div class="seg"><u>Matchup</u></div><span class="dots">···</span></div>'
      +'<div class="crumb">Fantasy <i>•</i> '+rcEsc(LGI[k].name)+' · Week '+RCP.week+'</div>'
      +'<h1>'+rcEsc(A.team.toUpperCase())+' VS '+rcEsc(B.team.toUpperCase())+'</h1>'
      +'<div class="score"><div class="tm"><div class="tr">'+av(A,'A')+'<div class="sc A'+(wA?'':' dim')+'">'+rcF(sa)+'</div></div><div class="mg">'+rcEsc(A.mgr.toUpperCase())+'</div>'+(A.rec?'<div class="rec">'+rcEsc(A.rec)+'</div>':'')+'</div>'
      +'<div class="mid"><div class="fin">Final</div><div class="mr">'+rcLabel(Math.abs(sa-sb))+'</div>'+(LG_LOGO[k]?'<img class="lgl" src="'+LG_LOGO[k]+'" alt="">':'')+'<div class="lgn">'+rcEsc(LGI[k].name)+'</div></div>'
      +'<div class="tm rt"><div class="tr"><div class="sc B'+(wA?' dim':'')+'">'+rcF(sb)+'</div>'+av(B,'B')+'</div><div class="mg">'+rcEsc(B.mgr.toUpperCase())+'</div>'+(B.rec?'<div class="rec">'+rcEsc(B.rec)+'</div>':'')+'</div></div>'
      +'<div class="sd">'+sd(A,'A')+sd(B,'B')+'</div>'
-     +'<div class="tabs"><b>Stats</b><span>Lineups</span><span class="on">Matchup</span><span>Bench</span></div>'
+     +'<div class="tabs"><b>Stats</b><span class="on">Matchup</span></div>'
      +'<div class="lu">'+rows+'</div>'
      +'<div class="btns"><div class="bA" data-a="share">Share recap</div><div class="bB" data-a="next">Week '+(RCP.week+1)+' preview ›</div></div>';
     wrap.innerHTML=rcPre(h);
