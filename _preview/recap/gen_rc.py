@@ -29,7 +29,7 @@ for k in ['gl','bh','rb','sts']:
             L.append(sk); SD.append([[star[1],star[2]],[dud[0],dud[1],dud[2]]])
         out.append({'t':[a,b],'s':m['s'],'L':L,'sd':SD})
     RCP['lg'][k]=out
-css=open('rc_css.css').read(); js=open('rc_js.js').read()
+css=open('rc_css.css').read(); js=open('rc_js.js').read()+'\n'+open('pm_studio.js').read()
 assert h.count('</head>')==1
 h=h.replace('</head>','<style id="rc-css">\n'+css+'</style>\n</head>')
 old="p.appendChild(liveSub(k));\n    ['Storylines'"

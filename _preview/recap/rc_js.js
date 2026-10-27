@@ -3,7 +3,7 @@ var RC_STATE={};
 function rcShort(n){ var t=String(n).split(' '); while(t.length>1&&/^(jr|sr|ii|iii|iv)\.?$/i.test(t[t.length-1])) t=t.slice(0,-1); if(t.length===1) return t[0]; return t[0].charAt(0)+'. '+t.slice(1).join(' '); }
 function rcIni(s){ var w=String(s).replace('. ',' ').split(' '); return (w[0].charAt(0)+(w.length>1?w[w.length-1].charAt(0):'')).toUpperCase(); }
 function rcPhoto(n){ return (typeof PHOTOS!=='undefined'&&PHOTOS[n])||null; }
-function rcAvatar(k,mgr,tid){ var H=ST_BIG.heads||{}; if(H[mgr]) return H[mgr]; var L=ST_BIG.logos&&ST_BIG.logos[k]&&ST_BIG.logos[k][String(tid)]; return L||null; }
+function rcAvatar(k,mgr,tid){ var H=(k==='gl'&&ST_BIG.heads)||{}; if(H[mgr]) return H[mgr]; var L=ST_BIG.logos&&ST_BIG.logos[k]&&ST_BIG.logos[k][String(tid)]; return L||null; }
 var RC_PF={'Roschon Johnson':10235,'Germie Bernard':13274};
 function rcPfId(n){ return (typeof PF!=='undefined'&&PF[n])||RC_PF[n]||null; }
 function rcLoadPhotos(names,done){ var todo=[]; names.forEach(function(n){ if(!rcPhoto(n)&&rcPfId(n)&&todo.indexOf(n)<0) todo.push(n); }); if(!todo.length) return Promise.resolve(false);
@@ -39,7 +39,7 @@ function rcView(k){
     function pos(p){ return p==='W/R/T'?'<div class="ps FLX"><span class="cw">W</span><span class="cr2">R</span><span class="ct">T</span></div>':'<div class="ps '+p+'">'+p+'</div>'; }
     var rows=A.rows.map(function(a,i){ var b=B.rows[i], wa=a[2]>b[2], wb=b[2]>a[2];
       return '<div class="lr">'+php(a[1],wa?'wA':'',rcShort(a[1]))+'<div class="l '+(wa?'w':'')+'"><span class="nm">'+rcEsc(rcShort(a[1]))+'</span><b>'+rcF(a[2])+'</b><i style="width:'+Math.max(0,a[2]/mx*100)+'%"></i></div>'+pos(a[0])+'<div class="r '+(wb?'w':'')+'"><b>'+rcF(b[2])+'</b><span class="nm">'+rcEsc(rcShort(b[1]))+'</span><i style="width:'+Math.max(0,b[2]/mx*100)+'%"></i></div>'+php(b[1],wb?'wB':'',rcShort(b[1]))+'</div>'; }).join('');
-    var h='<div class="chips">'+chips+'</div>'
+    var h='<div class="side"><div class="sidehd">Week '+RCP.week+' matchups</div><div class="chips">'+chips+'</div></div><div class="main">'
      +'<div class="nav"><span class="bk">‹</span><div class="seg"><u>Matchup</u></div><span class="dots">···</span></div>'
      +'<div class="crumb">Fantasy <i>•</i> '+rcEsc(LGI[k].name)+' · Week '+RCP.week+'</div>'
      +'<h1>'+rcEsc(A.team.toUpperCase())+' VS '+rcEsc(B.team.toUpperCase())+'</h1>'
@@ -49,7 +49,7 @@ function rcView(k){
      +'<div class="sd">'+sd(A,'A')+sd(B,'B')+'</div>'
      +'<div class="tabs"><b>Stats</b><span class="on">Matchup</span></div>'
      +'<div class="lu">'+rows+'</div>'
-     +'<div class="btns"><div class="bA" data-a="share">Share recap</div><div class="bB" data-a="next">Week '+(RCP.week+1)+' preview ›</div></div>';
+     +'<div class="btns"><div class="bA" data-a="share">Share recap</div><div class="bB" data-a="next">Week '+(RCP.week+1)+' preview ›</div></div></div>';
     wrap.innerHTML=rcPre(h);
     wrap.querySelectorAll('.rc-chip').forEach(function(c){ c.onclick=function(){ var sx=wrap.querySelector('.rc-chips').scrollLeft; RC_STATE[k]=+c.dataset.i; draw(); rcLoadPhotos(rcNames(rcInfo(k,RC_STATE[k]))).then(function(ch){ if(ch&&RC_STATE[k]===+c.dataset.i) { var s2=wrap.querySelector('.rc-chips').scrollLeft; draw(); wrap.querySelector('.rc-chips').scrollLeft=s2; } }); wrap.querySelector('.rc-chips').scrollLeft=sx; }; });
     wrap.querySelector('[data-a="share"]').onclick=function(){ rcShare(k,RC_STATE[k]); };
@@ -72,9 +72,7 @@ async function rcCard(k,i){
   var ox=OUT, oy=OUT, cw=(CW+2*PADX)*u, ch=CH*u, x0=ox+PADX*u, iw=CW*u;
   var g=c.createLinearGradient(0,oy,0,oy+ch); g.addColorStop(0,'#0e1109'); g.addColorStop(.4,'#090a07'); g.addColorStop(1,'#090a07');
   wvRR(c,ox,oy,cw,ch,30*u); c.fillStyle=g; c.fill(); c.lineWidth=2; c.strokeStyle='#22261a'; c.stroke();
-  var imgs=await Promise.all([wvImg(CFN_LOGO), wvImg(LG_LOGO[k]), wvImg(rcAvatar(k,A.mgr,A.id)), wvImg(rcAvatar(k,B.mgr,B.id))]);
-  if(!imgs[2]&&!(ST_BIG.heads||{})[A.mgr]) imgs[2]=await fmLogo(k,A.id);
-  if(!imgs[3]&&!(ST_BIG.heads||{})[B.mgr]) imgs[3]=await fmLogo(k,B.id);
+  var imgs=await Promise.all([wvImg(CFN_LOGO), wvImg(LG_LOGO[k]), (k==='gl'?wvImg(rcAvatar(k,A.mgr,A.id)):fmLogo(k,A.id)), (k==='gl'?wvImg(rcAvatar(k,B.mgr,B.id)):fmLogo(k,B.id))]);
   var y=16;
   wvT(c,LGI[k].name+' · Week '+RCP.week,x0+2*u,oy+(y+10)*u,'500 '+(12.5*u)+'px '+IN,MUT,'left');
   y+=14+8;
