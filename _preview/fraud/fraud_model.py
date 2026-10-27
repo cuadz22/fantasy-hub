@@ -5,7 +5,7 @@ HERE='.'
 LGS={'gl':('101813',['QB','RB','RB','WR','WR','WR','TE','FLEX']),'bh':('100398',['QB','RB','RB','WR','WR','WR','TE','FLEX']),
      'rb':('101720',['QB','RB','RB','WR','WR','WR','TE','FLEX','SFLEX']),'sts':('101814',['QB','RB','RB','WR','WR','WR','TE','FLEX'])}
 REPL_DEFAULT={'QB':15.5,'RB':7.5,'WR':8.0,'TE':7.0}   # waiver-level points per game
-FIRST_REM=7; LAST=14
+FIRST_REM=8; LAST=14
 K_REG=8      # games of regression for a record
 W_ACT=0.78   # v2: points on the board (all-play based) dominate; projection only adjusts for roster/bye
 SHRINK=0.85  # fallback only
@@ -105,7 +105,7 @@ def run(lg,tids,names,teams,proj,repl,sched,byes=None):
         # opponent strength (bye-neutral) for remaining schedule
         sos=st.mean(lg_mean+WP*dev_act[o]+(1-WP)*SHRINK*(neutral[o]-avg_lu) for _,o,_ in sched_s)
         out.append({'tid':t,'name':names[t],'w':W[t],'l':Lc[t],'ppg':round(ppg[t],1),'roster':round(neutral[t],1),'strength':round(S(t,FIRST_REM+1),1),
-                    'ewins':round(ew,2),'typ':round(typ,2),'delta':round(ew-typ,2),'proj_w':round(W[t]+ew,1),'proj_l':round(Lc[t]+(n-ew),1),'sos':round(sos,1),'n':n,'apw':round(apw[t],3),'luck':round(W[t]-apw[t]*G,2),'rel':round(WP,2),'sd':round(sdt[t],1),'tiers':tiers[t],'G':G})
+                    'ewins':round(ew,2),'typ':round(typ,2),'delta':round(ew-typ,2),'proj_w':round(W[t]+ew,1),'proj_l':round(Lc[t]+(n-ew),1),'sos':round(sos,1),'n':n,'apw':round(apw[t],3),'luck':round(W[t]-apw[t]*G,2),'rel':round(WP,2),'s8':round(S(t,FIRST_REM),1),'sd':round(sdt[t],1),'tiers':tiers[t],'G':G})
     # ---- playoff odds: simulate remaining games from each matchup's win probability (top 6 qualify; ties by points) ----
     import random; random.seed(7); SIMS=6000; POS=6
     pf0={t:sum(PF[t]) for t in ids}; games=[]
