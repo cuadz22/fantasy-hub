@@ -4,12 +4,15 @@ function rcShort(n){ var t=String(n).split(' '); while(t.length>1&&/^(jr|sr|ii|i
 function rcIni(s){ var w=String(s).replace('. ',' ').split(' '); return (w[0].charAt(0)+(w.length>1?w[w.length-1].charAt(0):'')).toUpperCase(); }
 function rcPhoto(n){ return (typeof PHOTOS!=='undefined'&&PHOTOS[n])||null; }
 function rcAvatar(k,mgr,tid){ var H=(k==='gl'&&ST_BIG.heads)||{}; if(H[mgr]) return H[mgr]; var L=ST_BIG.logos&&ST_BIG.logos[k]&&ST_BIG.logos[k][String(tid)]; return L||null; }
-var RC_PF={'Roschon Johnson':10235,'Germie Bernard':13274};
+var RC_PF={'Roschon Johnson':10235,'Germie Bernard':13274,'Ted Hurst III':13317,'Braelon Allen':11576,'Kalif Raymond':3634,'Nico Collins':7569,'Ollie Gordon II':12495,'Tyler Allgeier':8132,'Ryan Flournoy':11783,'Pat Freiermuth':7600,"Wan'Dale Robinson":8126,'Konata Mumpfield':12718,'Michael Mayer':9482,'Bam Knight':8122,'Emanuel Wilson':11435,'Tyrone Tracy Jr.':11655,'Omar Cooper Jr.':13276};
+var RC_ESPN={'Germie Bernard':4685261,'Ollie Gordon II':4711533,'Ollie Gordon':4711533};
 function rcPfId(n){ return (typeof PF!=='undefined'&&PF[n])||RC_PF[n]||null; }
-function rcLoadPhotos(names,done){ var todo=[]; names.forEach(function(n){ if(!rcPhoto(n)&&rcPfId(n)&&todo.indexOf(n)<0) todo.push(n); }); if(!todo.length) return Promise.resolve(false);
-  return Promise.all(todo.map(function(n){ return new Promise(function(res){ var im=new Image(); im.crossOrigin='anonymous'; var t=setTimeout(function(){res(false);},7000);
-    im.onload=function(){ clearTimeout(t); try{ var cv=document.createElement('canvas'); cv.width=im.naturalWidth; cv.height=im.naturalHeight; cv.getContext('2d').drawImage(im,0,0); PHOTOS[n]=cv.toDataURL('image/jpeg',.85); res(true); }catch(e){ res(false); } };
-    im.onerror=function(){ clearTimeout(t); res(false); }; im.src='https://sleepercdn.com/content/nfl/players/'+rcPfId(n)+'.jpg'; }); })).then(function(r){ return r.some(Boolean); }); }
+function rcSrcs(n){ var a=[], id=rcPfId(n); if(id) a.push('https://sleepercdn.com/content/nfl/players/'+id+'.jpg'); if(RC_ESPN[n]) a.push('https://a.espncdn.com/i/headshots/nfl/players/full/'+RC_ESPN[n]+'.png'); return a; }
+function rcTry(srcs,i){ return new Promise(function(res){ if(i>=srcs.length) return res(null); var im=new Image(); im.crossOrigin='anonymous'; var t=setTimeout(function(){ res(rcTry(srcs,i+1)); },7000);
+  im.onload=function(){ clearTimeout(t); try{ var w=Math.min(im.naturalWidth,300), h=Math.round(w*im.naturalHeight/im.naturalWidth), cv=document.createElement('canvas'); cv.width=w; cv.height=h; var x=cv.getContext('2d'); x.fillStyle='#1d2216'; x.fillRect(0,0,w,h); x.drawImage(im,0,0,w,h); res(cv.toDataURL('image/jpeg',.85)); }catch(e){ res(rcTry(srcs,i+1)); } };
+  im.onerror=function(){ clearTimeout(t); res(rcTry(srcs,i+1)); }; im.src=srcs[i]; }); }
+function rcLoadPhotos(names,done){ var todo=[]; names.forEach(function(n){ if(!rcPhoto(n)&&rcSrcs(n).length&&todo.indexOf(n)<0) todo.push(n); }); if(!todo.length) return Promise.resolve(false);
+  return Promise.all(todo.map(function(n){ return rcTry(rcSrcs(n),0).then(function(u){ if(u){ PHOTOS[n]=u; return true; } return false; }); })).then(function(r){ return r.some(Boolean); }); }
 function rcNames(I){ var a=[]; [I.A,I.B].forEach(function(S){ S.rows.forEach(function(r){ a.push(r[1]); }); a.push(S.star[0]); a.push(S.dud[0]); }); return a; }
 var RC_REC=null;
 function rcRec(k,team){ if(!RC_REC){ RC_REC={}; var C=(ST_BIG.cards||{}); Object.keys(C).forEach(function(l){ RC_REC[l]={}; (C[l].w4||[]).forEach(function(c){ RC_REC[l][c.a.t]=c.a.r; RC_REC[l][c.b.t]=c.b.r; }); }); } return (RC_REC[k]&&RC_REC[k][team])||''; }
@@ -25,6 +28,12 @@ function rcInfo(k,i){
   return {m:m,A:sides[0],B:sides[1]};
 }
 function rcPre(h){ return h.replace(/class="([^"]*)"/g,function(m,v){ return 'class="'+v.split(/\s+/).filter(Boolean).map(function(t){ return 'rc-'+t; }).join(' ')+'"'; }); }
+function rcFit(w){
+  function go(){ w.style.zoom=''; if(!w.isConnected||innerWidth<900) return; var H=w.offsetHeight; if(!H) return;
+    var top=Math.max(0,w.getBoundingClientRect().top), avail=innerHeight-84; var z=Math.min(1,avail/H); if(z<1) w.style.zoom=z.toFixed(3); }
+  if(!w._rcf){ w._rcf=1; addEventListener('resize',go); if(window.IntersectionObserver) new IntersectionObserver(function(e){ if(e[0].isIntersecting) go(); }).observe(w); }
+  go(); setTimeout(go,50); setTimeout(go,400);
+}
 function rcView(k){
   var wrap=document.createElement('div'); wrap.className='rc'; wrap.id='rc-'+k;
   if(RC_STATE[k]==null) RC_STATE[k]=0;
@@ -33,7 +42,7 @@ function rcView(k){
     var mx=0; A.rows.concat(B.rows).forEach(function(r){ if(r[2]>mx) mx=r[2]; }); if(mx<=0) mx=1;
     var chips=RCP.lg[k].map(function(_,i){ var q=rcInfo(k,i);
       return '<button class="chip'+(i===cur?' on':'')+'" data-i="'+i+'"><div class="cs">Final</div><div class="cr"><span>'+rcEsc(rcFn(q.A.mgr))+'</span><em class="'+(q.A.s>=q.B.s?'g':'')+'">'+rcF(q.A.s)+'</em></div><div class="cr"><span>'+rcEsc(rcFn(q.B.mgr))+'</span><em class="'+(q.B.s>q.A.s?'g':'')+'">'+rcF(q.B.s)+'</em></div></button>'; }).join('');
-    function av(S,c){ var a=rcAvatar(k,S.mgr,S.id); return a?'<img class="hd '+c+'" src="'+a+'" alt="">':'<div class="hd '+c+'">'+rcIni(S.mgr)+'</div>'; }
+    function av(S,c){ var a=rcAvatar(k,S.mgr,S.id); return a?'<img class="hd '+c+(k==='gl'?'':' lg')+'" src="'+a+'" alt="">':'<div class="hd '+c+'">'+rcIni(S.mgr)+'</div>'; }
     function php(full,cls,t){ var s=rcPhoto(full); return s?'<img class="ph '+cls+'" src="'+s+'" alt="">':'<div class="ph '+cls+'">'+rcIni(t)+'</div>'; }
     function sd(S,c){ return '<div class="sdc '+c+'"><div class="sdr">'+php(S.star[0],'w'+c,rcShort(S.star[0]))+'<div class="sdh"><span class="tag s">STAR</span>'+rcEsc(rcShort(S.star[0]))+'</div></div><div class="sdv">'+rcF(S.star[1])+' <small>pts</small></div><div class="sdr d2">'+php(S.dud[0],'',rcShort(S.dud[0]))+'<div class="sdh"><span class="tag d">DUD</span>'+rcEsc(rcShort(S.dud[0]))+'</div></div><div class="sdv dd">'+rcF(S.dud[1])+' <small>vs '+rcF(S.dud[2])+' proj</small></div></div>'; }
     function pos(p){ return p==='W/R/T'?'<div class="ps FLX"><span class="cw">W</span><span class="cr2">R</span><span class="ct">T</span></div>':'<div class="ps '+p+'">'+p+'</div>'; }
@@ -44,7 +53,7 @@ function rcView(k){
      +'<div class="crumb">Fantasy <i>•</i> '+rcEsc(LGI[k].name)+' · Week '+RCP.week+'</div>'
      +'<h1>'+rcEsc(A.team.toUpperCase())+' VS '+rcEsc(B.team.toUpperCase())+'</h1>'
      +'<div class="score"><div class="tm"><div class="tr">'+av(A,'A')+'<div class="sc A'+(wA?'':' dim')+'">'+rcF(sa)+'</div></div><div class="mg">'+rcEsc(A.mgr.toUpperCase())+'</div>'+(A.rec?'<div class="rec">'+rcEsc(A.rec)+'</div>':'')+'</div>'
-     +'<div class="mid"><div class="fin">Final</div><div class="mr">'+rcLabel(Math.abs(sa-sb))+'</div>'+(LG_LOGO[k]?'<img class="lgl" src="'+LG_LOGO[k]+'" alt="">':'')+'<div class="lgn">'+rcEsc(LGI[k].name)+'</div></div>'
+     +'<div class="mid"><div class="fin">Final</div><div class="mr">'+rcLabel(Math.abs(sa-sb))+'</div>'+(LG_LOGO[k]?'<img class="lgl" src="'+LG_LOGO[k]+'" alt="">':'')+(k==='bh'?'':'<div class="lgn">'+rcEsc(LGI[k].name)+'</div>')+'</div>'
      +'<div class="tm rt"><div class="tr"><div class="sc B'+(wA?' dim':'')+'">'+rcF(sb)+'</div>'+av(B,'B')+'</div><div class="mg">'+rcEsc(B.mgr.toUpperCase())+'</div>'+(B.rec?'<div class="rec">'+rcEsc(B.rec)+'</div>':'')+'</div></div>'
      +'<div class="sd">'+sd(A,'A')+sd(B,'B')+'</div>'
      +'<div class="tabs"><b>Stats</b><span class="on">Matchup</span></div>'
@@ -53,6 +62,7 @@ function rcView(k){
     wrap.innerHTML=rcPre(h);
     wrap.querySelectorAll('.rc-chip').forEach(function(c){ c.onclick=function(){ var sx=wrap.querySelector('.rc-chips').scrollLeft; RC_STATE[k]=+c.dataset.i; draw(); rcLoadPhotos(rcNames(rcInfo(k,RC_STATE[k]))).then(function(ch){ if(ch&&RC_STATE[k]===+c.dataset.i) { var s2=wrap.querySelector('.rc-chips').scrollLeft; draw(); wrap.querySelector('.rc-chips').scrollLeft=s2; } }); wrap.querySelector('.rc-chips').scrollLeft=sx; }; });
     wrap.querySelector('[data-a="share"]').onclick=function(){ rcShare(k,RC_STATE[k]); };
+    rcFit(wrap);
     wrap.querySelector('[data-a="next"]').onclick=function(){ var n=wrap.nextElementSibling; if(n) n.scrollIntoView({behavior:'smooth',block:'start'}); };
   }
   draw();
@@ -65,7 +75,7 @@ async function rcCard(k,i){
   try{ await document.fonts.load("40px 'Bebas Neue'"); await document.fonts.load("700 24px Inter"); await document.fonts.load("500 24px Inter"); }catch(e){}
   var I=rcInfo(k,i), A=I.A, B=I.B, n=A.rows.length, u=2.4, CW=402, PADX=16, rowH=54;
   await rcLoadPhotos(rcNames(I));
-  var CH=16+14+8+34+16+66+8+16+16+22+n*rowH+14+44+16;   /* card height in css px */
+  var CH=16+14+8+34+16+76+8+16+16+22+n*rowH+14+44+16;   /* card height in css px */
   var OUT=36, W=Math.round((CW+2*PADX)*u+2*OUT), H=Math.round(CH*u+2*OUT);
   var cv=document.createElement('canvas'); cv.width=W; cv.height=H; var c=cv.getContext('2d');
   c.fillStyle='#050604'; c.fillRect(0,0,W,H);
@@ -79,10 +89,8 @@ async function rcCard(k,i){
   var title=(A.team+' VS '+B.team).toUpperCase();
   wvT(c,title,x0+2*u,oy+(y+26)*u,wvFit(c,title,iw-4*u,'#px '+BB,31*u,16*u),'#f2f4ea','left',.3);
   y+=34+16;
-  var hd=66, r=hd/2*u, cyH=oy+(y+hd/2)*u, wA=A.s>=B.s;
-  function head(im,S,cx,col){ c.save(); c.beginPath(); c.arc(cx,cyH,r,0,Math.PI*2); c.closePath(); c.clip();
-    if(im){ var s2=Math.max(2*r/im.width,2*r/im.height); c.drawImage(im,cx-im.width*s2/2,cyH-im.height*s2/2,im.width*s2,im.height*s2); } else { c.fillStyle='#171a12'; c.fillRect(cx-r,cyH-r,2*r,2*r); wvT(c,rcIni(S.mgr),cx,cyH+7*u,(19*u)+'px '+IN,MUT,'center'); }
-    c.restore(); }
+  var hd=76, r=hd/2*u, cyH=oy+(y+hd/2)*u, wA=A.s>=B.s;
+  function head(im,S,cx,col){ if(im){ if(k==='gl'){ var s2=Math.min(2*r/im.width,2*r/im.height); c.drawImage(im,cx-im.width*s2/2,cyH-im.height*s2/2,im.width*s2,im.height*s2); } else { c.save(); wvRR(c,cx-r,cyH-r,2*r,2*r,14*u); c.clip(); var s3=Math.max(2*r/im.width,2*r/im.height); c.drawImage(im,cx-im.width*s3/2,cyH-im.height*s3/2,im.width*s3,im.height*s3); c.restore(); } } else { wvT(c,rcIni(S.mgr),cx,cyH+8*u,(24*u)+'px '+BB,MUT,'center'); } }
   head(imgs[2],A,x0+hd/2*u,AC); head(imgs[3],B,x0+iw-hd/2*u,BC);
   wvT(c,rcF(A.s),x0+(hd+8)*u,cyH+13*u,(44*u)+'px '+BB,wA?AC:'#759f10','left',1);
   wvT(c,rcF(B.s),x0+iw-(hd+8)*u,cyH+13*u,(44*u)+'px '+BB,wA?'#2f7ea3':BC,'right',1);
@@ -90,6 +98,7 @@ async function rcCard(k,i){
   wvT(c,'Final',cx,cyH-4*u,'600 '+(16*u)+'px '+IN,AC,'center');
   wvT(c,rcLabel(Math.abs(A.s-B.s)),cx,cyH+14*u,'500 '+(12.5*u)+'px '+IN,MUT,'center');
   if(imgs[1]) wvDraw(imgs[1],c,cx-15*u,cyH+22*u,30*u,30*u,'left');
+  if(k!=='bh') wvT(c,LGI[k].name,cx,cyH+62*u,'500 '+(10*u)+'px '+IN,'#5d6350','center');
   y+=hd+8;
   wvT(c,A.mgr.toUpperCase(),x0+2*u,oy+(y+10)*u,'700 '+(12.5*u)+'px '+IN,MUT,'left',1.5);
   wvT(c,B.mgr.toUpperCase(),x0+iw-2*u,oy+(y+10)*u,'700 '+(12.5*u)+'px '+IN,MUT,'right',1.5);

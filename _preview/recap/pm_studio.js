@@ -6,10 +6,10 @@ function pmEnsure(k){ if(PM_LOAD[k]) return; PM_LOAD[k]=1; var names=[]; RCP.lg[
 function pmImg(name,sz){ var s=rcPhoto(name); if(s) return '<img src="'+s+'" style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;object-fit:cover;object-position:top;background:#1a1d14;display:block;flex:none">';
   return '<div style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:#1a1d14;color:#8d9479;font-weight:700;font-size:'+Math.round(sz*.34)+'px;display:flex;align-items:center;justify-content:center;flex:none">'+stEsc(rcIni(rcShort(name)))+'</div>'; }
 function pmHead(k,mgr,id,sz,col){
-  var H=k==='gl'?(ST_BIG.heads||{})[mgr]:null, u=((ST_BIG.logos||{})[k]||{})[String(id)], d=u&&BIG_LOGO_DATA[u], src=H||d||null;
-  var ring='';
-  if(src) return '<img src="'+src+'" style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;object-fit:cover;background:#171a12;display:block;flex:none'+ring+'">';
-  return '<div style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:#171a12;color:'+col+';font-weight:700;font-size:'+Math.round(sz*.3)+'px;display:flex;align-items:center;justify-content:center;flex:none">'+stEsc(rcIni(mgr))+'</div>'; }
+  var H=k==='gl'?(ST_BIG.heads||{})[mgr]:null, u=((ST_BIG.logos||{})[k]||{})[String(id)], d=u&&BIG_LOGO_DATA[u];
+  if(H) return '<img src="'+H+'" style="width:'+sz+'px;height:'+sz+'px;object-fit:contain;display:block;flex:none">';
+  if(d) return '<img src="'+d+'" style="width:'+sz+'px;height:'+sz+'px;border-radius:14px;object-fit:cover;display:block;flex:none">';
+  return '<div style="width:'+sz+'px;height:'+sz+'px;color:'+col+';font-weight:700;font-size:'+Math.round(sz*.34)+'px;display:flex;align-items:center;justify-content:center;flex:none">'+stEsc(rcIni(mgr))+'</div>'; }
 function pmFrame(d,kick,inner){
   var lg=LG_LOGO[d.id];
   return '<div style="width:540px;height:675px;background:linear-gradient(180deg,#0e1109,#090a07 42%);color:#f2f4ea;font-family:Inter,\'Helvetica Neue\',Arial,sans-serif;position:relative;overflow:hidden;box-sizing:border-box;padding:18px 20px 12px;display:flex;flex-direction:column"><div style="position:absolute;left:0;top:0;width:540px;height:230px;background:radial-gradient(circle at 50% 0%,#1a2705 0%,rgba(11,12,10,0) 70%)"></div>'
@@ -73,9 +73,32 @@ function pmWeekly(d){
    +sec('Weekly awards')+'<div style="display:flex;flex-wrap:wrap;justify-content:center;margin:0 -3px">'+tiles+'</div></div>';
   return pmFrame(d,'WEEK '+d.week+' RECAP',inner);
 }
+
+function pmSquare(d,i){
+  var k=d.id; pmEnsure(k);
+  var id=ST_BIG.cards[k].w4[i-1].a.id, idx=0; RCP.lg[k].forEach(function(m,j){ if(m.t[0]===id||m.t[1]===id) idx=j; });
+  var I=rcInfo(k,idx), A=I.A, B=I.B, wA=A.s>=B.s, mx=1; A.rows.concat(B.rows).forEach(function(r){ if(r[2]>mx) mx=r[2]; });
+  var lg=LG_LOGO[k];
+  function tb(S,col,win,right){
+    var sc='<div style="font-family:\'Bebas Neue\',sans-serif;font-size:46px;line-height:.95;margin-top:3px;color:'+col+';opacity:'+(win?1:.6)+'">'+rcF(S.s)+'</div>';
+    var hd='<div style="display:flex;flex-direction:column;align-items:center;gap:3px;width:76px;flex:none">'+pmHead(k,S.mgr,S.id,76,col)+'<div style="font-size:10.5px;font-weight:700;letter-spacing:.1em;color:#8d9479;white-space:nowrap">'+stEsc(S.mgr.toUpperCase())+'</div></div>';
+    var inf='<div style="flex:1;min-width:0;text-align:'+(right?'right':'left')+'"><div style="font-size:12.5px;font-weight:700;line-height:1.15;max-height:29px;overflow:hidden">'+stEsc(S.team)+'</div><div style="font-size:10.5px;color:#8d9479;margin-top:3px;letter-spacing:.04em">'+stEsc(S.rec||'')+' · <b style="letter-spacing:.08em;color:'+(win?col:'#ff7a66')+'">'+(win?'WIN':'LOSS')+'</b></div>'+sc+'</div>';
+    return '<div style="display:flex;gap:7px;width:200px;align-items:flex-start">'+(right?inf+hd:hd+inf)+'</div>'; }
+  var rows=A.rows.map(function(a,q){ var b=B.rows[q], wa=a[2]>b[2], wb=b[2]>a[2];
+    function cell(r,win,right,col){ var nm='<span style="font-size:13.5px;color:'+(win?'#f2f4ea':'#8d9479')+';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">'+stEsc(rcShort(r[1]))+'</span>', pt='<span style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;line-height:1;color:'+(win?col:'#8d9479')+';flex:none">'+rcF(r[2])+'</span>';
+      var bw=Math.max(3,r[2]/mx*100);
+      return '<div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:'+(right?'flex-start':'flex-end')+'"><div style="display:flex;align-items:baseline;gap:6px;max-width:100%">'+(right?pt+nm:nm+pt)+'</div><div style="width:100%;display:flex;justify-content:'+(right?'flex-start':'flex-end')+';margin-top:4px"><div style="width:'+bw+'%;height:3px;border-radius:2px;background:'+col+';opacity:.55"></div></div></div>'; }
+    return '<div style="display:flex;align-items:center;gap:8px;height:54px;border-bottom:1px solid #15180f">'+pmImg(a[1],40)+cell(a,wa,false,'#acf910')+pmPill(a[0])+cell(b,wb,true,'#4cc3ff')+pmImg(b[1],40)+'</div>'; }).join('');
+  var mid='<div style="flex:1;text-align:center;padding-top:4px;display:flex;flex-direction:column;align-items:center"><div style="font-size:16px;font-weight:700;color:#acf910;letter-spacing:.04em">Final</div>'+(lg?'<img src="'+lg+'" alt="" style="height:40px;width:auto;max-width:96px;object-fit:contain;display:block;margin-top:8px">':'')+(k==='bh'?'':'<div style="font-size:9.5px;color:#5d6350;line-height:1.2;margin-top:5px">'+stEsc(d.name)+'</div>')+'</div>';
+  return '<div style="width:540px;height:675px;background:linear-gradient(180deg,#0f130a,#090a07 45%);color:#f2f4ea;font-family:Inter,\'Helvetica Neue\',Arial,sans-serif;position:relative;overflow:hidden;box-sizing:border-box;padding:20px 18px 14px;display:flex;flex-direction:column">'
+   +'<div style="display:flex;align-items:center;justify-content:space-between;height:30px;flex:none"><img src="'+CFN_LOGO+'" alt="CFN" style="height:38px;width:auto;display:block"><div style="font-family:\'Bebas Neue\',sans-serif;font-size:20px;letter-spacing:.12em;color:#acf910;line-height:1">WEEK '+RCP.week+' RECAP</div></div>'
+   +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-top:12px;padding-bottom:12px;border-bottom:1px solid #22261a;flex:none">'+tb(A,'#acf910',wA,false)+mid+tb(B,'#4cc3ff',!wA,true)+'</div>'
+   +'<div style="display:flex;flex-direction:column;margin-top:4px">'+rows+'</div>'
+   +'<div style="margin-top:auto;text-align:center;padding-top:6px;font-family:\'Bebas Neue\',sans-serif;font-size:13px;letter-spacing:.14em;color:#fff">CUADZFANTASYNETWORK.COM</div>';
+}
 /* hook into Studio */
 var _stSlideHTML=stSlideHTML;
-stSlideHTML=function(d,i){ if(stState.style!=='classic'){ var m=d.matchups.length; if(i===0) return pmWeekly(d); if(i<=m) return pmMatchSlide(d,i); } return _stSlideHTML(d,i); };
+stSlideHTML=function(d,i){ if(stState.style!=='classic'){ var m=d.matchups.length; if(i===0) return pmWeekly(d); if(i<=m) return pmSquare(d,i); } return _stSlideHTML(d,i); };
 var _stRender=stRender;
 stRender=function(){ _stRender(); var side=document.querySelector('#studio-root .st-side'); if(!side) return; var lbls=side.querySelectorAll('.st-lbl'); var slides=null; lbls.forEach(function(l){ if(l.textContent==='Slides') slides=l; }); if(!slides) return;
   var wrap=document.createElement('div'); var cl=stState.style==='classic';
