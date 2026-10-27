@@ -4913,10 +4913,10 @@ stExport=async function(){
     for(var i=0;i<n;i++){
       set('Rendering slide '+(i+1)+' of '+n+'…'); await nap(40);
       var ok=false;
-      for(var tr=0;tr<3&&!ok;tr++){
+      for(var tr=0;tr<3&&!ok;tr++){ if(tr) set('Rendering slide '+(i+1)+' of '+n+' (retry '+tr+')…');
         try{
           var off=document.getElementById('st-off'); off.innerHTML=stSlideHTML(d,i); await nap(80+tr*200);
-          var canvas=await Promise.race([html2canvas(off.firstElementChild||off.firstChild,{scale:2,useCORS:true,backgroundColor:ST_BLACK,logging:false,imageTimeout:8000}),new Promise(function(_,rj){ setTimeout(function(){ rj(new Error('timeout')); },30000); })]);
+          var el=off.firstElementChild||off.firstChild; var canvas=await Promise.race([html2canvas(el,{scale:2,useCORS:true,backgroundColor:ST_BLACK,logging:false,imageTimeout:8000,ignoreElements:function(n){ if(n.nodeType!==1||n.tagName==='HTML'||n.tagName==='BODY'||n.tagName==='HEAD'||(n.closest&&n.closest('head'))) return false; return !(n.contains(el)||el.contains(n)); }}),new Promise(function(_,rj){ setTimeout(function(){ rj(new Error('timeout')); },25000); })]);
           stState.imgs.push({url:canvas.toDataURL('image/png'),label:stSlideKey(i,d)}); canvas.width=1; canvas.height=1; ok=true;
         }catch(e){ await nap(150); }
       }
