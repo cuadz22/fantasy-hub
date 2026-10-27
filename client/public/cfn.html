@@ -4898,7 +4898,34 @@ stRender=function(){ _stRender(); var side=document.querySelector('#studio-root 
   wrap.innerHTML='<div class="st-lbl">Recap style</div><button class="st-btn'+(cl?'':' on')+'" onclick="pmStyle(\'pm\')">Matchup card</button><button class="st-btn'+(cl?' on':'')+'" onclick="pmStyle(\'classic\')">Classic</button>';
   while(wrap.firstChild) side.insertBefore(wrap.firstChild,slides); };
 function pmStyle(s){ stState.style=s; stState.imgs=[]; stRender(); }
-var _stExport=stExport;
-stExport=async function(){ try{ var k=stState.league, names=[]; RCP.lg[k].forEach(function(m){ m.L.forEach(function(L){ L.forEach(function(r){ names.push(r[1]); }); }); }); await rcLoadPhotos(names); }catch(e){} return _stExport(); };
+stExport=async function(){
+  if(stState.busy) return; stState.busy=true; stState.imgs=[]; stRender();
+  var set=function(t){ var m=document.getElementById('st-msg'); if(m) m.textContent=t; };
+  var wait=function(p,ms){ return Promise.race([Promise.resolve(p).catch(function(){}),new Promise(function(r){ setTimeout(r,ms); })]); };
+  var nap=function(ms){ return new Promise(function(r){ setTimeout(r,ms); }); };
+  try{
+    set('Loading photos…');
+    var k=stState.league, names=[]; RCP.lg[k].forEach(function(m){ m.L.forEach(function(L){ L.forEach(function(r){ names.push(r[1]); }); }); });
+    await wait(rcLoadPhotos(names),12000);
+    await wait(BIG_PRELOAD,10000);
+    if(document.fonts&&document.fonts.ready) await wait(document.fonts.ready,5000);
+    var d=CFN_DATA[k], n=stN(d), fails=0;
+    for(var i=0;i<n;i++){
+      set('Rendering slide '+(i+1)+' of '+n+'…'); await nap(40);
+      var ok=false;
+      for(var tr=0;tr<3&&!ok;tr++){
+        try{
+          var off=document.getElementById('st-off'); off.innerHTML=stSlideHTML(d,i); await nap(80+tr*200);
+          var canvas=await Promise.race([html2canvas(off.firstElementChild||off.firstChild,{scale:2,useCORS:true,backgroundColor:ST_BLACK,logging:false,imageTimeout:8000}),new Promise(function(_,rj){ setTimeout(function(){ rj(new Error('timeout')); },30000); })]);
+          stState.imgs.push({url:canvas.toDataURL('image/png'),label:stSlideKey(i,d)}); canvas.width=1; canvas.height=1; ok=true;
+        }catch(e){ await nap(150); }
+      }
+      if(!ok) fails++;
+      var o2=document.getElementById('st-off'); if(o2) o2.innerHTML='';
+    }
+    stState.busy=false; stRender();
+    set(fails?('Done — '+stState.imgs.length+' of '+n+' slides ready ('+fails+' failed, tap Render again)'):('Done — '+n+' slides ready (recap/preview cards 1080 × 1920, others 1080 × 1350)'));
+  }catch(e){ stState.busy=false; stRender(); set('Render failed — try again'); }
+};
 </script>
 </body></html>
