@@ -3450,62 +3450,95 @@ function wvClaims(k,wk){
   return (LGD.waivers[k]||[]).filter(function(w){ return String(w.week)===String(wk); }).slice().sort(function(a,b){
     var wa=a.bids.filter(function(x){return x.won;})[0].amount, wb=b.bids.filter(function(x){return x.won;})[0].amount; return wb-wa||b.bids.length-a.bids.length; });
 }
+var WV_SLP={"calebdouglas":[11,20],"kcconcepcion":[11,21],"ryanflournoy":[4,9],"tretucker":[10,20],"omarcooper":[15,27],"makailemon":[7,14],"savionwilliams":[1,5],"keoncoleman":[4,10],"jakobimeyers":[6,11],"khalilshakir":[4,10],"treylonburks":[1,5],"antoniowilliams":[1,5],"kendrickbourne":[3,8],"laddmcconkey":[14,28],"jordanaddison":[5,10],"quentinjohnston":[0,3],"joshdowns":[4,10],"djmoore":[15,31],"chrisgodwin":[5,10],"cooperkupp":[2,6],"jordyntyson":[5,15],"malikwashington":[5,10],"keenanallen":[3,8],"courtlandsutton":[3,9],"sethmcgowan":[8,17],"devinsingletary":[5,11],"jonahcoleman":[17,30],"elijahmitchell":[2,7],"kaelonblack":[8,18],"rachaadwhite":[10,17],"dylansampson":[4,10],"emanuelwilson":[8,17],"ricodowdle":[7,14],"dameonpierce":[5,11],"jordanmason":[13,26],"blakecorum":[11,22],"chrisrodriguez":[1,4],"samajeperine":[2,6],"zonovanknight":[4,9],"kimanividal":[2,6],"tonypollard":[15,30],"keatonmitchell":[1,4],"zachcharbonnet":[13,25],"kennygainwell":[3,7],"tylergoodson":[0,3],"jadarianprice":[4,12],"emmettjohnson":[1,5],"braelonallen":[9,19],"olliegordon":[6,45],"brentonstrange":[5,9],"hunterhenry":[5,10],"masontaylor":[4,8],"kylepitts":[5,11],"tjhockenson":[5,10],"mikegesicki":[2,5],"colbyparkinson":[1,5],"michaelmayer":[1,5],"eliraridon":[1,5],"ajbarner":[1,3],"darrenwaller":[1,4],"daltonkincaid":[6,15],"kenyonsadiq":[1,5],"terranceferguson":[1,4],"markandrews":[1,5],"jakeferguson":[2,6],"haroldfannin":[5,11],"gregdulcich":[1,3],"kirkcousins":[3,8],"malikwillis":[2,6],"jaydendaniels":[7,17],"dakprescott":[5,11],"genosmith":[1,4],"michaelpenix":[2,7],"kylermurray":[2,5],"tannermckee":[0,8],"samdarnold":[1,5],"deshaunwatson":[1,5],"jaguars":[3,5],"patriots":[2,5],"commanders":[1,3],"buccaneers":[2,5],"chasemclaughlin":[1,4],"tylerbass":[1,3]}, WV_SLP_DATE='Oct 28', WV_SLP_WK=7;
+function wvEll(c,s,maxW,font){ c.font=font; if(c.measureText(s).width<=maxW) return s; while(s.length>1&&c.measureText(s+'…').width>maxW) s=s.slice(0,-1); return s.replace(/\s+$/,'')+'…'; }
+function wvNN(x){ return String(x).toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\b\.?/g,'').replace(/[^a-z]/g,''); }
+
 async function wvCard(k,wk){
-  var BB="'Bebas Neue','Impact',sans-serif", IN="Inter,system-ui,sans-serif", ACC='#acf910';
+  var BB="'Bebas Neue','Impact',sans-serif", IN="Inter,system-ui,sans-serif", ACC='#acf910', BG='#14161b', LINE='#272a31';
   try{ await document.fonts.load("40px 'Bebas Neue'"); await document.fonts.load("600 24px Inter"); await document.fonts.load("700 24px Inter"); await document.fonts.load("400 24px Inter"); }catch(e){}
-  var list=wvClaims(k,wk), W=1080, PAD=56, CW=W-2*PAD, nm=LGI[k].name;
+  var list=wvClaims(k,wk), W=1080, PAD=48, CW=W-2*PAD, nm=LGI[k].name;
   var dateStr=list.length?list[0].date:'';
-  var total=0, contested=0, top=null, most=null;
-  list.forEach(function(w){ var win=w.bids.filter(function(x){return x.won;})[0]; total+=win.amount; if(w.bids.length>1) contested++; if(!top||win.amount>top.amt) top={p:w.player,amt:win.amount}; if(!most||w.bids.length>most.n) most={p:w.player,n:w.bids.length}; });
-  var c0=document.createElement('canvas').getContext('2d');
+  var pcol={QB:'#5aa2ff',RB:'#2fd3a4',WR:'#ff9d2e',TE:'#ff5fa6',K:'#c58bff',DEF:'#7fdbca'};
+  var total=0, left=0, contested=0, over=null, barg=null;
   var rows=list.map(function(w){
+    var win=w.bids.filter(function(x){return x.won;})[0];
     var losers=w.bids.filter(function(x){return !x.won;}).sort(function(a,b){return b.amount-a.amount;});
-    var txt=losers.length?('Lost: '+losers.map(function(b){ return b.manager+' $'+b.amount+(b.note==='priority'?' (tie)':''); }).join('  ·  ')):'';
-    var lines=txt?wvWrap(c0,txt,CW-44-250+60,'400 22px '+IN):[];
-    if(lines.length>2){ lines=lines.slice(0,2); lines[1]=lines[1].replace(/\s*\S*$/,'')+' …'; }
-    return {w:w,win:w.bids.filter(function(x){return x.won;})[0],losers:losers,lines:lines,h:104+(lines.length?lines.length*30+12:0)};
+    var rg=(+wk>=WV_SLP_WK)?(WV_SLP[wvNN(w.player)]||null):null, verdict=null;
+    total+=win.amount; if(losers.length){ contested++; left+=Math.max(0,win.amount-losers[0].amount); }
+    if(rg&&win.amount>=0){ verdict=win.amount>rg[1]?'OVERPAY':win.amount<rg[0]?'BARGAIN':'FAIR';
+      if(verdict==='OVERPAY'&&(!over||win.amount-rg[1]>over.d)) over={w:w,win:win,rg:rg,d:win.amount-rg[1]};
+      if(verdict==='BARGAIN'&&(!barg||rg[0]-win.amount>barg.d)) barg={w:w,win:win,rg:rg,d:rg[0]-win.amount}; }
+    var shown=losers.slice(0,6), more=losers.length-shown.length;
+    var h=Math.max(112, 52+shown.length*24+(more>0?24:0)+18);
+    return {w:w,win:win,losers:shown,more:more,rg:rg,verdict:verdict,gap:losers.length?win.amount-losers[0].amount:null,tie:losers.length&&losers[0].amount===win.amount,h:h};
   });
-  var headH=330, statH=list.length>2?146:0, footH=130, bodyH=0; rows.forEach(function(r){ bodyH+=r.h+14; });
-  var H=headH+statH+bodyH+footH+30;
+  var headH=300, statH=list.length>2?112:0, callH=(over||barg)?112:0, footH=92, bodyH=0; rows.forEach(function(r){ bodyH+=r.h; });
+  var H=headH+statH+callH+bodyH+footH+24;
   var cv=document.createElement('canvas'); cv.width=W; cv.height=H; var c=cv.getContext('2d');
-  var g=c.createLinearGradient(0,0,0,H); g.addColorStop(0,'#15170f'); g.addColorStop(1,'#0e0f0a'); c.fillStyle=g; c.fillRect(0,0,W,H);
-  c.strokeStyle='#262a1b'; c.lineWidth=2; c.strokeRect(1,1,W-2,H-2);
+  c.fillStyle=BG; c.fillRect(0,0,W,H);
   var imgs=await Promise.all([wvImg(CFN_LOGO), wvImg(LG_LOGO[k])]);
-  if(imgs[0]) wvDraw(imgs[0],c,PAD-10,34,220,116,'left');
-  if(imgs[1]) wvDraw(imgs[1],c,W-PAD,40,300,104,'right');
-  wvT(c,'WAIVER REPORT · '+String(dateStr).toUpperCase(),W/2,208,'28px '+BB,ACC,'center',7);
-  wvT(c,'WEEK '+wk+' WAIVERS',W/2,282,'96px '+BB,'#e9ecdf','center',3);
-  wvT(c,nm.toUpperCase(),W/2,324,wvFit(c,nm.toUpperCase(),W-2*PAD,'#px '+BB,40,26),'#9aa089','center',3);
+  if(imgs[0]) wvDraw(imgs[0],c,PAD-8,16,300,124,'left');
+  if(imgs[1]) wvDraw(imgs[1],c,W-PAD,16,300,124,'right');
+  wvT(c,'WAIVER REPORT · '+String(dateStr).toUpperCase(),W/2,184,'26px '+BB,ACC,'center',6);
+  wvT(c,'WEEK '+wk+' WAIVERS',W/2,276,'104px '+BB,'#f2f4ea','center',2);
   var y=headH+10;
   if(statH){
-    var bw=(CW-24)/3, stats=[[String(list.length),'CLAIMS PROCESSED'],['$'+total,'FAAB SPENT'],[String(contested),'CONTESTED']];
-    stats.forEach(function(s,i){ var x=PAD+i*(bw+12); wvRR(c,x,y,bw,92,16); c.fillStyle='#12140d'; c.fill(); c.strokeStyle='#262a1b'; c.lineWidth=2; c.stroke();
-      wvT(c,s[0],x+bw/2,y+58,'60px '+BB,ACC,'center'); wvT(c,s[1],x+bw/2,y+82,'700 15px '+IN,'#7d8470','center',2); });
+    var tw=(CW-24)/3, stats=[[String(list.length),'CLAIMS PROCESSED',ACC],['$'+total,'FAAB SPENT',ACC],['$'+left,'LEFT ON THE TABLE','#ff9d2e']];
+    stats.forEach(function(s,i){ var x=PAD+i*(tw+12); c.fillStyle='#2f333b'; c.fillRect(x,y,2,86);
+      wvT(c,s[0],x+18,y+52,'54px '+BB,s[2],'left'); wvT(c,s[1],x+18,y+78,'700 13px '+IN,'#7d8470','left',2); });
     y+=statH;
-    if(top&&top.amt>0){ wvT(c,'TOP BID  '+top.p.toUpperCase()+' · $'+top.amt,W/2,y-14,wvFit(c,'TOP BID  '+top.p.toUpperCase()+' · $'+top.amt,CW,'#px '+BB,30,20),'#9aa089','center',3); }
-    y+=0;
   }
-  var pcol={QB:'#ff6b6b',RB:'#4cd964',WR:'#4da3ff',TE:'#ffb84d',K:'#c792ea',DEF:'#7fdbca'};
+  async function phot(w,cx,cy,r,ring){
+    var ph=PHOTOS[w.player]?await wvImg(PHOTOS[w.player]):null;
+    c.save(); c.beginPath(); c.arc(cx,cy,r,0,Math.PI*2); c.closePath(); c.clip();
+    if(ph){ var sc=Math.max(2*r/ph.width,2*r/ph.height); c.drawImage(ph,cx-ph.width*sc/2,cy-ph.height*sc*0.42,ph.width*sc,ph.height*sc); }
+    else { c.fillStyle='#20232a'; c.fillRect(cx-r,cy-r,2*r,2*r); var ini=w.position==='DEF'?'D/ST':w.player.split(' ').map(function(x){return x[0];}).join('').slice(0,2).toUpperCase(); wvT(c,ini,cx,cy+r*.3,(w.position==='DEF'?(r*.7):(r*.8))+'px '+BB,'#8d9479','center'); }
+    c.restore(); c.strokeStyle=ring; c.lineWidth=3; c.beginPath(); c.arc(cx,cy,r-1.5,0,Math.PI*2); c.stroke();
+  }
+  if(callH){
+    var cw=(over&&barg)?(CW-12)/2:CW, cx0=PAD;
+    var cl=[]; if(over) cl.push(['BIGGEST OVERPAY','#ff6b6b',over]); if(barg) cl.push(['BEST BARGAIN',ACC,barg]);
+    for(var ci=0;ci<cl.length;ci++){ var it=cl[ci], x0=PAD+ci*(cw+12), cy0=y+4;
+      c.fillStyle='#1a1d23'; c.fillRect(x0,cy0,cw,88); c.fillStyle=it[1]; c.fillRect(x0,cy0,4,88);
+      await phot(it[2].w,x0+18+28,cy0+44,28,it[1]);
+      wvT(c,it[0],x0+88,cy0+26,'800 12px '+IN,it[1],'left',2);
+      wvT(c,it[2].w.player,x0+88,cy0+52,wvFit(c,it[2].w.player,cw-100,'700 #px '+IN,21,14),'#f2f4ea','left');
+      wvT(c,'Paid $'+it[2].win.amount+' · suggested $'+it[2].rg[0]+'-'+it[2].rg[1],x0+88,cy0+74,wvFit(c,'Paid $'+it[2].win.amount+' · suggested $'+it[2].rg[0]+'-'+it[2].rg[1],cw-100,'400 #px '+IN,15,11),'#8d9479','left');
+    }
+    y+=callH+8;
+  }
   for(var i=0;i<rows.length;i++){
-    var r=rows[i], w=r.w, me=/cuadz build/i.test(r.win.manager);
-    wvRR(c,PAD,y,CW,r.h,16); c.fillStyle=me?'#171c0c':'#15170f'; c.fill(); c.strokeStyle=me?'#3d4d17':'#262a1b'; c.lineWidth=2; c.stroke();
-    var cx=PAD+20+38, cy=y+52, ph=PHOTOS[w.player]?await wvImg(PHOTOS[w.player]):null;
-    c.save(); c.beginPath(); c.arc(cx,cy,38,0,Math.PI*2); c.closePath(); c.clip();
-    if(ph){ var sc=Math.max(76/ph.width,76/ph.height); c.drawImage(ph,cx-ph.width*sc/2,cy-ph.height*sc/2,ph.width*sc,ph.height*sc); }
-    else { c.fillStyle='#1d2014'; c.fillRect(cx-38,cy-38,76,76); var ini=w.position==='DEF'?'D/ST':w.player.split(' ').map(function(x){return x[0];}).join('').slice(0,2).toUpperCase(); wvT(c,ini,cx,cy+(w.position==='DEF'?9:11),(w.position==='DEF'?'26px ':'30px ')+BB,'#e9ecdf','center'); }
-    c.restore(); c.strokeStyle='#2a2f1d'; c.lineWidth=3; c.beginPath(); c.arc(cx,cy,38,0,Math.PI*2); c.stroke();
-    var tx=PAD+20+76+20, amtW=140, maxW=CW-(tx-PAD)-amtW-10;
-    wvT(c,w.player,tx,y+44,wvFit(c,w.player,maxW,'700 #px '+IN,28,16),'#e9ecdf','left');
-    var pc=pcol[w.position]||'#9aa089'; c.font='700 17px '+IN; var pw=c.measureText(w.position).width+20;
-    wvRR(c,tx,y+56,pw,28,6); c.strokeStyle=pc; c.lineWidth=2; c.stroke(); wvT(c,w.position,tx+10,y+76,'700 17px '+IN,pc,'left');
-    wvT(c,'→ '+r.win.manager,tx+pw+12,y+78,wvFit(c,'→ '+r.win.manager,maxW-pw-14,'600 #px '+IN,22,14),me?ACC:'#c9cdb9','left');
-    wvT(c,'$'+r.win.amount,PAD+CW-22,y+66,'60px '+BB,ACC,'right');
-    if(r.lines.length){ r.lines.forEach(function(ln,li){ wvT(c,ln,PAD+22,y+124+li*30,'400 22px '+IN,'#8b917a','left'); }); }
-    y+=r.h+14;
+    var r=rows[i], w=r.w, me=/cuadz build/i.test(r.win.manager), top=y;
+    if(me){ c.fillStyle='#1a1e22'; c.fillRect(PAD,top,CW,r.h); c.fillStyle=ACC; c.fillRect(PAD,top,4,r.h); }
+    c.fillStyle=LINE; c.fillRect(PAD,top+r.h-1,CW,1);
+    var cy=top+r.h/2, cx=PAD+18+31;
+    await phot(w,cx,cy,31,pcol[w.position]||'#8d9479');
+    var tx=PAD+18+62+14, lw=300;
+    wvT(c,w.player,tx,cy-18,wvFit(c,w.player,lw,'700 #px '+IN,24,15),'#f2f4ea','left');
+    var pc=pcol[w.position]||'#9aa089'; c.font='700 13px '+IN; var pw=c.measureText(w.position).width+18;
+    c.fillStyle=pc+'22'; c.fillRect(tx,cy-6,pw,22); wvT(c,w.position,tx+9,cy+10,'700 13px '+IN,pc,'left',1);
+    var wn=wvEll(c,'→ '+r.win.manager,lw-pw-9,'600 17px '+IN); wvT(c,wn,tx+pw+9,cy+11,'600 17px '+IN,me?ACC:'#c9cdb9','left');
+    var info=(r.rg?('Suggested $'+r.rg[0]+'–'+r.rg[1]):'')+(r.gap==null?'':((r.rg?' · ':'')+(r.tie?'tie, won on priority':'left $'+r.gap)));
+    if(info) wvT(c,info,tx,cy+34,wvFit(c,info,lw,'400 #px '+IN,14,10),'#6d735c','left');
+    var lx=PAD+18+318+16, rx=W-PAD-20-132-16;
+    if(r.losers.length){
+      c.fillStyle='#232629'; c.fillRect(lx-16,cy-r.h/2+14,1,r.h-28);
+      wvT(c,'LOST',lx,top+26,'700 11px '+IN,'#5d6350','left',2);
+      r.losers.forEach(function(b,li){ var ly=top+52+li*24; 
+        wvT(c,wvEll(c,b.manager,rx-lx-100,'400 15px '+IN),lx,ly,'400 15px '+IN,'#8d9479','left');
+        var isTie=b.amount===r.win.amount; wvT(c,'$'+b.amount+(isTie?' · TIE':''),rx,ly+1,'20px '+BB,isTie?'#ffb340':'#c9cdb9','right');
+        c.fillStyle='#1f2227'; c.fillRect(lx,ly+6,rx-lx,1); });
+      if(r.more>0) wvT(c,'+'+r.more+' more',lx,top+52+r.losers.length*24,'400 14px '+IN,'#5d6350','left');
+    }
+    var ax=W-PAD-20;
+    wvT(c,'$'+r.win.amount,ax,cy+(r.verdict?10:22),'64px '+BB,ACC,'right');
+    if(r.verdict){ var vc=r.verdict==='OVERPAY'?'#ff6b6b':r.verdict==='BARGAIN'?ACC:'#9aa089';
+      var vw=wvT(c,r.verdict,ax,cy+38,'800 12px '+IN,vc,'right',2); c.fillStyle=vc; c.fillRect(ax-vw-2,cy+43,vw+2,2); }
+    y+=r.h;
   }
-  c.strokeStyle='#262a1b'; c.lineWidth=2; c.beginPath(); c.moveTo(PAD,H-112); c.lineTo(W-PAD,H-112); c.stroke();
-  wvT(c,'CUADZ FANTASY NETWORK',PAD,H-50,'38px '+BB,'#e9ecdf','left',6);
-  wvT(c,'cuadzfantasynetwork.com',W-PAD,H-52,'600 26px '+IN,ACC,'right');
+  c.fillStyle=LINE; c.fillRect(PAD,H-footH,CW,1);
+  wvT(c,'cuadzfantasynetwork.com',W/2,H-footH/2+10,'500 22px '+IN,'#ffffff','center');
   return cv;
 }
 async function shareWaivers(k,wk){
