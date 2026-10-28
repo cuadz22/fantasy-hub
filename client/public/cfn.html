@@ -3484,7 +3484,69 @@ function wpCard(k,m,i){
     '<div class="wp-h2h'+(m.riv?' riv':'')+'">'+lgEsc(m.h2h)+(m.note?'<em>'+lgEsc(m.note)+'</em>':'')+'</div></div>';
 }
 function wpToggle(el){ var o=el.classList.toggle('open'); el.setAttribute('aria-expanded',o?'true':'false'); }
+
+async function prevCard(k){
+  var BB="'Bebas Neue','Impact',sans-serif", IN="Inter,system-ui,sans-serif", ACC='#acf910', MS=PV8[k]||[];
+  try{ await document.fonts.load("40px 'Bebas Neue'"); await document.fonts.load("700 24px Inter"); await document.fonts.load("500 24px Inter"); }catch(e){}
+  var W=1600, hdr=210, ftr=124, PX=46, GAP=24, cw=(W-2*PX-GAP)/2, ch=400, rows=Math.ceil(MS.length/2), top=hdr+34, H=top+rows*(ch+GAP)+ftr+6;
+  var cv=document.createElement('canvas'); cv.width=W; cv.height=H; var c=cv.getContext('2d');
+  c.fillStyle='#0a0b07'; c.fillRect(0,0,W,H);
+  c.fillStyle='#0e0f0a'; c.fillRect(0,0,W,hdr); c.fillStyle=ACC; c.fillRect(0,hdr-6,W,6);
+  var imgs=await Promise.all([wvImg(CFN_LOGO), wvImg(LG_LOGO[k])]);
+  wvT(c,'WEEK 8 PREVIEW',PX+4,106,'92px '+BB,'#ffffff','left',3);
+  wvT(c,'Moneylines from Yahoo projections, plus all-time head-to-head.',PX+6,158,'500 26px '+IN,'#aab08f','left');
+  if(imgs[1]) wvDraw(imgs[1],c,W-18,30,140,150,'right');
+  var me=(typeof FM_YOU!=='undefined'&&FM_YOU[k])||'Cuadz';
+  for(var i=0;i<MS.length;i++){
+    var m=MS[i], x=PX+(i%2)*(cw+GAP), y=top+Math.floor(i/2)*(ch+GAP), fa=m.p>=50;
+    wvRR(c,x,y,cw,ch,22); c.fillStyle='#12140d'; c.fill(); c.lineWidth=2; c.strokeStyle='#262a1b'; c.stroke();
+    var sides=[[m.a,m.ia,m.p,fa],[m.b,m.ib,100-m.p,!fa]];
+    for(var j=0;j<2;j++){
+      var T=sides[j][0], cy=y+62+j*92, ax=x+56, rad=32, fav=sides[j][3], mine=T[1]===me;
+      if(fav){ wvRR(c,x+14,cy-42,cw-28,84,14); c.fillStyle='#1b2110'; c.fill(); }
+      var av=fmAvatar(T[1]), im=av?await wvImg(av):await fmLogo(k,sides[j][1]);
+      c.save(); c.beginPath(); c.arc(ax,cy,rad,0,Math.PI*2); c.closePath(); c.clip();
+      if(im){ var s2=Math.max(2*rad/im.width,2*rad/im.height); c.drawImage(im,ax-im.width*s2/2,cy-im.height*s2/2,im.width*s2,im.height*s2); } else { c.fillStyle='#262a1b'; c.fillRect(ax-rad,cy-rad,2*rad,2*rad); wvT(c,String(T[1]).slice(0,2).toUpperCase(),ax,cy+9,'28px '+BB,'#cfd5bd','center'); }
+      c.restore(); c.lineWidth=2; c.strokeStyle=mine?'#7cc400':'#3a3f2b'; c.beginPath(); c.arc(ax,cy,rad,0,Math.PI*2); c.stroke();
+      var nf=wvFit(c,T[0],360,'700 #px '+IN,32,20);
+      wvT(c,T[0],ax+52,cy-2,nf,'#f1f4e6','left');
+      wvT(c,T[1]+' · '+T[2]+' · '+T[3].toFixed(1)+' proj',ax+52,cy+26,'500 20px '+IN,'#9aa089','left');
+      wvT(c,rcAm(sides[j][2]),x+cw-34,cy+14,'800 52px '+BB,fav?ACC:'#7d8466','right',1);
+    }
+    var by=y+ch-190, bw=cw-56, pw=Math.round(bw*m.p/100);
+    wvRR(c,x+28,by,bw,10,5); c.fillStyle='#262a1b'; c.fill();
+    c.save(); wvRR(c,x+28,by,bw,10,5); c.clip(); c.fillStyle=ACC; if(fa) c.fillRect(x+28,by,pw,10); else c.fillRect(x+28+pw,by,bw-pw,10); c.restore();
+    var half=(cw-56)/2-10;
+    for(var q=0;q<2;q++){
+      var L=(q?m.b:m.a)[6].slice(0,3), px=x+28+q*(half+20);
+      L.forEach(function(pl,r){ var nm=pl[0]; c.font='500 19px '+IN; while(c.measureText(nm).width>half-70&&nm.length>6) nm=nm.slice(0,-2); wvT(c,nm,px,by+38+r*26,'500 19px '+IN,'#cfd5bd','left'); wvT(c,pl[1].toFixed(1),px+half,by+38+r*26,'700 19px '+IN,'#9aa089','right'); });
+    }
+    wvT(c,m.h2h.replace('All-time H2H · ','ALL-TIME · ').toUpperCase(),x+28,y+ch-(m.note?54:28),'700 17px '+IN,'#8a9170','left',1);
+    if(m.note) wvT(c,m.note,x+28,y+ch-24,'700 21px '+IN,ACC,'left');
+  }
+  c.fillStyle='#000000'; c.fillRect(0,H-ftr,W,ftr); c.fillStyle=ACC; c.fillRect(0,H-ftr,W,4);
+  if(imgs[0]) wvDraw(imgs[0],c,PX,H-ftr+12,260,100,'left');
+  wvT(c,'WEEK 8 PREVIEW · '+LGI[k].name.toUpperCase(),W-PX,H-ftr+72,'800 26px '+IN,ACC,'right',3);
+  return cv;
+}
+async function sharePrev(k){
+  var ov=document.createElement('div'); ov.setAttribute('style','position:fixed;inset:0;z-index:99999;background:rgba(6,7,4,.88);display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow:auto');
+  ov.innerHTML='<div style="width:100%;max-width:640px;background:#14160f;border:1px solid #262a1b;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px"><div id="spBox"></div></div>';
+  document.body.appendChild(ov); ov.addEventListener('click',function(e){ if(e.target===ov) ov.remove(); });
+  var box=ov.querySelector('#spBox');
+  box.innerHTML='<div style="color:#9aa089;font:500 14px Inter,sans-serif;text-align:center;padding:40px 0">Building the preview card…</div>';
+  var cv; try{ cv=await prevCard(k); }catch(e){ console.error(e); box.innerHTML='<div style="color:#ff8a80;font:500 14px Inter,sans-serif;text-align:center;padding:30px 0">Could not build the card.</div><button class="tc-ghost" id="spX">Close</button>'; document.getElementById('spX').onclick=function(){ ov.remove(); }; return; }
+  var url=cv.toDataURL('image/png'), fn='cfn-week8-preview-'+k+'.png';
+  var blob=await new Promise(function(r){ cv.toBlob(r,'image/png'); }), file=null, can=false;
+  try{ file=new File([blob],fn,{type:'image/png'}); can=!!(navigator.canShare&&navigator.canShare({files:[file]})); }catch(e){}
+  box.innerHTML='<img alt="Week 8 preview" src="'+url+'" style="width:100%;height:auto;border-radius:14px;border:1px solid #262a1b;display:block"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="tc-btn" id="spGo" style="flex:1">'+(can?'Share':'Save image')+'</button>'+(can?'<button class="tc-ghost" id="spDl">Save</button>':'')+'<button class="tc-ghost" id="spCl">Close</button></div><div id="spMsg" style="color:#9aa089;font:500 12px Inter,sans-serif;margin-top:8px"></div>';
+  function save(){ var a=document.createElement('a'); a.href=url; a.download=fn; document.body.appendChild(a); a.click(); a.remove(); document.getElementById('spMsg').textContent='Image saved. On a phone, press and hold the card to save it to Photos.'; }
+  document.getElementById('spCl').onclick=function(){ ov.remove(); };
+  if(can){ document.getElementById('spGo').onclick=function(){ navigator.share({files:[file],title:'Week 8 Preview · '+LGI[k].name,text:'Week 8 preview and moneylines on the Cuadz Fantasy Network'}).catch(function(){}); }; document.getElementById('spDl').onclick=save; }
+  else document.getElementById('spGo').onclick=save;
+}
 function lgPreview(p,k){
+  var sb=document.createElement('div'); sb.style.cssText='display:flex;justify-content:flex-end;margin-bottom:8px'; sb.innerHTML='<button class="st-btn" style="padding:5px 12px">Share preview</button>'; sb.firstChild.onclick=function(){ sharePrev(k); }; p.appendChild(sb);
   var d=document.createElement('div'); d.className='subsec';
   d.innerHTML='<div class="subsec-hd">Week 8 Preview &middot; Moneylines</div><div class="wp-grid">'+(PV8[k]||[]).map(function(m,i){return wpCard(k,m,i);}).join('')+'</div><p class="lv-note">Tap any matchup for the full lineups. Moneylines come from each team&rsquo;s projected total (Yahoo, lineups as set Oct 28, kickers and defenses included) and the Fraud Meter&rsquo;s scoring spread, with a small house edge built in. H2H is the all-time regular-season series record between the two managers.</p>';
   p.appendChild(d);
