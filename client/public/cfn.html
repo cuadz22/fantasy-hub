@@ -268,6 +268,23 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .wp-h2h{font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:8px;display:flex;flex-direction:column;gap:2px}
 .wp-h2h em{font-style:normal;color:var(--accent);font-weight:600}
 .wp-h2h.riv{color:var(--text)}
+
+.rk-list{display:flex;flex-direction:column;gap:8px}
+.rk-row{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 12px}
+.rk-row.top{border-color:#6b5d2a;background:linear-gradient(90deg,#2a2615,var(--surface) 60%)}
+.rk-row.fm{opacity:.78}
+.rk-pos{width:20px;text-align:center;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.rk-ic{flex:0 0 40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--bg3);border-radius:10px}
+.rk-mid{flex:1;min-width:0}
+.rk-nm{font-weight:700;color:var(--text)}
+.rk-rn{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.rk-st{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11px;color:var(--muted);margin-top:3px}
+.rk-b{color:#e9c85c;font-weight:700}
+.rk-fm{color:#c58a5a}
+.rk-yr{font-size:10.5px;color:var(--muted);margin-top:2px}
+.rk-pt{text-align:right;display:flex;flex-direction:column;line-height:1.1}
+.rk-pt b{font-size:18px;color:var(--text);font-variant-numeric:tabular-nums}
+.rk-pt span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 /* ── NAV ── */
 header{
   display:flex;align-items:center;gap:24px;
@@ -3560,8 +3577,58 @@ function lgPreview(p,k){
   d.innerHTML='<div class="subsec-hd">Week 8 Preview &middot; Moneylines</div><div class="wp-grid">'+(PV8[k]||[]).map(function(m,i){return wpCard(k,m,i);}).join('')+'</div><p class="lv-note">Tap any matchup for the full lineups. Moneylines come from each team&rsquo;s projected total (Yahoo, lineups as set Oct 28, kickers and defenses included) and the Fraud Meter&rsquo;s scoring spread, with a small house edge built in. H2H is the all-time regular-season series record between the two managers.</p>';
   p.appendChild(d);
 }
+
+var RKH = {"gl":{"Alexis":{"t":[2025],"r":[],"th":[2023],"a":3,"pw":3},"Renzo":{"t":[],"r":[],"th":[],"a":1,"pw":1},"Oscar":{"t":[],"r":[],"th":[2024],"a":2,"pw":1},"Julio Z":{"t":[],"r":[2025],"th":[],"a":2,"pw":1},"Pru":{"t":[2023],"r":[],"th":[],"a":1,"pw":3},"Gio":{"t":[],"r":[2023,2024],"th":[2025],"a":3,"pw":3},"Kevin":{"t":[],"r":[],"th":[],"a":1,"pw":0},"Cuadz":{"t":[],"r":[],"th":[],"a":1,"pw":0},"Ed":{"t":[2024],"r":[],"th":[],"a":2,"pw":3},"Jeff":{"t":[],"r":[],"th":[],"a":1,"pw":0},"John":{"t":[],"r":[],"th":[],"a":1,"pw":0}},"bh":{"Cuadz":{"t":[2016,2017,2019],"r":[2021,2023],"th":[2014],"a":11,"pw":13},"Cris":{"t":[2018,2020],"r":[],"th":[],"a":7,"pw":6},"Oscar":{"t":[],"r":[2014],"th":[2016,2024],"a":6,"pw":4},"Hihi":{"t":[],"r":[],"th":[2019],"a":4,"pw":2},"Edwin":{"t":[2024],"r":[],"th":[],"a":4,"pw":4},"Bishoy":{"t":[2014,2022],"r":[2019],"th":[],"a":6,"pw":7},"Pru":{"t":[2025],"r":[2015,2020],"th":[2023],"a":8,"pw":6},"Kevin":{"t":[2023],"r":[],"th":[2015,2018],"a":3,"pw":3},"Gio":{"t":[],"r":[2022],"th":[2017,2020],"a":6,"pw":4},"Alexis":{"t":[],"r":[],"th":[],"a":2,"pw":0},"Eddie":{"t":[2015],"r":[2016,2018],"th":[2025],"a":6,"pw":6},"Addie":{"t":[],"r":[],"th":[],"a":1,"pw":0},"Kyle":{"t":[],"r":[2017],"th":[2021],"a":2,"pw":1},"Neeho":{"t":[],"r":[],"th":[],"a":1,"pw":0},"Mina":{"t":[2021],"r":[2024,2025],"th":[2022],"a":5,"pw":4}},"rb":{"Hihi":{"t":[2024],"r":[],"th":[2019],"a":2,"pw":3},"Cuadz":{"t":[2022],"r":[2019],"th":[2025],"a":6,"pw":5},"Mina":{"t":[],"r":[],"th":[],"a":1,"pw":0},"Pru":{"t":[],"r":[],"th":[],"a":2,"pw":0},"Cris":{"t":[2019],"r":[],"th":[],"a":3,"pw":4},"Gerald":{"t":[],"r":[],"th":[],"a":1,"pw":0},"Jeff":{"t":[],"r":[],"th":[2023],"a":3,"pw":1},"Oscar":{"t":[2021,2025],"r":[2024],"th":[],"a":4,"pw":8},"Kevin":{"t":[2020],"r":[2022],"th":[],"a":4,"pw":5},"Gio":{"t":[],"r":[2020,2025],"th":[2024],"a":4,"pw":4},"Alexis":{"t":[2023],"r":[],"th":[2020],"a":4,"pw":2},"John":{"t":[],"r":[2023],"th":[2021,2022],"a":4,"pw":2},"Addie":{"t":[],"r":[2021],"th":[],"a":1,"pw":1},"Ed":{"t":[],"r":[],"th":[],"a":2,"pw":0},"Vic":{"t":[],"r":[],"th":[],"a":1,"pw":0}},"sts":{"Ed":{"t":[2021,2025],"r":[2024],"th":[],"a":3,"pw":6},"Pru":{"t":[2024],"r":[],"th":[],"a":3,"pw":2},"Oscar":{"t":[],"r":[],"th":[],"a":4,"pw":1},"Cuadz":{"t":[2022,2023],"r":[],"th":[],"a":3,"pw":5},"Gio":{"t":[],"r":[2022,2023],"th":[2021],"a":3,"pw":3},"Bryan":{"t":[],"r":[2021],"th":[],"a":3,"pw":2},"Vic":{"t":[],"r":[],"th":[2022,2023],"a":3,"pw":1},"Kevin":{"t":[],"r":[],"th":[],"a":1,"pw":0},"Eddie":{"t":[],"r":[],"th":[],"a":1,"pw":1},"Julio Z":{"t":[],"r":[],"th":[],"a":2,"pw":0},"Brian":{"t":[],"r":[],"th":[2024],"a":1,"pw":1},"Jason":{"t":[],"r":[],"th":[],"a":1,"pw":0},"Oscar S":{"t":[],"r":[],"th":[2025],"a":1,"pw":1},"Edwin":{"t":[],"r":[2025],"th":[],"a":1,"pw":2}}};
+var RK_TIERS = ['Recruit','Private','Corporal','Sergeant','Gunnery Sergeant','Lieutenant','Captain','Major','Colonel','Brigadier General','General'];
+function rkIcon(i){
+  var s='<svg viewBox="0 0 40 40" width="40" height="40" aria-hidden="true">', B='#b9854f', S='#c9cfda', G='#e9c85c', n, y;
+  function star(cx,cy,r,c){ var pts=[]; for(var q=0;q<10;q++){ var a=-Math.PI/2+q*Math.PI/5, rr=q%2?r*0.45:r; pts.push((cx+rr*Math.cos(a)).toFixed(1)+','+(cy+rr*Math.sin(a)).toFixed(1)); } return '<polygon points="'+pts.join(' ')+'" fill="'+c+'"/>'; }
+  if(i===0) s+='<circle cx="20" cy="20" r="4" fill="none" stroke="'+B+'" stroke-width="2"/>';
+  else if(i<=4){ for(n=0;n<i;n++){ y=26-n*6+(i>3?2:0); s+='<path d="M8 '+(y)+' L20 '+(y-8)+' L32 '+(y)+'" fill="none" stroke="'+B+'" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>'; } }
+  else if(i<=7){ for(n=0;n<i-4;n++){ y=14+n*7+(i===5?6:i===6?3:0); s+='<rect x="9" y="'+y+'" width="22" height="4.2" rx="2" fill="'+S+'"/>'; } }
+  else if(i===8) s+=star(20,20,13,G);
+  else if(i===9) s+=star(12,20,9,G)+star(28,20,9,G);
+  else s+=star(11,13,8,G)+star(29,13,8,G)+star(11,29,8,G)+star(29,29,8,G);
+  return s+'</svg>';
+}
+function rkCalc(k){
+  var A=(LGD.allt[k]||{}).owners||{}, H=RKH[k]||{}, names={}, rows=[];
+  Object.keys(A).forEach(function(n){ names[n]=1; }); Object.keys(H).forEach(function(n){ names[n]=1; });
+  Object.keys(names).forEach(function(n){
+    var h=H[n]||{t:[],r:[],th:[],a:0,pw:0}, rec=A[n], W=rec?rec[0]:0, L=rec?rec[1]:0, T=rec?rec[2]:0;
+    var reg=rec?Math.max(0,W+0.5*(W-L)):0;
+    var pts=100*h.t.length+40*h.r.length+20*h.th.length+12*h.a+8*h.pw+reg;
+    rows.push({n:n,h:h,W:W,L:L,T:T,pts:Math.round(pts),former:!rec});
+  });
+  rows.sort(function(a,b){ return b.pts-a.pts||b.h.t.length-a.h.t.length||(a.n<b.n?-1:1); });
+  var top=rows[0].pts||1;
+  rows.forEach(function(r,i){
+    var f=r.pts/top, t;
+    if(i===0) t=10; else if(i===1&&f>=0.5) t=9;
+    else t=f>=0.72?8:f>=0.60?7:f>=0.50?6:f>=0.40?5:f>=0.31?4:f>=0.23?3:f>=0.15?2:f>=0.08?1:0;
+    r.t=t; r.pos=i;
+    if(i>0&&r.pts===rows[i-1].pts) r.pos=rows[i-1].pos;
+  });
+  return rows;
+}
+function lgRanks(p,k){
+  var rows=rkCalc(k), h='';
+  h+='<div class="subsec"><div class="subsec-hd">All-Time Ranks</div><p class="lv-note" style="margin:0 0 12px">Every manager who has ever played in this league, ranked on a Halo-style ladder from Recruit up to General. Ranks recalculate from the live all-time records, so they move as the season plays out.</p><div class="rk-list">';
+  h+=rows.map(function(r){
+    var tn=RK_TIERS[r.t], x=r.h, bits=[];
+    if(x.t.length) bits.push('<span class="rk-b">🏆 '+x.t.length+'</span>');
+    if(x.r.length) bits.push('<span>Finals '+x.r.length+'</span>');
+    if(x.th.length) bits.push('<span>3rd '+x.th.length+'</span>');
+    bits.push('<span>Playoffs '+x.a+'×</span>'); bits.push('<span>'+x.pw+' playoff W</span>');
+    bits.push(r.former?'<span class="rk-fm">former · no reg-season record</span>':'<span>'+r.W+'-'+r.L+(r.T?'-'+r.T:'')+'</span>');
+    var yrs=x.t.length?'<div class="rk-yr">Champion: '+x.t.slice().sort().join(' · ')+'</div>':'';
+    return '<div class="rk-row'+(r.t>=9?' top':'')+(r.former?' fm':'')+'"><div class="rk-pos">'+(r.pos+1)+'</div><div class="rk-ic">'+rkIcon(r.t)+'</div><div class="rk-mid"><div class="rk-nm">'+lgEsc(r.n)+'</div><div class="rk-rn">'+tn+'</div><div class="rk-st">'+bits.join('')+'</div>'+yrs+'</div><div class="rk-pt"><b>'+r.pts+'</b><span>pts</span></div></div>';
+  }).join('')+'</div></div>';
+  h+='<div class="subsec"><div class="subsec-hd">How points work</div><div class="rb-rule"><b style="color:var(--accent)">Championship</b> 100 &middot; <b style="color:var(--accent)">Runner-up</b> 40 &middot; <b style="color:var(--accent)">3rd place</b> 20 &middot; <b style="color:var(--accent)">Playoff appearance</b> 12 (a first-round bye counts) &middot; <b style="color:var(--accent)">Playoff win</b> 8 &middot; <b style="color:var(--accent)">All-time record</b> 1 per win plus half a point for every game over .500.</div><div class="rb-rule">General is the #1 manager in the league and Brigadier General is #2 (once they hold at least half of the leader&rsquo;s points). Everyone else ranks by how close they are to the leader: Colonel 72%+, Major 60%, Captain 50%, Lieutenant 40%, Gunnery Sergeant 31%, Sergeant 23%, Corporal 15%, Private 8%, Recruit below that.</div><div class="rb-rule" style="color:var(--muted)">Former managers are included with their playoff results from Yahoo. Their regular-season records are not available, so they only earn playoff points.</div></div>';
+  p.innerHTML+=h;
+}
 function lgTabs(){
-  var L = LGI[lgState.k], tabs = ['Standings','Matchups','Weekly Preview','Power Rankings','Fraud Meter','Awards','Waivers','Market','History'];
+  var L = LGI[lgState.k], tabs = ['Standings','Matchups','Weekly Preview','Power Rankings','Fraud Meter','Awards','Waivers','Market','History','All-Time Ranks'];
   if(L.keeper) tabs.push('Keepers');
   tabs.push('Rulebook');
   var h = tabs.map(function(t){ return '<button class="lg-tab'+(t===lgState.tab?' on':'')+'" onclick="lgTab(\''+t+'\')">'+t+'</button>'; }).join('');
@@ -3594,6 +3661,7 @@ function lgRender(){
   } else if(t==='Waivers'){ lgWaivers(p,k);
   } else if(t==='Market'){ TC.leagueTab(p,k);
   } else if(t==='History'){ lgHistory(p,k);
+  } else if(t==='All-Time Ranks'){ lgRanks(p,k);
   } else if(t==='Keepers'){ lgKeepers(p,k);
   } else if(t==='Rulebook'){ lgRules(p,k); }
 }
