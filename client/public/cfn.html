@@ -3454,6 +3454,10 @@ var WV_SLP={"calebdouglas":[11,20],"kcconcepcion":[11,21],"ryanflournoy":[4,9],"
 function wvEll(c,s,maxW,font){ c.font=font; if(c.measureText(s).width<=maxW) return s; while(s.length>1&&c.measureText(s+'…').width>maxW) s=s.slice(0,-1); return s.replace(/\s+$/,'')+'…'; }
 function wvNN(x){ return String(x).toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\b\.?/g,'').replace(/[^a-z]/g,''); }
 
+var WV_SLP={"calebdouglas":[11,20],"kcconcepcion":[11,21],"ryanflournoy":[4,9],"tretucker":[10,20],"omarcooper":[15,27],"makailemon":[7,14],"savionwilliams":[1,5],"keoncoleman":[4,10],"jakobimeyers":[6,11],"khalilshakir":[4,10],"treylonburks":[1,5],"antoniowilliams":[1,5],"kendrickbourne":[3,8],"laddmcconkey":[14,28],"jordanaddison":[5,10],"quentinjohnston":[0,3],"joshdowns":[4,10],"djmoore":[15,31],"chrisgodwin":[5,10],"cooperkupp":[2,6],"jordyntyson":[5,15],"malikwashington":[5,10],"keenanallen":[3,8],"courtlandsutton":[3,9],"sethmcgowan":[8,17],"devinsingletary":[5,11],"jonahcoleman":[17,30],"elijahmitchell":[2,7],"kaelonblack":[8,18],"rachaadwhite":[10,17],"dylansampson":[4,10],"emanuelwilson":[8,17],"ricodowdle":[7,14],"dameonpierce":[5,11],"jordanmason":[13,26],"blakecorum":[11,22],"chrisrodriguez":[1,4],"samajeperine":[2,6],"zonovanknight":[4,9],"kimanividal":[2,6],"tonypollard":[15,30],"keatonmitchell":[1,4],"zachcharbonnet":[13,25],"kennygainwell":[3,7],"tylergoodson":[0,3],"jadarianprice":[4,12],"emmettjohnson":[1,5],"braelonallen":[9,19],"olliegordon":[6,45],"brentonstrange":[5,9],"hunterhenry":[5,10],"masontaylor":[4,8],"kylepitts":[5,11],"tjhockenson":[5,10],"mikegesicki":[2,5],"colbyparkinson":[1,5],"michaelmayer":[1,5],"eliraridon":[1,5],"ajbarner":[1,3],"darrenwaller":[1,4],"daltonkincaid":[6,15],"kenyonsadiq":[1,5],"terranceferguson":[1,4],"markandrews":[1,5],"jakeferguson":[2,6],"haroldfannin":[5,11],"gregdulcich":[1,3],"kirkcousins":[3,8],"malikwillis":[2,6],"jaydendaniels":[7,17],"dakprescott":[5,11],"genosmith":[1,4],"michaelpenix":[2,7],"kylermurray":[2,5],"tannermckee":[0,8],"samdarnold":[1,5],"deshaunwatson":[1,5],"jaguars":[3,5],"patriots":[2,5],"commanders":[1,3],"buccaneers":[2,5],"chasemclaughlin":[1,4],"tylerbass":[1,3]}, WV_SLP_DATE='Oct 28', WV_SLP_WK=7;
+function wvEll(c,s,maxW,font){ c.font=font; if(c.measureText(s).width<=maxW) return s; while(s.length>1&&c.measureText(s+'…').width>maxW) s=s.slice(0,-1); return s.replace(/\s+$/,'')+'…'; }
+function wvNN(x){ return String(x).toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\b\.?/g,'').replace(/[^a-z]/g,''); }
+
 async function wvCard(k,wk){
   var BB="'Bebas Neue','Impact',sans-serif", IN="Inter,system-ui,sans-serif", ACC='#acf910', BG='#14161b', LINE='#272a31';
   try{ await document.fonts.load("40px 'Bebas Neue'"); await document.fonts.load("600 24px Inter"); await document.fonts.load("700 24px Inter"); await document.fonts.load("400 24px Inter"); }catch(e){}
@@ -3514,7 +3518,7 @@ async function wvCard(k,wk){
     c.fillStyle=LINE; c.fillRect(PAD,top+r.h-1,CW,1);
     var cy=top+r.h/2, cx=PAD+18+31;
     await phot(w,cx,cy,31,pcol[w.position]||'#8d9479');
-    var tx=PAD+18+62+14, lw=300;
+    var tx=PAD+18+62+14, lw=234;
     wvT(c,w.player,tx,cy-18,wvFit(c,w.player,lw,'700 #px '+IN,24,15),'#f2f4ea','left');
     var pc=pcol[w.position]||'#9aa089'; c.font='700 13px '+IN; var pw=c.measureText(w.position).width+18;
     c.fillStyle=pc+'22'; c.fillRect(tx,cy-6,pw,22); wvT(c,w.position,tx+9,cy+10,'700 13px '+IN,pc,'left',1);
