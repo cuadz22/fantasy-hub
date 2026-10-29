@@ -3636,8 +3636,7 @@ function rkCalc(k){
 function rkRow(r){
   var tn=RK_TIERS[r.t].n, x=r.h, bits=[];
   if(x.t.length) bits.push('<span class="rk-b">🏆 '+x.t.length+'</span>');
-  if(x.r.length) bits.push('<span>Finals '+x.r.length+'</span>');
-  if(x.th.length) bits.push('<span>3rd '+x.th.length+'</span>');
+  if(x.r.length) bits.push('<span>Runner-up '+x.r.length+'</span>');
   bits.push('<span>Playoffs '+x.a+'×</span>'); if(x.b) bits.push('<span>Byes '+x.b+'</span>'); bits.push('<span>'+x.pw+' playoff W</span>');
   bits.push(r.hasRec?'<span>'+r.W+'-'+r.L+(r.T?'-'+r.T:'')+(r.est?' (est.)':'')+'</span>':'<span class="rk-fm">no reg-season record</span>');
   if(x.m>=2) bits.push('<span class="rk-fm">missed playoffs '+x.m+' of last 5</span>');
@@ -3669,7 +3668,7 @@ async function rkCard(k){
     wvT(c,r.n,tx,ry+54,'700 38px '+IN,'#ebecef','left');
     wvT(c,RK_TIERS[r.t].n.toUpperCase(),tx,ry+88,'700 20px '+IN,ACC,'left',3);
     if(r.nx) wvT(c,r.nx,tx,ry+116,'500 19px '+IN,'#7d8491','left');
-    var s1=[]; if(x.t.length) s1.push('🏆 '+x.t.length); if(x.r.length) s1.push('Finals '+x.r.length); if(x.th.length) s1.push('3rd '+x.th.length); s1.push('Playoffs '+x.a+'×'); if(x.b) s1.push('Byes '+x.b); s1.push(x.pw+' playoff W');
+    var s1=[]; if(x.t.length) s1.push('🏆 '+x.t.length); if(x.r.length) s1.push('Runner-up '+x.r.length); s1.push('Playoffs '+x.a+'×'); if(x.b) s1.push('Byes '+x.b); s1.push(x.pw+' playoff W');
     var s2=[]; if(r.hasRec) s2.push(r.W+'-'+r.L+(r.est?' (est.)':'')); if(x.m>=2) s2.push('missed playoffs '+x.m+' of last 5');
     wvT(c,s1.join('   ·   '),tx,ry+148,'500 20px '+IN,'#8f96a4','left');
     var y2=ry+176, yrs=x.t.length?'Champion: '+x.t.slice().sort().join(' · '):'';
