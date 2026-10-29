@@ -3628,32 +3628,38 @@ async function rkCard(k){
   var BB="'Bebas Neue','Impact',sans-serif", IN="Inter,system-ui,sans-serif", ACC='#acf910';
   try{ await document.fonts.load("40px 'Bebas Neue'"); await document.fonts.load("700 24px Inter"); await document.fonts.load("500 24px Inter"); }catch(e){}
   var R=rkCalc(k).filter(function(r){return r.active;}), n=R.length;
-  var W=1600, hdr=210, ftr=124, PX=46, rowH=104, top=hdr+30, H=top+n*rowH+40+ftr;
+  var W=1080, hdr=190, ftr=110, PX=36, rowH=204, gap=14, top=hdr+34, H=top+n*(rowH+gap)+26+ftr;
   var cv=document.createElement('canvas'); cv.width=W; cv.height=H; var c=cv.getContext('2d');
-  c.fillStyle='#121419'; c.fillRect(0,0,W,H);
-  c.fillStyle='#15181d'; c.fillRect(0,0,W,hdr); c.fillStyle=ACC; c.fillRect(0,hdr-6,W,6);
+  c.fillStyle='#14161b'; c.fillRect(0,0,W,H);
+  c.fillStyle='#1a1d23'; c.fillRect(0,0,W,hdr); c.fillStyle=ACC; c.fillRect(0,hdr-5,W,5);
   var imgs=await Promise.all([wvImg(CFN_LOGO), wvImg(LG_LOGO[k])]);
   var ics=await Promise.all(RKL.map(function(u){ return wvImg(u); }));
-  wvT(c,'ALL-TIME RANKS',PX+4,106,'92px '+BB,'#ffffff','left',3);
-  wvT(c,'Every current manager, ranked on the Halo 3 ladder. Rank moves up and down with results.',PX+6,158,'500 26px '+IN,'#9ca1ae','left');
-  if(imgs[1]) wvDraw(imgs[1],c,W-18,30,140,150,'right');
-  var me=(typeof FM_YOU!=='undefined'&&FM_YOU[k])||'Cuadz';
+  wvT(c,'ALL-TIME RANKS',PX+2,92,'84px '+BB,'#ffffff','left',3);
+  wvT(c,LGI[k].name+' · current managers on the Halo 3 ladder',PX+4,138,'500 24px '+IN,'#9ca1ae','left');
+  if(imgs[1]) wvDraw(imgs[1],c,W-20,24,120,130,'right');
   for(var i=0;i<n;i++){
-    var r=R[i], ry=top+i*rowH, cy=ry+rowH/2, x=r.h, mine=r.n===me, topR=r.t>=7;
-    wvRR(c,PX,ry+5,W-2*PX,rowH-10,16); c.fillStyle=mine?'#1d2410':topR?'#262312':(i%2?'#16181e':'#1a1d24'); c.fill();
-    if(mine||topR){ c.lineWidth=2; c.strokeStyle=mine?'#7cc400':'#6b5d2a'; c.stroke(); }
-    wvT(c,String(r.pos+1),PX+44,cy+14,'800 42px '+BB,topR?'#e9c85c':'#798192','center',1);
-    if(ics[r.t]) wvDraw(ics[r.t],c,PX+160,ry+12,110,rowH-24,'center');
-    wvT(c,r.n,PX+250,cy-4,'700 36px '+IN,'#ebecef','left');
-    wvT(c,RK_TIERS[r.t].n.toUpperCase(),PX+250,cy+30,'700 20px '+IN,ACC,'left',3);
-    var bits=[]; if(x.t.length) bits.push(x.t.length+(x.t.length>1?' TITLES':' TITLE')); if(x.r.length) bits.push(x.r.length+' FINALS'); bits.push(x.a+' PLAYOFFS'); if(r.hasRec) bits.push(r.W+'-'+r.L);
-    wvT(c,bits.join('  ·  '),W-PX-190,cy+10,'600 22px '+IN,'#8f96a4','right',1);
-    wvT(c,String(r.pts),W-PX-40,cy+4,'800 44px "DM Mono","Roboto Mono",ui-monospace,monospace','#ebecef','right');
-    wvT(c,'PTS',W-PX-40,cy+30,'700 16px '+IN,'#6e7586','right',3);
+    var r=R[i], x=r.h, ry=top+i*(rowH+gap), cx=PX, cw=W-2*PX, topR=r.t>=7, tx=cx+232;
+    wvRR(c,cx,ry,cw,rowH,22);
+    if(topR){ var g=c.createLinearGradient(cx,0,cx+cw*0.6,0); g.addColorStop(0,'#2a2615'); g.addColorStop(1,'#1f232a'); c.fillStyle=g; } else c.fillStyle='#1f232a';
+    c.fill(); c.lineWidth=2; c.strokeStyle=topR?'#6b5d2a':'#262a31'; c.stroke();
+    wvT(c,String(r.pos+1),cx+40,ry+rowH/2+14,'800 44px '+BB,'#6f7682','center',1);
+    wvRR(c,cx+82,ry+rowH/2-62,124,124,22); c.fillStyle='#21252c'; c.fill();
+    if(ics[r.t]){ var im=ics[r.t], sc=Math.min(96/im.width,100/im.height), bxc=cx+82+62, byc=ry+rowH/2; c.drawImage(im,bxc-im.width*sc/2,byc-im.height*sc/2,im.width*sc,im.height*sc); }
+    wvT(c,r.n,tx,ry+54,'700 38px '+IN,'#ebecef','left');
+    wvT(c,RK_TIERS[r.t].n.toUpperCase(),tx,ry+88,'700 20px '+IN,ACC,'left',3);
+    if(r.nx) wvT(c,r.nx,tx,ry+116,'500 19px '+IN,'#7d8491','left');
+    var s1=[]; if(x.t.length) s1.push('🏆 '+x.t.length); if(x.r.length) s1.push('Finals '+x.r.length); if(x.th.length) s1.push('3rd '+x.th.length); s1.push('Playoffs '+x.a+'×'); s1.push(x.pw+' playoff W');
+    var s2=[]; if(r.hasRec) s2.push(r.W+'-'+r.L+(r.est?' (est.)':'')); if(x.m>=2) s2.push('missed playoffs '+x.m+' of last 5');
+    wvT(c,s1.join('   ·   '),tx,ry+148,'500 20px '+IN,'#8f96a4','left');
+    var y2=ry+176, yrs=x.t.length?'Champion: '+x.t.slice().sort().join(' · '):'';
+    var line2=s2.join('   ·   '); if(line2) wvT(c,line2,tx,y2,'500 19px '+IN,(x.m>=2?'#c58a5a':'#8f96a4'),'left');
+    if(yrs) wvT(c,yrs,cx+cw-36,y2,'500 19px '+IN,'#8f96a4','right');
+    wvT(c,String(r.pts),cx+cw-38,ry+78,'800 60px '+IN,'#ebecef','right');
+    wvT(c,'PTS',cx+cw-38,ry+106,'700 18px '+IN,'#6f7682','right',3);
   }
   c.fillStyle='#0e1013'; c.fillRect(0,H-ftr,W,ftr); c.fillStyle=ACC; c.fillRect(0,H-ftr,W,4);
-  if(imgs[0]) wvDraw(imgs[0],c,PX,H-ftr+12,260,100,'left');
-  wvT(c,'ALL-TIME RANKS · '+LGI[k].name.toUpperCase(),W-PX,H-ftr+72,'800 26px '+IN,ACC,'right',3);
+  if(imgs[0]) wvDraw(imgs[0],c,PX,H-ftr+10,240,90,'left');
+  wvT(c,'ALL-TIME RANKS · '+LGI[k].name.toUpperCase(),W-PX,H-ftr+66,'800 22px '+IN,ACC,'right',3);
   return cv;
 }
 async function shareRanks(k){
