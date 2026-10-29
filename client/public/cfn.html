@@ -269,6 +269,27 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .wp-h2h em{font-style:normal;color:var(--accent);font-weight:600}
 .wp-h2h.riv{color:var(--text)}
 
+.rk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 12px 10px}
+.rk-gt{background:var(--bg3);border-radius:10px;padding:10px 6px 8px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px}
+.rk-gi{height:44px;display:flex;align-items:center;justify-content:center}
+.rk-gn{font-size:12px;font-weight:700;color:var(--text);line-height:1.2}
+.rk-gp{font-size:11px;color:var(--accent)}
+.rk-pl{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--border);padding-top:10px}
+.rk-pl b{color:var(--accent);font-weight:700}
+.rk-lad{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin:0 0 14px;overflow:hidden}
+.rk-lad summary{cursor:pointer;padding:12px 14px;font-weight:600;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center}
+.rk-lad summary::-webkit-details-marker{display:none}
+.rk-lad summary::after{content:'+';color:var(--accent);font-size:18px;line-height:1}
+.rk-lad[open] summary::after{content:'−'}
+.rk-ladin{display:flex;flex-direction:column;gap:6px;padding:0 12px 6px}
+.rk-lr{display:flex;align-items:center;gap:12px;background:var(--bg3);border:1px solid transparent;border-radius:10px;padding:6px 10px}
+.rk-lr.me{border-color:var(--accent)}
+.rk-ic.sm{flex:0 0 40px;height:40px;background:var(--bg2)}
+.rk-lm{flex:1;min-width:0}
+.rk-ln{font-weight:700;color:var(--text);font-size:13px}
+.rk-lp{font-size:11px;color:var(--muted)}
+.rk-lh{font-size:11px;color:var(--accent);text-align:right;max-width:42%}
+.rk-sc{padding:6px 12px 12px}
 .rk-list{display:flex;flex-direction:column;gap:8px}
 .rk-row{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 12px}
 .rk-row.top{border-color:#6b5d2a;background:linear-gradient(90deg,#2a2615,var(--surface) 60%)}
@@ -3628,7 +3649,7 @@ async function rkCard(k){
   var BB="'Bebas Neue','Impact',sans-serif", IN="Inter,system-ui,sans-serif", ACC='#acf910';
   try{ await document.fonts.load("40px 'Bebas Neue'"); await document.fonts.load("700 24px Inter"); await document.fonts.load("500 24px Inter"); }catch(e){}
   var R=rkCalc(k).filter(function(r){return r.active;}), n=R.length;
-  var W=1080, hdr=190, ftr=110, PX=36, rowH=204, gap=14, top=hdr+34, H=top+n*(rowH+gap)+26+ftr;
+  var W=1080, hdr=190, ftr=252, PX=36, rowH=204, gap=14, top=hdr+34, H=top+n*(rowH+gap)+26+ftr;
   var cv=document.createElement('canvas'); cv.width=W; cv.height=H; var c=cv.getContext('2d');
   c.fillStyle='#14161b'; c.fillRect(0,0,W,H);
   c.fillStyle='#1a1d23'; c.fillRect(0,0,W,hdr); c.fillStyle=ACC; c.fillRect(0,hdr-5,W,5);
@@ -3658,8 +3679,16 @@ async function rkCard(k){
     wvT(c,'PTS',cx+cw-38,ry+106,'700 18px '+IN,'#6f7682','right',3);
   }
   c.fillStyle='#0e1013'; c.fillRect(0,H-ftr,W,ftr); c.fillStyle=ACC; c.fillRect(0,H-ftr,W,4);
-  if(imgs[0]) wvDraw(imgs[0],c,PX,H-ftr+10,240,90,'left');
-  wvT(c,'ALL-TIME RANKS · '+LGI[k].name.toUpperCase(),W-PX,H-ftr+66,'800 22px '+IN,ACC,'right',3);
+  wvT(c,'RANK GUIDE',PX+2,H-ftr+44,'700 18px '+IN,'#6f7682','left',4);
+  var gw=(W-2*PX)/9;
+  for(var q=0;q<9;q++){
+    var gx=PX+q*gw+gw/2, im2=ics[q];
+    if(im2){ var s3=Math.min(66/im2.width,76/im2.height); c.drawImage(im2,gx-im2.width*s3/2,H-ftr+60+(76-im2.height*s3)/2,im2.width*s3,im2.height*s3); }
+    wvT(c,q===0?'START':String(RK_TIERS[q].min),gx,H-ftr+168,'800 22px '+IN,q>=7?'#e9c85c':'#ebecef','center');
+  }
+  c.fillStyle='#262a31'; c.fillRect(PX,H-70,W-2*PX,2);
+  if(imgs[0]) wvDraw(imgs[0],c,PX,H-64,170,56,'left');
+  wvT(c,'Title 100  \u00B7  Finals 40  \u00B7  3rd 20  \u00B7  Playoff trip 12  \u00B7  Playoff win 8  \u00B7  Win +1  \u00B7  Loss \u22121  \u00B7  Missed playoffs \u22128',W-PX,H-30,'600 16px '+IN,'#8f96a4','right');
   return cv;
 }
 async function shareRanks(k){
@@ -3678,13 +3707,23 @@ async function shareRanks(k){
   if(can){ document.getElementById('rkGo').onclick=function(){ navigator.share({files:[file],title:'All-Time Ranks · '+LGI[k].name,text:'All-time ranks on the Cuadz Fantasy Network'}).catch(function(){}); }; document.getElementById('rkDl').onclick=save; }
   else document.getElementById('rkGo').onclick=save;
 }
+function rkLadder(k,rows){
+  var h='<details class="rk-lad"><summary>Rank guide</summary><div class="rk-grid">';
+  for(var i=8;i>=0;i--){
+    var x=RK_TIERS[i], sub=i===0?'Start':x.min+' pts', tag=i===8?'#1 spot':i===7?'Top 2':'';
+    h+='<div class="rk-gt"><div class="rk-gi">'+rkIcon(i)+'</div><div class="rk-gn">'+x.n+'</div><div class="rk-gp">'+sub+(tag?' &middot; '+tag:'')+'</div></div>';
+  }
+  h+='</div><div class="rk-sc"><div class="rk-pl"><span>Title <b>100</b></span><span>Runner-up <b>40</b></span><span>3rd <b>20</b></span><span>Playoff trip <b>12</b></span><span>Playoff win <b>8</b></span><span>Win <b>+1</b></span><span>Loss <b>&minus;1</b></span><span>Missed playoffs (last 5 yrs) <b>&minus;8</b></span></div></div></details>';
+  return h;
+}
 function lgRanks(p,k){
   var rows=rkCalc(k), h='';
   var sb=document.createElement('div'); sb.style.cssText='display:flex;justify-content:flex-end;margin-bottom:8px'; sb.innerHTML='<button class="st-btn" style="padding:5px 12px">Share ranks</button>'; sb.firstChild.onclick=function(){ shareRanks(k); }; p.appendChild(sb);
+  h+=rkLadder(k,rows);
   h+='<div class="subsec"><div class="subsec-hd">All-Time Ranks</div><p class="lv-note" style="margin:0 0 12px">Current managers, ranked on the Halo 3 ladder from Recruit up to General. Everyone starts as a Recruit, and rank moves up and down with results, so it updates every week.</p><div class="rk-list">'+rows.filter(function(r){return r.active;}).map(rkRow).join('')+'</div></div>';
   var fm=rows.filter(function(r){return !r.active;});
   if(fm.length) h+='<div class="subsec"><div class="subsec-hd">Former managers</div><div class="rk-list">'+fm.map(rkRow).join('')+'</div></div>';
-  h+='<div class="subsec"><div class="subsec-hd">How ranks work</div><div class="rb-rule"><b style="color:var(--accent)">Championship</b> 100 &middot; <b style="color:var(--accent)">Runner-up</b> 40 &middot; <b style="color:var(--accent)">3rd place</b> 20 &middot; <b style="color:var(--accent)">Playoff appearance</b> 12 (a first-round bye counts) &middot; <b style="color:var(--accent)">Playoff win</b> 8 &middot; <b style="color:var(--accent)">All-time record</b> +1 per win, &minus;1 per loss.</div><div class="rb-rule"><b style="color:var(--accent)">Ranking down:</b> every season you miss the playoffs out of the last five costs 8 points, and a losing all-time record counts against you. Titles and finals stay on your résumé, but a manager who stops winning will slide down the ladder.</div><div class="rb-rule">Points needed: Apprentice 20, Gunnery Sergeant 50, Captain 90, Major 140, Commander 200, Colonel 300. <b style="color:var(--accent)">Brigadier General</b> takes 320 points and a top-2 spot in the league. <b style="color:var(--accent)">General</b> takes 400 points and the #1 spot. If nobody has earned it, it stays empty.</div><div class="rb-rule" style="color:var(--muted)">Former managers are shown for the record. Their regular-season records were not kept, so they only earn playoff points.</div></div>';
+  h+='<div class="subsec"><div class="rb-rule" style="color:var(--muted)">Former managers are shown for the record. Their regular-season records were not kept, so they only earn playoff points.</div></div>';
   p.insertAdjacentHTML('beforeend',h);
 }
 function lgTabs(){
