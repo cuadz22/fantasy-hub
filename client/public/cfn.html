@@ -783,7 +783,7 @@ nav::-webkit-scrollbar{display:none}
       <button class="ntab" id="ntab-rb" onclick="showLeague('rb')"><span class="dot"></span>Rebirth</button>
       <button class="ntab" id="ntab-sts" onclick="showLeague('sts')"><span class="dot"></span>Shoot the Shits</button>
       <div class="nav-divider"></div>
-      <button class="ntab" id="ntab-trades" onclick="TC.open('hub')"><span class="dot"></span>Market Analyzer</button>
+      <button class="ntab" id="ntab-trades" onclick="TC.open('hub')"><span class="dot"></span>Market Analysis</button>
       <button class="ntab" id="ntab-studio" onclick="showStudio()"><span class="dot"></span>Studio</button>
       <button class="ntab" id="ntab-pickem" onclick="showPickem()"><span class="dot"></span>Pick'em</button>
     </nav>
@@ -993,8 +993,8 @@ nav::-webkit-scrollbar{display:none}
 <div id="view-trades" class="page" hidden>
   <div><button class="art-back" onclick="showHome()">← Network Home</button></div>
   <div class="art-hd">
-    <div class="art-eye">CFN · Market Analyzer</div>
-    <div class="art-title">Market Analyzer</div>
+    <div class="art-eye">CFN · Market Analysis</div>
+    <div class="art-title">Market Analysis</div>
     <div class="art-meta">Blended values from six sources, including the Spew and Menton weekly charts (Week 8) · values Oct 28 · trades through Oct 24</div>
   </div>
   <div class="tcx" id="tc-root">
@@ -3726,7 +3726,7 @@ function lgRanks(p,k){
   p.insertAdjacentHTML('beforeend',h);
 }
 function lgTabs(){
-  var L = LGI[lgState.k], tabs = ['Standings','Matchups','Weekly Preview','Power Rankings','Fraud Meter','Awards','Waivers','Market','History','All-Time Ranks'];
+  var L = LGI[lgState.k], tabs = ['Standings','Matchups','Weekly Preview','Power Rankings','Fraud Meter','Awards','Waivers','Trades','History','All-Time Ranks'];
   if(L.keeper) tabs.push('Keepers');
   tabs.push('Rulebook');
   var h = tabs.map(function(t){ return '<button class="lg-tab'+(t===lgState.tab?' on':'')+'" onclick="lgTab(\''+t+'\')">'+t+'</button>'; }).join('');
@@ -3757,7 +3757,7 @@ function lgRender(){
   } else if(t==='Fraud Meter'){ lgFraud(p,k);
   } else if(t==='Awards'){ awTab(p,k);
   } else if(t==='Waivers'){ lgWaivers(p,k);
-  } else if(t==='Market'){ TC.leagueTab(p,k);
+  } else if(t==='Trades'){ TC.leagueTab(p,k);
   } else if(t==='History'){ lgHistory(p,k);
   } else if(t==='All-Time Ranks'){ lgRanks(p,k);
   } else if(t==='Keepers'){ lgKeepers(p,k);
@@ -4305,7 +4305,7 @@ function hindBoard(list,title){
    '<div class="tc-bd tc-bd-h"><span>Manager</span><span>Trades</span><span>At the time</span><span>Today</span><span>Swing</span></div>'+rows+'</div>';
 }
 function tradeCard(t,lg,i){
-  return '<article class="tc-trade"><div class="tc-trade-h"><span><b style="color:var(--text)">'+esc(t.date)+'</b> &middot; '+t.a.gets.length+'-for-'+t.b.gets.length+'</span><span>'+esc(LGN[lg])+'</span></div><div class="tc-trade-b">'+sideHTML(t.a,lg,t.at&&t.at.a)+sideHTML(t.b,lg,t.at&&t.at.b)+'</div>'+meterHTML(t,lg)+hindHTML(t,lg)+'<div class="tc-trade-f">'+gradeHTML(t,lg)+'<button class="tc-ghost" style="margin-left:auto" onclick="TC.share(\''+lg+'\','+i+')">Share</button><button class="tc-ghost" onclick="TC.load(\''+lg+'\','+i+')">Open in analyzer</button></div></article>';
+  return '<article class="tc-trade" data-m="'+esc(t.a.mgr)+'|'+esc(t.b.mgr)+'"><div class="tc-trade-h"><span><b style="color:var(--text)">'+esc(t.date)+'</b> &middot; '+t.a.gets.length+'-for-'+t.b.gets.length+'</span><span>'+esc(LGN[lg])+'</span></div><div class="tc-trade-b">'+sideHTML(t.a,lg,t.at&&t.at.a)+sideHTML(t.b,lg,t.at&&t.at.b)+'</div>'+meterHTML(t,lg)+hindHTML(t,lg)+'<div class="tc-trade-f">'+gradeHTML(t,lg)+'<button class="tc-ghost" style="margin-left:auto" onclick="TC.share(\''+lg+'\','+i+')">Share</button><button class="tc-ghost" onclick="TC.load(\''+lg+'\','+i+')">Open in analyzer</button></div></article>';
 }
 function tradeCards(lg){
   var list=D.trades[lg]||[];
@@ -4323,12 +4323,18 @@ function renderDone(){
   var el=$('doneTrades'); if(!el) return;
   el.innerHTML='<h3 class="tc-h" style="margin:4px 0 4px">Completed trades \u00b7 '+esc(LGN[LG])+'</h3><div class="tc-sub">Every trade processed this season, graded the same way as the analyzer above. Each card shows the value at the time of the deal next to today\u2019s.</div><div style="display:flex;flex-direction:column;gap:12px">'+tradeCards(LG)+'</div>'+hindBoard((D.trades[LG]||[]).map(function(t){return {lg:LG,t:t};}),'Hindsight scoreboard \u00b7 '+LGN[LG]);
 }
+function tcChips(list){
+  var cnt={}; list.forEach(function(t){ [t.a.mgr,t.b.mgr].forEach(function(m){ cnt[m]=(cnt[m]||0)+1; }); });
+  var ms=Object.keys(cnt).sort(function(a,b){ return cnt[b]-cnt[a]||(a<b?-1:1); });
+  if(ms.length<2) return '';
+  return '<div class="tc-chipbar" style="display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 10px"><button class="tc-ghost on" style="padding:5px 12px;border-color:#acf910;color:#acf910" onclick="tcFilt(this,\'\')">All ('+list.length+')</button>'+ms.map(function(m){ return '<button class="tc-ghost" style="padding:5px 12px" onclick="tcFilt(this,'+JSON.stringify(m).replace(/"/g,'&quot;')+')">'+esc(m)+' ('+cnt[m]+')</button>'; }).join('')+'</div>';
+}
 function leagueTab(p,k){
   var list=D.trades[k]||[], cnt={}, moved=0;
   list.forEach(function(t){ [t.a.mgr,t.b.mgr].forEach(function(m){cnt[m]=(cnt[m]||0)+1;}); moved+=t.a.gets.length+t.b.gets.length; });
   var top=Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a];})[0];
   var w=document.createElement('div'); w.className='tcx';
-  w.innerHTML='<div class="tc-grid tc-g3"><div class="tc-panel tc-kpi"><b>'+list.length+'</b><span>Trades this season</span></div><div class="tc-panel tc-kpi"><b>'+moved+'</b><span>Players moved</span></div><div class="tc-panel tc-kpi"><b>'+(top||'–')+'</b><span>Most active here</span></div></div>'+hindBoard(list.map(function(t){return {lg:k,t:t};}),'Hindsight scoreboard')+tradeCards(k)+
+  w.innerHTML='<div class="tc-grid tc-g3"><div class="tc-panel tc-kpi"><b>'+list.length+'</b><span>Trades this season</span></div><div class="tc-panel tc-kpi"><b>'+moved+'</b><span>Players moved</span></div><div class="tc-panel tc-kpi"><b>'+(top||'–')+'</b><span>Most active here</span></div></div>'+hindBoard(list.map(function(t){return {lg:k,t:t};}),'Hindsight scoreboard')+tcChips(list)+tradeCards(k)+
    '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="tc-btn" onclick="TC.open(\'an\',\''+k+'\')">Try a trade in the analyzer</button><button class="tc-ghost" onclick="TC.open(\'nd\',\''+k+'\')">See team needs</button><button class="tc-ghost" onclick="TC.open(\'hub\',\''+k+'\')">Network trade hub</button></div>'+
    '<p class="tc-note">Each card shows two reads: the blended value on the day the trade was logged (&ldquo;then&rdquo;) and today&rsquo;s value (&ldquo;now&rdquo;), for this league&rsquo;s '+(PROF[k].keeper?'keeper':'redraft')+(PROF[k].sf?', superflex':'')+' profile. Trades through Oct 7 use the Sep 30 snapshot, the closest one saved. Every trade from Oct 11 on is snapshotted the day it is logged. The grade pill on each card still uses today&rsquo;s values.</p>';
   p.appendChild(w);
@@ -4755,7 +4761,7 @@ async function shCard(lg,i,fav){
 }
 var SHN=null;
 async function shareTrade(lg,i){
-  var t=D.trades[lg][i], fav=true; try{cfnCtx(cfnG('L',lg,'Market','t',i),'CFN trade: '+t.a.mgr+' vs '+t.b.mgr,'Trade alert on the Cuadz Fantasy Network');}catch(_e){}
+  var t=D.trades[lg][i], fav=true; try{cfnCtx(cfnG('L',lg,'Trades','t',i),'CFN trade: '+t.a.mgr+' vs '+t.b.mgr,'Trade alert on the Cuadz Fantasy Network');}catch(_e){}
   var ov=document.createElement('div'); ov.setAttribute('style','position:fixed;inset:0;z-index:99999;background:rgba(10,11,14,.88);display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow:auto');
   ov.innerHTML='<div id="shBoxW" style="max-width:440px;width:100%;margin:auto;display:flex;flex-direction:column;gap:12px;align-items:stretch"></div>';
   document.body.appendChild(ov);
@@ -5295,6 +5301,10 @@ stExport=async function(){
 
 <script id="cfn-links">
 /* ---- Share links: upload the share card, get a /s/<id> link with a rich preview; deep links open the exact view ---- */
+function tcFilt(btn,m){
+  var bar=btn.parentNode; bar.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on',b===btn); b.style.borderColor=(b===btn?'#acf910':''); b.style.color=(b===btn?'#acf910':''); });
+  var root=bar.parentNode; root.querySelectorAll('.tc-trade').forEach(function(c){ var ms=(c.getAttribute('data-m')||'').split('|'); c.style.display=(!m||ms.indexOf(m)>-1)?'':'none'; });
+}
 function cfnG(){ return Array.prototype.map.call(arguments,function(x){ return encodeURIComponent(x==null?'':x); }).join('~'); }
 function cfnCtx(go,title,desc){ window.__cfnCtx={go:go,title:title,desc:desc}; }
 (function(){
@@ -5371,7 +5381,7 @@ function cfnCtx(go,title,desc){ window.__cfnCtx={go:go,title:title,desc:desc}; }
     try{
       if(a[0]==='L'&&typeof LGI!=='undefined'&&LGI[a[1]]){
         if((a[3]==='p'||a[3]==='r')&&typeof RC_MODE!=='undefined'){ RC_MODE[a[1]]=(a[3]==='p'?'p':undefined); if(a[4]!=null&&a[4]!=='') RC_STATE[a[1]]=parseInt(a[4],10)||0; }
-        showLeague(a[1],a[2]||'Standings');
+        showLeague(a[1],(a[2]==='Market'?'Trades':a[2])||'Standings');
         if(a[3]==='t'){ setTimeout(function(){ var el=document.querySelectorAll('#lg-panel .tc-trade')[parseInt(a[4],10)||0]; if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); el.style.outline='2px solid #acf910'; el.style.outlineOffset='3px'; } },500); }
       } else if(a[0]==='T'&&typeof TC!=='undefined'){
         TC.open(a[1]||'hub',a[2]||'gl');
