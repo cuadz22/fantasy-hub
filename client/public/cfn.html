@@ -5319,9 +5319,11 @@ function cfnCtx(go,title,desc){ window.__cfnCtx={go:go,title:title,desc:desc}; }
       im.src=u;
     });
   }
+  var UP={};
   function upload(file,ctx){
     if(!/^https?:$/.test(location.protocol)||!ctx||!ctx.go) return Promise.resolve(null);
-    return toJpeg(file).then(function(o){
+    var key=ctx.go+'|'+file.size; if(UP[key]) return UP[key];
+    return UP[key]=toJpeg(file).then(function(o){
       return fetch('/api/share',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({img:o.d,w:o.w,h:o.h,go:ctx.go,title:ctx.title,desc:ctx.desc})});
     }).then(function(r){ return r.ok?r.json():null; }).then(function(j){ return j&&j.url?j.url:null; }).catch(function(){ return null; });
   }
@@ -5336,6 +5338,30 @@ function cfnCtx(go,title,desc){ window.__cfnCtx={go:go,title:title,desc:desc}; }
     if(p) return p.then(function(u){ return u?os({title:d.title,text:d.text,url:u}):os(d); });
     return os(d);
   };
+  function copyText(t){
+    if(navigator.clipboard&&navigator.clipboard.writeText) return navigator.clipboard.writeText(t).catch(function(){ return legacy(t); });
+    return legacy(t);
+  }
+  function legacy(t){
+    return new Promise(function(res,rej){ try{ var a=document.createElement('textarea'); a.value=t; a.setAttribute('readonly',''); a.style.cssText='position:fixed;left:-9999px;top:0'; document.body.appendChild(a); a.select(); a.setSelectionRange(0,t.length); var ok=document.execCommand('copy'); a.remove(); ok?res():rej(); }catch(e){ rej(e); } });
+  }
+  function addCopy(){
+    document.querySelectorAll('button[id$="Cl"]').forEach(function(cl){
+      var ov=cl.parentNode&&cl.closest('div[style*="99999"]'); if(!ov||ov.querySelector('.cfn-copy')) return;
+      var im=ov.querySelector('img[src^="data:image/png"]'); if(!im) return;
+      var ctx=window.__cfnCtx; if(!ctx||!ctx.go||!/^https?:$/.test(location.protocol)) return;
+      var b=document.createElement('button'); b.className='tc-ghost cfn-copy'; b.textContent='Copy link'; b.style.flex='1';
+      var src=im.src, snap={go:ctx.go,title:ctx.title,desc:ctx.desc}, p=null;
+      function get(){ if(!p) p=fetch(src).then(function(r){ return r.blob(); }).then(function(bl){ return upload(new File([bl],'card.png',{type:'image/png'}),snap); }); return p; }
+      get();
+      b.onclick=function(){
+        var old='Copy link'; b.textContent='Making link…';
+        get().then(function(u){ if(!u) throw 0; return copyText(u).then(function(){ b.textContent='Link copied ✓'; }); }).catch(function(){ b.textContent='Couldn’t copy'; }).then(function(){ setTimeout(function(){ b.textContent=old; },2000); });
+      };
+      cl.parentNode.insertBefore(b,cl);
+    });
+  }
+  new MutationObserver(function(){ addCopy(); }).observe(document.body,{childList:true,subtree:true});
   window.cfnLinkFor=function(file){ return cache.get(file)||Promise.resolve(null); };
 })();
 (function(){
