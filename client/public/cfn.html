@@ -5525,7 +5525,20 @@ function cfnCtx(go,title,desc){ window.__cfnCtx={go:go,title:title,desc:desc}; }
   window.addEventListener('hashchange',route);
 })();
 </script>
-<style id='cc-css'>
+<script id="cfn-urlsync">
+(function(){
+  function cur(){ return '#s=L~'+encodeURIComponent(lgState.k)+'~'+encodeURIComponent(lgState.tab); }
+  function setH(h){ try{ if(location.hash!==h) history.replaceState(null,'',h||(location.pathname+location.search)); }catch(e){} }
+  function clr(){ if(/^#s=L~/.test(location.hash)) setH(''); }
+  var _r=window.lgRender; window.lgRender=function(){ var r=_r.apply(this,arguments); try{ if(lgState&&lgState.k&&lgState.tab) setH(cur()); }catch(e){} return r; };
+  ['showHome','showTab','showStudio'].forEach(function(n){ var f=window[n]; if(typeof f==='function') window[n]=function(){ clr(); return f.apply(this,arguments); }; });
+  var _t=window.lgTabs; window.lgTabs=function(){ return _t.apply(this,arguments)+'<button class="lg-tab ext cfn-tablink" onclick="cfnCopyTab(this)">Copy link</button>'; };
+  window.cfnCopyTab=function(b){
+    var u=location.origin+location.pathname+cur(), done=function(){ var o=b.textContent; b.textContent='Copied ✓'; setTimeout(function(){ b.textContent=o; },1400); };
+    try{ navigator.clipboard.writeText(u).then(done,function(){ prompt('Copy this link',u); }); }catch(e){ prompt('Copy this link',u); }
+  };
+})();
+</script><style id='cc-css'>
 .cc-top{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
 .cc-sec{margin:0 0 22px}.cc-lab{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
 .cc-sel{width:100%;max-width:420px;background:var(--tc-panel,#1b1e25);color:var(--text);border:.5px solid var(--tc-line,#262a31);border-radius:10px;padding:9px 12px;font:inherit;font-size:13px;margin-bottom:10px}
