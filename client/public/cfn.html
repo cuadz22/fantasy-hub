@@ -4153,7 +4153,7 @@ function lgHistory(p,k){
   }
   p.innerHTML = h;
 }
-function lgKeepers(p,k){
+function lgKeepersTbl(p,k){
   var isBH = k==='bh', data = isBH ? LGD.bhKeepers : LGD.rbKeepers, order = isBH ? LGD.bhOrder : LGD.rbOrder;
   var years = isBH ? [2026,2025,2024,2023,2022,2021,2020,2019,2018,2017,2016,2015] : [2026,2025,2024,2023,2022,2021];
   var h = '<div style="font-size:12px;color:var(--muted);font-style:italic">'+(isBH?'Each owner keeps 2 players per season. Keepers are slotted in rounds 15 and 16.':'Keeper cost rises each year a player is kept — round and keeper-year shown for each pick.')+'</div>';
@@ -4172,6 +4172,52 @@ function lgKeepers(p,k){
   });
   p.innerHTML = h+'</tbody></table></div>';
 }
+var KP_MAP={'Jose':'Cuadz','Giovanny':'Gio','Kevin Huertas':'Kevin','Alex Zarate':'Pru','julio':'Julio Z','Jonathan':'John','JJ':'Jeff','Eduardo':'Eddie','Cristian':'Cris','jmena':'Hihi','Big Vic':'Big Vic'};
+var KP_POS={'Jaxson Dart':['NYG','QB'],"De'Von Achane":['MIA','RB']};
+function kpNorm(s){ return String(s).toLowerCase().replace(/[^a-z]/g,'').replace(/(jr|iii|ii|iv)$/,''); }
+function lgKeepers(p,k){
+  var isBH=k==='bh', data=isBH?LGD.bhKeepers:LGD.rbKeepers, order=isBH?LGD.bhOrder:LGD.rbOrder;
+  var rows=[]; try{ rows=stdRows(k).rows; }catch(e){}
+  var byMgr={}; rows.forEach(function(r,i){ byMgr[r.mgr]={team:r.team,rk:i,tid:r.tid,rec:r.a}; });
+  var trades=(window.__TCD&&window.__TCD.trades&&window.__TCD.trades[k])||[];
+  var moved={}; trades.forEach(function(t){ [['a','b'],['b','a']].forEach(function(sd){ t[sd[0]].gets.forEach(function(n){ if(!moved[kpNorm(n)]) moved[kpNorm(n)]={to:t[sd[0]].mgr,date:t.date}; }); }); });
+  var owners=order.filter(function(o){ return data[o]&&data[o][2026]; }).map(function(o){ var m=KP_MAP[o]||o; return {yo:o,mgr:m,info:byMgr[m]||{team:m,rk:99},picks:data[o][2026]}; });
+  owners.sort(function(a,b){ return a.info.rk-b.info.rk; });
+  var total=0, finals=0, maxStreak=0, streaks={};
+  owners.forEach(function(o){ o.picks=o.picks.map(function(pk){
+    var name=typeof pk==='string'?pk:pk.player, round=typeof pk==='string'?(o.picks.indexOf(pk)===0?15:16):pk.round, yr=typeof pk==='string'?null:pk.year;
+    var st=0; if(isBH){ for(var y=2026;y>=2015;y--){ var l=(data[o.yo]||{})[y]; if(l&&l.indexOf(name)>-1) st++; else break; } if(st>maxStreak) maxStreak=st; }
+    total++; if(!isBH&&yr>=3) finals++;
+    return {name:name,round:round,yr:yr,streak:st};
+  }); });
+  var h='<div class="kp2-top"><div class="kp2-note">'+(isBH
+      ? 'Each owner keeps 2 players. Keepers are slotted into rounds 15 and 16 of the draft, and can’t be traded.'
+      : 'Each owner keeps 2 players. A keeper costs the round he was drafted or added, minus 2 rounds for every extra year with the same owner. Three years max. Top-2-round picks can’t be kept, and free agents cost an 8th.')+'</div>'+
+    '<div class="kp2-stats"><span><b>'+total+'</b> keepers</span>'+(isBH?'<span><b>'+maxStreak+'</b> yrs longest hold</span>':'<span><b>'+finals+'</b> in their final year</span>')+'<span><b>2026</b> season</span></div></div><div class="kp2-grid">';
+  owners.forEach(function(o){
+    var av=(typeof fmAvatar==='function')?fmAvatar(o.mgr):null;
+    h+='<article class="kp2-card"><header class="kp2-hd">'+(av?'<img class="kp2-av" src="'+av+'" alt="">':'<span class="kp2-av kp2-ini">'+lgEsc(o.mgr.slice(0,2).toUpperCase())+'</span>')+
+      '<div class="kp2-who"><div class="kp2-team">'+lgEsc(o.info.team)+'</div><div class="kp2-mgr">'+lgEsc(o.mgr)+(o.info.rec?' · '+lgEsc(o.info.rec):'')+'</div></div></header>';
+    o.picks.forEach(function(pk){
+      var pos=KP_POS[pk.name]||((window.ST_BIG&&ST_BIG.pp&&ST_BIG.pp[pk.name])||null), mv=moved[kpNorm(pk.name)];
+      var final=!isBH&&pk.yr>=3;
+      h+='<div class="kp2-row">'+phHTML(pk.name,50)+'<div class="kp2-pl"><div class="kp2-nm">'+lgEsc(pk.name)+'</div><div class="kp2-sub">'+(pos?lgEsc(pos[1])+' · '+lgEsc(pos[0]):'')+'</div>';
+      if(isBH){
+        h+='<div class="kp2-meta">'+(pk.streak>1?'Kept '+pk.streak+' straight seasons':'First time kept')+'</div>';
+      } else {
+        h+='<div class="kp2-yrs"><span class="kp2-pips">'+[1,2,3].map(function(n){ return '<i class="'+(n<=pk.yr?'on':'')+(final&&n<=pk.yr?' fin':'')+'"></i>'; }).join('')+'</span><span class="kp2-yl">Year '+pk.yr+' of 3</span>'+(final?'<span class="kp2-tag">Final year</span>':'')+'</div>'+
+          '<div class="kp2-meta">'+(final?'Must be released after 2026':'Next year: round '+Math.max(1,pk.round-2))+'</div>';
+      }
+      if(mv&&mv.to!==o.mgr) h+='<div class="kp2-trd">Traded · now with '+lgEsc(mv.to)+' ('+lgEsc(mv.date)+')</div>';
+      h+='</div><div class="kp2-price"><b>R'+pk.round+'</b><span>'+(isBH?'slot':'price')+'</span></div></div>';
+    });
+    h+='</article>';
+  });
+  h+='</div><details class="kp2-hist"><summary>Keeper history by year</summary><div id="kp2-hist-body"></div></details>';
+  p.innerHTML=h;
+  var tmp=document.createElement('div'); lgKeepersTbl(tmp,k); p.querySelector('#kp2-hist-body').innerHTML=tmp.innerHTML;
+}
+
 function lgRules(p,k){
   var r = LGD.rules[k], h = '';
   r.sections.forEach(function(s){
@@ -4788,7 +4834,7 @@ async function shareTrade(lg,i){
   render();
 }
 
-return {at:renderAT,init:init,open:open,leagueTab:leagueTab,load:loadTrade,share:shareTrade,moversShare:moversShare};
+window.__TCD=D; return {at:renderAT,init:init,open:open,leagueTab:leagueTab,load:loadTrade,share:shareTrade,moversShare:moversShare};
 })();
 
 TC.init();
@@ -5299,6 +5345,40 @@ stExport=async function(){
 };
 </script>
 
+<style id="kp2-css">
+.kp2-top{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.kp2-note{font-size:12px;line-height:1.5;color:var(--muted);max-width:640px}
+.kp2-stats{display:flex;gap:8px;flex-wrap:wrap}
+.kp2-stats span{background:var(--tc-panel,#1b1e25);border:.5px solid var(--tc-line,#262a31);border-radius:999px;padding:5px 12px;font-size:11px;color:var(--muted)}
+.kp2-stats b{color:var(--accent);font-weight:700;margin-right:3px}
+.kp2-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+.kp2-card{background:var(--tc-panel,#1b1e25);border:.5px solid var(--tc-line,#262a31);border-radius:14px;overflow:hidden}
+.kp2-hd{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:.5px solid var(--tc-line,#262a31);background:rgba(255,255,255,.02)}
+.kp2-av{width:42px;height:42px;border-radius:50%;object-fit:cover;border:1.5px solid #373e4c;flex-shrink:0}
+.kp2-ini{display:flex;align-items:center;justify-content:center;background:#2a2f38;color:#c5c7cd;font-weight:700;font-size:13px}
+.kp2-team{font-weight:700;font-size:15px;color:var(--text);line-height:1.2}
+.kp2-mgr{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.kp2-row{display:flex;align-items:center;gap:12px;padding:12px 14px}
+.kp2-row+.kp2-row{border-top:.5px solid var(--tc-line,#262a31)}
+.kp2-row .pav{flex-shrink:0;border:1.5px solid #373e4c}
+.kp2-pl{flex:1;min-width:0}
+.kp2-nm{font-weight:700;font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kp2-sub{font-size:10px;letter-spacing:.08em;color:var(--muted);margin-top:1px;min-height:12px}
+.kp2-meta{font-size:11px;color:var(--muted);margin-top:4px}
+.kp2-yrs{display:flex;align-items:center;gap:8px;margin-top:5px}
+.kp2-pips{display:inline-flex;gap:4px}
+.kp2-pips i{width:16px;height:5px;border-radius:3px;background:#2a2f38;display:block}
+.kp2-pips i.on{background:var(--accent)}
+.kp2-pips i.on.fin{background:#f0b429}
+.kp2-yl{font-size:11px;color:var(--text);font-weight:600}
+.kp2-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:#14161b;background:#f0b429;border-radius:4px;padding:2px 6px}
+.kp2-trd{margin-top:5px;font-size:10.5px;color:#4cc3ff}
+.kp2-price{text-align:center;min-width:54px;background:#14161b;border:.5px solid var(--tc-line,#262a31);border-radius:10px;padding:7px 8px}
+.kp2-price b{display:block;font-family:var(--tc-disp,'Bebas Neue',sans-serif);font-weight:400;font-size:28px;line-height:1;color:var(--accent);letter-spacing:.02em}
+.kp2-price span{font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.kp2-hist{margin-top:16px}
+.kp2-hist summary{cursor:pointer;color:var(--muted);font-size:12px;padding:8px 0}
+</style>
 <script id="cfn-links">
 /* ---- Share links: upload the share card, get a /s/<id> link with a rich preview; deep links open the exact view ---- */
 function tcFilt(btn,m){
