@@ -7,6 +7,14 @@
       "destination": "/api/yahoo-:p"
     },
     {
+      "source": "/s/:id",
+      "destination": "/api/s?id=:id"
+    },
+    {
+      "source": "/i/:id",
+      "destination": "/api/simg?id=:id"
+    },
+    {
       "source": "/((?!api/)(?!.*\\.html$).*)",
       "destination": "/index.html"
     }
