@@ -5538,6 +5538,30 @@ function cfnCtx(go,title,desc){ window.__cfnCtx={go:go,title:title,desc:desc}; }
     try{ navigator.clipboard.writeText(u).then(done,function(){ prompt('Copy this link',u); }); }catch(e){ prompt('Copy this link',u); }
   };
 })();
+</script><script id="cfn-cover">
+(function(){
+  var BB="font-family:'Bebas Neue',Impact,sans-serif";
+  window.cfnCoverHTML=function(d){
+    var k=d.id, lg=LG_LOGO[k]||'', name=(d.name||'').toUpperCase();
+    var logo='';
+    if(lg){ var crop=(k==='rb'); logo='<div style="width:'+(crop?'110':'150')+'px;'+(crop?'height:'+Math.round(110*224/204)+'px;overflow:hidden;':'max-height:140px;')+'display:flex;align-items:flex-start;justify-content:center"><img src="'+lg+'" alt="" style="width:100%;height:auto;'+(crop?'':'max-height:140px;object-fit:contain;')+'display:block"></div>'; }
+    return '<div style="width:540px;height:675px;background:#14161b;border-top:5px solid #acf910;border-bottom:5px solid #acf910;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;font-family:Inter,system-ui,sans-serif;position:relative;overflow:hidden">'
+     +'<div style="margin-top:38px;font-size:13px;font-weight:800;letter-spacing:4px;color:#8f96a4;text-align:center">'+stEsc(name)+'</div>'
+     +'<div style="margin-top:14px;height:150px;display:flex;align-items:center;justify-content:center">'+logo+'</div>'
+     +'<div style="'+BB+';font-size:170px;line-height:.9;color:#acf910;letter-spacing:2px;margin-top:6px">WEEK '+d.week+'</div>'
+     +'<div style="'+BB+';font-size:95px;line-height:1;color:#fff;letter-spacing:3px;margin-top:6px">RECAP</div>'
+     +'<div style="width:60px;height:2px;background:#2a2f38;margin-top:20px"></div>'
+     +'<div style="margin-top:20px;font-size:12px;font-weight:700;letter-spacing:3px;color:#c5c7cd">SWIPE FOR THE FULL BREAKDOWN</div>'
+     +'<img src="'+CFN_LOGO+'" alt="CFN" style="position:absolute;bottom:46px;left:50%;margin-left:-32px;width:64px;height:auto">'
+     +'<div style="position:absolute;bottom:20px;left:0;right:0;text-align:center;font-size:10px;font-weight:700;letter-spacing:2.5px;color:#6e7586">CUADZFANTASYNETWORK.COM</div></div>';
+  };
+  var _n=stN,_h=stSlideHTML,_l=stSlideLabel,_k=stSlideKey,_b=stIsBig;
+  stN=function(d){ return 1+_n(d); };
+  stSlideHTML=function(d,i){ return i===0?cfnCoverHTML(d):_h(d,i-1); };
+  stSlideLabel=function(i,d){ return i===0?'\u{1F5BC} Cover (grid thumbnail)':_l(i-1,d); };
+  stSlideKey=function(i,d){ return i===0?'00-cover-wk'+d.week:_k(i-1,d); };
+  stIsBig=function(i,d){ return i===0?false:_b(i-1,d); };
+})();
 </script><style id='cc-css'>
 .cc-top{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
 .cc-sec{margin:0 0 22px}.cc-lab{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
