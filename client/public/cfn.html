@@ -4525,7 +4525,7 @@ async function clipCard(k){
   var imgs=await Promise.all([wvImg(CFN_LOGO), wvImg(LG_LOGO[k])]);
   if(imgs[0]) wvDraw(imgs[0],c,PAD-8,16,300,124,'left');
   if(imgs[1]) wvDraw(imgs[1],c,W-PAD,16,300,124,'right');
-  wvT(c,(LGI[k].name+' · FAB BUDGETS').toUpperCase(),W/2,184,'26px '+BB,ACC,'center',6);
+  wvT(c,(LGI[k].name+' · TOTAL FAB BILL FOR THE YEAR').toUpperCase(),W/2,184,'26px '+BB,ACC,'center',6);
   wvT(c,'EMPTYING THE CLIP',W/2,276,'104px '+BB,'#edeef1','center',2);
   var y=headH+10, tw=(CW-24)/3, stats=[['$'+tot,'FAAB SPENT OF $'+(T.length*100),ACC],[String(nc),'CLAIMS WON',ACC],[String(empty),'TEAMS AT $0',RED]];
   stats.forEach(function(s,i){ var x=PAD+i*(tw+12); c.fillStyle='#2f333b'; c.fillRect(x,y,2,86); wvT(c,s[0],x+18,y+52,'54px '+BB,s[2],'left'); wvT(c,s[1],x+18,y+78,'700 13px '+IN,'#727a8c','left',2); });
