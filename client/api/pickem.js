@@ -10,9 +10,13 @@ const WEEKS = {
   5: { lock: '2026-10-11T17:00:00Z', pairs: [[1,7],[2,11],[3,8],[4,12],[5,10],[6,9]] },
   6: { lock: '2026-10-18T17:00:00Z', pairs: [[1,11],[2,9],[3,6],[4,5],[7,12],[8,10]] },
   7: { lock: '2026-10-25T17:00:00Z', pairs: [[1,9],[2,3],[4,7],[5,8],[6,10],[11,12]] },
-  8: { lock: '2026-11-01T18:00:00Z', pairs: [[1,3],[2,10],[4,11],[5,7],[6,8],[9,12]] }
+  8: { lock: '2026-11-01T18:00:00Z', pairs: [[1,3],[2,10],[4,11],[5,7],[6,8],[9,12]] },
+  9: { lock: '2026-11-08T18:00:00Z', pairs: [[1,10],[2,8],[3,12],[4,9],[5,6],[7,11]] }
 };
 
+// Mid-season Fantasy MVP vote (temporary). Closes Nov 4 11:00pm ET; change MVP_LOCK to move it.
+const MVP_LOCK = '2026-11-05T04:00:00Z';
+const MVP_KEY = 'mvp:gl:mid26';
 const URL_ = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 
@@ -49,6 +53,39 @@ module.exports = async (req, res) => {
     if (!URL_ || !TOKEN || !process.env.PICKEM_SECRET) return json(res, 503, { error: 'not_configured' });
     const q = new URL(req.url, 'http://x').searchParams;
     const body = req.method === 'POST' ? await readBody(req) : {};
+
+    if (q.get('mvp') || body.mvp) {
+      const locked = Date.now() >= Date.parse(MVP_LOCK);
+      if (req.method === 'GET') {
+        const all = (await redis(['HKEYS', MVP_KEY])) || [];
+        return json(res, 200, { lockAt: MVP_LOCK, locked, voted: all.sort() });
+      }
+      if (req.method !== 'POST') return json(res, 405, { error: 'method' });
+      const nm = String(body.name || '');
+      if (!HASHES[nm]) return json(res, 400, { error: 'bad_name' });
+      const rl2 = 'pickem:rl:' + nm;
+      const tr = parseInt((await redis(['GET', rl2])) || '0', 10);
+      if (tr >= 8) return json(res, 429, { error: 'too_many_tries' });
+      if (!pinOk(nm, body.pin)) { await redis(['INCR', rl2]); await redis(['EXPIRE', rl2, 600]); return json(res, 401, { error: 'bad_pin' }); }
+      if (body.action === 'all') {
+        if (nm !== 'Cuadz') return json(res, 403, { error: 'forbidden' });
+        const raw = (await redis(['HGETALL', MVP_KEY])) || [];
+        const out = {}; for (let i = 0; i < raw.length; i += 2) out[raw[i]] = JSON.parse(raw[i + 1]);
+        return json(res, 200, { ok: true, votes: out });
+      }
+      if (body.action === 'mine') {
+        const m = await redis(['HGET', MVP_KEY, nm]);
+        return json(res, 200, { ok: true, vote: m ? JSON.parse(m) : null, locked, lockAt: MVP_LOCK });
+      }
+      if (locked) return json(res, 403, { error: 'locked' });
+      const player = String(body.player || '').replace(/\s+/g, ' ').trim().slice(0, 60);
+      const why = String(body.why || '').replace(/\s+/g, ' ').trim().slice(0, 160);
+      if (!player) return json(res, 400, { error: 'no_player' });
+      const v = { player, why, t: new Date().toISOString() };
+      await redis(['HSET', MVP_KEY, nm, JSON.stringify(v)]);
+      return json(res, 200, { ok: true, vote: v });
+    }
+
     const w = parseInt(req.method === 'POST' ? body.week : q.get('week'), 10);
     const info = weekInfo(w);
     if (!info) return json(res, 404, { error: 'unknown_week' });
