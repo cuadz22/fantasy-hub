@@ -6023,7 +6023,7 @@ function cfnCtx(go,title,desc){ window.__cfnCtx={go:go,title:title,desc:desc}; }
   ['showHome','showTab','showStudio'].forEach(function(n){ var f=window[n]; if(typeof f==='function') window[n]=function(){ clr(); return f.apply(this,arguments); }; });
   var _t=window.lgTabs; window.lgTabs=function(){ return _t.apply(this,arguments)+'<button class="lg-tab ext cfn-tablink" onclick="cfnCopyTab(this)">Copy link</button>'; };
   window.cfnCopyTab=function(b){
-    var u=location.origin+location.pathname+cur(), done=function(){ var o=b.textContent; b.textContent='Copied ✓'; setTimeout(function(){ b.textContent=o; },1400); };
+    var h=cur(), u=location.origin+location.pathname+h, pm={'#s=L~rb~Trade%20Rules':'/cant-cut-rebirth.html','#s=L~bh~Trade%20Rules':'/cant-cut-beaners.html'}; if(pm[h]) u=location.origin+pm[h]; var done=function(){ var o=b.textContent; b.textContent='Copied ✓'; setTimeout(function(){ b.textContent=o; },1400); };
     try{ navigator.clipboard.writeText(u).then(done,function(){ prompt('Copy this link',u); }); }catch(e){ prompt('Copy this link',u); }
   };
 })();
