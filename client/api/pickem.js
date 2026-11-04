@@ -14,8 +14,8 @@ const WEEKS = {
   9: { lock: '2026-11-08T18:00:00Z', pairs: [[1,10],[2,8],[3,12],[4,9],[5,6],[7,11]] }
 };
 
-// Mid-season Fantasy MVP vote (temporary). Closes Nov 4 11:00pm ET; change MVP_LOCK to move it.
-const MVP_LOCK = '2026-11-05T04:00:00Z';
+// Mid-season Fantasy MVP vote (temporary). Closes Nov 4 9:00pm ET; change MVP_LOCK to move it.
+const MVP_LOCK = '2026-11-05T02:00:00Z';
 const MVP_KEY = 'mvp:gl:mid26';
 const URL_ = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
