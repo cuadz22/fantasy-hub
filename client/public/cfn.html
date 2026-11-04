@@ -4507,8 +4507,19 @@ async function clipCard(k){
   var tot=0,nc=0,empty=0,over=null,barg=null;
   T.forEach(function(x){ tot+=x.sp; nc+=x.n; if(x.r===0) empty++; x.c.forEach(function(c){ var it={t:x.t,p:c[1],b:c[2],v:c[4]||0};
     if(c[3]==='O'&&(!over||it.b>over.b)) over=it; if(c[3]==='B'&&(!barg||it.v>barg.v||(it.v===barg.v&&it.b<barg.b))) barg=it; }); });
-  var W=1080,PAD=48,CW=W-2*PAD, headH=300, statH=112, callH=(over||barg)?112:0, rowH=64, footH=110;
-  var H=headH+statH+callH+T.length*rowH+footH+24;
+  var W=1080,PAD=48,CW=W-2*PAD, headH=300, statH=112, callH=(over||barg)?112:0, footH=110;
+  var mc=document.createElement('canvas').getContext('2d'), FS=13, CF, sumH=0, maxw=CW-12;
+  function ab(n){ if(/D\/ST$/.test(n)) return n; var q=n.split(' ').filter(function(w){return !/^(Jr\.?|Sr\.?|II|III|IV)$/.test(w);}); return q.length>1?q.slice(1).join(' '):q[0]; }
+  function build(fs,pad){ CF='600 '+fs+'px '+IN; mc.font=CF; var multi=false;
+    T.forEach(function(x){ var cs=x.c.slice().sort(function(a,b){return b[2]-a[2];}).slice(0,10), rows=[[]], cx=0;
+      cs.forEach(function(cc){ var nm=ab(cc[1]), pr='$'+cc[2], w=mc.measureText(nm).width+6+mc.measureText(pr).width+pad*2;
+        if(cx+w>maxw&&rows[rows.length-1].length){ rows.push([]); cx=0; }
+        rows[rows.length-1].push({nm:nm,pr:pr,t:cc[3],w:w}); cx+=w+4; });
+      x.chips=cs.length?rows:[]; if(rows.length>1) multi=true; });
+    return multi; }
+  var pad=9; while(build(FS,pad)&&FS>11){ FS-=.5; pad=Math.max(6,pad-.5); }
+  T.forEach(function(x){ x.h=62+(x.chips.length?x.chips.length*30+4:0); sumH+=x.h; });
+  var H=headH+statH+callH+sumH+footH+24;
   var cv=document.createElement('canvas'); cv.width=W; cv.height=H; var c=cv.getContext('2d');
   c.fillStyle=BG; c.fillRect(0,0,W,H);
   var imgs=await Promise.all([wvImg(CFN_LOGO), wvImg(LG_LOGO[k])]);
@@ -4534,9 +4545,13 @@ async function clipCard(k){
     }
     y+=callH+8;
   }
+  var ry=y;
   T.forEach(function(x,i){
-    var top=y+i*rowH;
+    var top=ry, rowH=x.h; ry+=x.h;
     c.fillStyle=LINE; c.fillRect(PAD,top+rowH-1,CW,1);
+    x.chips.forEach(function(row,ri){ var bx=PAD+6, by=top+58+ri*30;
+      row.forEach(function(ch){ c.fillStyle='#1d2027'; c.beginPath(); c.roundRect?c.roundRect(bx,by,ch.w,24,6):c.rect(bx,by,ch.w,24); c.fill();
+        var nw=wvT(c,ch.nm,bx+pad,by+17,CF,'#c3c8d4','left'); wvT(c,ch.pr,bx+pad+nw+6,by+17,'800 '+FS+'px '+IN,ch.t==='B'?ACC:ch.t==='O'?RED:'#ffffff','left'); bx+=ch.w+4; }); });
     var nmw=wvT(c,x.t,PAD+6,top+26,wvFit(c,x.t,420,'700 #px '+IN,24,15),'#edeef1','left');
     var tags=''; if(x.nb) tags+=x.nb+(x.nb===1?' BARGAIN':' BARGAINS'); 
     var rx=PAD+CW-6;
@@ -4547,7 +4562,7 @@ async function clipCard(k){
     if(x.nb){ tx+=wvT(c,x.nb+(x.nb===1?' BARGAIN':' BARGAINS'),tx,top+24,'800 11px '+IN,ACC,'left',1)+12; }
     if(x.no){ wvT(c,x.no+(x.no===1?' OVERPAY':' OVERPAYS'),tx,top+24,'800 11px '+IN,RED,'left',1); }
   });
-  y+=T.length*rowH+30;
+  y=ry+30;
   wvT(c,'Bargain / overpay: price paid vs current market value in this league, ranked against every skill-position claim here.',W/2,y,'400 14px '+IN,'#727a8c','center');
   wvT(c,'Through '+(LGD.clipUpdated||'')+' · cuadzfantasynetwork.com',W/2,y+26,'600 15px '+IN,'#8f96a4','center');
   return cv;
