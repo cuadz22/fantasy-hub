@@ -6361,4 +6361,69 @@ function wire(){var r=$('commish-root');
 }
 })();
 </script>
+<script id="wvt-js">
+var WVT = {"8":{"label":"Week 8","run":"Nov 4","targets":[{"n":"Tyler Allgeier","p":"RB","t":"ARI","c":{"gl":{"k":"W","amt":55,"team":"Nico de Gallo","bids":5},"bh":{"k":"T","team":"Hit it til it Hurts","how":"Draft","date":"Draft"},"rb":{"k":"W","amt":61,"team":"Loveland Island USA","bids":4},"sts":{"k":"W","amt":40,"team":"Iceman","bids":6}}},{"n":"Devin Singletary","p":"RB","t":"NYG","c":{"gl":{"k":"T","team":"MAGNETO IS STILL RIGHT","how":"$5","date":"Oct 28"},"bh":{"k":"O"},"rb":{"k":"T","team":"Benchwarmers","how":"$8","date":"Sep 16"},"sts":{"k":"W","amt":0,"team":"cuadz build 004","bids":1}}},{"n":"Adonai Mitchell","p":"WR","t":"NYJ","c":{"gl":{"k":"W","amt":2,"team":"cuadz build 001","bids":2},"bh":{"k":"T","team":"Money O","how":"$21","date":"Sep 23"},"rb":{"k":"W","amt":9,"team":"K-9 Unit 🦴🐕","bids":2},"sts":{"k":"T","team":"Iceman","how":"$20","date":"Sep 23"}}},{"n":"Antonio Williams","p":"WR","t":"WAS","c":{"gl":{"k":"T","team":"The Veterans","how":"$7","date":"Oct 28"},"bh":{"k":"T","team":"cuadz build 002","how":"FA","date":"Oct 25"},"rb":{"k":"T","team":"cuadz build 003","how":"$8","date":"Sep 16"},"sts":{"k":"T","team":"cuadz build 004","how":"FA","date":"Oct 2"}}},{"n":"Mike Washington Jr.","p":"RB","t":"LV","c":{"gl":{"k":"T","team":"Woodridge lore","how":"$3","date":"Sep 12"},"bh":{"k":"O"},"rb":{"k":"T","team":"K-9 Unit","how":"FA","date":"Sep 27"},"sts":{"k":"O"}}},{"n":"Kaelon Black","p":"RB","t":"SF","c":{"gl":{"k":"T","team":"MAGNETO IS STILL RIGHT","how":"Draft","date":"Draft"},"bh":{"k":"T","team":"Love Thy Nabers","how":"Draft","date":"Draft"},"rb":{"k":"T","team":"The Lazarus Pit","how":"Draft","date":"Draft"},"sts":{"k":"T","team":"Stripper Draft Julio","how":"$11","date":"Oct 28"}}},{"n":"Seth McGowan","p":"RB","t":"IND","c":{"gl":{"k":"T","team":"MAGNETO IS STILL RIGHT","how":"FA","date":"Oct 22"},"bh":{"k":"T","team":"cuadz build 002","how":"$0","date":"Oct 28"},"rb":{"k":"T","team":"The Lazarus Pit","how":"FA","date":"Oct 24"},"sts":{"k":"T","team":"I Like Tets","how":"FA","date":"Oct 22"}}},{"n":"Chris Rodriguez Jr.","p":"RB","t":"JAX","c":{"gl":{"k":"W","amt":10,"team":"Run CMC","bids":2},"bh":{"k":"O"},"rb":{"k":"F","team":"The Lazarus Pit","date":"Nov 4"},"sts":{"k":"O"}}},{"n":"Ryan Flournoy","p":"WR","t":"DAL","c":{"gl":{"k":"T","team":"Sir","how":"Draft","date":"Draft"},"bh":{"k":"T","team":"Love Thy Nabers","how":"$6","date":"Oct 14"},"rb":{"k":"T","team":"Stiff Arm That Njigba","how":"FA","date":"Sep 9"},"sts":{"k":"T","team":"cuadz build 004","how":"$1","date":"Oct 14"}}},{"n":"Emmett Johnson","p":"RB","t":"KC","c":{"gl":{"k":"T","team":"Wide receiver university","how":"$2","date":"Sep 2"},"bh":{"k":"T","team":"Money O","how":"Draft","date":"Draft"},"rb":{"k":"T","team":"I'm Better Than Kev","how":"Draft","date":"Draft"},"sts":{"k":"T","team":"Baba Yaga","how":"FA","date":"Sep 13"}}}]}};
+function wvtEsc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function wvtTeam(t){ return String(t).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}️]/gu,'').trim(); }
+function wvtCell(c){
+  var base='width:88px;height:58px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;padding:0 4px;overflow:hidden;';
+  var sub='max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;';
+  if(c.k==='W') return '<div style="'+base+'background:rgba(172,249,16,.11);border:1px solid rgba(172,249,16,.5)"><div style="font-family:\'Bebas Neue\',sans-serif;font-size:27px;line-height:25px;color:#acf910">$'+c.amt+'</div><div style="'+sub+'font-size:8px;font-weight:700;color:#eef0f3;line-height:10px">'+wvtEsc(wvtTeam(c.team))+'</div><div style="font-size:7px;color:#9aa1b0;letter-spacing:.08em;text-transform:uppercase;line-height:9px">'+(c.bids>1?c.bids+' bids':'no rival bids')+'</div></div>';
+  if(c.k==='T'){ var dr=c.how==='Draft'; return '<div style="'+base+'background:#1a1d23;border:1px solid #2d323c"><div style="font-size:7px;font-weight:800;letter-spacing:.14em;color:#ff6b6b;line-height:9px">TAKEN</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:19px;line-height:20px;color:#f1f2f4;letter-spacing:.02em">'+(dr?'DRAFTED':wvtEsc(c.date.toUpperCase()))+'</div><div style="'+sub+'font-size:7.5px;color:#8f96a4;line-height:9px">'+(dr?'':wvtEsc(c.how)+' · ')+wvtEsc(wvtTeam(c.team))+'</div></div>'; }
+  if(c.k==='F') return '<div style="'+base+'background:#1a1d23;border:1px solid #5a4a22"><div style="font-size:7px;font-weight:800;letter-spacing:.14em;color:#ffb02e;line-height:9px">FA ADD</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:19px;line-height:20px;color:#f1f2f4">'+wvtEsc(c.date.toUpperCase())+'</div><div style="'+sub+'font-size:7.5px;color:#8f96a4;line-height:9px">'+wvtEsc(wvtTeam(c.team))+'</div></div>';
+  return '<div style="'+base+'border:1px dashed #3a404b"><div style="font-family:\'Bebas Neue\',sans-serif;font-size:19px;letter-spacing:.1em;color:#6c7384;line-height:20px">OPEN</div><div style="font-size:7px;color:#5b6272;letter-spacing:.08em;line-height:9px">NOT CLAIMED</div></div>';
+}
+function wvtNm(n){ var q=n.split(' '); var sfx=/^(Jr\.?|Sr\.?|II|III|IV)$/; var last=q.slice(1).filter(function(w,i,a){ return !(sfx.test(w)&&i===a.length-1); }); var ln=last.join(' ')||q[0]; var sf=q.length>2&&sfx.test(q[q.length-1])?q[q.length-1]:''; return [q[0],ln+(sf?' '+sf:'')]; }
+function wvtSlide(wk){
+  var W=WVT[wk]; if(!W) return '<div style="width:540px;height:960px;background:#14161b"></div>';
+  var LGS=['gl','bh','rb','sts'], hi=null, taken=0, spots=0, contested=0, bidsAll=0;
+  W.targets.forEach(function(t){ LGS.forEach(function(k){ var c=t.c[k]; spots++; if(c.k==='T') taken++; if(c.k==='W'){ bidsAll+=c.bids; if(c.bids>1) contested++; if(!hi||c.amt>hi.amt) hi={amt:c.amt,n:t.n,team:c.team,k:k}; } }); });
+  var hd='<div style="display:flex;align-items:center;gap:4px;margin:0 0 6px"><div style="width:136px;flex:none"></div>'+LGS.map(function(k){ return '<div style="width:88px;height:34px;display:flex;align-items:center;justify-content:center"><img src="'+LG_LOGO[k]+'" alt="" style="max-height:32px;max-width:80px;width:auto;height:auto;object-fit:contain;display:block"></div>'; }).join('')+'</div>';
+  var rows=W.targets.map(function(t,i){ var nm=wvtNm(t.n);
+    return '<div style="display:flex;align-items:center;gap:4px;height:58px;margin-bottom:6px"><div style="width:136px;flex:none;display:flex;align-items:center;gap:6px"><span style="font-family:\'Bebas Neue\',sans-serif;font-size:15px;color:#5b6272;width:12px;text-align:right;flex:none">'+(i+1)+'</span>'+bigPhoto(t.n,28)+'<div style="min-width:0"><div style="font-size:8px;letter-spacing:.1em;color:#8f96a4;text-transform:uppercase;line-height:10px;white-space:nowrap">'+wvtEsc(nm[0])+'</div><div style="font-size:'+(nm[1].length>12?10:11.5)+'px;font-weight:800;color:#fff;line-height:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:92px">'+wvtEsc(nm[1])+'</div><div style="font-size:8px;color:#acf910;letter-spacing:.08em;line-height:10px">'+t.p+' · '+t.t+'</div></div></div>'+LGS.map(function(k){ return wvtCell(t.c[k]); }).join('<span style="width:0"></span>')+'</div>'; }).join('');
+  function stat(v,l,s){ return '<div style="flex:1;min-width:0;background:#1a1d23;border:1px solid #2d323c;border-radius:8px;padding:6px 8px;text-align:center"><div style="font-family:\'Bebas Neue\',sans-serif;font-size:24px;line-height:24px;color:#acf910">'+v+'</div><div style="font-size:7.5px;letter-spacing:.1em;color:#9aa1b0;text-transform:uppercase;line-height:10px">'+l+'</div>'+(s?'<div style="font-size:7.5px;color:#6f7686;line-height:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+s+'</div>':'')+'</div>'; }
+  var stats='<div style="display:flex;gap:6px;margin-top:2px">'+stat('$'+(hi?hi.amt:0),'Highest bid',hi?wvtEsc(wvtNm(hi.n)[1])+' · '+wvtEsc(wvtTeam(hi.team)):'')+stat(taken+' of '+spots,'Already rostered','before the run')+stat(String(contested),'Contested claims','more than one bid')+'</div>';
+  return '<div style="width:540px;height:960px;background:#14161b;color:#f0f0f1;font-family:\'Helvetica Neue\',Arial,sans-serif;position:relative;overflow:hidden;box-sizing:border-box;padding:18px 20px 12px;display:flex;flex-direction:column">'
+   +'<div style="position:absolute;left:0;top:0;width:540px;height:300px;background:radial-gradient(circle at 50% 0%,#1f262c 0%,rgba(11,12,10,0) 70%)"></div>'
+   +'<div style="position:relative;display:flex;flex-direction:column;flex:1;min-height:0">'
+   +'<div style="display:flex;align-items:center;justify-content:space-between;height:34px"><img src="'+CFN_LOGO+'" alt="CFN" style="height:32px;width:auto;display:block"><div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#acf910;font-weight:800">'+wvtEsc(W.label)+' waivers · '+wvtEsc(W.run)+' run</div></div>'
+   +'<div style="text-align:center;margin:8px 0 10px"><div style="font-family:\'Bebas Neue\',sans-serif;font-size:50px;line-height:48px;letter-spacing:.03em;color:#fff">INDUSTRY’S TOP TARGETS</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:24px;line-height:26px;letter-spacing:.14em;color:#acf910">WHAT THEY WENT FOR IN THE NETWORK</div></div>'
+   +hd+rows+stats
+   +'<div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:6px;font-size:7px;letter-spacing:.04em;color:#7b8292;white-space:nowrap"><span><b style="color:#acf910">$</b> WON &nbsp;·&nbsp; <b style="color:#ff6b6b">TAKEN</b> = ROSTERED BEFORE THE RUN (DATE ADDED) &nbsp;·&nbsp; <b style="color:#ffb02e">FA ADD</b> = SIGNED AFTER</span><span style="letter-spacing:.1em;font-weight:700;margin-left:8px">CUADZFANTASYNETWORK.COM</span></div>'
+   +'</div></div>';
+}
+(function(){
+  var _r=stRender, _e=stExport, _p=stPick;
+  stRender=function(){
+    _r();
+    var side=document.querySelector('#studio-root .st-side'); if(!side||!stState.unlocked) return;
+    var keys=Object.keys(WVT).sort(function(a,b){ return b-a; });
+    var blk=document.createElement('div'); blk.style.cssText='display:flex;flex-direction:column;gap:5px;margin-bottom:8px';
+    blk.innerHTML='<div class="st-lbl" style="margin-top:0">Network graphics</div>'+keys.map(function(k){ return '<button class="st-btn'+(stState.net===k?' on':'')+'" onclick="stState.net=\''+k+'\';stState.imgs=[];stRender()">\u{1F4B8} Waiver targets · Wk '+k+'</button>'; }).join('')+(stState.net?'<button class="st-btn" onclick="stState.net=null;stState.imgs=[];stRender()">← Back to league slides</button>':'');
+    side.insertBefore(blk,side.firstChild);
+    if(!stState.net) return;
+    Array.prototype.slice.call(side.children).forEach(function(c){ if(c!==blk&&!c.classList.contains('st-go')&&c.id!=='st-msg') side.removeChild(c); });
+    var go=document.getElementById('st-go'); if(go) go.textContent=stState.busy?'Rendering…':'Render story (1080 × 1920)';
+    var fr=document.querySelector('#studio-root .st-frame'), sc=document.querySelector('#studio-root .st-scale');
+    if(fr&&sc){ fr.classList.add('tall'); sc.style.height='960px'; sc.innerHTML=wvtSlide(stState.net); }
+    var pv=document.querySelector('#studio-root .st-prev'); if(pv){ var lab=pv.firstElementChild; if(lab) lab.textContent='Preview — Waiver targets · Week '+stState.net+' · Instagram story 1080 × 1920'; var nav=pv.querySelector('.st-nav'); if(nav) nav.style.display='none'; }
+  };
+  stPick=function(k){ stState.net=null; _p(k); };
+  stExport=async function(){
+    if(!stState.net) return _e();
+    if(stState.busy) return; stState.busy=true; stState.imgs=[]; stRender();
+    var set=function(t){ var m=document.getElementById('st-msg'); if(m) m.textContent=t; };
+    try{
+      set('Rendering…'); try{ await BIG_PRELOAD; }catch(e){}
+      if(document.fonts&&document.fonts.ready) await document.fonts.ready;
+      var off=document.getElementById('st-off'); off.innerHTML=wvtSlide(stState.net); await new Promise(function(r){ setTimeout(r,120); });
+      var el=off.firstElementChild;
+      var canvas=await html2canvas(el,{scale:2,useCORS:true,backgroundColor:ST_BLACK,logging:false,imageTimeout:8000});
+      stState.imgs.push({url:canvas.toDataURL('image/png'),label:'waiver-targets-wk'+stState.net});
+      stState.busy=false; stRender(); set('Done — 1080 × 1920 story ready. Right-click / long-press to save, or tap Copy.');
+    }catch(e){ stState.busy=false; stRender(); set('Render failed — try again'); }
+  };
+})();
+
+</script>
 </body></html>
