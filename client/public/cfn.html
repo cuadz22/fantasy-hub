@@ -6394,7 +6394,7 @@ function wvtSlide(wk){
    +'</div></div>';
 }
 (function(){
-  var _r=stRender, _e=stExport, _p=stPick;
+  var _r=stRender, _p=stPick;
   stRender=function(){
     _r();
     var side=document.querySelector('#studio-root .st-side'); if(!side||!stState.unlocked) return;
@@ -6410,20 +6410,80 @@ function wvtSlide(wk){
     var pv=document.querySelector('#studio-root .st-prev'); if(pv){ var lab=pv.firstElementChild; if(lab) lab.textContent='Preview — Waiver targets · Week '+stState.net+' · Instagram story 1080 × 1920'; var nav=pv.querySelector('.st-nav'); if(nav) nav.style.display='none'; }
   };
   stPick=function(k){ stState.net=null; _p(k); };
-  stExport=async function(){
-    if(!stState.net) return _e();
-    if(stState.busy) return; stState.busy=true; stState.imgs=[]; stRender();
-    var set=function(t){ var m=document.getElementById('st-msg'); if(m) m.textContent=t; };
+})();
+
+/* Studio render hardening: bounded waits, one-slide render, cancel, blob URLs, renderer self-heal */
+(function(){
+  var nap=function(ms){ return new Promise(function(r){ setTimeout(r,ms); }); };
+  var wait=function(p,ms){ return Promise.race([Promise.resolve(p).catch(function(){}),nap(ms)]); };
+  function say(t){ var m=document.getElementById('st-msg'); if(m) m.textContent=t; }
+  function ensureH2C(){
+    if(typeof html2canvas!=='undefined') return Promise.resolve(true);
+    return new Promise(function(res){
+      var s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      s.onload=function(){ res(typeof html2canvas!=='undefined'); }; s.onerror=function(){ res(false); }; document.head.appendChild(s);
+      setTimeout(function(){ res(typeof html2canvas!=='undefined'); },10000);
+    });
+  }
+  function toBlobUrl(cv){
+    return new Promise(function(res){
+      var done=false, fin=function(u){ if(!done){ done=true; res(u); } };
+      try{ cv.toBlob(function(b){ if(b) fin(URL.createObjectURL(b)); else { try{ fin(cv.toDataURL('image/png')); }catch(e){ fin(null); } } },'image/png'); }catch(e){ try{ fin(cv.toDataURL('image/png')); }catch(e2){ fin(null); } }
+      setTimeout(function(){ if(!done){ try{ fin(cv.toDataURL('image/png')); }catch(e){ fin(null); } } },8000);
+    });
+  }
+  async function renderOne(el,tries){
+    for(var tr=0;tr<tries;tr++){
+      if(stState.cancel) return null;
+      try{
+        var cv=await Promise.race([html2canvas(el,{scale:2,useCORS:true,backgroundColor:ST_BLACK,logging:false,imageTimeout:6000,ignoreElements:function(n){ if(n.nodeType!==1||n.tagName==='HTML'||n.tagName==='BODY'||n.tagName==='HEAD'||(n.closest&&n.closest('head'))) return false; return !(n.contains(el)||el.contains(n)); }}),new Promise(function(_,rj){ setTimeout(function(){ rj(new Error('timeout')); },20000); })]);
+        var u=await toBlobUrl(cv); try{ cv.width=1; cv.height=1; }catch(e){}
+        if(u) return u;
+      }catch(e){ await nap(200); }
+    }
+    return null;
+  }
+  async function run(mode){
+    if(stState.busy) return;
+    stState.busy=true; stState.cancel=false;
+    (stState.imgs||[]).forEach(function(x){ try{ if(/^blob:/.test(x.url)) URL.revokeObjectURL(x.url); }catch(e){} });
+    stState.imgs=[]; stRender();
+    var fin=null, t0=Date.now(), fails=0, d=CFN_DATA[stState.league], idx=[];
     try{
-      set('Rendering…'); try{ await BIG_PRELOAD; }catch(e){}
-      if(document.fonts&&document.fonts.ready) await document.fonts.ready;
-      var off=document.getElementById('st-off'); off.innerHTML=wvtSlide(stState.net); await new Promise(function(r){ setTimeout(r,120); });
-      var el=off.firstElementChild;
-      var canvas=await html2canvas(el,{scale:2,useCORS:true,backgroundColor:ST_BLACK,logging:false,imageTimeout:8000});
-      stState.imgs.push({url:canvas.toDataURL('image/png'),label:'waiver-targets-wk'+stState.net});
-      stState.busy=false; stRender(); set('Done — 1080 × 1920 story ready. Right-click / long-press to save, or tap Copy.');
-    }catch(e){ stState.busy=false; stRender(); set('Render failed — try again'); }
+      say('Starting…');
+      if(!(await ensureH2C())){ fin='The image renderer did not load. Check your connection, reload the page and try again.'; return; }
+      if(stState.net){ idx=[0]; }
+      else if(mode==='one'){ idx=[stState.slide]; }
+      else { for(var q=0;q<stN(d);q++) idx.push(q); }
+      say('Loading photos and fonts…');
+      if(!stState.net){ try{ var names=[]; RCP.lg[stState.league].forEach(function(m){ m.L.forEach(function(L){ L.forEach(function(r){ names.push(r[1]); }); }); }); await wait(rcLoadPhotos(names),8000); }catch(e){} }
+      try{ await wait(BIG_PRELOAD,8000); }catch(e){}
+      if(document.fonts&&document.fonts.ready) await wait(document.fonts.ready,4000);
+      for(var n=0;n<idx.length;n++){
+        if(stState.cancel) break;
+        var i=idx[n]; say('Rendering '+(n+1)+' of '+idx.length+' · '+Math.round((Date.now()-t0)/1000)+'s — keep this tab open');
+        var off=document.getElementById('st-off'); if(!off) break;
+        off.innerHTML=stState.net?wvtSlide(stState.net):stSlideHTML(d,i); await nap(120);
+        var el=off.firstElementChild||off.firstChild, u=await renderOne(el,2);
+        if(u) stState.imgs.push({url:u,label:stState.net?('waiver-targets-wk'+stState.net):stSlideKey(i,d)}); else fails++;
+        off.innerHTML=''; await nap(60);
+        var g=document.getElementById('st-gal-wrap'); if(g&&stState.imgs.length&&(n%3===2||n===idx.length-1)){ try{ stGallery(); }catch(e){} }
+      }
+    }catch(e){ fails++; }
+    finally{
+      stState.busy=false; var c=stState.cancel; stState.cancel=false; stRender();
+      say(fin?fin:c?('Cancelled — '+stState.imgs.length+' ready'):(fails?('Done — '+stState.imgs.length+' ready, '+fails+' failed. Tap Render this slide to retry just that one.'):('Done — '+stState.imgs.length+' ready. Press and hold an image to save it, or tap Copy.')));
+    }
+  }
+  var _r2=stRender;
+  stRender=function(){
+    _r2();
+    var go=document.getElementById('st-go'); if(!go) return; var side=go.parentNode;
+    var old=document.getElementById('st-one'); if(old) old.remove(); var oc=document.getElementById('st-cancel'); if(oc) oc.remove();
+    if(stState.busy){ var c=document.createElement('button'); c.className='st-btn'; c.id='st-cancel'; c.textContent='Cancel'; c.onclick=function(){ stState.cancel=true; say('Cancelling…'); }; side.insertBefore(c,go.nextSibling); return; }
+    if(!stState.net){ var b=document.createElement('button'); b.className='st-btn'; b.id='st-one'; b.textContent='Render this slide only'; b.onclick=function(){ run('one'); }; side.insertBefore(b,go); }
   };
+  stExport=function(){ return run('all'); };
 })();
 
 </script>
