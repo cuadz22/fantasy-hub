@@ -4113,7 +4113,7 @@ function lgTabs(){
   if(L.keeper){ tabs.push('Keepers'); tabs.push('Trade Rules'); }
   tabs.push('Rulebook');
   var h = tabs.map(function(t){ return '<button class="lg-tab'+(t===lgState.tab?' on':'')+'" onclick="lgTab(\''+t+'\')">'+t+'</button>'; }).join('');
-  h += '<a class="lg-tab ext" href="'+L.draft+'" target="_blank" rel="noopener">Draft Report ↗</a>';
+  /* Draft Report link archived: pages and LGI draft paths are kept */
   return h;
 }
 function lgRender(){
@@ -6690,8 +6690,8 @@ window.MVsave=function(){var pl=document.getElementById('mv-pl').value.trim(),w=
 window.MVout=function(){MV.authed=false;MV.pin='';MV.vote=null;MV.all=null;MV.msg='';view();};
 window.MVrefresh=function(){api({body:{mvp:1,action:'all',name:MV.name,pin:MV.pin}}).then(function(j){if(j.ok)MV.all=j.votes;view();}).catch(function(){});};
 function load(cb){api({q:'?mvp=1'}).then(function(j){MV.state=j;if(cb)cb();else view();}).catch(function(){MV.state={error:'net'};if(cb)cb();else view();});}
-var _tabs=window.lgTabs;window.lgTabs=function(){var h=_tabs.apply(this,arguments);if(lgState.k!=='gl')return h;return '<button class="lg-tab'+(lgState.tab==='MVP Vote'?' on':'')+'" onclick="lgTab(\'MVP Vote\')" style="border-color:var(--accent)">MVP Vote</button>'+h;};
-var _r=window.lgRender;window.lgRender=function(){var r=_r.apply(this,arguments);try{if(lgState.k==='gl'&&lgState.tab==='MVP Vote'){view();if(!MV.state)load();}}catch(e){}return r;};
+var _tabs=window.lgTabs;/* MVP Vote tab removed */
+var _r=window.lgRender;window.lgRender=function(){if(lgState.tab==='MVP Vote')lgState.tab='Standings';return _r.apply(this,arguments);};
 })();
 </script>
 <style id="cfn-app-css">
@@ -6732,7 +6732,7 @@ body.cfn-app.cfn-rail #app-tabbar{display:none}
 body.cfn-app.cfn-rail #app-header{margin-right:calc(-1 * var(--col,84px));padding-right:calc(10px + var(--hcol,84px))}
 body.cfn-app.cfn-rail .lg-tabs{display:none!important}
 body.cfn-app.cfn-rail .page{padding-left:var(--pp,16px);padding-right:var(--pp,16px)}
-@media (max-width:899px){body.cfn-app.cfn-rail .rc{width:calc(100vw - var(--col,84px))!important;max-width:calc(100vw - var(--col,84px))!important;margin-left:calc(-1 * var(--pp,16px))!important;margin-right:0!important}}
+@media (max-width:899px){body.cfn-app.cfn-rail .rc{width:calc(100vw - var(--col,84px))!important;max-width:calc(100vw - var(--col,84px))!important;margin-left:calc(-1 * var(--pp,16px))!important;margin-right:0!important}body.cfn-app.cfn-rail .rc .rc-sc{font-size:34px!important}body.cfn-app.cfn-rail .rc .rc-score{grid-template-columns:auto minmax(84px,1fr) auto!important;column-gap:2px!important}}
 body.cfn-app.cfn-rail .rc{zoom:1!important}
 @media (min-width:900px){body.cfn-app.cfn-rail .rc{width:100%!important;max-width:100%!important;margin-left:0!important;margin-right:0!important;grid-template-columns:210px minmax(0,1fr)!important;column-gap:18px!important;padding-left:0!important;padding-right:0!important}body.cfn-app.cfn-rail .rc .rc-main{max-width:100%!important;min-width:0}}
 body.cfn-narrow #app-title{font-size:19px}
@@ -6772,7 +6772,7 @@ body.cfn-app.cfn-rail #app-sheet .sh{max-width:420px;border-radius:18px;margin:a
     var asym=R>=24&&L<R/2, wide=innerWidth>=600, on=wide||asym;
     document.body.classList.toggle('cfn-rail',on);
     var nar=innerWidth<500; document.body.classList.toggle('cfn-narrow',nar);
-    var st=document.documentElement.style; var col=nar?72:Math.max(R,84), rc=nar?39.5:47; st.setProperty('--col',col+'px'); st.setProperty('--rpr',Math.max(2,Math.round(2*rc-col+2))+'px'); st.setProperty('--hcol',Math.max(R,84)+'px'); st.setProperty('--rt',(nar?150:128)+'px'); st.setProperty('--pp',(nar?12:16)+'px');
+    var st=document.documentElement.style; var col=Math.max(R,96), rc=48; st.setProperty('--col',col+'px'); st.setProperty('--rpr',Math.max(2,Math.round(2*rc-col+2))+'px'); st.setProperty('--hcol',col+'px'); st.setProperty('--rt',(nar?150:128)+'px'); st.setProperty('--pp',(nar?12:16)+'px');
     window.__cfnInfo={w:innerWidth,h:innerHeight,L:Math.round(L),R:Math.round(R),rail:on};hh();}
   window.__cfnLayout=layout; layout(); addEventListener('resize',layout); addEventListener('orientationchange',layout); setTimeout(layout,400); setTimeout(layout,1500);
   var I={home:'<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>',
