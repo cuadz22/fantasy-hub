@@ -6727,7 +6727,7 @@ body.cfn-app #app-sheet.open{display:flex}
 #app-sheet .it small{margin-left:auto;color:var(--muted);font-weight:400;font-size:12px}
 
 #app-rail{display:none}
-@media (min-width:640px){
+@media (min-width:600px){
  body.cfn-app{padding-bottom:env(safe-area-inset-bottom,0px);padding-right:calc(84px + env(safe-area-inset-right,0px))}
  body.cfn-app #app-tabbar{display:none}
  body.cfn-app #app-header{margin-right:calc(-84px - env(safe-area-inset-right,0px));padding-right:calc(14px + 84px + env(safe-area-inset-right,0px))}
@@ -6773,7 +6773,7 @@ body.cfn-app #app-sheet.open{display:flex}
     else if(t==='mk')TC.open('hub');
     else if(t==='st')showStudio();
     else if(t==='lg')sheet(LGS.map(function(l){return {t:l[1],img:(typeof LG_LOGO!=='undefined'&&LG_LOGO[l[0]])||'',f:function(){showLeague(l[0]);}};}));
-    else sheet([{t:"Pick'em",f:showPickem},{t:'Commish Tools',s:'PIN',f:showCommish},{t:'Switch light / dark',s:'theme',f:toggleTheme}]);});
+    else sheet([{t:"Pick'em",f:showPickem},{t:'Commish Tools',s:'PIN',f:showCommish},{t:'Switch light / dark',s:'theme',f:toggleTheme},{t:'Screen size',s:innerWidth+' × '+innerHeight+(innerWidth>=600?' · side rail':' · bottom bar'),f:function(){}}]);});
   var rail=document.createElement('div'); rail.id='app-rail';
   var LL=function(k){return (typeof LG_LOGO!=='undefined'&&LG_LOGO[k])||'';};
   rail.innerHTML='<button data-r="home">'+I.home+'<span>Home</span></button>'+
@@ -6782,7 +6782,7 @@ body.cfn-app #app-sheet.open{display:flex}
   document.body.appendChild(rail);
   rail.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var r=b.dataset.r;
     if(r==='home')showHome();else if(r==='mk')TC.open('hub');else if(r==='st')showStudio();
-    else if(r==='mo')sheet([{t:"Pick'em",f:showPickem},{t:'Commish Tools',s:'PIN',f:showCommish},{t:'Switch light / dark',s:'theme',f:toggleTheme}]);
+    else if(r==='mo')sheet([{t:"Pick'em",f:showPickem},{t:'Commish Tools',s:'PIN',f:showCommish},{t:'Switch light / dark',s:'theme',f:toggleTheme},{t:'Screen size',s:innerWidth+' × '+innerHeight+(innerWidth>=600?' · side rail':' · bottom bar'),f:function(){}}]);
     else showLeague(r);});
   var RK={'ntab-net':'home','ntab-gl':'gl','ntab-bh':'bh','ntab-rb':'rb','ntab-sts':'sts','ntab-trades':'mk','ntab-studio':'st','ntab-pickem':'mo','ntab-commish':'mo'};
   var MAP={'ntab-net':['home','Network'],'ntab-gl':['lg',"Gentlemen's"],'ntab-bh':['lg','Beaners & Husseins'],'ntab-rb':['lg','Rebirth'],'ntab-sts':['lg','Shoot the Shits'],'ntab-trades':['mk','Market'],'ntab-studio':['st','Studio'],'ntab-pickem':['mo',"Pick'em"],'ntab-commish':['mo','Commish Tools']};
