@@ -6772,7 +6772,7 @@ body.cfn-app.cfn-rail #app-sheet .sh{max-width:420px;border-radius:18px;margin:a
     var asym=R>=24&&L<R/2, wide=innerWidth>=600, on=wide||asym;
     document.body.classList.toggle('cfn-rail',on);
     var nar=innerWidth<500; document.body.classList.toggle('cfn-narrow',nar);
-    var st=document.documentElement.style; var col=Math.max(R,96), rc=48; st.setProperty('--col',col+'px'); st.setProperty('--rpr',Math.max(2,Math.round(2*rc-col+2))+'px'); st.setProperty('--hcol',col+'px'); st.setProperty('--rt',(nar?150:128)+'px'); st.setProperty('--pp',(nar?12:16)+'px');
+    var st=document.documentElement.style; var col=Math.max(R,96), rc=48; st.setProperty('--col',col+'px'); st.setProperty('--rpr',Math.max(2,Math.round(2*rc-col+2))+'px'); st.setProperty('--hcol',col+'px'); st.setProperty('--rt',(nar?172:128)+'px'); st.setProperty('--pp',(nar?12:16)+'px');
     window.__cfnInfo={w:innerWidth,h:innerHeight,L:Math.round(L),R:Math.round(R),rail:on};hh();}
   window.__cfnLayout=layout; layout(); addEventListener('resize',layout); addEventListener('orientationchange',layout); setTimeout(layout,400); setTimeout(layout,1500);
   var I={home:'<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>',
