@@ -600,6 +600,35 @@ nav::-webkit-scrollbar{display:none}
 .dpk-n{flex:0 0 96px;min-width:0}.dpk-n b{display:block;font-size:12px}.dpk-n span{display:block;font-size:10px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dpk-c{display:flex;flex-wrap:wrap;gap:5px;min-width:0}.dpk-c span{font-size:10.5px;font-weight:700;border-radius:999px;padding:3px 8px;white-space:nowrap}.dpk-c em{font-style:normal;font-weight:500;opacity:.8}
 .dpk-g{background:rgba(120,220,100,.14);color:#8be07a}.dpk-l{background:rgba(255,90,90,.12);color:#ff8a8a}
+.td{--red:#ff6b6b;--redbg:rgba(255,90,90,.13);--gbg:rgba(172,249,16,.14);padding:4px 0 90px}
+:root[data-theme="light"] .td{--red:#d9382b;--redbg:rgba(217,56,43,.1);--gbg:rgba(120,190,0,.18)}
+.td-eye{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}.td-h{font-family:'Bebas Neue',Impact,sans-serif;font-size:34px;letter-spacing:.03em;line-height:1}
+.td-sub{color:var(--muted);font-size:12.5px;margin:6px 0 14px;line-height:1.45}
+.td-lab{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:16px 0 8px;display:flex;justify-content:space-between;gap:8px}
+.td-chips{display:flex;flex-wrap:wrap;gap:6px}.td-chip{font:inherit;color:var(--text);background:var(--bg2);border:.5px solid var(--border);border-radius:999px;padding:7px 13px;font-size:12.5px;cursor:pointer}.td-chip.on{background:var(--accent);color:#111;border-color:var(--accent);font-weight:700}
+.td-card{background:var(--bg2);border:.5px solid var(--border);border-radius:14px;padding:12px}.td-ch{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:10px}.td-ch b{font-size:14px}.td-ch span{font-size:11px;color:var(--dim)}
+.td-pl{display:flex;align-items:center;gap:10px;padding:8px;border-radius:9px;border:.5px solid transparent;cursor:pointer;margin-bottom:3px}.td-pl:hover{background:var(--bg3)}.td-pl.sel{background:var(--gbg);border-color:var(--accent)}
+.td-pos{font-size:9.5px;font-weight:800;letter-spacing:.04em;border-radius:5px;padding:3px 0;width:34px;text-align:center;color:#111;background:#b9bec9}.tp-QB{background:#ff6b8a}.tp-RB{background:#3ddc84}.tp-WR{background:#4cc3ff}.tp-TE{background:#ffb84d}.tp-K{background:#c58bff}
+.td-n{flex:1;font-weight:600;font-size:13.5px}.td-t{font-size:11px;color:var(--dim)}.td-ck{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--dim);display:flex;align-items:center;justify-content:center;font-size:11px;color:#111}.td-pl.sel .td-ck{background:var(--accent);border-color:var(--accent)}
+.td-picks{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.td-pk{border:.5px solid var(--border);border-radius:10px;padding:7px 4px;text-align:center;cursor:pointer;background:var(--bg3);min-height:46px}.td-pk b{display:block;font-size:13px}.td-pk small{display:block;font-size:9.5px;color:var(--muted);margin-top:1px}
+.td-pk.sel{background:var(--gbg);border-color:var(--accent)}.td-pk.via{border-color:var(--accent)}.td-pk.lock{background:var(--redbg);border-color:var(--red);cursor:not-allowed}.td-pk.lock b,.td-pk.lock small{color:var(--red)}
+.td-note{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--red);background:var(--redbg);border:.5px solid var(--red);border-radius:10px;padding:9px 11px;margin-top:10px}
+.td-sum{position:sticky;bottom:10px;margin-top:18px;background:var(--bg2);border:1px solid var(--accent);border-radius:14px;padding:12px;box-shadow:0 8px 30px rgba(0,0,0,.35);z-index:5}
+.td-row{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;margin-bottom:5px}.td-row span:first-child{color:var(--dim);flex:0 0 70px}.td-row span:last-child{text-align:right;font-weight:600;flex:1;min-width:0}
+.td-go{width:100%;margin-top:8px;font:inherit;font-weight:800;border:0;border-radius:10px;padding:12px;background:var(--accent);color:#111;cursor:pointer}.td-go:disabled{opacity:.35;cursor:not-allowed}
+.td-ta{width:100%;font:inherit;color:var(--text);background:var(--bg3);border:.5px solid var(--border);border-radius:10px;padding:9px;resize:none;height:54px;margin-top:6px}
+.td-form{display:flex;flex-direction:column;gap:8px}.td-in{font:inherit;color:var(--text);background:var(--bg3);border:.5px solid var(--border);border-radius:10px;padding:10px}
+.td-msg{font-size:12px;color:var(--red);margin-top:8px}.td-msg.ok{color:var(--accent);margin:0 0 10px}.td-hint{font-size:11px;color:var(--dim);margin-top:10px;line-height:1.4}
+.td-me{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;margin-bottom:10px}.td-me button{font:inherit;font-size:11.5px;color:var(--text);background:var(--bg2);border:.5px solid var(--border);border-radius:999px;padding:5px 11px;cursor:pointer}
+.td-tr{background:var(--bg2);border:.5px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px}.td-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.td-who{font-weight:700;font-size:13.5px}
+.td-pill{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 9px}.p1{background:rgba(255,184,77,.18);color:#ffb84d}.p2{background:rgba(76,195,255,.18);color:#4cc3ff}.p3{background:var(--gbg);color:var(--accent)}.p4{background:var(--redbg);color:var(--red)}
+:root[data-theme="light"] .p1{color:#a86a00}:root[data-theme="light"] .p2{color:#0a6aa3}:root[data-theme="light"] .p3{color:#3a6b00}
+.td-steps{display:flex;gap:4px;margin:2px 0 10px}.td-steps i{flex:1;height:3px;border-radius:2px;background:var(--border)}.td-steps i.on{background:var(--accent)}
+.td-sides{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12.5px}.td-sides b{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:3px}.td-sides i{display:block;font-style:normal;padding:1px 0}
+.td-nt{font-size:12px;color:var(--muted);margin-top:8px;font-style:italic}.td-dt{font-size:10.5px;color:var(--dim);margin-top:8px}
+.td-act{display:flex;gap:8px;margin-top:10px}.td-act button{flex:1;font:inherit;font-weight:700;border-radius:9px;padding:9px;border:.5px solid var(--border);background:var(--bg3);color:var(--text);cursor:pointer}.td-act .y{background:var(--accent);color:#111;border-color:var(--accent)}.td-act .n{color:var(--red);border-color:var(--red)}
+.td-pins{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:12.5px}.td-pins div{display:flex;justify-content:space-between;gap:8px;border-bottom:.5px solid var(--border);padding:4px 0}.td-pins b{font-variant-numeric:tabular-nums;letter-spacing:.1em}
+.td-empty{font-size:12.5px;color:var(--muted);padding:14px 0}
 .hs-card.hx-ok{cursor:pointer}.hs-card.open{grid-column:1/-1}
 .hs-tg{position:absolute;top:12px;right:12px;font-size:11px;color:var(--dim);transition:transform .2s}.hs-card.open .hs-tg{transform:rotate(180deg)}
 .hx{display:none;margin-top:12px;border-top:.5px solid var(--border);padding-top:12px;cursor:default}.hs-card.open .hx{display:block}
@@ -4148,7 +4177,7 @@ function lgRanks(p,k){
 }
 function lgTabs(){
   var L = LGI[lgState.k], tabs = ['Standings','Matchups','Weekly Preview','Power Rankings','Fraud Meter','Awards','Waivers','Trades','History','All-Time Ranks'];
-  if(L.keeper){ tabs.push('Keepers'); tabs.push('Trade Rules'); }
+  if(L.keeper){ tabs.push('Keepers'); tabs.push('Trade Desk'); tabs.push('Trade Rules'); }
   tabs.push('Rulebook');
   var h = tabs.map(function(t){ return '<button class="lg-tab'+(t===lgState.tab?' on':'')+'" onclick="lgTab(\''+t+'\')">'+(t==='Keepers'?'Draft Picks &amp; Keepers':t)+'</button>'; }).join('');
   /* Draft Report link archived: pages and LGI draft paths are kept */
@@ -4181,7 +4210,7 @@ function lgRender(){
   } else if(t==='Trades'){ TC.leagueTab(p,k);
   } else if(t==='History'){ lgHistory(p,k);
   } else if(t==='All-Time Ranks'){ lgRanks(p,k);
-  } else if(t==='Trade Rules'){ lgCC(p,k); } else if(t==='Keepers'){ lgKeepers(p,k);
+  } else if(t==='Trade Rules'){ lgCC(p,k); } else if(t==='Trade Desk'){ lgTrade(p,k); } else if(t==='Keepers'){ lgKeepers(p,k);
   } else if(t==='Rulebook'){ lgRules(p,k); }
 }
 /* ---------- waiver report share card ---------- */
@@ -4715,8 +4744,115 @@ var KP_MAP={'Jose':'Cuadz','Giovanny':'Gio','Kevin Huertas':'Kevin','Alex Zarate
 var KP_POS={'Jaxson Dart':['NYG','QB'],"De'Von Achane":['MIA','RB']};
 function kpNorm(s){ return String(s).toLowerCase().replace(/[^a-z]/g,'').replace(/(jr|iii|ii|iv)$/,''); }
 var DPK={"bh":[[5,2,4,4,5,6,7,8,9,10,11,12],[1,5,3,4,5,6,7,8,9,10,5,12],[5,2,3,4,5,6,7,8,9,10,11,12],[1,2,4,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,5,3,4,11,6,7,8,9,10,11,12],[1,2,3,3,1,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,1,6,7,8,9,10,11,12],[1,2,3,3,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,2,6,7,8,9,10,11,12],[1,2,3,4,2,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12]],"rb":[[1,2,5,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,7,9,10,11,12],[1,2,3,4,3,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,8,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,10,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,11,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12],[1,2,3,4,5,6,7,8,9,10,11,12]]};
+var TRD={}, TRS={};
+function trdCred(k){ try{ return JSON.parse(localStorage.getItem('cfn_trd_'+k)||'null'); }catch(e){ return null; } }
+function trdSaveCred(k,c){ try{ if(c) localStorage.setItem('cfn_trd_'+k,JSON.stringify(c)); else localStorage.removeItem('cfn_trd_'+k); }catch(e){} }
+function trdLoad(k,cb){ fetch('/api/trades?lg='+k,{cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){ if(j&&j.rows) TRD[k]=j; if(cb) cb(); }).catch(function(){ if(cb) cb(); }); }
+function dpkRows(k){ return (TRD[k]&&TRD[k].rows)||DPK[k]; }
+function trdTeams(k){ return ((window.__TCD&&__TCD.teams&&__TCD.teams[k])||[]); }
+function trdTm(k,id){ return trdTeams(k).filter(function(t){ return t.id===id; })[0]||{id:id,mgr:'T'+id,team:''}; }
+function trdRosters(k){
+  var T=window.__TCD||{}, P=T.players||{}, byName={}, out={};
+  Object.keys(P).forEach(function(key){ byName[P[key].n]=P[key]; });
+  trdTeams(k).forEach(function(t){ out[t.id]=t.pl.map(function(x){ var p=P[x[1]]||{}; return {n:p.n||x[1],pos:p.p||x[0],t:p.t||''}; }); });
+  var mv=function(from,to,names){ (names||[]).forEach(function(n){ var i=(out[from]||[]).map(function(x){return x.n;}).indexOf(n); var rec=i>-1?out[from].splice(i,1)[0]:null; if(!rec){ var p=byName[n]||{}; rec={n:n,pos:p.p||'',t:p.t||''}; } (out[to]=out[to]||[]).push(rec); }); };
+  ((TRD[k]&&TRD[k].trades)||[]).filter(function(t){ return t.status==='approved'; }).sort(function(a,b){ return a.approved-b.approved; }).forEach(function(t){ mv(t.from,t.to,t.send.pl); mv(t.to,t.from,t.get.pl); });
+  return out;
+}
+function trdSt(k){ return TRS[k]||(TRS[k]={pt:0,send:{pl:{},pk:{}},get:{pl:{},pk:{}},note:'',msg:'',pins:null,busy:false,user:'',pin:''}); }
+function trdPaint(k){ var p=document.getElementById('lg-panel'); if(p&&lgState&&lgState.k===k&&lgState.tab==='Trade Desk'){ var y=window.scrollY; lgTrade(p,k); window.scrollTo(0,y); } }
+function trdPost(k,b,cb){
+  var c=trdCred(k); if(!c){ return; } b.lg=k; b.name=c.name; b.pin=c.pin; var s=trdSt(k); s.busy=true; trdPaint(k);
+  fetch('/api/trades',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(function(r){ return r.json().then(function(j){ return {s:r.status,j:j}; }); }).then(function(x){
+    s.busy=false;
+    if(x.s===401){ trdSaveCred(k,null); s.msg='That PIN no longer works. Sign in again.'; }
+    else if(x.j&&x.j.ok){ if(cb) cb(x.j); }
+    else s.msg=({keeper_round_locked:'Rounds 15 and 16 are keeper slots and can’t be traded.',pick_not_owned:'One of those picks isn’t owned by that team anymore. Reload and try again.',empty_side:'Add something on both sides.',too_many_tries:'Too many wrong tries. Wait 10 minutes.',not_configured:'Trade Desk isn’t set up on the server yet.',too_many_open:'You have too many open proposals.',bad_pick:'Bad pick in the trade.'}[x.j&&x.j.error]||('Something went wrong ('+((x.j&&x.j.error)||x.s)+').'));
+    trdLoad(k,function(){ trdPaint(k); });
+  }).catch(function(){ s.busy=false; s.msg='Couldn’t reach the server.'; trdPaint(k); });
+}
+function trdSignIn(k){
+  var s=trdSt(k), u=document.getElementById('td-u'), pn=document.getElementById('td-p'); if(!u||!pn) return; s.user=u.value; var pin=pn.value.trim();
+  if(!/^\d{4}$/.test(pin)){ s.msg='Enter your 4-digit PIN.'; trdPaint(k); return; }
+  s.busy=true; s.msg='';
+  fetch('/api/trades',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lg:k,name:u.value,pin:pin,action:'whoami'})}).then(function(r){ return r.json().then(function(j){ return {s:r.status,j:j}; }); }).then(function(x){
+    s.busy=false;
+    if(x.j&&x.j.ok){ trdSaveCred(k,{name:x.j.name,pin:pin}); s.msg=''; } else s.msg=x.s===429?'Too many wrong tries. Wait 10 minutes.':(x.s===503?'Trade Desk isn’t set up on the server yet.':'Wrong name or PIN.');
+    trdPaint(k);
+  }).catch(function(){ s.busy=false; s.msg='Couldn’t reach the server.'; trdPaint(k); });
+}
+function trdSignOut(k){ trdSaveCred(k,null); var s=trdSt(k); s.send={pl:{},pk:{}}; s.get={pl:{},pk:{}}; s.pins=null; trdPaint(k); }
+function trdPt(k,id){ var s=trdSt(k); s.pt=id; s.get={pl:{},pk:{}}; trdPaint(k); }
+function trdTP(k,w,n){ var s=trdSt(k),S=s[w]; S.pl[n]=!S.pl[n]; trdPaint(k); }
+function trdTK(k,w,key){ var s=trdSt(k),S=s[w]; S.pk[key]=!S.pk[key]; trdPaint(k); }
+function trdNote(k,v){ trdSt(k).note=v; }
+function trdList(k,id,S){ var a=[]; Object.keys(S.pl).forEach(function(n){ if(S.pl[n]) a.push(n); }); Object.keys(S.pk).forEach(function(key){ if(S.pk[key]){ var q=key.split('-'); a.push('R'+q[0]+' pick'+(+q[1]!==id?' (via '+trdTm(k,+q[1]).mgr+')':'')); } }); return a; }
+function trdSend(k){
+  var s=trdSt(k), c=trdCred(k), me=trdTeams(k).filter(function(t){ return t.mgr===c.name; })[0]; if(!me||!s.pt) return;
+  var side=function(S){ return {pl:Object.keys(S.pl).filter(function(n){return S.pl[n];}),pk:Object.keys(S.pk).filter(function(x){return S.pk[x];}).map(function(x){ var q=x.split('-'); return [+q[0],+q[1]]; })}; };
+  trdPost(k,{action:'propose',to:s.pt,send:side(s.send),get:side(s.get),note:s.note},function(){ s.send={pl:{},pk:{}}; s.get={pl:{},pk:{}}; s.note=''; s.msg='Proposal sent. It shows on the board below.'; });
+}
+function trdAct(k,id,a,extra){ var b={action:a,id:id}; if(extra) for(var x in extra) b[x]=extra[x]; trdPost(k,b,function(){ trdSt(k).msg=''; }); }
+function trdIssue(k,only){
+  var s=trdSt(k); if(!only&&!s.confirmIssue){ s.confirmIssue=true; trdPaint(k); return; } s.confirmIssue=false;
+  trdPost(k,{action:'issue',only:only||''},function(j){ s.pins=Object.assign(s.pins||{},j.pins); });
+}
+function trdCopyPins(k){ var s=trdSt(k); var t=Object.keys(s.pins||{}).map(function(n){ return n+': '+s.pins[n]; }).join('\n'); try{ navigator.clipboard.writeText(t).then(function(){ s.msg='PIN list copied.'; trdPaint(k); }); }catch(e){} }
+function trdSide(k,id,w,title,rows,rosters,lockd){
+  var tm=trdTm(k,id), s=trdSt(k), S=s[w], h='<div class="td-lab"><span>'+title+'</span><span>'+lgEsc(tm.team)+'</span></div><div class="td-card"><div class="td-ch"><b>'+lgEsc(tm.mgr)+'’s assets</b><span>tap to add</span></div>';
+  (rosters[id]||[]).forEach(function(p){ var on=S.pl[p.n]; h+='<div class="td-pl'+(on?' sel':'')+'" onclick="trdTP(\''+k+'\',\''+w+'\',this.dataset.n)" data-n="'+lgEsc(p.n)+'"><span class="td-pos tp-'+lgEsc((p.pos||'').replace(/[^A-Z]/g,''))+'">'+lgEsc(p.pos||'')+'</span><span class="td-n">'+lgEsc(p.n)+'</span><span class="td-t">'+lgEsc(p.t||'')+'</span><span class="td-ck">'+(on?'✓':'')+'</span></div>'; });
+  h+='<div class="td-lab" style="margin-top:14px"><span>Draft picks</span><span>'+(lockd.length?'R'+lockd.join('–')+' are keeper slots':'')+'</span></div><div class="td-picks">';
+  rows.forEach(function(r,ri){ r.forEach(function(o,oi){ if(o!==id) return; var key=(ri+1)+'-'+(oi+1), L=lockd.indexOf(ri+1)>-1, on=S.pk[key], via=oi+1!==id;
+    h+='<div class="td-pk'+(L?' lock':'')+(on?' sel':'')+(via&&!L?' via':'')+'"'+(L?' title="Keeper slot. Can’t be traded."':' onclick="trdTK(\''+k+'\',\''+w+'\',\''+key+'\')"')+'><b>'+(L?'🔒 ':'')+'R'+(ri+1)+'</b><small>'+(L?'No trade':(via?'via '+lgEsc(trdTm(k,oi+1).mgr):'own'))+'</small></div>'; }); });
+  h+='</div>';
+  if(lockd.length) h+='<div class="td-note"><span>🔒</span><span>Rounds '+lockd.join(' and ')+' are reserved for keepers. They’re shown for reference and can’t be added to a trade.</span></div>';
+  return h+'</div>';
+}
+function trdBoard(k,c,me){
+  var d=TRD[k]; if(!d) return '<div class="td-empty">Loading trades…</div>'; var tr=d.trades||[]; if(!tr.length) return '<div class="td-empty">No offseason trades yet.</div>';
+  var ST={pending:['Sent','p1'],accepted:['Awaiting commish','p2'],approved:['Approved','p3'],declined:['Declined','p4'],rejected:['Rejected','p4'],cancelled:['Cancelled','p4']};
+  return tr.map(function(t){
+    var A=trdTm(k,t.from),B=trdTm(k,t.to),s=ST[t.status]||['','p1'],lvl=t.status==='approved'?3:t.status==='accepted'?2:t.status==='pending'?1:0;
+    var li=function(S,id){ return S.pl.map(function(n){return '<i>'+lgEsc(n)+'</i>';}).join('')+S.pk.map(function(p){ return '<i>R'+p[0]+' pick'+(p[1]!==id?' (via '+lgEsc(trdTm(k,p[1]).mgr)+')':'')+'</i>'; }).join(''); };
+    var act='';
+    if(c&&!trdSt(k).busy){
+      if(t.status==='pending'&&me&&t.to===me.id) act='<div class="td-act"><button class="n" onclick="trdAct(\''+k+'\',\''+t.id+'\',\'respond\',{accept:false})">Decline</button><button class="y" onclick="trdAct(\''+k+'\',\''+t.id+'\',\'respond\',{accept:true})">Accept</button></div>';
+      else if(t.status==='accepted'&&c.name==='Cuadz') act='<div class="td-act"><button class="n" onclick="trdAct(\''+k+'\',\''+t.id+'\',\'reject\')">Reject</button><button class="y" onclick="trdAct(\''+k+'\',\''+t.id+'\',\'approve\')">Approve trade</button></div>';
+      if((t.status==='pending'||t.status==='accepted')&&me&&t.from===me.id&&!act) act='<div class="td-act"><button class="n" onclick="trdAct(\''+k+'\',\''+t.id+'\',\'cancel\')">Cancel proposal</button></div>';
+    }
+    return '<div class="td-tr"><div class="td-top"><span class="td-who">'+lgEsc(A.mgr)+' ⇄ '+lgEsc(B.mgr)+'</span><span class="td-pill '+s[1]+'">'+s[0]+'</span></div><div class="td-steps">'+[1,2,3].map(function(n){ return '<i class="'+(lvl>=n?'on':'')+'"></i>'; }).join('')+'</div>'
+      +'<div class="td-sides"><div><b>'+lgEsc(A.mgr)+' sends</b>'+li(t.send,t.from)+'</div><div><b>'+lgEsc(B.mgr)+' sends</b>'+li(t.get,t.to)+'</div></div>'+(t.note?'<div class="td-nt">“'+lgEsc(t.note)+'”</div>':'')
+      +'<div class="td-dt">'+new Date(t.created).toLocaleDateString(undefined,{month:'short',day:'numeric'})+(t.status==='approved'?' · move the players in Yahoo when the season opens':'')+'</div>'+act+'</div>'; }).join('');
+}
+function lgTrade(p,k){
+  var s=trdSt(k), c=trdCred(k), teams=trdTeams(k);
+  if(!TRD[k]&&!TRD['_l'+k]){ TRD['_l'+k]=1; trdLoad(k,function(){ trdPaint(k); }); }
+  var rows=dpkRows(k), lockd=(TRD[k]&&TRD[k].locked)||(k==='bh'?[15,16]:[]), rosters=trdRosters(k);
+  var me=c?teams.filter(function(t){ return t.mgr===c.name; })[0]:null;
+  var h='<div class="td"><div class="td-eye">CFN · Offseason</div><div class="td-h">Trade Desk</div><p class="td-sub">Yahoo can’t process trades in the offseason, so propose them here. The other manager accepts, then the commish approves and the pick chart updates. Approved player moves get made in Yahoo when the season opens.</p>';
+  if(!c){
+    h+='<div class="td-card"><div class="td-ch"><b>Sign in to trade</b><span>PIN from the commish</span></div><div class="td-form"><select id="td-u" class="td-in">'+teams.map(function(t){ return '<option'+(t.mgr===s.user?' selected':'')+'>'+lgEsc(t.mgr)+'</option>'; }).join('')+'</select><input id="td-p" class="td-in" inputmode="numeric" maxlength="4" placeholder="4-digit PIN" type="password" onkeydown="if(event.key===\'Enter\')trdSignIn(\''+k+'\')"><button class="td-go" onclick="trdSignIn(\''+k+'\')"'+(s.busy?' disabled':'')+'>Sign in</button></div>'+(s.msg?'<div class="td-msg">'+lgEsc(s.msg)+'</div>':'')+'<div class="td-hint">Anyone can watch the board. You need a PIN to propose or respond. Cuadz signs in with the Pick’em PIN.</div></div>';
+  } else {
+    h+='<div class="td-me"><span>Signed in as <b>'+lgEsc(c.name)+'</b></span><button onclick="trdSignOut(\''+k+'\')">Sign out</button></div>'+(s.msg?'<div class="td-msg ok">'+lgEsc(s.msg)+'</div>':'');
+    if(me){
+      var others=teams.filter(function(t){ return t.id!==me.id; }); if(!s.pt||s.pt===me.id) s.pt=others[0].id;
+      h+='<div class="td-lab"><span>Trade with</span></div><div class="td-chips">'+others.map(function(t){ return '<button class="td-chip'+(t.id===s.pt?' on':'')+'" onclick="trdPt(\''+k+'\','+t.id+')">'+lgEsc(t.mgr)+'</button>'; }).join('')+'</div>';
+      h+=trdSide(k,me.id,'send','You send',rows,rosters,lockd)+trdSide(k,s.pt,'get','You get',rows,rosters,lockd);
+      var a=trdList(k,me.id,s.send), b=trdList(k,s.pt,s.get), ok=a.length&&b.length&&!s.busy, pn=trdTm(k,s.pt).mgr;
+      h+='<div class="td-sum"><div class="td-row"><span>Sending</span><span>'+(a.length?a.map(lgEsc).join(', '):'Nothing yet')+'</span></div><div class="td-row"><span>Getting</span><span>'+(b.length?b.map(lgEsc).join(', '):'Nothing yet')+'</span></div><textarea class="td-ta" placeholder="Add a note for '+lgEsc(pn)+' (optional)" maxlength="200" oninput="trdNote(\''+k+'\',this.value)">'+lgEsc(s.note)+'</textarea><button class="td-go" '+(ok?'':'disabled')+' onclick="trdSend(\''+k+'\')">'+(s.busy?'Working…':ok?'Send proposal to '+lgEsc(pn):'Pick assets on both sides')+'</button></div>';
+    }
+    if(c.name==='Cuadz'){
+      h+='<div class="td-lab"><span>Commish tools</span></div><div class="td-card"><div class="td-ch"><b>Manager PINs</b><span>'+lgEsc(k==='bh'?'Beaners':'Rebirth')+'</span></div><div class="td-hint" style="margin:0 0 10px">Issue a PIN for each manager and send it to them privately. Issuing again replaces their old PIN.</div>'
+        +(s.pins?'<div class="td-pins">'+Object.keys(s.pins).map(function(n){ return '<div><span>'+lgEsc(n)+'</span><b>'+lgEsc(s.pins[n])+'</b></div>'; }).join('')+'</div><div class="td-act"><button onclick="trdCopyPins(\''+k+'\')">Copy list</button><button onclick="trdSt(\''+k+'\').pins=null;trdPaint(\''+k+'\')">Hide</button></div><div class="td-hint">Shown once. Copy it before leaving this page.</div>'
+        :'<div class="td-act"><button class="'+(s.confirmIssue?'n':'y')+'" onclick="trdIssue(\''+k+'\')">'+(s.confirmIssue?'Tap again to replace all PINs':'Issue PINs for all managers')+'</button></div>')+'</div>';
+    }
+  }
+  h+='<div class="td-lab" style="margin-top:26px"><span>Trade board</span><span>'+((TRD[k]&&TRD[k].trades||[]).length)+' total</span></div>'+trdBoard(k,c,me)+'</div>';
+  p.innerHTML=h;
+}
 function dpkHTML(k){
-  var rows=DPK[k]; if(!rows) return '';
+  var rows=dpkRows(k); if(!rows) return '';
+  if(!TRD[k]&&!TRD['_l'+k]){ TRD['_l'+k]=1; trdLoad(k,function(){ if(lgState&&lgState.k===k&&lgState.tab==='Keepers') lgRender(); }); }
   var T={}; (FM[k]&&FM[k].teams||[]).forEach(function(t){ T[t.tid]=t; });
   var nm=function(t,n){ var m=(T[t]||{}).mgr||('T'+t); return n?m.slice(0,n):m; };
   var ids=[1,2,3,4,5,6,7,8,9,10,11,12];
@@ -6092,7 +6228,7 @@ function cfnCtx(go,title,desc){ window.__cfnCtx={go:go,title:title,desc:desc}; }
 <script id="cfn-urlsync">
 (function(){
   function cur(){ return '#s=L~'+encodeURIComponent(lgState.k)+'~'+encodeURIComponent(lgState.tab)+((lgState.tab==='Waivers'&&lgState.wk==='Clip')?'~c':''); }
-  var LPG=["beaners-all-time-ranks", "beaners-awards", "beaners-fraud-meter", "beaners-history", "beaners-keepers", "beaners-matchups", "beaners-power-rankings", "beaners-rulebook", "beaners-standings", "beaners-trade-rules", "beaners-trades", "beaners-waivers", "beaners-weekly-preview", "gentlemens-all-time-ranks", "gentlemens-awards", "gentlemens-fraud-meter", "gentlemens-history", "gentlemens-matchups", "gentlemens-mvp-vote", "gentlemens-power-rankings", "gentlemens-rulebook", "gentlemens-standings", "gentlemens-trades", "gentlemens-waivers", "gentlemens-weekly-preview", "rebirth-all-time-ranks", "rebirth-awards", "rebirth-fraud-meter", "rebirth-history", "rebirth-keepers", "rebirth-matchups", "rebirth-power-rankings", "rebirth-rulebook", "rebirth-standings", "rebirth-trade-rules", "rebirth-trades", "rebirth-waivers", "rebirth-weekly-preview", "sts-all-time-ranks", "sts-awards", "sts-fraud-meter", "sts-history", "sts-matchups", "sts-power-rankings", "sts-rulebook", "sts-standings", "sts-trades", "sts-waivers", "sts-weekly-preview"],LPS={gl:'gentlemens',bh:'beaners',rb:'rebirth',sts:'sts'};
+  var LPG=["beaners-all-time-ranks", "beaners-awards", "beaners-fraud-meter", "beaners-history", "beaners-keepers", "beaners-matchups", "beaners-power-rankings", "beaners-rulebook", "beaners-standings", "beaners-trade-desk","rebirth-trade-desk","beaners-trade-rules", "beaners-trades", "beaners-waivers", "beaners-weekly-preview", "gentlemens-all-time-ranks", "gentlemens-awards", "gentlemens-fraud-meter", "gentlemens-history", "gentlemens-matchups", "gentlemens-mvp-vote", "gentlemens-power-rankings", "gentlemens-rulebook", "gentlemens-standings", "gentlemens-trades", "gentlemens-waivers", "gentlemens-weekly-preview", "rebirth-all-time-ranks", "rebirth-awards", "rebirth-fraud-meter", "rebirth-history", "rebirth-keepers", "rebirth-matchups", "rebirth-power-rankings", "rebirth-rulebook", "rebirth-standings", "rebirth-trade-rules", "rebirth-trades", "rebirth-waivers", "rebirth-weekly-preview", "sts-all-time-ranks", "sts-awards", "sts-fraud-meter", "sts-history", "sts-matchups", "sts-power-rankings", "sts-rulebook", "sts-standings", "sts-trades", "sts-waivers", "sts-weekly-preview"],LPS={gl:'gentlemens',bh:'beaners',rb:'rebirth',sts:'sts'};
   function lpath(){ try{ if(!lgState||!LPS[lgState.k]||(lgState.tab==='Waivers'&&lgState.wk==='Clip')) return ''; var n=LPS[lgState.k]+'-'+String(lgState.tab).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); return LPG.indexOf(n)>-1?'/l/'+n+'.html':''; }catch(e){ return ''; } }
   function setH(h){ try{ var lp=h?lpath():''; if(lp){ if(location.pathname+location.hash!==lp) history.replaceState(null,'',lp); } else if(location.hash!==h||/^\/l\//.test(location.pathname)) history.replaceState(null,'',h?('/cfn.html'+h):'/cfn.html'); }catch(e){} }
   function clr(){ if(/^#s=L~/.test(location.hash)||/^\/l\//.test(location.pathname)) setH(''); }
