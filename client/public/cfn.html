@@ -586,6 +586,8 @@ nav::-webkit-scrollbar{display:none}
 .hs-lp .pav{border:1.5px solid var(--accent)}
 .hs-lp b{font-size:9px;font-weight:700;line-height:1.1;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
 .hs-lp i{font-style:normal;font-size:8.5px;color:var(--accent);font-variant-numeric:tabular-nums}
+.hs-cta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;padding:9px 12px;border:.5px solid var(--accent);border-radius:10px;font-size:11.5px;font-weight:700;color:var(--accent);background:rgba(172,249,16,.07)}
+.hs-cta i{font-style:normal;font-size:15px;line-height:1}.hs-card.open .hs-cta{display:none}.hx-fb{scroll-margin-top:205px}
 .hs-card.hx-ok{cursor:pointer}.hs-card.open{grid-column:1/-1}
 .hs-tg{position:absolute;top:12px;right:12px;font-size:11px;color:var(--dim);transition:transform .2s}.hs-card.open .hs-tg{transform:rotate(180deg)}
 .hx{display:none;margin-top:12px;border-top:.5px solid var(--border);padding-top:12px;cursor:default}.hs-card.open .hx{display:block}
@@ -4655,7 +4657,7 @@ var HISTPH={"Ben Roethlisberger":"data:image/webp;base64,UklGRoYCAABXRUJQVlA4IHo
 function hxPh(n,sz){var src=(typeof PHOTOS!=='undefined'&&PHOTOS[n])||HISTPH[n];if(src)return '<img class="pav" src="'+src+'" alt="" style="width:'+sz+'px;height:'+sz+'px">';return '<span class="pav pav-fb" style="width:'+sz+'px;height:'+sz+'px;font-size:'+Math.round(sz/3)+'px">'+lgEsc(n).split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase()+'</span>';}
 function hxLast(n){var p=n.replace(/\s+(Jr\.|Sr\.|II|III|IV|V)$/,'').split(' ');return p[p.length-1];}
 function hxLed(k,s){var d=(HISTX[k]||{})[s.year];if(!d)return '';return '<div class="hs-lb"><span class="hs-lbt">Led by</span>'+d.top.map(function(t){return '<div class="hs-lp">'+hxPh(t[0],34)+'<b>'+lgEsc(hxLast(t[0]))+'</b><i>'+Math.round(t[1])+'</i></div>';}).join('')+'</div>';}
-function hxTog(el,ev){if(ev.target.closest&&ev.target.closest('.hx'))return;el.classList.toggle('open');}
+function hxTog(el,ev){if(ev.target.closest&&ev.target.closest('.hx'))return;var o=el.classList.toggle('open');if(!o)return;var b=el.querySelector('.hx-fb'),f=el.querySelector('.hx-fin');if(b&&f){b.classList.add('on');f.classList.add('on');setTimeout(function(){try{b.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){b.scrollIntoView();}},80);}}
 function hxFin(b,ev){ev.stopPropagation();b.classList.toggle('on');b.nextElementSibling.classList.toggle('on');}
 function hxBody(k,s){var d=(HISTX[k]||{})[s.year];if(!d)return '';
   var sum=function(a){return a.reduce(function(t,x){return t+x[2];},0);},sc=sum(d.L),sr=sum(d.R),cw=sc>=sr;
@@ -4668,7 +4670,7 @@ function lgHistory(p,k){
   h += '<div class="subsec"><div class="subsec-hd">Champions</div><div class="hs-grid">'+H.seasons.map(function(s){
     var own = s.champion.owner && s.champion.owner!=='—' ? s.champion.owner : '';
     var xb=hxBody(k,s);
-    return '<div class="hs-card'+(xb?' hx-ok':'')+'"'+(xb?' onclick="hxTog(this,event)"':'')+'><div class="hs-bar"></div>'+(xb?'<div class="hs-tg">▾</div>':'')+'<div class="hs-yr">'+s.year+'</div><div class="hs-nm">🏆 '+lgEsc(s.champion.team)+'</div>'+(own?'<div class="hs-own">'+lgEsc(own)+'</div>':'')+'<div class="hs-meta">'+lgEsc(s.champion.record)+' · '+lgEsc(s.champion.points)+'</div>'+hxLed(k,s)+'<div class="hs-pl"><span>2nd</span>'+lgEsc(s.runnerUp)+'</div><div class="hs-pl"><span>3rd</span>'+lgEsc(s.thirdPlace)+'</div>'+xb+'</div>';
+    return '<div class="hs-card'+(xb?' hx-ok':'')+'"'+(xb?' onclick="hxTog(this,event)"':'')+'><div class="hs-bar"></div>'+(xb?'<div class="hs-tg">▾</div>':'')+'<div class="hs-yr">'+s.year+'</div><div class="hs-nm">🏆 '+lgEsc(s.champion.team)+'</div>'+(own?'<div class="hs-own">'+lgEsc(own)+'</div>':'')+'<div class="hs-meta">'+lgEsc(s.champion.record)+' · '+lgEsc(s.champion.points)+'</div>'+hxLed(k,s)+'<div class="hs-pl"><span>2nd</span>'+lgEsc(s.runnerUp)+'</div><div class="hs-pl"><span>3rd</span>'+lgEsc(s.thirdPlace)+'</div>'+(xb?'<div class="hs-cta"><span>🏆 Tap to view the championship final</span><i>›</i></div>':'')+xb+'</div>';
   }).join('')+'</div></div>';
   h += '<div class="subsec"><div class="subsec-hd">All-time records</div>'+H.records.map(function(r){ return '<div class="rb-rule" style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><span style="color:var(--muted)">'+lgEsc(r.label)+'</span><span><b style="color:var(--accent)">'+lgEsc(r.value)+'</b> <span style="color:var(--muted);font-size:10.5px">'+lgEsc(r.holder)+'</span></span></div>'; }).join('')+'</div>';
   var names = Object.keys(A);
