@@ -3989,7 +3989,7 @@ function wpCard(k,m,i,live){
   var p=m.p, fa=p>=50, A=m.a, B=m.b;
   return '<div class="wp-card" tabindex="0" role="button" aria-expanded="false" onclick="wpToggle(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();wpToggle(this);}">'+
     '<div class="wp-top"><span>Matchup '+(i+1)+(live?' &middot; '+(lvDec(m)&&m.left?'Decided &middot; ':'')+(m.left?m.left+' to play':'Final'):'')+'</span><span class="wp-hint">Full lineups <i>&#9662;</i></span></div>'+
-    (live?lvBanner(m):'')+wpTeam(k,A,m.ia,fa,p,m.pa,live&&lvX(m,'a'))+wpTeam(k,B,m.ib,!fa,100-p,m.pb,live&&lvX(m,'b'))+
+    (live?lvBanner(m,k):'')+wpTeam(k,A,m.ia,fa,p,m.pa,live&&lvX(m,'a'))+wpTeam(k,B,m.ib,!fa,100-p,m.pb,live&&lvX(m,'b'))+
     '<div class="wp-bar" role="img" aria-label="Projected edge"><i style="width:'+p+'%;background:'+(fa?'var(--accent)':'var(--border-l)')+'"></i><i style="width:'+(100-p)+'%;background:'+(fa?'var(--border-l)':'var(--accent)')+'"></i></div>'+
     '<div class="wp-cols">'+wpTop(A,m.ea)+wpTop(B,m.eb)+'</div>'+wpFull(m)+
     '<div class="wp-h2h'+(m.riv?' riv':'')+'">'+lgEsc(m.h2h)+(m.note?'<em>'+lgEsc(m.note)+'</em>':'')+'</div></div>';
@@ -4062,7 +4062,7 @@ async function sharePrev(k){ try{cfnCtx(cfnG('L',k,'Weekly Preview'),'Week 9 Pre
   if(can){ document.getElementById('spGo').onclick=function(){ navigator.share({files:[file],title:'Week 9 Preview · '+LGI[k].name,text:'Week 9 preview and moneylines on the Cuadz Fantasy Network'}).catch(function(){}); }; document.getElementById('spDl').onclick=save; }
   else document.getElementById('spGo').onclick=save;
 }
-var LVMODE='pen'; var LVHI={};
+var LVMODE='pen'; var LVHI={"gl": {"Justin Jefferson": {"ch": "41.4 (2022 vs GB)", "sh": "29.2 (Wk 1 vs GB)"}, "Jordan Addison": {"ch": "41.3 (2024 vs ATL)", "sh": "20 (Wk 3 vs TB)"}, "Josh Allen": {"ch": "63.3 (2024 vs LAR)", "sh": "49.3 (Wk 2 vs DET)"}, "DJ Moore": {"ch": "51 (2023 vs WAS)", "sh": "23 (Wk 1 vs HOU)"}, "James Cook III": {"ch": "39.1 (2023 vs DAL)", "sh": "25.8 (Wk 5 vs LAR)"}, "T.J. Hockenson": {"ch": "39.9 (2022 vs SEA)", "sh": "26.9 (Wk 4 vs MIA)"}, "Aaron Jones Sr.": {"ch": "52.2 (2019 vs DAL)", "sh": "21.7 (Wk 5 vs NO)"}, "Jordan Mason": {"ch": "27 (2024 vs NE)", "sh": "11.9 (Wk 1 vs GB)"}, "Dalton Kincaid": {"ch": "24.1 (2025 vs KC)", "sh": "22.5 (Wk 2 vs DET)"}, "Khalil Shakir": {"ch": "23.6 (2024 vs LAR)", "sh": "13.4 (Wk 6 vs LV)"}, "Keon Coleman": {"ch": "27.2 (2025 vs BAL)", "sh": "25.6 (Wk 4 vs NE)"}}, "bh": {"Justin Jefferson": {"ch": "39.4 (2022 vs GB)", "sh": "29.2 (Wk 1 vs GB)"}, "Jordan Addison": {"ch": "39.3 (2024 vs ATL)", "sh": "20 (Wk 3 vs TB)"}, "Josh Allen": {"ch": "61.3 (2024 vs LAR)", "sh": "49.3 (Wk 2 vs DET)"}, "DJ Moore": {"ch": "49 (2023 vs WAS)", "sh": "21 (Wk 1 vs HOU)"}, "James Cook III": {"ch": "36.1 (2023 vs DAL)", "sh": "24.3 (Wk 6 vs LV)"}, "T.J. Hockenson": {"ch": "37.9 (2022 vs SEA)", "sh": "24.9 (Wk 4 vs MIA)"}, "Aaron Jones Sr.": {"ch": "49.2 (2019 vs DAL)", "sh": "18.7 (Wk 5 vs NO)"}, "Jordan Mason": {"ch": "24 (2024 vs NE)", "sh": "11.9 (Wk 1 vs GB)"}, "Dalton Kincaid": {"ch": "22.5 (2026 vs DET)", "sh": "22.5 (Wk 2 vs DET)"}, "Khalil Shakir": {"ch": "21.6 (2024 vs LAR)", "sh": "13.4 (Wk 6 vs LV)"}, "Keon Coleman": {"ch": "25.2 (2025 vs BAL)", "sh": "23.6 (Wk 4 vs NE)"}}, "rb": {"Justin Jefferson": {"ch": "40.4 (2022 vs GB)", "sh": "29.2 (Wk 1 vs GB)"}, "Jordan Addison": {"ch": "40.3 (2024 vs ATL)", "sh": "20 (Wk 3 vs TB)"}, "Josh Allen": {"ch": "59.88 (2024 vs LAR)", "sh": "46.82 (Wk 2 vs DET)"}, "DJ Moore": {"ch": "50 (2023 vs WAS)", "sh": "22 (Wk 1 vs HOU)"}, "James Cook III": {"ch": "38.1 (2023 vs DAL)", "sh": "24.8 (Wk 5 vs LAR)"}, "T.J. Hockenson": {"ch": "38.9 (2022 vs SEA)", "sh": "25.9 (Wk 4 vs MIA)"}, "Aaron Jones Sr.": {"ch": "51.2 (2019 vs DAL)", "sh": "20.7 (Wk 5 vs NO)"}, "Jordan Mason": {"ch": "26 (2024 vs NE)", "sh": "11.9 (Wk 1 vs GB)"}, "Dalton Kincaid": {"ch": "23.1 (2025 vs KC)", "sh": "22.5 (Wk 2 vs DET)"}, "Khalil Shakir": {"ch": "22.6 (2024 vs LAR)", "sh": "13.4 (Wk 6 vs LV)"}, "Keon Coleman": {"ch": "26.2 (2025 vs BAL)", "sh": "24.6 (Wk 4 vs NE)"}}, "sts": {"Justin Jefferson": {"ch": "40.4 (2022 vs GB)", "sh": "29.2 (Wk 1 vs GB)"}, "Jordan Addison": {"ch": "40.3 (2024 vs ATL)", "sh": "20 (Wk 3 vs TB)"}, "Josh Allen": {"ch": "63.3 (2024 vs LAR)", "sh": "49.3 (Wk 2 vs DET)"}, "DJ Moore": {"ch": "50 (2023 vs WAS)", "sh": "22 (Wk 1 vs HOU)"}, "James Cook III": {"ch": "39.1 (2023 vs DAL)", "sh": "25.8 (Wk 5 vs LAR)"}, "T.J. Hockenson": {"ch": "38.9 (2022 vs SEA)", "sh": "25.9 (Wk 4 vs MIA)"}, "Aaron Jones Sr.": {"ch": "52.2 (2019 vs DAL)", "sh": "21.7 (Wk 5 vs NO)"}, "Jordan Mason": {"ch": "27 (2024 vs NE)", "sh": "11.9 (Wk 1 vs GB)"}, "Dalton Kincaid": {"ch": "23.1 (2025 vs KC)", "sh": "22.5 (Wk 2 vs DET)"}, "Khalil Shakir": {"ch": "22.6 (2024 vs LAR)", "sh": "13.4 (Wk 6 vs LV)"}, "Keon Coleman": {"ch": "26.2 (2025 vs BAL)", "sh": "24.6 (Wk 4 vs NE)"}}};
 function lvLeft(rows,kk,dd){ var n=0; rows.forEach(function(r){ if(r[3]===3) n++; }); if(kk&&kk[2]===3) n++; if(dd&&dd[2]===3) n++; return n; }
 function lvDec(m){
   var la=lvLeft(m.ra,m.ka,m.da), lb=lvLeft(m.rb,m.kb,m.db), sa=m.la.s, sb=m.lb.s;
@@ -4075,15 +4075,15 @@ function lvRem(rows,kk,dd){ var o=[]; rows.forEach(function(r){ if(r[3]===3) o.p
 function lvJoin(x){ var n=x.map(function(y){return y[0];}); return n.length<2?n.join(''):n.length===2?n.join(' and '):n.slice(0,-1).join(', ')+' and '+n[n.length-1]; }
 function lvSum(x){ return x.reduce(function(s,y){return s+y[1];},0); }
 function lvX(m,sd){ var o=m['l'+sd], d=lvDec(m); return {s:o.s,done:!!d,w:d?d===sd:o.w,fin:m.left===0}; }
-function lvHi(r){ var o=[]; r.forEach(function(x){ var h=LVHI[x[0]]; if(h) o.push('<div class="wp-hi"><b>'+lgEsc(x[0])+'</b> &middot; career high '+h.ch+(h.sh?' &middot; this season '+h.sh:'')+'</div>'); }); return o.join(''); }
-function lvBanner(m){
+function lvHi(r,k){ var o=[]; r.forEach(function(x){ var h=(LVHI[k]||{})[x[0]]; if(h) o.push('<div class="wp-hi"><b>'+lgEsc(x[0])+'</b> &middot; career high '+h.ch+(h.sh?' &middot; this season '+h.sh:'')+'</div>'); }); return o.join(''); }
+function lvBanner(m,k){
   if(!m.left) return '';
   var d=lvDec(m), RA=lvRem(m.ra,m.ka,m.da), RB=lvRem(m.rb,m.kb,m.db);
   if(d) return '<div class="wp-dec">Decided &middot; '+m.left+' player'+(m.left>1?'s':'')+' still to play</div>';
   var aUp=m.la.s>m.lb.s||(m.la.s===m.lb.s&&m.a[3]>=m.b[3]);
   var U=aUp?m.a:m.b, D=aUp?m.b:m.a, RU=aUp?RA:RB, RD=aUp?RB:RA, gap=Math.abs(m.la.s-m.lb.s);
   function ln(t,dir,R){ return '<div class="wp-sl"><b>'+lgEsc(t[1])+'</b> '+dir+' '+gap.toFixed(1)+' &middot; has '+(R.length?lgEsc(lvJoin(R)):'nobody')+' left</div>'; }
-  var hi=lvHi(RD)+lvHi(RU);
+  var hi=lvHi(RD,k)+lvHi(RU,k);
   return '<div class="wp-sc">'+ln(U,'up',RU)+ln(D,'down',RD)+(hi?'<div class="wp-hl">'+hi+'</div>':'')+'</div>';
 }
 function lvStandHtml(k){
@@ -4123,7 +4123,7 @@ function lvStandHtml(k){
 function lvSet(k,m){ LVMODE=m; var e=document.getElementById('lv-st'); if(e) e.innerHTML=lvStandHtml(k); }
 function lgLive(p,k){
   var M=PVL[k]||[], alive=M.filter(function(m){return m.left>0;}).length, d=document.createElement('div'); d.className='subsec';
-  d.innerHTML='<div class="subsec-hd">Live Matchups &middot; Week 9</div><div class="wp-grid">'+M.map(function(m,i){return wpCard(k,m,i,true);}).join('')+'</div><p class="lv-note">'+alive+' of '+M.length+' matchups still have a player to go (Bills at Vikings, Monday 8:15 pm). Those keep moneylines, rebuilt from points already scored plus projections for everyone left. Finished matchups show W or L. Players still to play are outlined in green with a <b>to play</b> tag and a <b>~</b> in front of the number, which is only his projection. Everyone else has already scored the points shown. Scores from Yahoo, '+PVL_AT+'. Playoff odds use each team&rsquo;s win and loss scenarios from the preview. Tap any matchup for full lineups.</p>';
+  d.innerHTML='<div class="subsec-hd">Live Matchups &middot; Week 9</div><div class="wp-grid">'+M.map(function(m,i){return wpCard(k,m,i,true);}).join('')+'</div><p class="lv-note">'+alive+' of '+M.length+' matchups still have a player to go (Bills at Vikings, Monday 8:15 pm). Those keep moneylines, rebuilt from points already scored plus projections for everyone left. Finished matchups show W or L. Players still to play are outlined in green with a <b>to play</b> tag and a <b>~</b> in front of the number, which is only his projection. Everyone else has already scored the points shown. Scores from Yahoo, '+PVL_AT+'. Playoff odds use each team&rsquo;s win and loss scenarios from the preview. Career and season highs are single-game PPR-style totals recomputed with this league&rsquo;s own Yahoo scoring (bonuses included) from Pro-Football-Reference game logs; kickers and defenses are not included, and Rebirth&rsquo;s 40-yard reception bonus is not counted. Tap any matchup for full lineups.</p>';
   p.appendChild(d);
   var d2=document.createElement('div'); d2.className='subsec'; d2.innerHTML='<div class="subsec-hd">Live Standings</div><div id="lv-st">'+lvStandHtml(k)+'</div>'; p.appendChild(d2);
 }
