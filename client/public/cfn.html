@@ -1,6 +1,6 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#13161b"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="CFN"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png"><script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}</script><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.wp-dec{margin:8px 0 4px;padding:7px 10px;border:1px solid var(--accent);border-radius:8px;font-size:11px;line-height:1.4;color:var(--accent);font-weight:600}
 .wp-sc{margin:8px 0 4px;padding:7px 10px;border:1px solid var(--border-l);border-radius:8px;font-size:11px;line-height:1.45;display:grid;gap:4px}
-.wp-sc b{color:var(--accent)}.wp-hl{border-top:1px solid var(--border-l);padding-top:4px;display:grid;gap:2px;font-size:10px;color:var(--muted)}
+.wp-sc b{color:var(--accent)}.wp-sc b.ud{color:#f59e0b}.wp-hl{border-top:1px solid var(--border-l);padding-top:4px;display:grid;gap:2px;font-size:10px;color:var(--muted)}
 .lvs-ctl{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
 .lvs-od{display:grid;gap:1px;font-size:9.5px;line-height:1.25;text-align:right}.lvs-od i{font-style:normal;white-space:nowrap}.lvs-od b{color:var(--accent)}.lvs-od i.pc{font-weight:800}.lvs-row i.pen{font-style:italic;border-bottom:1px dotted var(--accent)}.lvs-od i.dg,.lvs-od i.dg b{color:var(--red)}
 .lvs-hdr,.lvs-row{display:grid;grid-template-columns:22px 1fr 40px 52px 92px;align-items:center;padding:7px 12px;gap:4px}
@@ -4082,7 +4082,7 @@ function lvBanner(m,k){
   if(d) return '<div class="wp-dec">Decided &middot; '+m.left+' player'+(m.left>1?'s':'')+' still to play</div>';
   var aUp=m.la.s>m.lb.s||(m.la.s===m.lb.s&&m.a[3]>=m.b[3]);
   var U=aUp?m.a:m.b, D=aUp?m.b:m.a, RU=aUp?RA:RB, RD=aUp?RB:RA, gap=Math.abs(m.la.s-m.lb.s);
-  function ln(t,dir,R){ return '<div class="wp-sl"><b>'+lgEsc(t[1])+'</b> '+dir+' '+gap.toFixed(1)+' &middot; has '+(R.length?lgEsc(lvJoin(R)):'nobody')+' left</div>'; }
+  function ln(t,dir,R){ var ud=(t===m.a)?m.p<50:m.p>=50; return '<div class="wp-sl"><b'+(ud?' class="ud"':'')+'>'+lgEsc(t[1])+'</b> '+dir+' '+gap.toFixed(1)+' &middot; has '+(R.length?lgEsc(lvJoin(R)):'nobody')+' left</div>'; }
   var hi=lvHi(RD,k)+lvHi(RU,k);
   return '<div class="wp-sc">'+ln(U,'up',RU)+ln(D,'down',RD)+(hi?'<div class="wp-hl">'+hi+'</div>':'')+'</div>';
 }
