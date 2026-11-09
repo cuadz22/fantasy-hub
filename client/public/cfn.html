@@ -2,7 +2,8 @@
 .wp-sc{margin:8px 0 4px;padding:7px 10px;border:1px solid var(--border-l);border-radius:8px;font-size:11px;line-height:1.45;display:grid;gap:4px}
 .wp-sc b{color:var(--accent)}
 .lvs-ctl{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.lvs-hdr,.lvs-row{display:grid;grid-template-columns:22px 1fr 44px 58px 74px;align-items:center;padding:7px 12px;gap:4px}
+.lvs-od{display:grid;gap:1px;font-size:9.5px;line-height:1.25;text-align:right}.lvs-od i{font-style:normal;white-space:nowrap}.lvs-od b{color:var(--accent)}
+.lvs-hdr,.lvs-row{display:grid;grid-template-columns:22px 1fr 40px 52px 92px;align-items:center;padding:7px 12px;gap:4px}
 .lvs-hdr{background:var(--bg2);border-bottom:.5px solid var(--border);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);font-weight:700}
 .lvs-row{border-bottom:.5px solid var(--border);font-size:11px;font-variant-numeric:tabular-nums}
 .lvs-row:last-child{border-bottom:none}
@@ -4102,20 +4103,21 @@ function lvStandHtml(k){
     var lead=sa-sb, tx=(lead>=0?'+':'')+lead.toFixed(1);
     if(d){ dec++; var wa=d==='a'; (wa?A:B).w++; (wa?B:A).l++; (wa?A:B).res='W'; (wa?B:A).res='L'; }
     else {
-      A.res='live'; B.res='live'; A.note=tx; B.note=(lead>0?'-':'+')+Math.abs(lead).toFixed(1);
+      A.res='live'; B.res='live'; A.pw=A.w; A.pl=A.l; B.pw=B.w; B.pl=B.l; A.p=m.p; B.p=100-m.p; A.note=tx; B.note=(lead>0?'-':'+')+Math.abs(lead).toFixed(1);
       if(LVMODE==='hold'){ var wa2=m.p>=50; (wa2?A:B).w++; (wa2?B:A).l++; (wa2?A:B).res='pW'; (wa2?B:A).res='pL'; }
     }
   });
   list.sort(function(a,b){ return b.w-a.w||b.pf-a.pf; });
   var h='<div class="lvs-ctl"><button class="lg-tab'+(LVMODE==='dec'?' on':'')+'" onclick="lvSet(\''+k+'\',\'dec\')">Decided only</button><button class="lg-tab'+(LVMODE==='hold'?' on':'')+'" onclick="lvSet(\''+k+'\',\'hold\')">If favorites hold</button></div>';
-  h+='<div class="st-table"><div class="lvs-hdr"><span>#</span><span>Team</span><span>W-L</span><span>PF</span><span>Week 9</span></div>';
+  h+='<div class="st-table"><div class="lvs-hdr"><span>#</span><span>Team</span><span>W-L</span><span>PF</span><span>Week 9 outlook</span></div>';
   list.forEach(function(o,i){
     var mv=o.r0-(i+1), ar=mv>0?'<b class="lvs-up">&#9650;'+mv+'</b>':mv<0?'<b class="lvs-dn">&#9660;'+(-mv)+'</b>':'';
-    var st=o.res==='W'?'<b class="lvs-w">W</b>':o.res==='L'?'<b class="lvs-l">L</b>':o.res==='pW'?'<i class="lvs-p">W?</i>':o.res==='pL'?'<i class="lvs-p">L?</i>':o.res==='live'?'<i class="lvs-lv">live '+o.note+'</i>':'';
+    var od=o.res==='live'&&LVMODE==='dec'?'<span class="lvs-od"><i>'+(o.pw+1)+'-'+o.pl+(o.t?'-'+o.t:'')+' <b>'+rcAm(o.p)+'</b></i><i>'+o.pw+'-'+(o.pl+1)+(o.t?'-'+o.t:'')+' <b>'+rcAm(100-o.p)+'</b></i></span>':'';
+    var st=od?od:o.res==='W'?'<b class="lvs-w">W</b>':o.res==='L'?'<b class="lvs-l">L</b>':o.res==='pW'?'<i class="lvs-p">W?</i>':o.res==='pL'?'<i class="lvs-p">L?</i>':o.res==='live'?'<i class="lvs-lv">live '+o.note+'</i>':'';
     var pending=(o.res==='live'||o.res==='pW'||o.res==='pL');
     h+='<div class="lvs-row'+(pending?' pend':'')+'"><span class="st-rk"'+(i<po?' style="color:var(--accent)"':'')+'>'+(i+1)+'</span><span class="mg-nm"><b>'+lgEsc(o.n)+'</b><span class="mg-lg">'+lgEsc(o.mg)+' '+ar+'</span></span><span>'+o.w+'-'+o.l+(o.t?'-'+o.t:'')+'</span><span>'+o.pf.toFixed(1)+'</span><span>'+st+'</span></div>';
   });
-  h+='</div><p class="lv-note">'+dec+' of '+M.length+' Week 9 matchups are decided and counted in the records. '+(LVMODE==='hold'?'Matchups still in play are counted for whoever is favored right now, shown with a ? and a dotted outline.':'Matchups still in play are not counted yet; they show who is ahead right now.')+' PF includes every point scored so far this week. Ranked by wins, then points for. Arrows compare to the Week 8 standings, and the green numbers are playoff spots.</p>';
+  h+='</div><p class="lv-note">'+dec+' of '+M.length+' Week 9 matchups are decided and counted in the records. '+(LVMODE==='hold'?'Matchups still in play are counted for whoever is favored right now, shown with a ? and a dotted outline.':'Matchups still in play are not counted yet; those teams show the record they would finish with if they win or lose, with each outcome&rsquo;s moneyline.')+' PF includes every point scored so far this week. Ranked by wins, then points for. Arrows compare to the Week 8 standings, and the green numbers are playoff spots.</p>';
   return h;
 }
 function lvSet(k,m){ LVMODE=m; var e=document.getElementById('lv-st'); if(e) e.innerHTML=lvStandHtml(k); }
