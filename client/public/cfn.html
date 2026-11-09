@@ -4057,9 +4057,18 @@ async function shareMatch(k,i){
   var box=ov.querySelector('#smBox'); box.innerHTML='<div style="color:#dfe2e8;font:500 14px Inter,sans-serif;text-align:center;padding:40px 0">Building the matchup card…</div>';
   var off=document.createElement('div'); off.style.cssText='position:fixed;left:-5000px;top:0'; document.body.appendChild(off);
   try{
-    try{ await document.fonts.load("40px 'Bebas Neue'"); await document.fonts.load("700 24px Inter"); }catch(e){}
+    var tmo=function(p,ms){ return Promise.race([p,new Promise(function(r){ setTimeout(function(){ r('timeout'); },ms); })]); };
+    try{ await tmo(Promise.all([document.fonts.load("40px 'Bebas Neue'"),document.fonts.load("700 24px Inter")]),2500); }catch(e){}
+    if(typeof html2canvas==='undefined') throw new Error('html2canvas not loaded');
     off.innerHTML=lvStoryHTML(k,i);
-    var cv=await html2canvas(off.firstChild,{scale:1,useCORS:true,backgroundColor:'#0b0c0a',logging:false}); off.remove();
+    await new Promise(function(r){ setTimeout(r,150); });
+    var cv=await tmo(html2canvas(off.firstChild,{scale:1,useCORS:true,allowTaint:false,imageTimeout:6000,backgroundColor:'#0b0c0a',logging:false}),20000);
+    if(cv==='timeout'){
+      off.innerHTML=lvStoryHTML(k,i); [].slice.call(off.querySelectorAll('img')).forEach(function(im,ix){ if(ix>0&&im.parentNode) im.parentNode.removeChild(im); });
+      cv=await tmo(html2canvas(off.firstChild,{scale:1,useCORS:true,imageTimeout:3000,backgroundColor:'#0b0c0a',logging:false}),15000);
+      if(cv==='timeout') throw new Error('render timed out');
+    }
+    off.remove();
     var url=cv.toDataURL('image/png'), fn='cfn-matchup-'+k+'-'+(i+1)+'.png';
     var blob=await new Promise(function(r){ cv.toBlob(r,'image/png'); }), file=null, can=false;
     try{ file=new File([blob],fn,{type:'image/png'}); can=!!(navigator.canShare&&navigator.canShare({files:[file]})); }catch(e){}
@@ -4069,7 +4078,7 @@ async function shareMatch(k,i){
     document.getElementById('smCl').onclick=function(){ ov.remove(); };
     if(can){ document.getElementById('smGo').onclick=function(){ navigator.share({files:[file],title:ttl,text:sc.h+'. Full live matchups: '+link}).catch(function(){}); }; document.getElementById('smDl').onclick=save; }
     else document.getElementById('smGo').onclick=save;
-  }catch(e){ console.error(e); try{off.remove();}catch(_){} box.innerHTML='<div style="color:#ff8a80;font:500 14px Inter,sans-serif;text-align:center;padding:30px 0">Could not build the card.</div><button class="tc-ghost" id="smX">Close</button>'; document.getElementById('smX').onclick=function(){ ov.remove(); }; }
+  }catch(e){ console.error(e); try{off.remove();}catch(_){} box.innerHTML='<div style="color:#ff8a80;font:500 14px Inter,sans-serif;text-align:center;padding:30px 0">Could not build the card ('+lgEsc(String(e&&e.message||e).slice(0,80))+').</div><button class="tc-ghost" id="smX">Close</button>'; document.getElementById('smX').onclick=function(){ ov.remove(); }; }
 }
 
 function wpToggle(el){ var o=el.classList.toggle('open'); el.setAttribute('aria-expanded',o?'true':'false'); }
