@@ -2,7 +2,7 @@
 .wp-sc{margin:8px 0 4px;padding:7px 10px;border:1px solid var(--border-l);border-radius:8px;font-size:11px;line-height:1.45;display:grid;gap:4px}
 .wp-sc b{color:var(--accent)}
 .lvs-ctl{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.lvs-od{display:grid;gap:1px;font-size:9.5px;line-height:1.25;text-align:right}.lvs-od i{font-style:normal;white-space:nowrap}.lvs-od b{color:var(--accent)}
+.lvs-od{display:grid;gap:1px;font-size:9.5px;line-height:1.25;text-align:right}.lvs-od i{font-style:normal;white-space:nowrap}.lvs-od b{color:var(--accent)}.lvs-od i.dg,.lvs-od i.dg b{color:var(--red)}
 .lvs-hdr,.lvs-row{display:grid;grid-template-columns:22px 1fr 40px 52px 92px;align-items:center;padding:7px 12px;gap:4px}
 .lvs-hdr{background:var(--bg2);border-bottom:.5px solid var(--border);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);font-weight:700}
 .lvs-row{border-bottom:.5px solid var(--border);font-size:11px;font-variant-numeric:tabular-nums}
@@ -4112,7 +4112,7 @@ function lvStandHtml(k){
   h+='<div class="st-table"><div class="lvs-hdr"><span>#</span><span>Team</span><span>W-L</span><span>PF</span><span>Week 9 outlook</span></div>';
   list.forEach(function(o,i){
     var mv=o.r0-(i+1), ar=mv>0?'<b class="lvs-up">&#9650;'+mv+'</b>':mv<0?'<b class="lvs-dn">&#9660;'+(-mv)+'</b>':'';
-    var od=o.res==='live'&&LVMODE==='dec'?'<span class="lvs-od"><i>'+(o.pw+1)+'-'+o.pl+(o.t?'-'+o.t:'')+' <b>'+rcAm(o.p)+'</b></i><i>'+o.pw+'-'+(o.pl+1)+(o.t?'-'+o.t:'')+' <b>'+rcAm(100-o.p)+'</b></i></span>':'';
+    var od=o.res==='live'&&LVMODE==='dec'?'<span class="lvs-od"><i'+(rcAm(o.p).charAt(0)==='+'?' class="dg"':'')+'>'+(o.pw+1)+'-'+o.pl+(o.t?'-'+o.t:'')+' <b>'+rcAm(o.p)+'</b></i><i'+(rcAm(100-o.p).charAt(0)==='+'?' class="dg"':'')+'>'+o.pw+'-'+(o.pl+1)+(o.t?'-'+o.t:'')+' <b>'+rcAm(100-o.p)+'</b></i></span>':'';
     var st=od?od:o.res==='W'?'<b class="lvs-w">W</b>':o.res==='L'?'<b class="lvs-l">L</b>':o.res==='pW'?'<i class="lvs-p">W?</i>':o.res==='pL'?'<i class="lvs-p">L?</i>':o.res==='live'?'<i class="lvs-lv">live '+o.note+'</i>':'';
     var pending=(o.res==='live'||o.res==='pW'||o.res==='pL');
     h+='<div class="lvs-row'+(pending?' pend':'')+'"><span class="st-rk"'+(i<po?' style="color:var(--accent)"':'')+'>'+(i+1)+'</span><span class="mg-nm"><b>'+lgEsc(o.n)+'</b><span class="mg-lg">'+lgEsc(o.mg)+' '+ar+'</span></span><span>'+o.w+'-'+o.l+(o.t?'-'+o.t:'')+'</span><span>'+o.pf.toFixed(1)+'</span><span>'+st+'</span></div>';
