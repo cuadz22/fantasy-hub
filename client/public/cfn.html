@@ -1,4 +1,15 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#13161b"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="CFN"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png"><script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}</script><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.wp-au.tp{background:var(--accent);color:var(--bg);opacity:1;white-space:nowrap}
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#13161b"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="CFN"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png"><script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}</script><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.wp-dec{margin:8px 0 4px;padding:7px 10px;border:1px solid var(--accent);border-radius:8px;font-size:11px;line-height:1.4;color:var(--accent);font-weight:600}
+.lvs-ctl{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.lvs-hdr,.lvs-row{display:grid;grid-template-columns:22px 1fr 44px 58px 74px;align-items:center;padding:7px 12px;gap:4px}
+.lvs-hdr{background:var(--bg2);border-bottom:.5px solid var(--border);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.lvs-row{border-bottom:.5px solid var(--border);font-size:11px;font-variant-numeric:tabular-nums}
+.lvs-row:last-child{border-bottom:none}
+.lvs-row>span:nth-child(n+3),.lvs-hdr>span:nth-child(n+3){text-align:center}
+.lvs-w{color:var(--accent)}.lvs-l{color:var(--muted)}
+.lvs-up{color:var(--accent);font-size:9px}.lvs-dn{color:var(--muted);font-size:9px}
+.lvs-lv,.lvs-p{font-style:normal;font-size:10px;padding:1px 5px;border-radius:5px;border:1px dashed var(--accent);color:var(--accent);white-space:nowrap}
+.lvs-p{font-style:italic}
+.wp-au.tp{background:var(--accent);color:var(--bg);opacity:1;white-space:nowrap}
 .wp-c.tp,.wp-pl>div.tp{box-shadow:inset 0 0 0 1px var(--accent);border-radius:7px;background:rgba(172,249,16,.10)}
 .wp-c.tp b,.wp-pl>div.tp b{font-style:italic;color:var(--accent)}
 .wp-c.tp>span,.wp-pl>div.tp>span{white-space:normal}
@@ -3974,8 +3985,8 @@ function wpFull(m){
 function wpCard(k,m,i,live){
   var p=m.p, fa=p>=50, A=m.a, B=m.b;
   return '<div class="wp-card" tabindex="0" role="button" aria-expanded="false" onclick="wpToggle(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();wpToggle(this);}">'+
-    '<div class="wp-top"><span>Matchup '+(i+1)+(live?' &middot; '+(m.left?m.left+' to play':'Final'):'')+'</span><span class="wp-hint">Full lineups <i>&#9662;</i></span></div>'+
-    wpTeam(k,A,m.ia,fa,p,m.pa,live&&m.la)+wpTeam(k,B,m.ib,!fa,100-p,m.pb,live&&m.lb)+
+    '<div class="wp-top"><span>Matchup '+(i+1)+(live?' &middot; '+(lvDec(m)&&m.left?'Decided &middot; ':'')+(m.left?m.left+' to play':'Final'):'')+'</span><span class="wp-hint">Full lineups <i>&#9662;</i></span></div>'+
+    (live?lvBanner(m):'')+wpTeam(k,A,m.ia,fa,p,m.pa,live&&m.la)+wpTeam(k,B,m.ib,!fa,100-p,m.pb,live&&m.lb)+
     '<div class="wp-bar" role="img" aria-label="Projected edge"><i style="width:'+p+'%;background:'+(fa?'var(--accent)':'var(--border-l)')+'"></i><i style="width:'+(100-p)+'%;background:'+(fa?'var(--border-l)':'var(--accent)')+'"></i></div>'+
     '<div class="wp-cols">'+wpTop(A,m.ea)+wpTop(B,m.eb)+'</div>'+wpFull(m)+
     '<div class="wp-h2h'+(m.riv?' riv':'')+'">'+lgEsc(m.h2h)+(m.note?'<em>'+lgEsc(m.note)+'</em>':'')+'</div></div>';
@@ -4048,10 +4059,60 @@ async function sharePrev(k){ try{cfnCtx(cfnG('L',k,'Weekly Preview'),'Week 9 Pre
   if(can){ document.getElementById('spGo').onclick=function(){ navigator.share({files:[file],title:'Week 9 Preview · '+LGI[k].name,text:'Week 9 preview and moneylines on the Cuadz Fantasy Network'}).catch(function(){}); }; document.getElementById('spDl').onclick=save; }
   else document.getElementById('spGo').onclick=save;
 }
+var LVMODE='dec';
+function lvLeft(rows,kk,dd){ var n=0; rows.forEach(function(r){ if(r[3]===3) n++; }); if(kk&&kk[2]===3) n++; if(dd&&dd[2]===3) n++; return n; }
+function lvDec(m){
+  var la=lvLeft(m.ra,m.ka,m.da), lb=lvLeft(m.rb,m.kb,m.db), sa=m.la.s, sb=m.lb.s;
+  if(la===0&&lb===0) return sa>sb?'a':'b';
+  if(la===0&&sa<sb) return 'b';
+  if(lb===0&&sb<sa) return 'a';
+  return '';
+}
+function lvBanner(m){
+  if(!m.left) return '';
+  var d=lvDec(m); if(!d) return '';
+  var W=d==='a'?m.a:m.b, Lo=d==='a'?m.b:m.a, lead=Math.abs(m.la.s-m.lb.s);
+  return '<div class="wp-dec">Decided &middot; '+lgEsc(W[1])+' wins. '+lgEsc(Lo[1])+' has nobody left to play and trails by '+lead.toFixed(1)+', so the rest of '+lgEsc(W[1])+'&rsquo;s lineup can&rsquo;t change the result.</div>';
+}
+function lvStandHtml(k){
+  var M=PVL[k]||[], tmp=document.createElement('div'); tmp.innerHTML=LGD.stand[k];
+  var T={}, list=[], po=0;
+  [].slice.call(tmp.querySelectorAll('.lgs-row')).forEach(function(r,i){
+    var c=r.children, nm=c[1].querySelector('b').textContent, wl=c[2].textContent.split('-');
+    if(c[0].getAttribute('style')) po++;
+    var o={n:nm, mg:c[1].querySelector('.mg-lg').textContent, w:+wl[0], l:+wl[1], t:+(wl[2]||0), pf:parseFloat(c[3].textContent), r0:i+1, res:'', note:''};
+    T[nm]=o; list.push(o);
+  });
+  var dec=0;
+  M.forEach(function(m){
+    var A=T[m.a[0]], B=T[m.b[0]]; if(!A||!B) return;
+    var sa=m.la.s, sb=m.lb.s, d=lvDec(m);
+    A.pf+=sa; B.pf+=sb;
+    var lead=sa-sb, tx=(lead>=0?'+':'')+lead.toFixed(1);
+    if(d){ dec++; var wa=d==='a'; (wa?A:B).w++; (wa?B:A).l++; (wa?A:B).res='W'; (wa?B:A).res='L'; }
+    else {
+      A.res='live'; B.res='live'; A.note=tx; B.note=(lead>0?'-':'+')+Math.abs(lead).toFixed(1);
+      if(LVMODE==='hold'){ var wa2=m.p>=50; (wa2?A:B).w++; (wa2?B:A).l++; (wa2?A:B).res='pW'; (wa2?B:A).res='pL'; }
+    }
+  });
+  list.sort(function(a,b){ return b.w-a.w||b.pf-a.pf; });
+  var h='<div class="lvs-ctl"><button class="lg-tab'+(LVMODE==='dec'?' on':'')+'" onclick="lvSet(\''+k+'\',\'dec\')">Decided only</button><button class="lg-tab'+(LVMODE==='hold'?' on':'')+'" onclick="lvSet(\''+k+'\',\'hold\')">If favorites hold</button></div>';
+  h+='<div class="st-table"><div class="lvs-hdr"><span>#</span><span>Team</span><span>W-L</span><span>PF</span><span>Week 9</span></div>';
+  list.forEach(function(o,i){
+    var mv=o.r0-(i+1), ar=mv>0?'<b class="lvs-up">&#9650;'+mv+'</b>':mv<0?'<b class="lvs-dn">&#9660;'+(-mv)+'</b>':'';
+    var st=o.res==='W'?'<b class="lvs-w">W</b>':o.res==='L'?'<b class="lvs-l">L</b>':o.res==='pW'?'<i class="lvs-p">W?</i>':o.res==='pL'?'<i class="lvs-p">L?</i>':o.res==='live'?'<i class="lvs-lv">live '+o.note+'</i>':'';
+    var pending=(o.res==='live'||o.res==='pW'||o.res==='pL');
+    h+='<div class="lvs-row'+(pending?' pend':'')+'"><span class="st-rk"'+(i<po?' style="color:var(--accent)"':'')+'>'+(i+1)+'</span><span class="mg-nm"><b>'+lgEsc(o.n)+'</b><span class="mg-lg">'+lgEsc(o.mg)+' '+ar+'</span></span><span>'+o.w+'-'+o.l+(o.t?'-'+o.t:'')+'</span><span>'+o.pf.toFixed(1)+'</span><span>'+st+'</span></div>';
+  });
+  h+='</div><p class="lv-note">'+dec+' of '+M.length+' Week 9 matchups are decided and counted in the records. '+(LVMODE==='hold'?'Matchups still in play are counted for whoever is favored right now, shown with a ? and a dotted outline.':'Matchups still in play are not counted yet; they show who is ahead right now.')+' PF includes every point scored so far this week. Ranked by wins, then points for. Arrows compare to the Week 8 standings, and the green numbers are playoff spots.</p>';
+  return h;
+}
+function lvSet(k,m){ LVMODE=m; var e=document.getElementById('lv-st'); if(e) e.innerHTML=lvStandHtml(k); }
 function lgLive(p,k){
   var M=PVL[k]||[], alive=M.filter(function(m){return m.left>0;}).length, d=document.createElement('div'); d.className='subsec';
   d.innerHTML='<div class="subsec-hd">Live Matchups &middot; Week 9</div><div class="wp-grid">'+M.map(function(m,i){return wpCard(k,m,i,true);}).join('')+'</div><p class="lv-note">'+alive+' of '+M.length+' matchups still have a player to go (Bills at Vikings, Monday 8:15 pm). Those keep moneylines, rebuilt from points already scored plus projections for everyone left. Finished matchups show W or L. Players still to play are outlined in green with a <b>to play</b> tag and a <b>~</b> in front of the number, which is only his projection. Everyone else has already scored the points shown. Scores from Yahoo, '+PVL_AT+'. Playoff odds use each team&rsquo;s win and loss scenarios from the preview. Tap any matchup for full lineups.</p>';
   p.appendChild(d);
+  var d2=document.createElement('div'); d2.className='subsec'; d2.innerHTML='<div class="subsec-hd">Live Standings</div><div id="lv-st">'+lvStandHtml(k)+'</div>'; p.appendChild(d2);
 }
 function lgPreview(p,k){
   var sb=document.createElement('div'); sb.style.cssText='display:flex;justify-content:flex-end;margin-bottom:8px'; sb.innerHTML='<button class="st-btn" style="padding:5px 12px">Share preview</button>'; sb.firstChild.onclick=function(){ sharePrev(k); }; p.appendChild(sb);
