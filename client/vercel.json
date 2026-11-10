@@ -20,6 +20,10 @@
       "destination": "/api/simg?id=:id"
     },
     {
+      "source": "/road/:lg",
+      "destination": "/road/:lg.html"
+    },
+    {
       "source": "/((?!api/)(?!.*\\.html$).*)",
       "destination": "/index.html"
     }

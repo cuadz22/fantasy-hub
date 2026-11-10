@@ -8006,7 +8006,7 @@ function roadPanel(k,T,gi){
 function roadRender(){
   var k=roadLg, rows=ROAD[k], tabs=document.getElementById('rd-tabs'), el=document.getElementById('rd-list'), nt=document.getElementById('rd-note');
   if(!el) return;
-  tabs.innerHTML=Object.keys(ROAD_LG).map(function(x){ return '<button type="button" class="rd-tab'+(x===k?' on':'')+'" onclick="roadSet(\''+x+'\')">'+lgEsc(ROAD_LG[x])+'</button>'; }).join('');
+  tabs.innerHTML=Object.keys(ROAD_LG).map(function(x){ return '<button type="button" class="rd-tab'+(x===k?' on':'')+'" onclick="roadSet(\''+x+'\')">'+lgEsc(ROAD_LG[x])+'</button>'; }).join('')+'<button type="button" class="rd-tab rd-share" onclick="roadShare(this)" style="margin-left:auto">Copy link</button>';
   nt.textContent=ROAD_NOTE[k]+' Tap any matchup to see both lineups. Odds are shown as moneylines.';
   el.innerHTML=rows.map(function(T,i){
     var av=''; try{ av=wpAv(k,T.m,T.t); }catch(e){}
@@ -8023,24 +8023,32 @@ function roadRender(){
     return h+'<div class="rd-ft">Remaining opponents have a combined '+Math.round(T.oa*100)+'% win rate; projected seed averages '+T.seed.toFixed(1)+' across 6,000 simulations.</div></div>';
   }).join('');
 }
-function roadSet(k){ roadLg=k; roadRender(); }
+function roadSet(k){ roadLg=k; roadRender(); try{ history.replaceState(null,'','#road='+k); }catch(e){} }
+function roadShare(btn){
+  var url=location.origin+'/road/'+roadLg, done=function(){ if(btn){ var o=btn.textContent; btn.textContent='Link copied'; setTimeout(function(){ btn.textContent=o; },1800); } };
+  var fb=function(){ var t=document.createElement('textarea'); t.value=url; t.style.cssText='position:fixed;opacity:0'; document.body.appendChild(t); t.select(); try{ document.execCommand('copy'); done(); }catch(e){ if(btn) btn.textContent=url; } document.body.removeChild(t); };
+  try{ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done,fb); } else fb(); }catch(e){ fb(); }
+}
 function roadTog(k,t,gi){ var id=k+t; if(roadOpen[id]===gi) delete roadOpen[id]; else roadOpen[id]=gi; roadRender(); }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',roadRender); else roadRender();
 </script>
 <script id="road-js2">
-function showRoad(){
+function showRoad(k){
+  if(k&&ROAD[k]) roadLg=k;
   document.querySelectorAll('[id^="view-"]').forEach(function(v){ v.hidden=true; });
   document.getElementById('view-road').hidden=false;
   try{ setNav('ntab-net'); }catch(e){}
-  roadRender(); window.scrollTo({top:0,behavior:'smooth'});
+  roadRender(); try{ history.replaceState(null,'','#road='+roadLg); }catch(e){}
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 (function(){
   var im=document.querySelector('#app-header .logo img'); if(im){ ['rd-flogo','rd-hlogo'].forEach(function(id){ var e=document.getElementById(id); if(e) e.src=im.src; }); }
   ['showHome','showArticle','showStudio','showLeague','showTab','showNoRecap'].forEach(function(n){
     var f=window[n]; if(typeof f!=='function') return;
-    window[n]=function(){ var v=document.getElementById('view-road'); if(v) v.hidden=true; return f.apply(this,arguments); };
+    window[n]=function(){ var v=document.getElementById('view-road'); if(v) v.hidden=true; if(/^#road=/.test(location.hash)){ try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} } return f.apply(this,arguments); };
   });
-  var h=document.getElementById('app-header'); if(h) h.addEventListener('click',function(){ var v=document.getElementById('view-road'); if(v) v.hidden=true; },true);
+  var h=document.getElementById('app-header'); if(h) h.addEventListener('click',function(){ var v=document.getElementById('view-road'); if(v) v.hidden=true; if(/^#road=/.test(location.hash)){ try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} } },true);
+  var m=/^#road=(gl|bh|rb|sts)$/.exec(location.hash); if(m) showRoad(m[1]);
 })();
 </script>
 </body></html>
