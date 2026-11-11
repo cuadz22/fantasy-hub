@@ -4948,7 +4948,7 @@ function lgRanks(p,k){
   p.insertAdjacentHTML('beforeend',h);
 }
 function lgTabs(){
-  var L = LGI[lgState.k], tabs = ['Standings','Live Matchups','Matchups','Weekly Preview','Power Rankings','Fraud Meter','Awards','Waivers','Trades','History','All-Time Ranks'];
+  var L = LGI[lgState.k], tabs = ['Standings','Matchups','Power Rankings','Fraud Meter','Awards','Waivers','Trades','History','All-Time Ranks'];
   if(L.keeper){ tabs.push('Keepers'); tabs.push('Trade Desk'); tabs.push('Trade Rules'); }
   tabs.push('Rulebook');
   var h = tabs.map(function(t){ return '<button class="lg-tab'+(t===lgState.tab?' on':'')+'" onclick="lgTab(\''+t+'\')">'+(t==='Keepers'?'Draft Picks &amp; Keepers':t)+'</button>'; }).join('');
@@ -4956,6 +4956,7 @@ function lgTabs(){
   return h;
 }
 function lgRender(){
+  if(lgState.tab==='Live Matchups'||lgState.tab==='Weekly Preview') lgState.tab='Matchups';
   var k = lgState.k, L = LGI[k], p = document.getElementById('lg-panel');
   document.getElementById('lg-eye').textContent = 'CFN · League' + (L.keeper ? ' · Keeper' : '');
   document.getElementById('lg-name').innerHTML = lgLogoImg(k)+L.name;
@@ -4970,6 +4971,8 @@ function lgRender(){
     d.innerHTML = '<div class="subsec-hd">'+(k==='sts'?'Win-Loss (reference)':'Standings')+'</div>'+LGD.stand[k]+'<p style="font-size:10px;color:var(--dim)">Ranked by wins, then points for · Strk = current streak</p>';
     p.appendChild(d);
   } else if(t==='Matchups'){
+    try{ lgPreview(p,k); }catch(e){ console.error(e); }
+    try{ if((PVL[k]||[]).some(function(m){return m.left>0&&!lvDec(m);})) lgLive(p,k); }catch(e){ console.error(e); }
     try{ p.appendChild(rcView(k)); }catch(e){ console.error(e); }
     ['Storylines','Matchups','Man of the Match','Weekly Awards'].forEach(function(pre){ lgSub(k,pre).forEach(function(n){ p.appendChild(n); }); });
   } else if(t==='Live Matchups'){
