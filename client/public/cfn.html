@@ -341,6 +341,25 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .wp-slot.wp-s-FLX{background:#1a1d24;border-color:#2e3440;letter-spacing:1px}
 .wp-slot.wp-s-FLX .w{color:#ff9d2e}.wp-slot.wp-s-FLX .r{color:#2fd3a4}.wp-slot.wp-s-FLX .t{color:#ff5fa6}
 .wp-slot.wp-s-K,.wp-slot.wp-s-DEF{border-color:var(--border)}
+.wp-full .wp-c span:not(.wp-ph){text-overflow:clip}
+@media(max-width:640px){
+ .wp-full .wp-fr{grid-template-columns:1fr 38px 1fr;gap:4px}
+ .wp-full .wp-c{gap:4px}
+ .wp-full .wp-c .wp-ph{width:22px;height:22px}
+ .wp-full .wp-c span:not(.wp-ph){font-size:11px}
+ .wp-full .wp-c b{font-size:17px}
+ .wp-full .wp-slot{font-size:9.5px;padding:4px 0;border-radius:6px}
+ .wp-full .wp-au{display:none}
+ .wp-full .wp-c span span{display:none}
+ .wp-full .wp-c .wp-ph{width:20px;height:20px}
+ .wp-full .wp-c b{font-size:16px}
+}
+@media(min-width:900px){
+ .wp-full .wp-fr{grid-template-columns:1fr 64px 1fr;padding:8px 0;font-size:14px}
+ .wp-full .wp-c .wp-ph{width:32px;height:32px}
+ .wp-full .wp-c b{font-size:28px}
+ .wp-full .wp-slot{font-size:13px;padding:7px 0}
+}
 .wp-c.r{flex-direction:row-reverse}
 .wp-c.hi b{color:var(--accent)}
 .wp-c i{color:#ff7a59;font-style:normal}
@@ -4691,7 +4710,8 @@ async function shareMatch(k,i){
   }catch(e){ console.error(e); try{off.remove();}catch(_){} box.innerHTML='<div style="color:#ff8a80;font:500 14px Inter,sans-serif;text-align:center;padding:30px 0">Could not build the card ('+lgEsc(String(e&&e.message||e).slice(0,80))+').</div><button class="tc-ghost" id="smX">Close</button>'; document.getElementById('smX').onclick=function(){ ov.remove(); }; }
 }
 
-function wpToggle(el){ var o=el.classList.toggle('open'); el.setAttribute('aria-expanded',o?'true':'false'); }
+function wpFit(card){ try{ card.querySelectorAll('.wp-full .wp-c > span:not(.wp-ph)').forEach(function(sp){ var tn=sp.firstChild; if(!tn||tn.nodeType!==3) return; if(tn.__full===undefined) tn.__full=tn.nodeValue; tn.nodeValue=tn.__full; sp.style.fontSize=''; var fs=parseFloat(getComputedStyle(sp).fontSize), min=9; while(sp.scrollWidth>sp.clientWidth+0.5&&fs>min){ fs-=0.5; sp.style.fontSize=fs+'px'; } if(sp.scrollWidth>sp.clientWidth+0.5){ var w=tn.__full.trim().split(/\s+/); if(w.length>1&&w[0].length>2){ tn.nodeValue=w[0].charAt(0)+'. '+w.slice(1).join(' '); fs=Math.max(fs,11); sp.style.fontSize=fs+'px'; while(sp.scrollWidth>sp.clientWidth+0.5&&fs>min){ fs-=0.5; sp.style.fontSize=fs+'px'; } } if(sp.scrollWidth>sp.clientWidth+0.5){ tn.nodeValue=tn.nodeValue.replace(/\s+(Jr\.?|Sr\.?|II|III|IV)\s*$/,''); } } }); }catch(_e){} }
+function wpToggle(el){ var o=el.classList.toggle('open'); el.setAttribute('aria-expanded',o?'true':'false'); if(o) wpFit(el); }
 
 async function wpImg(n){ if(!WP_PH){ WP_PH={}; Object.keys(PHOTOS).forEach(function(k){ WP_PH[wpKey(k)]=PHOTOS[k]; }); } var s=WP_PH[wpKey(n)]; return s?await wvImg(s):null; }
 async function prevCard(k){
