@@ -7813,7 +7813,7 @@ function verdict(R){var dm=R.ma.tot-R.mb.tot,dt=R.ta.tot-R.tb.tot,vg=R.getV-R.gi
 /* ================= CHIP: CFN trade + lineup assistant (no external AI; uses the site's own numbers) ================= */
 var CHIP_LGS=[['gl',"Gentlemen's",/gentlemen|gentleman|\bgents?\b|\bgl\b/],['sts','Shoot the Shits',/shoot the|\bsts\b/],['bh','Beaners & Husseins',/beaner|hussein|\bbh\b/],['rb','Rebirth',/rebirth|\brb league\b/],['fb','Fantasy Ball Z',/fantasy ball|ball z|\bfb\b/]];
 var CHIP_STOP={};('much tell show whats what\'s who value valued info information price cost costs any there news update updates stats stat player players name is that something i should consider what do you think thinking about would could it a an the this trade trades deal fair good idea worth sending send sent giving give offering offer trading to with in my me of league leagues gentlemens gentlemen\'s gentlemen gents shoot shits beaners husseins rebirth fantasy ball z hey chip so um uh like just if im i\'m i\'d id ill i\'ll we how does look looks are be am accept accepting take taking right now today week please can thoughts opinion thanks and plus also then but get getting receive receiving want wanting acquire acquiring for from his her their your on at or not no yes okay ok really maybe probably should shall will make making pass thinking think consider considering have has had got going gonna swap swapping move moving ship shipping'.split(' ')).forEach(function(w){CHIP_STOP[w]=1;});
-CHIP_STOP['will']=0;
+CHIP_STOP['will']=0;['between','versus','vs','or','than','more','better','who','which','whom','one','start','sit','pick','up','add','drop','pickup','waiver','waivers','think','thought','would','you','do'].forEach(function(w){CHIP_STOP[w]=1;});
 function chipPref(){try{return JSON.parse(localStorage.getItem('cfn_chip_v1')||'{}');}catch(e){return {};}}
 function chipSavePref(o){try{localStorage.setItem('cfn_chip_v1',JSON.stringify(o));}catch(e){}}
 function chipLev(a,b){var m=a.length,n=b.length,i,j,d=[];if(!m)return n;if(!n)return m;for(i=0;i<=m;i++){d[i]=[i];}for(j=1;j<=n;j++)d[0][j]=j;
@@ -7852,28 +7852,67 @@ function chipEval(lg,give,get,ow){
     return {R:R,V:V,sw:sw.slice(0,2),holes:holes};
   }finally{S.clg=old;}}
 function chipOwnerOf(p,li){return p.o&&p.o[li]||'';}
-function chipTradeAnswer(text,lg){
-  var li=LG.indexOf(lg),B=byNm(),owners=ownersOf(lg),me=((C.rosters[lg]||{}).Cuadz||[]).map(function(x){return x[1];});
-  var pool=[];C.players.forEach(function(p){var o=chipOwnerOf(p,li);if(o)pool.push({p:p,mine:o==='Cuadz'});});
-  var sents=String(text).split(/[.?!]+\s+/),s=sents.filter(function(x){return /\bfor\b/i.test(x);})[0]||text,low=s.replace(/[?!.]+\s*$/,'');
-  var left,right,m;
-  if((m=/\b(?:trad(?:e|ing)|going after|go after|acquir\w+|get(?:ting)?|receiv\w+|land(?:ing)?)\s+for\s+(.+?)(?:\s*,?\s*(?:by\s+)?(?:send\w*|giv\w+|offer\w*)\s+(.+))$/i.exec(low))){right=m[1];left=m[2];}
-  else{var ix=low.search(/\bfor\b/i);if(ix<0)return null;left=low.slice(0,ix);right=low.slice(ix+3);
-    if(/\b(get|getting|receive|receiving|acquire|acquiring|want|wanting|land)\b/i.test(left)&&!/\b(send|sending|give|giving|trade|trading|offer|offering|move|moving)\b/i.test(left)){var t=left;left=right;right=t;}}
-  function chunks(str){return str.split(/,|\band\b|&|\bplus\b|\bwith\b|\bto\b/i).map(function(x){return x.trim();}).filter(Boolean);}
-  var partner=null,unknown=[],ambs=[];
-  function resolve(str,side){var out=[];chunks(str).forEach(function(ch){var cc=chipClean(ch);if(!cc)return;
-      var ow=owners.filter(function(o){return o.toLowerCase()===cc.toLowerCase();})[0];
-      if(ow&&cc.split(' ').length===1){var tm=chipMatch(cc,pool,side);if(!tm||tm.none||tm.p.n.toLowerCase().split(' ').pop()!==cc.toLowerCase()){partner=ow;return;}}
-      var tk=cc.split(' ');if(tk.length>=2){var ow2=owners.filter(function(o){return o.toLowerCase()===tk[0].toLowerCase();})[0];if(ow2){var rr=chipMatch(tk.slice(1).join(' '),pool,side);if(rr&&rr.p&&rr.s>=.9){partner=ow2;out.push(rr);return;}}}
-      var r=chipMatch(cc,pool,side);if(!r)return;if(r.none){unknown.push(ch);return;}if(r.amb){ambs.push(r);return;}out.push(r);});return out;}
-  var G=resolve(left,'give'),T=resolve(right,'get');
-  if(ambs.length){var a=ambs[0];return {need:'amb',amb:a,text:text};}
+function chipN(s){return NRM(s).replace(/-/g,' ').replace(/\s+/g,' ').trim();}
+// scan free text for player names (handles speech: no punctuation, filler words, fuzzy spellings)
+function chipMentions(text,lg){
+  var li=LG.indexOf(lg),pool=[],exN={};C.players.forEach(function(p){pool.push({p:p,mine:chipOwnerOf(p,li)==='Cuadz'});exN[chipN(p.n)]=1;});
+  var toks=String(text).replace(/[^A-Za-z0-9'’.\-\s]/g,' ').split(/\s+/).filter(Boolean),low=toks.map(function(t){return t.toLowerCase().replace(/[.’']+$/,'');}),cands=[];
+  for(var n=3;n>=1;n--)for(var i=0;i+n<=toks.length;i++){
+    var seg=toks.slice(i,i+n).join(' ');
+    if((CHIP_STOP[low[i]]||CHIP_STOP[low[i+n-1]])&&!(n>=2&&exN[chipN(seg)]))continue;
+    var r=chipMatch(seg.replace(/-/g,' '),pool,'none');if(!r)continue;
+    if(r.none)continue;
+    if(n===1){if(low[i].length<4)continue;if(r.amb){cands.push({i:i,n:1,amb:r.amb,s:.7,said:seg});continue;}if(!(r.exact||r.s>=.9))continue;}
+    if(r.amb){cands.push({i:i,n:n,amb:r.amb,s:.7+n*.01,said:seg});continue;}
+    if(n>=2&&r.s<.72)continue;
+    cands.push({i:i,n:n,p:r.p,exact:r.exact,s:r.s+(r.exact?.5:0)+n*.03,said:seg});}
+  cands.sort(function(a,b){return b.s-a.s;});var used={},out=[];
+  cands.forEach(function(c){for(var k=c.i;k<c.i+c.n;k++)if(used[k])return;for(var k2=c.i;k2<c.i+c.n;k2++)used[k2]=1;out.push(c);});
+  out.sort(function(a,b){return a.i-b.i;});
+  var owners=ownersOf(lg),partner=null;toks.forEach(function(t,k){if(used[k])return;var o=owners.filter(function(x){return x.toLowerCase()===low[k];})[0];if(o&&!partner)partner=o;});
+  return {toks:toks,low:low,m:out,partner:partner,li:li,pool:pool};}
+function chipPick(c,side,li){ // resolve ambiguity using roster side
+  if(c.p)return c;var mine=c.amb.filter(function(p){return chipOwnerOf(p,li)==='Cuadz';}),oth=c.amb.filter(function(p){return chipOwnerOf(p,li)!=='Cuadz';});
+  if(side==='give'&&mine.length===1)return {i:c.i,n:c.n,p:mine[0],exact:false,said:c.said};if(side==='get'&&oth.length===1)return {i:c.i,n:c.n,p:oth[0],exact:false,said:c.said};return c;}
+function chipTradeAnswer(text,lg,M){
+  var li=LG.indexOf(lg),me=((C.rosters[lg]||{}).Cuadz||[]).map(function(x){return x[1];}),low=M.low,fs=[];
+  low.forEach(function(w,k){if(w==='for')fs.push(k);});
+  var best=null;fs.forEach(function(f){var l=M.m.filter(function(c){return c.i+c.n<=f;}).length,r=M.m.filter(function(c){return c.i>f;}).length,sc=Math.min(l,r);if(sc>0&&(!best||sc>best.sc))best={f:f,sc:sc};});
+  var G=[],T=[];
+  if(best){var left=M.m.filter(function(c){return c.i+c.n<=best.f;}),right=M.m.filter(function(c){return c.i>best.f;}),pre=low.slice(0,best.f).join(' ');
+    G=left;T=right;
+    if(/\b(get|getting|receive|receiving|acquire|acquiring|want|wanting|land|landing|target|targeting)\b/.test(pre)&&!/\b(send|sending|give|giving|trade|trading|offer|offering|move|moving|swap|ship|shipping)\b/.test(pre)){G=right;T=left;}}
+  else if(fs.length){var f=fs[0],after=M.m.filter(function(c){return c.i>f;}),vi=-1;for(var k=f+1;k<low.length;k++)if(/^(giving|give|sending|send|offering|offer|using|by)$/.test(low[k])){vi=k;break;}
+    if(vi>0){T=after.filter(function(c){return c.i<vi;});G=after.filter(function(c){return c.i>vi;});}}
   if(!G.length&&!T.length)return null;
-  // fix swapped direction using roster ownership
+  var amb=G.concat(T).filter(function(c){return !c.p;}).length;
+  G=G.map(function(c){return chipPick(c,'give',li);});T=T.map(function(c){return chipPick(c,'get',li);});
+  var a=G.concat(T).filter(function(c){return !c.p;})[0];if(a)return {need:'amb',amb:{chunk:a.said,amb:a.amb},text:text};
   var gm=G.filter(function(x){return me.indexOf(x.p.n)>=0;}).length,tm2=T.filter(function(x){return me.indexOf(x.p.n)>=0;}).length;
   if(G.length&&T.length&&gm===0&&tm2===T.length){var tmp=G;G=T;T=tmp;}
-  return {G:G,T:T,partner:partner,unknown:unknown,me:me,li:li};}
+  return {G:G,T:T,partner:M.partner,unknown:[],me:me,li:li};}
+function chipFmt(n){return Math.round(n).toLocaleString();}
+function chipCompare(lg,list,intent){
+  var li=LG.indexOf(lg),old=S.clg,out;S.clg=lg;
+  try{scoreFor(lg);out=list.map(function(c){var p=c.p,e=eff(p,li),i=pinfo(p,li);return {p:p,e:e.e,i:i,v:p.v[li],o:chipOwnerOf(p,li),inj:C.inj&&C.inj[p.n]};});}finally{S.clg=old;}
+  var rows=out.slice(0,3),top=rows.slice().sort(function(a,b){return b.e-a.e;})[0],vtop=rows.slice().sort(function(a,b){return b.v-a.v;})[0],lgn=chipLgName(lg);
+  var verb=intent==='startsit'?'Start':'Lean',h='<div class="chip-hd2">'+(intent==='startsit'?'Start / sit':'Head to head')+' · '+esc(lgn)+'</div>'+
+    rows.map(function(r){return '<div class="chip-ln"><span class="chip-pl" data-det="'+esc(r.p.n)+'" data-dlg="'+lg+'" role="button" tabindex="0">'+esc(r.p.n)+'</span> '+r.p.p+' · '+esc(r.p.t)+': <b>'+r.e.toFixed(1)+'</b> credited points a game'+(r.i.srank?', schedule #'+r.i.srank+' of 32':'')+(r.inj?', <b style="color:#ff9f1c">'+(r.inj==='O'?'OUT':esc(r.inj))+'</b>':'')+', value <b>'+chipFmt(r.v)+'</b>'+(r.o?(r.o==='Cuadz'?' (yours)':' ('+esc(r.o)+')'):' (free agent)')+'</div>';}).join('');
+  var gap=top.e-rows.filter(function(r){return r!==top;}).sort(function(a,b){return b.e-a.e;})[0].e,lean=gap<.8?'It is close on points, so go with matchup and your gut.':'The gap is about '+gap.toFixed(1)+' points a game.';
+  var tk=verb+' <b>'+esc(top.p.n)+'</b>. '+lean+(vtop!==top?' Market value favors '+esc(vtop.p.n)+', which only matters for trades.':'');
+  h+='<div class="chip-take"><b>My take:</b> '+tk+'</div><div class="chip-note">Credited points blend his scoring, role and schedule. Check injury news before kickoff.</div>';
+  return {h:h,say:chipPlain(tk)+' '+rows.map(function(r){return r.p.n+' is at '+r.e.toFixed(1)+' credited points a game.';}).join(' ')};}
+function chipPickup(lg,adds,drop){
+  var li=LG.indexOf(lg),old=S.clg,me=(C.rosters[lg]||{}).Cuadz||[],L,res=[];S.clg=lg;
+  try{scoreFor(lg);L=lineup(me,lg,li);adds.forEach(function(c){var p=c.p,e=eff(p,li).e,pos=p.p,sl=L.sl.filter(function(s){return s.q&&(s.slot===pos||((s.slot==='Flex'||s.slot==='Superflex')&&s.q.i.p.p!==undefined));}),own=chipOwnerOf(p,li),worst=L.sl.filter(function(s){return s.q&&s.q.i.p.p===pos;}).sort(function(a,b){return a.e-b.e;})[0];res.push({p:p,e:e,own:own,worst:worst,pos:pos});});}finally{S.clg=old;}
+  var h='<div class="chip-hd2">Pickup check · '+esc(chipLgName(lg))+'</div>',say=[];
+  res.forEach(function(r){var up=r.worst?r.e-r.worst.e:null,line='<span class="chip-pl" data-det="'+esc(r.p.n)+'" data-dlg="'+lg+'" role="button" tabindex="0">'+esc(r.p.n)+'</span> ('+r.pos+', '+esc(r.p.t)+') rates <b>'+r.e.toFixed(1)+'</b> credited points a game. ';
+    if(r.own&&r.own!=='Cuadz')line+='<b>He is on '+esc(r.own)+'’s team</b>, so he is not available on waivers. ';else if(r.own==='Cuadz')line+='He is already on your team. ';
+    var t=up==null?'You do not have a starter at '+r.pos+' he would replace, so he fills an open spot.':up>=.8?'He would start for you, about <b>+'+up.toFixed(1)+'</b> over <b>'+esc(r.worst.q.i.p.n)+'</b> ('+r.worst.e.toFixed(1)+'). I would add him.':up>=0?'He is only a little better than <b>'+esc(r.worst.q.i.p.n)+'</b> ('+r.worst.e.toFixed(1)+'), a marginal upgrade.':'He would not start for you: <b>'+esc(r.worst.q.i.p.n)+'</b> is better ('+r.worst.e.toFixed(1)+'). He is a bench or stash add at best.';
+    h+='<div class="chip-ln">'+line+'</div><div class="chip-take"><b>My take:</b> '+t+'</div>';say.push(chipPlain(r.p.n+' rates '+r.e.toFixed(1)+'. '+t));});
+  if(drop){var dn=drop.p.n,mine=chipOwnerOf(drop.p,li)==='Cuadz';h+='<div class="chip-note">'+(mine?'Dropping <b>'+esc(dn)+'</b>: check he is not in your lineup first.':esc(dn)+' is not on your roster, so I could not check the drop.')+'</div>';}
+  h+='<div class="chip-note">Waiver priority and FAAB are not factored in.</div>';
+  return {h:h,say:say.join(' ')};}
 function chipTradeHtml(lg,pt){
   var li=pt.li,B=byNm(),give=pt.G.map(function(x){return x.p.n;}),get=pt.T.map(function(x){return x.p.n;}),lgn=chipLgName(lg),say='',html='',notes=[];
   var nonMine=give.filter(function(n){return pt.me.indexOf(n)<0;});
@@ -7933,19 +7972,27 @@ function chipHelp(extra){var h=(extra?'<div class="chip-ln">'+extra+'</div>':'')
   return {h:h,say:(extra?chipPlain(extra)+' ':'')+'I can grade trades, look up a player, or find your weak lineup spots. Name the league in your question.'};}
 function chipAnswer(text){
   var t=String(text).trim(),lgs=chipLeague(t),lg=lgs||S.chipLg;
-  if(!lgs&&S.chipPend&&/^(gentle|gents|shoot|sts|beaner|hussein|rebirth|fantasy|gl\b|bh\b|fb\b)/i.test(t)){lg=chipLeague(t);if(lg){t=S.chipPend+' ('+chipLgName(lg)+')';S.chipPend=null;}}
-  var isTrade=/\bfor\b/i.test(t)&&/(send|sending|give|giving|trade|trading|offer|offering|swap|get|getting|receive|acquire|move)/i.test(t),isLine=/(weak|thin|upgrade|lineup|line-up|start|sit|hole|need)/i.test(t)&&!isTrade;
-  if(/^(hi|hey|hello|yo|sup|help|what can you do)\b/i.test(t)&&t.split(' ').length<5)return chipHelp('Hey Cuadz, I am Chip.');
+  if(!lgs&&S.chipPend&&/^(the )?(gentle|gents|shoot|sts|beaner|hussein|rebirth|fantasy|gl\b|bh\b|fb\b)/i.test(t)){lg=chipLeague(t);if(lg){t=S.chipPend+' ('+chipLgName(lg)+')';S.chipPend=null;}}
+  var wc=t.split(/\s+/).length;
+  if(/^(hi|hey|hello|yo|sup|help|what can you do)\b[\s,!.?a-z]*$/i.test(t)&&wc<6)return chipHelp('Hey Cuadz, I am Chip.');
   if(!lg){S.chipPend=t;return {h:'Which league is this for?<div class="chip-act">'+CHIP_LGS.map(function(l){return '<button type="button" class="chip-btn" data-chip-q="'+esc(l[1]+': '+t)+'">'+esc(l[1])+'</button>';}).join(' ')+'</div>',say:'Which league is this for?'};}
   S.chipLg=lg;S.chipPend=null;
   try{
-    if(isTrade){var pt=chipTradeAnswer(t,lg);
+    var M=chipMentions(t,lg),lowt=t.toLowerCase(),hasFor=/\bfor\b/.test(lowt),pk=M.m.map(function(c){return chipPick(c,'get',M.li);});
+    var ambOnly=pk.filter(function(c){return !c.p;})[0];
+    if(hasFor&&M.m.length>=2){var pt=chipTradeAnswer(t,lg,M);
       if(pt&&pt.need==='amb'){var a=pt.amb;return {h:'I found more than one “'+esc(a.chunk)+'”. Which one?<div class="chip-act">'+a.amb.map(function(p){return '<button type="button" class="chip-btn" data-chip-q="'+esc(t.replace(new RegExp(a.chunk.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i'),p.n))+'">'+esc(p.n)+' ('+p.p+', '+esc(p.t)+')</button>';}).join(' ')+'</div>',say:'I found more than one '+a.chunk+'. Which one?'};}
-      if(pt){var r=chipTradeHtml(lg,pt);if(pt.unknown&&pt.unknown.length)r.h+='<div class="chip-note">I could not find a player matching: '+pt.unknown.map(esc).join(', ')+'. If one of those was part of the deal, tell me his full name.</div>';return r;}}
-    if(isLine)return chipLineupAnswer(lg);
-    var pa=chipPlayerAnswer(t,lg);if(pa)return pa;
-  }catch(e){return chipHelp('Something tripped me up on that one ('+esc(String(e.message||e))+'). Try rewording it.');}
-  return chipHelp('I did not catch that.');}
+      if(pt)return chipTradeHtml(lg,pt);}
+    if(ambOnly&&!M.m.some(function(c){return c.p;})){var a2=ambOnly;return {h:'I found more than one “'+esc(a2.said)+'”. Which one?<div class="chip-act">'+a2.amb.map(function(p){return '<button type="button" class="chip-btn" data-chip-q="'+esc(t.replace(new RegExp(a2.said.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i'),p.n))+'">'+esc(p.n)+' ('+p.p+', '+esc(p.t)+')</button>';}).join(' ')+'</div>',say:'I found more than one '+a2.said+'. Which one?'};}
+    var P=pk.filter(function(c){return c.p;}),weak=/\b(weak|weakest|thin|holes?|upgrades?|biggest needs?|lineup spots?|where am i)\b/.test(lowt);
+    if(P.length>=2&&/\b(start|sit|bench|play|flex|lineup)\b/.test(lowt))return chipCompare(lg,P,'startsit');
+    if(P.length&&/\b(pick up|pickup|add|adding|drop|dropping|cut|waiver|waivers|stream|streaming|grab|claim|stash|free agent)\b/.test(lowt)){var dropc=/\b(drop|dropping|cut)\b/.test(lowt)&&P.length>1?P[P.length-1]:null;return chipPickup(lg,dropc?P.slice(0,P.length-1):P,dropc);}
+    if(P.length>=2)return chipCompare(lg,P,'compare');
+    if(weak||(!P.length&&/\b(lineup|start|sit|team|roster|squad|looking|doing)\b/.test(lowt)))return chipLineupAnswer(lg);
+    if(P.length===1){var pa=chipPlayerAnswer(P[0].said,lg);if(pa)return pa;}
+    var seen=P.map(function(c){return esc(c.p.n);}).join(', ');
+    return chipHelp('I did not catch what you want to do. Here is what I picked up: league <b>'+esc(chipLgName(lg))+'</b>'+(seen?', players <b>'+seen+'</b>':', no players')+'.');
+  }catch(e){return chipHelp('Something tripped me up on that one ('+esc(String(e.message||e))+'). Try rewording it.');}}
 /* ---- voice ---- */
 function chipVoice(){var v=null;try{var all=speechSynthesis.getVoices()||[];v=all.filter(function(x){return /^en[-_]US/i.test(x.lang)&&/(natural|enhanced|premium|samantha|google us|aaron|nicky|ava|allison)/i.test(x.name);})[0]||all.filter(function(x){return /^en[-_]US/i.test(x.lang);})[0]||all.filter(function(x){return /^en/i.test(x.lang);})[0]||null;}catch(e){}return v;}
 function chipStop(){try{speechSynthesis.cancel();}catch(e){}document.querySelectorAll('.chip-play.on').forEach(function(b){b.classList.remove('on');});}
