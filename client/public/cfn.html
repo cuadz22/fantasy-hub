@@ -316,6 +316,43 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .cm-newbar{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:8px 10px;margin:10px 0;padding:10px 12px;border:1px solid #ff9f1c66;background:#ff9f1c14;border-radius:10px;font-size:12.5px;color:var(--text)}
 .cm-newbar .cm-new{top:auto;right:auto;margin-right:2px}
 .cm-newbar button{grid-column:1/-1;justify-self:end}
+.chip-box{border:1px solid var(--border);border-radius:16px;padding:14px;background:var(--bg3)}
+.chip-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chip-av{width:40px;height:40px;border-radius:12px;background:var(--accent);color:#0b0d0a;display:grid;place-items:center;font:400 26px 'Bebas Neue','Impact',sans-serif;flex:none}
+.chip-id{display:flex;flex-direction:column;min-width:0;flex:1}.chip-id b{font-size:17px}.chip-id small{color:var(--muted);font-size:12px}
+.chip-tg{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:999px;padding:7px 11px;font:600 12px inherit;cursor:pointer}
+.chip-tg.on{border-color:var(--accent);color:var(--accent)}
+.chip-in{display:flex;gap:8px;margin-top:12px}
+.chip-in input{flex:1;min-width:0;padding:13px 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font:500 16px inherit}
+.chip-in input:focus{outline:2px solid var(--accent);outline-offset:0}
+.chip-mic,.chip-send{width:48px;flex:none;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);display:grid;place-items:center;cursor:pointer}
+.chip-send{background:var(--accent);border-color:var(--accent);color:#0b0d0a}
+.chip-mic.live{background:#e53935;border-color:#e53935;color:#fff;animation:chipPulse 1.1s infinite}
+@keyframes chipPulse{0%{box-shadow:0 0 0 0 rgba(229,57,53,.5)}100%{box-shadow:0 0 0 14px rgba(229,57,53,0)}}
+.chip-hint{font-size:12px;color:var(--muted);margin:8px 2px 0}
+.chip-sug{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chip-s,.chip-btn{border:1px solid var(--border);background:transparent;color:var(--text);border-radius:999px;padding:8px 12px;font:500 12.5px inherit;cursor:pointer;text-align:left}
+.chip-btn{border-color:var(--accent);color:var(--accent);font-weight:700}
+.chip-th{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.chip-m{display:flex}.chip-m.u{justify-content:flex-end}
+.chip-b{max-width:100%;border-radius:14px;padding:11px 13px;font-size:14px;line-height:1.45}
+.chip-m.u .chip-b{background:var(--accent);color:#0b0d0a;font-weight:600;max-width:88%}
+.chip-m.c{flex-direction:column;align-items:flex-start;gap:6px}.chip-m.c .chip-b{background:var(--bg);border:1px solid var(--border);width:100%;box-sizing:border-box}
+.chip-hd2{font:600 11.5px inherit;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.chip-ln{margin:5px 0}
+.chip-deal{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:start;margin:4px 0 10px}
+.chip-deal span:first-child{display:block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.chip-arrow{align-self:center;color:var(--muted);font-size:18px}
+.chip-pl{display:inline-block;border:1px solid var(--border);border-radius:8px;padding:5px 9px;margin:0 6px 6px 0;font-weight:600;font-size:13px;cursor:pointer;background:var(--bg3)}
+.chip-pl:hover{border-color:var(--accent)}
+.chip-verd{display:inline-block;font:600 17px inherit;padding:6px 12px;border-radius:10px;margin:2px 0 6px;border:1px solid}
+.chip-verd.g{color:#78c83c;border-color:rgba(120,200,60,.6);background:rgba(120,200,60,.1)}.chip-verd.a{color:#f5a623;border-color:rgba(245,166,35,.6);background:rgba(245,166,35,.1)}.chip-verd.r{color:#ff6b61;border-color:rgba(229,57,53,.6);background:rgba(229,57,53,.1)}
+.chip-take{margin:10px 0 4px;padding:10px 12px;border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);border-radius:0 10px 10px 0}
+.chip-note{font-size:12px;color:var(--muted);margin-top:8px}
+.chip-act{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
+.chip-play{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:999px;padding:6px 12px;font:600 12px inherit;cursor:pointer}
+.chip-play.on{border-color:var(--accent);color:var(--accent)}
+@media (max-width:520px){.chip-deal{grid-template-columns:1fr}.chip-arrow{transform:rotate(90deg);justify-self:start}.chip-tg span{display:none}.chip-tg{padding:8px}}
 .ot-sel{width:100%;max-width:420px;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font:600 14px inherit}
 .cm-top[data-det]{cursor:pointer}
 .hw-chips{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 8px}
@@ -7773,6 +7810,179 @@ function verdict(R){var dm=R.ma.tot-R.mb.tot,dt=R.ta.tot-R.tb.tot,vg=R.getV-R.gi
   if(dt>=2&&dm<1){lab='Good for him, not for you';cls='r';why.push('The other owner gains about <b>'+dt.toFixed(1)+'</b> points a week and you do not.');}
   if(CKEEP[S.clg])why.push('Keeper league: the lineup math covers this season only. Compare the market value change too (<b>'+(vg>=0?'+':'')+Math.round(vg).toLocaleString()+'</b> for you).');
   return {lab:lab,cls:cls,why:why,dm:dm,dt:dt,vg:vg};}
+/* ================= CHIP: CFN trade + lineup assistant (no external AI; uses the site's own numbers) ================= */
+var CHIP_LGS=[['gl',"Gentlemen's",/gentlemen|gentleman|\bgents?\b|\bgl\b/],['sts','Shoot the Shits',/shoot the|\bsts\b/],['bh','Beaners & Husseins',/beaner|hussein|\bbh\b/],['rb','Rebirth',/rebirth|\brb league\b/],['fb','Fantasy Ball Z',/fantasy ball|ball z|\bfb\b/]];
+var CHIP_STOP={};('much tell show whats what\'s who value valued info information price cost costs any there news update updates stats stat player players name is that something i should consider what do you think thinking about would could it a an the this trade trades deal fair good idea worth sending send sent giving give offering offer trading to with in my me of league leagues gentlemens gentlemen\'s gentlemen gents shoot shits beaners husseins rebirth fantasy ball z hey chip so um uh like just if im i\'m i\'d id ill i\'ll we how does look looks are be am accept accepting take taking right now today week please can thoughts opinion thanks and plus also then but get getting receive receiving want wanting acquire acquiring for from his her their your on at or not no yes okay ok really maybe probably should shall will make making pass thinking think consider considering have has had got going gonna swap swapping move moving ship shipping'.split(' ')).forEach(function(w){CHIP_STOP[w]=1;});
+CHIP_STOP['will']=0;
+function chipPref(){try{return JSON.parse(localStorage.getItem('cfn_chip_v1')||'{}');}catch(e){return {};}}
+function chipSavePref(o){try{localStorage.setItem('cfn_chip_v1',JSON.stringify(o));}catch(e){}}
+function chipLev(a,b){var m=a.length,n=b.length,i,j,d=[];if(!m)return n;if(!n)return m;for(i=0;i<=m;i++){d[i]=[i];}for(j=1;j<=n;j++)d[0][j]=j;
+  for(i=1;i<=m;i++)for(j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a.charAt(i-1)===b.charAt(j-1)?0:1));return d[m][n];}
+function chipSkel(s){return s.replace(/[aeiouy]/g,'').replace(/(.)\1+/g,'$1');}
+function chipSim(a,b){if(a===b)return 1;if(!a||!b)return 0;var s1=1-chipLev(a,b)/Math.max(a.length,b.length),sa=chipSkel(a),sb=chipSkel(b),s2=(sa&&sb)?1-chipLev(sa,sb)/Math.max(sa.length,sb.length):0;return Math.max(s1,s2*.9);}
+function chipLeague(t){var l=String(t).toLowerCase();for(var i=0;i<CHIP_LGS.length;i++)if(CHIP_LGS[i][2].test(l))return CHIP_LGS[i][0];return null;}
+function chipLgName(lg){for(var i=0;i<CHIP_LGS.length;i++)if(CHIP_LGS[i][0]===lg)return CHIP_LGS[i][1];return lg;}
+function chipClean(chunk){return chunk.replace(/[^\w\s'.\-]/g,' ').split(/\s+/).filter(function(w){var k=w.toLowerCase();return k&&!CHIP_STOP[k];}).join(' ').trim();}
+// find best player for a chunk. pool: [{p,mine}]. side 'give' prefers mine, 'get' prefers others
+function chipMatch(chunk,pool,side){var c=NRM(chunk);if(!c)return null;var ct=c.split(' '),sc=[];
+  pool.forEach(function(x){var n=NRM(x.p.n),nt=n.split(' '),first=nt[0],last=nt.slice(1).join(' ')||nt[0],s;
+    if(c===n)s=1;
+    else if(ct.length>=2)s=.4*chipSim(ct[0],first)+.6*chipSim(ct.slice(1).join(' '),last);
+    else s=Math.max(chipSim(c,last)*.95,chipSim(c,first)*.8);
+    if(side==='give'&&x.mine)s+=.05;if(side==='get'&&!x.mine)s+=.05;
+    sc.push({p:x.p,s:s,mine:x.mine});});
+  sc.sort(function(a,b){return b.s-a.s||(b.p.v?b.p.v[0]:0)-(a.p.v?a.p.v[0]:0);});
+  var best=sc[0];if(!best)return null;var need=ct.length>=2?.66:.84;if(best.s<need)return {none:1,chunk:chunk};
+  var close=sc.filter(function(x){return x.p.n!==best.p.n&&x.s>=best.s-.05&&x.s>=need;});
+  if(side==='give'&&close.length&&best.mine&&!close.some(function(x){return x.mine;}))close=[];
+  if(close.length&&best.s<.99)return {amb:[best].concat(close).slice(0,4).map(function(x){return x.p;}),chunk:chunk};
+  var bn=NRM(best.p.n).split(' ');return {p:best.p,exact:NRM(best.p.n)===c||(ct.length===1&&c===bn.slice(1).join(' ')),said:chunk,s:best.s};}
+function chipPlain(h){return String(h).replace(/<[^>]+>/g,'').replace(/&amp;/g,' and ').replace(/&middot;|&bull;/g,' ').replace(/\s+/g,' ').trim();}
+function chipPct(n){return (n>=0?'+':'')+Math.round(n)+'%';}
+function chipEval(lg,give,get,ow){
+  var li=LG.indexOf(lg),B=byNm(),me=(C.rosters[lg]||{}).Cuadz||[],oth=(C.rosters[lg]||{})[ow]||[],old=S.clg;S.clg=lg;
+  try{scoreFor(lg);
+    var meA=me.filter(function(x){return give.indexOf(x[1])<0;}).concat(get.map(function(n){return ['BN',n];})),thA=oth.filter(function(x){return get.indexOf(x[1])<0;}).concat(give.map(function(n){return ['BN',n];}));
+    var R={mb:lineup(me,lg,li),ma:lineup(meA,lg,li),tb:lineup(oth,lg,li),ta:lineup(thA,lg,li)};
+    R.giveV=give.reduce(function(s,n){return s+(B[n]?B[n].v[li]:0);},0);R.getV=get.reduce(function(s,n){return s+(B[n]?B[n].v[li]:0);},0);
+    var V=verdict(R),sw=[];
+    R.ma.pool.forEach(function(q){if(R.ma.used[q.i.p.n]||q.tag==='out')return;var seen={},ents=thA.concat([['BN',q.i.p.n]]).filter(function(x){if(seen[x[1]])return false;seen[x[1]]=1;return true;}),g=lineup(ents,lg,li),gain=g.tot-R.ta.tot;if(gain>.3)sw.push({n:q.i.p.n,gain:gain});});
+    sw.sort(function(a,b){return b.gain-a.gain;});
+    var holes=R.ma.sl.filter(function(s){return !s.q;}).map(function(s){return s.slot;});
+    return {R:R,V:V,sw:sw.slice(0,2),holes:holes};
+  }finally{S.clg=old;}}
+function chipOwnerOf(p,li){return p.o&&p.o[li]||'';}
+function chipTradeAnswer(text,lg){
+  var li=LG.indexOf(lg),B=byNm(),owners=ownersOf(lg),me=((C.rosters[lg]||{}).Cuadz||[]).map(function(x){return x[1];});
+  var pool=[];C.players.forEach(function(p){var o=chipOwnerOf(p,li);if(o)pool.push({p:p,mine:o==='Cuadz'});});
+  var sents=String(text).split(/[.?!]+\s+/),s=sents.filter(function(x){return /\bfor\b/i.test(x);})[0]||text,low=s.replace(/[?!.]+\s*$/,'');
+  var left,right,m;
+  if((m=/\b(?:trad(?:e|ing)|going after|go after|acquir\w+|get(?:ting)?|receiv\w+|land(?:ing)?)\s+for\s+(.+?)(?:\s*,?\s*(?:by\s+)?(?:send\w*|giv\w+|offer\w*)\s+(.+))$/i.exec(low))){right=m[1];left=m[2];}
+  else{var ix=low.search(/\bfor\b/i);if(ix<0)return null;left=low.slice(0,ix);right=low.slice(ix+3);
+    if(/\b(get|getting|receive|receiving|acquire|acquiring|want|wanting|land)\b/i.test(left)&&!/\b(send|sending|give|giving|trade|trading|offer|offering|move|moving)\b/i.test(left)){var t=left;left=right;right=t;}}
+  function chunks(str){return str.split(/,|\band\b|&|\bplus\b|\bwith\b|\bto\b/i).map(function(x){return x.trim();}).filter(Boolean);}
+  var partner=null,unknown=[],ambs=[];
+  function resolve(str,side){var out=[];chunks(str).forEach(function(ch){var cc=chipClean(ch);if(!cc)return;
+      var ow=owners.filter(function(o){return o.toLowerCase()===cc.toLowerCase();})[0];
+      if(ow&&cc.split(' ').length===1){var tm=chipMatch(cc,pool,side);if(!tm||tm.none||tm.p.n.toLowerCase().split(' ').pop()!==cc.toLowerCase()){partner=ow;return;}}
+      var tk=cc.split(' ');if(tk.length>=2){var ow2=owners.filter(function(o){return o.toLowerCase()===tk[0].toLowerCase();})[0];if(ow2){var rr=chipMatch(tk.slice(1).join(' '),pool,side);if(rr&&rr.p&&rr.s>=.9){partner=ow2;out.push(rr);return;}}}
+      var r=chipMatch(cc,pool,side);if(!r)return;if(r.none){unknown.push(ch);return;}if(r.amb){ambs.push(r);return;}out.push(r);});return out;}
+  var G=resolve(left,'give'),T=resolve(right,'get');
+  if(ambs.length){var a=ambs[0];return {need:'amb',amb:a,text:text};}
+  if(!G.length&&!T.length)return null;
+  // fix swapped direction using roster ownership
+  var gm=G.filter(function(x){return me.indexOf(x.p.n)>=0;}).length,tm2=T.filter(function(x){return me.indexOf(x.p.n)>=0;}).length;
+  if(G.length&&T.length&&gm===0&&tm2===T.length){var tmp=G;G=T;T=tmp;}
+  return {G:G,T:T,partner:partner,unknown:unknown,me:me,li:li};}
+function chipTradeHtml(lg,pt){
+  var li=pt.li,B=byNm(),give=pt.G.map(function(x){return x.p.n;}),get=pt.T.map(function(x){return x.p.n;}),lgn=chipLgName(lg),say='',html='',notes=[];
+  var nonMine=give.filter(function(n){return pt.me.indexOf(n)<0;});
+  if(!give.length||!get.length){var miss=!give.length?'what you would give up':'who you would get back';
+    return {h:'I got part of that, but I could not tell '+miss+'. Try something like: <i>In '+esc(lgn)+', I send A and B for C.</i>',say:'I got part of that, but I could not tell '+miss+'. Try saying, in your league, I send A and B for C.'};}
+  if(nonMine.length){var wh=nonMine.map(function(n){var o=chipOwnerOf(B[n],li);return esc(n)+(o?' (on '+esc(o)+'’s roster)':' (not on a roster in '+esc(lgn)+')');}).join(', ');
+    return {h:'I can only grade deals where you give your own players, and I did not find '+wh+' on your '+esc(lgn)+' roster. Check the league, or tell me again.',say:'I did not find '+chipPlain(wh)+' on your '+lgn+' roster. Check the league or tell me again.'};}
+  var owsC={};get.forEach(function(n){var o=chipOwnerOf(B[n],li);owsC[o]=(owsC[o]||0)+1;});var ows=Object.keys(owsC);
+  if(ows.length>1||ows[0]===''||ows[0]==='Cuadz'){var detail=get.map(function(n){var o=chipOwnerOf(B[n],li);return esc(n)+' ('+(o?esc(o):'free agent')+')';}).join(', ');
+    return {h:'I can grade one trade partner at a time. The players you want are on different teams or are free agents: '+detail+'. Split it into separate deals and ask me about each.',say:'I can grade one trade partner at a time. The players you want are on different teams or are free agents. Split it into separate deals.'};}
+  var ow=ows[0];
+  var E=chipEval(lg,give,get,ow),R=E.R,V=E.V,vg=R.getV-R.giveV,dm=V.dm,dt=V.dt,pctv=R.giveV?((R.getV/R.giveV-1)*100):0;
+  var name=function(n){return esc(n);},tk=cfnTk(lg,ow);
+  if(pt.partner&&pt.partner!==ow)notes.push('You said '+esc(pt.partner)+', but '+esc(get.join(' and '))+(get.length>1?' are':' is')+' on <b>'+esc(ow)+'</b>’s roster, so I graded the deal with '+esc(ow)+'.');
+  var fuzzy=pt.G.concat(pt.T).filter(function(x){return !x.exact;}).map(function(x){return 'I heard “'+esc(x.said)+'” as <b>'+esc(x.p.n)+'</b>.';});
+  notes=notes.concat(fuzzy);
+  var cls=V.cls,take='';
+  if(cls==='g'){take='I would make this deal. Your lineup improves by about '+dm.toFixed(1)+' points a week.';if(vg<-Math.max(800,R.giveV*.15))take+=' It is a win-now move: you give up about '+Math.round(-vg).toLocaleString()+' in market value to get it.';else if(dt<-.8)take+=' '+esc(ow)+'\u2019s lineup drops, so he may need a nudge.';if(E.sw.length&&dt<-.8)take+=' Adding <b>'+esc(E.sw[0].n)+'</b> from your bench would help sell it without hurting you.';}
+  else if(cls==='a'){take=(vg<-Math.max(800,R.giveV*.15)?'It is close on the field but you are paying extra in market value, so I would ask for a bit more.':'It is close. I would not turn it down, but I would not rush it either.');
+    if(E.sw.length&&dt<0)take+=' If '+esc(ow)+' pushes back, adding <b>'+esc(E.sw[0].n)+'</b> from your bench helps him without costing your lineup.';}
+  else{take='I would pass on this as written.';if(dm<0)take+=' It costs you about '+Math.abs(dm).toFixed(1)+' points a week.';if(vg<-800)take+=' You are also overpaying by about '+Math.round(-vg).toLocaleString()+' in market value.';take+=' Try asking for a little more back or a different piece.';}
+  if(E.holes.length)take+=' Heads up: this leaves an open '+E.holes.join(' and ')+' spot, so you would need a pickup.';
+  if(tk)take+=' '+esc(ow)+' has announced he is tanking, which can make him more open to giving up vets.';
+  var plcard=function(n){return '<span class="chip-pl" data-det="'+esc(n)+'" data-dlg="'+lg+'" role="button" tabindex="0">'+esc(n)+'</span>';};
+  var id='d'+Date.now();S.chipDeals=S.chipDeals||{};S.chipDeals[id]={lg:lg,ow:ow,give:give,get:get};
+  html='<div class="chip-hd2">'+esc(lgn)+' · you send to '+esc(ow)+'</div><div class="chip-deal"><div><span>You give</span>'+give.map(plcard).join('')+'</div><div class="chip-arrow">⇄</div><div><span>You get</span>'+get.map(plcard).join('')+'</div></div>'+
+    '<div class="chip-verd '+cls+'">'+esc(V.lab)+'</div>'+V.why.map(function(w){return '<div class="chip-ln">'+w.replace(/\s*Try one of the sweeteners below\./,'')+'</div>';}).join('')+
+    '<div class="chip-ln">Market value: you give <b>'+Math.round(R.giveV).toLocaleString()+'</b>, you get <b>'+Math.round(R.getV).toLocaleString()+'</b> ('+chipPct(pctv)+' for you).</div>'+
+    '<div class="chip-ln">Your best lineup: <b>'+R.mb.tot.toFixed(1)+'</b> to <b>'+R.ma.tot.toFixed(1)+'</b> ('+(dm>=0?'+':'')+dm.toFixed(1)+' a week). '+esc(ow)+': <b>'+R.tb.tot.toFixed(1)+'</b> to <b>'+R.ta.tot.toFixed(1)+'</b> ('+(dt>=0?'+':'')+dt.toFixed(1)+').</div>'+
+    '<div class="chip-take"><b>My take:</b> '+take+'</div>'+(notes.length?'<div class="chip-note">'+notes.join(' ')+'</div>':'')+
+    (CKEEP[lg]?'<div class="chip-note">This is a keeper league: I graded the players only. Picks in the deal are not counted here, so use the Trade planner for those.</div>':'')+
+    '<div class="chip-act"><button type="button" class="chip-btn" data-chip-open="'+id+'">Open in Trade Checker</button></div>'+
+    '<div class="chip-note">Based on the values and projections on this site. Injuries, byes and your own read still matter.</div>';
+  say='Here is my take on your '+lgn+' trade with '+ow+'. You give '+give.join(' and ')+', and you get '+get.join(' and ')+'. '+V.lab+'. '+chipPlain(V.why[0]||'')+' Market value, you give about '+Math.round(R.giveV).toLocaleString()+' and get about '+Math.round(R.getV).toLocaleString()+'. Your best lineup goes from '+R.mb.tot.toFixed(0)+' to '+R.ma.tot.toFixed(0)+' points a week. '+chipPlain(take);
+  return {h:html,say:say};}
+function chipPlayerAnswer(text,lg){
+  var li=LG.indexOf(lg),pool=C.players.map(function(p){return {p:p,mine:chipOwnerOf(p,li)==='Cuadz'};}),found=[];
+  var cc=chipClean(text.replace(/[?!.,]+/g,' '));if(!cc)return null;
+  var toks=cc.split(' ');var r=null,bs=-1;
+  for(var n=Math.min(3,toks.length);n>=1;n--)for(var i=0;i+n<=toks.length;i++){var t=chipMatch(toks.slice(i,i+n).join(' '),pool,'get');if(!t)continue;var sc=t.amb?.7:(t.p?t.s+(t.exact?.5:0)+(n>=2?.05:0):-1);if(sc>bs&&(t.p||t.amb)){bs=sc;r=t;}}
+  if(!r)return null;if(r.amb)return {h:'Which one do you mean: '+r.amb.map(function(p){return '<button type="button" class="chip-btn" data-chip-q="'+esc(text.replace(new RegExp(r.chunk.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i'),p.n))+'">'+esc(p.n)+' ('+p.p+', '+p.t+')</button>';}).join(' ')+'?',say:'Which one do you mean?'};
+  var p=r.p,old=S.clg;S.clg=lg;var i2;try{scoreFor(lg);i2=pinfo(p,li);}finally{S.clg=old;}
+  var o=chipOwnerOf(p,li),lgn=chipLgName(lg);
+  var h='<div class="chip-hd2">'+esc(p.n)+' · '+p.p+' · '+esc(p.t)+'</div><div class="chip-ln">In '+esc(lgn)+' his market value is about <b>'+Math.round(p.v[li]).toLocaleString()+'</b>'+(i2.vr?' ('+p.p+' #'+i2.vr+' by value)':'')+'. '+(o?(o==='Cuadz'?'He is on <b>your</b> team.':'He is on <b>'+esc(o)+'</b>’s team.'):'He is a <b>free agent</b> in this league.')+'</div>'+
+    (i2.ok?'<div class="chip-ln">Expected scoring: <b>'+i2.exp.toFixed(1)+'</b> points a game'+(i2.srank?', and his schedule the rest of the way ranks <b>#'+i2.srank+'</b> of 32 for '+p.p+'s (1 is softest)':'')+'.</div>':'<div class="chip-ln">Not enough games or role clarity to project him yet.</div>')+
+    '<div class="chip-act"><span class="chip-pl" data-det="'+esc(p.n)+'" data-dlg="'+lg+'" role="button" tabindex="0">Open player card</span></div>'+(r.exact?'':'<div class="chip-note">I heard “'+esc(r.said)+'” as <b>'+esc(p.n)+'</b>.</div>');
+  var say=p.n+', '+p.p+' for '+p.t+'. In '+lgn+' his market value is about '+Math.round(p.v[li]).toLocaleString()+'. '+(o?(o==='Cuadz'?'He is on your team. ':'He is on '+o+'’s team. '):'He is a free agent. ')+(i2.ok?'Expected scoring is '+i2.exp.toFixed(1)+' points a game.':'');
+  return {h:h,say:say};}
+function chipLineupAnswer(lg){
+  var li=LG.indexOf(lg),old=S.clg,me=(C.rosters[lg]||{}).Cuadz||[],L;S.clg=lg;try{scoreFor(lg);L=lineup(me,lg,li);}finally{S.clg=old;}
+  var sl=L.sl.map(function(s){var pos=s.slot==='Flex'||s.slot==='Superflex'?(s.q?s.q.i.p.p:'RB'):s.slot;return {s:s,pos:pos,gap:s.e-line(pos)};}).sort(function(a,b){return a.gap-b.gap;}).slice(0,3),lgn=chipLgName(lg);
+  var h='<div class="chip-hd2">Thinnest lineup spots · '+esc(lgn)+'</div>'+sl.map(function(x){var q=x.s.q;return '<div class="chip-ln"><b>'+esc(x.s.slot)+'</b>: '+(q?'<span class="chip-pl" data-det="'+esc(q.i.p.n)+'" data-dlg="'+lg+'" role="button" tabindex="0">'+esc(q.i.p.n)+'</span> at <b>'+x.s.e.toFixed(1)+'</b> credited points a game':'open spot')+(x.gap<0?' ('+Math.abs(x.gap).toFixed(1)+' under what a startable '+x.pos+' scores)':' (above the startable line)')+'</div>';}).join('')+
+    '<div class="chip-ln">Your best lineup is worth about <b>'+L.tot.toFixed(1)+'</b> points a week.</div><div class="chip-note">Ask about a trade or a waiver pickup next, or open <i>Waiver pickups</i> under My team.</div>';
+  var say='Here are your thinnest spots in '+lgn+'. '+sl.map(function(x){return x.s.slot+', '+(x.s.q?x.s.q.i.p.n+' at '+x.s.e.toFixed(1):'open')+'.';}).join(' ');
+  return {h:h,say:say};}
+function chipHelp(extra){var h=(extra?'<div class="chip-ln">'+extra+'</div>':'')+'<div class="chip-ln">I can help with a few things right now:</div><div class="chip-ln">• <b>Trades.</b> “In Gentlemen’s, I send A and B for C. Should I do it?”</div><div class="chip-ln">• <b>Players.</b> “How much is Chase Brown worth in Beaners?”</div><div class="chip-ln">• <b>Your lineup.</b> “What are my weak spots in Rebirth?”</div><div class="chip-note">Name the league in your question, or I will ask. You can type or tap the microphone.</div>';
+  return {h:h,say:(extra?chipPlain(extra)+' ':'')+'I can grade trades, look up a player, or find your weak lineup spots. Name the league in your question.'};}
+function chipAnswer(text){
+  var t=String(text).trim(),lgs=chipLeague(t),lg=lgs||S.chipLg;
+  if(!lgs&&S.chipPend&&/^(gentle|gents|shoot|sts|beaner|hussein|rebirth|fantasy|gl\b|bh\b|fb\b)/i.test(t)){lg=chipLeague(t);if(lg){t=S.chipPend+' ('+chipLgName(lg)+')';S.chipPend=null;}}
+  var isTrade=/\bfor\b/i.test(t)&&/(send|sending|give|giving|trade|trading|offer|offering|swap|get|getting|receive|acquire|move)/i.test(t),isLine=/(weak|thin|upgrade|lineup|line-up|start|sit|hole|need)/i.test(t)&&!isTrade;
+  if(/^(hi|hey|hello|yo|sup|help|what can you do)\b/i.test(t)&&t.split(' ').length<5)return chipHelp('Hey Cuadz, I am Chip.');
+  if(!lg){S.chipPend=t;return {h:'Which league is this for?<div class="chip-act">'+CHIP_LGS.map(function(l){return '<button type="button" class="chip-btn" data-chip-q="'+esc(l[1]+': '+t)+'">'+esc(l[1])+'</button>';}).join(' ')+'</div>',say:'Which league is this for?'};}
+  S.chipLg=lg;S.chipPend=null;
+  try{
+    if(isTrade){var pt=chipTradeAnswer(t,lg);
+      if(pt&&pt.need==='amb'){var a=pt.amb;return {h:'I found more than one “'+esc(a.chunk)+'”. Which one?<div class="chip-act">'+a.amb.map(function(p){return '<button type="button" class="chip-btn" data-chip-q="'+esc(t.replace(new RegExp(a.chunk.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i'),p.n))+'">'+esc(p.n)+' ('+p.p+', '+esc(p.t)+')</button>';}).join(' ')+'</div>',say:'I found more than one '+a.chunk+'. Which one?'};}
+      if(pt){var r=chipTradeHtml(lg,pt);if(pt.unknown&&pt.unknown.length)r.h+='<div class="chip-note">I could not find a player matching: '+pt.unknown.map(esc).join(', ')+'. If one of those was part of the deal, tell me his full name.</div>';return r;}}
+    if(isLine)return chipLineupAnswer(lg);
+    var pa=chipPlayerAnswer(t,lg);if(pa)return pa;
+  }catch(e){return chipHelp('Something tripped me up on that one ('+esc(String(e.message||e))+'). Try rewording it.');}
+  return chipHelp('I did not catch that.');}
+/* ---- voice ---- */
+function chipVoice(){var v=null;try{var all=speechSynthesis.getVoices()||[];v=all.filter(function(x){return /^en[-_]US/i.test(x.lang)&&/(natural|enhanced|premium|samantha|google us|aaron|nicky|ava|allison)/i.test(x.name);})[0]||all.filter(function(x){return /^en[-_]US/i.test(x.lang);})[0]||all.filter(function(x){return /^en/i.test(x.lang);})[0]||null;}catch(e){}return v;}
+function chipStop(){try{speechSynthesis.cancel();}catch(e){}document.querySelectorAll('.chip-play.on').forEach(function(b){b.classList.remove('on');});}
+function chipSpeak(text,btn){try{if(!('speechSynthesis' in window))return;chipStop();var parts=String(text).replace(/\s+/g,' ').match(/.+?(?:[.!?]+(?=\s|$)|$)/g)||[text],v=chipVoice(),n=0;if(btn)btn.classList.add('on');
+  parts.forEach(function(s,i){s=s.trim();if(!s)return;var u=new SpeechSynthesisUtterance(s);if(v)u.voice=v;u.lang=(v&&v.lang)||'en-US';u.rate=1.02;u.pitch=1;if(i===parts.length-1)u.onend=function(){if(btn)btn.classList.remove('on');};u.onerror=function(){if(btn)btn.classList.remove('on');};speechSynthesis.speak(u);});}catch(e){}}
+function chipUnlock(){try{var u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u);}catch(e){}}
+var CHIP_SVG={mic:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>',spk:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>',send:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'};
+function chipView(){return '<div id="chip-root"></div>';}
+function chipMount(root){var box=root.querySelector('#chip-root');if(!box)return;
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition,pref=chipPref(),canSpeak=('speechSynthesis' in window);S.chat=S.chat||[];
+  box.innerHTML='<div class="chip-box"><div class="chip-top"><div class="chip-av" aria-hidden="true">C</div><div class="chip-id"><b>Chip</b><small>Your CFN trade and lineup assistant</small></div>'+(canSpeak?'<button type="button" class="chip-tg'+(pref.always?' on':'')+'" id="chip-always" aria-pressed="'+(!!pref.always)+'">'+CHIP_SVG.spk+'<span>Always read aloud</span></button>':'')+'</div>'+
+    '<div class="chip-in"><input id="chip-q" type="text" enterkeyhint="send" autocomplete="off" autocapitalize="sentences" placeholder="Ask Chip: In Gentlemen’s, should I send A for B?" aria-label="Ask Chip"><button type="button" class="chip-mic" id="chip-mic" aria-label="Speak to Chip" '+(SR?'':'hidden')+'>'+CHIP_SVG.mic+'</button><button type="button" class="chip-send" id="chip-send" aria-label="Send">'+CHIP_SVG.send+'</button></div>'+
+    '<div class="chip-hint" id="chip-hint">'+(SR?'Tap the mic and talk. Chip answers out loud when you speak.':'Tip: use the microphone on your keyboard to dictate.')+'</div>'+
+    '<div class="chip-sug">'+['What are my weak spots in Gentlemen’s?','How much is Chase Brown worth in Beaners?','Tell me about Patrick Mahomes in Rebirth'].map(function(q){return '<button type="button" class="chip-s" data-chip-q="'+esc(q)+'">'+esc(q)+'</button>';}).join('')+'</div><div id="chip-th" class="chip-th"></div></div>';
+  var q=box.querySelector('#chip-q'),th=box.querySelector('#chip-th'),mic=box.querySelector('#chip-mic'),hint=box.querySelector('#chip-hint'),rec=null,live=false;
+  q.value=S.chipDraft||'';q.oninput=function(){S.chipDraft=q.value;};
+  function drawThread(){if(!S.chat.length){th.innerHTML='<div class="chip-m c"><div class="chip-b">'+chipHelp('Hey Cuadz, I am Chip. Ask me about a trade, a player, or your lineup.').h+'</div></div>';}
+    else th.innerHTML=S.chat.slice().reverse().map(function(m,i){var idx=S.chat.length-1-i;return m.r==='u'?'<div class="chip-m u"><div class="chip-b">'+esc(m.t)+'</div></div>':'<div class="chip-m c"><div class="chip-b">'+m.h+'</div>'+(canSpeak&&m.say?'<button type="button" class="chip-play" data-chip-say="'+idx+'" aria-label="Listen">'+CHIP_SVG.spk+'<span>Listen</span></button>':'')+'</div>';}).join('');
+    th.querySelectorAll('[data-det]').forEach(function(e){var f=function(){S.det={n:e.dataset.det,lg:e.dataset.dlg||S.slg};S._sy=window.scrollY;render();var m=$('sc-modal');if(m)m.scrollTop=0;};e.onclick=f;e.onkeydown=function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();f();}};});
+    th.querySelectorAll('[data-chip-q]').forEach(function(b){b.onclick=function(){send(b.dataset.chipQ,false);};});
+    th.querySelectorAll('[data-chip-open]').forEach(function(b){b.onclick=function(){var d=(S.chipDeals||{})[b.dataset.chipOpen];if(!d)return;S.clg=d.lg;S.cow=d.ow;S.give=d.give.slice();S.get=d.get.slice();S.tab='c';S.det=null;render();window.scrollTo({top:0});};});
+    th.querySelectorAll('[data-chip-say]').forEach(function(b){b.onclick=function(){var m=S.chat[+b.dataset.chipSay];if(!m)return;if(b.classList.contains('on')){chipStop();return;}chipSpeak(m.say,b);};});}
+  function send(text,byVoice){text=String(text||'').trim();if(!text)return;S.chat.push({r:'u',t:text});var a=chipAnswer(text);S.chat.push({r:'c',h:a.h,say:a.say});S.chipDraft='';q.value='';drawThread();
+    if(canSpeak&&(byVoice||pref.always)&&a.say){var btn=th.querySelector('.chip-play');chipSpeak(a.say,btn);}}
+  box.querySelectorAll('.chip-sug [data-chip-q]').forEach(function(b){b.onclick=function(){chipUnlock();send(b.dataset.chipQ,false);};});
+  box.querySelector('#chip-send').onclick=function(){chipUnlock();send(q.value,false);};
+  q.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();chipUnlock();send(q.value,false);}};
+  var tg=box.querySelector('#chip-always');if(tg)tg.onclick=function(){pref=chipPref();pref.always=!pref.always;chipSavePref(pref);tg.classList.toggle('on',!!pref.always);tg.setAttribute('aria-pressed',String(!!pref.always));if(!pref.always)chipStop();else chipUnlock();};
+  if(SR&&mic){mic.onclick=function(){if(live&&rec){try{rec.stop();}catch(e){}return;}chipStop();chipUnlock();
+      try{rec=new SR();}catch(e){return;}rec.lang='en-US';rec.interimResults=true;rec.continuous=false;rec.maxAlternatives=1;var finalT='';
+      rec.onstart=function(){live=true;mic.classList.add('live');hint.textContent='Listening… tap the mic again to stop.';};
+      rec.onresult=function(ev){var s='';for(var i=ev.resultIndex;i<ev.results.length;i++){if(ev.results[i].isFinal)finalT+=ev.results[i][0].transcript;else s+=ev.results[i][0].transcript;}q.value=(finalT+s).trim();S.chipDraft=q.value;};
+      rec.onerror=function(ev){hint.textContent=ev.error==='not-allowed'||ev.error==='service-not-allowed'?'Microphone is blocked. Allow it in your browser settings, or use your keyboard’s mic.':'I did not catch that. Tap the mic and try again.';};
+      rec.onend=function(){live=false;mic.classList.remove('live');var v=(finalT||q.value).trim();if(v){hint.textContent='Tap the mic and talk. Chip answers out loud when you speak.';send(v,true);}};
+      try{rec.start();}catch(e){}};}
+  drawThread();}
+
 function checker(){
   var lg=S.clg,li=LG.indexOf(lg),B=byNm(),ow=ownersOf(lg);if(ow.indexOf(S.cow)<0)S.cow=ow[0];
   var me=(C.rosters[lg]||{}).Cuadz||[],oth=(C.rosters[lg]||{})[S.cow]||[];
@@ -7872,6 +8082,7 @@ function hwStamp(n){ var key=NRM(n),m=0,t;
 function hwSeen(){ try{ return JSON.parse(localStorage.getItem('cfn_seen_v1')||'{}'); }catch(e){ return {}; } }
 function hwSave(o){ try{ localStorage.setItem('cfn_seen_v1',JSON.stringify(o)); }catch(e){} }
 function hwBadges(root){
+  try{chipMount(root);}catch(_c){}
   root.querySelectorAll('[data-otm]').forEach(function(sl){ sl.onchange=function(){ S.otm=S.otm||{}; S.otm[sl.dataset.otm]=sl.value; render(); }; });
   root.querySelectorAll('[data-hwpos]').forEach(function(b){ b.onclick=function(){ S.hwpos=b.dataset.hwpos; render(); }; });
   var seen=hwSeen(), els=root.querySelectorAll('.cm-card[data-det],.pl-main[data-det]');
@@ -8109,7 +8320,8 @@ function planner(){
 var GR=[['f','Find players','Buy, add or trade for',[['t','Best targets'],['a','Waiver assistant'],['s','Every roster'],['w','Waiver wire']],'find a player to buy, pick up or trade for. <i>Best targets</i> ranks players by position and price (tap one for a plain buy-or-wait read). <i>Every roster</i> goes team by team. <i>Waiver assistant</i> shows this week\u2019s industry waiver targets with a suggested bid for each of your teams. <i>Waiver wire</i> covers kickers, streaming defenses and recently dropped players.'],
  ['m','My team','Lineup and league view',[['m','My lineup'],['o','League outlook']],'see your own lineup, bench and suggested pickups (<i>My lineup</i>), or compare every team in a league by what it needs and who is worth targeting (<i>League outlook</i>).'],
  ['c','Trades','Grade a deal, pick prices',[['c','Check a deal'],['p','Trade planner']],'grade a deal before you send it (<i>Check a deal</i> rebuilds both lineups before and after) or build a two-team deal and see its price (<i>Trade planner</i>): in picks where picks can be traded, in players where they cannot.'],
- ['x','Schedule','CFN Index, rest of season',[['x','CFN Index']],'see which opponents are soft or tough the rest of the way. The CFN Index weights each defense\u2019s last 4 games 70% and the full season 30%, so it reflects how defenses play now, not in Week 1.']];
+ ['x','Schedule','CFN Index, rest of season',[['x','CFN Index']],'see which opponents are soft or tough the rest of the way. The CFN Index weights each defense\u2019s last 4 games 70% and the full season 30%, so it reflects how defenses play now, not in Week 1.'],
+ ['k','Chip','Ask about trades and lineups',[['k','Ask Chip']],'ask <i>Chip</i> a question in plain words, by typing or talking. Try a trade (<i>In Gentlemen\u2019s, I send A and B for C, should I do it?</i>), a player, or your weak lineup spots. Chip uses the same values and lineup math as the rest of Commish Tools and can read the answer out loud.']];
 function grpOf(t){for(var i=0;i<GR.length;i++)if(GR[i][3].some(function(x){return x[0]===t;}))return GR[i];return GR[0];}
 function render(){
   var root=$('commish-root');
@@ -8119,8 +8331,8 @@ function render(){
   var h='<div class="cm-intro cm-intro2">Decision tools for your teams. Data: '+esc(C.src)+' through Week '+C.wk+'; Yahoo rosters and injuries as of '+esc(C.upd)+'; our blended trade values.</div><div class="cm-gtabs">'+GR.map(function(x){return '<button class="cm-gt'+(x===g?' on':'')+'" data-grp="'+x[0]+'"><span>'+x[1]+'</span><small>'+x[2]+'</small></button>';}).join('')+'</div>';
   if(g[3].length>1)h+='<div class="cm-subtabs">'+g[3].map(function(t){return '<span class="cm-chip '+(S.tab===t[0]?'on':'')+'" data-tab="'+t[0]+'">'+t[1]+'</span>';}).join('')+'</div>';
   h+='<div class="cm-use"><b>Use this to:</b> '+g[4]+'</div>';
-  scoreFor(S.tab==='p'?S.plg:S.tab==='o'?S.olg:S.tab==='t'?S.lg:S.tab==='s'?S.slg:S.tab==='m'?S.mlg:S.tab==='c'?S.clg:S.tab==='w'?S.wlg:S.tab==='a'&&S.alg&&S.alg!=='all'?S.alg:'gl');
-  h+=S.tab==='p'?planner():S.tab==='t'?targets():S.tab==='o'?outlook():S.tab==='s'?scout():S.tab==='m'?myteam():S.tab==='c'?checker():S.tab==='w'?waivers():S.tab==='a'?wassist():matchups();
+  scoreFor(S.tab==='p'?S.plg:S.tab==='o'?S.olg:S.tab==='t'?S.lg:S.tab==='s'?S.slg:S.tab==='m'?S.mlg:S.tab==='c'?S.clg:S.tab==='k'?(S.chipLg||'gl'):S.tab==='w'?S.wlg:S.tab==='a'&&S.alg&&S.alg!=='all'?S.alg:'gl');
+  h+=S.tab==='p'?planner():S.tab==='t'?targets():S.tab==='o'?outlook():S.tab==='s'?scout():S.tab==='m'?myteam():S.tab==='k'?chipView():S.tab==='c'?checker():S.tab==='w'?waivers():S.tab==='a'?wassist():matchups();
   if(S.det) h+=detail();
   var y=window.scrollY; root.innerHTML=h; wire(); try{hwBadges(root);}catch(_e){}
 
