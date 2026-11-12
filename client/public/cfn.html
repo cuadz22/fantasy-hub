@@ -316,6 +316,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .cm-newbar{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:8px 10px;margin:10px 0;padding:10px 12px;border:1px solid #ff9f1c66;background:#ff9f1c14;border-radius:10px;font-size:12.5px;color:var(--text)}
 .cm-newbar .cm-new{top:auto;right:auto;margin-right:2px}
 .cm-newbar button{grid-column:1/-1;justify-self:end}
+.lw-fa{display:flex;flex-wrap:wrap;gap:4px}.lw-fa small{color:var(--muted);font-weight:400;margin-left:4px}.lw-wk+.lw-wk{margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
 .chip-box{border:1px solid var(--border);border-radius:16px;padding:14px;background:var(--bg3)}
 .chip-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .chip-av{width:40px;height:40px;border-radius:12px;background:var(--accent);color:#0b0d0a;display:grid;place-items:center;font:400 26px 'Bebas Neue','Impact',sans-serif;flex:none}
@@ -7414,6 +7415,7 @@ function myteam(){
   var SPEC=S.mlg==='rb'?{QB:1,RB:2,WR:3,TE:1,'W/R/T':1,'Q/W/R/T':1}:S.mlg==='fb'?{QB:1,RB:2,WR:2,TE:1,'W/R/T':2}:{QB:1,RB:2,WR:3,TE:1,'W/R/T':1},op=[];Object.keys(SPEC).forEach(function(k){var have=ys.filter(function(r){return r.slot===k;}).length;for(var q=have;q<SPEC[k];q++)op.push(k);});
   var h='<div class="cm-box"><div class="cm-row"><div class="cm-f"><label>Which league?</label>'+chips('mlg',S.mlg,[['gl',"Gentlemen's"],['sts','Shoot the Shits'],['bh','Beaners & Husseins'],['rb','Rebirth'],['fb','Fantasy Ball Z']])+'</div></div></div>';
   h+=how('How to read this page','Your real Yahoo lineup, with every player rated by <b>expected points per game</b> the rest of the way (his scoring plus his schedule bonus). The <b>weakest starter</b> at each position is where an upgrade helps you most. Pickups and trade ideas below only suggest players who would beat that weakest starter. Players who are OUT, on IR or not active are never suggested.');
+  h+=lwSection(S.mlg);
   h+=hwRanks();
   var alerts=[];
   (function(){var toStart=starters.filter(function(r){return r.slot==='BN'||r.slot==='IR';}),toSit=ys.filter(function(r){return starters.indexOf(r)<0;});
@@ -7988,6 +7990,7 @@ function chipAnswer(text){
     if(P.length>=2&&/\b(start|sit|bench|play|flex|lineup)\b/.test(lowt))return chipCompare(lg,P,'startsit');
     if(P.length&&/\b(pick up|pickup|add|adding|drop|dropping|cut|waiver|waivers|stream|streaming|grab|claim|stash|free agent)\b/.test(lowt)){var dropc=/\b(drop|dropping|cut)\b/.test(lowt)&&P.length>1?P[P.length-1]:null;return chipPickup(lg,dropc?P.slice(0,P.length-1):P,dropc);}
     if(P.length>=2)return chipCompare(lg,P,'compare');
+    if(/\b(bye|byes|zero|empty|open spots?|holes?|short|alert|alerts)\b/.test(lowt)&&!P.length)return lwAnswer(lg);
     if(weak||(!P.length&&/\b(lineup|start|sit|team|roster|squad|looking|doing)\b/.test(lowt)))return chipLineupAnswer(lg);
     if(P.length===1){var pa=chipPlayerAnswer(P[0].said,lg);if(pa)return pa;}
     var seen=P.map(function(c){return esc(c.p.n);}).join(', ');
@@ -8029,6 +8032,50 @@ function chipMount(root){var box=root.querySelector('#chip-root');if(!box)return
       rec.onend=function(){live=false;mic.classList.remove('live');var v=(finalT||q.value).trim();if(v){hint.textContent='Tap the mic and talk. Chip answers out loud when you speak.';send(v,true);}};
       try{rec.start();}catch(e){}};}
   drawThread();}
+
+/* ===== Lineup Watch: byes / injuries that leave starting spots empty in the coming weeks, with waiver fixes ===== */
+var LW_LGS=['gl','sts','bh','rb','fb'],LW_FIRST=11,LW_LAST=14;
+function lwWeek(lg,w){
+  var idx=w-9,li=LG.indexOf(lg),B=byNm(),ros=(((C.rosters||{})[lg]||{}).Cuadz||[]),sp=SPECS[lg]||SPECS.gl,have={QB:0,RB:0,WR:0,TE:0},away={QB:[],RB:[],WR:[],TE:[]};
+  ros.forEach(function(x){if(x[0]==='IR')return;var p=B[x[1]];if(!p||!have.hasOwnProperty(p.p))return;var bye=!oppOf(p.t,idx),out=isOut(p.n);
+    if(bye||out)away[p.p].push({n:p.n,why:bye?'bye':(C.inj&&C.inj[p.n]==='IR'?'IR':'out')});else have[p.p]++;});
+  var av={QB:have.QB,RB:have.RB,WR:have.WR,TE:have.TE},open=[];
+  ['QB','RB','WR','TE'].forEach(function(k){var need=sp[k]||0,use=Math.min(need,av[k]);av[k]-=use;for(var i=use;i<need;i++)open.push(k);});
+  function best(list){return list.slice().sort(function(a,b){return av[b]-av[a];})[0];}
+  for(var f=0;f<(sp.NF||0);f++){var k=best(['RB','WR','TE']);if(av[k]>0)av[k]--;else open.push('FLEX');}
+  for(var s=0;s<(sp.SF||0);s++){var k2=best(['QB','RB','WR','TE']);if(av[k2]>0)av[k2]--;else open.push('SUPERFLEX');}
+  var zero=[];['QB','RB','WR','TE'].forEach(function(k){if((sp[k]||0)>0&&have[k]===0)zero.push(k);});
+  return {w:w,lg:lg,open:open,zero:zero,have:have,away:away,need:sp};}
+function lwIssues(lg){var out=[];for(var w=LW_FIRST;w<=LW_LAST;w++){var r=lwWeek(lg,w);if(r.open.length)out.push(r);}return out;}
+function lwWhy(r){var bits=[];['QB','RB','WR','TE'].forEach(function(k){if(r.away[k].length&&(r.open.indexOf(k)>=0||r.zero.indexOf(k)>=0||r.open.indexOf('FLEX')>=0))bits.push(r.away[k].map(function(a){return esc(a.n)+' ('+a.why+')';}).join(', '));});return bits.join(', ');}
+function lwDesc(r){var cnt={};r.open.forEach(function(k){cnt[k]=(cnt[k]||0)+1;});var parts=Object.keys(cnt).map(function(k){return cnt[k]>1?cnt[k]+' '+k:k;});
+  var z=r.zero.length?'<b>no '+r.zero.join(' or ')+' available</b>':'<b>'+r.open.length+' open starting spot'+(r.open.length>1?'s':'')+'</b>';return z+' ('+parts.join(', ')+' to fill)';}
+function lwBanner(){
+  try{var lines=[];LW_LGS.forEach(function(lg){var is=lwIssues(lg);if(!is.length)return;
+      lines.push('<div class="cm-line" style="margin:5px 0"><b>'+esc(chipLgName(lg))+'</b>: '+is.map(function(r){return 'Week '+r.w+' '+lwDesc(r);}).join('; ')+' <button type="button" class="chip-btn" data-lw="'+lg+'" style="padding:4px 10px;font-size:12px">See fixes</button></div>');});
+    if(!lines.length)return '';
+    return '<div class="cm-box" style="border-color:rgba(245,166,35,.6)"><div class="cm-lab" style="margin-bottom:4px;color:#f5a623">Lineup watch: byes and injuries coming up</div>'+lines.join('')+'</div>';}catch(e){return '';}}
+function lwFixes(lg,r){
+  var li=LG.indexOf(lg),idx=r.w-9,need={};r.open.forEach(function(k){need[k]=1;});
+  var pos=[];Object.keys(need).forEach(function(k){if(k==='FLEX')['RB','WR','TE'].forEach(function(x){if(pos.indexOf(x)<0)pos.push(x);});else if(k==='SUPERFLEX')['QB','RB','WR','TE'].forEach(function(x){if(pos.indexOf(x)<0)pos.push(x);});else if(pos.indexOf(k)<0)pos.push(k);});
+  var old=S.clg,res={};S.clg=lg;
+  try{scoreFor(lg);pos.forEach(function(k){res[k]=C.players.filter(function(p){return p.p===k&&!(p.o&&p.o[li])&&oppOf(p.t,idx)&&!isOut(p.n)&&p.g>=2;}).map(function(p){var i=pinfo(p,li);return {p:p,i:i,e:i.ok?i.exp:-1,opp:oppOf(p.t,idx)};}).filter(function(x){return x.e>0;}).sort(function(a,b){return b.e-a.e;}).slice(0,k==='QB'?2:4);});}finally{S.clg=old;}
+  return res;}
+function lwSection(lg){
+  try{var is=lwIssues(lg),lgn=chipLgName(lg),h='<div class="cm-box lw-box" id="lw-'+lg+'"><div class="cm-lab" style="margin-bottom:4px">Lineup watch · '+esc(lgn)+'</div>';
+    if(!is.length)return h+'<div class="cm-line">Weeks '+LW_FIRST+'–'+LW_LAST+': every starting spot can be filled with healthy players who are not on a bye. Re-check after waivers and injuries.</div></div>';
+    is.forEach(function(r){var fx=lwFixes(lg,r);
+      h+='<div class="lw-wk"><div class="cm-line"><b>Week '+r.w+':</b> '+lwDesc(r)+'.'+(lwWhy(r)?' Out that week: '+lwWhy(r)+'.':'')+'</div>';
+      Object.keys(fx).forEach(function(k){if(!fx[k].length)return;h+='<div class="cm-sub2" style="margin:6px 0 3px">Waiver options at '+k+' for Week '+r.w+':</div><div class="lw-fa">'+fx[k].map(function(x){return '<span class="chip-pl" data-det="'+esc(x.p.n)+'" data-dlg="'+lg+'" role="button" tabindex="0">'+esc(x.p.n)+' <small>'+esc(x.p.t)+' vs '+esc(x.opp)+' · '+x.e.toFixed(1)+'</small></span>';}).join('')+'</div>';});
+      h+='</div>';});
+    return h+'<div class="cm-sub2" style="margin-top:8px">Based on NFL bye weeks and current injury tags. Free agents are ranked by expected points per game. Check the Waiver assistant for FAAB bids.</div></div>';}catch(e){return '';}}
+function lwAnswer(lg){var is=lwIssues(lg),lgn=chipLgName(lg);
+  if(!is.length)return {h:'<div class="chip-hd2">Lineup watch · '+esc(lgn)+'</div><div class="chip-ln">Weeks '+LW_FIRST+'–'+LW_LAST+': you can fill every starting spot with healthy players who are not on a bye.</div>',say:'Good news. In '+lgn+' you can fill every starting spot in weeks '+LW_FIRST+' through '+LW_LAST+'.'};
+  var h='<div class="chip-hd2">Lineup watch · '+esc(lgn)+'</div>',say=[];
+  is.forEach(function(r){var fx=lwFixes(lg,r);h+='<div class="chip-ln"><b>Week '+r.w+':</b> '+lwDesc(r)+'.'+(lwWhy(r)?' Out: '+lwWhy(r)+'.':'')+'</div>';
+    var names=[];Object.keys(fx).forEach(function(k){if(fx[k].length){h+='<div class="chip-ln">Waiver options at '+k+': '+fx[k].map(function(x){return '<span class="chip-pl" data-det="'+esc(x.p.n)+'" data-dlg="'+lg+'" role="button" tabindex="0">'+esc(x.p.n)+'</span>';}).join('')+'</div>';names.push(k+': '+fx[k].slice(0,3).map(function(x){return x.p.n;}).join(', '));}});
+    say.push('Week '+r.w+', '+chipPlain(lwDesc(r))+'. '+(names.length?'Waiver options. '+names.join('. ')+'.':''));});
+  return {h:h,say:'In '+lgn+'. '+say.join(' ')};}
 
 function checker(){
   var lg=S.clg,li=LG.indexOf(lg),B=byNm(),ow=ownersOf(lg);if(ow.indexOf(S.cow)<0)S.cow=ow[0];
@@ -8129,6 +8176,7 @@ function hwStamp(n){ var key=NRM(n),m=0,t;
 function hwSeen(){ try{ return JSON.parse(localStorage.getItem('cfn_seen_v1')||'{}'); }catch(e){ return {}; } }
 function hwSave(o){ try{ localStorage.setItem('cfn_seen_v1',JSON.stringify(o)); }catch(e){} }
 function hwBadges(root){
+  root.querySelectorAll('[data-lw]').forEach(function(b){ b.onclick=function(){ S.mlg=b.dataset.lw; S.tab='m'; S.det=null; render(); window.scrollTo({top:0}); setTimeout(function(){ var e=document.getElementById('lw-'+S.mlg); if(e) e.scrollIntoView({behavior:'smooth',block:'start'}); },60); }; });
   try{chipMount(root);}catch(_c){}
   root.querySelectorAll('[data-otm]').forEach(function(sl){ sl.onchange=function(){ S.otm=S.otm||{}; S.otm[sl.dataset.otm]=sl.value; render(); }; });
   root.querySelectorAll('[data-hwpos]').forEach(function(b){ b.onclick=function(){ S.hwpos=b.dataset.hwpos; render(); }; });
@@ -8377,6 +8425,7 @@ function render(){
   var g=grpOf(S.tab);
   var h='<div class="cm-intro cm-intro2">Decision tools for your teams. Data: '+esc(C.src)+' through Week '+C.wk+'; Yahoo rosters and injuries as of '+esc(C.upd)+'; our blended trade values.</div><div class="cm-gtabs">'+GR.map(function(x){return '<button class="cm-gt'+(x===g?' on':'')+'" data-grp="'+x[0]+'"><span>'+x[1]+'</span><small>'+x[2]+'</small></button>';}).join('')+'</div>';
   if(g[3].length>1)h+='<div class="cm-subtabs">'+g[3].map(function(t){return '<span class="cm-chip '+(S.tab===t[0]?'on':'')+'" data-tab="'+t[0]+'">'+t[1]+'</span>';}).join('')+'</div>';
+  h+=lwBanner();
   h+='<div class="cm-use"><b>Use this to:</b> '+g[4]+'</div>';
   scoreFor(S.tab==='p'?S.plg:S.tab==='o'?S.olg:S.tab==='t'?S.lg:S.tab==='s'?S.slg:S.tab==='m'?S.mlg:S.tab==='c'?S.clg:S.tab==='k'?(S.chipLg||'gl'):S.tab==='w'?S.wlg:S.tab==='a'&&S.alg&&S.alg!=='all'?S.alg:'gl');
   h+=S.tab==='p'?planner():S.tab==='t'?targets():S.tab==='o'?outlook():S.tab==='s'?scout():S.tab==='m'?myteam():S.tab==='k'?chipView():S.tab==='c'?checker():S.tab==='w'?waivers():S.tab==='a'?wassist():matchups();
