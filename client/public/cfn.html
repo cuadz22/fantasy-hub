@@ -316,6 +316,15 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .cm-newbar{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:8px 10px;margin:10px 0;padding:10px 12px;border:1px solid #ff9f1c66;background:#ff9f1c14;border-radius:10px;font-size:12.5px;color:var(--text)}
 .cm-newbar .cm-new{top:auto;right:auto;margin-right:2px}
 .cm-newbar button{grid-column:1/-1;justify-self:end}
+.hw-chips{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 8px}
+.hw-chips small{opacity:.7;font-size:10px}
+.hw-r{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:10px;margin-bottom:6px;cursor:pointer;background:var(--bg3)}
+.hw-r.st{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,var(--bg3))}
+.hw-n{font:400 22px 'Bebas Neue','Impact',sans-serif;color:var(--accent);text-align:center}
+.hw-p{font-weight:600;font-size:13.5px;display:flex;flex-direction:column;min-width:0}.hw-p small{font-weight:400;font-size:11px;color:var(--muted)}
+.hw-s{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.hw-r.st .hw-s{color:var(--accent)}
+.hw-sw{margin-top:8px;padding:8px 10px;border:1px solid #ff9f1c88;background:#ff9f1c14;border-radius:10px;font-size:12.5px}
 .pod-rk{font-size:12.5px;color:var(--text);margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--border)}.pod-rk b{color:var(--accent)}.pod-rk a{color:var(--accent);text-decoration:none}
 .wp-hint i{font-style:normal;display:inline-block;transition:transform .15s}
 .wp-card.open .wp-hint i{transform:rotate(180deg)}
@@ -7366,6 +7375,7 @@ function myteam(){
   var SPEC=S.mlg==='rb'?{QB:1,RB:2,WR:3,TE:1,'W/R/T':1,'Q/W/R/T':1}:S.mlg==='fb'?{QB:1,RB:2,WR:2,TE:1,'W/R/T':2}:{QB:1,RB:2,WR:3,TE:1,'W/R/T':1},op=[];Object.keys(SPEC).forEach(function(k){var have=ys.filter(function(r){return r.slot===k;}).length;for(var q=have;q<SPEC[k];q++)op.push(k);});
   var h='<div class="cm-box"><div class="cm-row"><div class="cm-f"><label>Which league?</label>'+chips('mlg',S.mlg,[['gl',"Gentlemen's"],['sts','Shoot the Shits'],['bh','Beaners & Husseins'],['rb','Rebirth'],['fb','Fantasy Ball Z']])+'</div></div></div>';
   h+=how('How to read this page','Your real Yahoo lineup, with every player rated by <b>expected points per game</b> the rest of the way (his scoring plus his schedule bonus). The <b>weakest starter</b> at each position is where an upgrade helps you most. Pickups and trade ideas below only suggest players who would beat that weakest starter. Players who are OUT, on IR or not active are never suggested.');
+  h+=hwRanks();
   var alerts=[];
   (function(){var toStart=starters.filter(function(r){return r.slot==='BN'||r.slot==='IR';}),toSit=ys.filter(function(r){return starters.indexOf(r)<0;});
     if(toStart.length||toSit.length)alerts.push('<b>Your Yahoo lineup is not the best one.</b> '+(toStart.length?'Start '+toStart.map(function(r){return '<b>'+esc(r.p.n)+'</b> ('+r.exp.toFixed(1)+')';}).join(', ')+'. ':'')+(toSit.length?'Sit '+toSit.map(function(r){return '<b>'+esc(r.p.n)+'</b> ('+(r.ok?r.exp.toFixed(1):'no projection')+')';}).join(', ')+'.':'')+' Players are rated by expected points a game the rest of the way.');})();
@@ -7860,6 +7870,7 @@ function hwStamp(n){ var key=NRM(n),m=0,t;
 function hwSeen(){ try{ return JSON.parse(localStorage.getItem('cfn_seen_v1')||'{}'); }catch(e){ return {}; } }
 function hwSave(o){ try{ localStorage.setItem('cfn_seen_v1',JSON.stringify(o)); }catch(e){} }
 function hwBadges(root){
+  root.querySelectorAll('[data-hwpos]').forEach(function(b){ b.onclick=function(){ S.hwpos=b.dataset.hwpos; render(); }; });
   var seen=hwSeen(), els=root.querySelectorAll('.cm-card[data-det],.pl-main[data-det]');
   els.forEach(function(e){ if(e.closest('.sc-modal')) return; var n=e.dataset.det, st=hwStamp(n); if(st>(seen[n]||0)&&!e.querySelector('.cm-new')){ var b=document.createElement('span'); b.className='cm-new'; b.title='New blurb or ranking posted'; b.textContent='!'; e.appendChild(b); } });
   if(S&&S.det){ var d=S.det.n, sv=hwSeen(), s2=hwStamp(d); if(s2>(sv[d]||0)){ sv[d]=s2; hwSave(sv); } }
@@ -7870,6 +7881,27 @@ function hwBadges(root){
     bar.querySelector('button').onclick=function(){ var sv=hwSeen(); (C.players||[]).forEach(function(p){ var t=hwStamp(p.n); if(t) sv[p.n]=t; }); hwSave(sv); render(); };
     var first=root.querySelector('.cm-intro')||root.firstChild; if(first&&first.nextSibling) root.insertBefore(bar,first.nextSibling); else root.appendChild(bar); }
 }
+
+function hwRanks(){ try{
+  var lists={}; HW_FEED.ranks.forEach(function(g){ if(!lists[g.pos]||g.wk>lists[g.pos].wk) lists[g.pos]=g; });
+  var poss=['QB','RB','WR','TE','K','DEF'].filter(function(x){return lists[x];});
+  var h='<div class="cm-box hw-box"><div class="cm-lab" style="margin-bottom:4px">Hayden Winks weekly ranks vs your lineup</div>';
+  if(!poss.length) return h+'<div class="cm-sub2">No weekly ranks in the feed yet.</div></div>';
+  if(!S.hwpos||!lists[S.hwpos]) S.hwpos=poss[0];
+  var g=lists[S.hwpos], rk={}; (g.r||[]).forEach(function(q){ rk[NRM(q[1])]={r:q[0],o:q[2],y:q[3],n:q[1]}; });
+  var byN={}; C.players.forEach(function(p){byN[p.n]=p;});
+  var mine=(C.roster[S.mlg]||[]).map(function(x){ var p=byN[x[1]]; return p&&p.p===S.hwpos?{n:x[1],slot:x[0],q:rk[NRM(x[1])]||null}:null; }).filter(Boolean);
+  mine.sort(function(a,b){ return (a.q?a.q.r:999)-(b.q?b.q.r:999); });
+  var isS=function(x){return x.slot!=='BN'&&x.slot!=='IR';};
+  h+='<div class="hw-chips">'+poss.map(function(x){ return '<button type="button" class="cm-chip'+(x===S.hwpos?' on':'')+'" data-hwpos="'+x+'">'+x+'<small> Wk '+lists[x].wk+'</small></button>'; }).join('')+'</div>';
+  if(poss.length<4) h+='<div class="cm-sub2" style="margin:2px 0 6px">Only '+poss.join(', ')+' ranks are in the feed so far. The other positions appear here as soon as Hayden’s Blueprint for them is added.</div>';
+  if(!mine.length){ return h+'<div class="cm-sub2">You have no '+S.hwpos+' on this roster.</div></div>'; }
+  var swaps=[]; mine.forEach(function(b){ if(isS(b)||!b.q) return; mine.forEach(function(a){ if(isS(a)&&a.q&&b.q.r<a.q.r) swaps.push([b,a]); }); });
+  h+=mine.map(function(m){ var st=isS(m);
+    return '<div class="hw-r'+(st?' st':'')+'" data-det="'+esc(m.n)+'" data-dlg="'+S.mlg+'" role="button" tabindex="0"><span class="hw-n">'+(m.q?'#'+m.q.r:'—')+'</span><span class="hw-p">'+esc(m.n)+'<small>'+(m.q&&m.q.o?esc(m.q.o)+(m.q.y!=null?' · '+m.q.y+' proj yds':''):(m.q?'':'Not ranked by Hayden'))+'</small></span><span class="hw-s">'+(st?esc(m.slot):'Bench')+'</span></div>'; }).join('');
+  if(swaps.length) h+='<div class="hw-sw"><b>Check your lineup:</b> '+swaps.slice(0,3).map(function(x){ return 'Hayden has <b>'+esc(x[0].n)+'</b> (#'+x[0].q.r+', bench) above <b>'+esc(x[1].n)+'</b> (#'+x[1].q.r+', starting)'; }).join('; ')+'.</div>';
+  h+='<div class="cm-sub2" style="margin-top:6px">From <a href="'+esc(g.u)+'" target="_blank" rel="noopener" style="color:var(--accent)">'+esc(g.t||('Hayden Winks '+S.hwpos+' Blueprint'))+'</a>. Green rows are in your Yahoo starting lineup.</div></div>';
+  return h; }catch(e){ return ''; } }
 function hwBlock(n){ try{
   var key=NRM(n), full=String(n).toLowerCase(), out=[];
   HW_FEED.posts.forEach(function(x){ var hit=(x.p||[]).some(function(q){return NRM(q)===key;}); if(!hit&&full.split(' ').length>1&&NRM(x.x).indexOf(key)>=0) hit=true; var tx=hwClean(x.x); if(hit&&tx.length>=18) out.push({x:x,t:tx}); });
