@@ -51,5 +51,14 @@ Free unofficial ESPN game summaries (live player box scores) first; BallDontLie 
 ## Build history note
 The site was assembled through a chain of scripted patches (`tools/ptpatch.py` applies asserted string replacements, `rep(old,new,cnt)`, to a base file). The repo's committed `cfn.html` is the current product. **Going forward, apply new patch blocks to the current `client/public/cfn.html`** (the old base chain `/tmp/lt/wv11/cfn_cm.html` is not in the repo and cannot be rebuilt from scratch), or just edit the file directly with exact-match replacements and syntax-check the inline scripts with `node --check`.
 
+## Hosting and repo layout (verified from the repo, Nov 13)
+- Hosted on **Vercel**, deploying from the GitHub repo `cuadz22/fantasy-hub` (`main`). Root `vercel.json`: build `npm run build` (runs the Vite client build), output `client/dist`, `/` redirects to `/cfn.html`, `/api/yahoo/:p` rewrites to `/api/yahoo-:p`, `/s/:id` share links, `/i/:id` share images, `/road/:lg` static road pages. Static files in `client/public/` (including `cfn.html`) are served as-is.
+- Serverless functions live in `client/api/` (Node, CommonJS): `_yahoo.js` (shared OAuth + `yahooGet(path)` helper, admin-key check), `yahoo-login.js`, `yahoo-callback.js`, `yahoo-status.js`, `yahoo-leagues.js` (test endpoint, `?key=ADMIN_KEY`), `share.js`, `s.js`, `simg.js`, `pickem.js`, `trades.js`. So **Yahoo OAuth against the official Yahoo Fantasy API is already built**; env vars (client id/secret, ADMIN_KEY, token storage) are in Vercel project settings, never in the repo.
+- `server/` (Express) and `extension/` (browser extension) are older/other pieces; `data/` holds trade log and encrypted waiver data; `shared/leagues.config.js` lists leagues.
+- Vercel Hobby crons only run once a day, so live updates should come from the browser polling a cached serverless function (for example `client/api/live-*.js` with `Cache-Control: s-maxage=30`), not from a cron.
+
+## Live-stats automation: current thinking
+Best lead: the official **Yahoo Fantasy API** through the OAuth already in `client/api/_yahoo.js`. It can return lineups and each player's points already scored with that league's own rules, which removes both the Yahoo scraping and the need to re-apply scoring. Needs verifying: that the token is connected, rate limits, and whether live player points update during games. ESPN's free feed was checked on Nov 13 and looked unreliable (the summary appeared to have team totals and category leaders only; inconclusive due to truncated tool output). BallDontLie is the paid fallback.
+
 ## Other docs
 - `docs/power-rankings-formula.md` documents the power rankings formula. `tools/lineups/` holds earlier lineup tooling.

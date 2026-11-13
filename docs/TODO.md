@@ -1,4 +1,6 @@
 # Open items (update as things change)
+- SECURITY: the git `origin` remote URL on the owner's Mac has a GitHub personal access token embedded in it. Revoke it on GitHub, then reset the remote to the plain `https://github.com/cuadz22/fantasy-hub.git` URL (GitHub Desktop handles auth). Never print `git remote -v` output into notes or chat.
+- Test the Yahoo Fantasy API (existing OAuth) for live lineups and per-league player points before building anything on ESPN.
 - Automate live stats: prototype ESPN free feed, apply per-league scoring, compare to Yahoo; scheduled job + JSON the site reads (see PROJECT.md).
 - Auto-push script for the owner's Mac (offered, not confirmed) so publishing doesn't need GitHub Desktop + computer use.
 - Yahoo historical and all-time H2H PPG database for primetime pairs.
