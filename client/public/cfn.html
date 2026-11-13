@@ -13,8 +13,9 @@
 .lvs-lv,.lvs-p{font-style:normal;font-size:10px;padding:1px 5px;border-radius:5px;border:1px dashed var(--accent);color:var(--accent);white-space:nowrap}
 .lvs-p{font-style:italic}
 .wp-au.tp{background:var(--accent);color:var(--bg);opacity:1;white-space:nowrap}
-.wp-c.tp,.wp-pl>div.tp{box-shadow:inset 0 0 0 1px var(--accent);border-radius:7px;background:rgba(172,249,16,.10)}
-.wp-c.tp b,.wp-pl>div.tp b{font-style:italic;color:var(--accent)}
+.wp-c.tp,.wp-pl>div.tp{}
+.wp-c.tp b,.wp-pl>div.tp b{font-style:normal}
+.wp-pj{font-family:Inter,system-ui,sans-serif;font-size:9px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);margin-right:4px;vertical-align:3px}
 .wp-c.tp>span,.wp-pl>div.tp>span{white-space:normal}
 .wp-au{font-size:9px;font-style:normal;text-decoration:none;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:3px;padding:0 3px;margin-left:4px;vertical-align:1px;opacity:.85}</style><style id="rc-css">
 :where(.rc *){margin:0}
@@ -410,7 +411,9 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
  .wp-full .wp-c span:not(.wp-ph){font-size:11px}
  .wp-full .wp-c b{font-size:17px}
  .wp-full .wp-slot{font-size:9.5px;padding:4px 0;border-radius:6px}
- .wp-full .wp-au{display:none}
+ .wp-full .wp-au{display:block;width:max-content;margin:2px 0 0;font-size:8px;line-height:1.5;letter-spacing:.05em}
+ .wp-full .wp-c.r .wp-au{margin-left:auto}
+ .wp-full .wp-pj{font-size:8px;margin-right:3px}
  .wp-full .wp-c span span{display:none}
  .wp-full .wp-c .wp-ph{width:20px;height:20px}
  .wp-full .wp-c b{font-size:16px}
@@ -4583,7 +4586,7 @@ function wpTop(t,e){
   if(e&&e.length) h+='<div class="wp-warn">Empty '+e.join(', ')+' slot</div>';
   return h+'</div>';
 }
-function wpCell(n,v,hi,al,nop,au){ var ok=n&&n!=='—'&&n!=='None'; return '<div class="wp-c '+al+(hi?' hi':'')+(au>=3?' tp':'')+'">'+(ok&&!nop?wpPh(n):'')+'<span>'+(ok?lgEsc(n)+cfnSh(n):'<i>Empty</i>')+(ok&&au?' <u class="wp-au'+(au>=3?' tp':'')+'">'+(au===4?'live':au>=3?'to play':au===2?'final':'auto')+'</u>':'')+'</span><b>'+(n&&n!=='—'&&n!=='None'?(au>=3?'~':'')+v.toFixed(1):'&ndash;')+'</b></div>'; }
+function wpCell(n,v,hi,al,nop,au){ var ok=n&&n!=='—'&&n!=='None'; return '<div class="wp-c '+al+(hi?' hi':'')+(au>=3?' tp':'')+'">'+(ok&&!nop?wpPh(n):'')+'<span>'+(ok?lgEsc(n)+cfnSh(n):'<i>Empty</i>')+(ok&&au?' <u class="wp-au'+(au>=3?' tp':'')+'">'+(au>=3?'in play':au===2?'final':'auto')+'</u>':'')+'</span><b>'+(n&&n!=='—'&&n!=='None'?(au===3?'<small class="wp-pj">proj</small>':'')+v.toFixed(1):'&ndash;')+'</b></div>'; }
 function wpFull(m){
   var rows=[], n=Math.max(m.ra.length,m.rb.length), i;
   for(i=0;i<n;i++){ var a=m.ra[i]||['','—',0,0], b=m.rb[i]||['','—',0,0]; rows.push([a[0]||b[0],a[1],a[2],b[1],b[2],a[3],b[3]]); }
