@@ -8928,5 +8928,60 @@ function showLive(){
   var d=document.getElementById('lv-fdesc'); if(d){ var t=0,a=0; ['gl','bh','rb','sts'].forEach(function(k){ t+=(PVL[k]||[]).length; a+=liveAlive(k); }); d.textContent='Live scores, win odds and full lineups for all '+t+' matchups across the four leagues, primetime games included. '+a+' still undecided.'; }
   if(location.hash==='#live') showLive();
 })();
+/* ---- Live Yahoo refresh: the site reads /api/lineups (server reads public Yahoo pages) and rebuilds the live matchup data ---- */
+var PVL_WK=10, YS={at:0,busy:false,ok:0,fail:0,pending:false};
+function ysNorm(n){ return String(n||'').toLowerCase().replace(/[.'\u2019]/g,'').replace(/\b(jr|sr|ii|iii|iv)\b/g,'').replace(/\s+/g,' ').trim(); }
+function ysStat(t){ t=String(t||''); if(/^final/i.test(t)||/^bye/i.test(t)||/no game/i.test(t)) return 2; if(/^(sun|mon|tue|wed|thu|fri|sat)\b/i.test(t)&&/\d:\d\d\s*[ap]m/i.test(t)) return 3; return 4; }
+function ysErf(x){ var s=x<0?-1:1; x=Math.abs(x); var t=1/(1+0.3275911*x); var y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x); return s*y; }
+function ysSide(rows,names){
+  var R=[],K=null,D=null,sc=0,pj=0,lf=0,n=0;
+  rows.forEach(function(x){ var slot=x[0]; if(slot==='BN'||slot==='IR') return;
+    var nm=names[ysNorm(x[1])]||x[1], st=ysStat(x[6]), pts=x[5]==null?0:x[5], pr=x[4]==null?0:x[4], bye=/^bye|no game/i.test(x[6]), ent;
+    if(st===4) ent=[nm,pts,4]; else if(st===2) ent=bye?[nm,pts,2]:[nm,pts,2,Math.round(pr*100)/100]; else ent=[nm,Math.round(pr*100)/100,3];
+    n++; sc+=pts; pj+=(st===2?pts:pr); if(st>=3) lf++;
+    if(slot==='K') K=ent; else if(slot==='DEF') D=ent; else R.push([({'W/R/T':'FLX','Q/W/R/T':'SFX'})[slot]||slot].concat(ent)); });
+  return {R:R,K:K||['\u2014',0,2],D:D||['\u2014',0,2],sc:sc,pj:pj,left:lf,n:Math.max(n,1)};
+}
+function ysApply(k,data){
+  var cnt=0;
+  (data.matchups||[]).forEach(function(mm){
+    var e=null, sw=false; (PVL[k]||[]).forEach(function(x){ if(x.ia===mm.ia&&x.ib===mm.ib) e=x; else if(x.ia===mm.ib&&x.ib===mm.ia){ e=x; sw=true; } });
+    var pv=null; (PV8[k]||[]).forEach(function(x){ if(e&&x.ia===e.ia&&x.ib===e.ib) pv=x; });
+    if(!e||!pv) return;
+    var LA=sw?mm.R:mm.L, LB=sw?mm.L:mm.R, names={};
+    [e.ra,e.rb].forEach(function(rs){ rs.forEach(function(r){ names[ysNorm(r[1])]=r[1]; }); });
+    [e.ka,e.kb,e.da,e.db].forEach(function(r){ if(r&&r[0]) names[ysNorm(r[0])]=r[0]; });
+    var A=ysSide(LA,names), B=ysSide(LB,names);
+    if(!A.R.length||!B.R.length) return;
+    var sdA=(pv.a[5]-pv.a[4])/2.56, sdB=(pv.b[5]-pv.b[4])/2.56, fa=A.left/A.n, fb=B.left/B.n;
+    var sA=sdA*Math.sqrt(Math.max(fa,0.02)), sB=sdB*Math.sqrt(Math.max(fb,0.02));
+    var z=(A.pj-B.pj)/Math.sqrt(sA*sA+sB*sB), p=Math.round(1000*0.5*(1+ysErf(z/Math.SQRT2)))/10; p=Math.min(99,Math.max(1,p));
+    function top3(S){ return S.R.slice().sort(function(a,b){return b[2]-a[2];}).slice(0,3).map(function(r){return [r[1],r[2]];}); }
+    function side(t,S,sd,fr){ var w=1.28*sd*Math.sqrt(Math.max(fr,0.02)); return [t[0],t[1],t[2],Math.round(S.pj*10)/10,Math.round(S.pj-w),Math.round(S.pj+w),top3(S)]; }
+    e.a=side(e.a,A,sdA,fa); e.b=side(e.b,B,sdB,fb); e.p=p;
+    e.ra=A.R; e.rb=B.R; e.ka=A.K; e.kb=B.K; e.da=A.D; e.db=B.D; e.left=A.left+B.left;
+    var sa=Math.round(A.sc*100)/100, sb=Math.round(B.sc*100)/100;
+    e.la={s:sa,done:false,cl:false,w:sa>sb}; e.lb={s:sb,done:false,cl:false,w:sb>sa};
+    cnt++; });
+  return cnt;
+}
+function ysClock(){ var d=new Date(YS.at); try{ return d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET'; }catch(e){ return d.toLocaleTimeString(); } }
+function ysRender(){
+  if(document.querySelector('.wp-card.open')){ YS.pending=true; return; }
+  YS.pending=false;
+  try{ PVL_AT='live from Yahoo, updated '+ysClock(); }catch(e){}
+  try{ var v=document.getElementById('view-live'); if(v&&!v.hidden) liveRender(); }catch(e){ console.error(e); }
+  try{ var lv=document.getElementById('view-league'); if(lv&&!lv.hidden&&lgState.tab==='Matchups') lgRender(); }catch(e){ console.error(e); }
+  try{ var d=document.getElementById('lv-fdesc'); if(d){ var t=0,a=0; ['gl','bh','rb','sts'].forEach(function(k){ t+=(PVL[k]||[]).length; a+=liveAlive(k); }); d.textContent='Live scores, win odds and full lineups for all '+t+' matchups across the four leagues, primetime games included. '+a+' still undecided. Updated '+ysClock()+'.'; } }catch(e){}
+}
+function ysRefresh(){
+  if(YS.busy) return Promise.resolve(); YS.busy=true;
+  return Promise.all(['gl','bh','rb','sts'].map(function(k){
+    return fetch('/api/lineups?lg='+k+'&week='+PVL_WK,{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(j){ return ysApply(k,j); }).catch(function(){ return -1; });
+  })).then(function(rs){ var ok=rs.filter(function(x){return x>0;}).length; YS.ok=ok; YS.fail=rs.filter(function(x){return x<0;}).length; if(ok){ YS.at=Date.now(); ysRender(); } YS.busy=false; return rs; }).catch(function(){ YS.busy=false; });
+}
+(function(){ if(!/^https?:/.test(location.protocol)) return; setTimeout(ysRefresh,1500);
+  setInterval(function(){ if(document.visibilityState==='visible') ysRefresh(); },60000);
+  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'&&Date.now()-YS.at>45000) ysRefresh(); }); })();
 </script>
 </body></html>
