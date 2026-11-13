@@ -19,6 +19,8 @@ module.exports = async (req, res) => {
     res.end(JSON.stringify({
       ok: r.ok, status: r.status, finalUrl: r.url, ms: Date.now() - t0, bytes: html.length, title,
       looksLikeLogin: /login\.yahoo\.com|Sign in to Yahoo/i.test(r.url + html.slice(0, 5000)),
+      has: ['Burrow','Bijan','Wide receiver university','cuadz build 001','Kirk Cousins','Nabers'].reduce((o, k) => (o[k] = (html.match(new RegExp(k, 'g')) || []).length, o), {}),
+      tables: tables.map((t, i) => { const rs = rowsOf(t); return { i, rows: rs.length, cells: rs[0] ? rs[0].length : 0, first: (rs[0] || []).join(' | ').slice(0, 80), second: (rs[1] || []).join(' | ').slice(0, 100) }; }),
       tableCount: tables.length, rowCount: parsed.length, rows: parsed.slice(0, 40),
       textSample: parsed.length ? undefined : strip(html).slice(0, 1500)
     }));
