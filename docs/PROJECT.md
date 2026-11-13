@@ -69,5 +69,12 @@ The site was assembled through a chain of scripted patches (`tools/ptpatch.py` a
 - Hosting is Vercel Hobby: crons are daily only, so live data should come from the browser polling a cached serverless function.
 - Unattended lineup checks need a plan that avoids needing the owner's computer open (see TODO).
 
+## Unattended Yahoo lineup sweep (built Nov 13)
+- Vercel Root Directory is `client/`, so functions are `client/api/*.js`. The site already has an Upstash Redis (KV) via env `KV_REST_API_URL`/`KV_REST_API_TOKEN` (see `client/api/s.js`); use it for stored sweep results.
+- `client/api/_ysweep.js` reads a public Yahoo matchup page with a plain `fetch` (no login) and parses it. VERIFIED on GL Week 10 (17 + 16 players, 0 skipped). Raw server HTML differs from the Chrome-rendered DOM: lineup rows are `<tr>` with 11 cells (1 left player, 2 left proj, 3 left pts, 4 slot, 7 right pts, 8 right proj, 9 right player). Player name = anchor with class token exactly `name` (not `ysf-player-name`). Weather popups are small tables nested inside player cells and must be removed first or rows are cut short. Dashes are `&#8211;` entities. Team names/ids come from the anchors `/f1/<league>/<teamId>` (two distinct). The status text in each player cell carries the game's kickoff ("Sun 1:00 pm", "Mon 8:15 pm"), so kickoff times can be read from Yahoo itself.
+- `client/api/yahoo-probe.js?lg=gl&week=10&mid1=1` returns the parsed lineups (diagnostic; remove later). WebFetch caches 15 min per URL, so add `&v=N` when testing.
+- Plan: a `tick` endpoint called every minute during game windows by cron-job.org (free, supports 1-minute jobs and time zones; protect with a `CRON_SECRET` env var). The function decides whether to sweep: 5 minutes after each distinct kickoff (9:30 am, 1:00, 4:05/4:25 together at about 4:30, SNF, MNF, TNF 8:15 pm), Fri and Sat at noon and 6 pm, and every 5 minutes during live windows. It stores results in the KV for the live cards to read.
+- Still to build: the tick/sweep endpoint with KV storage, converting sweep results into the PVL live-card shape (needs Yahoo team totals and live projections; not parsed yet), and a site-side reader. The `&#xe230;`-style icon entities in status text should be stripped.
+
 ## Other docs
 - `docs/power-rankings-formula.md` documents the power rankings formula. `tools/lineups/` holds earlier lineup tooling.
