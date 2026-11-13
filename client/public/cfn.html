@@ -364,6 +364,15 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .hw-chips small{opacity:.7;font-size:10px}
 .hw-r{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:10px;margin-bottom:6px;cursor:pointer;background:var(--bg3)}
 .hw-r.st{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,var(--bg3))}
+.hw-a{grid-template-columns:44px 1fr auto;align-items:center}
+.hw-a.own{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--bg3));box-shadow:inset 3px 0 0 var(--accent)}
+.hw-o{display:flex;flex-direction:column;align-items:flex-end;gap:4px;max-width:46vw}
+.hw-t{font-size:11px;line-height:1.25;padding:3px 8px;border-radius:99px;border:1px solid var(--border-l);color:var(--muted);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.hw-t b{color:var(--text);font-weight:700}
+.hw-t i{font-style:normal;opacity:.85}
+.hw-t.st{border-color:var(--accent);color:var(--text)}
+.hw-t.st i{color:var(--accent);opacity:1}
+@media(max-width:520px){.hw-a{grid-template-columns:38px 1fr}.hw-o{grid-column:2;align-items:flex-start;max-width:none}.hw-t{white-space:normal}}
 .hw-n{font:400 22px 'Bebas Neue','Impact',sans-serif;color:var(--accent);text-align:center}
 .hw-p{font-weight:600;font-size:13.5px;display:flex;flex-direction:column;min-width:0}.hw-p small{font-weight:400;font-size:11px;color:var(--muted)}
 .hw-s{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
@@ -8203,6 +8212,7 @@ function hwBadges(root){
   try{chipMount(root);}catch(_c){}
   root.querySelectorAll('[data-otm]').forEach(function(sl){ sl.onchange=function(){ S.otm=S.otm||{}; S.otm[sl.dataset.otm]=sl.value; render(); }; });
   root.querySelectorAll('[data-hwpos]').forEach(function(b){ b.onclick=function(){ S.hwpos=b.dataset.hwpos; render(); }; });
+  root.querySelectorAll('[data-hwmine]').forEach(function(b){ b.onclick=function(){ S.hwmine=!S.hwmine; render(); }; });
   var seen=hwSeen(), els=root.querySelectorAll('.cm-card[data-det],.pl-main[data-det]');
   els.forEach(function(e){ if(e.closest('.sc-modal')) return; var n=e.dataset.det, st=hwStamp(n); if(st>(seen[n]||0)&&!e.querySelector('.cm-new')){ var b=document.createElement('span'); b.className='cm-new'; b.title='New blurb or ranking posted'; b.textContent='!'; e.appendChild(b); } });
   if(S&&S.det){ var d=S.det.n, sv=hwSeen(), s2=hwStamp(d); if(s2>(sv[d]||0)){ sv[d]=s2; hwSave(sv); } }
@@ -8234,6 +8244,26 @@ function hwRanks(){ try{
   if(swaps.length) h+='<div class="hw-sw"><b>Check your lineup:</b> '+swaps.slice(0,3).map(function(x){ return 'Hayden has <b>'+esc(x[0].n)+'</b> (#'+x[0].q.r+', bench) above <b>'+esc(x[1].n)+'</b> (#'+x[1].q.r+', starting)'; }).join('; ')+'.</div>';
   h+='<div class="cm-sub2" style="margin-top:6px">From <a href="'+esc(g.u)+'" target="_blank" rel="noopener" style="color:var(--accent)">'+esc(g.t||('Hayden Winks '+S.hwpos+' Blueprint'))+'</a>. Green rows are in your Yahoo starting lineup.</div></div>';
   return h; }catch(e){ return ''; } }
+function hwAll(){ try{
+  var lists={}; HW_FEED.ranks.forEach(function(g){ if(!lists[g.pos]||g.wk>lists[g.pos].wk) lists[g.pos]=g; });
+  var poss=['QB','RB','WR','TE','K','DEF'].filter(function(x){return lists[x];});
+  var h='<div class="cm-box hw-box"><div class="cm-lab" style="margin-bottom:4px">Hayden Winks weekly rankings</div>';
+  if(!poss.length) return h+'<div class="cm-sub2">No weekly ranks in the feed yet.</div></div>';
+  if(!S.hwpos||!lists[S.hwpos]) S.hwpos=poss[0];
+  var TM={gl:['GL','cuadz build 001'],bh:['B&H','cuadz build 002'],rb:['RBT','cuadz build 003'],sts:['STS','cuadz build 004']};
+  var own={}; Object.keys(TM).forEach(function(lg){ (C.roster[lg]||[]).forEach(function(x){ var k=NRM(x[1]); (own[k]=own[k]||[]).push({lg:lg,slot:x[0]}); }); });
+  var g=lists[S.hwpos], rows=(g.r||[]).slice().sort(function(a,b){return a[0]-b[0];}), nown=0;
+  rows.forEach(function(q){ if(own[NRM(q[1])]) nown++; });
+  h+='<div class="hw-chips">'+poss.map(function(x){ return '<button type="button" class="cm-chip'+(x===S.hwpos?' on':'')+'" data-hwpos="'+x+'">'+x+'<small> Wk '+lists[x].wk+'</small></button>'; }).join('')+'<button type="button" class="cm-chip'+(S.hwmine?' on':'')+'" data-hwmine="1" style="margin-left:auto">My players only</button></div>';
+  if(poss.length<4) h+='<div class="cm-sub2" style="margin:2px 0 6px">Only '+poss.join(', ')+' ranks are in the feed so far. The other positions appear here as soon as they are added.</div>';
+  h+='<div class="cm-sub2" style="margin:0 0 8px">'+esc(g.pos)+' · Week '+g.wk+' · '+rows.length+' ranked · you have <b>'+nown+'</b> of them'+(g.ts?' · posted '+esc(hwDate(g.ts)):'')+'</div>';
+  var show=rows.filter(function(q){ return !S.hwmine||own[NRM(q[1])]; });
+  if(!show.length) h+='<div class="cm-sub2">None of your players are ranked at '+esc(g.pos)+' this week.</div>';
+  h+=show.map(function(q){ var o=own[NRM(q[1])]||[];
+    var chips=o.map(function(x){ var st=x.slot!=='BN'&&x.slot!=='IR'; return '<span class="hw-t'+(st?' st':'')+'"><b>'+TM[x.lg][0]+'</b> '+esc(TM[x.lg][1])+' <i>'+(st?'Starting':(x.slot==='IR'?'IR':'Bench'))+'</i></span>'; }).join('');
+    return '<div class="hw-r hw-a'+(o.length?' own':'')+'" data-det="'+esc(q[1])+'" data-dlg="'+(o[0]?o[0].lg:'gl')+'" role="button" tabindex="0"><span class="hw-n">#'+q[0]+'</span><span class="hw-p">'+esc(q[1])+'<small>'+(q[2]?esc(q[2]):'')+(q[3]!=null?(q[2]?' · ':'')+q[3]+' proj yds':'')+'</small></span><span class="hw-o">'+chips+'</span></div>'; }).join('');
+  h+='<div class="cm-sub2" style="margin-top:8px">From <a href="'+esc(g.u)+'" target="_blank" rel="noopener" style="color:var(--accent)">'+esc(g.t||('Hayden Winks '+g.pos+' Blueprint'))+'</a>. Highlighted rows are players on one of your teams.</div></div>';
+  return h; }catch(e){ return '<div class="cm-box"><div class="cm-sub2">Could not load the weekly ranks.</div></div>'; } }
 function hwBlock(n){ try{
   var key=NRM(n), full=String(n).toLowerCase(), out=[];
   HW_FEED.posts.forEach(function(x){ var hit=(x.p||[]).some(function(q){return NRM(q)===key;}); if(!hit&&full.split(' ').length>1&&NRM(x.x).indexOf(key)>=0) hit=true; var tx=hwClean(x.x); if(hit&&tx.length>=18) out.push({x:x,t:tx}); });
@@ -8437,6 +8467,7 @@ function planner(){
   return h;}
 var GR=[['f','Find players','Buy, add or trade for',[['t','Best targets'],['a','Waiver assistant'],['s','Every roster'],['w','Waiver wire']],'find a player to buy, pick up or trade for. <i>Best targets</i> ranks players by position and price (tap one for a plain buy-or-wait read). <i>Every roster</i> goes team by team. <i>Waiver assistant</i> shows this week\u2019s industry waiver targets with a suggested bid for each of your teams. <i>Waiver wire</i> covers kickers, streaming defenses and recently dropped players.'],
  ['m','My team','Lineup and league view',[['m','My lineup'],['o','League outlook']],'see your own lineup, bench and suggested pickups (<i>My lineup</i>), or compare every team in a league by what it needs and who is worth targeting (<i>League outlook</i>).'],
+ ['h','Hayden Winks','Weekly rankings by position',[['h','Weekly ranks']],'see Hayden Winks\u2019 weekly rankings for each position with your players highlighted. Each row shows which of your teams has that player and whether he is starting or on the bench. Use <i>My players only</i> to hide everyone else.'],
  ['c','Trades','Grade a deal, pick prices',[['c','Check a deal'],['p','Trade planner']],'grade a deal before you send it (<i>Check a deal</i> rebuilds both lineups before and after) or build a two-team deal and see its price (<i>Trade planner</i>): in picks where picks can be traded, in players where they cannot.'],
  ['x','Schedule','CFN Index, rest of season',[['x','CFN Index']],'see which opponents are soft or tough the rest of the way. The CFN Index weights each defense\u2019s last 4 games 70% and the full season 30%, so it reflects how defenses play now, not in Week 1.'],
  ['k','Chip','Ask about trades and lineups',[['k','Ask Chip']],'ask <i>Chip</i> a question in plain words, by typing or talking. Try a trade (<i>In Gentlemen\u2019s, I send A and B for C, should I do it?</i>), a player, or your weak lineup spots. Chip uses the same values and lineup math as the rest of Commish Tools and can read the answer out loud.']];
@@ -8451,7 +8482,7 @@ function render(){
   h+=lwBanner();
   h+='<div class="cm-use"><b>Use this to:</b> '+g[4]+'</div>';
   scoreFor(S.tab==='p'?S.plg:S.tab==='o'?S.olg:S.tab==='t'?S.lg:S.tab==='s'?S.slg:S.tab==='m'?S.mlg:S.tab==='c'?S.clg:S.tab==='k'?(S.chipLg||'gl'):S.tab==='w'?S.wlg:S.tab==='a'&&S.alg&&S.alg!=='all'?S.alg:'gl');
-  h+=S.tab==='p'?planner():S.tab==='t'?targets():S.tab==='o'?outlook():S.tab==='s'?scout():S.tab==='m'?myteam():S.tab==='k'?chipView():S.tab==='c'?checker():S.tab==='w'?waivers():S.tab==='a'?wassist():matchups();
+  h+=S.tab==='p'?planner():S.tab==='t'?targets():S.tab==='o'?outlook():S.tab==='s'?scout():S.tab==='m'?myteam():S.tab==='k'?chipView():S.tab==='c'?checker():S.tab==='w'?waivers():S.tab==='a'?wassist():S.tab==='h'?hwAll():matchups();
   if(S.det) h+=detail();
   var y=window.scrollY; root.innerHTML=h; wire(); try{hwBadges(root);}catch(_e){}
 
