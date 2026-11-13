@@ -1035,7 +1035,7 @@ nav::-webkit-scrollbar{display:none}
 <div id="view-home" class="page">
 
   <div class="week-hd">
-    <span class="badge">Week 9 Final</span>
+    <span class="badge">Week 10 Live</span>
     <span class="week-title">Week 10</span>
     <span class="week-sub">Nov 10 – Nov 16, 2026</span>
   </div>
@@ -1112,6 +1112,14 @@ nav::-webkit-scrollbar{display:none}
 .rd-r u{text-decoration:none;font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-left:4px}
 .rd-ft{font-size:10.5px;color:var(--muted);line-height:1.4}
 </style>
+
+  <!-- Week 10 live matchups card -->
+  <div id="live-card-wrap">
+    <div class="feat-card rd-feat" onclick="showLive()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showLive();}">
+      <div class="feat-bar"></div>
+      <div class="rd-fb"><img class="rd-flogo" alt="" id="lv-flogo"><div class="rd-ftx"><span class="feat-eye" style="display:flex;align-items:center;gap:8px">Cuadz Fantasy Network &middot; Week 10 <span class="lv-pill"><i></i>LIVE</span></span><div class="feat-title">Week 10 Matchups</div><div class="feat-desc" style="max-width:none" id="lv-fdesc">Live scores, win odds and full lineups for every matchup in all four leagues, primetime games included.</div></div><span class="feat-cta">View &rarr;</span></div>
+    </div>
+  </div>
 
   <!-- Road to the Playoffs card -->
   <div id="road-card-wrap">
@@ -1359,6 +1367,15 @@ nav::-webkit-scrollbar{display:none}
 .rd-hlogo{width:72px;height:72px;object-fit:contain;flex:none}
 @media(max-width:560px){.rd-flogo{width:44px;height:44px}.rd-fb .feat-cta{display:none}.rd-hlogo{width:56px;height:56px}.rd-hdr .art-title{font-size:34px}}
 </style>
+<style>.lvh-sec{display:flex;flex-direction:column;gap:10px}.lvh-hd{display:flex;align-items:center;gap:10px;padding-bottom:4px;border-bottom:.5px solid var(--border);font-size:13px;font-weight:700;letter-spacing:.02em;color:var(--text)}.lvh-hd .lvh-n{margin-left:auto;font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.lvh-hd img{height:26px;width:auto;max-width:56px;object-fit:contain}#view-live .rd-hdr .art-title{display:flex;align-items:center;gap:12px;flex-wrap:wrap}#lv-list{display:flex;flex-direction:column;gap:26px;margin-top:6px}</style>
+<!-- WEEK 10 LIVE MATCHUPS VIEW -->
+<div id="view-live" class="page" hidden>
+  <div><button class="art-back" onclick="showHome()">&larr; Network Home</button></div>
+  <div class="rd-hdr"><img class="rd-hlogo" alt="Cuadz Fantasy Network" id="lv-hlogo"><div><div class="art-eye">Cuadz Fantasy Network &middot; Week 10</div><div class="art-title" style="margin-bottom:4px">Week 10 Matchups <span class="lv-pill" style="font-size:10px;padding:3px 10px 3px 8px"><i></i>LIVE</span></div><div class="art-meta" id="lv-meta"></div></div></div>
+  <p class="lv-note" id="lv-note" style="margin:12px 0 4px"></p>
+  <div id="lv-list"></div>
+</div>
+
 <!-- ROAD TO THE PLAYOFFS VIEW -->
 <div id="view-road" class="page" hidden>
   <div><button class="art-back" onclick="showHome()">&larr; Network Home</button></div>
@@ -4683,7 +4700,7 @@ async function sharePrevMatch(k,i){
 }
 
 function wpCard(k,m,i,live){
-  var p=m.p, fa=p>=50, A=m.a, B=m.b, pt=!live&&pvPt(k,m);
+  var p=m.p, fa=p>=50, A=m.a, B=m.b, pt=pvPt(k,m);
   return '<div class="wp-card'+(pt?' wp-pt':'')+'" tabindex="0" role="button" aria-expanded="false" onclick="wpToggle(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();wpToggle(this);}">'+
     '<div class="wp-top"><span>'+(pt?'<b class="wp-ptl">Primetime Matchup</b>':'Matchup '+(i+1))+(live?' &middot; '+(lvDec(m)&&m.left?'Decided &middot; ':'')+(m.left?m.left+' to play':'Final'):'')+'</span>'+'<button type="button" class="wp-sh" onclick="event.stopPropagation();'+(live?'shareMatch':'sharePrevMatch')+'(\''+k+'\','+i+')" onkeydown="event.stopPropagation()">Share matchup</button>'+'<span class="wp-hint">Full lineups <i>&#9662;</i></span></div>'+
     (live?lvBanner(m,k):'')+wpTeam(k,A,m.ia,fa,p,m.pa,live&&lvX(m,'a'))+wpTeam(k,B,m.ib,!fa,100-p,m.pb,live&&lvX(m,'b'))+
@@ -5057,7 +5074,7 @@ function lgRender(){
   var k = lgState.k, L = LGI[k], p = document.getElementById('lg-panel');
   document.getElementById('lg-eye').textContent = 'CFN · League' + (L.keeper ? ' · Keeper' : '');
   document.getElementById('lg-name').innerHTML = lgLogoImg(k)+L.name;
-  document.getElementById('lg-meta').textContent = 'Est. ' + L.est + ' · Week 9 final';
+  document.getElementById('lg-meta').textContent = 'Est. ' + L.est + ' · Week 10 live';
   document.getElementById('lg-tabs').innerHTML = lgTabs();
   p.innerHTML = '';
   var t = lgState.tab;
@@ -8851,6 +8868,34 @@ function showRoad(k){
   });
   var h=document.getElementById('app-header'); if(h) h.addEventListener('click',function(){ var v=document.getElementById('view-road'); if(v) v.hidden=true; if(/^#road=/.test(location.hash)){ try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} } },true);
   var m=/^#road=(gl|bh|rb|sts)$/.exec(location.hash); if(m) showRoad(m[1]);
+})();
+function liveAlive(k){ return (PVL[k]||[]).filter(function(m){return m.left>0&&!lvDec(m);}).length; }
+function liveRender(){
+  var ks=['gl','bh','rb','sts'], tot=0, al=0, out='';
+  ks.forEach(function(k){ var M=PVL[k]||[], a=liveAlive(k); tot+=M.length; al+=a;
+    out+='<div class="lvh-sec"><div class="lvh-hd">'+lgLogoImg(k).replace('height:1.05em;width:auto;max-width:2.4em;','height:26px;width:auto;max-width:56px;')+'<span>'+lgEsc(LGI[k].name)+'</span><span class="lvh-n">'+a+' of '+M.length+' undecided</span></div><div class="wp-grid">'+M.map(function(m,i){return wpCard(k,m,i,true);}).join('')+'</div></div>'; });
+  document.getElementById('lv-list').innerHTML=out;
+  document.getElementById('lv-meta').textContent='All four leagues \u00b7 '+tot+' matchups \u00b7 '+al+' undecided';
+  document.getElementById('lv-note').innerHTML='Scores and projections from Yahoo, '+PVL_AT+'. Win odds are recalculated from each team&rsquo;s live projected total, so they move as games finish. Players marked in play show their projection until they score; finished players are green above projection and orange below. Tap any matchup for full lineups.';
+}
+function showLive(){
+  document.querySelectorAll('[id^="view-"]').forEach(function(v){ v.hidden=true; });
+  document.getElementById('view-live').hidden=false;
+  try{ setNav('ntab-net'); }catch(e){}
+  liveRender(); try{ history.replaceState(null,'','#live'); }catch(e){}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+(function(){
+  var im=document.querySelector('#app-header .logo img'); if(im){ ['lv-flogo','lv-hlogo'].forEach(function(id){ var e=document.getElementById(id); if(e) e.src=im.src; }); }
+  function off(){ var v=document.getElementById('view-live'); if(v) v.hidden=true; if(location.hash==='#live'){ try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} } }
+  ['showHome','showArticle','showStudio','showLeague','showTab','showNoRecap','showRoad'].forEach(function(n){
+    var f=window[n]; if(typeof f!=='function') return;
+    window[n]=function(){ off(); return f.apply(this,arguments); };
+  });
+  var hd=document.getElementById('app-header'); if(hd) hd.addEventListener('click',off,true);
+  var w=document.getElementById('live-card-wrap'); if(w&&!(['gl','bh','rb','sts'].some(function(k){return liveAlive(k)>0;}))) w.hidden=true;
+  var d=document.getElementById('lv-fdesc'); if(d){ var t=0,a=0; ['gl','bh','rb','sts'].forEach(function(k){ t+=(PVL[k]||[]).length; a+=liveAlive(k); }); d.textContent='Live scores, win odds and full lineups for all '+t+' matchups across the four leagues, primetime games included. '+a+' still undecided.'; }
+  if(location.hash==='#live') showLive();
 })();
 </script>
 </body></html>
