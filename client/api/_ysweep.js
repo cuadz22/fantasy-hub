@@ -19,7 +19,7 @@ async function fetchPage(lg, week, mid1) {
 }
 
 function player(cell) {
-  const nm = /class="[^"]*\bname\b[^"]*"[^>]*>([^<]+)</.exec(cell);
+  const nm = /class="(?:[^"]*\s)?name(?:\s[^"]*)?"[^>]*>([^<]+)</.exec(cell);
   if (!nm) return null;
   const name = dec(nm[1]).trim();
   const t = text(cell);
@@ -38,8 +38,8 @@ function parsePage(html) {
   for (const seg of html.split(/<tr\b/).slice(1)) {
     const row = seg.split('</tr>')[0];
     if (!/ysf-player-name/.test(row)) continue;
-    const cells = row.match(/<td\b[\s\S]*?<\/td>/g) || [];
-    if (cells.length < 10) { skipped++; dbg.push('c' + cells.length); continue; }
+    const cells = row.split(/<td\b/).slice(1).map(c => '<td' + c);
+    if (cells.length < 10) { skipped++; dbg.push('c' + cells.length + ':' + cells.map(c => text(c).slice(0, 7)).join('~')); continue; }
     const slot = text(cells[4]);
     if (!SLOTS.test(slot)) { skipped++; dbg.push('s:' + slot.slice(0, 14) + '/' + cells.length); continue; }
     const l = player(cells[1]), r = player(cells[9]);
