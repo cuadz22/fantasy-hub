@@ -30,6 +30,8 @@ function player(cell) {
 }
 
 function parsePage(html) {
+  // Weather popups are small tables nested inside player cells; their </tr> would cut a lineup row short. Drop them.
+  html = html.replace(/<table\b(?:(?!<table\b)[\s\S])*?<\/table>/gi, m => (/Forecast:|Powered by/.test(m) ? '' : m));
   const teams = []; const seen = new Set();
   for (const m of html.matchAll(/<a\b[^>]*href="[^"]*\/f1\/\d+\/(\d+)(?:\?[^"]*)?"[^>]*>([\s\S]*?)<\/a>/g)) {
     const nm = text(m[2]); if (nm && !seen.has(m[1])) { seen.add(m[1]); teams.push({ id: +m[1], name: nm }); }
