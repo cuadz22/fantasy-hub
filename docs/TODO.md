@@ -1,5 +1,6 @@
 # Open items (update as things change)
 - SECURITY: the git `origin` remote URL on the owner's Mac has a GitHub personal access token embedded in it. Revoke it on GitHub, then reset the remote to the plain `https://github.com/cuadz22/fantasy-hub.git` URL (GitHub Desktop handles auth). Never print `git remote -v` output into notes or chat.
+- Build a probe: fetch a public Yahoo matchup page from a Vercel function / GitHub Action, parse the lineup table, compare to the Chrome scrape. If it works, unattended lineup checks need no computer. (Older options below only matter if it fails.)
 - Decide how to get Yahoo lineups without the owner's computer on: options are (1) accept scraping only at kickoff windows with the computer on, (2) a scheduled task that runs on the owner's computer, (3) the repo's own Chrome extension (`extension/`) posting lineups to the site while the owner's browser is open, (4) keep requesting Yahoo API access.
 - Build BallDontLie live-stats function (`client/api/live-stats.js`) after the owner adds `BALLDONTLIE_API_KEY` to Vercel; include the live projection model (see PROJECT.md).
 - Automate live stats: prototype ESPN free feed, apply per-league scoring, compare to Yahoo; scheduled job + JSON the site reads (see PROJECT.md).
