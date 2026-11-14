@@ -403,7 +403,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .ex-m b{font-weight:600}
 .ex-m.x b{color:var(--text)}
 .ex-m i{font-style:normal;font-weight:700;font-size:11px;color:var(--accent)}
-.ex-lg{display:inline-flex;opacity:.45}.ex-lg.st{opacity:1}
+.ex-lg{display:inline-flex}
 .ex-lg img{height:24px;width:auto;max-width:40px;object-fit:contain}.ex-lg b{font-size:10px}
 .ex-card{border:1px solid var(--border);border-radius:14px;background:var(--bg2);padding:12px;margin-bottom:12px}
 .ex-card.mine{border-color:var(--accent)}
@@ -1182,6 +1182,14 @@ nav::-webkit-scrollbar{display:none}
     <div class="feat-card rd-feat" onclick="showRoad()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showRoad();}">
       <div class="feat-bar"></div>
       <div class="rd-fb"><img class="rd-flogo" alt="" id="rd-flogo"><div class="rd-ftx"><span class="feat-eye">Cuadz Fantasy Network &middot; Weeks 10&ndash;14</span><div class="feat-title">Road to the Playoffs</div><div class="feat-desc" style="max-width:none">Every team in all four leagues: remaining schedule, moneylines, projected seed and playoff odds.</div></div><span class="feat-cta">View &rarr;</span></div>
+    </div>
+  </div>
+
+  <!-- Player Exposure card -->
+  <div id="exposure-card-wrap">
+    <div class="feat-card rd-feat" onclick="showExposure()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showExposure();}">
+      <div class="feat-bar"></div>
+      <div class="rd-fb"><img class="rd-flogo" alt="" id="ex-flogo"><div class="rd-ftx"><span class="feat-eye">Cuadz Fantasy Network &middot; All four leagues</span><div class="feat-title">CFN Player Exposure</div><div class="feat-desc" style="max-width:none" id="ex-fdesc">Who owns the same player in more than one league, and where.</div></div><span class="feat-cta">View &rarr;</span></div>
     </div>
   </div>
 
@@ -9149,7 +9157,7 @@ function exData(){
   Object.keys(own).forEach(function(k){ var o=own[k]; o.ms.forEach(function(e){ if(e.l.length>1){ mg[e.m].sh.push({o:o,l:e.l}); mg[e.m].shSpots+=e.l.length; } }); });
   return {own:own,mg:mg};
 }
-function exLogos(l){ return l.slice().sort(function(a,b){ return EX_LG.indexOf(a.lg)-EX_LG.indexOf(b.lg); }).map(function(x){ return '<span class="ex-lg'+(x.st?' st':'')+'" title="'+lgEsc(EX_FULL[x.lg])+' · '+(x.st?'Starting':'Bench')+'">'+(LG_LOGO[x.lg]?'<img src="'+LG_LOGO[x.lg]+'" alt="'+EX_TAG[x.lg]+'">':'<b>'+EX_TAG[x.lg]+'</b>')+'</span>'; }).join(''); }
+function exLogos(l){ return l.slice().sort(function(a,b){ return EX_LG.indexOf(a.lg)-EX_LG.indexOf(b.lg); }).map(function(x){ return '<span class="ex-lg" title="'+lgEsc(EX_FULL[x.lg])+'">'+(LG_LOGO[x.lg]?'<img src="'+LG_LOGO[x.lg]+'" alt="'+EX_TAG[x.lg]+'">':'<b>'+EX_TAG[x.lg]+'</b>')+'</span>'; }).join(''); }
 function exPlayer(o,minL,showAll){
   var ms=o.ms.filter(function(e){ return showAll||e.l.length>=minL; });
   var mine=o.by.Cuadz?' mine':'';
@@ -9164,7 +9172,7 @@ function exRender(){
   var all=Object.keys(d.own).map(function(k){ return d.own[k]; });
   if(EX.mode==='shared'){
     var L=all.filter(function(o){ return o.max>=EX.min&&pf(o); }).sort(function(a,b){ var sa=a.ms.reduce(function(s,e){return s+(e.l.length>1?e.l.length:0);},0), sb=b.ms.reduce(function(s,e){return s+(e.l.length>1?e.l.length:0);},0); return b.max-a.max||sb-sa||b.tot-a.tot; });
-    h+='<div class="ex-note"><b>'+L.length+'</b> player'+(L.length===1?'':'s')+' held by the same manager in '+EX.min+(EX.min===4?'':' or more')+' leagues. A manager who rosters the same player in several leagues is targeting him. Full-color logo = starting there, faded = bench or IR.</div>';
+    h+='<div class="ex-note"><b>'+L.length+'</b> player'+(L.length===1?'':'s')+' held by the same manager in '+EX.min+(EX.min===4?'':' or more')+' leagues. A manager who rosters the same player in several leagues is targeting him.</div>';
     h+=L.length?L.map(function(o){ return exPlayer(o,Math.max(2,EX.min),false); }).join(''):'<div class="ex-note">Nobody matches that filter.</div>';
   }else if(EX.mode==='all'){
     var L2=all.filter(pf).sort(function(a,b){ return b.tot-a.tot||b.max-a.max; }).slice(0,60);
@@ -9187,7 +9195,14 @@ function exRender(){
   root.querySelectorAll('[data-exn]').forEach(function(b){ b.onclick=function(){ EX.min=+b.dataset.exn; exRender(); }; });
   var qi=document.getElementById('ex-q'); if(qi){ qi.oninput=function(){ EX.q=qi.value; var p=qi.selectionStart; exRender(); var n=document.getElementById('ex-q'); n.focus(); try{ n.setSelectionRange(p,p); }catch(e){} }; }
 }
-window.__exRender=function(){ var v=document.getElementById('view-exposure'); if(v&&!v.hidden&&!(document.activeElement&&document.activeElement.id==='ex-q')) exRender(); };
+function exHome(){
+  var d=exData(), el=document.getElementById('ex-fdesc'); if(!d||!el) return;
+  var n=0, top=null; Object.keys(d.own).forEach(function(k){ if(d.own[k].max>=2) n++; });
+  Object.keys(d.mg).forEach(function(k){ var m=d.mg[k]; if(!top||m.sh.length>top.sh.length) top=m; });
+  el.textContent=n+' players are held by the same manager in more than one league across all four leagues'+(top?'. Most repeat players: '+top.n+' ('+top.sh.length+')':'')+'.';
+}
+(function(){ var im=document.querySelector('#app-header .logo img'), e=document.getElementById('ex-flogo'); if(im&&e) e.src=im.src; setTimeout(exHome,1200); })();
+window.__exRender=function(){ try{ exHome(); }catch(e){} var v=document.getElementById('view-exposure'); if(v&&!v.hidden&&!(document.activeElement&&document.activeElement.id==='ex-q')) exRender(); };
 window.showExposure=function(){
   document.querySelectorAll('[id^="view-"]').forEach(function(e){ e.hidden=true; });
   document.getElementById('view-exposure').hidden=false; setNav('ntab-exposure'); exRender(); window.scrollTo({top:0,behavior:'smooth'});
