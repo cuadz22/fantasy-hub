@@ -383,6 +383,34 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .hw-lg.st{opacity:1}.hw-lg.st i{color:var(--accent);font-weight:700}
 @media(max-width:520px){.hw-a{grid-template-columns:38px 1fr!important}.hw-o{grid-column:2}}
 @media(min-width:521px){.hw-a{grid-template-columns:44px minmax(170px,300px) 1fr!important}}
+
+#view-exposure .ex-ctl{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 10px}
+.ex-sp{flex:1}
+.ex-chip{font:600 12px Inter,system-ui,sans-serif;padding:7px 14px;border-radius:99px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);cursor:pointer}
+.ex-chip.sm{padding:5px 11px;font-size:11px}
+.ex-chip.on{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.ex-q{flex:1;min-width:150px;max-width:260px;font:500 12px Inter,system-ui,sans-serif;padding:6px 12px;border-radius:99px;border:1px solid var(--border);background:var(--bg2);color:var(--text)}
+.ex-note{font-size:12px;line-height:1.5;color:var(--muted);margin:8px 2px}
+.ex-fine{font-size:11px;opacity:.8}
+.ex-r{display:grid;grid-template-columns:minmax(170px,300px) 1fr;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:var(--bg3);margin-bottom:6px}
+.ex-r.mine{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,var(--bg3))}
+.ex-p{display:flex;align-items:center;gap:8px;min-width:0}
+.ex-p .wp-ph{width:34px;height:34px;flex:none;border-radius:50%;object-fit:cover}
+.ex-pt{display:flex;flex-direction:column;min-width:0;font-weight:600;font-size:13.5px}
+.ex-pt small{font-weight:400;font-size:11px;color:var(--muted)}
+.ex-o{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.ex-m{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted)}
+.ex-m b{font-weight:600}
+.ex-m.x b{color:var(--text)}
+.ex-m i{font-style:normal;font-weight:700;font-size:11px;color:var(--accent)}
+.ex-lg{display:inline-flex;opacity:.45}.ex-lg.st{opacity:1}
+.ex-lg img{height:24px;width:auto;max-width:40px;object-fit:contain}.ex-lg b{font-size:10px}
+.ex-card{border:1px solid var(--border);border-radius:14px;background:var(--bg2);padding:12px;margin-bottom:12px}
+.ex-card.mine{border-color:var(--accent)}
+.ex-ch{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:8px;font-size:15px}
+.ex-cl{display:inline-flex;gap:6px}.ex-cs{margin-left:auto;font-size:11px;color:var(--muted)}
+.ex-card .ex-r{background:var(--bg3)}
+@media(max-width:620px){.ex-r{grid-template-columns:1fr}.ex-cs{margin-left:0;width:100%}}
 .hw-n{font:400 22px 'Bebas Neue','Impact',sans-serif;color:var(--accent);text-align:center}
 .hw-p{font-weight:600;font-size:13.5px;display:flex;flex-direction:column;min-width:0}.hw-p small{font-weight:400;font-size:11px;color:var(--muted)}
 .hw-s{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
@@ -1044,6 +1072,7 @@ nav::-webkit-scrollbar{display:none}
       <button class="ntab" id="ntab-sts" onclick="showLeague('sts')"><span class="dot"></span>Shoot the Shits</button>
       <div class="nav-divider"></div>
       <button class="ntab" id="ntab-trades" onclick="TC.open('hub')"><span class="dot"></span>Market Analysis</button>
+      <button class="ntab" id="ntab-exposure" onclick="showExposure()"><span class="dot"></span>Exposure</button>
       <button class="ntab" id="ntab-studio" onclick="showStudio()"><span class="dot"></span>Studio</button>
       <button class="ntab" id="ntab-pickem" onclick="showPickem()"><span class="dot"></span>Pick'em</button>
       <button class="ntab" id="ntab-commish" onclick="showCommish()"><span class="dot"></span>Commish Tools</button>
@@ -1288,6 +1317,15 @@ nav::-webkit-scrollbar{display:none}
   <div id="studio-root"></div>
 </div>
 
+
+<div id="view-exposure" class="page" hidden>
+  <div class="art-hd">
+    <div class="art-eye">CFN · Network</div>
+    <div class="art-title">Player Exposure</div>
+    <div class="art-meta">Who owns the same player in more than one league, and where</div>
+  </div>
+  <div id="exposure-root"></div>
+</div>
 
 <div id="view-commish" class="page" hidden>
   <div class="art-hd">
@@ -9041,6 +9079,7 @@ function ysSyncAll(force){ var changed=false;
     try{ if(window.__cmSync&&window.__cmSync(k,R,mg)) changed=true; }catch(e){ console.error(e); }
     try{ var D=window.__TCD, T=D&&D.teams&&D.teams[k]; if(T) T.forEach(function(t){ var rows=R[t.id]; if(!rows) return; var pl=[]; rows.forEach(function(x){ if(x[0]==='K'||x[0]==='DEF') return; var n=ysNn(x[1]); if(D.players[n]) pl.push([x[0],n]); }); if(pl.length>=8) t.pl=pl; }); }catch(e){ console.error(e); }
   }); }catch(e){ console.error(e); }
+  try{ window.__exRender&&window.__exRender(); }catch(e){}
   if(changed&&!force){ try{ window.__cmRender&&window.__cmRender(); }catch(e){} } return changed; }
 function ysStat(t){ t=String(t||''); if(/^final/i.test(t)||/^bye/i.test(t)||/no game/i.test(t)) return 2; if(/^(sun|mon|tue|wed|thu|fri|sat)\b/i.test(t)&&/\d:\d\d\s*[ap]m/i.test(t)) return 3; return 4; }
 function ysErf(x){ var s=x<0?-1:1; x=Math.abs(x); var t=1/(1+0.3275911*x); var y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x); return s*y; }
@@ -9094,5 +9133,65 @@ function ysRefresh(){
 (function(){ if(!/^https?:/.test(location.protocol)) return; setTimeout(ysRefresh,1500);
   setInterval(function(){ if(document.visibilityState==='visible') ysRefresh(); },600000);
   document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'&&Date.now()-YS.at>540000) ysRefresh(); }); })();
+
+/* ===== CFN Exposure: who owns the same player in more than one league ===== */
+var EX={mode:'shared',pos:'ALL',min:2,q:''};
+var EX_LG=['gl','bh','rb','sts'], EX_TAG={gl:'GL',bh:'B&H',rb:'RBT',sts:'STS'}, EX_FULL={gl:"Gentlemen's",bh:'Beaners & Husseins',rb:'Rebirth',sts:'Shoot the Shits'};
+function exData(){
+  var D=window.__TCD; if(!D||!D.teams) return null;
+  var own={}, mg={};
+  EX_LG.forEach(function(lg){ (D.teams[lg]||[]).forEach(function(t){
+    var m=mg[t.mgr]=mg[t.mgr]||{n:t.mgr,lgs:{},spots:0,team:{}}; m.lgs[lg]=1; m.team[lg]=t.team;
+    (t.pl||[]).forEach(function(x){ var p=D.players[x[1]]; if(!p) return; m.spots++;
+      var o=own[x[1]]=own[x[1]]||{p:p,k:x[1],by:{},tot:0}; (o.by[t.mgr]=o.by[t.mgr]||[]).push({lg:lg,st:x[0]!=='BN'&&x[0]!=='IR'}); o.tot++; }); }); });
+  Object.keys(own).forEach(function(k){ var o=own[k]; o.ms=Object.keys(o.by).map(function(m){ return {m:m,l:o.by[m]}; }).sort(function(a,b){ return b.l.length-a.l.length||(a.m<b.m?-1:1); }); o.max=o.ms[0].l.length; });
+  Object.keys(mg).forEach(function(n){ var m=mg[n]; m.nl=Object.keys(m.lgs).length; m.sh=[]; m.shSpots=0; });
+  Object.keys(own).forEach(function(k){ var o=own[k]; o.ms.forEach(function(e){ if(e.l.length>1){ mg[e.m].sh.push({o:o,l:e.l}); mg[e.m].shSpots+=e.l.length; } }); });
+  return {own:own,mg:mg};
+}
+function exLogos(l){ return l.slice().sort(function(a,b){ return EX_LG.indexOf(a.lg)-EX_LG.indexOf(b.lg); }).map(function(x){ return '<span class="ex-lg'+(x.st?' st':'')+'" title="'+lgEsc(EX_FULL[x.lg])+' · '+(x.st?'Starting':'Bench')+'">'+(LG_LOGO[x.lg]?'<img src="'+LG_LOGO[x.lg]+'" alt="'+EX_TAG[x.lg]+'">':'<b>'+EX_TAG[x.lg]+'</b>')+'</span>'; }).join(''); }
+function exPlayer(o,minL,showAll){
+  var ms=o.ms.filter(function(e){ return showAll||e.l.length>=minL; });
+  var mine=o.by.Cuadz?' mine':'';
+  return '<div class="ex-r'+mine+'"><span class="ex-p">'+wpPh(o.p.n)+'<span class="ex-pt">'+lgEsc(o.p.n)+'<small>'+o.p.p+' · '+o.p.t+' · on '+o.tot+' of 48 teams</small></span></span><span class="ex-o">'+ms.map(function(e){ return '<span class="ex-m'+(e.l.length>1?' x':'')+'"><b>'+lgEsc(e.m)+'</b>'+exLogos(e.l)+(e.l.length>1?'<i>×'+e.l.length+'</i>':'')+'</span>'; }).join('')+'</span></div>';
+}
+function exRender(){
+  var root=document.getElementById('exposure-root'); if(!root) return;
+  var d=exData(); if(!d){ root.innerHTML='<div class="ex-note">Roster data is still loading.</div>'; return; }
+  var h='<div class="ex-ctl">'+[['shared','Shared players'],['mgr','By manager'],['all','Most owned']].map(function(x){ return '<button type="button" class="ex-chip'+(EX.mode===x[0]?' on':'')+'" data-exm="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div>';
+  h+='<div class="ex-ctl">'+['ALL','QB','RB','WR','TE'].map(function(p){ return '<button type="button" class="ex-chip sm'+(EX.pos===p?' on':'')+'" data-exp="'+p+'">'+(p==='ALL'?'All positions':p)+'</button>'; }).join('')+(EX.mode==='shared'?'<span class="ex-sp"></span>'+[2,3,4].map(function(n){ return '<button type="button" class="ex-chip sm'+(EX.min===n?' on':'')+'" data-exn="'+n+'">'+n+(n===4?' leagues':'+ leagues')+'</button>'; }).join(''):'')+'<input type="text" id="ex-q" class="ex-q" placeholder="Find a player or manager" value="'+lgEsc(EX.q)+'"></div>';
+  var q=EX.q.trim().toLowerCase(), pf=function(o){ return (EX.pos==='ALL'||o.p.p===EX.pos)&&(!q||o.p.n.toLowerCase().indexOf(q)>=0||o.ms.some(function(e){ return e.m.toLowerCase().indexOf(q)>=0; })); };
+  var all=Object.keys(d.own).map(function(k){ return d.own[k]; });
+  if(EX.mode==='shared'){
+    var L=all.filter(function(o){ return o.max>=EX.min&&pf(o); }).sort(function(a,b){ var sa=a.ms.reduce(function(s,e){return s+(e.l.length>1?e.l.length:0);},0), sb=b.ms.reduce(function(s,e){return s+(e.l.length>1?e.l.length:0);},0); return b.max-a.max||sb-sa||b.tot-a.tot; });
+    h+='<div class="ex-note"><b>'+L.length+'</b> player'+(L.length===1?'':'s')+' held by the same manager in '+EX.min+(EX.min===4?'':' or more')+' leagues. A manager who rosters the same player in several leagues is targeting him. Full-color logo = starting there, faded = bench or IR.</div>';
+    h+=L.length?L.map(function(o){ return exPlayer(o,Math.max(2,EX.min),false); }).join(''):'<div class="ex-note">Nobody matches that filter.</div>';
+  }else if(EX.mode==='all'){
+    var L2=all.filter(pf).sort(function(a,b){ return b.tot-a.tot||b.max-a.max; }).slice(0,60);
+    h+='<div class="ex-note">The most rostered players across all 48 teams in the four leagues. Every owner is shown; × marks a manager who has him more than once.</div>'+L2.map(function(o){ return exPlayer(o,1,true); }).join('');
+  }else{
+    var M=Object.keys(d.mg).map(function(n){ return d.mg[n]; }).filter(function(m){ return !q||m.n.toLowerCase().indexOf(q)>=0||m.sh.some(function(s){ return s.o.p.n.toLowerCase().indexOf(q)>=0; }); });
+    var multi=M.filter(function(m){ return m.nl>1; }).sort(function(a,b){ return b.sh.length-a.sh.length||b.shSpots-a.shSpots; }), single=M.filter(function(m){ return m.nl===1; });
+    h+='<div class="ex-note">Each manager’s players that appear on more than one of their teams. “Exposure” is the share of their roster spots filled by those repeat players.</div>';
+    multi.forEach(function(m){
+      var pc=m.sh.filter(function(s){ return EX.pos==='ALL'||s.o.p.p===EX.pos; }).sort(function(a,b){ return b.l.length-a.l.length||b.o.tot-a.o.tot; });
+      h+='<div class="ex-card'+(m.n==='Cuadz'?' mine':'')+'"><div class="ex-ch"><b>'+lgEsc(m.n)+'</b><span class="ex-cl">'+Object.keys(m.lgs).map(function(lg){ return exLogos([{lg:lg,st:true}]); }).join('')+'</span><span class="ex-cs">'+m.sh.length+' repeat player'+(m.sh.length===1?'':'s')+' · exposure '+(m.spots?Math.round(100*m.shSpots/m.spots):0)+'%</span></div>'+
+        (pc.length?pc.map(function(s){ return '<div class="ex-r"><span class="ex-p">'+wpPh(s.o.p.n)+'<span class="ex-pt">'+lgEsc(s.o.p.n)+'<small>'+s.o.p.p+' · '+s.o.p.t+'</small></span></span><span class="ex-o"><span class="ex-m x">'+exLogos(s.l)+'<i>×'+s.l.length+'</i></span></span></div>'; }).join(''):'<div class="ex-note" style="margin:6px 0 0">No repeat players'+(EX.pos==='ALL'?'':' at '+EX.pos)+'.</div>')+'</div>';
+    });
+    if(single.length) h+='<div class="ex-note">In only one league, so there is no exposure to compare: '+single.map(function(m){ return '<b>'+lgEsc(m.n)+'</b> ('+EX_TAG[Object.keys(m.lgs)[0]]+')'; }).join(', ')+'.</div>';
+  }
+  h+='<div class="ex-note ex-fine">Gentlemen’s, Beaners &amp; Husseins, Rebirth and Shoot the Shits only. Rosters come from the latest Yahoo sweep. Managers are matched by name across leagues.</div>';
+  var a=document.activeElement, keep=a&&a.id==='ex-q'; root.innerHTML=h;
+  root.querySelectorAll('[data-exm]').forEach(function(b){ b.onclick=function(){ EX.mode=b.dataset.exm; exRender(); }; });
+  root.querySelectorAll('[data-exp]').forEach(function(b){ b.onclick=function(){ EX.pos=b.dataset.exp; exRender(); }; });
+  root.querySelectorAll('[data-exn]').forEach(function(b){ b.onclick=function(){ EX.min=+b.dataset.exn; exRender(); }; });
+  var qi=document.getElementById('ex-q'); if(qi){ qi.oninput=function(){ EX.q=qi.value; var p=qi.selectionStart; exRender(); var n=document.getElementById('ex-q'); n.focus(); try{ n.setSelectionRange(p,p); }catch(e){} }; }
+}
+window.__exRender=function(){ var v=document.getElementById('view-exposure'); if(v&&!v.hidden&&!(document.activeElement&&document.activeElement.id==='ex-q')) exRender(); };
+window.showExposure=function(){
+  document.querySelectorAll('[id^="view-"]').forEach(function(e){ e.hidden=true; });
+  document.getElementById('view-exposure').hidden=false; setNav('ntab-exposure'); exRender(); window.scrollTo({top:0,behavior:'smooth'});
+};
+(function(){ var sn=window.setNav; window.setNav=function(id){ sn(id); if(id!=='ntab-exposure'){ var v=document.getElementById('view-exposure'); if(v) v.hidden=true; } }; })();
 </script>
 </body></html>
