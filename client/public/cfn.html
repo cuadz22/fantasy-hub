@@ -386,6 +386,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 
 #view-exposure .ex-ctl{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 10px}
 .ex-sp{flex:1}
+.ex-share{border-color:var(--accent);color:var(--accent)}
 .ex-chip{font:600 12px Inter,system-ui,sans-serif;padding:7px 14px;border-radius:99px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);cursor:pointer}
 .ex-chip.sm{padding:5px 11px;font-size:11px}
 .ex-chip.on{background:var(--accent);color:var(--bg);border-color:var(--accent)}
@@ -9166,7 +9167,7 @@ function exPlayer(o,minL,showAll){
 function exRender(){
   var root=document.getElementById('exposure-root'); if(!root) return;
   var d=exData(); if(!d){ root.innerHTML='<div class="ex-note">Roster data is still loading.</div>'; return; }
-  var h='<div class="ex-ctl">'+[['shared','Shared players'],['mgr','By manager'],['all','Most owned']].map(function(x){ return '<button type="button" class="ex-chip'+(EX.mode===x[0]?' on':'')+'" data-exm="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div>';
+  var h='<div class="ex-ctl">'+[['shared','Shared players'],['mgr','By manager'],['all','Most owned']].map(function(x){ return '<button type="button" class="ex-chip'+(EX.mode===x[0]?' on':'')+'" data-exm="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'<span class="ex-sp"></span><button type="button" class="ex-chip sm ex-share" onclick="exShare(this)">Copy share link</button></div>';
   h+='<div class="ex-ctl">'+['ALL','QB','RB','WR','TE'].map(function(p){ return '<button type="button" class="ex-chip sm'+(EX.pos===p?' on':'')+'" data-exp="'+p+'">'+(p==='ALL'?'All positions':p)+'</button>'; }).join('')+(EX.mode==='shared'?'<span class="ex-sp"></span>'+[2,3,4].map(function(n){ return '<button type="button" class="ex-chip sm'+(EX.min===n?' on':'')+'" data-exn="'+n+'">'+n+(n===4?' leagues':'+ leagues')+'</button>'; }).join(''):'')+'<input type="text" id="ex-q" class="ex-q" placeholder="Find a player or manager" value="'+lgEsc(EX.q)+'"></div>';
   var q=EX.q.trim().toLowerCase(), pf=function(o){ return (EX.pos==='ALL'||o.p.p===EX.pos)&&(!q||o.p.n.toLowerCase().indexOf(q)>=0||o.ms.some(function(e){ return e.m.toLowerCase().indexOf(q)>=0; })); };
   var all=Object.keys(d.own).map(function(k){ return d.own[k]; });
@@ -9205,8 +9206,16 @@ function exHome(){
 window.__exRender=function(){ try{ exHome(); }catch(e){} var v=document.getElementById('view-exposure'); if(v&&!v.hidden&&!(document.activeElement&&document.activeElement.id==='ex-q')) exRender(); };
 window.showExposure=function(){
   document.querySelectorAll('[id^="view-"]').forEach(function(e){ e.hidden=true; });
-  document.getElementById('view-exposure').hidden=false; setNav('ntab-exposure'); exRender(); window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('view-exposure').hidden=false; setNav('ntab-exposure'); exRender(); try{ history.replaceState(null,'','#exposure'); }catch(e){} window.scrollTo({top:0,behavior:'smooth'});
 };
-(function(){ var sn=window.setNav; window.setNav=function(id){ sn(id); if(id!=='ntab-exposure'){ var v=document.getElementById('view-exposure'); if(v) v.hidden=true; } }; })();
+window.exShare=function(btn){
+  var url=location.origin+'/#exposure', done=function(){ if(btn){ var o=btn.getAttribute('data-l')||btn.textContent; btn.setAttribute('data-l',o); btn.textContent='Link copied'; setTimeout(function(){ btn.textContent=o; },1800); } };
+  function fb(){ var t=document.createElement('textarea'); t.value=url; t.style.position='fixed'; t.style.opacity='0'; document.body.appendChild(t); t.select(); try{ document.execCommand('copy'); done(); }catch(e){ if(btn) btn.textContent=url; } t.remove(); }
+  if(navigator.share&&/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){ navigator.share({title:'CFN Player Exposure',text:'Who owns the same players across the Cuadz Fantasy Network leagues',url:url}).catch(function(){}); return; }
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done,fb); } else fb();
+};
+(function(){ function go(){ if(location.hash==='#exposure'){ var v=document.getElementById('view-exposure'); if(v&&v.hidden) window.showExposure(); } }
+  window.addEventListener('hashchange',go); setTimeout(go,500); })();
+(function(){ var sn=window.setNav; window.setNav=function(id){ sn(id); if(id!=='ntab-exposure'){ var v=document.getElementById('view-exposure'); if(v) v.hidden=true; if(location.hash==='#exposure'){ try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} } } }; })();
 </script>
 </body></html>
