@@ -9209,7 +9209,7 @@ window.showExposure=function(){
   document.getElementById('view-exposure').hidden=false; setNav('ntab-exposure'); exRender(); try{ history.replaceState(null,'','#exposure'); }catch(e){} window.scrollTo({top:0,behavior:'smooth'});
 };
 window.exShare=function(btn){
-  var url=location.origin+'/#exposure', done=function(){ if(btn){ var o=btn.getAttribute('data-l')||btn.textContent; btn.setAttribute('data-l',o); btn.textContent='Link copied'; setTimeout(function(){ btn.textContent=o; },1800); } };
+  var url=location.origin+'/exposure', done=function(){ if(btn){ var o=btn.getAttribute('data-l')||btn.textContent; btn.setAttribute('data-l',o); btn.textContent='Link copied'; setTimeout(function(){ btn.textContent=o; },1800); } };
   function fb(){ var t=document.createElement('textarea'); t.value=url; t.style.position='fixed'; t.style.opacity='0'; document.body.appendChild(t); t.select(); try{ document.execCommand('copy'); done(); }catch(e){ if(btn) btn.textContent=url; } t.remove(); }
   if(navigator.share&&/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){ navigator.share({title:'CFN Player Exposure',text:'Who owns the same players across the Cuadz Fantasy Network leagues',url:url}).catch(function(){}); return; }
   if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done,fb); } else fb();

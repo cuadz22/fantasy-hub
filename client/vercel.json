@@ -24,6 +24,10 @@
       "destination": "/road/:lg.html"
     },
     {
+      "source": "/exposure",
+      "destination": "/exposure.html"
+    },
+    {
       "source": "/((?!api/)(?!.*\\.html$).*)",
       "destination": "/index.html"
     }
