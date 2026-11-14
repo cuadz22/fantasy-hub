@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
       matchups.push({ ia: a.id, ib: b.id, an: a.name, bn: b.name, L: p.L.map(row), R: p.R.map(row) });
     }
     res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=120');
+    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.end(JSON.stringify({ lg, week, at: new Date().toISOString(), ms: Date.now() - t0, matchups }));
   } catch (e) {
