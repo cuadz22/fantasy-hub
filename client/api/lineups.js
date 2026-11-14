@@ -5,6 +5,20 @@ const { fetchPage, parsePage } = require('./_ysweep');
 const LGS = ['gl', 'bh', 'rb', 'sts'];
 const clean = s => String(s || '').replace(/&#x[0-9a-f]+;|&#\d+;/gi, '').replace(/\s+/g, ' ').trim();
 const row = x => [x.slot, x.name, x.pos, x.team, x.proj, x.pts, clean(x.status)];
+// Hourly normally; every 10 minutes only inside NFL game windows (US Eastern time) to stay well under Yahoo's rate limits.
+function cacheSeconds() {
+  try {
+    const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date()).map(x => [x.type, x.value]));
+    const m = Number(p.hour) * 60 + Number(p.minute);
+    if (p.weekday === 'Sun' && m >= 9 * 60 + 25) return 600;
+    if ((p.weekday === 'Thu' || p.weekday === 'Mon') && m >= 19 * 60 + 55) return 600;
+    if ((p.weekday === 'Mon' || p.weekday === 'Fri') && m < 90) return 600; // late-night tail of Sunday/Thursday games
+    // Don't let an hourly cache entry outlive the start of the next game window.
+    const start = p.weekday === 'Sun' ? 9 * 60 + 25 : (p.weekday === 'Thu' || p.weekday === 'Mon') ? 19 * 60 + 55 : null;
+    if (start != null && m < start) return Math.max(60, Math.min(3600, (start - m) * 60));
+  } catch (e) {}
+  return 3600;
+}
 module.exports = async (req, res) => {
   const t0 = Date.now();
   try {
@@ -21,7 +35,8 @@ module.exports = async (req, res) => {
       matchups.push({ ia: a.id, ib: b.id, an: a.name, bn: b.name, L: p.L.map(row), R: p.R.map(row) });
     }
     res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600');
+    const ttl = cacheSeconds();
+    res.setHeader('Cache-Control', `s-maxage=${ttl}, stale-while-revalidate=${ttl * 2}`);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.end(JSON.stringify({ lg, week, at: new Date().toISOString(), ms: Date.now() - t0, matchups }));
   } catch (e) {

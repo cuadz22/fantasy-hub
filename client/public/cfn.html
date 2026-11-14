@@ -9092,7 +9092,7 @@ function ysRefresh(){
   })).then(function(rs){ var ok=rs.filter(function(x){return x>0;}).length; YS.ok=ok; YS.fail=rs.filter(function(x){return x<0;}).length; if(ok){ YS.at=Date.now(); ysSyncAll(); ysRender(); } YS.busy=false; return rs; }).catch(function(){ YS.busy=false; });
 }
 (function(){ if(!/^https?:/.test(location.protocol)) return; setTimeout(ysRefresh,1500);
-  setInterval(function(){ if(document.visibilityState==='visible') ysRefresh(); },300000);
-  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'&&Date.now()-YS.at>240000) ysRefresh(); }); })();
+  setInterval(function(){ if(document.visibilityState==='visible') ysRefresh(); },600000);
+  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'&&Date.now()-YS.at>540000) ysRefresh(); }); })();
 </script>
 </body></html>
