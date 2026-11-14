@@ -373,6 +373,15 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .hw-t.st{border-color:var(--accent);color:var(--text)}
 .hw-t.st i{color:var(--accent);opacity:1}
 @media(max-width:520px){.hw-a{grid-template-columns:38px 1fr}.hw-o{grid-column:2;align-items:flex-start;max-width:none}.hw-t{white-space:normal}}
+.hw-a .hw-p,.hw-r .hw-p{display:flex!important;flex-direction:row!important;align-items:center;gap:8px;min-width:0}
+.hw-a .hw-pt{display:flex;flex-direction:column;min-width:0}
+.hw-a .cm-av{width:34px;height:34px;flex:none;border-radius:50%;object-fit:cover}
+.hw-o{flex-direction:row!important;align-items:center!important;gap:6px!important}
+.hw-lg{display:flex;flex-direction:column;align-items:center;gap:1px;padding:3px 5px;border-radius:8px;border:1px solid var(--border-l);opacity:.65}
+.hw-lg img{height:20px;width:auto;max-width:34px;object-fit:contain}
+.hw-lg i{font-style:normal;font-size:8.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.hw-lg.st{opacity:1;border-color:var(--accent)}.hw-lg.st i{color:var(--accent)}
+@media(max-width:520px){.hw-a{grid-template-columns:38px 1fr!important}.hw-o{grid-column:2}}
 .hw-n{font:400 22px 'Bebas Neue','Impact',sans-serif;color:var(--accent);text-align:center}
 .hw-p{font-weight:600;font-size:13.5px;display:flex;flex-direction:column;min-width:0}.hw-p small{font-weight:400;font-size:11px;color:var(--muted)}
 .hw-s{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
@@ -8286,8 +8295,8 @@ function hwAll(){ try{
   var show=rows.filter(function(q){ return !S.hwmine||own[NRM(q[1])]; });
   if(!show.length) h+='<div class="cm-sub2">None of your players are ranked at '+esc(g.pos)+' this week.</div>';
   h+=show.map(function(q){ var o=own[NRM(q[1])]||[];
-    var chips=o.map(function(x){ var st=x.slot!=='BN'&&x.slot!=='IR'; return '<span class="hw-t'+(st?' st':'')+'"><b>'+TM[x.lg][0]+'</b> '+esc(TM[x.lg][1])+' <i>'+(st?'Starting':(x.slot==='IR'?'IR':'Bench'))+'</i></span>'; }).join('');
-    return '<div class="hw-r hw-a'+(o.length?' own':'')+'" data-det="'+esc(q[1])+'" data-dlg="'+(o[0]?o[0].lg:'gl')+'" role="button" tabindex="0"><span class="hw-n">#'+q[0]+'</span><span class="hw-p">'+esc(q[1])+'<small>'+(q[2]?esc(q[2]):'')+(q[3]!=null?(q[2]?' · ':'')+q[3]+' proj yds':'')+'</small></span><span class="hw-o">'+chips+'</span></div>'; }).join('');
+    var chips=o.map(function(x){ var st=x.slot!=='BN'&&x.slot!=='IR'; var lb=st?'Starting':(x.slot==='IR'?'IR':'Bench'); return '<span class="hw-lg'+(st?' st':'')+'" title="'+esc(chipLgName(x.lg))+' \u00b7 '+lb+'">'+(LG_LOGO[x.lg]?'<img src="'+LG_LOGO[x.lg]+'" alt="'+TM[x.lg][0]+'">':'<b>'+TM[x.lg][0]+'</b>')+'<i>'+lb+'</i></span>'; }).join('');
+    return '<div class="hw-r hw-a'+(o.length?' own':'')+'" data-det="'+esc(q[1])+'" data-dlg="'+(o[0]?o[0].lg:'gl')+'" role="button" tabindex="0"><span class="hw-n">#'+q[0]+'</span><span class="hw-p">'+photo(q[1])+'<span class="hw-pt">'+esc(q[1])+'<small>'+(q[2]?esc(q[2]):'')+(q[3]!=null?(q[2]?' · ':'')+q[3]+' proj yds':'')+'</small></span></span><span class="hw-o">'+chips+'</span></div>'; }).join('');
   h+='<div class="cm-sub2" style="margin-top:8px">From <a href="'+esc(g.u)+'" target="_blank" rel="noopener" style="color:var(--accent)">'+esc(g.t||('Hayden Winks '+g.pos+' Blueprint'))+'</a>. Highlighted rows are players on one of your teams.</div></div>';
   return h; }catch(e){ return '<div class="cm-box"><div class="cm-sub2">Could not load the weekly ranks.</div></div>'; } }
 function hwBlock(n){ try{
