@@ -7257,6 +7257,17 @@ function cfnCtx(go,title,desc){ window.__cfnCtx={go:go,title:title,desc:desc}; }
 .ra-slot{flex:none;width:36px;align-self:flex-start;text-align:center;font-size:10px;font-weight:700;letter-spacing:.05em;padding:6px 0;border-radius:7px;background:var(--bg3);color:var(--muted);border:1px solid var(--border)}
 .ra-QB{color:#5aa2ff;border-color:#5aa2ff55}.ra-RB{color:#2fd3a4;border-color:#2fd3a455}.ra-WR{color:#ff9d2e;border-color:#ff9d2e55}.ra-TE{color:#ff5fa6;border-color:#ff5fa655}.ra-FLX{color:var(--accent);border-color:var(--accent)}
 @media(max-width:900px){.ra-wrap{grid-template-columns:1fr}}
+.sc-box{display:flex;flex-direction:column;gap:8px}
+.sc-hd{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:15px}
+.sc-add,.sc-drop{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:var(--bg3);cursor:pointer;min-width:0}
+.sc-drop{border-color:rgba(229,57,53,.5);cursor:default}
+.sc-tag{flex:none;font-size:10px;font-weight:800;letter-spacing:.06em;color:#ff5a5a;border:1px solid #ff5a5a88;border-radius:6px;padding:3px 6px}
+.sc-n{flex:none;width:16px;text-align:center;font-weight:700;color:var(--muted)}
+.sc-nm{flex:1;min-width:0;display:flex;flex-direction:column;font-weight:600;font-size:13.5px}
+.sc-nm small{font-weight:400;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-r{flex:none;display:flex;flex-direction:column;align-items:flex-end;min-width:54px}
+.sc-r b{font-size:16px;font-variant-numeric:tabular-nums}.sc-r small{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.sc-add .cm-av,.sc-drop .cm-av{width:34px;height:34px;flex:none}
 .cm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
 #view-commish .cm-card{background:var(--bg2);border:.5px solid var(--border);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
 #view-commish .cm-card.me{border-color:rgba(172,249,16,.45)}
@@ -7732,6 +7743,39 @@ function waBudHtml(lg,L){var bu=L.bud;if(!bu)return '<div class="cm-box"><div cl
   var rich=bu.oth.filter(function(x){return x.r>=5;});
   var top=bu.oth.slice(0,4).map(function(x){return esc(x.t)+' $'+x.r;}).join(', ');
   return '<div class="cm-box" style="border-color:'+(bu.me===0?'rgba(229,57,53,.55)':'var(--border)')+'"><div class="cm-lab" style="margin-bottom:4px">Your FAAB in '+esc(LGN[lg])+'</div><div class="cm-line"><b style="font-size:18px;color:'+(bu.me>0?'var(--accent)':'#e53935')+'">$'+bu.me+'</b> of $100 left (as of '+esc((LGD||{}).clipUpdated||'Nov 4')+').'+(bu.me===0?' You are out of budget here, so you can only place <b>$0 claims</b>. A $0 claim wins only if nobody with money bids on that player, and waiver priority breaks ties. Yahoo does not let managers trade FAAB.':'')+'</div><div class="cm-sub2" style="margin-top:6px">Competition: <b>'+rich.length+'</b> of '+bu.oth.length+' other teams still have $5 or more. Biggest balances: '+top+'.</div></div>';}
+function scoutMv(k){
+  var li=LG.indexOf(k),L=waList(k),bud=L.bud,adds=L.res.filter(function(t){return t.need==='start'||t.need==='flex';}).slice(0,5);
+  var me=bud&&bud.me!=null?bud.me:null;
+  var o='<div class="cm-box sc-box"><div class="sc-hd"><b>'+esc(LGN[k])+'</b><span class="cm-sub2">'+(me!=null?'FAAB left <b style="color:'+(me>0?'var(--accent)':'#e53935')+'">$'+me+'</b>':'')+'</span></div>';
+  if(!adds.length) return o+'<div class="cm-sub2">Nothing on the industry list would help this roster right now.</div></div>';
+  if(L.drop) o+='<div class="sc-drop"><span class="sc-tag">DROP</span>'+photo(L.drop.p.n)+'<span class="sc-nm">'+esc(L.drop.p.n)+'<small>'+L.drop.p.p+' · '+L.drop.p.t+' · easiest cut</small></span><span class="sc-r"><b>'+L.drop.exp.toFixed(1)+'</b><small>ROS pts/g</small></span></div>';
+  o+=adds.map(function(t,n){ var p=t.p;
+    return '<div class="sc-add" data-det="'+dq(p.n)+'" data-dlg="'+k+'" role="button" tabindex="0"><span class="sc-n">'+(n+1)+'</span>'+photo(p.n)+'<span class="sc-nm">'+esc(p.n)+badge(p.n)+'<small>'+p.p+(t.i.pr?t.i.pr:'')+' · '+p.t+' · '+(t.need==='start'?'starts for you':t.hcMine?'handcuff':'flex / depth')+'</small></span><span class="sc-r"><b style="color:var(--accent)">'+t.bid+'%</b><small>Bid of FAAB</small></span><span class="sc-r"><b>'+(t.i.ok?t.i.exp.toFixed(1):'–')+'</b><small>ROS pts/g</small></span></div>'; }).join('');
+  return o+'</div>';
+}
+function scoutDrops(){
+  var seen={},rows=[];
+  (C.drops||[]).forEach(function(d){ var k=d[0],p=null; C.players.forEach(function(x){ if(x.n===d[1]) p=x; }); if(!p||!LG.length) return; var li=LG.indexOf(k); if(li<0||k==='fb'||p.o[li]||isOut(p.n)) return;
+    var key=k+p.n; if(seen[key]) return; seen[key]=1;
+    var i=pinfo(p,li); if(!i.ok) return; var cx=null; try{cx=myCtx(k);}catch(e){} var w=cx?cx.weak[p.p]:null, up=w?i.exp-w.exp:null;
+    var sc=waScale(k,p.p), m=sc.m||5, bud=waBud(k), me=bud&&bud.me!=null?bud.me:null;
+    var want=(up==null||up>=1)?Math.round(m*1.5):up>=.3?m:Math.max(1,Math.round(m/2)); var bid=me==null?want:Math.min(want,me);
+    if(up!=null&&up<0&&p.v[li]<1500) return;
+    rows.push({k:k,p:p,i:i,up:up,by:d[2],at:d[3],want:want,bid:bid}); });
+  rows.sort(function(a,b){ return (b.up==null?9:b.up)-(a.up==null?9:a.up) || b.i.exp-a.i.exp; });
+  var h='<div class="cm-sec">Notable drops, free now</div><div class="cm-sec-sub">Players other managers cut who would help one of your teams. Bid is an estimate from your league’s own winning-bid history, capped at your FAAB. Drop list as of '+esc(C.dropsAt)+'.</div><div class="cm-box">';
+  if(!rows.length) return h+'<div class="cm-sub2">No notable free-agent drops in the tracked data.</div></div>';
+  return h+rows.slice(0,12).map(function(r){ var p=r.p;
+    return '<div class="sc-add" data-det="'+dq(p.n)+'" data-dlg="'+r.k+'" role="button" tabindex="0"><span class="sc-n" style="width:auto;font-size:10px">'+esc(r.k.toUpperCase())+'</span>'+photo(p.n)+'<span class="sc-nm">'+esc(p.n)+badge(p.n)+'<small>'+p.p+(r.i.pr?r.i.pr:'')+' · '+p.t+' · dropped by '+esc(r.by)+'</small></span><span class="sc-r"><b style="color:var(--accent)">'+r.bid+'%</b><small>Bid of FAAB</small></span><span class="sc-r"><b>'+r.i.exp.toFixed(1)+'</b><small>ROS pts/g</small></span></div>'; }).join('')+'</div>';
+}
+function scoutMoves(){
+  var lg=S.alg||'all', top='';
+  if(lg!=='all'){ var s=wassist(), ix=s.indexOf('</div></div></div>')+18; return s.slice(0,ix)+'<div class="cm-sec">Recommended moves</div>'+scoutMv(lg)+scoutDrops()+s.slice(ix); }
+  var h='<div class="cm-box"><div class="cm-row"><div class="cm-f"><label>Which league?</label>'+chips('alg',lg,[['all','All my leagues'],['gl',"Gentlemen's"],['sts','Shoot the Shits'],['bh','Beaners & Husseins'],['rb','Rebirth'],['fb','Fantasy Ball Z']])+'</div></div></div>';
+  h+='<div class="cm-sec">Recommended moves</div><div class="cm-sec-sub">For each team: who to drop, then the best pickups in order with a suggested bid (percent of a $100 FAAB budget, capped at what you have left) and his rest-of-season points per game. Tap a player for the full read. Pick a single league above for the full claim cards.</div>';
+  ['gl','sts','bh','rb'].forEach(function(k){ h+=scoutMv(k); });
+  return h+scoutDrops();
+}
 function wassist(){
   var lg=S.alg||'all',h='<div class="cm-box"><div class="cm-row"><div class="cm-f"><label>Which league?</label>'+chips('alg',lg,[['all','All my leagues'],['gl',"Gentlemen's"],['sts','Shoot the Shits'],['bh','Beaners & Husseins'],['rb','Rebirth'],['fb','Fantasy Ball Z']])+'</div></div></div>';
   h+=how('How to read this page','Every waiver pickup the fantasy industry is chasing this week (Yahoo Sports and NFL.com, pulled '+WA_ASOF+'), filtered to the ones <b>still free in the league you pick</b>. <b>Industry</b> is the suggested FAAB bid as a percent of a $100 budget; where the sites did not publish a bid, the range is our estimate from how highly they ranked him (marked <i>est.</i>). <b>Worth about</b> adjusts that to what claims actually cost in your league, using the winning bids in your league’s own waiver history. <b>Your bid</b> adds your team: a player who would start over your weakest starter gets the top of the range, a flex or handcuff gets the middle, depth gets the bottom, and a hurt player gets nothing. It is capped at the FAAB you have left. Tap a card for the full buy-or-wait read.');
@@ -8511,7 +8555,7 @@ function planner(){
       (pt.length?pt.map(function(t){function s(x){return '<div class="pl-tr"><b>'+esc(x.mgr)+'</b> got '+(x.pl.map(esc).join(', ')||'')+(x.pl.length&&x.pk.length?' + ':'')+(x.pk.length?x.pk.map(function(r){return 'R'+r;}).join(', '):'')+'<small>players '+Math.round(x.pv).toLocaleString()+(x.pk.length?' · picks '+Math.round(x.dv*pickK(lg).k).toLocaleString():'')+'</small></div>';}
         return '<div class="cm-card"><div class="cm-sub2">'+esc(t.date)+'</div>'+s(t.a)+s(t.b)+'</div>';}).join(''):'<div class="cm-sub2">No pick trades yet.</div>');}
   return h;}
-var GR=[['f','Find players','Buy, add or trade for',[['t','Best targets'],['a','Waiver assistant'],['s','Every roster'],['w','Waiver wire']],'find a player to buy, pick up or trade for. <i>Best targets</i> ranks players by position and price (tap one for a plain buy-or-wait read). <i>Every roster</i> goes team by team. <i>Waiver assistant</i> shows this week\u2019s industry waiver targets with a suggested bid for each of your teams. <i>Waiver wire</i> covers kickers, streaming defenses and recently dropped players.'],
+var GR=[['f','Scout','Moves, targets and trades',[['a','Recommended moves'],['t','Trade targets'],['s','Every roster'],['w','Waiver wire']],'find who to add, drop or trade for. <i>Recommended moves</i> lists, for each of your teams, who to drop and the ranked pickups with a suggested bid, plus notable players other teams just dropped. <i>Trade targets</i> ranks players by position and price (tap one for a plain buy-or-wait read). <i>Every roster</i> goes team by team. <i>Waiver wire</i> covers kickers, streaming defenses and recently dropped players.'],
  ['m','Roster analysis','Lineup and league view',[['m','Lineup'],['o','League outlook']],'see your own lineup, bench and suggested pickups (<i>Lineup</i>), or compare every team in a league by what it needs and who is worth targeting (<i>League outlook</i>).'],
  ['h','Hayden Winks','Weekly rankings by position',[['h','Weekly ranks']],'see Hayden Winks\u2019 weekly rankings for each position with your players highlighted. Each row shows which of your teams has that player and whether he is starting or on the bench. Use <i>My players only</i> to hide everyone else.'],
  ['c','Trades','Grade a deal, pick prices',[['c','Check a deal'],['p','Trade planner']],'grade a deal before you send it (<i>Check a deal</i> rebuilds both lineups before and after) or build a two-team deal and see its price (<i>Trade planner</i>): in picks where picks can be traded, in players where they cannot.'],
@@ -8528,7 +8572,7 @@ function render(){
   h+=lwBanner();
   h+='<div class="cm-use"><b>Use this to:</b> '+g[4]+'</div>';
   scoreFor(S.tab==='p'?S.plg:S.tab==='o'?S.olg:S.tab==='t'?S.lg:S.tab==='s'?S.slg:S.tab==='m'?S.mlg:S.tab==='c'?S.clg:S.tab==='k'?(S.chipLg||'gl'):S.tab==='w'?S.wlg:S.tab==='a'&&S.alg&&S.alg!=='all'?S.alg:'gl');
-  h+=S.tab==='p'?planner():S.tab==='t'?targets():S.tab==='o'?outlook():S.tab==='s'?scout():S.tab==='m'?myteam():S.tab==='k'?chipView():S.tab==='c'?checker():S.tab==='w'?waivers():S.tab==='a'?wassist():S.tab==='h'?hwAll():matchups();
+  h+=S.tab==='p'?planner():S.tab==='t'?targets():S.tab==='o'?outlook():S.tab==='s'?scout():S.tab==='m'?myteam():S.tab==='k'?chipView():S.tab==='c'?checker():S.tab==='w'?waivers():S.tab==='a'?scoutMoves():S.tab==='h'?hwAll():matchups();
   if(S.det) h+=detail();
   var y=window.scrollY; root.innerHTML=h; wire(); try{hwBadges(root);}catch(_e){}
 
