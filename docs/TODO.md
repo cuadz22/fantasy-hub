@@ -16,6 +16,12 @@
 - Revoke old GitHub tokens.
 - Live Activity / Dynamic Island mockup (offered). iPhone widget mockup exists: tools not saved; see CFN_Widget_Preview.html if it still exists.
 - Week 10 live numbers are a post-Thursday snapshot; refresh as Sunday games finish.
+- Scout drop alerts: scan each league's public Yahoo transactions page server-side for fresh drops (the baked `C.drops` list is from Nov 11 and missed Davante Adams and Marvin Harrison Jr).
+- Optionally host html2canvas on our own origin (currently loaded from cdnjs) to reduce outside requests.
+- Add Fantasy Ball Z to the sweep, Exposure and Market Analysis rosters.
+- TNF/SNF/MNF tags on game lines (owner will create the tag).
+- Re-bake the offline Hayden feed snapshot (live feed now has RB/WR/QB/TE Week 10 ranks).
 
 # Changelog (recent)
+- Nov 14: Flock-style expanded cards with defense-tier game lines; Hayden tab photos and logos; Roster analysis layout; Scout tab; same-origin Hayden feed (no GitHub requests from browsers); Yahoo sweep updates Commish and Market rosters; schedule-aware Yahoo cache; Player Exposure tab.
 - Week 10 live matchups on the site; card restyle; white numbers with green/orange finals; LIVE pill; homepage Week 10 Matchups live hub with primetime carried over (commits d89e978, 8ce0aa5, fe6a569, then 2cd7962, 0d93f75, ff37a9b).
