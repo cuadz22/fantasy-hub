@@ -7249,7 +7249,15 @@ function cfnCtx(go,title,desc){ window.__cfnCtx={go:go,title:title,desc:desc}; }
 #view-commish .cm-chk{display:flex;gap:6px;align-items:center;font-size:12.5px;padding-bottom:7px}
 #view-commish .cm-legend{display:flex;gap:6px;align-items:center;font-size:11.5px;color:var(--muted);flex-wrap:wrap}
 #view-commish .cm-sw{width:14px;height:14px;border-radius:4px;display:inline-block}
-#view-commish .cm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+#view-commish .ra-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.ra-col{display:flex;flex-direction:column;gap:10px;min-width:0}
+.ra-h{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ra-row{display:flex;gap:8px;align-items:stretch;min-width:0}
+.ra-row .cm-card{flex:1;min-width:0}
+.ra-slot{flex:none;width:36px;align-self:flex-start;text-align:center;font-size:10px;font-weight:700;letter-spacing:.05em;padding:6px 0;border-radius:7px;background:var(--bg3);color:var(--muted);border:1px solid var(--border)}
+.ra-QB{color:#5aa2ff;border-color:#5aa2ff55}.ra-RB{color:#2fd3a4;border-color:#2fd3a455}.ra-WR{color:#ff9d2e;border-color:#ff9d2e55}.ra-TE{color:#ff5fa6;border-color:#ff5fa655}.ra-FLX{color:var(--accent);border-color:var(--accent)}
+@media(max-width:900px){.ra-wrap{grid-template-columns:1fr}}
+.cm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
 #view-commish .cm-card{background:var(--bg2);border:.5px solid var(--border);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
 #view-commish .cm-card.me{border-color:rgba(172,249,16,.45)}
 #view-commish .cm-top{display:flex;gap:10px;align-items:center;min-width:0}
@@ -7491,8 +7499,11 @@ function myteam(){
   ros.forEach(function(r){var x=C.inj&&C.inj[r.p.n];if(x&&r.slot!=='IR'&&(r.slot!=='BN')){alerts.push('<b>'+esc(r.p.n)+'</b> is a starter but tagged '+(x==='Q'?'questionable':x==='O'?'OUT':x)+'. Check his status.');}});
   if(alerts.length) h+='<div class="cm-box" style="border-color:rgba(245,166,35,.5)"><div class="cm-lab" style="margin-bottom:6px">Needs attention</div>'+alerts.map(function(a){return '<div class="cm-line" style="margin:3px 0">'+a+'</div>';}).join('')+'</div>';
   function prow(r){var isW=weak[r.p.p]===r;return '<div class="cm-card'+(isW?' me':'')+'" data-det="'+dq(r.p.n)+'" data-dlg="'+S.mlg+'" tabindex="0" role="button"><div class="cm-top">'+photo(r.p.n)+'<div class="cm-grow"><div class="cm-nm">'+esc(r.p.n)+badge(r.p.n)+'</div><div class="cm-sub2">'+(r.os?r.os+' · ':'Bench · ')+r.p.p+' · '+r.p.t+(r.os&&r.slot==='BN'?' · <b style="color:var(--accent)">on your Yahoo bench, start him</b>':'')+'</div></div><div class="cm-val"><b style="color:var(--text)">'+(r.ok?r.exp.toFixed(1):'–')+'</b><span>expected pts/game</span></div></div>'+(isW?'<div class="cm-tags"><span class="cm-tag a">'+((nst[r.p.p]||0)>1?'Your weakest '+r.p.p+' starter, upgrade here':'Your '+r.p.p+' starter, the one to beat')+(r.pr&&r.pr<={QB:8,RB:10,WR:12,TE:5}[r.p.p]?' (already #'+r.pr+' in scoring, upgrading is unlikely)':'')+'</span></div>':'')+'<div class="cm-tags">'+schedTag(r.srank)+proofTag(r.pf)+rateTag(r.pf)+bonusTag(r)+'</div><div>'+weeks(r.p.p,r.p.t)+'</div></div>';}
-  h+='<div class="cm-sec">Your starters</div><div class="cm-sec-sub">Green boxes = soft matchups coming up. Expected points include the schedule bonus.</div><div class="cm-grid">'+starters.map(prow).join('')+'</div>';
-  h+='<div class="cm-sec">Your bench</div><div class="cm-grid">'+bench.concat(ir).map(prow).join('')+'</div>';
+  var PO={QB:0,RB:1,WR:2,TE:3}, seen={}, ord=starters.slice().sort(function(a,b){ return (PO[a.p.p]-PO[b.p.p])||(b.exp-a.exp); });
+  var lab=ord.map(function(r){ seen[r.p.p]=(seen[r.p.p]||0)+1; return seen[r.p.p]>(SPEC[r.p.p]||1)?'FLX':r.p.p; });
+  var oi=ord.map(function(r,i){return i;}).sort(function(a,b){ return ((lab[a]==='FLX')-(lab[b]==='FLX'))||(a-b); });
+  function sl(t){ return '<div class="ra-slot ra-'+t+'">'+t+'</div>'; }
+  h+='<div class="cm-sec">Roster</div><div class="cm-sec-sub">Starters on the left, bench on the right. Green boxes = soft matchups coming up. Tap any player for details.</div><div class="ra-wrap"><div class="ra-col"><div class="ra-h">Starters</div>'+oi.map(function(i){ return '<div class="ra-row">'+sl(lab[i])+prow(ord[i])+'</div>'; }).join('')+'</div><div class="ra-col"><div class="ra-h">Bench'+(ir.length?' &amp; IR':'')+'</div>'+bench.concat(ir).map(function(r){ return '<div class="ra-row">'+sl(r.slot==='IR'?'IR':'BN')+prow(r)+'</div>'; }).join('')+'</div></div>';
   // pickups
   var pk='';
   ['QB','RB','WR','TE'].forEach(function(pos){var w=weak[pos];if(!w)return;
@@ -8501,7 +8512,7 @@ function planner(){
         return '<div class="cm-card"><div class="cm-sub2">'+esc(t.date)+'</div>'+s(t.a)+s(t.b)+'</div>';}).join(''):'<div class="cm-sub2">No pick trades yet.</div>');}
   return h;}
 var GR=[['f','Find players','Buy, add or trade for',[['t','Best targets'],['a','Waiver assistant'],['s','Every roster'],['w','Waiver wire']],'find a player to buy, pick up or trade for. <i>Best targets</i> ranks players by position and price (tap one for a plain buy-or-wait read). <i>Every roster</i> goes team by team. <i>Waiver assistant</i> shows this week\u2019s industry waiver targets with a suggested bid for each of your teams. <i>Waiver wire</i> covers kickers, streaming defenses and recently dropped players.'],
- ['m','My team','Lineup and league view',[['m','My lineup'],['o','League outlook']],'see your own lineup, bench and suggested pickups (<i>My lineup</i>), or compare every team in a league by what it needs and who is worth targeting (<i>League outlook</i>).'],
+ ['m','Roster analysis','Lineup and league view',[['m','Lineup'],['o','League outlook']],'see your own lineup, bench and suggested pickups (<i>Lineup</i>), or compare every team in a league by what it needs and who is worth targeting (<i>League outlook</i>).'],
  ['h','Hayden Winks','Weekly rankings by position',[['h','Weekly ranks']],'see Hayden Winks\u2019 weekly rankings for each position with your players highlighted. Each row shows which of your teams has that player and whether he is starting or on the bench. Use <i>My players only</i> to hide everyone else.'],
  ['c','Trades','Grade a deal, pick prices',[['c','Check a deal'],['p','Trade planner']],'grade a deal before you send it (<i>Check a deal</i> rebuilds both lineups before and after) or build a two-team deal and see its price (<i>Trade planner</i>): in picks where picks can be traded, in players where they cannot.'],
  ['x','Schedule','CFN Index, rest of season',[['x','CFN Index']],'see which opponents are soft or tough the rest of the way. The CFN Index weights each defense\u2019s last 4 games 70% and the full season 30%, so it reflects how defenses play now, not in Week 1.'],
