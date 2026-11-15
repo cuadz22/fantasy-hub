@@ -82,6 +82,18 @@ async function pages(path, params, max) {
 }
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  if (req.method === 'POST') {
+    // Member sign-in for the My Team tab. PINs live only in the CFN_MEMBERS env var: {"Gio":"1234",...}
+    res.setHeader('Cache-Control', 'no-store');
+    let b = req.body; if (typeof b === 'string') { try { b = JSON.parse(b); } catch (e) { b = {}; } } b = b || {};
+    let M = {}; try { M = JSON.parse(process.env.CFN_MEMBERS || '{}'); } catch (e) { M = {}; }
+    if (!Object.keys(M).length) return res.status(503).json({ error: 'not configured' });
+    const nm = String(b.name || ''), want = Object.prototype.hasOwnProperty.call(M, nm) ? String(M[nm]) : '';
+    const h = x => require('crypto').createHash('sha256').update(String(x)).digest();
+    const ok = want.length > 0 && require('crypto').timingSafeEqual(h(b.pin || ''), h(want));
+    if (!ok) { await new Promise(r => setTimeout(r, 600)); return res.status(401).json({ error: 'bad login' }); }
+    return res.status(200).json({ ok: true, name: nm });
+  }
   if (!process.env.BALLDONTLIE_API_KEY) { res.setHeader('Cache-Control', 'no-store'); return res.status(503).json({ error: 'no key configured' }); }
   const q = req.query || {};
   try {
