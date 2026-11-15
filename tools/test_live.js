@@ -37,7 +37,7 @@ const cut = (a, b) => { const i = html.indexOf(a); assert.ok(i >= 0, 'missing ' 
 const code = "var GI={},GI0={pt:{},sc:{},wk:10},PVL_WK=10;var YS={};function lgEsc(x){return String(x)}function giTime(st){var m=/\\b(\\d{1,2}:\\d\\d)\\s*([ap]m)/i.exec(st);return m?m[1]+m[2].toLowerCase():''}function giTier(){return 1}function bigNN(n){return n}\n"
   + cut('function ysNorm', 'function ysNn') + cut('function ysFrac', 'function ysErf') + cut('function ysGi', 'function giFor') + 'function giFor(n){return GI[ysNorm(n)]||null}\n'
   + cut('function ysStat', 'function ysErf') + cut('var YS_OUT', 'function ysApply') + cut('function ysErf', 'function ysSide').replace(/^/, '') + cut('function ysApply', 'function ysClock') + cut('function wpTot', 'function wpTeam')
-  + '\nmodule.exports={ysSide,ysApply,wpPace,wpOut,wpTot,ysFrac,ysGi,GI,YS,YS_OUT,setW:function(p,q){PVL=p;PV8=q}};';
+  + '\nmodule.exports={ysDefFin,YS_DP,ysSide,ysApply,wpPace,wpOut,wpTot,ysFrac,ysGi,GI,YS,YS_OUT,setW:function(p,q){PVL=p;PV8=q}};';
 const sandbox = { module: { exports: {} }, console, Math };
 let L; try { new Function('module', 'PVL', 'PV8', code + '\nreturn module.exports;'); const f = new Function('module', 'var PVL={},PV8={};' + code); f(sandbox.module); L = sandbox.module.exports; } catch (e) { console.error('FAIL  cannot load client helpers: ' + e.message); process.exit(1); }
 const row = (slot, name, pos, tm, proj, pts, status, inj) => [slot, name, pos, tm, proj, pts, status, inj || ''];
@@ -68,5 +68,17 @@ T('ysApply: new lineup replaces the old one, one bad matchup cannot sink the lea
   const n = L.ysApply('gl', { matchups: [{ ia: 1, ib: 2, L: rows1, R: rows2 }, bad] });
   assert.strictEqual(n, 1); assert.ok(PVL.gl[0].ra.some(r => r[1] === 'New QB') && !PVL.gl[0].ra.some(r => r[1] === 'Old QB'), 'lineup not replaced');
   const w = L.wpTot('gl', PVL.gl[0]); assert.ok(/wp-tt a/.test(w.a) && /proj/.test(w.b) && /orig/.test(w.a));
+});
+T('Defense live projection follows the scoreboard (points + yards allowed tiers)', () => {
+  const f = (pts, p0, st) => L.ysDefFin(pts, p0, st);
+  console.log('    DEF samples:', ['Q1 15:00, 0-0 @ Tn', 'Q2 0:22, 10-17 vs Hou', 'Q2 0:22, 10-3 vs Hou', 'Q3 5:00, 7-28 @ Det', 'Q4 0:30, 20-10 vs Ind'].map((st, i) => f([16, 6, 15, 2, 12][i], 8.1, st).toFixed(2)).join(' | '));
+  assert.strictEqual(f(5, 8, 'Sun 8:20 pm vs Cin'), null); assert.strictEqual(f(5, 8, 'Final W 24-10 vs Y'), null);
+  const kick = f(16, 8.4, 'Q1 15:00, 0-0 @ Tn'); assert.ok(kick > 6 && kick < 12, 'kickoff ~ pregame projection, got ' + kick);
+  const losing = f(6, 8.13, 'Q2 0:22, 10-17 vs Hou'), winning = f(15, 8.13, 'Q2 0:22, 10-3 vs Hou');
+  assert.ok(losing < 8.13 + 2 && losing > -3, 'losing defense should fall, got ' + losing); assert.ok(winning > losing, 'shutout pace beats trailing');
+  assert.ok(Math.abs(f(12, 8, 'Q4 0:30, 20-10 vs Ind') - 12) < 1.2, 'late game barely moves');
+  assert.ok(f(2, 8, 'Q3 5:00, 7-28 @ Det') < f(6, 8, 'Q3 5:00, 7-10 @ Det'), 'more points allowed lowers it');
+  assert.ok(isFinite(f(null, null, 'Halftime, 3-0 vs X')) && isFinite(f(2, 8, 'End of Q1, 0-7 vs X')));
+  const s = L.ysSide([row('DEF', 'Browns', 'DEF', 'Cle', 8.13, 6, 'Q2 0:22, 10-17 vs Hou')], {}); assert.ok(Math.abs(s.pj - losing) < 1e-9 && L.YS_DP.browns != null);
 });
 console.log(pass + ' passed' + (process.exitCode ? ', FAILURES above' : ''));

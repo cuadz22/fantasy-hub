@@ -1324,6 +1324,13 @@ body.cfn-app #view-league .lg-tabs:not(:has(.lgt-sub)){display:none!important}
     <span class="week-sub">Nov 10 – Nov 16, 2026</span>
   </div>
 
+  <!-- Headliners: the primetime matchups, live -->
+  <div id="hl-wrap" hidden>
+    <div class="hl-hd"><span>Week 10 Headliners</span><span class="lv-pill"><i></i>LIVE</span></div>
+    <p class="hl-sub">The primetime matchups, live. Tap one for full lineups.</p>
+    <div id="hl-list" class="wp-grid"></div>
+  </div>
+
   <div style="margin:0 0 22px"><!-- The Gents Podcast -->
 <style id="podcast-css">
 .pod-wrap{margin:0}
@@ -1403,13 +1410,6 @@ body.cfn-app #view-league .lg-tabs:not(:has(.lgt-sub)){display:none!important}
       <div class="feat-bar"></div>
       <div class="rd-fb"><img class="rd-flogo" alt="" id="lv-flogo"><div class="rd-ftx"><span class="feat-eye" style="display:flex;align-items:center;gap:8px">Cuadz Fantasy Network &middot; Week 10 <span class="lv-pill"><i></i>LIVE</span></span><div class="feat-title">Week 10 Matchups</div><div class="feat-desc" style="max-width:none" id="lv-fdesc">Live scores, win odds and full lineups for every matchup in all four leagues, primetime games included.</div></div><span class="feat-cta">View &rarr;</span></div>
     </div>
-  </div>
-
-  <!-- Headliners: the primetime matchups, live -->
-  <div id="hl-wrap" hidden>
-    <div class="hl-hd"><span>Headliners</span><span class="lv-pill"><i></i>LIVE</span></div>
-    <p class="hl-sub">The primetime matchups, live. Tap one for full lineups.</p>
-    <div id="hl-list" class="wp-grid"></div>
   </div>
 
   <!-- Road to the Playoffs card -->
@@ -4958,7 +4958,7 @@ function wpP2(n,al,k,au,v,pj){
 function wpS2(n,v,au,pj){
   var ok=n&&n!=='—'&&n!=='None'; if(!ok) return '<div class="wp2s"><b>&ndash;</b></div>';
   var act=au===3?0:v, pr=au===3?v:pj, pc=wpPace(n,v,au,pj), ar='';
-  if(au===4&&pj!=null){ var g=giFor(n); if(g&&g.sb){ var lp=v+Math.max(0,pj)*(g.sb.left/3600); ar=lp>pj+0.05?'<i class="pu" title="On pace above his pre-game projection of '+pj.toFixed(2)+'">\u25B2</i>':lp<pj-0.05?'<i class="pd" title="On pace below his pre-game projection of '+pj.toFixed(2)+'">\u25BC</i>':''; pr=lp; } }
+  if(au===4&&pj!=null){ var g=giFor(n); if(g&&g.sb){ var lp=(typeof YS_DP!=='undefined'&&YS_DP[ysNorm(n)]!=null)?YS_DP[ysNorm(n)]:v+Math.max(0,pj)*(g.sb.left/3600); ar=lp>pj+0.05?'<i class="pu" title="On pace above his pre-game projection of '+pj.toFixed(2)+'">\u25B2</i>':lp<pj-0.05?'<i class="pd" title="On pace below his pre-game projection of '+pj.toFixed(2)+'">\u25BC</i>':''; pr=lp; } }
   return '<div class="wp2s'+pc+'"><b>'+act.toFixed(2)+'</b>'+(pr!=null?'<small>'+pr.toFixed(2)+ar+'</small>':'')+'</div>';
 }
 function wpCellF(n,v,hi,al,nop,au,pj){
@@ -9588,15 +9588,36 @@ function ysStat(t){ t=String(t||''); if(/^final/i.test(t)||/^bye/i.test(t)||/no 
 /* share of the game still to play, from Yahoo's status text (Q3 5:00, 21-7 vs NE / Halftime / End Q2 ...) so a live player's projection shrinks toward his actual points as the game runs */
 function ysFrac(t){ t=String(t||''); var m=/^Q([1-4])\s+(\d+):(\d\d)/i.exec(t); if(m) return Math.max(0,Math.min(1,((4-(+m[1]))*15+(+m[2])+(+m[3])/60)/60)); if(/^half/i.test(t)) return 0.5; var e=/^end\s*(?:of\s*)?q([1-4])/i.exec(t); if(e) return (4-(+e[1]))/4; if(/^(ot|overtime)/i.test(t)) return 0.05; return 1; }
 function ysErf(x){ var s=x<0?-1:1; x=Math.abs(x); var t=1/(1+0.3275911*x); var y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x); return s*y; }
-var YS_OUT={};
+var YS_OUT={}, YS_DP={};
+/* Defense live projection. League scoring (same in every CFN league): points allowed 0=8, 1-6=5, 7-13=3, 14-20=1, 21-27=0, 28-34=-1, 35+=-3;
+   yards allowed 0-99=8, 100-199=5, 200-299=3, 300-399=1, 400-499=0, 500+=-2; sack 1, INT 2, fumble rec 2, TD 6, 4th-down stop 1.
+   Yahoo's live DEF points already include the provisional points/yards tiers, so: final = points now + (expected tier at the final
+   whistle - tier right now) + the sacks/takeaways still to come. Yards allowed are not in the feed, so they are estimated from the opponent's score. */
+function ysPaT(p){ return p<=0?8:p<=6?5:p<=13?3:p<=20?1:p<=27?0:p<=34?-1:-3; }
+function ysYdT(y){ return y<100?8:y<200?5:y<300?3:y<400?1:y<500?0:-2; }
+function ysDefFin(pts,p0,status){
+  var m=/^(?:Q[1-4]|OT\d?|Half\w*|End\s*(?:of\s*)?Q?[1-4])\s*(?:\d+:\d\d)?\s*,?\s*(\d+)-(\d+)/i.exec(String(status||'')); if(!m) return null;
+  var opp=+m[2], rem=ysFrac(status), e=1-rem; pts=+pts||0; p0=p0==null?8:+p0; if(!(p0>=-5)) p0=8;
+  var prior=Math.max(15,Math.min(28,22-1.5*(p0-7.5))), w=Math.min(0.6,e*0.6), rate=(1-w)*prior+w*(e>0.04?opp/e:prior); rate=Math.max(10,Math.min(38,rate));
+  var mu=rate*rem, y0=Math.max(15*opp,200*e), yfin=y0+15.5*mu;
+  /* extra opponent points arrive as touchdowns (7) and field goals (3) */
+  var l7=0.62*mu/7, l3=0.38*mu/3, ev=0, tw=0, a,b;
+  for(a=0;a<=6;a++){ var pa=Math.exp(-l7)*Math.pow(l7,a)/[1,1,2,6,24,120,720][a];
+    for(b=0;b<=6;b++){ var pb=Math.exp(-l3)*Math.pow(l3,b)/[1,1,2,6,24,120,720][b], wgt=pa*pb; ev+=wgt*ysPaT(opp+7*a+3*b); tw+=wgt; } }
+  ev=tw?ev/tw:ysPaT(opp);
+  var sd=60*Math.sqrt(rem)+8, yd=0, yw=0, k;
+  for(k=-3;k<=3;k+=0.5){ var wy=Math.exp(-k*k/2); yd+=wy*ysYdT(Math.max(0,yfin+k*sd)); yw+=wy; } yd/=yw;
+  var events=6*Math.sqrt(Math.max(0.3,p0/8.5))*rem;
+  return pts+(ev-ysPaT(opp))+(yd-ysYdT(y0))+events;
+}
 function wpOut(n){ var c=YS_OUT[ysNorm(n)]; return (c!=null&&c>=(YS.cyc||0)-1)?' <span class="wp-out" title="Out">\u271a</span>':''; }
-function wpPace(n,v,au,pj){ if(pj==null) return ''; if(au===2) return v>pj?' ov':v<pj?' un':''; if(au===4){ var g=giFor(n); if(g&&g.sb){ var pace=v+Math.max(0,pj)*(g.sb.left/3600); return pace>pj+0.05?' lo':pace<pj-0.05?' lu':''; } } return ''; }
+function wpPace(n,v,au,pj){ if(pj==null) return ''; if(au===2) return v>pj?' ov':v<pj?' un':''; if(au===4){ var g=giFor(n); if(g&&g.sb){ var pace=YS_DP[ysNorm(n)]!=null?YS_DP[ysNorm(n)]:v+Math.max(0,pj)*(g.sb.left/3600); return pace>pj+0.05?' lo':pace<pj-0.05?' lu':''; } } return ''; }
 function ysSide(rows,names){
   var R=[],K=null,D=null,sc=0,pj=0,lf=0,n=0,base=0;
   rows.forEach(function(x){ var slot=x[0]; if(slot==='BN'||slot==='IR') return;
     var nm=names[ysNorm(x[1])]||x[1], st=ysStat(x[6]), pts=x[5]==null?0:x[5], pr=x[4]==null?0:x[4], bye=/^bye|no game/i.test(x[6]), ent, out=(x[7]==='O'||x[7]==='SUSP')&&st!==2; ysGi(nm,x); if(out) YS_OUT[ysNorm(nm)]=(YS.cyc||0);
     if(out) ent=[nm,pts,2]; else if(st===4) ent=[nm,pts,4,Math.round(pr*100)/100]; else if(st===2) ent=bye?[nm,pts,2]:[nm,pts,2,Math.round(pr*100)/100]; else ent=[nm,Math.round(pr*100)/100,3];
-    n++; sc+=pts; base+=pr; pj+=((st===2||out)?pts:(st===4?pts+Math.max(0,pr)*ysFrac(x[6]):pr)); if(st>=3&&!out) lf++;
+    n++; sc+=pts; base+=pr; var lf2=null; if(slot==='DEF'&&st===4&&!out){ lf2=ysDefFin(pts,pr,x[6]); if(lf2!=null) YS_DP[ysNorm(nm)]=lf2; } pj+=((st===2||out)?pts:(st===4?(lf2!=null?lf2:pts+Math.max(0,pr)*ysFrac(x[6])):pr)); if(st>=3&&!out) lf++;
     if(slot==='K') K=ent; else if(slot==='DEF') D=ent; else R.push([({'W/R/T':'FLX','Q/W/R/T':'SFX'})[slot]||slot].concat(ent)); });
   return {R:R,K:K||['\u2014',0,2],D:D||['\u2014',0,2],sc:sc,pj:pj,base:base,left:lf,n:Math.max(n,1)};
 }
