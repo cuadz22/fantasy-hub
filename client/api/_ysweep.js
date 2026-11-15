@@ -78,7 +78,7 @@ function teamRows(html) {
   return out;
 }
 function parseTeam(html, tid) {
-  const info = { len: html.length, pn: (html.match(/ysf-player-name/g) || []).length };
+  const _i = html.indexOf('ysf-player-name'); const info = { len: html.length, pn: (html.match(/ysf-player-name/g) || []).length, st: html.includes('statTable0'), tr: (html.match(/<tr\b/g) || []).length, ctx: _i < 0 ? '' : html.slice(Math.max(0, _i - 260), _i + 60).replace(/[^a-zA-Z0-9<>\/ =_-]/g, '.') };
   const nm = /([^<>]{1,60}?)(?:'|&#0?39;|&#x27;|’|&rsquo;)s\s+(?:Offense|Kickers|Defense)/i.exec(html);
   let opp = null, oppName = '';
   const i = html.indexOf('team-card-matchup');
