@@ -25,15 +25,16 @@ module.exports = async (req, res) => {
     const q = new URL(req.url, 'http://x').searchParams;
     const lg = String(q.get('lg') || ''); if (!LGS.includes(lg)) throw new Error('bad league');
     const week = Math.min(18, Math.max(1, parseInt(q.get('week'), 10) || 10));
-    const seen = new Set(), matchups = [];
+    const seen = new Set(), matchups = [], diag = {}; let diagT = null;
     // Primary path: team pages (the current week's matchup pages no longer carry lineups in the raw HTML).
     try {
       const ids = Array.from({ length: 12 }, (_, i) => i + 1), T = {};
+      diagT = T;
       let next = 0;
       await Promise.all(Array.from({ length: 6 }, async () => {
         while (next < ids.length) {
           const id = ids[next++];
-          try { T[id] = parseTeam(await fetchTeam(lg, week, id), id); } catch (e) { T[id] = null; }
+          try { T[id] = parseTeam(await fetchTeam(lg, week, id), id); } catch (e) { T[id] = null; diag[id] = String(e.message || e).slice(0, 60); }
         }
       }));
       const done = new Set();
@@ -58,7 +59,7 @@ module.exports = async (req, res) => {
     const ttl = cacheSeconds();
     res.setHeader('Cache-Control', `s-maxage=${ttl}, stale-while-revalidate=${ttl * 2}`);
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.end(JSON.stringify({ lg, week, at: new Date().toISOString(), ms: Date.now() - t0, matchups }));
+    res.end(JSON.stringify({ lg, week, at: new Date().toISOString(), ms: Date.now() - t0, matchups, diag: q.get('dbg') ? { diag, t: diagT && Object.fromEntries(Object.entries(diagT).map(([k, v]) => [k, v ? [v.rows.length, v.opp, v.name] : null])) } : undefined }));
   } catch (e) {
     res.statusCode = 500; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store');
     res.end(JSON.stringify({ error: String(e.message || e) }));
