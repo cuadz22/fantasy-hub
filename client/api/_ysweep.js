@@ -51,4 +51,40 @@ function parsePage(html) {
   return { teams: teams.slice(0, 2), L, R, skipped, dbg };
 }
 
-module.exports = { IDS, fetchPage, parsePage, text };
+// Team page reader (verified Nov 15): Yahoo now builds the current week's matchup pages in the browser, so the raw
+// matchup HTML has no lineups. The team page (/f1/<league>/<teamId>?week=N) still ships the full roster in the HTML:
+// rows are <tr> cells [0]=slot [2]=player [4]=Fan Pts [5]=Proj Pts, in the Offense, Kickers and Defense tables.
+async function fetchTeam(lg, week, tid) {
+  if (!IDS[lg]) throw new Error('bad league');
+  const url = 'https://football.fantasysports.yahoo.com/f1/' + IDS[lg] + '/' + (parseInt(tid, 10) || 1) + '?week=' + (parseInt(week, 10) || 1);
+  const r = await fetch(url, { headers: { 'User-Agent': UA, 'Accept': 'text/html', 'Accept-Language': 'en-US,en;q=0.9' }, redirect: 'follow' });
+  if (!r.ok) throw new Error('yahoo ' + r.status);
+  const html = await r.text();
+  if (/login\.yahoo\.com/i.test(r.url)) throw new Error('login wall');
+  return html;
+}
+function parseTeam(html, tid) {
+  const nm = /([^<>]{1,60}?)(?:'|&#0?39;|&#x27;|’|&rsquo;)s\s+(?:Offense|Kickers|Defense)/i.exec(html);
+  let opp = null, oppName = '';
+  const i = html.indexOf('team-card-matchup');
+  if (i >= 0) {
+    for (const m of html.slice(i, i + 6000).matchAll(/href="[^"]*\/f1\/\d+\/(\d+)(?:\?[^"]*)?"[^>]*>([\s\S]*?)<\/a>/g)) {
+      if (+m[1] !== +tid) { opp = +m[1]; const t = text(m[2]); if (t && !oppName) oppName = t; }
+    }
+  }
+  const rows = [];
+  for (const seg of html.split(/<tr\b/).slice(1)) {
+    const row = seg.split('</tr>')[0];
+    if (!/ysf-player-name/.test(row)) continue;
+    const cells = row.split(/<td\b/).slice(1).map(c => '<td' + c);
+    if (cells.length < 6) continue;
+    const slot = text(cells[0]);
+    if (!SLOTS.test(slot)) continue;
+    const pl = player(cells[2]);
+    if (!pl) continue;
+    rows.push({ slot, ...pl, proj: num(text(cells[5])), pts: num(text(cells[4])) });
+  }
+  return { id: +tid, name: nm ? text(nm[1]) : '', opp, oppName, rows };
+}
+
+module.exports = { IDS, fetchPage, parsePage, text, fetchTeam, parseTeam };

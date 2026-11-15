@@ -1,7 +1,7 @@
 // Live lineups for one league, read from the public Yahoo matchup pages (no login).
 // GET /api/lineups?lg=gl&week=10  ->  { lg, week, at, matchups:[{ia,ib,an,bn,L:[[slot,name,pos,team,proj,pts,status]...],R:[...]}] }
 // Edge-cached for a minute so many viewers share one Yahoo read.
-const { fetchPage, parsePage } = require('./_ysweep');
+const { fetchPage, parsePage, fetchTeam, parseTeam } = require('./_ysweep');
 const LGS = ['gl', 'bh', 'rb', 'sts'];
 const clean = s => String(s || '').replace(/&#x[0-9a-f]+;|&#\d+;/gi, '').replace(/\s+/g, ' ').trim();
 const row = x => [x.slot, x.name, x.pos, x.team, x.proj, x.pts, clean(x.status)];
@@ -26,7 +26,27 @@ module.exports = async (req, res) => {
     const lg = String(q.get('lg') || ''); if (!LGS.includes(lg)) throw new Error('bad league');
     const week = Math.min(18, Math.max(1, parseInt(q.get('week'), 10) || 10));
     const seen = new Set(), matchups = [];
-    for (let mid = 1; mid <= 14 && matchups.length < 7; mid++) {
+    // Primary path: team pages (the current week's matchup pages no longer carry lineups in the raw HTML).
+    try {
+      const ids = Array.from({ length: 12 }, (_, i) => i + 1), T = {};
+      let next = 0;
+      await Promise.all(Array.from({ length: 6 }, async () => {
+        while (next < ids.length) {
+          const id = ids[next++];
+          try { T[id] = parseTeam(await fetchTeam(lg, week, id), id); } catch (e) { T[id] = null; }
+        }
+      }));
+      const done = new Set();
+      ids.forEach(id => {
+        const a = T[id]; if (!a || !a.opp || done.has(id) || done.has(a.opp)) return;
+        const b = T[a.opp]; if (!b || !a.rows.length || !b.rows.length) return;
+        done.add(id); done.add(a.opp);
+        const [x, y] = id < a.opp ? [a, b] : [b, a];
+        matchups.push({ ia: x.id, ib: y.id, an: x.name, bn: y.name, L: x.rows.map(row), R: y.rows.map(row) });
+      });
+    } catch (e) { matchups.length = 0; }
+    const useOld = !matchups.length;
+    for (let mid = 1; useOld && mid <= 14 && matchups.length < 7; mid++) {
       if (seen.has(mid)) continue;
       const p = parsePage(await fetchPage(lg, week, mid));
       if (p.teams.length < 2 || (!p.L.length && !p.R.length)) { seen.add(mid); continue; }
