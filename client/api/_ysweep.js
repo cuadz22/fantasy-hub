@@ -72,19 +72,19 @@ function parseTeam(html, tid) {
       if (+m[1] !== +tid) { opp = +m[1]; const t = text(m[2]); if (t && !oppName) oppName = t; }
     }
   }
-  const rows = [];
+  const rows = [], dbgc = [];
   for (const seg of html.split(/<tr\b/).slice(1)) {
     const row = seg.split('</tr>')[0];
     if (!/ysf-player-name/.test(row)) continue;
-    const cells = row.split(/<td\b/).slice(1).map(c => '<td' + c);
-    if (cells.length < 6) continue;
+    const cells = row.split(/<t[dh]\b/).slice(1).map(c => '<td' + c);
+    if (cells.length < 6) { dbgc.push(cells.length); continue; }
     const slot = text(cells[0]);
     if (!SLOTS.test(slot)) continue;
     const pl = player(cells[2]);
     if (!pl) continue;
     rows.push({ slot, ...pl, proj: num(text(cells[5])), pts: num(text(cells[4])) });
   }
-  return { id: +tid, name: nm ? text(nm[1]) : '', opp, oppName, rows };
+  return { id: +tid, name: nm ? text(nm[1]) : '', opp, oppName, rows, dbgc };
 }
 
 module.exports = { IDS, fetchPage, parsePage, text, fetchTeam, parseTeam };
