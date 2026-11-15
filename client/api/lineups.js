@@ -4,7 +4,7 @@
 const { fetchPage, parsePage, fetchTeam, parseTeam } = require('./_ysweep');
 const LGS = ['gl', 'bh', 'rb', 'sts'];
 const clean = s => String(s || '').replace(/&#x[0-9a-f]+;|&#\d+;/gi, '').replace(/\s+/g, ' ').trim();
-const row = x => [x.slot, x.name, x.pos, x.team, x.proj, x.pts, clean(x.status)];
+const row = x => [x.slot, x.name, x.pos, x.team, x.proj, x.pts, clean(x.status), x.inj || ''];
 // Hourly normally; every 10 minutes only inside NFL game windows (US Eastern time) to stay well under Yahoo's rate limits.
 function cacheSeconds() {
   try {

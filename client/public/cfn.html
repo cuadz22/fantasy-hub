@@ -1220,6 +1220,7 @@ nav::-webkit-scrollbar{display:none}
 .wp2s{text-align:center;font-variant-numeric:tabular-nums}
 .wp2s b{display:block;font-size:17px;font-weight:700;line-height:1;color:var(--text)}
 .wp2s small{display:block;font-size:10px;color:var(--muted);margin-top:2px}
+.wp2s.lo b,.wp-c.lo b{color:var(--accent)}.wp2s.lu b,.wp-c.lu b{color:#ff4d4d}.wp-out{display:inline-block;margin-left:5px;padding:2px 3px;border-radius:3px;background:#e53935;color:#fff;font-size:9px;font-weight:800;line-height:1;vertical-align:1px;font-style:normal}
 .wp2s.ov b{color:var(--accent)}.wp2s.un b{color:#ff7a59}
 @media (min-width:640px){.wp-tm2 .wp-av{width:64px;height:64px}.wp-tm2 .wp-ml{font-size:26px}.wp-full .wp2r{gap:12px}.wp2s b{font-size:22px}.wp2p .pn b{font-size:14px}.wp2p .wp-ph{width:36px;height:36px;flex-basis:36px}}
 
@@ -4918,20 +4919,20 @@ function wpP2(n,al,k,au,v,pj){
   var ok=n&&n!=='—'&&n!=='None';
   if(!ok) return '<div class="wp2p '+al+'"><span class="wp-ph wp-phfb">&ndash;</span><div class="pn"><b><i>Empty</i></b><small>&nbsp;</small></div></div>';
   var g=giFor(n), sub=g&&g.sb?giSb(g):g?'<small class="wp-gi t'+g.k+'">'+g.s.replace(/(\d)(am|pm)\b/,'$1<i class="ap">$2</i>')+'</small>':'<small>&nbsp;</small>';
-  return '<div class="wp2p '+al+(au>=3?' tp':'')+'" data-pc="'+String(n).replace(/"/g,'&quot;')+'" data-slot="'+k+'" data-au="'+au+'" data-v="'+(v==null?'':v)+'" data-pj="'+(pj==null?'':pj)+'">'+(k==='DEF'?wpDef(n):wpPh(n))+'<div class="pn"><b>'+lgEsc(n)+cfnSh(n)+'</b>'+sub+'</div></div>';
+  return '<div class="wp2p '+al+(au>=3?' tp':'')+'" data-pc="'+String(n).replace(/"/g,'&quot;')+'" data-slot="'+k+'" data-au="'+au+'" data-v="'+(v==null?'':v)+'" data-pj="'+(pj==null?'':pj)+'">'+(k==='DEF'?wpDef(n):wpPh(n))+'<div class="pn"><b>'+lgEsc(n)+cfnSh(n)+wpOut(n)+'</b>'+sub+'</div></div>';
 }
 function wpS2(n,v,au,pj){
   var ok=n&&n!=='—'&&n!=='None'; if(!ok) return '<div class="wp2s"><b>&ndash;</b></div>';
-  var act=au===3?0:v, pr=au===3?v:pj, pc=(au===2&&pj!=null)?(v>pj?' ov':v<pj?' un':''):'';
+  var act=au===3?0:v, pr=au===3?v:pj, pc=wpPace(n,v,au,pj);
   return '<div class="wp2s'+pc+'"><b>'+act.toFixed(2)+'</b>'+(pr!=null?'<small>'+pr.toFixed(2)+'</small>':'')+'</div>';
 }
 function wpCellF(n,v,hi,al,nop,au,pj){
   var ok=n&&n!=='\u2014'&&n!=='None';
   if(!ok) return '<div class="wp-c '+al+'"><span><i>Empty</i></span><b>&ndash;</b></div>';
-  var act=au===3?0:v, pr=au===3?v:pj, pc=(au===2&&pj!=null)?(v>pj?' ov':v<pj?' un':''):'', g=giFor(n);
-  return '<div class="wp-c '+al+(hi?' hi':'')+(au>=3?' tp':'')+pc+'">'+(nop?'':wpPh(n))+'<span>'+lgEsc(n)+cfnSh(n)+(g&&g.sb?giSb(g):g?'<small class="wp-gi t'+g.k+'">'+g.s+'</small>':'')+'</span><div class="wp-v"><b>'+act.toFixed(2)+'</b>'+(pr!=null?'<small class="wp-pq">Proj '+pr.toFixed(2)+'</small>':'')+'</div></div>';
+  var act=au===3?0:v, pr=au===3?v:pj, pc=wpPace(n,v,au,pj), g=giFor(n);
+  return '<div class="wp-c '+al+(hi?' hi':'')+(au>=3?' tp':'')+pc+'">'+(nop?'':wpPh(n))+'<span>'+lgEsc(n)+cfnSh(n)+wpOut(n)+(g&&g.sb?giSb(g):g?'<small class="wp-gi t'+g.k+'">'+g.s+'</small>':'')+'</span><div class="wp-v"><b>'+act.toFixed(2)+'</b>'+(pr!=null?'<small class="wp-pq">Proj '+pr.toFixed(2)+'</small>':'')+'</div></div>';
 }
-function wpCell(n,v,hi,al,nop,au,pj){ var ok=n&&n!=='—'&&n!=='None'; var pc=(ok&&au===2&&pj!=null&&pj!==undefined)?(v>pj?' ov':v<pj?' un':''):''; return '<div class="wp-c '+al+(hi?' hi':'')+(au>=3?' tp':'')+pc+'">'+(ok&&!nop?wpPh(n):'')+'<span>'+(ok?lgEsc(n)+cfnSh(n):'<i>Empty</i>')+(ok&&au?' <u class="wp-au'+(au>=3?' tp':'')+'">'+(au>=3?'in play':au===2?'final':'auto')+'</u>':'')+'</span><b>'+(n&&n!=='—'&&n!=='None'?(au===3?'<small class="wp-pj">proj</small>':'')+v.toFixed(1):'&ndash;')+'</b></div>'; }
+function wpCell(n,v,hi,al,nop,au,pj){ var ok=n&&n!=='—'&&n!=='None'; var pc=ok?wpPace(n,v,au,pj):''; return '<div class="wp-c '+al+(hi?' hi':'')+(au>=3?' tp':'')+pc+'">'+(ok&&!nop?wpPh(n):'')+'<span>'+(ok?lgEsc(n)+cfnSh(n)+wpOut(n):'<i>Empty</i>')+(ok&&au?' <u class="wp-au'+(au>=3?' tp':'')+'">'+(au>=3?'in play':au===2?'final':'auto')+'</u>':'')+'</span><b>'+(n&&n!=='—'&&n!=='None'?(au===3?'<small class="wp-pj">proj</small>':'')+v.toFixed(1):'&ndash;')+'</b></div>'; }
 function wpFull(m){
   var rows=[], n=Math.max(m.ra.length,m.rb.length), i;
   for(i=0;i<n;i++){ var a=m.ra[i]||['','—',0,0], b=m.rb[i]||['','—',0,0]; rows.push([a[0]||b[0],a[1],a[2],b[1],b[2],a[3],b[3],a[4],b[4]]); }
@@ -5572,7 +5573,7 @@ function lgMine(p,k){
   h+='<div class="mt-sec">This week&rsquo;s matchup</div><div id="mt-mu">'+(m?wpCard(k,m,mi,false):'<div class="mt-empty">No matchup found for this week.</div>')+'</div>';
   var LV=(window.YS&&YS.ro&&YS.ro[k]&&YS.ro[k][T.id])||null, live=!!(LV&&LV.length>=8);
   var proj={}; if(m){ (m.a[1]===own?m.ra:m.rb||[]).forEach(function(r){ proj[wpKey(r[1])]=r[2]; }); }
-  var rowH=function(slot,n,pos,tm,pj,pts){ return '<div class="mt-r" data-pc="'+String(n).replace(/"/g,'&quot;')+'" data-slot="'+slot+'" data-au="0" data-v="" data-pj="'+(pj==null?'':pj)+'" tabindex="0" role="button">'+(slot==='DEF'?wpDef(n):wpPh(n))+'<div class="mt-pn"><b>'+lgEsc(n)+'</b><small>'+lgEsc(pos||'')+(tm?' &middot; '+lgEsc(tm):'')+'</small></div><span class="mt-sl">'+lgEsc(slot==='W/R/T'?'FLX':slot==='Q/W/R/T'?'SFX':slot)+'</span><span class="mt-pj">'+(pts!=null&&pts>0?pts.toFixed(1):(pj!=null?Number(pj).toFixed(1):'&ndash;'))+'</span></div>'; };
+  var rowH=function(slot,n,pos,tm,pj,pts){ return '<div class="mt-r" data-pc="'+String(n).replace(/"/g,'&quot;')+'" data-slot="'+slot+'" data-au="0" data-v="" data-pj="'+(pj==null?'':pj)+'" tabindex="0" role="button">'+(slot==='DEF'?wpDef(n):wpPh(n))+'<div class="mt-pn"><b>'+lgEsc(n)+wpOut(n)+'</b><small>'+lgEsc(pos||'')+(tm?' &middot; '+lgEsc(tm):'')+'</small></div><span class="mt-sl">'+lgEsc(slot==='W/R/T'?'FLX':slot==='Q/W/R/T'?'SFX':slot)+'</span><span class="mt-pj">'+(pts!=null&&pts>0?pts.toFixed(1):(pj!=null?Number(pj).toFixed(1):'&ndash;'))+'</span></div>'; };
   var st,bn,ir,rows;
   if(live){ var nm={}; ((X&&X.tcd)||{}); Object.keys(X.tcd).forEach(function(q){ nm[ysNorm(X.tcd[q].n)]=X.tcd[q].n; });
     rows=function(list){ return list.map(function(x){ var n=x[0]==='DEF'?x[1]:(nm[ysNorm(x[1])]||x[1]); return rowH(x[0],n,x[2],x[3],x[4],x[5]); }).join(''); };
@@ -9551,12 +9552,15 @@ function ysStat(t){ t=String(t||''); if(/^final/i.test(t)||/^bye/i.test(t)||/no 
 /* share of the game still to play, from Yahoo's status text (Q3 5:00, 21-7 vs NE / Halftime / End Q2 ...) so a live player's projection shrinks toward his actual points as the game runs */
 function ysFrac(t){ t=String(t||''); var m=/^Q([1-4])\s+(\d+):(\d\d)/i.exec(t); if(m) return Math.max(0,Math.min(1,((4-(+m[1]))*15+(+m[2])+(+m[3])/60)/60)); if(/^half/i.test(t)) return 0.5; var e=/^end\s*(?:of\s*)?q([1-4])/i.exec(t); if(e) return (4-(+e[1]))/4; if(/^(ot|overtime)/i.test(t)) return 0.05; return 1; }
 function ysErf(x){ var s=x<0?-1:1; x=Math.abs(x); var t=1/(1+0.3275911*x); var y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x); return s*y; }
+var YS_OUT={};
+function wpOut(n){ return YS_OUT[ysNorm(n)]?' <span class="wp-out" title="Out">\u271a</span>':''; }
+function wpPace(n,v,au,pj){ if(pj==null) return ''; if(au===2) return v>pj?' ov':v<pj?' un':''; if(au===4){ var g=giFor(n); if(g&&g.sb){ var pace=v+Math.max(0,pj)*(g.sb.left/3600); return pace>pj+0.05?' lo':pace<pj-0.05?' lu':''; } } return ''; }
 function ysSide(rows,names){
   var R=[],K=null,D=null,sc=0,pj=0,lf=0,n=0;
   rows.forEach(function(x){ var slot=x[0]; if(slot==='BN'||slot==='IR') return;
-    var nm=names[ysNorm(x[1])]||x[1], st=ysStat(x[6]), pts=x[5]==null?0:x[5], pr=x[4]==null?0:x[4], bye=/^bye|no game/i.test(x[6]), ent; ysGi(nm,x);
-    if(st===4) ent=[nm,pts,4,Math.round(pr*100)/100]; else if(st===2) ent=bye?[nm,pts,2]:[nm,pts,2,Math.round(pr*100)/100]; else ent=[nm,Math.round(pr*100)/100,3];
-    n++; sc+=pts; pj+=(st===2?pts:(st===4?pts+Math.max(0,pr)*ysFrac(x[6]):pr)); if(st>=3) lf++;
+    var nm=names[ysNorm(x[1])]||x[1], st=ysStat(x[6]), pts=x[5]==null?0:x[5], pr=x[4]==null?0:x[4], bye=/^bye|no game/i.test(x[6]), ent, out=(x[7]==='O'||x[7]==='SUSP')&&st!==2; ysGi(nm,x); if(out) YS_OUT[ysNorm(nm)]=1; else delete YS_OUT[ysNorm(nm)];
+    if(out) ent=[nm,pts,2]; else if(st===4) ent=[nm,pts,4,Math.round(pr*100)/100]; else if(st===2) ent=bye?[nm,pts,2]:[nm,pts,2,Math.round(pr*100)/100]; else ent=[nm,Math.round(pr*100)/100,3];
+    n++; sc+=pts; pj+=((st===2||out)?pts:(st===4?pts+Math.max(0,pr)*ysFrac(x[6]):pr)); if(st>=3&&!out) lf++;
     if(slot==='K') K=ent; else if(slot==='DEF') D=ent; else R.push([({'W/R/T':'FLX','Q/W/R/T':'SFX'})[slot]||slot].concat(ent)); });
   return {R:R,K:K||['\u2014',0,2],D:D||['\u2014',0,2],sc:sc,pj:pj,left:lf,n:Math.max(n,1)};
 }
