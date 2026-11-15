@@ -45,7 +45,22 @@ module.exports = async (req, res) => {
       if (!hit) { res.setHeader('Cache-Control', 'public, s-maxage=600'); return res.status(200).json({ log: [], note: 'no match', status: f.status }); }
       const r = await pages('stats', { player_ids: [hit.id], seasons: ['2026'] }, 2);
       res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=900');
-      return res.status(200).json({ id: hit.id, status: r.status, sample: r.data[0] || null, raw: q.raw ? r.data : undefined, log: [] });
+      const n0 = v => (v == null ? 0 : v), log = [];
+      r.data.forEach(x => {
+        const g = x.game || {}, tm = x.team || {};
+        if (g.postseason || !g.date || Date.parse(g.date) < Date.parse('2026-09-01')) return;
+        const home = g.home_team && g.home_team.id === tm.id, o = home ? g.visitor_team : g.home_team;
+        const parts = [];
+        if (x.passing_attempts) parts.push(n0(x.passing_completions) + '/' + x.passing_attempts + ' ' + n0(x.passing_yards) + ' yds' + (x.passing_touchdowns ? ' ' + x.passing_touchdowns + ' TD' : '') + (x.passing_interceptions ? ' ' + x.passing_interceptions + ' INT' : ''));
+        if (x.rushing_attempts) parts.push(x.rushing_attempts + ' car ' + n0(x.rushing_yards) + ' yds' + (x.rushing_touchdowns ? ' ' + x.rushing_touchdowns + ' TD' : ''));
+        if (x.receptions || x.receiving_targets) parts.push(n0(x.receptions) + '/' + n0(x.receiving_targets) + ' ' + n0(x.receiving_yards) + ' yds' + (x.receiving_touchdowns ? ' ' + x.receiving_touchdowns + ' TD' : ''));
+        if (x.field_goal_attempts || x.extra_points_made) parts.push(n0(x.field_goals_made) + '/' + n0(x.field_goal_attempts) + ' FG' + (x.extra_points_made ? ' ' + x.extra_points_made + ' XP' : ''));
+        if (!parts.length) return;
+        log.push({ wk: g.week, opp: (home ? 'vs ' : '@') + (o && o.abbreviation || ''), line: parts.join(' · '), fin: g.status_state === 'final' });
+      });
+      log.sort((a, b) => b.wk - a.wk);
+      res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=900');
+      return res.status(200).json({ id: hit.id, log: log.slice(0, 10) });
     }
     if (q.plays) {
       const r = await pages('plays', { game_id: String(q.plays).replace(/\D/g, '') }, 6);
