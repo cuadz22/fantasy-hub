@@ -4,6 +4,8 @@
 // GET /api/live-stats?ping=1                  -> checks the key / tier (no secrets returned)
 // Edge-cached, so any number of viewers share the same upstream calls.
 const BASE = 'https://api.balldontlie.io/nfl/v1/';
+// Per-league scoring fitted to each league's real Week 9 scores: [pass yd, pass TD, INT, rush yd, rush TD, rec, rec yd, rec TD, fumble lost]
+const SCORING = { gl: [0.05, 6, -2, 0.1, 6, 1, 0.1, 6, -2], bh: [0.05, 6, -1, 0.1, 6, 1, 0.1, 6, -2], rb: [0.04, 6, -2, 0.1, 6, 1, 0.1, 6, -2], sts: [0.05, 6, -2, 0.1, 6, 1, 0.1, 6, -2] };
 async function bdl(path, params) {
   const u = new URL(BASE + path);
   for (const [k, v] of Object.entries(params || {})) {
@@ -37,19 +39,6 @@ module.exports = async (req, res) => {
       res.setHeader('Cache-Control', 'no-store');
       return res.status(200).json({ games: g.status, stats: s.status, plays: p.status });
     }
-    if (q.glist) {
-      const g = await pages('games', { seasons: ['2026'], weeks: [String(q.glist).replace(/\D/g, '')] }, 2);
-      res.setHeader('Cache-Control', 'public, s-maxage=600');
-      return res.status(200).json({ ids: g.data.map(x => x.id), st: g.status });
-    }
-    if (q.sg) {
-      const p = { per_page: 100, game_ids: String(q.sg).split(',').map(x => x.replace(/\D/g, '')).filter(Boolean) };
-      if (q.cursor) p.cursor = String(q.cursor);
-      const { status, body } = await bdl('stats', p);
-      const F = ['passing_yards', 'passing_touchdowns', 'passing_interceptions', 'rushing_yards', 'rushing_touchdowns', 'receptions', 'receiving_yards', 'receiving_touchdowns', 'fumbles_lost', 'field_goals_made', 'field_goal_attempts', 'extra_points_made', 'long_field_goal_made'];
-      res.setHeader('Cache-Control', 'public, s-maxage=600');
-      return res.status(200).json({ st: status, next: body.meta && body.meta.next_cursor, rows: (body.data || []).map(x => [x.player.first_name + ' ' + x.player.last_name, x.player.position_abbreviation].concat(F.map(f => x[f]))) , F });
-    }
     if (q.player) {
       const nm = String(q.player).slice(0, 60), last = nm.split(' ').slice(-1)[0].replace(/[^A-Za-z'\-]/g, '');
       const norm = x => String(x || '').toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\b\.?/g, '').replace(/[^a-z]/g, '');
@@ -69,7 +58,9 @@ module.exports = async (req, res) => {
         if (x.receptions || x.receiving_targets) parts.push(n0(x.receptions) + '/' + n0(x.receiving_targets) + ' ' + n0(x.receiving_yards) + ' yds' + (x.receiving_touchdowns ? ' ' + x.receiving_touchdowns + ' TD' : ''));
         if (x.field_goal_attempts || x.extra_points_made) parts.push(n0(x.field_goals_made) + '/' + n0(x.field_goal_attempts) + ' FG' + (x.extra_points_made ? ' ' + x.extra_points_made + ' XP' : ''));
         if (!parts.length) return;
-        log.push({ wk: g.week, opp: (home ? 'vs ' : '@') + (o && o.abbreviation || ''), line: parts.join(' · '), fin: g.status_state === 'final' });
+        const sc = SCORING[q.lg] || SCORING.gl, v = [x.passing_yards, x.passing_touchdowns, x.passing_interceptions, x.rushing_yards, x.rushing_touchdowns, x.receptions, x.receiving_yards, x.receiving_touchdowns, x.fumbles_lost];
+        const pts = Math.round(v.reduce((a, b, i) => a + n0(b) * sc[i], 0) * 100) / 100;
+        log.push({ wk: g.week, opp: (home ? 'vs ' : '@') + (o && o.abbreviation || ''), line: parts.join(' · '), pts, fin: g.status_state === 'final' });
       });
       log.sort((a, b) => b.wk - a.wk);
       res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=900');
