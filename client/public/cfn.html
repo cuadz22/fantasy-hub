@@ -38,6 +38,11 @@
 .mt-sec{margin:18px 2px 8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}.mt-sec em{font-style:normal;text-transform:none;letter-spacing:0;font-size:11px;font-weight:500}
 .mt-list{display:flex;flex-direction:column;gap:6px}
 .mt-r{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;cursor:pointer;min-width:0}
+.gi-sb{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:2px;padding:2px 7px;border-radius:5px;background:#0b0d10;border:1px solid #2a2f38;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;line-height:1.35;max-width:100%}
+.gi-sb .sb-t{color:#ff5a4d;font-size:10px;font-weight:700;letter-spacing:.06em;white-space:nowrap}
+.gi-sb .sb-sc{display:inline-flex;align-items:baseline;gap:3px;font-size:10px;color:#ffb84a;font-weight:700;white-space:nowrap}
+.gi-sb .sb-sc em{font-style:normal;color:#9aa3b2;font-size:9px;letter-spacing:.04em}.gi-sb .sb-sc i{font-style:normal;margin-right:4px;text-shadow:0 0 6px rgba(255,184,74,.55)}
+.gi-sb .sb-l{color:#8a93a3;font-size:9px;white-space:nowrap}
 .mt-r .wp-dlg{position:relative;overflow:hidden;background:var(--bg3);border:1px solid var(--border-l)}.mt-r:hover{border-color:var(--accent)}.mt-r .wp-ph{flex:0 0 38px;width:38px;height:38px}
 .mt-pn{flex:1;min-width:0}.mt-pn b{display:block;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mt-pn small{color:var(--muted);font-size:11px}
 .mt-sl{flex:none;font-size:10px;font-weight:800;letter-spacing:.05em;padding:3px 8px;border-radius:7px;background:var(--bg3);border:1px solid var(--border);color:var(--muted)}
@@ -4895,7 +4900,12 @@ function giTime(s){ var m=/^(Sun|Mon|Tue|Wed|Thu|Fri|Sat)\w*\s+(\d{1,2}):(\d\d)\
 function ysGi(nm,x){ var st=String(x[6]||''), m=/(?:^|\s)(vs|@)\s+([A-Za-z]{2,3})\b/.exec(st), key=ysNorm(nm);
   if(!m){ if(/^bye|no game/i.test(st)) GI[key]={s:'BYE',k:-1}; return; }
   var t=giTime(st), pos=x[2], k=/^(QB|RB|WR|TE)$/.test(pos)?giTier(pos,m[2]):-1;
-  GI[key]={s:(m[1].toLowerCase()==='@'?'@':'vs ')+m[2].toUpperCase()+(t?'\u00b7'+t:/^final/i.test(st)?'\u00b7Final':'\u00b7Live'),k:k}; }
+  var lv=(!t&&!/^final/i.test(st))?/^(Q[1-4]|OT\d?|Half\w*|End\s*(?:of\s*)?Q?[1-4])\s*([0-9]+:[0-9]{2})?\s*,?\s*(\d+)-(\d+)/i.exec(st):null, sb=null;
+  if(lv){ var qn=lv[1].toUpperCase().replace(/^HALF\w*/,'HALF').replace(/^END\s*(?:OF\s*)?Q?/,'END Q'); sb={q:qn,c:lv[2]||'',a:+lv[3],b:+lv[4],tm:String(x[3]||'').toUpperCase(),op:m[2].toUpperCase(),left:Math.round(ysFrac(st)*3600)}; }
+  GI[key]={s:(m[1].toLowerCase()==='@'?'@':'vs ')+m[2].toUpperCase()+(t?'\u00b7'+t:/^final/i.test(st)?'\u00b7Final':'\u00b7'+(sb?sb.q+(sb.c?' '+sb.c:''):'Live')),k:k,sb:sb}; }
+/* scoreboard chip shown under a player whose game is in progress: quarter + clock, game score, and time left in the game */
+function giSb(g){ var b=g&&g.sb; if(!b) return ''; var L=b.left, lt=Math.floor(L/60)+':'+('0'+(L%60)).slice(-2);
+  return '<span class="gi-sb"><b class="sb-t">'+lgEsc(b.q)+(b.c?' '+lgEsc(b.c):'')+'</b><span class="sb-sc"><em>'+lgEsc(b.tm||'')+'</em><i>'+b.a+'</i><em>'+lgEsc(b.op)+'</em><i>'+b.b+'</i></span><small class="sb-l">'+lt+' left</small></span>'; }
 function giFor(n){ var key=ysNorm(n), g=GI[key]; if(g) return g; var p=GI0.pt[key]; if(!p) return null;
   var s=GI0.sc[p[1]], i=(typeof PVL_WK==='number'?PVL_WK:GI0.wk)-GI0.wk, x=s&&s[i]; if(s&&!x) return {s:'BYE',k:-1}; if(!x) return null;
   var o=x.replace(/^[@v]/,''); return {s:(x.charAt(0)==='@'?'@':'vs ')+o,k:giTier(p[0],o)}; }
@@ -4907,7 +4917,7 @@ function wpDef(n){ var k=String(n).toLowerCase().replace(/[^a-z0-9]/g,''), t=WP_
 function wpP2(n,al,k,au,v,pj){
   var ok=n&&n!=='—'&&n!=='None';
   if(!ok) return '<div class="wp2p '+al+'"><span class="wp-ph wp-phfb">&ndash;</span><div class="pn"><b><i>Empty</i></b><small>&nbsp;</small></div></div>';
-  var g=giFor(n), sub=g?'<small class="wp-gi t'+g.k+'">'+g.s.replace(/(\d)(am|pm)\b/,'$1<i class="ap">$2</i>')+'</small>':'<small>&nbsp;</small>';
+  var g=giFor(n), sub=g&&g.sb?giSb(g):g?'<small class="wp-gi t'+g.k+'">'+g.s.replace(/(\d)(am|pm)\b/,'$1<i class="ap">$2</i>')+'</small>':'<small>&nbsp;</small>';
   return '<div class="wp2p '+al+(au>=3?' tp':'')+'" data-pc="'+String(n).replace(/"/g,'&quot;')+'" data-slot="'+k+'" data-au="'+au+'" data-v="'+(v==null?'':v)+'" data-pj="'+(pj==null?'':pj)+'">'+(k==='DEF'?wpDef(n):wpPh(n))+'<div class="pn"><b>'+lgEsc(n)+cfnSh(n)+'</b>'+sub+'</div></div>';
 }
 function wpS2(n,v,au,pj){
@@ -4919,7 +4929,7 @@ function wpCellF(n,v,hi,al,nop,au,pj){
   var ok=n&&n!=='\u2014'&&n!=='None';
   if(!ok) return '<div class="wp-c '+al+'"><span><i>Empty</i></span><b>&ndash;</b></div>';
   var act=au===3?0:v, pr=au===3?v:pj, pc=(au===2&&pj!=null)?(v>pj?' ov':v<pj?' un':''):'', g=giFor(n);
-  return '<div class="wp-c '+al+(hi?' hi':'')+(au>=3?' tp':'')+pc+'">'+(nop?'':wpPh(n))+'<span>'+lgEsc(n)+cfnSh(n)+(g?'<small class="wp-gi t'+g.k+'">'+g.s+'</small>':'')+'</span><div class="wp-v"><b>'+act.toFixed(2)+'</b>'+(pr!=null?'<small class="wp-pq">Proj '+pr.toFixed(2)+'</small>':'')+'</div></div>';
+  return '<div class="wp-c '+al+(hi?' hi':'')+(au>=3?' tp':'')+pc+'">'+(nop?'':wpPh(n))+'<span>'+lgEsc(n)+cfnSh(n)+(g&&g.sb?giSb(g):g?'<small class="wp-gi t'+g.k+'">'+g.s+'</small>':'')+'</span><div class="wp-v"><b>'+act.toFixed(2)+'</b>'+(pr!=null?'<small class="wp-pq">Proj '+pr.toFixed(2)+'</small>':'')+'</div></div>';
 }
 function wpCell(n,v,hi,al,nop,au,pj){ var ok=n&&n!=='—'&&n!=='None'; var pc=(ok&&au===2&&pj!=null&&pj!==undefined)?(v>pj?' ov':v<pj?' un':''):''; return '<div class="wp-c '+al+(hi?' hi':'')+(au>=3?' tp':'')+pc+'">'+(ok&&!nop?wpPh(n):'')+'<span>'+(ok?lgEsc(n)+cfnSh(n):'<i>Empty</i>')+(ok&&au?' <u class="wp-au'+(au>=3?' tp':'')+'">'+(au>=3?'in play':au===2?'final':'auto')+'</u>':'')+'</span><b>'+(n&&n!=='—'&&n!=='None'?(au===3?'<small class="wp-pj">proj</small>':'')+v.toFixed(1):'&ndash;')+'</b></div>'; }
 function wpFull(m){
