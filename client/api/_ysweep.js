@@ -89,13 +89,14 @@ function parseTeam(html, tid) {
   }
   const rows = [], dbgc = [];
   for (const cells of teamRows(html)) {
-    if (cells.length < 6 || !/ysf-player-name/.test(cells[2] || '')) { if (cells.some(c => /ysf-player-name/.test(c))) dbgc.push(cells.length); continue; }
+    const pi = cells.findIndex(c => /ysf-player-name/.test(c)); if (cells.length < 6 || pi < 1 || pi > 2) { if (pi >= 0 && cells.length >= 6) dbgc.push('x' + cells.length + 'p' + pi); continue; }
     const slot = text(cells[0]);
     if (!SLOTS.test(slot)) { dbgc.push('s' + slot.slice(0, 6)); continue; }
     const wx = c => c.replace(/<table\b(?:(?!<table\b)[\s\S])*?<\/table>/gi, m => (/Forecast:|Powered by/.test(m) ? '' : m));
-    const pl = player(wx(cells[2]));
+    const pl = player(wx(cells[pi]));
     if (!pl) { dbgc.push('p'); continue; }
-    rows.push({ slot, ...pl, proj: num(text(cells[5])), pts: num(text(cells[4])) });
+    if (!dbgc.length || dbgc.length < 30) dbgc.push('c' + pi + ':' + cells.slice(pi + 1, pi + 6).map(c => text(c).slice(0, 12)).join('|'));
+    rows.push({ slot, ...pl, proj: num(text(cells[pi + 3])), pts: num(text(cells[pi + 2])) });
   }
   return { id: +tid, name: nm ? text(nm[1]) : '', opp, oppName, rows, dbgc, info };
 }
