@@ -64,6 +64,8 @@ async function fetchTeam(lg, week, tid) {
   return html;
 }
 function parseTeam(html, tid) {
+  // Weather popups are small tables nested inside player cells; their </tr> would cut a lineup row short. Drop them.
+  html = html.replace(/<table\b(?:(?!<table\b)[\s\S])*?<\/table>/gi, m => (/Forecast:|Powered by/.test(m) ? '' : m));
   const nm = /([^<>]{1,60}?)(?:'|&#0?39;|&#x27;|’|&rsquo;)s\s+(?:Offense|Kickers|Defense)/i.exec(html);
   let opp = null, oppName = '';
   const i = html.indexOf('team-card-matchup');
