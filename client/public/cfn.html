@@ -5534,7 +5534,7 @@ function stdSort(h){
   rows.forEach(function(r){ tb.appendChild(r); });
 }
 /* ---------- My Team (member sign-in) ---------- */
-var MEM_MAP={Cuadz:{gl:'Cuadz',bh:'Cuadz',rb:'Cuadz',sts:'Cuadz'},Gio:{gl:'Gio',bh:'Gio',rb:'Gio'},Oscar:{gl:'Oscar',bh:'Oscar',rb:'Oscar',sts:'Oscar'},Prue:{gl:'Pru',bh:'Pru',rb:'Pru',sts:'Pru'},Ed:{gl:'Ed',rb:'Ed',sts:'Ed'},Kevin:{gl:'Kevin',bh:'Kevin',sts:'Kevin'},Alexis:{gl:'Alexis',rb:'Alexis'}};
+var MEM_MAP={Cuadz:{gl:'Cuadz',bh:'Cuadz',rb:'Cuadz',sts:'Cuadz'},Gio:{gl:'Gio',bh:'Gio',rb:'Gio'},Oscar:{gl:'Oscar',bh:'Oscar',rb:'Oscar',sts:'Oscar'},Pru:{gl:'Pru',bh:'Pru',rb:'Pru',sts:'Pru'},Ed:{gl:'Ed',rb:'Ed',sts:'Ed'},Kevin:{gl:'Kevin',bh:'Kevin',sts:'Kevin'},Alexis:{gl:'Alexis',rb:'Alexis'}};
 function memGet(){ try{ var n=localStorage.getItem('cfn_member'); return n&&MEM_MAP[n]?n:''; }catch(e){ return ''; } }
 function memSet(n){ try{ if(n) localStorage.setItem('cfn_member',n); else localStorage.removeItem('cfn_member'); }catch(e){} }
 function memOut(){ memSet(''); lgRender(); }
