@@ -63,12 +63,22 @@ async function fetchTeam(lg, week, tid) {
   if (/login\.yahoo\.com/i.test(r.url)) throw new Error('login wall');
   return html;
 }
+function teamRows(html) {
+  // Depth-aware row/cell reader: player cells contain nested tables (weather, notes) with their own <tr>/<td>.
+  const out = [], rowsAt = [], cellStart = [];
+  let depth = 0;
+  for (const m of html.matchAll(/<(\/?)(table|tr|td|th)\b[^>]*>/gi)) {
+    const close = m[1] === '/', tag = m[2].toLowerCase(), end = m.index + m[0].length;
+    if (tag === 'table') { if (close) { depth = Math.max(0, depth - 1); rowsAt.length = depth + 1; } else { depth++; } continue; }
+    if (tag === 'tr') { if (!close) rowsAt[depth] = []; else { const r = rowsAt[depth]; if (r && r.length) out.push(r); rowsAt[depth] = null; } continue; }
+    const row = rowsAt[depth]; if (!row) continue;
+    if (!close) { cellStart[depth] = end; }
+    else if (cellStart[depth] != null) { row.push(html.slice(cellStart[depth], m.index)); cellStart[depth] = null; }
+  }
+  return out;
+}
 function parseTeam(html, tid) {
-  const info = { len: html.length, pn: (html.match(/ysf-player-name/g) || []).length, tr: (html.match(/<tr\b/g) || []).length };
-  { const k = html.indexOf('ysf-player-name'); if (k > 0) { const st = html.lastIndexOf('<tr', k); info.tags = (html.slice(st, st + 4000).match(/<\/?(?:tr|td|th|table|a|span|div)\b/g) || []).slice(0, 40).join(' ').replace(/</g, ''); } }
-  // Weather popups are small tables nested inside player cells; their </tr> would cut a lineup row short. Drop them.
-  html = html.replace(/<table\b(?:(?!<table\b)[\s\S])*?<\/table>/gi, m => (/Forecast:|Powered by/.test(m) ? '' : m));
-  info.pn2 = (html.match(/ysf-player-name/g) || []).length;
+  const info = { len: html.length, pn: (html.match(/ysf-player-name/g) || []).length };
   const nm = /([^<>]{1,60}?)(?:'|&#0?39;|&#x27;|’|&rsquo;)s\s+(?:Offense|Kickers|Defense)/i.exec(html);
   let opp = null, oppName = '';
   const i = html.indexOf('team-card-matchup');
@@ -78,15 +88,13 @@ function parseTeam(html, tid) {
     }
   }
   const rows = [], dbgc = [];
-  for (const seg of html.split(/<tr\b/).slice(1)) {
-    const row = seg.split('</tr>')[0];
-    if (!/ysf-player-name/.test(row)) continue;
-    const cells = row.split(/<t[dh]\b/).slice(1).map(c => '<td' + c);
-    if (cells.length < 6) { dbgc.push(cells.length); continue; }
+  for (const cells of teamRows(html)) {
+    if (cells.length < 6 || !/ysf-player-name/.test(cells[2] || '')) { if (cells.some(c => /ysf-player-name/.test(c))) dbgc.push(cells.length); continue; }
     const slot = text(cells[0]);
-    if (!SLOTS.test(slot)) continue;
-    const pl = player(cells[2]);
-    if (!pl) continue;
+    if (!SLOTS.test(slot)) { dbgc.push('s' + slot.slice(0, 6)); continue; }
+    const wx = c => c.replace(/<table\b(?:(?!<table\b)[\s\S])*?<\/table>/gi, m => (/Forecast:|Powered by/.test(m) ? '' : m));
+    const pl = player(wx(cells[2]));
+    if (!pl) { dbgc.push('p'); continue; }
     rows.push({ slot, ...pl, proj: num(text(cells[5])), pts: num(text(cells[4])) });
   }
   return { id: +tid, name: nm ? text(nm[1]) : '', opp, oppName, rows, dbgc, info };
