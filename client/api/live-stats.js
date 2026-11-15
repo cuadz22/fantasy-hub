@@ -37,6 +37,19 @@ module.exports = async (req, res) => {
       res.setHeader('Cache-Control', 'no-store');
       return res.status(200).json({ games: g.status, stats: s.status, plays: p.status });
     }
+    if (q.glist) {
+      const g = await pages('games', { seasons: ['2026'], weeks: [String(q.glist).replace(/\D/g, '')] }, 2);
+      res.setHeader('Cache-Control', 'public, s-maxage=600');
+      return res.status(200).json({ ids: g.data.map(x => x.id), st: g.status });
+    }
+    if (q.sg) {
+      const p = { per_page: 100, game_ids: String(q.sg).split(',').map(x => x.replace(/\D/g, '')).filter(Boolean) };
+      if (q.cursor) p.cursor = String(q.cursor);
+      const { status, body } = await bdl('stats', p);
+      const F = ['passing_yards', 'passing_touchdowns', 'passing_interceptions', 'rushing_yards', 'rushing_touchdowns', 'receptions', 'receiving_yards', 'receiving_touchdowns', 'fumbles_lost', 'field_goals_made', 'field_goal_attempts', 'extra_points_made', 'long_field_goal_made'];
+      res.setHeader('Cache-Control', 'public, s-maxage=600');
+      return res.status(200).json({ st: status, next: body.meta && body.meta.next_cursor, rows: (body.data || []).map(x => [x.player.first_name + ' ' + x.player.last_name, x.player.position_abbreviation].concat(F.map(f => x[f]))) , F });
+    }
     if (q.player) {
       const nm = String(q.player).slice(0, 60), last = nm.split(' ').slice(-1)[0].replace(/[^A-Za-z'\-]/g, '');
       const norm = x => String(x || '').toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\b\.?/g, '').replace(/[^a-z]/g, '');
