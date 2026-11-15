@@ -94,6 +94,17 @@ body.pc-lock{overflow:hidden}
 .pc-log td:nth-child(2){width:58px;font-weight:700}
 .pc-log td:last-child{text-align:right;font-weight:800;width:44px}.pc-log td.ln{text-align:left;font-weight:500;color:var(--text);font-size:11.5px}
 .pc-empty{color:var(--muted);font-size:12px;padding:6px 2px}
+.pc-mu{display:flex;align-items:center;gap:8px;margin:-4px 0 12px;padding:9px 12px;border:1px solid color-mix(in srgb,var(--mc) 55%,transparent);background:color-mix(in srgb,var(--mc) 12%,transparent);border-radius:12px;font-size:12.5px}
+.pc-mu i{flex:0 0 9px;width:9px;height:9px;border-radius:50%;background:var(--mc)}
+.pc-mu span{flex:1;min-width:0}.pc-mu b{color:var(--mc);font-weight:800}
+.pc-mu small{color:var(--muted);font-size:11px;white-space:nowrap}
+.pc-rk{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 2px}
+.pc-rk div{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:9px 12px;display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:2px 8px}
+.pc-rk span{font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.pc-rk b{font-size:19px;font-weight:800;text-align:right}
+.pc-rk small{grid-column:1/-1;font-size:11px;color:var(--muted)}
+.pc-bl p.im{margin-top:8px;color:var(--muted);font-size:12.5px}.pc-bl p.im b{color:var(--text)}
+.pc-cr{margin:14px 2px 0;font-size:10.5px;line-height:1.5;color:var(--muted)}.pc-cr a{color:var(--muted);text-decoration:underline}
 </style><style id="rc-css">
 :where(.rc *){margin:0}
 .rc *{box-sizing:border-box}
@@ -5121,11 +5132,13 @@ function pcOpen(el){
   var h='<div class="pc-sh" role="dialog" aria-modal="true" aria-label="'+lgEsc(n)+'" style="'+(tcol?'--pc-c:'+tcol:'')+'"><div class="pc-grab"><i></i></div><div class="pc-xw"><button type="button" class="pc-x" aria-label="Close" onclick="pcClose()">&#10005;</button></div>';
   h+='<div class="pc-hd"><div class="pc-av'+(isD?' sq':'')+'">'+(isD?wpDef(n):wpPh(n))+'</div><div><div class="pc-nm">'+lgEsc(n)+cfnSh(n)+'</div><div class="pc-meta"><em class="wp-slot wp-s-'+posC+'">'+posC+'</em>'+(team?'<span>'+lgEsc(team)+'</span>':'')+'<span id="pc-gp"></span>'+'</div></div></div>';
   if(g) h+='<div class="pc-gm"><span>'+(g.k===-1?'<b>Bye week</b>':'<b>'+g.s.replace(/(\d)(am|pm)\b/,'$1<i style="font-style:normal;font-size:.8em">$2</i>')+'</b>')+'</span><small>'+(live?'Week '+(typeof PVL_WK==='number'?PVL_WK:GI0.wk):'Week '+GI0.wk)+'</small></div>';
+  h+='<div id="pc-mu"></div>';
   var over=(scored&&pj!=null&&now>pj);
   h+='<div class="pc-tiles"><div class="pc-t"><b class="'+(over?'up':'')+'">'+pcF(scored?now:(live?0:null))+'</b><span>'+(scored?'This week':live?'To play':'This week')+'</span></div>'+
      '<div class="pc-t"><b>'+pcF(proj)+'</b><span>Proj</span></div>'+
      '<div class="pc-t"><b id="pc-avg">'+(hi&&hi.av!=null?pcF(hi.av):'&ndash;')+'</b><span>Avg</span></div>'+
      '<div class="pc-t"><b id="pc-hi">'+(hi&&hi.sh?String(hi.sh).split(' ')[0]:'&ndash;')+'</b><span>Season high</span></div></div>';
+  h+='<div id="pc-rk"></div>';
   if(hi&&(hi.sh||hi.ch)){ function hp(x){ var m=/^(\S+)\s*(.*)$/.exec(String(x||'')); return m?'<b>'+lgEsc(m[1])+'</b>'+(m[2]?'<small>'+lgEsc(m[2])+'</small>':''):''; }
     h+='<div class="pc-hl"><span>'+(hi.sh?'<em>Season high</em> '+hp(hi.sh):'')+'</span><i></i><span>'+(hi.ch?'<em>Career high</em> '+hp(hi.ch):'')+'</span></div>'; }
   h+='<div id="pc-bars"></div>';
@@ -5134,11 +5147,27 @@ function pcOpen(el){
   h+='<div id="pc-log"></div>';
   var ow=X.own[key]||[], byL={}; ow.forEach(function(o){ byL[o.lg]=o; });
   h+='<div class="pc-h">On your leagues</div><div class="pc-lgx">'+['gl','bh','rb','sts'].map(function(k){ var o=byL[k], lo=(typeof LG_LOGO!=='undefined'&&LG_LOGO[k])||''; return '<div class="'+(o?(o.mgr==='Cuadz'?'me':''):'na')+'">'+(lo?'<img src="'+lo+'" alt="'+lgEsc(PC_LG[k])+'">':'')+'<b>'+(o?lgEsc(o.mgr):'Free agent')+'</b>'+(o?'<small>'+(o.slot==='BN'?'Bench':o.slot==='IR'?'IR':'Starting')+'</small>':'')+'</div>'; }).join('')+'</div>';
-  var bl=[]; try{ bl=(window.CFN_BLURBS?CFN_BLURBS(n):[]).slice(); var ub=(window.CFN_USER_BLURBS&&CFN_USER_BLURBS[n])||[]; bl=ub.concat(bl).slice(0,4); }catch(e){}
-  h+='<div class="pc-h">Latest</div>'+(bl.length?bl.map(function(b){ return '<div class="pc-bl">'+(b.tag?'<span class="tg">'+lgEsc(b.tag)+'</span>':'')+'<p>'+lgEsc(b.t)+'</p><small>'+lgEsc(b.au||'')+(b.d?' &middot; '+pcDate(b.d):'')+(b.u?' &middot; <a href="'+lgEsc(b.u)+'" target="_blank" rel="noopener">View post</a>':'')+'</small></div>'; }).join(''):'<div class="pc-empty">No notes on this player yet.</div>');
+  h+='<div class="pc-h">Latest</div><div id="pc-news"><div class="pc-empty">Loading&hellip;</div></div><div class="pc-cr" id="pc-cr"></div>';
   h+='</div>';
   pcClose(); var o=document.createElement('div'); o.id='pc-ov'; o.className='pc-ov'; o.innerHTML=h; o.addEventListener('click',function(e){ if(e.target===o) pcClose(); }); document.body.appendChild(o); document.body.classList.add('pc-lock'); requestAnimationFrame(function(){ o.classList.add('on'); });
   if(!isD&&pos!=='K') pcLog(n,pos,lg);
+  pcFeed(n,team);
+}
+var PC_TC={green:'#2fd1a0',yellow:'#ffd24a',orange:'#ffa726',red:'#ff6b61'};
+function pcFeed(n,team){
+  fetch('/api/live-stats?card='+encodeURIComponent(n)+(team?'&team='+encodeURIComponent(team):'')).then(function(r){ return r.ok?r.json():null; }).then(function(j){
+    if(!document.getElementById('pc-ov')) return;
+    var nw=document.getElementById('pc-news'), p=j&&j.p, cr=document.getElementById('pc-cr');
+    if(!p){ if(nw) nw.innerHTML='<div class="pc-empty">No new notes on this player.</div>'; return; }
+    var mu=document.getElementById('pc-mu'), m=p.mu;
+    if(mu&&m&&!m.bye&&m.tier){ var c=PC_TC[m.color]||'#9aa3b2'; mu.innerHTML='<div class="pc-mu" style="--mc:'+c+'"><i></i><span><b>'+lgEsc(m.tier.charAt(0).toUpperCase()+m.tier.slice(1))+'</b>'+(m.defense_rank_vs_position?' &middot; defense #'+m.defense_rank_vs_position+' vs '+lgEsc(m.label&&/vs (\w+)\)/.exec(m.label)?/vs (\w+)\)/.exec(m.label)[1]:'position'):'')+'</span>'+(m.pts_allowed_per_game_recency_weighted?'<small>'+Number(m.pts_allowed_per_game_recency_weighted).toFixed(1)+' pts allowed/g</small>':'')+'</div>'; }
+    var rk=document.getElementById('pc-rk'), ch=[];
+    if(rk){ if(p.rank) ch.push('<div><span>Week '+j.wk+' rank</span><b>'+lgEsc(p.rank)+'</b>'+(p.pts!=null?'<small>'+Number(p.pts).toFixed(1)+' proj</small>':'')+'</div>');
+      if(p.fp) ch.push('<div><span>Consensus</span><b>'+lgEsc(p.fp)+'</b>'+(p.fpMin?'<small>range '+lgEsc(p.fpMin)+'&ndash;'+lgEsc(p.fpMax)+(p.fpN?' &middot; '+p.fpN+' experts':'')+'</small>':'')+'</div>');
+      rk.innerHTML=ch.length?'<div class="pc-rk">'+ch.join('')+'</div>':''; }
+    if(nw) nw.innerHTML=p.news.length?p.news.map(function(b){ return '<div class="pc-bl">'+(b.headline?'<span class="tg">'+lgEsc(b.headline)+'</span>':'')+'<p>'+lgEsc(b.blurb||'')+'</p>'+(b.impact?'<p class="im"><b>Fantasy impact:</b> '+lgEsc(b.impact)+'</p>':'')+'<small>'+lgEsc(b.attribution||b.source||'')+(b.timestamp?' &middot; '+pcDate(b.timestamp):'')+(b.link?' &middot; <a href="'+lgEsc(b.link)+'" target="_blank" rel="noopener">Read more</a>':'')+'</small></div>'; }).join(''):'<div class="pc-empty">No new notes on this player.</div>';
+    if(cr){ var src=[]; if(p.rank) src.push('Sleeper projections (half-PPR)'); if(p.fp) src.push('<a href="https://www.fantasypros.com/" target="_blank" rel="noopener">FantasyPros</a> consensus'); cr.innerHTML=(src.length?'Rankings: '+src.join(' &middot; ')+'. ':'')+'News: '+(p.news.some(function(b){return /fantasypros/i.test(b.source||'');})?'<a href="https://www.fantasypros.com/" target="_blank" rel="noopener">FantasyPros</a>':'')+(p.news.some(function(b){return /rotowire/i.test(b.source||'');})?(p.news.some(function(b){return /fantasypros/i.test(b.source||'');})?', ':'')+'RotoWire':'')+(p.news.length?'':'&mdash;')+(j.gen?' &middot; updated '+pcDate(j.gen):''); }
+  }).catch(function(){ var nw=document.getElementById('pc-news'); if(nw) nw.innerHTML='<div class="pc-empty">No new notes on this player.</div>'; });
 }
 function pcLog(n,pos,lg){
   fetch('/api/live-stats?player='+encodeURIComponent(n)+'&lg='+encodeURIComponent(lg||'gl')).then(function(r){ return r.ok?r.json():null; }).then(function(j){
@@ -8724,10 +8753,6 @@ function hwBlock(n){ try{
   if(!out.length&&!rk) return '';
   var nm=[]; out.forEach(function(o){ var a=o.x.au||'Hayden Winks'; if(nm.indexOf(a)<0) nm.push(a); }); if(rk&&nm.indexOf('Hayden Winks')<0) nm.unshift('Hayden Winks'); var mixed=nm.length>1;
   return '<div class="pod-bl"><div class="pod-h">'+esc(nm.join(' \u00b7 ').toUpperCase())+'</div>'+rk+out.map(function(o){ return '<div class="pod-i"><div class="pod-b">'+esc(o.t).replace(/\n/g,'<br>')+'</div><div class="pod-s">'+(mixed?'<b>'+esc(o.x.au||'Hayden Winks')+'</b> \u00b7 ':'')+hwDate(o.x.d)+' \u00b7 <a href="'+esc(o.x.u)+'" target="_blank" rel="noopener">View post</a>'+(o.x.a?' \u00b7 <a href="'+esc(o.x.a)+'" target="_blank" rel="noopener">Article</a>':'')+'</div></div>'; }).join('')+'</div>'; }catch(e){ return ''; } }
-window.CFN_BLURBS=function(n){ var out=[]; try{ var key=NRM(n), full=String(n).toLowerCase();
-  HW_FEED.posts.forEach(function(x){ var hit=(x.p||[]).some(function(q){return NRM(q)===key;}); if(!hit&&full.split(' ').length>1&&NRM(x.x).indexOf(key)>=0) hit=true; var tx=hwClean(x.x); if(hit&&tx.length>=18) out.push({t:tx,au:x.au||'Hayden Winks',d:x.d,u:x.u}); });
-  HW_FEED.ranks.forEach(function(g){ (g.r||[]).forEach(function(q){ if(NRM(q[1])===key&&q[4]) out.push({t:q[4],au:'Hayden Winks',d:g.ts||HW_FEED.gen,u:g.u,tag:g.pos+' #'+q[0]+' in Week '+g.wk+' ranks'}); }); });
-  out.sort(function(a,b){return new Date(b.d)-new Date(a.d);}); }catch(e){} return out.slice(0,4); };
 function detail(){var d=S.det;if(!d)return '';var p=byNm()[d.n];if(!p)return '';var lg=d.lg,li=LG.indexOf(lg);scoreFor(lg);
   var t=tgt(p,lg),i=t.i,ow=p.o[li],cx=myCtx(lg),pl=t.pil,head,sum;
   if(t.lab==='target'){head='<span class="sc-tag sc-t sc-big">TRADE TARGET</span>';sum='Down lately, but the usage and the schedule say it will not last, and he fixes a spot in your lineup.';}

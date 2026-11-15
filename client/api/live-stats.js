@@ -6,6 +6,18 @@
 const BASE = 'https://api.balldontlie.io/nfl/v1/';
 // Per-league scoring fitted to each league's real Week 9 scores: [pass yd, pass TD, INT, rush yd, rush TD, rec, rec yd, rec TD, fumble lost]
 const SCORING = { gl: [0.05, 6, -2, 0.1, 6, 1, 0.1, 6, -2], bh: [0.05, 6, -1, 0.1, 6, 1, 0.1, 6, -2], rb: [0.04, 6, -2, 0.1, 6, 1, 0.1, 6, -2], sts: [0.05, 6, -2, 0.1, 6, 1, 0.1, 6, -2] };
+const CARDS_URL = 'https://gist.githubusercontent.com/cuadz22/9727cb8f5b18fb3307b459b82214c15d/raw/player-cards.json';
+const normN = x => String(x || '').toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\b\.?/g, '').replace(/[^a-z]/g, '');
+let CARDS = null, CARDS_T = 0;
+async function cards() {
+  if (CARDS && Date.now() - CARDS_T < 120000) return CARDS;
+  const r = await fetch(CARDS_URL + '?t=' + Math.floor(Date.now() / 120000), { headers: { 'User-Agent': 'cfn-site' } });
+  if (!r.ok) throw new Error('cards ' + r.status);
+  const j = await r.json(), idx = {};
+  (j.players || []).forEach(x => { (idx[normN(x.name)] = idx[normN(x.name)] || []).push(x); });
+  CARDS = { gen: j.generated_at, wk: j.week, idx }; CARDS_T = Date.now();
+  return CARDS;
+}
 async function bdl(path, params) {
   const u = new URL(BASE + path);
   for (const [k, v] of Object.entries(params || {})) {
@@ -38,6 +50,13 @@ module.exports = async (req, res) => {
       const p = await bdl('plays', { game_id: 1 });
       res.setHeader('Cache-Control', 'no-store');
       return res.status(200).json({ games: g.status, stats: s.status, plays: p.status });
+    }
+    if (q.card) {
+      const C = await cards(), a = C.idx[normN(q.card)] || [], x = (q.team && a.find(y => y.team === q.team)) || a[0];
+      res.setHeader('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=600');
+      if (!x) return res.status(200).json({ gen: C.gen, wk: C.wk, p: null });
+      const e = x.fantasypros_ecr || {}, sp = x.sleeper_projection_rank || {};
+      return res.status(200).json({ gen: C.gen, wk: C.wk, p: { rank: x.rank || null, fp: x.fp_consensus_rank || null, fpMin: e.rank_min || null, fpMax: e.rank_max || null, fpN: e.total_experts || null, pts: sp.pts_half_ppr == null ? null : sp.pts_half_ppr, news: [x.news, x.news_rotowire].filter(Boolean), mu: x.matchup || null } });
     }
     if (q.player) {
       const nm = String(q.player).slice(0, 60), last = nm.split(' ').slice(-1)[0].replace(/[^A-Za-z'\-]/g, '');
