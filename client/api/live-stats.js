@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
     const season = q.season || '2026', week = String(q.week || '').replace(/\D/g, '');
     const g = await pages('games', { seasons: [season], weeks: week ? [week] : undefined }, 2);
     if (g.status !== 200) { res.setHeader('Cache-Control', 'no-store'); return res.status(g.status).json({ error: 'games ' + g.status }); }
-    const active = g.data.filter(x => x.status && !/scheduled/i.test(x.status) && !/^\d{4}-/.test(x.status));
+    const active = g.data.filter(x => x.date && Date.parse(x.date) <= Date.now() + 10 * 60000); // kicked off (or about to)
     let stats = [];
     if (active.length) {
       const ids = active.map(x => x.id);
