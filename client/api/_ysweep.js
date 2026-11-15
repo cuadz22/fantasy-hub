@@ -64,8 +64,11 @@ async function fetchTeam(lg, week, tid) {
   return html;
 }
 function parseTeam(html, tid) {
+  const info = { len: html.length, pn: (html.match(/ysf-player-name/g) || []).length, tr: (html.match(/<tr\b/g) || []).length };
+  { const k = html.indexOf('ysf-player-name'); if (k > 0) { const st = html.lastIndexOf('<tr', k); info.tags = (html.slice(st, st + 4000).match(/<\/?(?:tr|td|th|table|a|span|div)\b/g) || []).slice(0, 40).join(' ').replace(/</g, ''); } }
   // Weather popups are small tables nested inside player cells; their </tr> would cut a lineup row short. Drop them.
   html = html.replace(/<table\b(?:(?!<table\b)[\s\S])*?<\/table>/gi, m => (/Forecast:|Powered by/.test(m) ? '' : m));
+  info.pn2 = (html.match(/ysf-player-name/g) || []).length;
   const nm = /([^<>]{1,60}?)(?:'|&#0?39;|&#x27;|’|&rsquo;)s\s+(?:Offense|Kickers|Defense)/i.exec(html);
   let opp = null, oppName = '';
   const i = html.indexOf('team-card-matchup');
@@ -86,7 +89,7 @@ function parseTeam(html, tid) {
     if (!pl) continue;
     rows.push({ slot, ...pl, proj: num(text(cells[5])), pts: num(text(cells[4])) });
   }
-  return { id: +tid, name: nm ? text(nm[1]) : '', opp, oppName, rows, dbgc };
+  return { id: +tid, name: nm ? text(nm[1]) : '', opp, oppName, rows, dbgc, info };
 }
 
 module.exports = { IDS, fetchPage, parsePage, text, fetchTeam, parseTeam };

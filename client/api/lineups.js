@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
     const ttl = cacheSeconds();
     res.setHeader('Cache-Control', `s-maxage=${ttl}, stale-while-revalidate=${ttl * 2}`);
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.end(JSON.stringify({ lg, week, at: new Date().toISOString(), ms: Date.now() - t0, matchups, diag: q.get('dbg') ? { diag, t: diagT && Object.fromEntries(Object.entries(diagT).map(([k, v]) => [k, v ? [v.rows.length, v.opp, v.name, v.dbgc.slice(0, 4).join('/')] : null])) } : undefined }));
+    res.end(JSON.stringify({ lg, week, at: new Date().toISOString(), ms: Date.now() - t0, matchups, diag: q.get('dbg') ? { diag, t: diagT && Object.fromEntries(Object.entries(diagT).map(([k, v]) => [k, v ? [v.rows.length, v.opp, v.name, v.dbgc.slice(0, 4).join('/'), v.info] : null])) } : undefined }));
   } catch (e) {
     res.statusCode = 500; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store');
     res.end(JSON.stringify({ error: String(e.message || e) }));
