@@ -66,6 +66,6 @@ T('ysApply: new lineup replaces the old one, one bad matchup cannot sink the lea
   const bad = { ia: 3, ib: 4, L: null, R: rows2 }; // malformed matchup
   const n = L.ysApply('gl', { matchups: [{ ia: 1, ib: 2, L: rows1, R: rows2 }, bad] });
   assert.strictEqual(n, 1); assert.ok(PVL.gl[0].ra.some(r => r[1] === 'New QB') && !PVL.gl[0].ra.some(r => r[1] === 'Old QB'), 'lineup not replaced');
-  const w = L.wpTot('gl', PVL.gl[0]); assert.ok(/Score/.test(w.a) && /proj/.test(w.b));
+  const w = L.wpTot('gl', PVL.gl[0]); assert.ok(/wp-tt a/.test(w.a) && /proj/.test(w.b) && /orig/.test(w.a));
 });
 console.log(pass + ' passed' + (process.exitCode ? ', FAILURES above' : ''));

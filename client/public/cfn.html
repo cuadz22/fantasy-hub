@@ -38,11 +38,9 @@
 .mt-sec{margin:18px 2px 8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}.mt-sec em{font-style:normal;text-transform:none;letter-spacing:0;font-size:11px;font-weight:500}
 .mt-list{display:flex;flex-direction:column;gap:6px}
 .mt-r{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;cursor:pointer;min-width:0}
-.gi-sb{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:2px;padding:2px 7px;border-radius:5px;background:#0b0d10;border:1px solid #2a2f38;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;line-height:1.35;max-width:100%}
-.gi-sb .sb-t{color:#ff5a4d;font-size:10px;font-weight:700;letter-spacing:.06em;white-space:nowrap}
-.gi-sb .sb-sc{display:inline-flex;align-items:baseline;gap:3px;font-size:10px;color:#ffb84a;font-weight:700;white-space:nowrap}
-.gi-sb .sb-sc em{font-style:normal;color:#9aa3b2;font-size:9px;letter-spacing:.04em}.gi-sb .sb-sc i{font-style:normal;margin-right:4px;text-shadow:0 0 6px rgba(255,184,74,.55)}
-.gi-sb .sb-l{color:#8a93a3;font-size:9px;white-space:nowrap}
+.gi-sb{display:inline-flex;align-items:center;gap:5px;max-width:100%;overflow:hidden;padding:0 5px;border-radius:4px;background:#0b0d10;border:1px solid #2a2f38;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:9.5px;line-height:1.5;vertical-align:1px;white-space:nowrap}
+.gi-sb .sb-t{color:#ff5a4d;font-weight:700;letter-spacing:.03em}
+.gi-sb .sb-sc{color:#ffb84a;font-weight:700;text-shadow:0 0 5px rgba(255,184,74,.5)}
 .mt-r .wp-dlg{position:relative;overflow:hidden;background:var(--bg3);border:1px solid var(--border-l)}.mt-r:hover{border-color:var(--accent)}.mt-r .wp-ph{flex:0 0 38px;width:38px;height:38px}
 .mt-pn{flex:1;min-width:0}.mt-pn b{display:block;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mt-pn small{color:var(--muted);font-size:11px}
 .mt-sl{flex:none;font-size:10px;font-weight:800;letter-spacing:.05em;padding:3px 8px;border-radius:7px;background:var(--bg3);border:1px solid var(--border);color:var(--muted)}
@@ -1198,12 +1196,14 @@ nav::-webkit-scrollbar{display:none}
 .wp-left{margin-top:10px;padding-top:8px;border-top:1px solid var(--border);font-size:11.5px;color:var(--muted);line-height:1.45;width:100%}
 .wp-left em{font-style:normal;color:var(--text);font-weight:700}.wp-left .dim2{opacity:.8}
 .wp-vslg{position:absolute;left:50%;top:48px;transform:translateX(-50%);height:30px;width:auto;max-width:44px;object-fit:contain;opacity:.92;pointer-events:none}
-.wp-tt{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-direction:column;line-height:1}
-.wp-tm2.r .wp-tt{align-items:flex-end;text-align:right}
-.wp-tt i{font-style:normal;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.wp-tm2 .wp-nm{min-height:2.3em}
+.wp-tt{position:relative;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-direction:column;line-height:1;align-self:flex-end;text-align:right;margin-right:30px}
+.wp-tt.b{align-self:flex-start;text-align:left;margin-right:0;margin-left:30px}
 .wp-tt b{font-size:34px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.wp-tt small{font-size:14px;margin-top:6px;color:var(--muted);font-variant-numeric:tabular-nums}
-.wp-tt.lo b,.wp-tt.lo small{color:var(--accent)}.wp-tt.lu b,.wp-tt.lu small{color:#ff4d4d}
+.wp-tt small{font-variant-numeric:tabular-nums}
+.wp-tt .pj{font-size:14px;margin-top:6px;color:var(--text)}.wp-tt .og{font-size:10px;margin-top:4px;color:var(--muted);letter-spacing:.03em}
+.wp-tt.lo b,.wp-tt.lo .pj{color:var(--accent)}.wp-tt.lu b,.wp-tt.lu .pj{color:#ff4d4d}
+.wp-tt.a::after{content:'SCORE';position:absolute;top:calc(10px + 17px);right:-62px;width:46px;transform:translateY(-50%);text-align:center;background:var(--bg);border:1px solid var(--border);border-radius:99px;padding:2px 0;font-size:9px;font-weight:800;letter-spacing:.06em;color:var(--muted);z-index:2}
 .wp-vs{position:absolute;left:50%;top:14px;transform:translateX(-50%);background:var(--bg);border:1px solid var(--border);border-radius:99px;padding:3px 9px;font-size:10px;font-weight:800;letter-spacing:.06em;color:var(--muted)}
 .wp-full .wp2r{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:4px;align-items:center;padding:8px 2px;border-top:1px solid var(--border);font-size:12px}
 .wp-full .wp2r:first-child{border-top:0}
@@ -4896,8 +4896,8 @@ function wpTot(k,m){
   var o=null; (PV8[k]||[]).forEach(function(x){ if(x.ia===m.ia&&x.ib===m.ib) o=x; });
   var oa=m.ob?m.ob[0]:o?o.a[3]:m.a[3], ob=m.ob?m.ob[1]:o?o.b[3]:m.b[3], sa=(m.la&&m.la.s)||0, sb=(m.lb&&m.lb.s)||0, fin=m.left===0;
   var cl=function(now,orig){ return fin?(now>orig?' lo':now<orig?' lu':''):(now>orig+0.05?' lo':now<orig-0.05?' lu':''); };
-  var box=function(sc,orig,c){ return '<div class="wp-tt'+c+'"><i>Score</i><b>'+sc.toFixed(1)+'</b><small>'+orig.toFixed(1)+' proj</small></div>'; };
-  return {a:box(sa,oa,cl(fin?sa:m.a[3],oa)), b:box(sb,ob,cl(fin?sb:m.b[3],ob))};
+  var box=function(sc,live,orig,c,cls){ return '<div class="wp-tt '+cls+c+'"><b>'+sc.toFixed(1)+'</b><small class="pj">'+(fin?'final':live.toFixed(1)+' proj')+'</small><small class="og">orig '+orig.toFixed(1)+'</small></div>'; };
+  return {a:box(sa,m.a[3],oa,cl(fin?sa:m.a[3],oa),'a'), b:box(sb,m.b[3],ob,cl(fin?sb:m.b[3],ob),'b')};
 }
 function wpTeam(k,t,tid,fav,p,q,lv,side,late,tot){
   var pj=lv?(lv.done?(lv.fin?'<b>'+lv.s.toFixed(1)+'</b> final':'<b>'+lv.s.toFixed(1)+'</b> now &middot; decided'):'<b>'+lv.s.toFixed(1)+'</b> now &middot; '+t[3].toFixed(1)+' proj'):t[3].toFixed(1)+' proj';
@@ -4917,10 +4917,9 @@ function ysGi(nm,x){ var st=String(x[6]||''), m=/(?:^|\s)(vs|@)\s+([A-Za-z]{2,3}
   var t=giTime(st), pos=x[2], k=/^(QB|RB|WR|TE)$/.test(pos)?giTier(pos,m[2]):-1;
   var lv=(!t&&!/^final/i.test(st))?/^(Q[1-4]|OT\d?|Half\w*|End\s*(?:of\s*)?Q?[1-4])\s*([0-9]+:[0-9]{2})?\s*,?\s*(\d+)-(\d+)/i.exec(st):null, sb=null;
   if(lv){ var qn=lv[1].toUpperCase().replace(/^HALF\w*/,'HALF').replace(/^END\s*(?:OF\s*)?Q?/,'END Q'); sb={q:qn,c:lv[2]||'',a:+lv[3],b:+lv[4],tm:String(x[3]||'').toUpperCase(),op:m[2].toUpperCase(),left:Math.round(ysFrac(st)*3600)}; }
-  GI[key]={s:(m[1].toLowerCase()==='@'?'@':'vs ')+m[2].toUpperCase()+(t?'\u00b7'+t:/^final/i.test(st)?'\u00b7Final':'\u00b7'+(sb?sb.q+(sb.c?' '+sb.c:''):'Live')),k:k,sb:sb}; }
+  GI[key]={s:(m[1].toLowerCase()==='@'?'@':'vs ')+m[2].toUpperCase()+(t?'\u00b7'+t:/^final/i.test(st)?'\u00b7Final':(sb?'\u00b7':'\u00b7Live')),k:k,sb:sb}; }
 /* scoreboard chip shown under a player whose game is in progress: quarter + clock, game score, and time left in the game */
-function giSb(g){ var b=g&&g.sb; if(!b) return ''; var L=b.left, lt=Math.floor(L/60)+':'+('0'+(L%60)).slice(-2);
-  return '<span class="gi-sb"><b class="sb-t">'+lgEsc(b.q)+(b.c?' '+lgEsc(b.c):'')+'</b><span class="sb-sc"><em>'+lgEsc(b.tm||'')+'</em><i>'+b.a+'</i><em>'+lgEsc(b.op)+'</em><i>'+b.b+'</i></span><small class="sb-l">'+lt+' left</small></span>'; }
+function giSb(g){ var b=g&&g.sb; if(!b) return ''; return '<span class="gi-sb"><b class="sb-t">'+lgEsc(b.q)+(b.c?' '+lgEsc(b.c):'')+'</b><span class="sb-sc">'+b.a+'-'+b.b+'</span></span>'; }
 function giFor(n){ var key=ysNorm(n), g=GI[key]; if(g) return g; var p=GI0.pt[key]; if(!p) return null;
   var s=GI0.sc[p[1]], i=(typeof PVL_WK==='number'?PVL_WK:GI0.wk)-GI0.wk, x=s&&s[i]; if(s&&!x) return {s:'BYE',k:-1}; if(!x) return null;
   var o=x.replace(/^[@v]/,''); return {s:(x.charAt(0)==='@'?'@':'vs ')+o,k:giTier(p[0],o)}; }
@@ -4932,7 +4931,7 @@ function wpDef(n){ var k=String(n).toLowerCase().replace(/[^a-z0-9]/g,''), t=WP_
 function wpP2(n,al,k,au,v,pj){
   var ok=n&&n!=='—'&&n!=='None';
   if(!ok) return '<div class="wp2p '+al+'"><span class="wp-ph wp-phfb">&ndash;</span><div class="pn"><b><i>Empty</i></b><small>&nbsp;</small></div></div>';
-  var g=giFor(n), sub=g&&g.sb?giSb(g):g?'<small class="wp-gi t'+g.k+'">'+g.s.replace(/(\d)(am|pm)\b/,'$1<i class="ap">$2</i>')+'</small>':'<small>&nbsp;</small>';
+  var g=giFor(n), sub=g?'<small class="wp-gi t'+g.k+'">'+(g.sb?giSb(g):g.s.replace(/(\d)(am|pm)\b/,'$1<i class="ap">$2</i>'))+'</small>':'<small>&nbsp;</small>';
   return '<div class="wp2p '+al+(au>=3?' tp':'')+'" data-pc="'+String(n).replace(/"/g,'&quot;')+'" data-slot="'+k+'" data-au="'+au+'" data-v="'+(v==null?'':v)+'" data-pj="'+(pj==null?'':pj)+'">'+(k==='DEF'?wpDef(n):wpPh(n))+'<div class="pn"><b>'+lgEsc(n)+cfnSh(n)+wpOut(n)+'</b>'+sub+'</div></div>';
 }
 function wpS2(n,v,au,pj){
@@ -4944,7 +4943,7 @@ function wpCellF(n,v,hi,al,nop,au,pj){
   var ok=n&&n!=='\u2014'&&n!=='None';
   if(!ok) return '<div class="wp-c '+al+'"><span><i>Empty</i></span><b>&ndash;</b></div>';
   var act=au===3?0:v, pr=au===3?v:pj, pc=wpPace(n,v,au,pj), g=giFor(n);
-  return '<div class="wp-c '+al+(hi?' hi':'')+(au>=3?' tp':'')+pc+'">'+(nop?'':wpPh(n))+'<span>'+lgEsc(n)+cfnSh(n)+wpOut(n)+(g&&g.sb?giSb(g):g?'<small class="wp-gi t'+g.k+'">'+g.s+'</small>':'')+'</span><div class="wp-v"><b>'+act.toFixed(2)+'</b>'+(pr!=null?'<small class="wp-pq">Proj '+pr.toFixed(2)+'</small>':'')+'</div></div>';
+  return '<div class="wp-c '+al+(hi?' hi':'')+(au>=3?' tp':'')+pc+'">'+(nop?'':wpPh(n))+'<span>'+lgEsc(n)+cfnSh(n)+wpOut(n)+(g?'<small class="wp-gi t'+g.k+'">'+(g.sb?giSb(g):g.s)+'</small>':'')+'</span><div class="wp-v"><b>'+act.toFixed(2)+'</b>'+(pr!=null?'<small class="wp-pq">Proj '+pr.toFixed(2)+'</small>':'')+'</div></div>';
 }
 function wpCell(n,v,hi,al,nop,au,pj){ var ok=n&&n!=='—'&&n!=='None'; var pc=ok?wpPace(n,v,au,pj):''; return '<div class="wp-c '+al+(hi?' hi':'')+(au>=3?' tp':'')+pc+'">'+(ok&&!nop?wpPh(n):'')+'<span>'+(ok?lgEsc(n)+cfnSh(n)+wpOut(n):'<i>Empty</i>')+(ok&&au?' <u class="wp-au'+(au>=3?' tp':'')+'">'+(au>=3?'in play':au===2?'final':'auto')+'</u>':'')+'</span><b>'+(n&&n!=='—'&&n!=='None'?(au===3?'<small class="wp-pj">proj</small>':'')+v.toFixed(1):'&ndash;')+'</b></div>'; }
 function wpFull(m){
