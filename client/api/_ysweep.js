@@ -87,6 +87,12 @@ function parseTeam(html, tid) {
       if (+m[1] !== +tid) { opp = +m[1]; const t = text(m[2]); if (t && !oppName) oppName = t; }
     }
   }
+  // Yahoo's own totals for this matchup: "<pts> <proj> vs <pts> <proj>" in the matchup card.
+  let tot = null, otot = null;
+  if (i >= 0) {
+    const tt = text(html.slice(i, i + 4000)), mt = /View Matchup\s+(-?[\d.]+)\s+(-?[\d.]+)\s+vs\s+(-?[\d.]+)\s+(-?[\d.]+)/i.exec(tt);
+    if (mt) { tot = [Number(mt[1]), Number(mt[2])]; otot = [Number(mt[3]), Number(mt[4])]; }
+  }
   const rows = [], dbgc = [];
   for (const cells of teamRows(html)) {
     const pi = cells.findIndex(c => /ysf-player-name/.test(c)); if (cells.length < 6 || pi < 1 || pi > 2) { if (pi >= 0 && cells.length >= 6) dbgc.push('x' + cells.length + 'p' + pi); continue; }
@@ -98,7 +104,7 @@ function parseTeam(html, tid) {
     if (!dbgc.length || dbgc.length < 30) dbgc.push('c' + pi + ':' + cells.slice(pi + 1, pi + 6).map(c => text(c).slice(0, 12)).join('|'));
     rows.push({ slot, ...pl, proj: num(text(cells[pi === 1 ? 6 : 5])), pts: num(text(cells[pi === 1 ? 5 : 4])) });
   }
-  return { id: +tid, name: nm ? text(nm[1]) : '', opp, oppName, rows, dbgc, info };
+  return { id: +tid, name: nm ? text(nm[1]) : '', opp, oppName, rows, dbgc, info, tot, otot };
 }
 
 module.exports = { IDS, fetchPage, parsePage, text, fetchTeam, parseTeam };

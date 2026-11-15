@@ -12,7 +12,7 @@ function teamPage(variant, rows, opp) {
   const body = rows.map(r => variant === 'browser'
     ? `<tr><td class="pos headcol"><span>${r.slot}</span></td><td class="edit Js-hid">${r.slot}BN</td>${pcell(r.name, r.tm, r.pos, r.status, r.inj)}<td>8</td><td>${r.pts}</td><td>${r.proj}</td>${nums(20)}</tr>`
     : `<tr class="First"><td class="Alt Ta-c pos headcol"><div><span class="pos-label" data-pos="${r.pos}">${r.slot}</span></div></td>${pcell(r.name, r.tm, r.pos, r.status, r.inj)}<td></td><td></td><td>9</td><td>${r.pts}</td><td>${r.proj}</td>${nums(18)}</tr>`).join('');
-  return `<html><body><div id="team-card-matchup"><a href="/f1/101813/1">Mine</a><a href="/f1/101813/${opp}">Them</a></div><table id="statTable0"><thead><tr><th>x</th></tr></thead><tbody>${body}</tbody></table></body></html>`;
+  return `<html><body><div id="team-card-matchup"><a href="/f1/101813/1">Mine</a><a href="/f1/101813/${opp}">Them</a><div>Week 10 vs X</div><a>View Matchup</a><span>58.65</span><span>125.13</span> vs <span>10.80</span><span>122.04</span></div><table id="statTable0"><thead><tr><th>x</th></tr></thead><tbody>${body}</tbody></table></body></html>`;
 }
 const R = (slot, name, pos, proj, pts, status, inj) => ({ slot, name, pos, tm: 'Pit', proj, pts, status: status || 'Sun 8:20 pm vs Cin', inj });
 const base = [R('QB', 'Aaron Rodgers', 'QB', '23.12', '-'), R('RB', 'Jahmyr Gibbs', 'RB', '24.54 27.87', '7.30', 'Q3 5:00, 21-7 vs NE'), R('WR', 'Hurt Guy', 'WR', '10.1', '0', 'Sun 1:00 pm @ Dal', 'O'), R('BN', 'Bench Man', 'WR', '4.2', '-')];
@@ -21,6 +21,7 @@ for (const v of ['browser', 'server']) {
     const t = parseTeam(teamPage(v, base, 7), 1);
     assert.strictEqual(t.rows.length, 4, 'rows ' + t.rows.length + ' ' + t.dbgc.join('/'));
     assert.strictEqual(t.opp, 7);
+    assert.deepStrictEqual(t.tot, [58.65, 125.13]); assert.deepStrictEqual(t.otot, [10.8, 122.04]);
     const g = t.rows.find(r => r.name === 'Jahmyr Gibbs');
     assert.strictEqual(g.slot, 'RB'); assert.strictEqual(g.proj, 24.54); assert.strictEqual(g.pts, 7.3); assert.ok(/^Q3/.test(g.status), g.status);
     assert.strictEqual(t.rows.find(r => r.name === 'Hurt Guy').inj, 'O');

@@ -10,9 +10,9 @@ function cacheSeconds() {
   try {
     const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date()).map(x => [x.type, x.value]));
     const m = Number(p.hour) * 60 + Number(p.minute);
-    if (p.weekday === 'Sun' && m >= 9 * 60 + 25) return 180;
-    if ((p.weekday === 'Thu' || p.weekday === 'Mon') && m >= 19 * 60 + 55) return 180;
-    if ((p.weekday === 'Mon' || p.weekday === 'Fri') && m < 90) return 180; // late-night tail of Sunday/Thursday games
+    if (p.weekday === 'Sun' && m >= 9 * 60 + 25) return 75;
+    if ((p.weekday === 'Thu' || p.weekday === 'Mon') && m >= 19 * 60 + 55) return 75;
+    if ((p.weekday === 'Mon' || p.weekday === 'Fri') && m < 90) return 75; // late-night tail of Sunday/Thursday games
     // Don't let an hourly cache entry outlive the start of the next game window.
     const start = p.weekday === 'Sun' ? 9 * 60 + 25 : (p.weekday === 'Thu' || p.weekday === 'Mon') ? 19 * 60 + 55 : null;
     if (start != null && m < start) return Math.max(60, Math.min(900, (start - m) * 60));
@@ -44,7 +44,7 @@ module.exports = async (req, res) => {
         const b = T[a.opp]; if (!b || !a.rows.length || !b.rows.length) return;
         done.add(id); done.add(a.opp);
         const [x, y] = id < a.opp ? [a, b] : [b, a];
-        matchups.push({ ia: x.id, ib: y.id, an: x.name, bn: y.name, L: x.rows.map(row), R: y.rows.map(row) });
+        matchups.push({ ia: x.id, ib: y.id, an: x.name, bn: y.name, L: x.rows.map(row), R: y.rows.map(row), ya: x.tot, yb: y.tot });
       });
     } catch (e) { matchups.length = 0; }
     const useOld = !matchups.length;
