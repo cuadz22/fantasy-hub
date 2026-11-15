@@ -1107,8 +1107,7 @@ nav::-webkit-scrollbar{display:none}
 @media (min-width:640px){.wp-tm2 .wp-av{width:64px;height:64px}.wp-tm2 .wp-ml{font-size:26px}.wp-full .wp2r{gap:12px}.wp2s b{font-size:22px}.wp2p .pn b{font-size:14px}.wp2p .wp-ph{width:36px;height:36px;flex-basis:36px}}
 
 /* ---- standings avg columns + app league compaction (Nov 15) ---- */
-.lgs-hdr.x8,.lgs-row.x8{grid-template-columns:24px 1fr 46px 66px 66px 50px 50px 40px}
-@media(max-width:520px){.lgs-hdr.x8,.lgs-row.x8{grid-template-columns:20px minmax(0,1fr) 34px 50px 40px 40px 34px;gap:3px;padding:7px 8px;font-size:10.5px}.lgs-hdr.x8{font-size:7.5px;letter-spacing:.04em}.lgs-row.x8 .mg-nm b{white-space:normal;line-height:1.15;font-size:11.5px}}
+
 body.cfn-app #view-league{gap:8px;padding-top:10px}
 body.cfn-app #view-league .art-hd{padding:0 0 6px;margin:0}
 body.cfn-app #view-league .art-title{font-size:24px!important;margin-bottom:2px;display:flex;align-items:center;gap:8px}
@@ -1129,6 +1128,30 @@ body.cfn-app #app-sheet .sh{max-height:82vh;overflow-y:auto}
 .wp-card{gap:6px}
 .wp-tm2{padding:10px 10px}
 .wp-tm2 .wp-nm{margin:6px 0 1px}.wp-tm2 .wp-ml{margin:5px 0 0}.wp-po2{margin-top:5px;gap:2px}
+
+/* ---- grouped league tabs, slot colors, sortable scrollable standings (Nov 15) ---- */
+.lg-tabs{flex-direction:column;gap:6px;flex-wrap:nowrap}
+.lgt-row{display:flex;flex-wrap:wrap;gap:4px}
+.lgt-sub .lg-tab{border:.5px solid var(--border);border-radius:20px;padding:6px 12px;margin-bottom:0;background:var(--bg2);border-bottom-width:.5px}
+.lgt-sub .lg-tab.on{background:var(--accent);color:#0b0c0a;border-color:var(--accent)}
+body.cfn-app #view-league .lgt-grp{display:none}
+body.cfn-app #view-league .lg-tabs:not(:has(.lgt-sub)){display:none!important}
+.wp-slot.wp-s-K{color:#c58bff;background:#c58bff1f;border-color:#c58bff55}
+.wp-slot.wp-s-DEF{color:#7fdbca;background:#7fdbca1f;border-color:#7fdbca55}
+.wp-slot.wp-s-SFLX{background:#1a1d24;border-color:#2e3440;letter-spacing:1px}
+.wp-slot.wp-s-SFLX .q{color:#5aa2ff}.wp-slot.wp-s-SFLX .r{color:#2fd3a4}.wp-slot.wp-s-SFLX .w{color:#ff9d2e}.wp-slot.wp-s-SFLX .t{color:#ff5fa6}
+.st-table.x8w{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.lgs-hdr.x8,.lgs-row.x8{grid-template-columns:24px 128px 46px 66px 66px 54px 54px 44px;min-width:540px}
+.lgs-hdr.x8>span:nth-child(5),.lgs-row.x8>span:nth-child(5){display:block!important}
+.lgs-hdr.x8>span[data-col]{cursor:pointer;user-select:none}
+.lgs-hdr.x8>span[data-dir=desc]::after{content:' \25BC';color:var(--accent);font-size:7px}
+.lgs-hdr.x8>span[data-dir=asc]::after{content:' \25B2';color:var(--accent);font-size:7px}
+.lgs-hdr.x8>span:nth-child(1),.lgs-row.x8>span:nth-child(1){position:sticky;left:12px;z-index:2;background:var(--bg)}
+.lgs-hdr.x8>span:nth-child(2),.lgs-row.x8>span:nth-child(2){position:sticky;left:40px;z-index:2;background:var(--bg)}
+.lgs-hdr.x8>span:nth-child(1),.lgs-hdr.x8>span:nth-child(2){background:var(--bg2)}
+.lgs-row.x8>span:nth-child(1){box-shadow:6px 0 0 var(--bg)}.lgs-row.x8>span:nth-child(2){box-shadow:8px 0 6px -2px var(--bg),12px 0 0 var(--bg)}.lgs-hdr.x8>span:nth-child(1){box-shadow:6px 0 0 var(--bg2)}.lgs-hdr.x8>span:nth-child(2){box-shadow:12px 0 0 var(--bg2)}
+.lgs-row.x8 .mg-nm b{white-space:normal;line-height:1.15}
+@media(max-width:520px){.lgs-hdr.x8,.lgs-row.x8{gap:4px;padding:7px 12px;font-size:11px}.lgs-hdr.x8{font-size:8px;letter-spacing:.06em}}
 </style>
 
 <!-- HEADER -->
@@ -4792,7 +4815,8 @@ function wpFull(m){
   for(i=0;i<n;i++){ var a=m.ra[i]||['','—',0,0], b=m.rb[i]||['','—',0,0]; rows.push([a[0]||b[0],a[1],a[2],b[1],b[2],a[3],b[3],a[4],b[4]]); }
   rows.push(['K',m.ka[0],m.ka[1],m.kb[0],m.kb[1],m.ka[2],m.kb[2],m.ka[3],m.kb[3]]); rows.push(['DEF',m.da[0],m.da[1],m.db[0],m.db[1],m.da[2],m.db[2],m.da[3],m.db[3]]);
   return '<div class="wp-full">'+rows.map(function(r){
-    return '<div class="wp2r">'+wpP2(r[1],'l',r[0],r[5],r[2],r[7])+'<div class="wp2m"><em class="wp-slot wp-s-'+r[0]+'">'+(r[0]==='FLX'?'<i class="w">W</i><i class="r">R</i><i class="t">T</i>':r[0])+'</em><div class="wp2ss">'+wpS2(r[1],r[2],r[5],r[7])+wpS2(r[3],r[4],r[6],r[8])+'</div></div>'+wpP2(r[3],'r',r[0],r[6],r[4],r[8])+'</div>';
+    var sl=/^S(FLEX|FLX|FX)$/.test(r[0])?'SFLX':r[0];
+    return '<div class="wp2r">'+wpP2(r[1],'l',r[0],r[5],r[2],r[7])+'<div class="wp2m"><em class="wp-slot wp-s-'+sl+'">'+(sl==='FLX'?'<i class="w">W</i><i class="r">R</i><i class="t">T</i>':sl==='SFLX'?'<i class="q">S</i><i class="r">F</i><i class="w">L</i><i class="t">X</i>':sl)+'</em><div class="wp2ss">'+wpS2(r[1],r[2],r[5],r[7])+wpS2(r[3],r[4],r[6],r[8])+'</div></div>'+wpP2(r[3],'r',r[0],r[6],r[4],r[8])+'</div>';
   }).join('')+'<div class="wp-rng">'+(m.left===0?'<span>Final</span><span>Final</span>':'<span>Range '+m.a[4]+'&ndash;'+m.a[5]+'</span><span>Range '+m.b[4]+'&ndash;'+m.b[5]+'</span>')+'</div></div>';
 }
 var PVX={"gl":{"1-8":{"pt":0,"a":{"pg":137.0,"gp":9,"mgr":"Cuadz","name":"cuadz build 001"},"b":{"pg":129.3,"gp":9,"mgr":"Oscar","name":"Wide receiver university"}},"2-6":{"pt":0,"a":{"pg":138.0,"gp":9,"mgr":"Gio","name":"Jameson On The Rocks"},"b":{"pg":121.2,"gp":9,"mgr":"Ed","name":"MAGNETO IS STILL RIGHT"}},"3-4":{"pt":0,"a":{"pg":132.1,"gp":9,"mgr":"Jeff","name":"Nico de Gallo"},"b":{"pg":142.8,"gp":9,"mgr":"Vic","name":"Chupamela HPT"}},"5-11":{"pt":0,"a":{"pg":140.7,"gp":9,"mgr":"Ramon","name":"Woodridge lore"},"b":{"pg":140.7,"gp":9,"mgr":"Alexis","name":"Sir"}},"7-9":{"pt":1,"a":{"pg":134.1,"gp":9,"mgr":"Pru","name":"Run CMC"},"b":{"pg":162.4,"gp":9,"mgr":"Julio Z","name":"Mr. Electricity"}},"10-12":{"pt":0,"a":{"pg":146.5,"gp":9,"mgr":"Kevin","name":"The Arbiter"},"b":{"pg":127.6,"gp":9,"mgr":"John","name":"The Veterans"}}},"bh":{"1-10":{"pt":0,"a":{"pg":137.5,"gp":9,"mgr":"Cuadz","name":"cuadz build 002"},"b":{"pg":154.3,"gp":9,"mgr":"Edwin","name":"Olivas FC"}},"2-6":{"pt":1,"a":{"pg":153.7,"gp":9,"mgr":"Gio","name":"An Underdog Story"},"b":{"pg":152.1,"gp":9,"mgr":"Cris","name":"Love Thy Nabers"}},"3-4":{"pt":0,"a":{"pg":140.3,"gp":9,"mgr":"Eddie","name":"The JeantyMen's Club"},"b":{"pg":112.1,"gp":9,"mgr":"Kyle","name":"Hit it til it Hurts"}},"5-8":{"pt":0,"a":{"pg":117.7,"gp":9,"mgr":"Kevin","name":"Pretenders"},"b":{"pg":143.7,"gp":9,"mgr":"Oscar","name":"Money O"}},"7-9":{"pt":0,"a":{"pg":129.6,"gp":9,"mgr":"Hihi","name":"Touchdown's and Dragons"},"b":{"pg":123.2,"gp":9,"mgr":"Bishoy","name":"Waddle Me This"}},"11-12":{"pt":0,"a":{"pg":136.8,"gp":9,"mgr":"Pru","name":"The Bijan Era"},"b":{"pg":134.5,"gp":9,"mgr":"Mina","name":"The Bowery"}}},"rb":{"1-7":{"pt":0,"a":{"pg":147.7,"gp":9,"mgr":"Cuadz","name":"cuadz build 003"},"b":{"pg":151.8,"gp":9,"mgr":"John","name":"Manifested It"}},"2-5":{"pt":0,"a":{"pg":165.5,"gp":9,"mgr":"Cris","name":"K-9 Unit \ud83e\uddb4\ud83d\udc15"},"b":{"pg":124.7,"gp":9,"mgr":"Ed","name":"The Lazarus Pit"}},"3-11":{"pt":1,"a":{"pg":152.5,"gp":9,"mgr":"Pru","name":"Love Yourz"},"b":{"pg":162.6,"gp":9,"mgr":"Jeff","name":"Loveland Island USA"}},"4-8":{"pt":0,"a":{"pg":192.2,"gp":9,"mgr":"Alexis","name":"Hooligans"},"b":{"pg":119.4,"gp":9,"mgr":"Oscar","name":"Champ"}},"6-12":{"pt":0,"a":{"pg":167.0,"gp":9,"mgr":"Hihi","name":"Benchwarmers"},"b":{"pg":141.5,"gp":9,"mgr":"Julio Z","name":"I'm Better Than Kev"}},"9-10":{"pt":0,"a":{"pg":124.2,"gp":9,"mgr":"Gio","name":"Rents Due"},"b":{"pg":142.6,"gp":9,"mgr":"Big Vic","name":"Stiff Arm That Njigba"}}},"sts":{"1-10":{"pt":0,"a":{"pg":128.0,"gp":9,"mgr":"Cuadz","name":"cuadz build 004"},"b":{"pg":115.4,"gp":9,"mgr":"Pru","name":"The Hokage"}},"2-7":{"pt":0,"a":{"pg":133.2,"gp":9,"mgr":"Bryan","name":"Amon a Mi$$ion"},"b":{"pg":148.3,"gp":9,"mgr":"Mina","name":"Chasing Flowers"}},"3-5":{"pt":0,"a":{"pg":134.0,"gp":9,"mgr":"Oscar","name":"Iceman"},"b":{"pg":148.9,"gp":9,"mgr":"Oscar S","name":"I Like Tets"}},"4-8":{"pt":0,"a":{"pg":132.4,"gp":9,"mgr":"Ed","name":"Baba Yaga"},"b":{"pg":139.6,"gp":9,"mgr":"Julio A","name":"Stripper Draft Julio"}},"6-9":{"pt":0,"a":{"pg":139.8,"gp":9,"mgr":"Edwin","name":"Jaxon Five"},"b":{"pg":142.1,"gp":9,"mgr":"Julio Z","name":"That's Amari"}},"11-12":{"pt":1,"a":{"pg":138.3,"gp":9,"mgr":"Kevin","name":"The Bidfather"},"b":{"pg":157.7,"gp":9,"mgr":"Brian","name":"Youngbossbrian"}}}};
@@ -5263,20 +5287,34 @@ function lgRanks(p,k){
   h+='<div class="subsec"><div class="rb-rule" style="color:var(--muted)">Former managers are shown for the record. Their regular-season records were not kept, so they only earn playoff points.</div></div>';
   p.insertAdjacentHTML('beforeend',h);
 }
+var LG_GRP=[['Matchups',['Matchups','Weekly Preview']],['Standings',['Standings','Power Rankings','Fraud Meter']],['Waivers',['Waivers']],['Trades',['Trades','Keepers','Trade Desk','Trade Rules']],['League Center',['Awards','History','All-Time Ranks','Rulebook']]];
+function lgGrpOf(t){ if(t==='Live Matchups') t='Matchups'; for(var i=0;i<LG_GRP.length;i++){ if(LG_GRP[i][1].indexOf(t)>=0) return LG_GRP[i]; } return LG_GRP[0]; }
 function lgTabs(){
-  var L = LGI[lgState.k], tabs = ['Standings','Matchups','Weekly Preview','Power Rankings','Fraud Meter','Awards','Waivers','Trades','History','All-Time Ranks'];
-  if(L.keeper){ tabs.push('Keepers'); tabs.push('Trade Desk'); tabs.push('Trade Rules'); }
-  tabs.push('Rulebook');
-  var h = tabs.map(function(t){ return '<button class="lg-tab'+(t===lgState.tab?' on':'')+'" onclick="lgTab(\''+t+'\')">'+(t==='Keepers'?'Draft Picks &amp; Keepers':t)+'</button>'; }).join('');
-  /* Draft Report link archived: pages and LGI draft paths are kept */
-  return h;
+  var L=LGI[lgState.k], cur=lgGrpOf(lgState.tab);
+  var top=LG_GRP.map(function(g){ return '<button class="lg-tab'+(g[0]===cur[0]?' on':'')+'" onclick="lgTab(\''+g[1][0]+'\')">'+g[0]+'</button>'; }).join('');
+  var tabs=cur[1].filter(function(t){ return L.keeper||!/^(Keepers|Trade Desk|Trade Rules)$/.test(t); });
+  var sub=tabs.length>1?tabs.map(function(t){ return '<button class="lg-tab'+(t===lgState.tab?' on':'')+'" onclick="lgTab(\''+t+'\')">'+(t==='Keepers'?'Draft Picks &amp; Keepers':t)+'</button>'; }).join(''):'';
+  return '<div class="lgt-row lgt-grp">'+top+'</div>'+(sub?'<div class="lgt-row lgt-sub">'+sub+'</div>':'');
 }
 function stdAvg(h){
   try{ var t=document.createElement('div'); t.innerHTML=h; var hd=t.querySelector('.lgs-hdr'); if(!hd) return h;
-    hd.classList.add('x8'); var sp=hd.children; var a=document.createElement('span'); a.textContent='PF/G'; var b=document.createElement('span'); b.textContent='PA/G'; hd.insertBefore(b,sp[5]); hd.insertBefore(a,b);
-    [].slice.call(t.querySelectorAll('.lgs-row')).forEach(function(r){ r.classList.add('x8'); var c=r.children, wl=c[2].textContent.split('-'), g=(+wl[0]||0)+(+wl[1]||0)+(+wl[2]||0), pf=parseFloat(c[3].textContent), pa=parseFloat(c[4].textContent);
+    hd.classList.add('x8'); var tb=t.querySelector('.st-table'); if(tb) tb.classList.add('x8w'); var sp=hd.children; var a=document.createElement('span'); a.textContent='PF/G'; var b=document.createElement('span'); b.textContent='PA/G'; hd.insertBefore(b,sp[5]); hd.insertBefore(a,b);
+    [].slice.call(hd.children).forEach(function(x,i){ x.setAttribute('data-col',i); x.setAttribute('onclick','stdSort(this)'); });
+    [].slice.call(t.querySelectorAll('.lgs-row')).forEach(function(r,ri){ r.classList.add('x8'); r.setAttribute('data-i',ri); var c=r.children, wl=c[2].textContent.split('-'), g=(+wl[0]||0)+(+wl[1]||0)+(+wl[2]||0), pf=parseFloat(c[3].textContent), pa=parseFloat(c[4].textContent);
       var x=document.createElement('span'), y=document.createElement('span'); x.textContent=g?(pf/g).toFixed(1):'–'; y.textContent=g?(pa/g).toFixed(1):'–'; r.insertBefore(y,c[5]); r.insertBefore(x,y); });
     return t.innerHTML; }catch(e){ return h; } }
+function stdSort(h){
+  var tb=h.closest('.st-table'); if(!tb) return; var c=+h.getAttribute('data-col'), hd=h.parentNode, rows=[].slice.call(tb.querySelectorAll('.lgs-row')), cur=h.getAttribute('data-dir');
+  [].slice.call(hd.children).forEach(function(x){ x.removeAttribute('data-dir'); });
+  if(c===0){ rows.sort(function(a,b){ return a.getAttribute('data-i')-b.getAttribute('data-i'); }); }
+  else { var dir=cur?(cur==='desc'?'asc':'desc'):(c===1?'asc':'desc'); h.setAttribute('data-dir',dir);
+    var key=function(r){ var x=r.children[c].textContent.trim(); if(c===1) return r.children[1].querySelector('b').textContent.toLowerCase();
+      if(c===2){ var w=x.split('-'); return (+w[0]||0)*1000-(+w[1]||0); }
+      if(c===7){ var m=/([WL])-?(\d+)/.exec(x); return m?(m[1]==='W'?1:-1)*(+m[2]):0; }
+      var v=parseFloat(x); return isNaN(v)?-1:v; };
+    rows.sort(function(a,b){ var A=key(a),B=key(b),r=A<B?-1:A>B?1:0; return dir==='asc'?r:-r; }); }
+  rows.forEach(function(r){ tb.appendChild(r); });
+}
 function lgRender(){
   if(lgState.tab==='Live Matchups') lgState.tab='Matchups';
   var k = lgState.k, L = LGI[k], p = document.getElementById('lg-panel');
@@ -9083,8 +9121,7 @@ body.cfn-app.cfn-rail #app-sheet .sh{max-width:420px;border-radius:18px;margin:a
   function grpOf(t){ for(var g in GRP){ if(GRP[g].indexOf(t)>=0) return g; } return ''; }
   function curLg(){ return ISLG[curId]||null; }
   function MORE(){ var it=[], k=curLg();
-    if(k){ var tabs=['Awards','Trades','History','All-Time Ranks']; if(LGI[k].keeper){ tabs.push('Keepers','Trade Desk','Trade Rules'); } tabs.push('Rulebook');
-      tabs.forEach(function(t){ it.push({t:t==='Keepers'?'Draft Picks & Keepers':t,s:(lgState.tab===t?'here':''),f:function(){ lgTab(t); }}); }); }
+    if(k){ it.push({t:'Trades'+(LGI[k].keeper?' & Keepers':''),s:(lgGrpOf(lgState.tab)[0]==='Trades'?'here':''),f:function(){ lgTab('Trades'); }},{t:'League Center',s:(lgGrpOf(lgState.tab)[0]==='League Center'?'here':'Awards, History, Rulebook'),f:function(){ lgTab('Awards'); }}); }
     it.push({t:'Studio',s:'Cuadz',f:showStudio},{t:"Pick'em",f:showPickem},{t:'Commish Tools',s:'PIN',f:showCommish},{t:'Switch light / dark',s:'theme',f:toggleTheme});
     return it; }
   var LGS=[['gl','Gentlemen\'s League'],['bh','Beaners & Husseins'],['rb','Rebirth'],['sts','Shoot the Shits']];
@@ -9107,9 +9144,6 @@ body.cfn-app.cfn-rail #app-sheet .sh{max-width:420px;border-radius:18px;margin:a
     else if(t==='wv'&&k)lgTab('Waivers');
     else if(t==='sd'&&k)lgTab('Standings');
     else sheet(MORE());});
-  window.lgTabs=function(){ var g=grpOf(lgState.tab); if(!g||GRP[g].length<2) return '';
-    var list=GRP[g].filter(function(t){return t!=='Live Matchups';});
-    return list.map(function(t){ return '<button class="lg-tab'+(t===lgState.tab?' on':'')+'" onclick="lgTab(\''+t+'\')">'+PILL[t]+'</button>'; }).join(''); };
   var _sl=window.showLeague; window.showLeague=function(k,tab){ return _sl.call(this,k,tab||'Matchups'); };
   var rail=document.createElement('div'); rail.id='app-rail'; document.body.appendChild(rail);
   var LL=function(k){return (typeof LG_LOGO!=='undefined'&&LG_LOGO[k])||'';}, curId=null, collapsed=false, esc=function(x){return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;');};
