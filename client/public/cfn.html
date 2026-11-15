@@ -7716,37 +7716,43 @@ function waivers(){
   return h;}
 
 /* ===== Waiver assistant ===== */
-var WA_ASOF='Nov 10';
-var WA_SRC=[['Yahoo Sports: Week 10 FAAB report','https://sports.yahoo.com/articles/fantasy-football-faab-report-corey-134152845.html'],['NFL.com: Week 10 top 15 waiver targets','https://www.nfl.com/news/2026-nfl-fantasy-football-waiver-wire-week-10-jordyn-tyson-tank-dell-headline-top-15-targets'],['Yahoo Sports: Week 10 waiver wire, rostered % by position','https://sports.yahoo.com/fantasy/article/week-10-fantasy-football-waiver-wire-seth-mcgowan-corey-kiner-among-top-pickups-190327664.html']];
+var WA_ASOF='Nov 15';
+var WA_SRC=[['Roto Street Journal: Early Week 11 waiver wire stashes','https://www.rotostreetjournal.com/2026/11/14/early-fantasy-football-week-11-waiver-wire-stashes-add-tank-dell-kaleb-johnson-fernando-mendoza/']];
 var WA_MY={gl:'cuadz build 001',sts:'cuadz build 004',bh:'cuadz build 002',rb:'cuadz build 003'};
 /* lo/hi = industry FAAB suggestion as % of a $100 budget (real published range unless est:1); ros = % rostered on Yahoo; hc = the player whose absence/trade makes him matter */
 var BUZZ=[
- {n:'Seth McGowan',lo:5,hi:7,ros:32,hc:'Jonathan Taylor',cond:'Becomes the clear lead back only if Jonathan Taylor is traded or hurt. Check Taylor’s status before waivers run. Yahoo says 7–10% if you own Taylor.'},
- {n:'Corey Kiner',lo:5,hi:7,ros:4,hc:'Rhamondre Stevenson',cond:'Patriots’ lead back while Rhamondre Stevenson misses multiple weeks.'},
- {n:'Antonio Williams',lo:5,hi:7,ros:31,note:'Led Washington’s receivers in snaps and routes with Terry McLaurin out for the year.'},
- {n:'Caleb Douglas',lo:5,hi:7,ros:29,note:'13.0 points in Week 9, WR28 per game, strong target volume since returning.'},
- {n:'Tank Dell',lo:5,hi:7,ros:13,note:'20.5 points in Week 9 and led Houston in targets.'},
- {n:'Pat Bryant',lo:3,hi:5,ros:3,note:'Back from injured reserve with 15.6 points. The Broncos are on bye in Week 10, so this is a stash.',bye:1},
- {n:'Jordan Watkins',lo:1,hi:3,ros:2,note:'Led the 49ers in snaps and routes with Mike Evans and Deebo Samuel out. A speculative add if they miss Week 10.'},
- {n:'Darren Waller',lo:3,hi:5,ros:8,note:'23.0 points in Week 9 with a red-zone role. Boom or bust TE.'},
- {n:'Jordyn Tyson',lo:8,hi:12,est:1,ros:54,note:'NFL.com’s No. 1 add. Rookie with a 31% target rate in his debut.'},
- {n:'Makai Lemon',lo:5,hi:8,est:1,ros:53,note:'Three straight double-digit games, but Joe Milton III at QB caps the ceiling.'},
- {n:'Emmett Johnson',lo:5,hi:8,est:1,ros:31,hc:'Kenneth Walker III',note:'One of the most valuable handcuffs in the league (Walker’s backup).'},
- {n:'Kaelon Black',lo:4,hi:6,est:1,ros:39,hc:'Christian McCaffrey',note:'McCaffrey’s backup with flex value and RB1 upside if he goes down.'},
- {n:'Chig Okonkwo',lo:3,hi:5,est:1,ros:22,note:'Led Washington with 7 targets and has double-digit points in 3 of his last 4. High-end TE2 with TE1 upside.'},
- {n:'Omar Cooper',lo:4,hi:6,est:1,ros:58,note:'8 catches on 11 targets with Garrett Wilson out.'},
- {n:'DeMario Douglas',lo:3,hi:5,est:1,ros:46,note:'WR3/flex while A.J. Brown is out.'},
- {n:'Adonai Mitchell',lo:2,hi:4,est:1,ros:50,note:'Flex option at the Jets.'},
- {n:'Ryan Flournoy',lo:2,hi:4,est:1,ros:44,note:'Flex option at the Cowboys.'},
- {n:'Dylan Sampson',lo:2,hi:4,est:1,ros:28,note:'Flex option at the Browns.'},
- {n:'Chris Rodriguez',lo:2,hi:4,est:1,ros:33,note:'Flex option at the Jaguars.'},
- {n:'Mike Washington',lo:2,hi:3,est:1,ros:49,note:'One-injury-away stash.'},
- {n:'Tyler Goodson',lo:1,hi:2,est:1,ros:1,hc:'Javonte Williams',note:'Cowboys handcuff with 77 yards on 12 carries.'},
- {n:'Tyler Higbee',lo:1,hi:3,est:1,ros:18,note:'TE2 streamer who gets a bump if Puka Nacua is out.'},
- {n:'Aaron Rodgers',lo:3,hi:5,est:1,ros:33,note:'Yahoo’s top QB streamer at Cincinnati.'},
- {n:'Malik Willis',lo:2,hi:4,est:1,ros:34,note:'QB streamer if healthy (groin injury).'}
+ {n:'Fernando Mendoza',lo:6,hi:10,est:1,ros:17,note:'Named the Raiders’ starter after Las Vegas traded Kirk Cousins. Tough early matchups, softer after Week 13. Stash in deep or superflex leagues.'},
+ {n:'Audric Estimé',lo:6,hi:10,est:1,ros:43,note:'Lead back for the Saints until Travis Etienne returns from IR, with goal-line work.'},
+ {n:'Kaleb Johnson',lo:6,hi:10,est:1,ros:18,hc:'Josh Jacobs',note:'Packers’ lead rusher after Josh Jacobs’ finger injury. Viable RB2/flex.'},
+ {n:'Tank Dell',lo:6,hi:10,est:1,ros:45,note:'Nine targets in his second game back, and Marvin Harrison Jr. is out. Some risk from Stroud spreading targets.'},
+ {n:'Konata Mumpfield',lo:2,hi:4,est:1,ros:15,note:'Rams WR with Puka Nacua and Davante Adams sidelined. Low target rate keeps him a deeper-league stash.'},
+ {n:'Mike Gesicki',lo:3,hi:6,est:1,ros:37,note:'Touchdown upside and a favorable schedule after this week’s Steelers game. Streamer who can hold the job into the playoffs.'},
+ {n:'Makai Lemon',lo:5,hi:8,est:1,ros:48,note:'Three straight double-digit games, but Joe Milton III at QB caps the ceiling.'},
+ {n:'Kaelon Black',lo:4,hi:6,est:1,ros:38,hc:'Christian McCaffrey',note:'McCaffrey’s backup with flex value and RB1 upside if he goes down.'},
+ {n:'Emmett Johnson',lo:5,hi:8,est:1,ros:38,hc:'Kenneth Walker III',note:'One of the most valuable handcuffs in the league (Kenneth Walker III’s backup).'},
+ {n:'Jonathon Brooks',lo:3,hi:5,est:1,ros:37,note:'Panthers back on the early-stash list.'},
+ {n:'Mike Washington',lo:2,hi:4,est:1,ros:35,note:'Raiders back, one injury away from a bigger role.'},
+ {n:'Chris Rodriguez',lo:2,hi:4,est:1,ros:34,note:'Flex option at the Jaguars.'},
+ {n:'Dylan Sampson',lo:2,hi:4,est:1,ros:30,note:'Flex option at the Browns.'},
+ {n:'Seth McGowan',lo:3,hi:5,est:1,ros:19,hc:'Jonathan Taylor',note:'Colts back who becomes the lead only if Jonathan Taylor is out.'},
+ {n:'Romeo Doubs',lo:3,hi:5,est:1,ros:38,note:'Patriots WR on the early-stash list.'},
+ {n:'Quentin Johnston',lo:2,hi:4,est:1,ros:30,note:'Chargers WR flex option.'},
+ {n:'Antonio Williams',lo:3,hi:5,est:1,ros:27,note:'Led Washington’s receivers in snaps and routes with Terry McLaurin out for the year.'},
+ {n:'Tutu Atwell',lo:2,hi:4,est:1,ros:26,note:'Rams WR who gets a bump with Nacua and Adams out.'},
+ {n:'Michael Pittman Jr.',lo:2,hi:4,est:1,ros:25,note:'Steelers WR flex option.'},
+ {n:'Kayshon Boutte',lo:1,hi:2,est:1,ros:6,note:'Texans WR stash with Marvin Harrison Jr. out.'},
+ {n:'Chimere Dike',lo:1,hi:2,est:1,ros:3,note:'Titans WR deep stash.'},
+ {n:'Pat Freiermuth',lo:2,hi:4,est:1,ros:36,note:'Steelers TE streamer.'},
+ {n:'Tyler Higbee',lo:1,hi:3,est:1,ros:25,note:'TE2 streamer who gets a bump if Puka Nacua is out.'},
+ {n:'Chig Okonkwo',lo:3,hi:5,est:1,ros:24,note:'Led Washington with 7 targets and has double-digit points in 3 of his last 4. High-end TE2 with TE1 upside.'},
+ {n:'Darren Waller',lo:2,hi:4,est:1,ros:22,note:'Red-zone role in Carolina. Boom or bust TE.'},
+ {n:'Aaron Rodgers',lo:3,hi:5,est:1,ros:44,note:'Steelers QB, a streamer option at Cincinnati.'},
+ {n:'Jacoby Brissett',lo:2,hi:4,est:1,ros:24,note:'Ravens QB streamer.'},
+ {n:'Geno Smith',lo:1,hi:3,est:1,ros:21,note:'Jets QB streamer.'},
+ {n:'JJ McCarthy',lo:1,hi:3,est:1,ros:14,note:'Giants QB deep streamer.'},
+ {n:'Joe Milton',lo:1,hi:2,est:1,ros:4,note:'Eagles QB deep stash.'}
 ];
-var WA_MISS=[['Audric Estimé','RB','NO','3–5% (est.)','15 carries for 72 yards and a TD while Travis Etienne is on IR.'],['Van Jefferson','WR','WAS','1–2% (est.)','New favorite of Jayden Daniels, 58 yards and a TD in Week 9.']];
+var WA_MISS=[['Tyreek Hill','WR','FA','1–3% (est.)','Free agent, 8% rostered.'],['Lan Larison','RB','NE','1–2% (est.)','Patriots back, 1% rostered.'],['Emari Demercado','RB','HOU','1–2% (est.)','Texans back, 0% rostered.'],['CJ Daniels','WR','LAR','1% (est.)','Rams WR, 1% rostered.'],['Carson Beck','QB','ARI','1% (est.)','Cardinals QB, 2% rostered.']];
 function wnorm(n){return String(n).toLowerCase().replace(/[.'’]/g,'').replace(/\s+(jr|sr|ii|iii|iv)$/,'').trim();}
 function waBy(){if(cache.wab)return cache.wab;var m={};C.players.forEach(function(p){m[wnorm(p.n)]=p;});return cache.wab=m;}
 function wmed(a){if(!a.length)return null;a=a.slice().sort(function(x,y){return x-y;});var m=a.length>>1;return a.length%2?a[m]:(a[m-1]+a[m])/2;}
@@ -7784,10 +7790,10 @@ function waNeedTag(t){var u=t.up;
 function waMoney(v){return '$'+v;}
 function waCard(t,lg){var p=t.p,b=t.b,tg='';
   tg+=waNeedTag(t);
-  tg+=wvTag('Industry '+b.lo+'–'+b.hi+'%'+(b.est?' (est.)':''),'','Percent of a $100 budget. '+(b.est?'No published bid, so this is our estimate from the article’s tier.':'Published suggestion from the Yahoo Sports FAAB report.'));
+  tg+=wvTag('Industry '+b.lo+'–'+b.hi+'%'+(b.est?' (est.)':''),'','Percent of a $100 budget. '+(b.est?'No published bid, so this is our estimate from the article’s tier.':'Published suggestion.'));
   tg+=wvTag('Rostered '+b.ros+'% on Yahoo','');
   if(b.cond)tg+=wvTag('Conditional','a',esc(b.cond));
-  if(b.bye)tg+=wvTag('Bye in Week 10','');
+  if(b.bye)tg+=wvTag('On bye','');
   tg+=schedTag(t.i.srank);
   var yours=t.mine==null?'':(t.mine===0?' You have <b>$0</b> left here, so your only claim is <b>$0</b>.':' You have <b>$'+t.mine+'</b> left.');
   var line='Worth about <b>$'+t.lo+'–$'+t.hi+'</b> in this league'+(t.sc.n>=3?' (winning '+p.p+' bids here have a median of $'+t.sc.m+')':'')+'. Ideal bid <b>$'+t.want+'</b>.'+yours;
@@ -7837,7 +7843,7 @@ function scoutMoves(){
 }
 function wassist(){
   var lg=S.alg||'all',h='<div class="cm-box"><div class="cm-row"><div class="cm-f"><label>Which league?</label>'+chips('alg',lg,[['all','All my leagues'],['gl',"Gentlemen's"],['sts','Shoot the Shits'],['bh','Beaners & Husseins'],['rb','Rebirth'],['fb','Fantasy Ball Z']])+'</div></div></div>';
-  h+=how('How to read this page','Every waiver pickup the fantasy industry is chasing this week (Yahoo Sports and NFL.com, pulled '+WA_ASOF+'), filtered to the ones <b>still free in the league you pick</b>. <b>Industry</b> is the suggested FAAB bid as a percent of a $100 budget; where the sites did not publish a bid, the range is our estimate from how highly they ranked him (marked <i>est.</i>). <b>Worth about</b> adjusts that to what claims actually cost in your league, using the winning bids in your league’s own waiver history. <b>Your bid</b> adds your team: a player who would start over your weakest starter gets the top of the range, a flex or handcuff gets the middle, depth gets the bottom, and a hurt player gets nothing. It is capped at the FAAB you have left. Tap a card for the full buy-or-wait read.');
+  h+=how('How to read this page','Every Week 11 waiver pickup the fantasy industry is chasing so far (early list, pulled '+WA_ASOF+'; full FAAB reports land Monday and Tuesday), filtered to the ones <b>still free in the league you pick</b>. <b>Industry</b> is the suggested FAAB bid as a percent of a $100 budget; where the sites did not publish a bid, the range is our estimate from how highly they ranked him (marked <i>est.</i>). <b>Worth about</b> adjusts that to what claims actually cost in your league, using the winning bids in your league’s own waiver history. <b>Your bid</b> adds your team: a player who would start over your weakest starter gets the top of the range, a flex or handcuff gets the middle, depth gets the bottom, and a hurt player gets nothing. It is capped at the FAAB you have left. Tap a card for the full buy-or-wait read.');
   if(lg==='all'){
     h+='<div class="cm-sec">Your claim sheet</div><div class="cm-sec-sub">The best claims for each of your teams this week, in order. Waivers process Wednesday.</div>';
     ['gl','sts','bh','rb'].forEach(function(k){var L=waList(k),top=L.res.filter(function(t){return t.need==='start'||t.need==='flex';}).slice(0,4);
