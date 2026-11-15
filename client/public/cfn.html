@@ -1198,14 +1198,12 @@ nav::-webkit-scrollbar{display:none}
 .wp-left{margin-top:10px;padding-top:8px;border-top:1px solid var(--border);font-size:11.5px;color:var(--muted);line-height:1.45;width:100%}
 .wp-left em{font-style:normal;color:var(--text);font-weight:700}.wp-left .dim2{opacity:.8}
 .wp-vslg{position:absolute;left:50%;top:48px;transform:translateX(-50%);height:30px;width:auto;max-width:44px;object-fit:contain;opacity:.92;pointer-events:none}
-.wp-tot{display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:14px;margin:12px 4px 8px}
-.wp-tot .wt{display:flex;flex-direction:column;align-items:flex-end;line-height:1}
-.wp-tot .wt.r{align-items:flex-start}
-.wp-tot .wt b{font-size:32px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.wp-tot .wt small{font-size:15px;margin-top:6px;font-variant-numeric:tabular-nums;color:var(--muted)}
-.wp-tot .wt.lo b,.wp-tot .wt.lo small{color:var(--accent)}.wp-tot .wt.lu b,.wp-tot .wt.lu small{color:#ff4d4d}
-.wp-tot .wm{display:flex;flex-direction:column;align-items:center;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.wp-tot .wm span:first-child{height:32px;display:flex;align-items:center}.wp-tot .wm span:last-child{margin-top:6px;height:15px;display:flex;align-items:center}
+.wp-tt{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-direction:column;line-height:1}
+.wp-tm2.r .wp-tt{align-items:flex-end;text-align:right}
+.wp-tt i{font-style:normal;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.wp-tt b{font-size:34px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.wp-tt small{font-size:14px;margin-top:6px;color:var(--muted);font-variant-numeric:tabular-nums}
+.wp-tt.lo b,.wp-tt.lo small{color:var(--accent)}.wp-tt.lu b,.wp-tt.lu small{color:#ff4d4d}
 .wp-vs{position:absolute;left:50%;top:14px;transform:translateX(-50%);background:var(--bg);border:1px solid var(--border);border-radius:99px;padding:3px 9px;font-size:10px;font-weight:800;letter-spacing:.06em;color:var(--muted)}
 .wp-full .wp2r{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:4px;align-items:center;padding:8px 2px;border-top:1px solid var(--border);font-size:12px}
 .wp-full .wp2r:first-child{border-top:0}
@@ -4898,12 +4896,12 @@ function wpTot(k,m){
   var o=null; (PV8[k]||[]).forEach(function(x){ if(x.ia===m.ia&&x.ib===m.ib) o=x; });
   var oa=m.ob?m.ob[0]:o?o.a[3]:m.a[3], ob=m.ob?m.ob[1]:o?o.b[3]:m.b[3], sa=(m.la&&m.la.s)||0, sb=(m.lb&&m.lb.s)||0, fin=m.left===0;
   var cl=function(now,orig){ return fin?(now>orig?' lo':now<orig?' lu':''):(now>orig+0.05?' lo':now<orig-0.05?' lu':''); };
-  var ca=cl(fin?sa:m.a[3],oa), cb=cl(fin?sb:m.b[3],ob);
-  return '<div class="wp-tot"><div class="wt'+ca+'"><b>'+sa.toFixed(1)+'</b><small>'+oa.toFixed(1)+'</small></div><div class="wm"><span>Score</span><span>Proj</span></div><div class="wt r'+cb+'"><b>'+sb.toFixed(1)+'</b><small>'+ob.toFixed(1)+'</small></div></div>';
+  var box=function(sc,orig,c){ return '<div class="wp-tt'+c+'"><i>Score</i><b>'+sc.toFixed(1)+'</b><small>'+orig.toFixed(1)+' proj</small></div>'; };
+  return {a:box(sa,oa,cl(fin?sa:m.a[3],oa)), b:box(sb,ob,cl(fin?sb:m.b[3],ob))};
 }
-function wpTeam(k,t,tid,fav,p,q,lv,side,late){
+function wpTeam(k,t,tid,fav,p,q,lv,side,late,tot){
   var pj=lv?(lv.done?(lv.fin?'<b>'+lv.s.toFixed(1)+'</b> final':'<b>'+lv.s.toFixed(1)+'</b> now &middot; decided'):'<b>'+lv.s.toFixed(1)+'</b> now &middot; '+t[3].toFixed(1)+' proj'):t[3].toFixed(1)+' proj';
-  return '<div class="wp-tm2 '+(side||'l')+(fav?' fav':'')+'">'+wpAv(k,t[1],tid)+'<div class="wp-nm">'+lgEsc(t[0])+'</div><div class="wp-sub">'+lgEsc(t[1])+' &middot; '+lgEsc(t[2])+'</div><div class="wp-ml">'+(lv&&lv.done?(lv.w?'W':'L'):pvMl(p))+'</div>'+(lv?'':'<div class="wp-proj">'+pj+'</div>')+'<div class="wp-po2">'+wpPoLines(q)+'</div>'+(late||'')+'</div>';
+  return '<div class="wp-tm2 '+(side||'l')+(fav?' fav':'')+'">'+wpAv(k,t[1],tid)+'<div class="wp-nm">'+lgEsc(t[0])+'</div><div class="wp-sub">'+lgEsc(t[1])+' &middot; '+lgEsc(t[2])+'</div><div class="wp-ml">'+(lv&&lv.done?(lv.w?'W':'L'):pvMl(p))+'</div>'+(lv?'':'<div class="wp-proj">'+pj+'</div>')+'<div class="wp-po2">'+wpPoLines(q)+'</div>'+(tot||'')+(late||'')+'</div>';
 }
 function wpTop(t,e){
   var h='<div class="wp-pl">'+t[6].map(function(x){return '<div'+(x[2]?' class="tp"':'')+'>'+wpPh(x[0])+'<span>'+lgEsc(x[0])+cfnSh(x[0])+(x[2]?' <u class="wp-au tp">to play</u>':'')+'</span><b>'+(x[2]?'~':'')+x[1].toFixed(1)+'</b></div>';}).join('');
@@ -5062,10 +5060,10 @@ async function sharePrevMatch(k,i){
 }
 
 function wpCard(k,m,i,live){
-  var p=m.p, fa=p>=50, A=m.a, B=m.b, pt=pvPt(k,m);
+  var p=m.p, fa=p>=50, A=m.a, B=m.b, pt=pvPt(k,m), TT=null; if(live){ try{ TT=wpTot(k,m); }catch(e){ TT=null; } }
   return '<div class="wp-card'+(pt?' wp-pt':'')+'" data-lg="'+k+'" data-live="'+(live?1:0)+'" tabindex="0" role="button" aria-expanded="false" onclick="wpToggle(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();wpToggle(this);}">'+
     '<div class="wp-top"><span>'+(pt?'<b class="wp-ptl">Primetime Matchup</b>':'Matchup '+(i+1))+(live?' &middot; '+(lvDec(m)&&m.left?'Decided &middot; ':'')+(m.left?m.left+' to play':'Final'):'')+'</span>'+'<button type="button" class="wp-sh" onclick="event.stopPropagation();'+(live?'shareMatch':'sharePrevMatch')+'(\''+k+'\','+i+')" onkeydown="event.stopPropagation()">Share matchup</button>'+'<span class="wp-hint">Full lineups <i>&#9662;</i></span></div>'+
-    '<div class="wp-split">'+wpTeam(k,A,m.ia,fa,p,m.pa,live&&lvX(m,'a'),'l',live?lvSide(m,k,'a'):'')+wpTeam(k,B,m.ib,!fa,100-p,m.pb,live&&lvX(m,'b'),'r',live?lvSide(m,k,'b'):'')+'<span class="wp-vs">VS</span>'+(LG_LOGO[k]?'<img class="wp-vslg" alt="" src="'+LG_LOGO[k]+'">':'')+'</div>'+(live?wpTot(k,m):'')+
+    '<div class="wp-split">'+wpTeam(k,A,m.ia,fa,p,m.pa,live&&lvX(m,'a'),'l',live?lvSide(m,k,'a'):'',TT&&TT.a)+wpTeam(k,B,m.ib,!fa,100-p,m.pb,live&&lvX(m,'b'),'r',live?lvSide(m,k,'b'):'',TT&&TT.b)+'<span class="wp-vs">VS</span>'+(LG_LOGO[k]?'<img class="wp-vslg" alt="" src="'+LG_LOGO[k]+'">':'')+'</div>'+
     '<div class="wp-bar" role="img" aria-label="Projected edge"><i style="width:'+p+'%;background:'+(fa?'var(--accent)':'var(--border-l)')+'"></i><i style="width:'+(100-p)+'%;background:'+(fa?'var(--border-l)':'var(--accent)')+'"></i></div>'+
     (live?lvBanner(m,k):'')+'<div class="wp-cols">'+wpTop(A,m.ea)+wpTop(B,m.eb)+'</div>'+wpFull(m)+
     '<div class="wp-h2h'+(m.riv?' riv':'')+'">'+lgEsc(m.h2h)+(m.note?'<em>'+lgEsc(m.note)+'</em>':'')+'</div></div>';
@@ -9569,12 +9567,12 @@ function ysStat(t){ t=String(t||''); if(/^final/i.test(t)||/^bye/i.test(t)||/no 
 function ysFrac(t){ t=String(t||''); var m=/^Q([1-4])\s+(\d+):(\d\d)/i.exec(t); if(m) return Math.max(0,Math.min(1,((4-(+m[1]))*15+(+m[2])+(+m[3])/60)/60)); if(/^half/i.test(t)) return 0.5; var e=/^end\s*(?:of\s*)?q([1-4])/i.exec(t); if(e) return (4-(+e[1]))/4; if(/^(ot|overtime)/i.test(t)) return 0.05; return 1; }
 function ysErf(x){ var s=x<0?-1:1; x=Math.abs(x); var t=1/(1+0.3275911*x); var y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x); return s*y; }
 var YS_OUT={};
-function wpOut(n){ return YS_OUT[ysNorm(n)]?' <span class="wp-out" title="Out">\u271a</span>':''; }
+function wpOut(n){ var c=YS_OUT[ysNorm(n)]; return (c!=null&&c>=(YS.cyc||0)-1)?' <span class="wp-out" title="Out">\u271a</span>':''; }
 function wpPace(n,v,au,pj){ if(pj==null) return ''; if(au===2) return v>pj?' ov':v<pj?' un':''; if(au===4){ var g=giFor(n); if(g&&g.sb){ var pace=v+Math.max(0,pj)*(g.sb.left/3600); return pace>pj+0.05?' lo':pace<pj-0.05?' lu':''; } } return ''; }
 function ysSide(rows,names){
   var R=[],K=null,D=null,sc=0,pj=0,lf=0,n=0,base=0;
   rows.forEach(function(x){ var slot=x[0]; if(slot==='BN'||slot==='IR') return;
-    var nm=names[ysNorm(x[1])]||x[1], st=ysStat(x[6]), pts=x[5]==null?0:x[5], pr=x[4]==null?0:x[4], bye=/^bye|no game/i.test(x[6]), ent, out=(x[7]==='O'||x[7]==='SUSP')&&st!==2; ysGi(nm,x); if(out) YS_OUT[ysNorm(nm)]=1; else delete YS_OUT[ysNorm(nm)];
+    var nm=names[ysNorm(x[1])]||x[1], st=ysStat(x[6]), pts=x[5]==null?0:x[5], pr=x[4]==null?0:x[4], bye=/^bye|no game/i.test(x[6]), ent, out=(x[7]==='O'||x[7]==='SUSP')&&st!==2; ysGi(nm,x); if(out) YS_OUT[ysNorm(nm)]=(YS.cyc||0);
     if(out) ent=[nm,pts,2]; else if(st===4) ent=[nm,pts,4,Math.round(pr*100)/100]; else if(st===2) ent=bye?[nm,pts,2]:[nm,pts,2,Math.round(pr*100)/100]; else ent=[nm,Math.round(pr*100)/100,3];
     n++; sc+=pts; base+=pr; pj+=((st===2||out)?pts:(st===4?pts+Math.max(0,pr)*ysFrac(x[6]):pr)); if(st>=3&&!out) lf++;
     if(slot==='K') K=ent; else if(slot==='DEF') D=ent; else R.push([({'W/R/T':'FLX','Q/W/R/T':'SFX'})[slot]||slot].concat(ent)); });
@@ -9582,7 +9580,7 @@ function ysSide(rows,names){
 }
 function ysApply(k,data){
   var cnt=0;
-  (data.matchups||[]).forEach(function(mm){
+  (data.matchups||[]).forEach(function(mm){ try{
     var e=null, sw=false; (PVL[k]||[]).forEach(function(x){ if(x.ia===mm.ia&&x.ib===mm.ib) e=x; else if(x.ia===mm.ib&&x.ib===mm.ia){ e=x; sw=true; } });
     var pv=null; (PV8[k]||[]).forEach(function(x){ if(e&&x.ia===e.ia&&x.ib===e.ib) pv=x; });
     if(!e||!pv) return;
@@ -9600,7 +9598,7 @@ function ysApply(k,data){
     e.ra=A.R; e.rb=B.R; e.ka=A.K; e.kb=B.K; e.da=A.D; e.db=B.D; e.left=A.left+B.left; e.ob=[A.base,B.base];
     var sa=Math.round(A.sc*100)/100, sb=Math.round(B.sc*100)/100;
     e.la={s:sa,done:false,cl:false,w:sa>sb}; e.lb={s:sb,done:false,cl:false,w:sb>sa};
-    cnt++; });
+    cnt++; }catch(err){ YS.errs=(YS.errs||0)+1; try{ console.error('ysApply',k,err); }catch(e2){} } });
   return cnt;
 }
 function ysClock(){ var d=new Date(YS.at); try{ return d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET'; }catch(e){ return d.toLocaleTimeString(); } }
@@ -9613,14 +9611,14 @@ function ysRender(){
   try{ var d=document.getElementById('lv-fdesc'); if(d){ var t=0,a=0; ['gl','bh','rb','sts'].forEach(function(k){ t+=(PVL[k]||[]).length; a+=liveAlive(k); }); d.textContent='Live scores, win odds and full lineups for all '+t+' matchups across the four leagues, primetime games included. '+a+' still undecided. Updated '+ysClock()+'.'; } }catch(e){}
 }
 function ysRefresh(){
-  if(YS.busy) return Promise.resolve(); YS.busy=true;
+  if(YS.busy) return Promise.resolve(); YS.busy=true; YS.cyc=(YS.cyc||0)+1;
   return Promise.all(['gl','bh','rb','sts'].map(function(k){
-    return fetch('/api/lineups?lg='+k+'&week='+PVL_WK,{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(j){ return ysApply(k,j); }).catch(function(){ return -1; });
+    return fetch('/api/lineups?lg='+k+'&week='+PVL_WK,{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(j){ if(j&&j.partial&&!YS.retry){ YS.retry=1; setTimeout(function(){ YS.retry=0; ysRefresh(); },25000); } return ysApply(k,j); }).catch(function(){ return -1; });
   })).then(function(rs){ var ok=rs.filter(function(x){return x>0;}).length; YS.ok=ok; YS.fail=rs.filter(function(x){return x<0;}).length; if(ok){ YS.at=Date.now(); ysSyncAll(); ysRender(); try{ var lvw=document.getElementById('view-league'); if(lvw&&!lvw.hidden&&lgState.tab==='My Team'&&!document.getElementById('pc-ov')&&!document.querySelector('.wp-card.open')) lgRender(); }catch(e){} } YS.busy=false; return rs; }).catch(function(){ YS.busy=false; });
 }
 (function(){ if(!/^https?:/.test(location.protocol)) return; setTimeout(ysRefresh,1500);
-  setInterval(function(){ if(document.visibilityState==='visible') ysRefresh(); },600000);
-  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'&&Date.now()-YS.at>540000) ysRefresh(); }); })();
+  setInterval(function(){ if(document.visibilityState==='visible') ysRefresh(); },180000);
+  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'&&Date.now()-YS.at>150000) ysRefresh(); }); })();
 
 /* ===== CFN Exposure: who owns the same player in more than one league ===== */
 var EX={mode:'shared',pos:'ALL',min:2,q:''};

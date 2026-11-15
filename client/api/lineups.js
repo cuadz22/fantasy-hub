@@ -10,9 +10,9 @@ function cacheSeconds() {
   try {
     const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date()).map(x => [x.type, x.value]));
     const m = Number(p.hour) * 60 + Number(p.minute);
-    if (p.weekday === 'Sun' && m >= 9 * 60 + 25) return 600;
-    if ((p.weekday === 'Thu' || p.weekday === 'Mon') && m >= 19 * 60 + 55) return 600;
-    if ((p.weekday === 'Mon' || p.weekday === 'Fri') && m < 90) return 600; // late-night tail of Sunday/Thursday games
+    if (p.weekday === 'Sun' && m >= 9 * 60 + 25) return 180;
+    if ((p.weekday === 'Thu' || p.weekday === 'Mon') && m >= 19 * 60 + 55) return 180;
+    if ((p.weekday === 'Mon' || p.weekday === 'Fri') && m < 90) return 180; // late-night tail of Sunday/Thursday games
     // Don't let an hourly cache entry outlive the start of the next game window.
     const start = p.weekday === 'Sun' ? 9 * 60 + 25 : (p.weekday === 'Thu' || p.weekday === 'Mon') ? 19 * 60 + 55 : null;
     if (start != null && m < start) return Math.max(60, Math.min(900, (start - m) * 60));
@@ -34,7 +34,8 @@ module.exports = async (req, res) => {
       await Promise.all(Array.from({ length: 6 }, async () => {
         while (next < ids.length) {
           const id = ids[next++];
-          try { T[id] = parseTeam(await fetchTeam(lg, week, id), id); } catch (e) { T[id] = null; diag[id] = String(e.message || e).slice(0, 60); }
+          let last = null; for (let tryN = 0; tryN < 3; tryN++) { try { const pt = parseTeam(await fetchTeam(lg, week, id), id); if (pt.rows.length >= 8) { T[id] = pt; last = null; break; } last = 'rows ' + pt.rows.length; } catch (e) { last = String(e.message || e).slice(0, 60); } await new Promise(r => setTimeout(r, 350 * (tryN + 1))); }
+          if (last) { T[id] = T[id] || null; diag[id] = last; }
         }
       }));
       const done = new Set();
@@ -56,10 +57,12 @@ module.exports = async (req, res) => {
       matchups.push({ ia: a.id, ib: b.id, an: a.name, bn: b.name, L: p.L.map(row), R: p.R.map(row) });
     }
     res.setHeader('Content-Type', 'application/json');
-    const ttl = cacheSeconds();
-    res.setHeader('Cache-Control', `s-maxage=${ttl}, stale-while-revalidate=${ttl * 2}`);
+    // A short or incomplete read must never sit in the edge cache: only a full league (all matchups, full rosters) is cached for the normal window.
+    const partial = useOld ? matchups.length < 6 : matchups.length < 6 || matchups.some(m => m.L.length < 8 || m.R.length < 8);
+    const ttl = partial ? 15 : cacheSeconds();
+    res.setHeader('Cache-Control', `s-maxage=${ttl}, stale-while-revalidate=${partial ? 0 : Math.min(60, ttl)}`);
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.end(JSON.stringify({ lg, week, at: new Date().toISOString(), ms: Date.now() - t0, matchups, diag: q.get('dbg') ? { diag, t: diagT && Object.fromEntries(Object.entries(diagT).map(([k, v]) => [k, v ? [v.rows.length, v.opp, v.name, v.dbgc.slice(0, 4).join('/'), v.info] : null])) } : undefined }));
+    res.end(JSON.stringify({ lg, week, at: new Date().toISOString(), ms: Date.now() - t0, partial, matchups, diag: q.get('dbg') ? { diag, t: diagT && Object.fromEntries(Object.entries(diagT).map(([k, v]) => [k, v ? [v.rows.length, v.opp, v.name, v.dbgc.slice(0, 4).join('/'), v.info] : null])) } : undefined }));
   } catch (e) {
     res.statusCode = 500; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store');
     res.end(JSON.stringify({ error: String(e.message || e) }));
