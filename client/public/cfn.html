@@ -47,11 +47,12 @@ body.pc-lock{overflow:hidden}
 .pc-gm b{font-weight:800}
 .pc-gm small{color:var(--muted);font-size:11.5px}
 .pc-gm .t1{color:#2fd1a0}.pc-gm .t2{color:#ffa726}.pc-gm .t3{color:#ff6b61}
-.pc-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:6px}
+.pc-tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:6px}
 .pc-t{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:10px 4px 8px;text-align:center;min-width:0}
-.pc-t b{display:block;font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.05}
+.pc-t b{display:block;font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.05}
 .pc-t b.up{color:var(--accent)}
-.pc-t span{display:block;margin-top:5px;font-size:9px;letter-spacing:.06em;white-space:nowrap;text-transform:uppercase;color:var(--muted)}
+.pc-t small{display:block;margin-top:2px;font-size:9px;color:var(--muted);min-height:11px}
+.pc-t span{display:block;margin-top:5px;font-size:8.5px;letter-spacing:.05em;line-height:1.2;text-transform:uppercase;color:var(--muted)}
 .pc-hl{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin:10px 2px 0;font-size:clamp(9.5px,2.75vw,11.5px);white-space:nowrap;color:var(--muted)}
 .pc-hl span{overflow:hidden;text-overflow:ellipsis;min-width:0}
 .pc-hl span:last-child{text-align:right}
@@ -105,6 +106,15 @@ body.pc-lock{overflow:hidden}
 .pc-rk small{grid-column:1/-1;font-size:11px;color:var(--muted)}
 .pc-bl p.im{margin-top:8px;color:var(--muted);font-size:12.5px}.pc-bl p.im b{color:var(--text)}
 .pc-cr{margin:14px 2px 0;font-size:10.5px;line-height:1.5;color:var(--muted)}.pc-cr a{color:var(--muted);text-decoration:underline}
+.pc-sch div[data-t]{border-color:color-mix(in srgb,var(--tc) 60%,transparent);background:color-mix(in srgb,var(--tc) 14%,var(--bg3))}
+.pc-sch div[data-t] small{color:color-mix(in srgb,var(--tc) 70%,var(--muted))}
+.pc-sch div.now{border-width:1.5px}
+.pc-sch div[data-t="favorable"]{--tc:var(--accent)}.pc-sch div[data-t="neutral"]{--tc:#ffd24a}.pc-sch div[data-t="tough"]{--tc:#ff6b61}
+.pc-key{display:flex;gap:12px;margin:8px 2px 0;font-size:10.5px;color:var(--muted)}.pc-key i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:0}
+.pc-wk div.out i{background:transparent;border:1px dashed var(--border-l)}
+.pc-wk .mx{display:grid;place-items:center;width:17px;height:17px;border-radius:5px;background:#ff6b6126;border:1px solid #ff6b6166;color:#ff6b61}
+.pc-wk .mx svg{width:11px;height:11px}
+.pc-wk b.bye{font-size:8.5px;letter-spacing:.06em;color:var(--muted)}
 </style><style id="rc-css">
 :where(.rc *){margin:0}
 .rc *{box-sizing:border-box}
@@ -5134,19 +5144,20 @@ function pcOpen(el){
   if(g) h+='<div class="pc-gm"><span>'+(g.k===-1?'<b>Bye week</b>':'<b>'+g.s.replace(/(\d)(am|pm)\b/,'$1<i style="font-style:normal;font-size:.8em">$2</i>')+'</b>')+'</span><small>'+(live?'Week '+(typeof PVL_WK==='number'?PVL_WK:GI0.wk):'Week '+GI0.wk)+'</small></div>';
   h+='<div id="pc-mu"></div>';
   var over=(scored&&pj!=null&&now>pj);
+  var shM=/^(\S+)\s*\(?(Wk\s*\d+)?/.exec(hi&&hi.sh||''), chM=/^(\S+)\s*\(?(\d{4})?/.exec(hi&&hi.ch||'');
   h+='<div class="pc-tiles"><div class="pc-t"><b class="'+(over?'up':'')+'">'+pcF(scored?now:(live?0:null))+'</b><span>'+(scored?'This week':live?'To play':'This week')+'</span></div>'+
      '<div class="pc-t"><b>'+pcF(proj)+'</b><span>Proj</span></div>'+
      '<div class="pc-t"><b id="pc-avg">'+(hi&&hi.av!=null?pcF(hi.av):'&ndash;')+'</b><span>Avg</span></div>'+
-     '<div class="pc-t"><b id="pc-hi">'+(hi&&hi.sh?String(hi.sh).split(' ')[0]:'&ndash;')+'</b><span>Season high</span></div></div>';
+     '<div class="pc-t"><b id="pc-hi">'+(shM?shM[1]:'&ndash;')+'</b><span>Season high</span><small id="pc-hiw">'+(shM&&shM[2]?lgEsc(shM[2]):'')+'</small></div>'+
+     '<div class="pc-t"><b>'+(chM?chM[1]:'&ndash;')+'</b><span>Career high</span><small>'+(chM&&chM[2]?chM[2]:'')+'</small></div></div>';
   h+='<div id="pc-rk"></div>';
-  if(hi&&(hi.sh||hi.ch)){ function hp(x){ var m=/^(\S+)\s*(.*)$/.exec(String(x||'')); return m?'<b>'+lgEsc(m[1])+'</b>'+(m[2]?'<small>'+lgEsc(m[2])+'</small>':''):''; }
-    h+='<div class="pc-hl"><span>'+(hi.sh?'<em>Season high</em> '+hp(hi.sh):'')+'</span><i></i><span>'+(hi.ch?'<em>Career high</em> '+hp(hi.ch):'')+'</span></div>'; }
+
   h+='<div id="pc-bars"></div>';
-  var sc=GI0.sc[team]; if(sc&&sc.length){ var cells=sc.slice(0,8).map(function(x,i){ var o=String(x||''); return o?'<div class="'+(i===0?'now':'')+'"><small>WK '+(GI0.wk+i)+'</small>'+lgEsc(o.replace(/^v/,'vs '))+'</div>':'<div class="bye"><small>WK '+(GI0.wk+i)+'</small>BYE</div>'; }).join('');
-    h+='<div class="pc-h">Next opponents</div><div class="pc-sch">'+cells+'</div>'; }
+  var sc=GI0.sc[team]; if(sc&&sc.length){ var cells=sc.slice(0,8).map(function(x,i){ var o=String(x||''); return o?'<div data-o="'+lgEsc(o.replace(/^[@v]/,''))+'" class="'+(i===0?'now':'')+'"><small>WK '+(GI0.wk+i)+'</small>'+lgEsc(o.replace(/^v/,'vs '))+'</div>':'<div class="bye"><small>WK '+(GI0.wk+i)+'</small>BYE</div>'; }).join('');
+    h+='<div class="pc-h">Next opponents</div><div class="pc-sch" id="pc-sch">'+cells+'</div>'; }
   h+='<div id="pc-log"></div>';
   var ow=X.own[key]||[], byL={}; ow.forEach(function(o){ byL[o.lg]=o; });
-  h+='<div class="pc-h">On your leagues</div><div class="pc-lgx">'+['gl','bh','rb','sts'].map(function(k){ var o=byL[k], lo=(typeof LG_LOGO!=='undefined'&&LG_LOGO[k])||''; return '<div class="'+(o?(o.mgr==='Cuadz'?'me':''):'na')+'">'+(lo?'<img src="'+lo+'" alt="'+lgEsc(PC_LG[k])+'">':'')+'<b>'+(o?lgEsc(o.mgr):'Free agent')+'</b>'+(o?'<small>'+(o.slot==='BN'?'Bench':o.slot==='IR'?'IR':'Starting')+'</small>':'')+'</div>'; }).join('')+'</div>';
+  h+='<div class="pc-h">On your leagues</div><div class="pc-lgx">'+['gl','bh','rb','sts'].map(function(k){ var o=byL[k], lo=(typeof LG_LOGO!=='undefined'&&LG_LOGO[k])||''; return '<div class="'+(o?'':'na')+'">'+(lo?'<img src="'+lo+'" alt="'+lgEsc(PC_LG[k])+'">':'')+'<b>'+(o?lgEsc(o.mgr):'Free agent')+'</b>'+(o?'<small>'+(o.slot==='BN'?'Bench':o.slot==='IR'?'IR':'Starting')+'</small>':'')+'</div>'; }).join('')+'</div>';
   h+='<div class="pc-h">Latest</div><div id="pc-news"><div class="pc-empty">Loading&hellip;</div></div><div class="pc-cr" id="pc-cr"></div>';
   h+='</div>';
   pcClose(); var o=document.createElement('div'); o.id='pc-ov'; o.className='pc-ov'; o.innerHTML=h; o.addEventListener('click',function(e){ if(e.target===o) pcClose(); }); document.body.appendChild(o); document.body.classList.add('pc-lock'); requestAnimationFrame(function(){ o.classList.add('on'); });
@@ -5161,12 +5172,18 @@ function pcFeed(n,team){
     if(!p){ if(nw) nw.innerHTML='<div class="pc-empty">No new notes on this player.</div>'; return; }
     var mu=document.getElementById('pc-mu'), m=p.mu;
     if(mu&&m&&!m.bye&&m.tier){ var c=PC_TC[m.color]||'#9aa3b2'; mu.innerHTML='<div class="pc-mu" style="--mc:'+c+'"><i></i><span><b>'+lgEsc(m.tier.charAt(0).toUpperCase()+m.tier.slice(1))+'</b>'+(m.defense_rank_vs_position?' &middot; defense #'+m.defense_rank_vs_position+' vs '+lgEsc(m.label&&/vs (\w+)\)/.exec(m.label)?/vs (\w+)\)/.exec(m.label)[1]:'position'):'')+'</span>'+(m.pts_allowed_per_game_recency_weighted?'<small>'+Number(m.pts_allowed_per_game_recency_weighted).toFixed(1)+' pts allowed/g</small>':'')+'</div>'; }
-    var rk=document.getElementById('pc-rk'), ch=[];
-    if(rk){ if(p.rank) ch.push('<div><span>Week '+j.wk+' rank</span><b>'+lgEsc(p.rank)+'</b>'+(p.pts!=null?'<small>'+Number(p.pts).toFixed(1)+' proj</small>':'')+'</div>');
-      if(p.fp) ch.push('<div><span>Consensus</span><b>'+lgEsc(p.fp)+'</b>'+(p.fpMin?'<small>range '+lgEsc(p.fpMin)+'&ndash;'+lgEsc(p.fpMax)+(p.fpN?' &middot; '+p.fpN+' experts':'')+'</small>':'')+'</div>');
+    var rk=document.getElementById('pc-rk'), ch=[], isFP=/fantasypros/i.test(p.rs||'');
+    if(rk){ if(p.rank) ch.push('<div><span>Week '+j.wk+' rank</span><b>'+lgEsc(p.rank)+'</b><small>'+(isFP?'FantasyPros'+(p.fpMin?' &middot; range '+lgEsc(p.fpMin)+'&ndash;'+lgEsc(p.fpMax):''):'Sleeper projection')+'</small></div>');
+      if(isFP&&p.sr) ch.push('<div><span>Sleeper rank</span><b>'+lgEsc(p.sr)+'</b>'+(p.pts!=null?'<small>'+Number(p.pts).toFixed(1)+' proj pts (PPR)</small>':'')+'</div>');
+      else if(!isFP&&p.pts!=null&&ch.length) ch[0]=ch[0].replace('Sleeper projection','Sleeper projection &middot; '+Number(p.pts).toFixed(1)+' pts (PPR)');
       rk.innerHTML=ch.length?'<div class="pc-rk">'+ch.join('')+'</div>':''; }
+    var sc=document.getElementById('pc-sch'); if(sc&&p.dvp){ var AL={LAR:'LA',WSH:'WAS',JAC:'JAX'}, D={}; Object.keys(p.dvp).forEach(function(k){ D[AL[k]||k]=p.dvp[k]; });
+      [].forEach.call(sc.querySelectorAll('div[data-o]'),function(d){ var t=D[AL[d.getAttribute('data-o')]||d.getAttribute('data-o')]; if(t){ d.setAttribute('data-t',t.t); d.title='Defense ranked #'+t.r+' vs this position ('+t.t+')'; } });
+      if(sc.querySelector('[data-t]')&&!document.getElementById('pc-skey')) sc.insertAdjacentHTML('afterend','<div class="pc-key" id="pc-skey"><span><i style="background:var(--accent)"></i>Favorable</span><span><i style="background:#ffd24a"></i>Neutral</span><span><i style="background:#ff6b61"></i>Tough</span></div>'); }
     if(nw) nw.innerHTML=p.news.length?p.news.map(function(b){ return '<div class="pc-bl">'+(b.headline?'<span class="tg">'+lgEsc(b.headline)+'</span>':'')+'<p>'+lgEsc(b.blurb||'')+'</p>'+(b.impact?'<p class="im"><b>Fantasy impact:</b> '+lgEsc(b.impact)+'</p>':'')+'<small>'+lgEsc(b.attribution||b.source||'')+(b.timestamp?' &middot; '+pcDate(b.timestamp):'')+(b.link?' &middot; <a href="'+lgEsc(b.link)+'" target="_blank" rel="noopener">Read more</a>':'')+'</small></div>'; }).join(''):'<div class="pc-empty">No new notes on this player.</div>';
-    if(cr){ var src=[]; if(p.rank) src.push('Sleeper projections (half-PPR)'); if(p.fp) src.push('<a href="https://www.fantasypros.com/" target="_blank" rel="noopener">FantasyPros</a> consensus'); cr.innerHTML=(src.length?'Rankings: '+src.join(' &middot; ')+'. ':'')+'News: '+(p.news.some(function(b){return /fantasypros/i.test(b.source||'');})?'<a href="https://www.fantasypros.com/" target="_blank" rel="noopener">FantasyPros</a>':'')+(p.news.some(function(b){return /rotowire/i.test(b.source||'');})?(p.news.some(function(b){return /fantasypros/i.test(b.source||'');})?', ':'')+'RotoWire':'')+(p.news.length?'':'&mdash;')+(j.gen?' &middot; updated '+pcDate(j.gen):''); }
+    if(cr){ var fpN=function(b){return /fantasypros/i.test(b.source||'');}, rwN=function(b){return /rotowire/i.test(b.source||'');}, FP='<a href="https://www.fantasypros.com/" target="_blank" rel="noopener">FantasyPros</a>', src=[]; if(isFP) src.push(FP+' consensus (PPR)'); if(p.sr||(!isFP&&p.rank)) src.push('Sleeper projections (PPR)');
+      var nsrc=[]; if(p.news.some(fpN)) nsrc.push(FP); if(p.news.some(rwN)) nsrc.push('RotoWire');
+      cr.innerHTML=(src.length?'Ranks: '+src.join(' &middot; ')+'. ':'')+(nsrc.length?'News: '+nsrc.join(', ')+'. ':'')+(j.gen?'Updated '+pcDate(j.gen)+'.':''); }
   }).catch(function(){ var nw=document.getElementById('pc-news'); if(nw) nw.innerHTML='<div class="pc-empty">No new notes on this player.</div>'; });
 }
 function pcLog(n,pos,lg){
@@ -5175,10 +5192,15 @@ function pcLog(n,pos,lg){
     var el=document.getElementById('pc-log'), bar=document.getElementById('pc-bars'); if(!document.getElementById('pc-ov')) return;
     var fin=j.log.filter(function(x){ return x.fin&&x.pts!=null; }), byW={}; fin.forEach(function(x){ byW[x.wk]=x; });
     if(fin.length&&bar){ var last=Math.max(GI0.wk-1,9), pts=fin.map(function(x){return x.pts;}), avg=pts.reduce(function(a,b){return a+b;},0)/pts.length, mx=Math.max.apply(null,pts.concat([1])), cols='';
-      for(var w=1;w<=last;w++){ var x=byW[w]; cols+='<div><b>'+(x?x.pts.toFixed(0):'&ndash;')+'</b><i class="'+(x?(x.pts>=avg?'hi':'lo'):'')+'" style="height:'+(x?Math.max(4,Math.round(x.pts/mx*58)):3)+'px"></i><span>'+w+'</span></div>'; }
-      bar.innerHTML='<div class="pc-h">Points by week<em>avg '+avg.toFixed(1)+' &middot; green above, red below</em></div><div class="pc-wk" style="grid-template-columns:repeat('+last+',1fr)">'+cols+'</div>';
+      var CROSS='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 1h3v3.5H11v3H7.5V11h-3V7.5H1v-3h3.5z" fill="currentColor"/></svg>', pl=j.wks&&j.wks.length?{}:null; if(pl) j.wks.forEach(function(w){ pl[w]=1; });
+      for(var w=1;w<=last;w++){ var x=byW[w];
+        if(x) cols+='<div><b>'+x.pts.toFixed(0)+'</b><i class="'+(x.pts>=avg?'hi':'lo')+'" style="height:'+Math.max(4,Math.round(x.pts/mx*58))+'px"></i><span>'+w+'</span></div>';
+        else if(pl&&pl[w]) cols+='<div class="out" title="Did not play (out or inactive)"><b class="mx" aria-label="Out">'+CROSS+'</b><i style="height:3px"></i><span>'+w+'</span></div>';
+        else if(pl) cols+='<div class="out" title="Bye week"><b class="bye">BYE</b><i style="height:3px"></i><span>'+w+'</span></div>';
+        else cols+='<div><b>&ndash;</b><i style="height:3px"></i><span>'+w+'</span></div>'; }
+      bar.innerHTML='<div class="pc-h">Points by week<em>avg '+avg.toFixed(1)+' &middot; green above, red below</em></div><div class="pc-wk" style="grid-template-columns:repeat('+last+',1fr)">'+cols+'</div>'+(pl?'<div class="pc-key"><span><b class="mx" style="display:inline-grid;vertical-align:-4px;margin-right:4px;width:14px;height:14px">'+CROSS+'</b>Did not play</span><span>BYE = bye week</span></div>':'');
       var a=document.getElementById('pc-avg'); if(a) a.textContent=avg.toFixed(1); var gp=document.getElementById('pc-gp'); if(gp) gp.innerHTML='&middot; '+fin.length+' games';
-      var hh=document.getElementById('pc-hi'); if(hh&&hh.textContent==='\u2013') hh.textContent=mx.toFixed(1); }
+      var hh=document.getElementById('pc-hi'); if(hh&&hh.textContent==='\u2013'){ hh.textContent=mx.toFixed(1); var bw=fin.filter(function(x){return x.pts===mx;})[0], hw=document.getElementById('pc-hiw'); if(hw&&bw) hw.textContent='Wk '+bw.wk; } }
     if(el) el.innerHTML='<div class="pc-h">Game log<em>this season</em></div><table class="pc-log">'+j.log.map(function(x){ return '<tr><td>Wk '+x.wk+'</td><td>'+lgEsc(x.opp||'')+'</td><td class="ln">'+lgEsc(x.line||'')+'</td><td>'+(x.pts!=null&&x.fin?x.pts.toFixed(1):'')+'</td></tr>'; }).join('')+'</table>';
   }).catch(function(){});
 }

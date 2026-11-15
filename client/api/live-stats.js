@@ -9,13 +9,16 @@ const SCORING = { gl: [0.05, 6, -2, 0.1, 6, 1, 0.1, 6, -2], bh: [0.05, 6, -1, 0.
 const CARDS_URL = 'https://gist.githubusercontent.com/cuadz22/9727cb8f5b18fb3307b459b82214c15d/raw/player-cards.json';
 const normN = x => String(x || '').toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\b\.?/g, '').replace(/[^a-z]/g, '');
 let CARDS = null, CARDS_T = 0;
+const TEAMG = {};
 async function cards() {
   if (CARDS && Date.now() - CARDS_T < 120000) return CARDS;
   const r = await fetch(CARDS_URL + '?t=' + Math.floor(Date.now() / 120000), { headers: { 'User-Agent': 'cfn-site' } });
   if (!r.ok) throw new Error('cards ' + r.status);
   const j = await r.json(), idx = {};
   (j.players || []).forEach(x => { (idx[normN(x.name)] = idx[normN(x.name)] || []).push(x); });
-  CARDS = { gen: j.generated_at, wk: j.week, idx }; CARDS_T = Date.now();
+  const dvp = {};
+  (j.players || []).forEach(x => { const m = x.matchup; if (m && !m.bye && m.opponent && m.tier && m.defense_rank_vs_position) { (dvp[x.position] = dvp[x.position] || {})[m.opponent] = { r: m.defense_rank_vs_position, t: m.tier, c: m.color }; } });
+  CARDS = { gen: j.generated_at, wk: j.week, idx, dvp }; CARDS_T = Date.now();
   return CARDS;
 }
 async function bdl(path, params) {
@@ -56,7 +59,8 @@ module.exports = async (req, res) => {
       res.setHeader('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=600');
       if (!x) return res.status(200).json({ gen: C.gen, wk: C.wk, p: null });
       const e = x.fantasypros_ecr || {}, sp = x.sleeper_projection_rank || {};
-      return res.status(200).json({ gen: C.gen, wk: C.wk, p: { rank: x.rank || null, fp: x.fp_consensus_rank || null, fpMin: e.rank_min || null, fpMax: e.rank_max || null, fpN: e.total_experts || null, pts: sp.pts_half_ppr == null ? null : sp.pts_half_ppr, news: [x.news, x.news_rotowire].filter(Boolean), mu: x.matchup || null } });
+      const seen = {}, news = [].concat(x.news_items || [], x.news || [], x.news_rotowire || []).filter(n => { const k = n && (n.link || n.headline); if (!k || seen[k]) return false; seen[k] = 1; return true; }).sort((p1, p2) => Date.parse(p2.timestamp || 0) - Date.parse(p1.timestamp || 0)).slice(0, 4);
+      return res.status(200).json({ gen: C.gen, wk: C.wk, p: { rank: x.rank || null, rs: x.rank_source || null, fpMin: e.rank_min || null, fpMax: e.rank_max || null, fpN: e.total_experts || null, sr: x.sleeper_rank || null, pts: sp.pts_ppr == null ? null : sp.pts_ppr, news, mu: x.matchup || null, dvp: C.dvp[x.position] || {} } });
     }
     if (q.player) {
       const nm = String(q.player).slice(0, 60), last = nm.split(' ').slice(-1)[0].replace(/[^A-Za-z'\-]/g, '');
@@ -65,6 +69,12 @@ module.exports = async (req, res) => {
       const hit = ((f.body && f.body.data) || []).find(x => norm(x.first_name + x.last_name) === norm(nm));
       if (!hit) { res.setHeader('Cache-Control', 'public, s-maxage=600'); return res.status(200).json({ log: [], note: 'no match', status: f.status }); }
       const r = await pages('stats', { player_ids: [hit.id], seasons: ['2026'] }, 2);
+      let tid = (hit.team && hit.team.id) || (r.data[0] && r.data[0].team && r.data[0].team.id), wks;
+      if (tid) {
+        const c = TEAMG[tid];
+        if (c && Date.now() - c.t < 600000) wks = c.w;
+        else { const tg = await pages('games', { team_ids: [tid], seasons: ['2026'] }, 2); if (tg.status === 200) { wks = tg.data.filter(g => !g.postseason && Date.parse(g.date) >= Date.parse('2026-09-01') && g.status_state === 'final').map(g => g.week); TEAMG[tid] = { t: Date.now(), w: wks }; } }
+      }
       res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=900');
       const n0 = v => (v == null ? 0 : v), log = [];
       r.data.forEach(x => {
@@ -83,7 +93,7 @@ module.exports = async (req, res) => {
       });
       log.sort((a, b) => b.wk - a.wk);
       res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=900');
-      return res.status(200).json({ id: hit.id, log: log.slice(0, 10) });
+      return res.status(200).json({ id: hit.id, wks, log: log.slice(0, 10) });
     }
     if (q.plays) {
       const r = await pages('plays', { game_id: String(q.plays).replace(/\D/g, '') }, 6);
