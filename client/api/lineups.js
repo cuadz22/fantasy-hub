@@ -15,9 +15,9 @@ function cacheSeconds() {
     if ((p.weekday === 'Mon' || p.weekday === 'Fri') && m < 90) return 600; // late-night tail of Sunday/Thursday games
     // Don't let an hourly cache entry outlive the start of the next game window.
     const start = p.weekday === 'Sun' ? 9 * 60 + 25 : (p.weekday === 'Thu' || p.weekday === 'Mon') ? 19 * 60 + 55 : null;
-    if (start != null && m < start) return Math.max(60, Math.min(3600, (start - m) * 60));
+    if (start != null && m < start) return Math.max(60, Math.min(900, (start - m) * 60));
   } catch (e) {}
-  return 3600;
+  return 900;
 }
 module.exports = async (req, res) => {
   const t0 = Date.now();
