@@ -9538,13 +9538,15 @@ function ysSyncAll(force){ var changed=false;
   try{ window.__exRender&&window.__exRender(); }catch(e){}
   if(changed&&!force){ try{ window.__cmRender&&window.__cmRender(); }catch(e){} } return changed; }
 function ysStat(t){ t=String(t||''); if(/^final/i.test(t)||/^bye/i.test(t)||/no game/i.test(t)) return 2; if(/^(sun|mon|tue|wed|thu|fri|sat)\b/i.test(t)&&/\d:\d\d\s*[ap]m/i.test(t)) return 3; return 4; }
+/* share of the game still to play, from Yahoo's status text (Q3 5:00, 21-7 vs NE / Halftime / End Q2 ...) so a live player's projection shrinks toward his actual points as the game runs */
+function ysFrac(t){ t=String(t||''); var m=/^Q([1-4])\s+(\d+):(\d\d)/i.exec(t); if(m) return Math.max(0,Math.min(1,((4-(+m[1]))*15+(+m[2])+(+m[3])/60)/60)); if(/^half/i.test(t)) return 0.5; var e=/^end\s*(?:of\s*)?q([1-4])/i.exec(t); if(e) return (4-(+e[1]))/4; if(/^(ot|overtime)/i.test(t)) return 0.05; return 1; }
 function ysErf(x){ var s=x<0?-1:1; x=Math.abs(x); var t=1/(1+0.3275911*x); var y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x); return s*y; }
 function ysSide(rows,names){
   var R=[],K=null,D=null,sc=0,pj=0,lf=0,n=0;
   rows.forEach(function(x){ var slot=x[0]; if(slot==='BN'||slot==='IR') return;
     var nm=names[ysNorm(x[1])]||x[1], st=ysStat(x[6]), pts=x[5]==null?0:x[5], pr=x[4]==null?0:x[4], bye=/^bye|no game/i.test(x[6]), ent; ysGi(nm,x);
     if(st===4) ent=[nm,pts,4,Math.round(pr*100)/100]; else if(st===2) ent=bye?[nm,pts,2]:[nm,pts,2,Math.round(pr*100)/100]; else ent=[nm,Math.round(pr*100)/100,3];
-    n++; sc+=pts; pj+=(st===2?pts:pr); if(st>=3) lf++;
+    n++; sc+=pts; pj+=(st===2?pts:(st===4?pts+Math.max(0,pr)*ysFrac(x[6]):pr)); if(st>=3) lf++;
     if(slot==='K') K=ent; else if(slot==='DEF') D=ent; else R.push([({'W/R/T':'FLX','Q/W/R/T':'SFX'})[slot]||slot].concat(ent)); });
   return {R:R,K:K||['\u2014',0,2],D:D||['\u2014',0,2],sc:sc,pj:pj,left:lf,n:Math.max(n,1)};
 }
