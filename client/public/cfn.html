@@ -5162,7 +5162,6 @@ function pcOpen(el){
   h+='</div>';
   pcClose(); var o=document.createElement('div'); o.id='pc-ov'; o.className='pc-ov'; o.innerHTML=h; o.addEventListener('click',function(e){ if(e.target===o) pcClose(); }); document.body.appendChild(o); document.body.classList.add('pc-lock'); requestAnimationFrame(function(){ o.classList.add('on'); });
   if(!isD&&pos!=='K') pcLog(n,pos,lg);
-  if(!isD&&pos!=='K'&&!(hi&&hi.ch)) pcCareer(n,lg);
   pcFeed(n,team);
 }
 var PC_TC={green:'#2fd1a0',yellow:'#ffd24a',orange:'#ffa726',red:'#ff6b61'};
@@ -5194,7 +5193,8 @@ function pcCareer(n,lg){
   }).catch(function(){});
 }
 function pcLog(n,pos,lg){
-  fetch('/api/live-stats?player='+encodeURIComponent(n)+'&lg='+encodeURIComponent(lg||'gl')).then(function(r){ return r.ok?r.json():null; }).then(function(j){
+  fetch('/api/live-stats?player='+encodeURIComponent(n)+'&pos='+encodeURIComponent(pos||'')+'&lg='+encodeURIComponent(lg||'gl')).then(function(r){ return r.ok?r.json():null; }).then(function(j){
+    if(j&&j.ch&&document.getElementById('pc-ov')){ var cb=document.getElementById('pc-ch'), cy=document.getElementById('pc-chy'); if(cb){ cb.textContent=j.ch.pts.toFixed(1); if(cy) cy.textContent=String(j.ch.yr); cb.parentNode.title='Week '+j.ch.wk+' '+j.ch.opp+', '+j.ch.yr; } }
     if(!j||!j.log||!j.log.length) return;
     var el=document.getElementById('pc-log'), bar=document.getElementById('pc-bars'); if(!document.getElementById('pc-ov')) return;
     var fin=j.log.filter(function(x){ return x.fin&&x.pts!=null; }), byW={}; fin.forEach(function(x){ byW[x.wk]=x; });

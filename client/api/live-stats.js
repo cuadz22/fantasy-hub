@@ -4,8 +4,44 @@
 // GET /api/live-stats?ping=1                  -> checks the key / tier (no secrets returned)
 // Edge-cached, so any number of viewers share the same upstream calls.
 const BASE = 'https://api.balldontlie.io/nfl/v1/';
-// Per-league scoring fitted to each league's real Week 9 scores: [pass yd, pass TD, INT, rush yd, rush TD, rec, rec yd, rec TD, fumble lost]
-const SCORING = { gl: [0.05, 6, -2, 0.1, 6, 1, 0.1, 6, -2], bh: [0.05, 6, -1, 0.1, 6, 1, 0.1, 6, -2], rb: [0.04, 6, -2, 0.1, 6, 1, 0.1, 6, -2], sts: [0.05, 6, -2, 0.1, 6, 1, 0.1, 6, -2] };
+// Per-league scoring, fitted to each league's real Week 9 scores (nflverse stats): bonuses are flat adds.
+const SCORING = {
+  gl: { py: 0.05, ptd: 6, it: -2, fl: -2, two: 2, r100: 3, c100: 2, p300: 2, rc40: 0 },
+  bh: { py: 0.05, ptd: 6, it: -1, fl: -2, two: 2, r100: 0, c100: 0, p300: 0, rc40: 0 },
+  rb: { py: 0.04, ptd: 6, it: -2, fl: -2, two: 2, r100: 2, c100: 1, p300: 2, rc40: 1 },
+  sts: { py: 0.05, ptd: 6, it: -2.5, fl: -2, two: 2, r100: 3, c100: 1, p300: 2, rc40: 0 }
+};
+let CAREER = {}; try { CAREER = require('./career-highs.json'); } catch (e) {}
+function scoreRow(r, lg) {
+  const c = SCORING[lg] || SCORING.gl;
+  return Math.round((r.py * c.py + r.ptd * c.ptd + r.it * c.it + r.ry * 0.1 + r.rtd * 6 + r.rec + r.cy * 0.1 + r.ctd * 6 + r.fl * c.fl + r.two * c.two + r.st * 6 +
+    (r.ry >= 100 ? c.r100 : 0) + (r.cy >= 100 ? c.c100 : 0) + (r.py >= 300 ? c.p300 : 0) + r.c40 * c.rc40) * 100) / 100;
+}
+function parseCsvLine(l) {
+  const o = []; let cur = '', q = false;
+  for (let i = 0; i < l.length; i++) { const ch = l[i]; if (q) { if (ch === '"') { if (l[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += ch; } else if (ch === '"') q = true; else if (ch === ',') { o.push(cur); cur = ''; } else cur += ch; }
+  o.push(cur); return o;
+}
+let NFL = null, NFL_T = 0;
+async function nfl() {
+  if (NFL && Date.now() - NFL_T < 1800000) return NFL;
+  const r = await fetch('https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2026.csv.gz', { headers: { 'User-Agent': 'cfn-site' } });
+  if (!r.ok) throw new Error('nflverse ' + r.status);
+  const txt = require('zlib').gunzipSync(Buffer.from(await r.arrayBuffer())).toString('utf8').split('\n');
+  const H = parseCsvLine(txt[0]), ix = {}; H.forEach((h, i) => { ix[h] = i; });
+  const num = (a, k) => { const v = a[ix[k]]; return v === '' || v == null || v === 'NA' ? 0 : +v; };
+  const byName = {}, teamWks = {};
+  for (let i = 1; i < txt.length; i++) {
+    if (!txt[i]) continue; const a = parseCsvLine(txt[i]); if (a[ix.season_type] !== 'REG') continue;
+    const team = a[ix.team], wk = +a[ix.week]; (teamWks[team] = teamWks[team] || new Set()).add(wk);
+    const pos = a[ix.position]; if (!/^(QB|RB|WR|TE)$/.test(pos)) continue;
+    const row = { pos, team, wk, opp: a[ix.opponent_team], gid: a[ix.game_id], cmp: num(a, 'completions'), att: num(a, 'attempts'), py: num(a, 'passing_yards'), ptd: num(a, 'passing_tds'), it: num(a, 'passing_interceptions'),
+      car: num(a, 'carries'), ry: num(a, 'rushing_yards'), rtd: num(a, 'rushing_tds'), rec: num(a, 'receptions'), tgt: num(a, 'targets'), cy: num(a, 'receiving_yards'), ctd: num(a, 'receiving_tds'),
+      fl: num(a, 'sack_fumbles_lost') + num(a, 'rushing_fumbles_lost') + num(a, 'receiving_fumbles_lost'), two: num(a, 'passing_2pt_conversions') + num(a, 'rushing_2pt_conversions') + num(a, 'receiving_2pt_conversions'), st: num(a, 'special_teams_tds'), c40: num(a, 'receiving_40') };
+    (byName[normN(a[ix.player_display_name])] = byName[normN(a[ix.player_display_name])] || []).push(row);
+  }
+  NFL = { byName, teamWks }; NFL_T = Date.now(); return NFL;
+}
 const CARDS_URL = 'https://gist.githubusercontent.com/cuadz22/9727cb8f5b18fb3307b459b82214c15d/raw/player-cards.json';
 const normN = x => String(x || '').toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\b\.?/g, '').replace(/[^a-z]/g, '');
 let CARDS = null, CARDS_T = 0;
@@ -62,60 +98,27 @@ module.exports = async (req, res) => {
       const seen = {}, news = [].concat(x.news_items || [], x.news || [], x.news_rotowire || []).filter(n => { const k = n && (n.link || n.headline); if (!k || seen[k]) return false; seen[k] = 1; return true; }).sort((p1, p2) => Date.parse(p2.timestamp || 0) - Date.parse(p1.timestamp || 0)).slice(0, 4);
       return res.status(200).json({ gen: C.gen, wk: C.wk, p: { rank: x.rank || null, rs: x.rank_source || null, fpMin: e.rank_min || null, fpMax: e.rank_max || null, fpN: e.total_experts || null, sr: x.sleeper_rank || null, pts: sp.pts_ppr == null ? null : sp.pts_ppr, news, mu: x.matchup || null, dvp: C.dvp[x.position] || {} } });
     }
-    if (q.career) {
-      const nm = String(q.career).slice(0, 60), last = nm.split(' ').slice(-1)[0].replace(/[^A-Za-z'\-]/g, '');
-      const f = await bdl('players', { search: last, per_page: 25 });
-      const hit = ((f.body && f.body.data) || []).find(x => normN(x.first_name + x.last_name) === normN(nm));
-      res.setHeader('Cache-Control', 'public, s-maxage=43200, stale-while-revalidate=86400');
-      if (!hit) return res.status(200).json({ ch: null });
-      const yrs = []; for (let y = 2015; y <= 2026; y++) yrs.push(String(y));
-      const r = await pages('stats', { player_ids: [hit.id], seasons: yrs }, 5);
-      const sc = SCORING[q.lg] || SCORING.gl, n0 = v => (v == null ? 0 : v);
-      let best = null, since = null;
-      r.data.forEach(x => {
-        const g = x.game || {}, tm = x.team || {}; if (g.postseason || !g.date) return;
-        const d = new Date(g.date), yr = d.getUTCFullYear() - (d.getUTCMonth() < 7 ? 1 : 0);
-        if (!(d.getUTCMonth() >= 8 || d.getUTCMonth() <= 1)) return;
-        const v = [x.passing_yards, x.passing_touchdowns, x.passing_interceptions, x.rushing_yards, x.rushing_touchdowns, x.receptions, x.receiving_yards, x.receiving_touchdowns, x.fumbles_lost];
-        const pts = Math.round(v.reduce((a, b, i) => a + n0(b) * sc[i], 0) * 100) / 100;
-        if (since == null || yr < since) since = yr;
-        const home = g.home_team && g.home_team.id === tm.id, o = home ? g.visitor_team : g.home_team;
-        if (!best || pts > best.pts) best = { pts, yr, wk: g.week, opp: (home ? 'vs ' : '@') + (o && o.abbreviation || '') };
-      });
-      return res.status(200).json({ ch: best, since, st: r.status });
-    }
     if (q.player) {
-      const nm = String(q.player).slice(0, 60), last = nm.split(' ').slice(-1)[0].replace(/[^A-Za-z'\-]/g, '');
-      const norm = x => String(x || '').toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\b\.?/g, '').replace(/[^a-z]/g, '');
-      const f = await bdl('players', { search: last, per_page: 25 });
-      const hit = ((f.body && f.body.data) || []).find(x => norm(x.first_name + x.last_name) === norm(nm));
-      if (!hit) { res.setHeader('Cache-Control', 'public, s-maxage=600'); return res.status(200).json({ log: [], note: 'no match', status: f.status }); }
-      const r = await pages('stats', { player_ids: [hit.id], seasons: ['2026'] }, 2);
-      let tid = (hit.team && hit.team.id) || (r.data[0] && r.data[0].team && r.data[0].team.id), wks;
-      if (tid) {
-        const c = TEAMG[tid];
-        if (c && Date.now() - c.t < 600000) wks = c.w;
-        else { const tg = await pages('games', { team_ids: [tid], seasons: ['2026'] }, 2); if (tg.status === 200) { wks = tg.data.filter(g => !g.postseason && Date.parse(g.date) >= Date.parse('2026-09-01') && g.status_state === 'final').map(g => g.week); TEAMG[tid] = { t: Date.now(), w: wks }; } }
-      }
-      res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=900');
-      const n0 = v => (v == null ? 0 : v), log = [];
-      r.data.forEach(x => {
-        const g = x.game || {}, tm = x.team || {};
-        if (g.postseason || !g.date || Date.parse(g.date) < Date.parse('2026-09-01')) return;
-        const home = g.home_team && g.home_team.id === tm.id, o = home ? g.visitor_team : g.home_team;
-        const parts = [];
-        if (x.passing_attempts) parts.push(n0(x.passing_completions) + '/' + x.passing_attempts + ' ' + n0(x.passing_yards) + ' yds' + (x.passing_touchdowns ? ' ' + x.passing_touchdowns + ' TD' : '') + (x.passing_interceptions ? ' ' + x.passing_interceptions + ' INT' : ''));
-        if (x.rushing_attempts) parts.push(x.rushing_attempts + ' car ' + n0(x.rushing_yards) + ' yds' + (x.rushing_touchdowns ? ' ' + x.rushing_touchdowns + ' TD' : ''));
-        if (x.receptions || x.receiving_targets) parts.push(n0(x.receptions) + '/' + n0(x.receiving_targets) + ' ' + n0(x.receiving_yards) + ' yds' + (x.receiving_touchdowns ? ' ' + x.receiving_touchdowns + ' TD' : ''));
-        if (x.field_goal_attempts || x.extra_points_made) parts.push(n0(x.field_goals_made) + '/' + n0(x.field_goal_attempts) + ' FG' + (x.extra_points_made ? ' ' + x.extra_points_made + ' XP' : ''));
+      const nm = String(q.player).slice(0, 60), pos = String(q.pos || '').toUpperCase(), lg = SCORING[q.lg] ? q.lg : 'gl';
+      const N = await nfl(), k0 = normN(nm), rows = (N.byName[k0] || []).filter(r => !pos || r.pos === pos);
+      res.setHeader('Cache-Control', 'public, s-maxage=900, stale-while-revalidate=3600');
+      const hist = CAREER[k0 + '|' + (pos || (rows[0] && rows[0].pos) || '')] || null;
+      let ch = hist && hist[lg] ? { pts: hist[lg][0], yr: hist[lg][1], wk: hist[lg][2], opp: hist[lg][3] } : null;
+      const log = [];
+      rows.sort((x, y) => y.wk - x.wk).forEach(r => {
+        const pts = scoreRow(r, lg), parts = [];
+        if (r.att) parts.push(r.cmp + '/' + r.att + ' ' + r.py + ' yds' + (r.ptd ? ' ' + r.ptd + ' TD' : '') + (r.it ? ' ' + r.it + ' INT' : ''));
+        if (r.car) parts.push(r.car + ' car ' + r.ry + ' yds' + (r.rtd ? ' ' + r.rtd + ' TD' : ''));
+        if (r.rec || r.tgt) parts.push(r.rec + '/' + r.tgt + ' ' + r.cy + ' yds' + (r.ctd ? ' ' + r.ctd + ' TD' : ''));
         if (!parts.length) return;
-        const sc = SCORING[q.lg] || SCORING.gl, v = [x.passing_yards, x.passing_touchdowns, x.passing_interceptions, x.rushing_yards, x.rushing_touchdowns, x.receptions, x.receiving_yards, x.receiving_touchdowns, x.fumbles_lost];
-        const pts = Math.round(v.reduce((a, b, i) => a + n0(b) * sc[i], 0) * 100) / 100;
-        log.push({ wk: g.week, opp: (home ? 'vs ' : '@') + (o && o.abbreviation || ''), line: parts.join(' · '), pts, fin: g.status_state === 'final' });
+        const g = String(r.gid).split('_'), home = g[3] === r.team;
+        log.push({ wk: r.wk, opp: (home ? 'vs ' : '@') + r.opp, line: parts.join(' · '), pts, fin: true });
+        if (!ch || pts > ch.pts) ch = { pts, yr: 2026, wk: r.wk, opp: (home ? 'vs ' : '@') + r.opp };
       });
-      log.sort((a, b) => b.wk - a.wk);
-      res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=900');
-      return res.status(200).json({ id: hit.id, wks, log: log.slice(0, 10) });
+      const team = rows.length ? rows.sort((x, y) => y.wk - x.wk)[0].team : null;
+      const wks = team && N.teamWks[team] ? Array.from(N.teamWks[team]).sort((x, y) => x - y) : undefined;
+      if (ch && /^[A-Z]/.test(ch.opp) && !/^(vs|@)/.test(ch.opp)) ch.opp = ch.opp;
+      return res.status(200).json({ wks, ch, log: log.slice(0, 12) });
     }
     if (q.plays) {
       const r = await pages('plays', { game_id: String(q.plays).replace(/\D/g, '') }, 6);
@@ -135,6 +138,7 @@ module.exports = async (req, res) => {
     res.setHeader('Cache-Control', 'public, s-maxage=20, stale-while-revalidate=60');
     res.status(200).json({ t: Date.now(), games: g.data, stats });
   } catch (e) {
+    console.error('live-stats', e && e.message);
     res.setHeader('Cache-Control', 'no-store');
     res.status(502).json({ error: 'upstream failed' });
   }

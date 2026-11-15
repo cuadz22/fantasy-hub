@@ -4,3 +4,4 @@ certs/
 dist/
 .DS_Store
 *.log
+data/nflverse/
