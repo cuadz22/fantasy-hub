@@ -37,6 +37,16 @@ module.exports = async (req, res) => {
       res.setHeader('Cache-Control', 'no-store');
       return res.status(200).json({ games: g.status, stats: s.status, plays: p.status });
     }
+    if (q.player) {
+      const nm = String(q.player).slice(0, 60), last = nm.split(' ').slice(-1)[0].replace(/[^A-Za-z'\-]/g, '');
+      const norm = x => String(x || '').toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\b\.?/g, '').replace(/[^a-z]/g, '');
+      const f = await bdl('players', { search: last, per_page: 25 });
+      const hit = ((f.body && f.body.data) || []).find(x => norm(x.first_name + x.last_name) === norm(nm));
+      if (!hit) { res.setHeader('Cache-Control', 'public, s-maxage=600'); return res.status(200).json({ log: [], note: 'no match', status: f.status }); }
+      const r = await pages('stats', { player_ids: [hit.id], seasons: ['2026'] }, 2);
+      res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=900');
+      return res.status(200).json({ id: hit.id, status: r.status, sample: r.data[0] || null, raw: q.raw ? r.data : undefined, log: [] });
+    }
     if (q.plays) {
       const r = await pages('plays', { game_id: String(q.plays).replace(/\D/g, '') }, 6);
       res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=30');
