@@ -5149,7 +5149,7 @@ function pcOpen(el){
      '<div class="pc-t"><b>'+pcF(proj)+'</b><span>Proj</span></div>'+
      '<div class="pc-t"><b id="pc-avg">'+(hi&&hi.av!=null?pcF(hi.av):'&ndash;')+'</b><span>Avg</span></div>'+
      '<div class="pc-t"><b id="pc-hi">'+(shM?shM[1]:'&ndash;')+'</b><span>Season high</span><small id="pc-hiw">'+(shM&&shM[2]?lgEsc(shM[2]):'')+'</small></div>'+
-     '<div class="pc-t"><b>'+(chM?chM[1]:'&ndash;')+'</b><span>Career high</span><small>'+(chM&&chM[2]?chM[2]:'')+'</small></div></div>';
+     '<div class="pc-t"><b id="pc-ch">'+(chM?chM[1]:'&ndash;')+'</b><span>Career high</span><small id="pc-chy">'+(chM&&chM[2]?chM[2]:'')+'</small></div></div>';
   h+='<div id="pc-rk"></div>';
 
   h+='<div id="pc-bars"></div>';
@@ -5162,6 +5162,7 @@ function pcOpen(el){
   h+='</div>';
   pcClose(); var o=document.createElement('div'); o.id='pc-ov'; o.className='pc-ov'; o.innerHTML=h; o.addEventListener('click',function(e){ if(e.target===o) pcClose(); }); document.body.appendChild(o); document.body.classList.add('pc-lock'); requestAnimationFrame(function(){ o.classList.add('on'); });
   if(!isD&&pos!=='K') pcLog(n,pos,lg);
+  if(!isD&&pos!=='K'&&!(hi&&hi.ch)) pcCareer(n,lg);
   pcFeed(n,team);
 }
 var PC_TC={green:'#2fd1a0',yellow:'#ffd24a',orange:'#ffa726',red:'#ff6b61'};
@@ -5185,6 +5186,12 @@ function pcFeed(n,team){
       var nsrc=[]; if(p.news.some(fpN)) nsrc.push(FP); if(p.news.some(rwN)) nsrc.push('RotoWire');
       cr.innerHTML=(src.length?'Ranks: '+src.join(' &middot; ')+'. ':'')+(nsrc.length?'News: '+nsrc.join(', ')+'. ':'')+(j.gen?'Updated '+pcDate(j.gen)+'.':''); }
   }).catch(function(){ var nw=document.getElementById('pc-news'); if(nw) nw.innerHTML='<div class="pc-empty">No new notes on this player.</div>'; });
+}
+function pcCareer(n,lg){
+  fetch('/api/live-stats?career='+encodeURIComponent(n)+'&lg='+encodeURIComponent(lg||'gl')).then(function(r){ return r.ok?r.json():null; }).then(function(j){
+    var b=document.getElementById('pc-ch'), y=document.getElementById('pc-chy'); if(!b||!j||!j.ch) return;
+    b.textContent=j.ch.pts.toFixed(1); if(y) y.textContent=String(j.ch.yr); b.parentNode.title='Week '+j.ch.wk+' '+j.ch.opp+', '+j.ch.yr;
+  }).catch(function(){});
 }
 function pcLog(n,pos,lg){
   fetch('/api/live-stats?player='+encodeURIComponent(n)+'&lg='+encodeURIComponent(lg||'gl')).then(function(r){ return r.ok?r.json():null; }).then(function(j){

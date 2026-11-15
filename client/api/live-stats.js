@@ -62,6 +62,28 @@ module.exports = async (req, res) => {
       const seen = {}, news = [].concat(x.news_items || [], x.news || [], x.news_rotowire || []).filter(n => { const k = n && (n.link || n.headline); if (!k || seen[k]) return false; seen[k] = 1; return true; }).sort((p1, p2) => Date.parse(p2.timestamp || 0) - Date.parse(p1.timestamp || 0)).slice(0, 4);
       return res.status(200).json({ gen: C.gen, wk: C.wk, p: { rank: x.rank || null, rs: x.rank_source || null, fpMin: e.rank_min || null, fpMax: e.rank_max || null, fpN: e.total_experts || null, sr: x.sleeper_rank || null, pts: sp.pts_ppr == null ? null : sp.pts_ppr, news, mu: x.matchup || null, dvp: C.dvp[x.position] || {} } });
     }
+    if (q.career) {
+      const nm = String(q.career).slice(0, 60), last = nm.split(' ').slice(-1)[0].replace(/[^A-Za-z'\-]/g, '');
+      const f = await bdl('players', { search: last, per_page: 25 });
+      const hit = ((f.body && f.body.data) || []).find(x => normN(x.first_name + x.last_name) === normN(nm));
+      res.setHeader('Cache-Control', 'public, s-maxage=43200, stale-while-revalidate=86400');
+      if (!hit) return res.status(200).json({ ch: null });
+      const yrs = []; for (let y = 2015; y <= 2026; y++) yrs.push(String(y));
+      const r = await pages('stats', { player_ids: [hit.id], seasons: yrs }, 5);
+      const sc = SCORING[q.lg] || SCORING.gl, n0 = v => (v == null ? 0 : v);
+      let best = null, since = null;
+      r.data.forEach(x => {
+        const g = x.game || {}, tm = x.team || {}; if (g.postseason || !g.date) return;
+        const d = new Date(g.date), yr = d.getUTCFullYear() - (d.getUTCMonth() < 7 ? 1 : 0);
+        if (!(d.getUTCMonth() >= 8 || d.getUTCMonth() <= 1)) return;
+        const v = [x.passing_yards, x.passing_touchdowns, x.passing_interceptions, x.rushing_yards, x.rushing_touchdowns, x.receptions, x.receiving_yards, x.receiving_touchdowns, x.fumbles_lost];
+        const pts = Math.round(v.reduce((a, b, i) => a + n0(b) * sc[i], 0) * 100) / 100;
+        if (since == null || yr < since) since = yr;
+        const home = g.home_team && g.home_team.id === tm.id, o = home ? g.visitor_team : g.home_team;
+        if (!best || pts > best.pts) best = { pts, yr, wk: g.week, opp: (home ? 'vs ' : '@') + (o && o.abbreviation || '') };
+      });
+      return res.status(200).json({ ch: best, since, st: r.status });
+    }
     if (q.player) {
       const nm = String(q.player).slice(0, 60), last = nm.split(' ').slice(-1)[0].replace(/[^A-Za-z'\-]/g, '');
       const norm = x => String(x || '').toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\b\.?/g, '').replace(/[^a-z]/g, '');
