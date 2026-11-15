@@ -96,7 +96,7 @@ function parseTeam(html, tid) {
     const pl = player(wx(cells[pi]));
     if (!pl) { dbgc.push('p'); continue; }
     if (!dbgc.length || dbgc.length < 30) dbgc.push('c' + pi + ':' + cells.slice(pi + 1, pi + 6).map(c => text(c).slice(0, 12)).join('|'));
-    rows.push({ slot, ...pl, proj: num(text(cells[pi + 3])), pts: num(text(cells[pi + 2])) });
+    rows.push({ slot, ...pl, proj: num(text(cells[pi === 1 ? 6 : 5])), pts: num(text(cells[pi === 1 ? 5 : 4])) });
   }
   return { id: +tid, name: nm ? text(nm[1]) : '', opp, oppName, rows, dbgc, info };
 }
