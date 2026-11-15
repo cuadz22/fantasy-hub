@@ -54,6 +54,8 @@ async function cards() {
   (j.players || []).forEach(x => { (idx[normN(x.name)] = idx[normN(x.name)] || []).push(x); });
   const dvp = {};
   (j.players || []).forEach(x => { const m = x.matchup; if (m && !m.bye && m.opponent && m.tier && m.defense_rank_vs_position) { (dvp[x.position] = dvp[x.position] || {})[m.opponent] = { r: m.defense_rank_vs_position, t: m.tier, c: m.color }; } });
+  const DV = j.defense_vs_position && j.defense_vs_position.positions;
+  if (DV) Object.keys(DV).forEach(pos => { const o = {}; (DV[pos] || []).forEach(t => { o[t.team] = { r: t.rank, t: t.tier, c: t.color }; }); if (Object.keys(o).length) dvp[pos] = o; });
   CARDS = { gen: j.generated_at, wk: j.week, idx, dvp }; CARDS_T = Date.now();
   return CARDS;
 }
