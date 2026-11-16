@@ -5101,7 +5101,7 @@ async function sharePrevMatch(k,i){
 function wpCard(k,m,i,live){
   var p=m.p, fa=p>=50, A=m.a, B=m.b, pt=pvPt(k,m), TT=null; if(live){ try{ TT=wpTot(k,m); }catch(e){ TT=null; } }
   return '<div class="wp-card'+(pt?' wp-pt':'')+'" data-lg="'+k+'" data-mi="'+i+'" data-live="'+(live?1:0)+'" tabindex="0" role="button" aria-expanded="false" onclick="wpToggle(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();wpToggle(this);}">'+
-    '<div class="wp-top"><span>'+(pt?'<b class="wp-ptl">Primetime Matchup</b>':'Matchup '+(i+1))+(live?' &middot; '+(lvDec(m)&&m.left?'Decided &middot; ':'')+(m.left?m.left+' to play':'Final'):'')+'</span>'+'<button type="button" class="wp-sh" onclick="event.stopPropagation();'+(live?'shareMatch':'sharePrevMatch')+'(\''+k+'\','+i+')" onkeydown="event.stopPropagation()">Share matchup</button>'+'<span class="wp-hint">Full lineups <i>&#9662;</i></span></div>'+
+    '<div class="wp-top"><span>'+(pt?'<b class="wp-ptl">Primetime</b>':'Matchup '+(i+1))+(live?' &middot; '+(lvDec(m)&&m.left?'Decided &middot; ':'')+(m.left?m.left+' to play':'Final'):'')+'</span>'+'<button type="button" class="wp-sh" onclick="event.stopPropagation();'+(live?'shareMatch':'sharePrevMatch')+'(\''+k+'\','+i+')" onkeydown="event.stopPropagation()">Share</button>'+'<span class="wp-hint">Lineups <i>&#9662;</i></span></div>'+
     '<div class="wp-split">'+wpTeam(k,A,m.ia,fa,p,m.pa,live&&lvX(m,'a'),'l',live?lvSide(m,k,'a'):'',TT&&TT.a)+wpTeam(k,B,m.ib,!fa,100-p,m.pb,live&&lvX(m,'b'),'r',live?lvSide(m,k,'b'):'',TT&&TT.b)+'<span class="wp-vs">VS</span>'+(LG_LOGO[k]?'<img class="wp-vslg" alt="" src="'+LG_LOGO[k]+'">':'')+'</div>'+
     '<div class="wp-bar" role="img" aria-label="Projected edge"><i style="width:'+p+'%;background:'+(fa?'var(--accent)':'var(--border-l)')+'"></i><i style="width:'+(100-p)+'%;background:'+(fa?'var(--border-l)':'var(--accent)')+'"></i></div>'+
     (live&&m.ia&&m.ib?'<button type="button" class="wp-swb" onclick="event.stopPropagation();wpsOpen(\''+k+'\','+i+')">\u25B8 Win probability swings</button>':'')+(live?lvBanner(m,k):'')+'<div class="wp-cols">'+wpTop(A,m.ea)+wpTop(B,m.eb)+'</div>'+wpFull(m)+
@@ -9408,6 +9408,34 @@ body.cfn-narrow #app-rail .rt button{font-size:9.5px;padding:4px 3px}
 #app-rail .rt button.x{color:var(--accent);opacity:.85}
 body.cfn-app.cfn-rail #app-sheet.open{justify-content:center}
 body.cfn-app.cfn-rail #app-sheet .sh{max-width:420px;border-radius:18px;margin:auto}
+/* ===== Apple-principles pass (Nov 2026): hierarchy, restraint, consistent rhythm. Baseline tag: baseline-2026-11-16-pre-apple ===== */
+.wp-card{border-radius:16px;padding:14px;gap:10px}
+.wp-card.wp-pt{border-color:var(--border);box-shadow:inset 3px 0 0 var(--accent)}
+.wp-top{font-size:12px;letter-spacing:0;text-transform:none;align-items:center;gap:8px;flex-wrap:nowrap}
+.wp-top>span:first-child{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wp-card .wp-ptl{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:none;padding:2px 9px;border-radius:99px;background:rgba(172,249,16,.12);color:var(--accent)}
+.wp-card .wp-sh{margin-left:0;border:0;background:rgba(255,255,255,.07);color:var(--text);font:500 12px Inter,sans-serif;letter-spacing:0;text-transform:none;padding:4px 11px;line-height:1.3;white-space:nowrap}
+.wp-card .wp-hint{font-size:12px;letter-spacing:0;text-transform:none;white-space:nowrap}
+.wp-card .wp-split{background:none;border:0;border-radius:0;overflow:visible;gap:12px;align-items:end}
+.wp-card .wp-vs,.wp-card .wp-vslg{display:none}
+.wp-card .wp-tm2{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"nm nm" "sub sub" "av tt" "av ml";column-gap:8px;row-gap:2px;padding:0;background:none;border:0;align-items:center;justify-items:start;text-align:left}
+.wp-card .wp-tm2.r{grid-template-columns:1fr auto;grid-template-areas:"nm nm" "sub sub" "tt av" "ml av";justify-items:end;text-align:right}
+.wp-card .wp-tm2>:first-child{grid-area:av;width:44px;height:44px}
+.wp-card .wp-tm2 .wp-nm{grid-area:nm;font-size:15px;font-weight:600;margin:0;min-height:0}
+.wp-card .wp-tm2 .wp-sub{grid-area:sub;flex-direction:row;gap:6px;align-items:baseline;margin:0 0 6px}
+.wp-card .wp-tm2.r .wp-sub{justify-content:flex-end}
+.wp-card .wp-tm2 .wp-sub b{font-size:12.5px;font-weight:500;color:var(--muted)}
+.wp-card .wp-tm2 .wp-sub i{font-size:12.5px;font-weight:500}
+.wp-card .wp-tm2 .wp-ml{grid-area:ml;justify-self:center;margin:2px 0 0;font-size:12px;font-weight:700;letter-spacing:0;color:#ff7a59}
+.wp-card .wp-tm2.fav .wp-ml{color:var(--accent)}
+.wp-card .wp-tm2 .wp-tt{grid-area:tt;justify-self:center;align-self:center;margin:0;padding:0;border:0;align-items:center;text-align:center;width:100%}
+.wp-card .wp-tt::after{display:none}
+.wp-card .wp-tt b{font-size:30px;font-weight:700;color:var(--text)}
+.wp-card .wp-tt .pj{font-size:13px;font-weight:600;margin-top:5px}
+.wp-card .wp-tt .og{font-size:11px;margin-top:2px}
+.wp-card .wp-bar{height:4px;gap:2px}
+.wp-card .wp-swb{border:0;background:none;color:var(--accent);font:500 13px Inter,sans-serif;letter-spacing:0;text-align:left;padding:2px 0;margin:0}
+.wp-card .wp-collapse{letter-spacing:0;text-transform:none;font:500 13px Inter,sans-serif}
 </style>
 <script id="cfn-app-js">
 (function(){
