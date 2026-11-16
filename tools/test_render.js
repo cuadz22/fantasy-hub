@@ -11,6 +11,8 @@ let bad = 0; const ok = (c, m) => { console.log((c ? '  ok  ' : 'FAIL  ') + m); 
     const real = window.fetch;
     window.fetch = function (u) {
       u = String(u); const m = /\/api\/lineups\?lg=(\w+)/.exec(u);
+      if (/hist=1/.test(u)) { const kk = /lg=(\w+)/.exec(u)[1], ia = (window.__base && window.__base[kk] && window.__base[kk][0].ia) || 1, t = 1700000000;
+        return Promise.resolve(new Response(JSON.stringify({ lg: kk, week: 10, pts: [[t, [[ia, 0, 120, 0, 120]]], [t + 3600, [[ia, 20, 110, 60, 135]]], [t + 7200, [[ia, 125, 130, 100, 110]]]] }), { status: 200, headers: { 'Content-Type': 'application/json' } })); }
       if (!m) return Promise.reject(new Error('offline'));
       const k = m[1], st = { 3: 'Sun 8:20 pm vs Cin', 2: 'Final W 24-10 vs Cin', 4: 'Q3 5:00, 10-28 vs Cin' };
       const slot = s => ({ FLX: 'W/R/T', SFX: 'Q/W/R/T' })[s] || s;
@@ -35,13 +37,14 @@ let bad = 0; const ok = (c, m) => { console.log((c ? '  ok  ' : 'FAIL  ') + m); 
   ok(r.ok === 4, 'all four leagues refreshed'); ok(r.errs === 0, 'no matchup errors'); ok(r.sentinel, 'changed lineup replaced the old lineup');
   ok(r.out, 'Out player shows the cross'); ok(r.chip, 'live player shows the scoreboard chip'); ok(r.tt === 2 && r.tab, 'team score/projection sit inside both team boxes'); ok(!r.ml, 'old now/proj line removed'); ok(r.logo, 'league logo by the VS');
   const x = await pg.evaluate(async () => {
-    const o = {}; o.rf = !!document.getElementById('ys-rf'); o.hlCards = document.querySelectorAll('#hl-list .wp-card').length; o.hlExpect = ['gl','bh','rb','sts'].reduce((n,k)=>n+PVL[k].filter(m=>pvPt(k,m)).length,0);
+    const o = {}; o.swb = document.querySelectorAll('#lv-list .wp-swb').length; wpsOpen('bh', 0); await new Promise(r => setTimeout(r, 500)); const ov = document.getElementById('wps-ov'); o.wpsOpen = !!ov && !ov.hidden; o.wpsSvg = !!ov.querySelector('svg.wps-svg path'); o.wpsTxt = ov.textContent; wpsClose(); o.wpsShut = ov.hidden; o.rf = !!document.getElementById('ys-rf'); o.hlCards = document.querySelectorAll('#hl-list .wp-card').length; o.hlExpect = ['gl','bh','rb','sts'].reduce((n,k)=>n+PVL[k].filter(m=>pvPt(k,m)).length,0);
     o.bar = [...document.querySelectorAll('#app-tabbar button')].map(b=>b.textContent.trim());
     showHome(); o.bar = [...document.querySelectorAll('#app-tabbar button')].map(b=>b.textContent.trim());
     showMine(); o.mineCards = document.querySelectorAll('#mine-body .wp-card').length; o.mineOn = !document.getElementById('view-mine').hidden; o.barMine = document.querySelector('#app-tabbar button.on') && document.querySelector('#app-tabbar button.on').textContent.trim();
     const c = document.querySelector('#mine-body .wp-card'); c.classList.add('open'); c.setAttribute('aria-expanded', 'true'); await ysRefresh(true); await new Promise(r => setTimeout(r, 400));
     const c2 = document.querySelector('#mine-body .wp-card'); o.keptOpen = !!(c2 && c2.classList.contains('open'));
     showHome(); o.mineHidden = document.getElementById('view-mine').hidden; return o; });
+  ok(x.swb > 0, 'live cards offer Win probability swings'); ok(x.wpsOpen && x.wpsSvg, 'swings chart opens and draws'); ok(/Comeback alert/.test(x.wpsTxt) && /low point/.test(x.wpsTxt), 'comeback and low points are called out'); ok(x.wpsShut, 'swings chart closes');
   ok(x.rf, 'refresh button present'); ok(x.hlCards > 0 && x.hlCards === x.hlExpect, 'headliners show every primetime matchup (' + x.hlCards + ')');
   ok(x.bar.length === 5 && /My Matchups/.test(x.bar.join('|')), 'home bar has five tabs: ' + x.bar.join(' / '));
   ok(x.mineOn && x.mineCards >= 1 && /My Matchups/.test(x.barMine || ''), 'My Matchups lists my games (' + x.mineCards + ') and the tab is highlighted');

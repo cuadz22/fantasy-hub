@@ -37,7 +37,7 @@ const cut = (a, b) => { const i = html.indexOf(a); assert.ok(i >= 0, 'missing ' 
 const code = "var GI={},GI0={pt:{},sc:{},wk:10},PVL_WK=10;var YS={};function lgEsc(x){return String(x)}function giTime(st){var m=/\\b(\\d{1,2}:\\d\\d)\\s*([ap]m)/i.exec(st);return m?m[1]+m[2].toLowerCase():''}function giTier(){return 1}function bigNN(n){return n}\n"
   + cut('function ysNorm', 'function ysNn') + cut('function ysFrac', 'function ysErf') + cut('function ysGi', 'function giFor') + 'function giFor(n){return GI[ysNorm(n)]||null}\n'
   + cut('function ysStat', 'function ysErf') + cut('var YS_OUT', 'function ysApply') + cut('function ysErf', 'function ysSide').replace(/^/, '') + cut('function ysApply', 'function ysClock') + cut('function wpTot', 'function wpTeam')
-  + '\nmodule.exports={ysDefFin,YS_DP,ysSide,ysApply,wpPace,wpOut,wpTot,ysFrac,ysGi,GI,YS,YS_OUT,setW:function(p,q){PVL=p;PV8=q}};';
+  + '\nmodule.exports={wpsProb,ysDefFin,YS_DP,ysSide,ysApply,wpPace,wpOut,wpTot,ysFrac,ysGi,GI,YS,YS_OUT,setW:function(p,q){PVL=p;PV8=q}};';
 const sandbox = { module: { exports: {} }, console, Math };
 let L; try { new Function('module', 'PVL', 'PV8', code + '\nreturn module.exports;'); const f = new Function('module', 'var PVL={},PV8={};' + code); f(sandbox.module); L = sandbox.module.exports; } catch (e) { console.error('FAIL  cannot load client helpers: ' + e.message); process.exit(1); }
 const row = (slot, name, pos, tm, proj, pts, status, inj) => [slot, name, pos, tm, proj, pts, status, inj || ''];
@@ -80,5 +80,12 @@ T('Defense live projection follows the scoreboard (points + yards allowed tiers)
   assert.ok(f(2, 8, 'Q3 5:00, 7-28 @ Det') < f(6, 8, 'Q3 5:00, 7-10 @ Det'), 'more points allowed lowers it');
   assert.ok(isFinite(f(null, null, 'Halftime, 3-0 vs X')) && isFinite(f(2, 8, 'End of Q1, 0-7 vs X')));
   const s = L.ysSide([row('DEF', 'Browns', 'DEF', 'Cle', 8.13, 6, 'Q2 0:22, 10-17 vs Hou')], {}); assert.ok(Math.abs(s.pj - losing) < 1e-9 && L.YS_DP.browns != null);
+});
+T('Win probability: even at kickoff, decisive late, never NaN', () => {
+  const w = L.wpsProb; assert.ok(Math.abs(w(0, 120, 0, 120) - 0.5) < 0.01);
+  assert.ok(w(0, 130, 0, 110) > 0.7 && w(0, 110, 0, 130) < 0.3);
+  assert.ok(w(100, 105, 60, 62) > 0.99 && w(60, 62, 100, 105) < 0.01, 'late and far behind');
+  assert.strictEqual(w(120, 120, 100, 100), 1); assert.strictEqual(w(90, 90, 100, 100), 0); assert.strictEqual(w(90, 90, 90, 90), 0.5);
+  assert.ok(w(60, 130, 60, 129) > w(60, 129, 60, 130)); assert.ok(isFinite(w(0, 0, 0, 0)) && isFinite(w(null, null, null, null) || 0));
 });
 console.log(pass + ' passed' + (process.exitCode ? ', FAILURES above' : ''));
