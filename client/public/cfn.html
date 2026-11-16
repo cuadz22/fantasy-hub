@@ -9436,6 +9436,17 @@ body.cfn-app.cfn-rail #app-sheet .sh{max-width:420px;border-radius:18px;margin:a
 .wp-card .wp-bar{height:4px;gap:2px}
 .wp-card .wp-swb{border:0;background:none;color:var(--accent);font:500 13px Inter,sans-serif;letter-spacing:0;text-align:left;padding:2px 0;margin:0}
 .wp-card .wp-collapse{letter-spacing:0;text-transform:none;font:500 13px Inter,sans-serif}
+/* ---- step 2: page headers and intro text ---- */
+.cfn-sharebar .st-btn{background:none;border:0;color:var(--muted);font-size:12px;padding:4px 2px !important}
+.week-hd{gap:10px;row-gap:4px;align-items:baseline}
+.badge{font-size:10px;letter-spacing:.08em;font-weight:700;padding:3px 9px;border-radius:99px}
+.week-sub{font-size:12.5px;letter-spacing:0;text-transform:none;margin-left:0;flex-basis:100%}
+.hl-hd{margin:20px 2px 4px;font-size:15px;font-weight:700;letter-spacing:0;text-transform:none}
+.hl-sub{font-size:13px;margin:0 2px 12px}
+.art-eye{font-size:11px;letter-spacing:.06em;font-weight:600}
+.lv-note{font-size:13px;line-height:1.5;color:var(--muted)}
+.lvh-hd{font-size:15px;font-weight:600}
+.lvh-n{letter-spacing:0;text-transform:none;font-size:12.5px;font-weight:500}
 </style>
 <script id="cfn-app-js">
 (function(){
@@ -9596,7 +9607,7 @@ function liveRender(){
     out+='<div class="lvh-sec"><div class="lvh-hd">'+lgLogoImg(k).replace('height:1.05em;width:auto;max-width:2.4em;','height:26px;width:auto;max-width:56px;')+'<span>'+lgEsc(LGI[k].name)+'</span><span class="lvh-n">'+a+' of '+M.length+' undecided</span></div><div class="wp-grid">'+M.map(function(m,i){return wpCard(k,m,i,true);}).join('')+'</div></div>'; });
   document.getElementById('lv-list').innerHTML=out;
   document.getElementById('lv-meta').textContent='All four leagues \u00b7 '+tot+' matchups \u00b7 '+al+' undecided';
-  document.getElementById('lv-note').innerHTML='Scores and projections from Yahoo, '+PVL_AT+'. Win odds are recalculated from each team&rsquo;s live projected total, so they move as games finish. Players marked in play show their projection until they score; finished players are green above projection and orange below. Tap any matchup for full lineups.';
+  document.getElementById('lv-note').innerHTML='Scores and projections from Yahoo, '+PVL_AT+'. Win odds update as games finish. Players still in play show their projection; finished players are green above projection and orange below. Tap a matchup for full lineups.';
 }
 function showLive(){
   document.querySelectorAll('[id^="view-"]').forEach(function(v){ v.hidden=true; });

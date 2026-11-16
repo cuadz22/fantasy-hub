@@ -26,3 +26,14 @@
 .wp-card .wp-bar{height:4px;gap:2px}
 .wp-card .wp-swb{border:0;background:none;color:var(--accent);font:500 13px Inter,sans-serif;letter-spacing:0;text-align:left;padding:2px 0;margin:0}
 .wp-card .wp-collapse{letter-spacing:0;text-transform:none;font:500 13px Inter,sans-serif}
+/* ---- step 2: page headers and intro text ---- */
+.cfn-sharebar .st-btn{background:none;border:0;color:var(--muted);font-size:12px;padding:4px 2px !important}
+.week-hd{gap:10px;row-gap:4px;align-items:baseline}
+.badge{font-size:10px;letter-spacing:.08em;font-weight:700;padding:3px 9px;border-radius:99px}
+.week-sub{font-size:12.5px;letter-spacing:0;text-transform:none;margin-left:0;flex-basis:100%}
+.hl-hd{margin:20px 2px 4px;font-size:15px;font-weight:700;letter-spacing:0;text-transform:none}
+.hl-sub{font-size:13px;margin:0 2px 12px}
+.art-eye{font-size:11px;letter-spacing:.06em;font-weight:600}
+.lv-note{font-size:13px;line-height:1.5;color:var(--muted)}
+.lvh-hd{font-size:15px;font-weight:600}
+.lvh-n{letter-spacing:0;text-transform:none;font-size:12.5px;font-weight:500}
