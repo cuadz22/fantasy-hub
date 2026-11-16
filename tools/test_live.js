@@ -36,7 +36,7 @@ const html = fs.readFileSync(path.join(__dirname, '../client/public/cfn.html'), 
 const cut = (a, b) => { const i = html.indexOf(a); assert.ok(i >= 0, 'missing ' + a); const j = html.indexOf(b, i); assert.ok(j > i, 'missing ' + b); return html.slice(i, j); };
 const code = "var GI={},GI0={pt:{},sc:{},wk:10},PVL_WK=10;var YS={};function lgEsc(x){return String(x)}function giTime(st){var m=/\\b(\\d{1,2}:\\d\\d)\\s*([ap]m)/i.exec(st);return m?m[1]+m[2].toLowerCase():''}function giTier(){return 1}function bigNN(n){return n}\n"
   + cut('function ysNorm', 'function ysNn') + cut('function ysFrac', 'function ysErf') + cut('function ysGi', 'function giFor') + 'function giFor(n){return GI[ysNorm(n)]||null}\n'
-  + cut('function ysStat', 'function ysErf') + cut('var YS_OUT', 'function ysApply') + cut('function ysErf', 'function ysSide').replace(/^/, '') + cut('function ysApply', 'function ysClock') + cut('function wpTot', 'function wpTeam')
+  + cut('function ysStat', 'function ysErf') + cut('var YS_OUT=YS_OUT', 'function ysApply') + cut('function ysErf', 'function ysSide').replace(/^/, '') + cut('function ysApply', 'function ysClock') + cut('function wpTot', 'function wpTeam')
   + '\nmodule.exports={wpsProb,ysDefFin,YS_DP,ysSide,ysApply,wpPace,wpOut,wpTot,ysFrac,ysGi,GI,YS,YS_OUT,setW:function(p,q){PVL=p;PV8=q}};';
 const sandbox = { module: { exports: {} }, console, Math };
 let L; try { new Function('module', 'PVL', 'PV8', code + '\nreturn module.exports;'); const f = new Function('module', 'var PVL={},PV8={};' + code); f(sandbox.module); L = sandbox.module.exports; } catch (e) { console.error('FAIL  cannot load client helpers: ' + e.message); process.exit(1); }
