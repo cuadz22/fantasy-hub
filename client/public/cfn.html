@@ -4942,7 +4942,7 @@ function wpMlHtml(lv,p){
   if(lv&&lv.fin) return '<div class="wp-ml"></div>';
   if(lv&&lv.done) return '<div class="wp-ml">'+(lv.w?'W':'L')+'</div>';
   var t=String(pvMl(p)), n=parseInt(t.replace(/[^\d-]/g,''),10)||0, c=t.charAt(0)==='-'?' mlf':(n>=300?' mlr':' mlo');
-  return '<div class="wp-ml'+c+'" title="Moneyline '+t+(c===' mlf'?', favorite':', underdog')+'">ML '+t+'</div>';
+  return '<div class="wp-ml'+c+'" title="Moneyline '+t+(c===' mlf'?', favorite':', underdog')+'">'+t+'</div>';
 }
 function wpTeam(k,t,tid,fav,p,q,lv,side,late,tot){
   var pj=lv?(lv.done?(lv.fin?'<b>'+lv.s.toFixed(1)+'</b> final':'<b>'+lv.s.toFixed(1)+'</b> now &middot; decided'):'<b>'+lv.s.toFixed(1)+'</b> now &middot; '+t[3].toFixed(1)+' proj'):t[3].toFixed(1)+' proj';
@@ -5000,7 +5000,7 @@ function wpFull(m,extra){
   var rows=[], n=Math.max(m.ra.length,m.rb.length), i;
   for(i=0;i<n;i++){ var a=m.ra[i]||['','—',0,0], b=m.rb[i]||['','—',0,0]; rows.push([a[0]||b[0],a[1],a[2],b[1],b[2],a[3],b[3],a[4],b[4]]); }
   rows.push(['K',m.ka[0],m.ka[1],m.kb[0],m.kb[1],m.ka[2],m.kb[2],m.ka[3],m.kb[3]]); rows.push(['DEF',m.da[0],m.da[1],m.db[0],m.db[1],m.da[2],m.db[2],m.da[3],m.db[3]]);
-  return '<div class="wp-full"><div class="wp-lh"><span>Starting lineup</span><span>Points / est.</span></div><div class="wp-mgr"><span>'+lgEsc(m.a[1])+'</span><span>'+lgEsc(m.b[1])+'</span></div>'+rows.map(function(r){
+  return '<div class="wp-full"><div class="wp-mgr"><span>'+lgEsc(m.a[1])+'</span><span>'+lgEsc(m.b[1])+'</span></div>'+rows.map(function(r){
     var sl=/^S(FLEX|FLX|FX)$/.test(r[0])?'SFLX':r[0];
     return '<div class="wp2r">'+wpP2(r[1],'l',r[0],r[5],r[2],r[7])+'<div class="wp2m"><em class="wp-slot wp-s-'+sl+'">'+(sl==='FLX'?'<i class="w">W</i><i class="r">R</i><i class="t">T</i>':sl==='SFLX'?'<i class="q">S</i><i class="r">F</i><i class="w">L</i><i class="t">X</i>':sl)+'</em><div class="wp2ss">'+wpS2(r[1],r[2],r[5],r[7])+wpS2(r[3],r[4],r[6],r[8])+'</div></div>'+wpP2(r[3],'r',r[0],r[6],r[4],r[8])+'</div>';
   }).join('')+(extra||'')+'<div class="wp-rng">'+(m.left===0?'<span>Final</span><span>Final</span>':'<span>Range '+m.a[4]+'&ndash;'+m.a[5]+'</span><span>Range '+m.b[4]+'&ndash;'+m.b[5]+'</span>')+'</div>'+(m.pa&&m.pb?'<div class="wp-pob"><div><em>Playoff odds</em>'+wpPoLines(m.pa)+'</div><div class="r"><em>Playoff odds</em>'+wpPoLines(m.pb)+'</div></div>':'')+'<button type="button" class="wp-collapse">Hide lineups <i>&#9652;</i></button></div>';
@@ -5059,9 +5059,9 @@ function pvStoryHTML(k,i){
 function smCardHTML(k,i,live){
   var m=live?PVL[k][i]:PV8[k][i], wk=(GI0&&GI0.wk)||10, st=live?(m.left?m.left+' TO PLAY':'FINAL'):'PREVIEW';
   var dk='--bg:#14161b;--bg2:#1a1d23;--bg3:#21252c;--surface:#1f232a;--accent:#ACF910;--text:#E8E8E8;--muted:#d7dbe2;--dim:#b0b6c2;--border:#262a31;--border-l:#31363f;';
-  return '<div class="sm-cap sm-simple" style="'+dk+'width:430px;box-sizing:border-box;background:#1a1d25;padding:0 14px 14px;color:#E8E8E8;font-family:Inter,system-ui,sans-serif">'
+  return '<div class="sm-cap sm-simple" style="'+dk+'width:540px;box-sizing:border-box;background:#1a1d25;padding:0 14px 14px;color:#E8E8E8;font-family:Inter,system-ui,sans-serif">'
    +'<div style="height:14px"></div>'
-   +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><img src="'+CFN_LOGO+'" style="height:34px;width:auto"><div style="font:800 12px Inter,sans-serif;letter-spacing:.14em;color:#ACF910">'+lgEsc(LGI[k].name.toUpperCase())+'</div><div style="margin-left:auto;font:800 10px Inter,sans-serif;letter-spacing:.14em;color:#ff9f1c;text-align:right">WEEK '+wk+'</div></div>'
+   +'<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;margin-bottom:12px"><img src="'+CFN_LOGO+'" style="height:48px;width:auto;justify-self:start"><div style="font:800 13px Inter,sans-serif;letter-spacing:.16em;color:#ff9f1c;text-align:center">WEEK '+wk+'</div>'+(LG_LOGO[k]?'<img src="'+LG_LOGO[k]+'" style="height:44px;width:auto;max-width:90px;object-fit:contain;justify-self:end">':'<span></span>')+'</div>'
    +wpCard(k,m,i,live)
    +'<div style="margin-top:12px;text-align:center;font:700 10px Inter,sans-serif;letter-spacing:.2em;color:#8b8f89">CUADZFANTASYNETWORK.COM</div></div>';
 }
@@ -9562,6 +9562,11 @@ body{font-family:var(--sf);-webkit-font-smoothing:antialiased;letter-spacing:-.0
 .sm-simple .wp2p .pn b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
 .sm-simple .wp2p .pn{overflow:hidden}
 .sm-simple .wp-full .wp2m{column-gap:8px}
+
+.sm-simple .wp-card{border:0!important;box-shadow:none}
+.sm-simple .wp2p .wp-ph{width:40px;height:40px;flex:0 0 40px}
+.sm-simple .wp2p{gap:8px}
+.sm-simple .wp-full .wp2r{min-height:56px}
 </style>
 <script id="cfn-app-js">
 (function(){

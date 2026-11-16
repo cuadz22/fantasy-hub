@@ -142,3 +142,8 @@ body{font-family:var(--sf);-webkit-font-smoothing:antialiased;letter-spacing:-.0
 .sm-simple .wp2p .pn b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
 .sm-simple .wp2p .pn{overflow:hidden}
 .sm-simple .wp-full .wp2m{column-gap:8px}
+
+.sm-simple .wp-card{border:0!important;box-shadow:none}
+.sm-simple .wp2p .wp-ph{width:40px;height:40px;flex:0 0 40px}
+.sm-simple .wp2p{gap:8px}
+.sm-simple .wp-full .wp2r{min-height:56px}
