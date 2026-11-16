@@ -4935,14 +4935,14 @@ function wpTot(k,m){
   var o=null; (PV8[k]||[]).forEach(function(x){ if(x.ia===m.ia&&x.ib===m.ib) o=x; });
   var oa=m.ob?m.ob[0]:o?o.a[3]:m.a[3], ob=m.ob?m.ob[1]:o?o.b[3]:m.b[3], sa=(m.la&&m.la.s)||0, sb=(m.lb&&m.lb.s)||0, fin=m.left===0;
   var cl=function(now,orig){ return fin?(now>orig?' lo':now<orig?' lu':''):(now>orig+0.05?' lo':now<orig-0.05?' lu':''); };
-  var box=function(sc,live,orig,c,cls,yh){ var pr=fin?orig:live, g=c===' lo'?'<i class="gl" title="Above the original projection of '+orig.toFixed(1)+'">\u25B2</i>':c===' lu'?'<i class="gl" title="Below the original projection of '+orig.toFixed(1)+'">\u25BC</i>':''; return '<div class="wp-tt '+cls+c+(fin?' fin':'')+'"><b>'+sc.toFixed(2)+'</b><small class="pj">'+(fin?'Final':pr.toFixed(2)+' proj')+g+'</small></div>'; };
+  var box=function(sc,live,orig,c,cls,yh){ var pr=fin?orig:live, g=c===' lo'?'<i class="gl" title="Above the original projection of '+orig.toFixed(1)+'">\u25B2</i>':c===' lu'?'<i class="gl" title="Below the original projection of '+orig.toFixed(1)+'">\u25BC</i>':''; return '<div class="wp-tt '+cls+c+(fin?' fin':'')+'"><b>'+sc.toFixed(2)+'</b><small class="pj">'+(fin?'Final':pr.toFixed(2))+g+'</small></div>'; };
   return {a:box(sa,m.a[3],oa,cl(fin?sa:m.a[3],oa),'a',m.y?m.y[0]:null), b:box(sb,m.b[3],ob,cl(fin?sb:m.b[3],ob),'b',m.y?m.y[1]:null)};
 }
 function wpMlHtml(lv,p){
   if(lv&&lv.fin) return '<div class="wp-ml"></div>';
   if(lv&&lv.done) return '<div class="wp-ml">'+(lv.w?'W':'L')+'</div>';
   var t=String(pvMl(p)), n=parseInt(t.replace(/[^\d-]/g,''),10)||0, c=t.charAt(0)==='-'?' mlf':(n>=300?' mlr':' mlo');
-  return '<div class="wp-ml'+c+'" title="Moneyline '+t+(c===' mlf'?', favorite':', underdog')+'">'+t+'</div>';
+  return '<div class="wp-ml'+c+'" title="Moneyline '+t+(c===' mlf'?', favorite':', underdog')+'">ML '+t+'</div>';
 }
 function wpTeam(k,t,tid,fav,p,q,lv,side,late,tot){
   var pj=lv?(lv.done?(lv.fin?'<b>'+lv.s.toFixed(1)+'</b> final':'<b>'+lv.s.toFixed(1)+'</b> now &middot; decided'):'<b>'+lv.s.toFixed(1)+'</b> now &middot; '+t[3].toFixed(1)+' proj'):t[3].toFixed(1)+' proj';
@@ -4987,7 +4987,7 @@ function wpS2(n,v,au,pj){
   var act=au===3?0:v, pr=au===3?v:pj, pc=wpPace(n,v,au,pj), ar='';
   if(au===4&&pj!=null){ var g=giFor(n); if(g&&g.sb){ var lp=(typeof YS_DP!=='undefined'&&YS_DP[ysNorm(n)]!=null)?YS_DP[ysNorm(n)]:v+Math.max(0,pj)*(g.sb.left/3600); ar=lp>pj+0.05?'<i class="pu" title="On pace above his pre-game projection of '+pj.toFixed(2)+'">\u25B2</i>':lp<pj-0.05?'<i class="pd" title="On pace below his pre-game projection of '+pj.toFixed(2)+'">\u25BC</i>':''; pr=lp; } }
   if(au===2&&pj!=null&&v!==pj) ar=v>pj?'<i class="pu" title="Scored above his projection of '+pj.toFixed(2)+'">\u25B2</i>':'<i class="pd" title="Scored below his projection of '+pj.toFixed(2)+'">\u25BC</i>';
-  return '<div class="wp2s'+pc+'"><b>'+act.toFixed(2)+'</b>'+(pr!=null?'<small>'+pr.toFixed(2)+ar+'</small>':'')+'</div>';
+  return '<div class="wp2s'+pc+'"><b>'+(au===3?'\u2013':act.toFixed(2))+'</b>'+(pr!=null?'<small>'+pr.toFixed(1)+ar+'</small>':'')+'</div>';
 }
 function wpCellF(n,v,hi,al,nop,au,pj){
   var ok=n&&n!=='\u2014'&&n!=='None';
@@ -5000,7 +5000,7 @@ function wpFull(m,extra){
   var rows=[], n=Math.max(m.ra.length,m.rb.length), i;
   for(i=0;i<n;i++){ var a=m.ra[i]||['','—',0,0], b=m.rb[i]||['','—',0,0]; rows.push([a[0]||b[0],a[1],a[2],b[1],b[2],a[3],b[3],a[4],b[4]]); }
   rows.push(['K',m.ka[0],m.ka[1],m.kb[0],m.kb[1],m.ka[2],m.kb[2],m.ka[3],m.kb[3]]); rows.push(['DEF',m.da[0],m.da[1],m.db[0],m.db[1],m.da[2],m.db[2],m.da[3],m.db[3]]);
-  return '<div class="wp-full">'+rows.map(function(r){
+  return '<div class="wp-full"><div class="wp-lh"><span>Starting lineup</span><span>Points / est.</span></div><div class="wp-mgr"><span>'+lgEsc(m.a[1])+'</span><span>'+lgEsc(m.b[1])+'</span></div>'+rows.map(function(r){
     var sl=/^S(FLEX|FLX|FX)$/.test(r[0])?'SFLX':r[0];
     return '<div class="wp2r">'+wpP2(r[1],'l',r[0],r[5],r[2],r[7])+'<div class="wp2m"><em class="wp-slot wp-s-'+sl+'">'+(sl==='FLX'?'<i class="w">W</i><i class="r">R</i><i class="t">T</i>':sl==='SFLX'?'<i class="q">S</i><i class="r">F</i><i class="w">L</i><i class="t">X</i>':sl)+'</em><div class="wp2ss">'+wpS2(r[1],r[2],r[5],r[7])+wpS2(r[3],r[4],r[6],r[8])+'</div></div>'+wpP2(r[3],'r',r[0],r[6],r[4],r[8])+'</div>';
   }).join('')+(extra||'')+'<div class="wp-rng">'+(m.left===0?'<span>Final</span><span>Final</span>':'<span>Range '+m.a[4]+'&ndash;'+m.a[5]+'</span><span>Range '+m.b[4]+'&ndash;'+m.b[5]+'</span>')+'</div>'+(m.pa&&m.pb?'<div class="wp-pob"><div><em>Playoff odds</em>'+wpPoLines(m.pa)+'</div><div class="r"><em>Playoff odds</em>'+wpPoLines(m.pb)+'</div></div>':'')+'<button type="button" class="wp-collapse">Hide lineups <i>&#9652;</i></button></div>';
@@ -5065,8 +5065,10 @@ function smCardHTML(k,i,live){
    +wpCard(k,m,i,live)
    +'<div style="margin-top:12px;text-align:center;font:700 10px Inter,sans-serif;letter-spacing:.2em;color:#8b8f89">CUADZFANTASYNETWORK.COM</div></div>';
 }
+function smAbbr(off){ try{ [].slice.call(off.querySelectorAll('.wp2p .pn b')).forEach(function(b){ var tn=b.firstChild; if(!tn||tn.nodeType!==3) return; if(b.scrollWidth<=b.clientWidth+1) return; var w=tn.nodeValue.trim().split(/\s+/); if(w.length>1){ tn.nodeValue=w[0].charAt(0)+'. '+w.slice(1).join(' '); } }); }catch(e){} }
 async function smPrep(off){
   var c=off.querySelector('.wp-card'); if(c) c.classList.add('open');
+  smAbbr(off);
   var imgs=[].slice.call(off.querySelectorAll('img')).filter(function(im){ return /^https?:/.test(im.getAttribute('src')||''); });
   await Promise.all(imgs.map(function(im){ return new Promise(function(res){
     var src=im.getAttribute('src'), t=new Image(); t.crossOrigin='anonymous';
@@ -9536,6 +9538,30 @@ body{font-family:var(--sf);-webkit-font-smoothing:antialiased;letter-spacing:-.0
 .sm-simple .wp2p .pn b{font-size:15px;font-weight:600}
 .sm-simple .wp2s small{display:block}
 .sm-simple .wp-full .wp2r{min-height:50px}
+
+/* ===== Apple pass 7: match the app mockup ===== */
+.wp-card .wp-tm2.l .wp-tt,.wp-card .wp-tm2.l .wp-ml{justify-self:end;text-align:right;align-items:flex-end;width:auto}
+.wp-card .wp-tm2.r .wp-tt,.wp-card .wp-tm2.r .wp-ml{justify-self:start;text-align:left;align-items:flex-start;width:auto}
+.wp-card .wp-tm2.l .wp-nm{text-align:left}.wp-card .wp-tm2.r .wp-nm{text-align:right}
+.wp-card .wp-tm2 .wp-ml{font-size:11px;letter-spacing:.01em}
+.wp-lh{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--text);padding:6px 2px 2px}
+.wp-lh span+span{font-weight:400;color:var(--muted)}
+.wp-mgr{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--text);padding:8px 2px;border-top:1px solid var(--border)}
+.wp-mgr span{display:inline-flex;align-items:center;gap:6px}
+.wp-mgr span:first-child:before,.wp-mgr span:last-child:after{content:"";width:12px;height:12px;border-radius:50%;background:#fff;opacity:.9}
+.wp-mgr span:last-child{flex-direction:row}
+.wp-full .wp2m{display:grid;grid-template-columns:auto 27px auto;align-items:center;column-gap:10px;min-width:0}
+.wp-full .wp2ss{display:contents}
+.wp-full .wp2m>.wp-slot{order:2}
+.wp-full .wp2ss>.wp2s:first-child{order:1;text-align:right}
+.wp-full .wp2ss>.wp2s:last-child{order:3;text-align:left}
+.wp2s b{font-size:15px;font-weight:700}
+.wp2s small{font-size:11px;color:var(--muted)}
+.wp2s{min-width:42px}
+
+.sm-simple .wp2p .pn b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.sm-simple .wp2p .pn{overflow:hidden}
+.sm-simple .wp-full .wp2m{column-gap:8px}
 </style>
 <script id="cfn-app-js">
 (function(){

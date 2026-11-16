@@ -118,3 +118,27 @@ body{font-family:var(--sf);-webkit-font-smoothing:antialiased;letter-spacing:-.0
 .sm-simple .wp2p .pn b{font-size:15px;font-weight:600}
 .sm-simple .wp2s small{display:block}
 .sm-simple .wp-full .wp2r{min-height:50px}
+
+/* ===== Apple pass 7: match the app mockup ===== */
+.wp-card .wp-tm2.l .wp-tt,.wp-card .wp-tm2.l .wp-ml{justify-self:end;text-align:right;align-items:flex-end;width:auto}
+.wp-card .wp-tm2.r .wp-tt,.wp-card .wp-tm2.r .wp-ml{justify-self:start;text-align:left;align-items:flex-start;width:auto}
+.wp-card .wp-tm2.l .wp-nm{text-align:left}.wp-card .wp-tm2.r .wp-nm{text-align:right}
+.wp-card .wp-tm2 .wp-ml{font-size:11px;letter-spacing:.01em}
+.wp-lh{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--text);padding:6px 2px 2px}
+.wp-lh span+span{font-weight:400;color:var(--muted)}
+.wp-mgr{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--text);padding:8px 2px;border-top:1px solid var(--border)}
+.wp-mgr span{display:inline-flex;align-items:center;gap:6px}
+.wp-mgr span:first-child:before,.wp-mgr span:last-child:after{content:"";width:12px;height:12px;border-radius:50%;background:#fff;opacity:.9}
+.wp-mgr span:last-child{flex-direction:row}
+.wp-full .wp2m{display:grid;grid-template-columns:auto 27px auto;align-items:center;column-gap:10px;min-width:0}
+.wp-full .wp2ss{display:contents}
+.wp-full .wp2m>.wp-slot{order:2}
+.wp-full .wp2ss>.wp2s:first-child{order:1;text-align:right}
+.wp-full .wp2ss>.wp2s:last-child{order:3;text-align:left}
+.wp2s b{font-size:15px;font-weight:700}
+.wp2s small{font-size:11px;color:var(--muted)}
+.wp2s{min-width:42px}
+
+.sm-simple .wp2p .pn b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.sm-simple .wp2p .pn{overflow:hidden}
+.sm-simple .wp-full .wp2m{column-gap:8px}
