@@ -9729,7 +9729,7 @@ function wpsBody(m,A,B,pts){
   var low=function(nm,x,pv){ return '<div class="wps-r"><b>'+lgEsc(nm)+'</b> low point: <u>'+Math.round(pv*100)+'%</u> at '+wpsTime(x.t)+' <span>('+x.pa.toFixed(1)+'\u2013'+x.pb.toFixed(1)+')</span></div>'; };
   var story='', aWin=last.p>=0.5, W_=aWin?A:B, wLow=aWin?mA.p:1-mB.p, wAt=aWin?mA:mB, fin=m.left===0;
   if(wLow<=0.25) story='<div class="wps-st"><b>Comeback alert.</b> '+lgEsc(W_)+' was down to a '+Math.round(wLow*100)+'% chance at '+wpsTime(wAt.t)+(fin?' and pulled it out.':' and has fought back.')+'</div>';
-  else story='<div class="wps-st">'+lgEsc(W_)+' has been ahead or close all the way. The biggest scare was '+Math.round(wLow*100)+'%.</div>';
+  else story='<div class="wps-st">'+lgEsc(W_)+(fin?' was in control the whole way.':' has been in control the whole way.')+' Lowest win probability: '+Math.round(wLow*100)+'%.</div>';
   return h+story+svg+'<div class="wps-lg"><i style="background:var(--accent)"></i>'+lgEsc(A)+'<i style="background:#f5a524"></i>'+lgEsc(B)+'</div>'+low(A,mA,mA.p)+low(B,mB,1-mB.p)
     +'<div class="wps-ft">Estimated from Yahoo\u2019s scores and projections, recorded each time the site refreshes a league. It starts from when recording began and fills in as the games go on; quiet stretches show as straight lines.</div>';
 }
