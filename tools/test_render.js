@@ -50,6 +50,13 @@ let bad = 0; const ok = (c, m) => { console.log((c ? '  ok  ' : 'FAIL  ') + m); 
   ok(x.mineOn && x.mineCards >= 1 && /My Matchups/.test(x.barMine || ''), 'My Matchups lists my games (' + x.mineCards + ') and the tab is highlighted');
   ok(x.keptOpen, 'an open card stays open through a refresh'); ok(x.mineHidden, 'leaving My Matchups hides it');
   ok(errs.length === 0, 'no page errors' + (errs.length ? ': ' + errs.join(' ; ') : ''));
+  // Regression: a link with #live draws live cards while the page is still loading; that used to crash the whole script.
+  for (const hash of ['#live', '#home', '#leagues']) {
+    const p2 = await b.newPage({ viewport: { width: 430, height: 900 } }), e2 = []; p2.on('pageerror', e => e2.push(String(e).slice(0, 140)));
+    await p2.goto('file://' + path.resolve(file) + '?app=1' + hash); await p2.waitForTimeout(1500);
+    const st = await p2.evaluate(() => ({ yo: typeof YS_OUT, ys: typeof YS, cards: document.querySelectorAll('#lv-list .wp-card').length }));
+    ok(e2.length === 0 && st.yo === 'object' && st.ys === 'object', 'loads cleanly with ' + hash + (e2.length ? ': ' + e2.join(' ; ') : '') + ' (live cards ' + st.cards + ')'); await p2.close();
+  }
   try { await (await pg.$('#lv-list [data-lg="bh"]')).screenshot({ path: '/tmp/render_card.png', timeout: 5000 }); } catch (e) { console.log('  (screenshot skipped)'); }
   await b.close(); console.log(bad ? 'FAILED' : 'all render checks passed'); process.exit(bad ? 1 : 0);
 })();
