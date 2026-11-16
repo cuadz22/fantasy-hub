@@ -9717,6 +9717,8 @@ function wpsSeries(m,pts){ var S=[]; pts.forEach(function(p){ var r=(p[1]||[]).f
 function wpsBody(m,A,B,pts){
   var S=wpsSeries(m,pts), h='<div class="wps-h">Win probability swings</div><div class="wps-s">'+lgEsc(A)+' vs '+lgEsc(B)+'</div>';
   if(S.length<2) return h+'<div class="wps-ld">Not enough history yet. The site records a point every time a league is refreshed, so this fills in as the games go on.</div>';
+  var pmin=1, pmax=0, flat=true; S.forEach(function(x){ pmin=Math.min(pmin,x.p); pmax=Math.max(pmax,x.p); if(x.pa!==S[0].pa||x.pb!==S[0].pb) flat=false; });
+  if(flat||pmax-pmin<0.02){ var lst=S[S.length-1]; return h+'<div class="wps-ld"><b style="color:var(--text)">No swings recorded for this matchup yet.</b><br>The site only began saving win-probability history at '+wpsTime(S[0].t)+(m.left===0?', after every game in this matchup was already final ('+lst.pa.toFixed(1)+'\u2013'+lst.pb.toFixed(1)+'), so there is nothing to chart.':', and the score has not moved since.')+' Charts fill in during live games, starting with the next ones on the schedule.</div>'; }
   var W=340, H=190, L=8, R=34, T=10, Bm=22, t0=S[0].t, t1=S[S.length-1].t, dt=Math.max(1,t1-t0);
   var X=function(t){ return L+(t-t0)/dt*(W-L-R); }, Y=function(p){ return T+(1-p)*(H-T-Bm); };
   var la=S.map(function(x,n){ return (n?'L':'M')+X(x.t).toFixed(1)+' '+Y(x.p).toFixed(1); }).join(' '), lb=S.map(function(x,n){ return (n?'L':'M')+X(x.t).toFixed(1)+' '+Y(1-x.p).toFixed(1); }).join(' ');
