@@ -37,3 +37,22 @@
 .lv-note{font-size:13px;line-height:1.5;color:var(--muted)}
 .lvh-hd{font-size:15px;font-weight:600}
 .lvh-n{letter-spacing:0;text-transform:none;font-size:12.5px;font-weight:500}
+
+/* ===== Apple pass 3: system type, quiet scores, fixed live row ===== */
+:root{--sf:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Inter',system-ui,sans-serif}
+body{font-family:var(--sf);-webkit-font-smoothing:antialiased;letter-spacing:-.003em}
+.wps-h,.wp-full .wp-c b,.week-title,.feat-title,.lcard-name,.art-title,.lg-title,.sc,.motm-pts,.ppts,.hs-yr,.td-h,.hx-ts,.rb-sec h3,.mcard-sc,.mp-pts,.motm-card-pts,.award-num,.prev-cp,.lv-lg,.pod-title,.pk-lock b,.pk-opt .pk-nm,.kp2-price b,#view-commish .cm-val b,.cm-sec,.sc-stats b{font-family:var(--sf)!important;font-weight:700;letter-spacing:-.02em}
+.wp-card .wp-tm2{grid-template-areas:"nm nm" "sub sub" "av tt" "av ml" "late late"}
+.wp-card .wp-tm2.r{grid-template-areas:"nm nm" "sub sub" "tt av" "ml av" "late late"}
+.wp-card .wp-tm2 .wp-nm,.wp-card .wp-tm2 .wp-sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;min-width:0}
+.wp-card .wp-tm2 .wp-sub{display:block}.wp-card .wp-tm2 .wp-sub b,.wp-card .wp-tm2 .wp-sub i{display:inline}.wp-card .wp-tm2 .wp-sub i{margin-left:6px}
+.wp-card .wp-tm2 .wp-late{grid-area:late;justify-self:stretch;height:18px;line-height:18px;margin:6px 0 0;padding:0;border:0;font-size:12px;font-weight:500;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:inherit}
+.wp-card .wp-tt b{color:var(--text)!important}
+.wp-card .wp-tt .pj{font-size:12px;font-weight:500;margin-top:3px;color:var(--muted)!important;white-space:nowrap}
+.wp-card .wp-tt .og{display:none}
+.wp-tt .gl{font-style:normal;font-size:8px;margin-left:4px;vertical-align:1px;color:var(--text);opacity:.7}
+.wp-tt.lo b,.wp-tt.lu b,.wp2s.lo b,.wp2s.lu b,.wp2s.ov b,.wp2s.un b,.wp-c.lo b,.wp-c.lu b{color:var(--text)}
+.wp2s small i.pu,.wp2s small i.pd{color:var(--muted);opacity:.9}
+.wp2s b{font-weight:600}
+.wp-hl2{margin:8px 0 2px;padding:8px 0 0;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
+.wp-hl2 .wp-hi{padding:2px 0}.wp-hl2 .wp-hi b{color:var(--text);font-weight:600}

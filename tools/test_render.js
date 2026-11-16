@@ -49,6 +49,9 @@ let bad = 0; const ok = (c, m) => { console.log((c ? '  ok  ' : 'FAIL  ') + m); 
   ok(x.bar.length === 5 && /My Matchups/.test(x.bar.join('|')), 'home bar has five tabs: ' + x.bar.join(' / '));
   ok(x.mineOn && x.mineCards >= 1 && /My Matchups/.test(x.barMine || ''), 'My Matchups lists my games (' + x.mineCards + ') and the tab is highlighted');
   ok(x.keptOpen, 'an open card stays open through a refresh'); ok(x.mineHidden, 'leaving My Matchups hides it');
+  // Layout QA: both team columns of every live card must line up row for row, whatever the name length or live text.
+  const al = await pg.evaluate(() => { const o = []; document.querySelectorAll('#lv-list .wp-card').forEach((c, i) => { const L = c.querySelector('.wp-tm2.l'), R = c.querySelector('.wp-tm2.r'); if (!L || !R) return; ['.wp-nm', '.wp-tt', '.wp-ml', '.wp-late'].forEach(q => { const a = L.querySelector(q), b = R.querySelector(q); if (!a || !b) { o.push('card ' + i + ' missing ' + q); return; } if (Math.abs(a.getBoundingClientRect().top - b.getBoundingClientRect().top) > 1.5) o.push('card ' + i + ' ' + q + ' misaligned'); }); const lt = c.querySelector('.wp-late'); if (lt && lt.getBoundingClientRect().height > 26) o.push('card ' + i + ' live line wraps'); if (c.querySelector('.wp-tt .og')) o.push('card ' + i + ' still has the extra Yahoo line'); }); return o; });
+  ok(al.length === 0, 'live cards line up in both columns' + (al.length ? ': ' + al.slice(0, 4).join(' ; ') : ''));
   ok(errs.length === 0, 'no page errors' + (errs.length ? ': ' + errs.join(' ; ') : ''));
   // Regression: a link with #live draws live cards while the page is still loading; that used to crash the whole script.
   for (const hash of ['#live', '#home', '#leagues']) {
