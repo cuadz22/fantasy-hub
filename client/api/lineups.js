@@ -3,6 +3,8 @@
 // Edge-cached for a minute so many viewers share one Yahoo read.
 const { fetchPage, parsePage, fetchTeam, parseTeam } = require('./_ysweep');
 const LGS = ['gl', 'bh', 'rb', 'sts'];
+// One-off backfill for the week we were not recording yet (win-probability series copied from Flock Fantasy).
+let FLOCK = null; try { FLOCK = require('./_flock_w10.json'); } catch (e) {}
 const clean = s => String(s || '').replace(/&#x[0-9a-f]+;|&#\d+;/gi, '').replace(/\s+/g, ' ').trim();
 const row = x => [x.slot, x.name, x.pos, x.team, x.proj, x.pts, clean(x.status), x.inj || ''];
 // Hourly normally; every 10 minutes only inside NFL game windows (US Eastern time) to stay well under Yahoo's rate limits.
@@ -50,7 +52,7 @@ module.exports = async (req, res) => {
       const raw = (await redis(['LRANGE', 'wph:' + lg + ':' + week, 0, -1], 4000)) || [], pts = [];
       raw.forEach(x => { try { pts.push(JSON.parse(x)); } catch (e) {} });
       res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate=30'); res.setHeader('Access-Control-Allow-Origin', '*');
-      res.end(JSON.stringify({ lg, week, n: pts.length, pts })); return;
+      res.end(JSON.stringify({ lg, week, n: pts.length, pts, flock: FLOCK && FLOCK.week === week && FLOCK[lg] ? FLOCK[lg] : null })); return;
     }
     const seen = new Set(), matchups = [], diag = {}; let diagT = null;
     // Primary path: team pages (the current week's matchup pages no longer carry lineups in the raw HTML).

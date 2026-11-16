@@ -1205,7 +1205,11 @@ nav::-webkit-scrollbar{display:none}
 .wp-tm2 .wp-av{width:58px;height:58px}
 .wp-tm2 .wp-avfb{font-size:17px}
 .wp-tm2 .wp-nm{font-weight:800;font-size:15px;line-height:1.15;margin:8px 0 2px;text-wrap:balance;overflow-wrap:anywhere}
-.wp-tm2 .wp-sub{font-size:12px;color:var(--muted);margin:0}
+.wp-tm2 .wp-sub{display:flex;flex-direction:column;align-items:inherit;gap:1px;margin:2px 0 0;line-height:1.2}
+.wp-tm2 .wp-sub b{font-size:14px;font-weight:700;color:var(--text)}.wp-tm2 .wp-sub i{font-style:normal;font-size:13px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.wp-pob{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;padding-top:8px;border-top:1px solid var(--border)}
+.wp-pob>div{display:flex;flex-wrap:wrap;gap:2px 10px;font-size:11px;color:var(--muted);align-content:flex-start}.wp-pob>div.r{justify-content:flex-end;text-align:right}
+.wp-pob em{flex:0 0 100%;font-style:normal;font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:.8}.wp-pob b{color:var(--text);font-weight:700;font-variant-numeric:tabular-nums}
 .wp-tm2 .wp-ml{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:8px 0 0;font-variant-numeric:tabular-nums;color:var(--muted);line-height:1.1}
 .wp-tm2.fav .wp-ml{color:var(--accent)}
 .wp-tm2 .wp-proj{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:1px}
@@ -1217,7 +1221,6 @@ nav::-webkit-scrollbar{display:none}
 .wp-left em{font-style:normal;color:var(--text);font-weight:700}.wp-left .dim2{opacity:.8}
 .wp-vslg{position:absolute;left:50%;top:48px;transform:translateX(-50%);height:30px;width:auto;max-width:44px;object-fit:contain;opacity:.92;pointer-events:none}
 .wp-tm2 .wp-nm{min-height:2.3em}
-.wp-tm2 .wp-po2{margin-bottom:12px}
 .wp-tt{position:relative;margin-top:auto;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-direction:column;line-height:1;align-self:flex-end;text-align:right;margin-right:30px}
 .wp-tt.b{align-self:flex-start;text-align:left;margin-right:0;margin-left:30px}
 .wp-tt b{font-size:34px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
@@ -4937,7 +4940,7 @@ function wpTot(k,m){
 }
 function wpTeam(k,t,tid,fav,p,q,lv,side,late,tot){
   var pj=lv?(lv.done?(lv.fin?'<b>'+lv.s.toFixed(1)+'</b> final':'<b>'+lv.s.toFixed(1)+'</b> now &middot; decided'):'<b>'+lv.s.toFixed(1)+'</b> now &middot; '+t[3].toFixed(1)+' proj'):t[3].toFixed(1)+' proj';
-  return '<div class="wp-tm2 '+(side||'l')+(fav?' fav':'')+'">'+wpAv(k,t[1],tid)+'<div class="wp-nm">'+lgEsc(t[0])+'</div><div class="wp-sub">'+lgEsc(t[1])+' &middot; '+lgEsc(t[2])+'</div><div class="wp-ml">'+(lv&&lv.done?(lv.w?'W':'L'):pvMl(p))+'</div>'+(lv?'':'<div class="wp-proj">'+pj+'</div>')+'<div class="wp-po2">'+wpPoLines(q)+'</div>'+(tot||'')+(late||'')+'</div>';
+  return '<div class="wp-tm2 '+(side||'l')+(fav?' fav':'')+'">'+wpAv(k,t[1],tid)+'<div class="wp-nm">'+lgEsc(t[0])+'</div><div class="wp-sub"><b>'+lgEsc(t[1])+'</b><i>'+lgEsc(t[2])+'</i></div><div class="wp-ml">'+(lv&&lv.done?(lv.w?'W':'L'):pvMl(p))+'</div>'+(lv?'':'<div class="wp-proj">'+pj+'</div>')+(tot||'')+(late||'')+'</div>';
 }
 function wpTop(t,e){
   var h='<div class="wp-pl">'+t[6].map(function(x){return '<div'+(x[2]?' class="tp"':'')+'>'+wpPh(x[0])+'<span>'+lgEsc(x[0])+cfnSh(x[0])+(x[2]?' <u class="wp-au tp">to play</u>':'')+'</span><b>'+(x[2]?'~':'')+x[1].toFixed(1)+'</b></div>';}).join('');
@@ -5101,7 +5104,7 @@ function wpCard(k,m,i,live){
     '<div class="wp-top"><span>'+(pt?'<b class="wp-ptl">Primetime Matchup</b>':'Matchup '+(i+1))+(live?' &middot; '+(lvDec(m)&&m.left?'Decided &middot; ':'')+(m.left?m.left+' to play':'Final'):'')+'</span>'+'<button type="button" class="wp-sh" onclick="event.stopPropagation();'+(live?'shareMatch':'sharePrevMatch')+'(\''+k+'\','+i+')" onkeydown="event.stopPropagation()">Share matchup</button>'+'<span class="wp-hint">Full lineups <i>&#9662;</i></span></div>'+
     '<div class="wp-split">'+wpTeam(k,A,m.ia,fa,p,m.pa,live&&lvX(m,'a'),'l',live?lvSide(m,k,'a'):'',TT&&TT.a)+wpTeam(k,B,m.ib,!fa,100-p,m.pb,live&&lvX(m,'b'),'r',live?lvSide(m,k,'b'):'',TT&&TT.b)+'<span class="wp-vs">VS</span>'+(LG_LOGO[k]?'<img class="wp-vslg" alt="" src="'+LG_LOGO[k]+'">':'')+'</div>'+
     '<div class="wp-bar" role="img" aria-label="Projected edge"><i style="width:'+p+'%;background:'+(fa?'var(--accent)':'var(--border-l)')+'"></i><i style="width:'+(100-p)+'%;background:'+(fa?'var(--border-l)':'var(--accent)')+'"></i></div>'+
-    (live?lvBanner(m,k):'')+'<div class="wp-cols">'+wpTop(A,m.ea)+wpTop(B,m.eb)+'</div>'+wpFull(m)+
+    (live?lvBanner(m,k):'')+'<div class="wp-cols">'+wpTop(A,m.ea)+wpTop(B,m.eb)+'</div><div class="wp-pob"><div><em>Playoff odds</em>'+wpPoLines(m.pa)+'</div><div class="r"><em>Playoff odds</em>'+wpPoLines(m.pb)+'</div></div>'+wpFull(m)+
     '<div class="wp-h2h'+(m.riv?' riv':'')+'">'+lgEsc(m.h2h)+(m.note?'<em>'+lgEsc(m.note)+'</em>':'')+'</div>'+(live&&m.ia&&m.ib?'<button type="button" class="wp-swb" onclick="event.stopPropagation();wpsOpen(\''+k+'\','+i+')">\u25B8 Win probability swings</button>':'')+'</div>';
 }
 /* ---- Live matchup story card (share image) ---- */
@@ -9712,18 +9715,24 @@ function wpsClose(){ var o=document.getElementById('wps-ov'); if(o) o.hidden=tru
 function wpsTime(t){ try{ return new Date(t*1000).toLocaleString([], {weekday:'short',hour:'numeric',minute:'2-digit'}); }catch(e){ return ''; } }
 function wpsOpen(k,i){ var m=(PVL[k]||[])[i]; if(!m) return; var o=wpsOv(), box=document.getElementById('wps-in'); o.hidden=false; document.body.style.overflow='hidden';
   var A=m.a[0], B=m.b[0]; box.innerHTML='<div class="wps-h">Win probability swings</div><div class="wps-s">'+lgEsc(A)+' vs '+lgEsc(B)+'</div><div class="wps-ld">Loading\u2026</div>';
-  fetch('/api/lineups?lg='+k+'&week='+PVL_WK+'&hist=1',{cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){ box.innerHTML=wpsBody(m,A,B,j&&j.pts||[]); }).catch(function(){ box.innerHTML='<div class="wps-h">Win probability swings</div><div class="wps-ld">Could not load the history. Try again in a moment.</div>'; }); }
+  fetch('/api/lineups?lg='+k+'&week='+PVL_WK+'&hist=1',{cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){ box.innerHTML=wpsBody(m,A,B,j&&j.pts||[],j&&j.flock); }).catch(function(){ box.innerHTML='<div class="wps-h">Win probability swings</div><div class="wps-ld">Could not load the history. Try again in a moment.</div>'; }); }
 function wpsSeries(m,pts){ var S=[]; pts.forEach(function(p){ var r=(p[1]||[]).filter(function(x){ return x[0]===m.ia; })[0]; if(r) S.push({t:p[0],pa:r[1],ja:r[2],pb:r[3],jb:r[4],p:wpsProb(r[1],r[2],r[3],r[4])}); }); return S; }
-function wpsBody(m,A,B,pts){
-  var S=wpsSeries(m,pts), h='<div class="wps-h">Win probability swings</div><div class="wps-s">'+lgEsc(A)+' vs '+lgEsc(B)+'</div>';
+function wpsBody(m,A,B,pts,fk){
+  var S=wpsSeries(m,pts), usedFk=false, h='<div class="wps-h">Win probability swings</div><div class="wps-s">'+lgEsc(A)+' vs '+lgEsc(B)+'</div>';
+  if(fk&&fk.rows&&fk.rows.length&&fk.ia===m.ia&&fk.ib===m.ib){ /* week we were not recording yet: Flock Fantasy's series, then our own points after it */
+    var F=fk.rows.map(function(r){ return {t:r[0],pa:r[2]/10,pb:r[3]/10,p:r[1]/1000}; }), lt=F[F.length-1].t;
+    var f0=0; while(f0+1<F.length&&F[f0+1].pa===0&&F[f0+1].pb===0) f0++; F=F.slice(f0); /* start just before the first score instead of three flat days */
+    S=F.concat(S.filter(function(x){ return x.t>lt; })); usedFk=true; }
   if(S.length<2) return h+'<div class="wps-ld">Not enough history yet. The site records a point every time a league is refreshed, so this fills in as the games go on.</div>';
   var pmin=1, pmax=0, flat=true; S.forEach(function(x){ pmin=Math.min(pmin,x.p); pmax=Math.max(pmax,x.p); if(x.pa!==S[0].pa||x.pb!==S[0].pb) flat=false; });
   if(flat||pmax-pmin<0.02){ var lst=S[S.length-1]; return h+'<div class="wps-ld"><b style="color:var(--text)">No swings recorded for this matchup yet.</b><br>The site only began saving win-probability history at '+wpsTime(S[0].t)+(m.left===0?', after every game in this matchup was already final ('+lst.pa.toFixed(1)+'\u2013'+lst.pb.toFixed(1)+'), so there is nothing to chart.':', and the score has not moved since.')+' Charts fill in during live games, starting with the next ones on the schedule.</div>'; }
-  var W=340, H=190, L=8, R=34, T=10, Bm=22, t0=S[0].t, t1=S[S.length-1].t, dt=Math.max(1,t1-t0);
-  var X=function(t){ return L+(t-t0)/dt*(W-L-R); }, Y=function(p){ return T+(1-p)*(H-T-Bm); };
-  var la=S.map(function(x,n){ return (n?'L':'M')+X(x.t).toFixed(1)+' '+Y(x.p).toFixed(1); }).join(' '), lb=S.map(function(x,n){ return (n?'L':'M')+X(x.t).toFixed(1)+' '+Y(1-x.p).toFixed(1); }).join(' ');
+  var W=340, H=190, L=8, R=34, T=10, Bm=22, t0=S[0].t, t1=S[S.length-1].t, u=0, gapCut=false;
+  S.forEach(function(x,n){ if(n){ var g=x.t-S[n-1].t; if(g>5400){ g=5400; gapCut=true; } u+=g; } x.u=u; }); /* long quiet stretches (between game days) are shortened so the action gets the width */
+  var du=Math.max(1,u);
+  var X=function(x){ return L+x.u/du*(W-L-R); }, Y=function(p){ return T+(1-p)*(H-T-Bm); };
+  var la=S.map(function(x,n){ return (n?'L':'M')+X(x).toFixed(1)+' '+Y(x.p).toFixed(1); }).join(' '), lb=S.map(function(x,n){ return (n?'L':'M')+X(x).toFixed(1)+' '+Y(1-x.p).toFixed(1); }).join(' ');
   var lo=function(sel){ var b=S[0]; S.forEach(function(x){ if(sel(x)<sel(b)) b=x; }); return b; }, mA=lo(function(x){ return x.p; }), mB=lo(function(x){ return 1-x.p; }), last=S[S.length-1];
-  var dot=function(x,pv,c){ var cx=X(x.t), cy=Y(pv), tx=cx>W-60?cx-6:cx+6, an=cx>W-60?'end':'start'; return '<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="4" fill="'+c+'" stroke="var(--bg)" stroke-width="1.5"/><text x="'+tx.toFixed(1)+'" y="'+(cy+(pv<0.5?-7:13)).toFixed(1)+'" text-anchor="'+an+'" font-size="10" font-weight="700" fill="'+c+'">'+Math.round(pv*100)+'%</text>'; };
+  var dot=function(x,pv,c){ var cx=X(x), cy=Y(pv), tx=cx>W-60?cx-6:cx+6, an=cx>W-60?'end':'start'; return '<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="4" fill="'+c+'" stroke="var(--bg)" stroke-width="1.5"/><text x="'+tx.toFixed(1)+'" y="'+(cy+(pv<0.5?-7:13)).toFixed(1)+'" text-anchor="'+an+'" font-size="10" font-weight="700" fill="'+c+'">'+Math.round(pv*100)+'%</text>'; };
   var svg='<svg class="wps-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Win probability over time">'+[1,0.5,0].map(function(g){ return '<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(g)+'" y2="'+Y(g)+'" stroke="var(--border)" stroke-width="1"'+(g===0.5?' stroke-dasharray="3 3"':'')+'/><text x="'+(W-R+4)+'" y="'+(Y(g)+3)+'" font-size="9" fill="var(--muted)">'+Math.round(g*100)+'%</text>'; }).join('')
     +'<path d="'+lb+'" fill="none" stroke="#f5a524" stroke-width="2" stroke-linejoin="round"/><path d="'+la+'" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>'
     +dot(mA,mA.p,'var(--accent)')+dot(mB,1-mB.p,'#f5a524')
@@ -9733,7 +9742,7 @@ function wpsBody(m,A,B,pts){
   if(wLow<=0.25) story='<div class="wps-st"><b>Comeback alert.</b> '+lgEsc(W_)+' was down to a '+Math.round(wLow*100)+'% chance at '+wpsTime(wAt.t)+(fin?' and pulled it out.':' and has fought back.')+'</div>';
   else story='<div class="wps-st">'+lgEsc(W_)+(fin?' was in control the whole way.':' has been in control the whole way.')+' Lowest win probability: '+Math.round(wLow*100)+'%.</div>';
   return h+story+svg+'<div class="wps-lg"><i style="background:var(--accent)"></i>'+lgEsc(A)+'<i style="background:#f5a524"></i>'+lgEsc(B)+'</div>'+low(A,mA,mA.p)+low(B,mB,1-mB.p)
-    +'<div class="wps-ft">Estimated from Yahoo\u2019s scores and projections, recorded each time the site refreshes a league. It starts from when recording began and fills in as the games go on; quiet stretches show as straight lines.</div>';
+    +(usedFk?'<div class="wps-ft">Win probability up to Monday morning comes from Flock Fantasy\u2019s chart for this matchup, since the site was not recording yet. Anything after that is our own estimate from Yahoo\u2019s scores and projections.'+(gapCut?' Long quiet stretches between game days are shortened.':'')+'</div>':'<div class="wps-ft">Estimated from Yahoo\u2019s scores and projections, recorded each time the site refreshes a league. It starts from when recording began and fills in as the games go on; quiet stretches show as straight lines.</div>');
 }
 /* ---- My Matchups: every matchup of the signed-in member, one page ---- */
 function memForm(intro){ return '<div class="mt-in"><h3>My Matchups</h3><p>'+intro+'</p><label for="mem-nm">Your name</label><select id="mem-nm">'+Object.keys(MEM_MAP).map(function(n){ return '<option value="'+n+'">'+n+'</option>'; }).join('')+'</select><label for="mem-pin">PIN</label><input id="mem-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="12" placeholder="PIN"><button type="button" id="mem-go" class="mt-btn">Sign in</button><div class="mt-err" id="mem-err" role="alert"></div></div>'; }
