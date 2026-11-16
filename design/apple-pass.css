@@ -108,3 +108,13 @@ body{font-family:var(--sf);-webkit-font-smoothing:antialiased;letter-spacing:-.0
 .wp2s.pu b{color:var(--text)}
 .wp2s small i.pu{color:#acf910}.wp2s small i.pd{color:#ff5a52}
 @media (min-width:900px){.wp-card{max-width:640px;margin-left:auto;margin-right:auto}}
+
+/* ===== Apple pass 6: expand in place + simple share image ===== */
+.wp-card.open{grid-column:auto}
+@media (min-width:900px){.wp-card{max-width:none;margin-left:0;margin-right:0}}
+.sm-simple .wp-top,.sm-simple .wp-swb,.sm-simple .wp-late,.sm-simple .wp-cols,.sm-simple .wp-gi,.sm-simple .gi-sb,.sm-simple .wp2p .pn small,.sm-simple .wp-rng,.sm-simple .wp-pob,.sm-simple .wp-collapse,.sm-simple .wp-h2h,.sm-simple .wp-hl2,.sm-simple .wp-warn,.sm-simple .wp-vs,.sm-simple .wp-vslg,.sm-simple .wp-bar{display:none!important}
+.sm-simple .wp-tt.fin .pj{display:none}
+.sm-simple .wp-card{background:#222730;border-color:transparent}
+.sm-simple .wp2p .pn b{font-size:15px;font-weight:600}
+.sm-simple .wp2s small{display:block}
+.sm-simple .wp-full .wp2r{min-height:50px}

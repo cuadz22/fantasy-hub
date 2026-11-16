@@ -4935,7 +4935,7 @@ function wpTot(k,m){
   var o=null; (PV8[k]||[]).forEach(function(x){ if(x.ia===m.ia&&x.ib===m.ib) o=x; });
   var oa=m.ob?m.ob[0]:o?o.a[3]:m.a[3], ob=m.ob?m.ob[1]:o?o.b[3]:m.b[3], sa=(m.la&&m.la.s)||0, sb=(m.lb&&m.lb.s)||0, fin=m.left===0;
   var cl=function(now,orig){ return fin?(now>orig?' lo':now<orig?' lu':''):(now>orig+0.05?' lo':now<orig-0.05?' lu':''); };
-  var box=function(sc,live,orig,c,cls,yh){ var pr=fin?orig:live, g=c===' lo'?'<i class="gl" title="Above the original projection of '+orig.toFixed(1)+'">\u25B2</i>':c===' lu'?'<i class="gl" title="Below the original projection of '+orig.toFixed(1)+'">\u25BC</i>':''; return '<div class="wp-tt '+cls+c+'"><b>'+sc.toFixed(2)+'</b><small class="pj">'+(fin?'Final':pr.toFixed(2)+' proj')+g+'</small></div>'; };
+  var box=function(sc,live,orig,c,cls,yh){ var pr=fin?orig:live, g=c===' lo'?'<i class="gl" title="Above the original projection of '+orig.toFixed(1)+'">\u25B2</i>':c===' lu'?'<i class="gl" title="Below the original projection of '+orig.toFixed(1)+'">\u25BC</i>':''; return '<div class="wp-tt '+cls+c+(fin?' fin':'')+'"><b>'+sc.toFixed(2)+'</b><small class="pj">'+(fin?'Final':pr.toFixed(2)+' proj')+g+'</small></div>'; };
   return {a:box(sa,m.a[3],oa,cl(fin?sa:m.a[3],oa),'a',m.y?m.y[0]:null), b:box(sb,m.b[3],ob,cl(fin?sb:m.b[3],ob),'b',m.y?m.y[1]:null)};
 }
 function wpMlHtml(lv,p){
@@ -4948,6 +4948,9 @@ function wpTeam(k,t,tid,fav,p,q,lv,side,late,tot){
   var pj=lv?(lv.done?(lv.fin?'<b>'+lv.s.toFixed(1)+'</b> final':'<b>'+lv.s.toFixed(1)+'</b> now &middot; decided'):'<b>'+lv.s.toFixed(1)+'</b> now &middot; '+t[3].toFixed(1)+' proj'):t[3].toFixed(1)+' proj';
   return '<div class="wp-tm2 '+(side||'l')+(fav?' fav':'')+'">'+wpAv(k,t[1],tid)+'<div class="wp-nm">'+lgEsc(t[0])+'</div><div class="wp-sub"><b>'+lgEsc(t[1])+'</b><i>'+lgEsc(t[2])+'</i></div>'+wpMlHtml(lv,p)+(lv?'':'<div class="wp-proj">'+pj+'</div>')+(tot||'')+(late||'')+'</div>';
 }
+function wpEmpty(m,sd){ var R=sd==='a'?m.ra:m.rb, K=sd==='a'?m.ka:m.kb, D=sd==='a'?m.da:m.db, o=[], bad=function(n){ return !n||n==='\u2014'||n==='None'||n==='-'; };
+  (R||[]).forEach(function(r){ if(r&&bad(r[1])) o.push(String(r[0]||'').replace(/^S?FLE?X$/,'FLEX')); });
+  if(K&&bad(K[0])) o.push('K'); if(D&&bad(D[0])) o.push('DEF'); return o; }
 function wpTop(t,e){
   var h='<div class="wp-pl">'+t[6].map(function(x){return '<div'+(x[2]?' class="tp"':'')+'>'+wpPh(x[0])+'<span>'+lgEsc(x[0])+cfnSh(x[0])+(x[2]?' <u class="wp-au tp">to play</u>':'')+'</span><b>'+(x[2]?'~':'')+x[1].toFixed(1)+'</b></div>';}).join('');
   if(e&&e.length) h+='<div class="wp-warn">Empty '+e.join(', ')+' slot</div>';
@@ -5056,9 +5059,9 @@ function pvStoryHTML(k,i){
 function smCardHTML(k,i,live){
   var m=live?PVL[k][i]:PV8[k][i], wk=(GI0&&GI0.wk)||10, st=live?(m.left?m.left+' TO PLAY':'FINAL'):'PREVIEW';
   var dk='--bg:#14161b;--bg2:#1a1d23;--bg3:#21252c;--surface:#1f232a;--accent:#ACF910;--text:#E8E8E8;--muted:#d7dbe2;--dim:#b0b6c2;--border:#262a31;--border-l:#31363f;';
-  return '<div class="sm-cap" style="'+dk+'width:430px;box-sizing:border-box;background:#0b0c0a;padding:0 14px 14px;color:#E8E8E8;font-family:Inter,system-ui,sans-serif">'
-   +'<div style="height:6px;background:#ACF910;margin:0 -14px 14px"></div>'
-   +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><img src="'+CFN_LOGO+'" style="height:34px;width:auto"><div style="font:800 12px Inter,sans-serif;letter-spacing:.14em;color:#ACF910">'+lgEsc(LGI[k].name.toUpperCase())+'</div><div style="margin-left:auto;font:800 10px Inter,sans-serif;letter-spacing:.14em;color:#ff9f1c;text-align:right">WEEK '+wk+' &middot; '+st+'</div></div>'
+  return '<div class="sm-cap sm-simple" style="'+dk+'width:430px;box-sizing:border-box;background:#1a1d25;padding:0 14px 14px;color:#E8E8E8;font-family:Inter,system-ui,sans-serif">'
+   +'<div style="height:14px"></div>'
+   +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><img src="'+CFN_LOGO+'" style="height:34px;width:auto"><div style="font:800 12px Inter,sans-serif;letter-spacing:.14em;color:#ACF910">'+lgEsc(LGI[k].name.toUpperCase())+'</div><div style="margin-left:auto;font:800 10px Inter,sans-serif;letter-spacing:.14em;color:#ff9f1c;text-align:right">WEEK '+wk+'</div></div>'
    +wpCard(k,m,i,live)
    +'<div style="margin-top:12px;text-align:center;font:700 10px Inter,sans-serif;letter-spacing:.2em;color:#8b8f89">CUADZFANTASYNETWORK.COM</div></div>';
 }
@@ -5111,7 +5114,7 @@ function wpCard(k,m,i,live){
     '<div class="wp-top"><span>'+(pt?'<b class="wp-ptl">Primetime</b>':'Matchup '+(i+1))+(live?' &middot; '+(lvDec(m)&&m.left?'Decided &middot; ':'')+(m.left?m.left+' to play':'Final'):'')+'</span>'+'<button type="button" class="wp-sh" onclick="event.stopPropagation();'+(live?'shareMatch':'sharePrevMatch')+'(\''+k+'\','+i+')" onkeydown="event.stopPropagation()">Share</button>'+'<span class="wp-hint">Lineups <i>&#9662;</i></span></div>'+
     '<div class="wp-split">'+wpTeam(k,A,m.ia,fa,p,m.pa,live&&lvX(m,'a'),'l',live?lvSide(m,k,'a'):'',TT&&TT.a)+wpTeam(k,B,m.ib,!fa,100-p,m.pb,live&&lvX(m,'b'),'r',live?lvSide(m,k,'b'):'',TT&&TT.b)+'<span class="wp-vs">VS</span>'+(LG_LOGO[k]?'<img class="wp-vslg" alt="" src="'+LG_LOGO[k]+'">':'')+'</div>'+
     '<div class="wp-bar" role="img" aria-label="Projected edge"><i style="width:'+p+'%;background:'+(fa?'var(--accent)':'var(--border-l)')+'"></i><i style="width:'+(100-p)+'%;background:'+(fa?'var(--border-l)':'var(--accent)')+'"></i></div>'+
-    (live&&m.ia&&m.ib?'<button type="button" class="wp-swb" onclick="event.stopPropagation();wpsOpen(\''+k+'\','+i+')">\u25B8 Win probability swings</button>':'')+(live?lvBanner(m,k):'')+'<div class="wp-cols">'+wpTop(A,m.ea)+wpTop(B,m.eb)+'</div>'+wpFull(m,live?lvHiAll(m,k):'')+
+    (live&&m.ia&&m.ib?'<button type="button" class="wp-swb" onclick="event.stopPropagation();wpsOpen(\''+k+'\','+i+')">\u25B8 Win probability swings</button>':'')+(live?lvBanner(m,k):'')+'<div class="wp-cols">'+wpTop(A,wpEmpty(m,'a'))+wpTop(B,wpEmpty(m,'b'))+'</div>'+wpFull(m,live?lvHiAll(m,k):'')+
     '<div class="wp-h2h'+(m.riv?' riv':'')+'">'+lgEsc(m.h2h)+(m.note?'<em>'+lgEsc(m.note)+'</em>':'')+'</div>'+'</div>';
 }
 /* ---- Live matchup story card (share image) ---- */
@@ -5307,7 +5310,7 @@ document.addEventListener('click',function(e){
   var f=t.closest('.wp-full'); if(f&&f.closest('.wp-card.open')){ e.stopPropagation(); }
 },true);
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') pcClose(); });
-function wpToggle(el){ var o=el.classList.toggle('open'); el.setAttribute('aria-expanded',o?'true':'false'); if(o) wpFit(el); }
+function wpToggle(el){ var y0=el.getBoundingClientRect().top, o=el.classList.toggle('open'); el.setAttribute('aria-expanded',o?'true':'false'); if(o) wpFit(el); try{ var d=el.getBoundingClientRect().top-y0; if(Math.abs(d)>1) window.scrollBy(0,d); }catch(e){} }
 
 async function wpImg(n){ if(!WP_PH){ WP_PH={}; Object.keys(PHOTOS).forEach(function(k){ WP_PH[wpKey(k)]=PHOTOS[k]; }); } var s=WP_PH[wpKey(n)]; return s?await wvImg(s):null; }
 async function prevCard(k){
@@ -9523,6 +9526,16 @@ body{font-family:var(--sf);-webkit-font-smoothing:antialiased;letter-spacing:-.0
 .wp2s.pu b{color:var(--text)}
 .wp2s small i.pu{color:#acf910}.wp2s small i.pd{color:#ff5a52}
 @media (min-width:900px){.wp-card{max-width:640px;margin-left:auto;margin-right:auto}}
+
+/* ===== Apple pass 6: expand in place + simple share image ===== */
+.wp-card.open{grid-column:auto}
+@media (min-width:900px){.wp-card{max-width:none;margin-left:0;margin-right:0}}
+.sm-simple .wp-top,.sm-simple .wp-swb,.sm-simple .wp-late,.sm-simple .wp-cols,.sm-simple .wp-gi,.sm-simple .gi-sb,.sm-simple .wp2p .pn small,.sm-simple .wp-rng,.sm-simple .wp-pob,.sm-simple .wp-collapse,.sm-simple .wp-h2h,.sm-simple .wp-hl2,.sm-simple .wp-warn,.sm-simple .wp-vs,.sm-simple .wp-vslg,.sm-simple .wp-bar{display:none!important}
+.sm-simple .wp-tt.fin .pj{display:none}
+.sm-simple .wp-card{background:#222730;border-color:transparent}
+.sm-simple .wp2p .pn b{font-size:15px;font-weight:600}
+.sm-simple .wp2s small{display:block}
+.sm-simple .wp-full .wp2r{min-height:50px}
 </style>
 <script id="cfn-app-js">
 (function(){
