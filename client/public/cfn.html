@@ -4935,12 +4935,18 @@ function wpTot(k,m){
   var o=null; (PV8[k]||[]).forEach(function(x){ if(x.ia===m.ia&&x.ib===m.ib) o=x; });
   var oa=m.ob?m.ob[0]:o?o.a[3]:m.a[3], ob=m.ob?m.ob[1]:o?o.b[3]:m.b[3], sa=(m.la&&m.la.s)||0, sb=(m.lb&&m.lb.s)||0, fin=m.left===0;
   var cl=function(now,orig){ return fin?(now>orig?' lo':now<orig?' lu':''):(now>orig+0.05?' lo':now<orig-0.05?' lu':''); };
-  var box=function(sc,live,orig,c,cls,yh){ var pr=fin?orig:live, g=c===' lo'?'<i class="gl" title="Above the original projection of '+orig.toFixed(1)+'">\u25B2</i>':c===' lu'?'<i class="gl" title="Below the original projection of '+orig.toFixed(1)+'">\u25BC</i>':''; return '<div class="wp-tt '+cls+c+'"><b>'+sc.toFixed(1)+'</b><small class="pj">'+(fin?'Final':pr.toFixed(1)+' proj')+g+'</small></div>'; };
+  var box=function(sc,live,orig,c,cls,yh){ var pr=fin?orig:live, g=c===' lo'?'<i class="gl" title="Above the original projection of '+orig.toFixed(1)+'">\u25B2</i>':c===' lu'?'<i class="gl" title="Below the original projection of '+orig.toFixed(1)+'">\u25BC</i>':''; return '<div class="wp-tt '+cls+c+'"><b>'+sc.toFixed(2)+'</b><small class="pj">'+(fin?'Final':pr.toFixed(2)+' proj')+g+'</small></div>'; };
   return {a:box(sa,m.a[3],oa,cl(fin?sa:m.a[3],oa),'a',m.y?m.y[0]:null), b:box(sb,m.b[3],ob,cl(fin?sb:m.b[3],ob),'b',m.y?m.y[1]:null)};
+}
+function wpMlHtml(lv,p){
+  if(lv&&lv.fin) return '<div class="wp-ml"></div>';
+  if(lv&&lv.done) return '<div class="wp-ml">'+(lv.w?'W':'L')+'</div>';
+  var t=String(pvMl(p)), n=parseInt(t.replace(/[^\d-]/g,''),10)||0, c=t.charAt(0)==='-'?' mlf':(n>=300?' mlr':' mlo');
+  return '<div class="wp-ml'+c+'" title="Moneyline '+t+(c===' mlf'?', favorite':', underdog')+'">'+t+'</div>';
 }
 function wpTeam(k,t,tid,fav,p,q,lv,side,late,tot){
   var pj=lv?(lv.done?(lv.fin?'<b>'+lv.s.toFixed(1)+'</b> final':'<b>'+lv.s.toFixed(1)+'</b> now &middot; decided'):'<b>'+lv.s.toFixed(1)+'</b> now &middot; '+t[3].toFixed(1)+' proj'):t[3].toFixed(1)+' proj';
-  return '<div class="wp-tm2 '+(side||'l')+(fav?' fav':'')+'">'+wpAv(k,t[1],tid)+'<div class="wp-nm">'+lgEsc(t[0])+'</div><div class="wp-sub"><b>'+lgEsc(t[1])+'</b><i>'+lgEsc(t[2])+'</i></div><div class="wp-ml">'+(lv&&lv.done?(lv.w?'W':'L'):pvMl(p))+'</div>'+(lv?'':'<div class="wp-proj">'+pj+'</div>')+(tot||'')+(late||'')+'</div>';
+  return '<div class="wp-tm2 '+(side||'l')+(fav?' fav':'')+'">'+wpAv(k,t[1],tid)+'<div class="wp-nm">'+lgEsc(t[0])+'</div><div class="wp-sub"><b>'+lgEsc(t[1])+'</b><i>'+lgEsc(t[2])+'</i></div>'+wpMlHtml(lv,p)+(lv?'':'<div class="wp-proj">'+pj+'</div>')+(tot||'')+(late||'')+'</div>';
 }
 function wpTop(t,e){
   var h='<div class="wp-pl">'+t[6].map(function(x){return '<div'+(x[2]?' class="tp"':'')+'>'+wpPh(x[0])+'<span>'+lgEsc(x[0])+cfnSh(x[0])+(x[2]?' <u class="wp-au tp">to play</u>':'')+'</span><b>'+(x[2]?'~':'')+x[1].toFixed(1)+'</b></div>';}).join('');
@@ -9483,6 +9489,40 @@ body{font-family:var(--sf);-webkit-font-smoothing:antialiased;letter-spacing:-.0
 .tc-btn{border-radius:999px;font-family:var(--sf);font-size:13px;font-weight:600;padding:8px 14px}
 .tc-note{text-transform:none;letter-spacing:0;font-size:13px}
 .tc-panel .tc-btn,.mv-hd .tc-btn{width:auto!important;display:inline-flex;align-self:flex-start}
+
+/* ===== Apple pass 5: scoreboard spec (mirrored header, quiet colour, dense lineup) ===== */
+:root:not([data-theme="light"]){--bg:#1a1d25}
+:root:not([data-theme="light"]) .wp-card{background:#222730}
+.wp-card{padding:12px;border-radius:14px}
+.wp-card .wp-split{column-gap:27px}
+.wp-card .wp-tm2 .wp-sub{display:none}
+.wp-card .wp-tm2 .wp-nm{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;white-space:normal;overflow:hidden;min-height:2.5em;line-height:1.25;font-size:15px;font-weight:600;margin-bottom:6px}
+.wp-card .wp-tm2>:first-child,.wp-card .wp-tm2 .wp-av{width:50px;height:50px}
+.wp-card .wp-tt b{font-family:ui-rounded,'SF Pro Rounded',var(--sf);font-size:28px;font-weight:700;color:var(--text)!important;font-variant-numeric:tabular-nums}
+.wp-card .wp-tt .pj{font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--muted)!important}
+.wp-card .wp-tt.lo .pj{color:#acf910!important}
+.wp-card .wp-tt.lu .pj{color:#ff5a52!important}
+:root[data-theme="light"] .wp-card .wp-tt.lo .pj{color:#4a7d00!important}
+.wp-tt .gl{color:inherit;opacity:.9}
+.wp-card .wp-tm2 .wp-ml{font-size:11px;font-weight:600;color:var(--muted)!important}
+.wp-card .wp-tm2 .wp-ml.mlf{color:#2fd3a4!important}
+.wp-card .wp-tm2 .wp-ml.mlo{color:#ff9d2e!important}
+.wp-card .wp-tm2 .wp-ml.mlr{color:#ff5a52!important}
+.wp-card .wp-tm2.fav{background:none}
+/* lineup */
+.wp-full .wp2r{min-height:48px;padding:6px 0}
+.wp2p{min-height:44px}
+.wp2p .pn b{font-size:13px;font-weight:600}
+.wp2p .pn small,.wp-gi{font-size:10px;font-weight:400}
+.wp2s b{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.wp2s small{font-size:10px;font-weight:400}
+.wp-full .wp-slot{display:inline-flex;align-items:center;justify-content:center;width:27px;height:20px;padding:0;border-radius:4px;font-size:9px;font-weight:700;letter-spacing:0;border:1px solid transparent;line-height:1}
+.wp-slot.wp-s-QB{background:#5aa2ff21;border-color:#5aa2ff59}.wp-slot.wp-s-RB{background:#2fd3a421;border-color:#2fd3a459}.wp-slot.wp-s-WR{background:#ff9d2e21;border-color:#ff9d2e59}.wp-slot.wp-s-TE{background:#ff5fa621;border-color:#ff5fa659}
+.wp-slot.wp-s-K{color:#c58bff;background:#c58bff21;border-color:#c58bff59}.wp-slot.wp-s-DEF{color:#7fdbca;background:#7fdbca21;border-color:#7fdbca59}
+.wp-full .wp-slot.wp-s-FLX,.wp-full .wp-slot.wp-s-SFLX{width:auto;min-width:27px;padding:0 3px}
+.wp2s.pu b{color:var(--text)}
+.wp2s small i.pu{color:#acf910}.wp2s small i.pd{color:#ff5a52}
+@media (min-width:900px){.wp-card{max-width:640px;margin-left:auto;margin-right:auto}}
 </style>
 <script id="cfn-app-js">
 (function(){
