@@ -9719,8 +9719,9 @@ function wpsOpen(k,i){ var m=(PVL[k]||[])[i]; if(!m) return; var o=wpsOv(), box=
 function wpsSeries(m,pts){ var S=[]; pts.forEach(function(p){ var r=(p[1]||[]).filter(function(x){ return x[0]===m.ia; })[0]; if(r) S.push({t:p[0],pa:r[1],ja:r[2],pb:r[3],jb:r[4],p:wpsProb(r[1],r[2],r[3],r[4])}); }); return S; }
 function wpsBody(m,A,B,pts,fk){
   var S=wpsSeries(m,pts), usedFk=false, h='<div class="wps-h">Win probability swings</div><div class="wps-s">'+lgEsc(A)+' vs '+lgEsc(B)+'</div>';
-  if(fk&&fk.rows&&fk.rows.length&&fk.ia===m.ia&&fk.ib===m.ib){ /* week we were not recording yet: Flock Fantasy's series, then our own points after it */
-    var F=fk.rows.map(function(r){ return {t:r[0],pa:r[2]/10,pb:r[3]/10,p:r[1]/1000}; }), lt=F[F.length-1].t;
+  var fx=null, fl=false; if(fk&&!Array.isArray(fk)) fk=[fk]; (fk||[]).forEach(function(e){ if(!fx&&e&&e.rows&&e.rows.length){ if(e.ia===m.ia&&e.ib===m.ib) fx=e; else if(e.ia===m.ib&&e.ib===m.ia){ fx=e; fl=true; } } });
+  if(fx){ /* week we were not recording yet: Flock Fantasy's series (every matchup), then our own points after it */
+    var F=fx.rows.map(function(r){ return fl?{t:r[0],pa:r[3]/10,pb:r[2]/10,p:1-r[1]/1000}:{t:r[0],pa:r[2]/10,pb:r[3]/10,p:r[1]/1000}; }), lt=F[F.length-1].t;
     var f0=0; while(f0+1<F.length&&F[f0+1].pa===0&&F[f0+1].pb===0) f0++; F=F.slice(f0); /* start just before the first score instead of three flat days */
     S=F.concat(S.filter(function(x){ return x.t>lt; })); usedFk=true; }
   if(S.length<2) return h+'<div class="wps-ld">Not enough history yet. The site records a point every time a league is refreshed, so this fills in as the games go on.</div>';
