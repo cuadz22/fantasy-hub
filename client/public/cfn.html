@@ -10354,12 +10354,12 @@ setTimeout(go,300);
 window.__wkAfter=function(){
   var b=window.__WK10; if(!b) return;
   try{ var fc=document.querySelector('.feat-card'); if(fc){ fc.querySelector('.feat-title').innerHTML='Week 10 Final &amp; Week 11 Early Look';
-    var best=null; LG.forEach(function(k){ b.rcp.lg[k].forEach(function(m,i){ [0,1].forEach(function(j){ if(!best||m.s[j]>best.s) best={s:m.s[j],k:k,t:m.t[j]}; }); }); });
-    var bn=best?tname(best.k,best.t,'')+' ('+mgr(best.k,tname(best.k,best.t,''))+')':'';
+    var best=null; ['gl','bh','rb','sts'].forEach(function(k){ b.rcp.lg[k].forEach(function(m,i){ [0,1].forEach(function(j){ if(!best||m.s[j]>best.s) best={s:m.s[j],k:k,n:b.cfn[k][i][j?'teamB':'teamA'].name}; }); }); });
+    var bn=best?best.n+' ('+((ST_BIG.mgr[best.k]||{})[best.n]||best.n)+')':'';
     fc.querySelector('.feat-desc').textContent='Week 10 is in the books'+(best?': '+bn+' led the network with '+best.s.toFixed(2)+' points':'')+'. Final scores, recaps and win-odds swings for all 24 matchups, plus an early look at Week 11 built from optimized lineups. Waivers have not cleared yet, so lineups will move.';
     fc.querySelector('.feat-meta span').textContent='Nov 17, 2026'; fc.setAttribute('onclick','showArticle(10)'); } }catch(e){ console.error(e); }
   try{ document.querySelectorAll('.week-title').forEach(function(e){ e.textContent='Week 11'; }); document.querySelectorAll('.badge').forEach(function(e){ if(/Week 10/.test(e.textContent)) e.textContent='Week 11 Preview'; }); }catch(e){}
-  try{ var hh=document.querySelector('.hl-hd span'); if(hh&&/Week 10/.test(hh.textContent)) hh.textContent='Week 10 Final Headliners'; }catch(e){}
+  try{ var hh=document.querySelector('.hl-hd span'); if(hh&&/Week 10/.test(hh.textContent)) hh.textContent='Week 11 Headliners'; var pl=document.querySelector('.hl-hd .lv-pill'); if(pl) pl.innerHTML='<i></i>EARLY LOOK'; }catch(e){}
 };
 
 /* ---- Week 10 edition article, generated at runtime from the Week 10 final data ---- */
