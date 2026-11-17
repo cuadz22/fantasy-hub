@@ -9635,6 +9635,13 @@ body{font-family:var(--sf);-webkit-font-smoothing:antialiased;letter-spacing:-.0
   body:not(.cfn-app) #app-header .nav-fade{display:none}
 }
 @media(max-width:640px){ nav{justify-content:center} }
+
+/* headliner cards: projected points sit on the outer edge under each team (right team right-aligned), plus a quiet moneyline row */
+#hl-list .wp-tm2.r .wp-proj,#hl-list .wp-tm2.r .wp-nm{text-align:right;justify-self:end}
+#hl-list .wp-tm2.l .wp-proj{text-align:left;justify-self:start}
+.wp-card .wp-mlrow{display:flex;justify-content:center;align-items:baseline;gap:14px;margin:8px 0 2px;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.wp-card .wp-mlrow span{text-transform:uppercase;letter-spacing:.08em;font-size:10px;opacity:.8}
+.wp-card .wp-mlrow b{font-weight:600;color:var(--muted)}
 </style>
 <script id="cfn-app-js">
 (function(){
@@ -10354,7 +10361,14 @@ function go(){
         RC_REC=null; RC_STATE={}; applyStand(b.res); window.__WK10=b; }catch(e){ console.error('wk10',e); } }
     if(ok11){ try{ var c=build11(D11);
         LG.forEach(function(k){ PVL[k]=c.pvl[k]; PV8[k]=c.pv8[k]; PVX[k]=c.pvx[k]; });
-        LG.forEach(function(k){ var best=-1e9, bi=-1; D11[k].matchups.forEach(function(mm,mi){ var ee=null; PVL[k].forEach(function(x){ if(x.ia===mm.ia&&x.ib===mm.ib) ee=x; }); var n=primetime(k,mm)*1000-(ee?Math.abs(ee.a[3]-ee.b[3])+Math.abs(num(ee.a[2])-num(ee.b[2]))*0:0); if(n>best){ best=n; bi=mi; } }); if(bi>=0){ var m=D11[k].matchups[bi]; if(PVX[k][m.ia+'-'+m.ib]) PVX[k][m.ia+'-'+m.ib].pt=1; } });
+        LG.forEach(function(k){ var best=-1e9, bi=-1;
+          /* primetime = what is at stake: playoff-race and top-seed matchups first, then how close it is, then primetime-slot players (never who owns the team) */
+          var wl=function(q){ var m=/(\d+)-(\d+)/.exec(String(q)); return m?(+m[1])/Math.max(1,(+m[1])+(+m[2])):0; }, tm=[]; PVL[k].forEach(function(x){ tm.push({id:x.ia,w:wl(x.a[2])}); tm.push({id:x.ib,w:wl(x.b[2])}); });
+          var RK={}; tm.forEach(function(t){ RK[t.id]=tm.filter(function(u){ return u.w>t.w; }).length+1; });
+          var stk=function(r){ return Math.max(Math.max(0,1-Math.abs(r-6.5)/4), r<=3?(4-r)/3*0.9:0); };
+          D11[k].matchups.forEach(function(mm,mi){ var ee=null; PVL[k].forEach(function(x){ if(x.ia===mm.ia&&x.ib===mm.ib) ee=x; });
+            var sa=stk(RK[mm.ia]||12), sb=stk(RK[mm.ib]||12), stakes=Math.min(sa,sb)*0.6+Math.max(sa,sb)*0.4, close=ee?1-Math.abs((+ee.p||50)-50)/50:0.5;
+            var n=2*stakes+close+0.8*Math.min(primetime(k,mm),8)/8; if(n>best){ best=n; bi=mi; } }); if(bi>=0){ var m=D11[k].matchups[bi]; if(PVX[k][m.ia+'-'+m.ib]) PVX[k][m.ia+'-'+m.ib].pt=1; } });
         LG.forEach(function(k){ ysApply(k,{matchups:D11[k].matchups.map(function(mm){ var e=null; PVL[k].forEach(function(x){ if(x.ia===mm.ia&&x.ib===mm.ib) e=x; }); return {ia:mm.ia,ib:mm.ib,L:e.__mm.L,R:e.__mm.R,ya:mm.ya,yb:mm.yb}; })}); });
         LG.forEach(function(k){ ST_BIG.cards[k].w5=PVL[k].map(function(e){ function sd(a,rows,kk,dd,id){ return {id:id,m:a[1],t:a[0],r:a[2],s:a[3],lo:a[4],hi:a[5],k:kk?kk[1]:0,d:dd?dd[1]:0,rows:rows.map(function(r){ return [r[0],r[1],r[2],0]; })}; } return {a:sd(e.a,e.ra,e.ka,e.da,e.ia),b:sd(e.b,e.rb,e.kb,e.db,e.ib),wp:Math.round(e.p),h2h:e.h2h,riv:e.riv}; }); });
         YS.at=Date.now(); window.__WK11=c; window.__D11=D11; }catch(e){ console.error('wk11',e); } }
@@ -10574,7 +10588,9 @@ var _prev=window.__wkAfter; window.__wkAfter=function(){ try{ if(_prev) _prev();
   window.wpCard=function(k,m,i,live){
     if(live&&pre(m)){ var c={}; Object.keys(m).forEach(function(q){ c[q]=m[q]; });
       var pa=+m.a[3]||0, pb=+m.b[3]||0, sd=0.18*Math.sqrt(pa*pa+pb*pb)||1; c.p=Math.max(5,Math.min(95,Math.round(cdf((pa-pb)/sd)*100)));
-      return o(k,c,i,false).replace(/<div class="wp-ml[^"]*"[^>]*>[^<]*<\/div>/g,''); }
+      var html=o(k,c,i,false).replace(/<div class="wp-ml[^"]*"[^>]*>[^<]*<\/div>/g,'');
+      try{ var ml=function(q){ return String(pvMl(q)).replace('-','\u2212'); }, row='<div class="wp-mlrow"><span>Moneyline</span><b>'+lgEsc(m.a[1])+' '+ml(c.p)+'</b><b>'+lgEsc(m.b[1])+' '+ml(100-c.p)+'</b></div>'; html=html.replace('<div class="wp-cols">',row+'<div class="wp-cols">'); }catch(e){}
+      return html; }
     return o(k,m,i,live); };
   if(typeof ol==='function') window.lgLive=function(p,k){ ol(p,k); try{ var M=PVL[k]||[]; if(!M.length||!M.every(pre)) return; var pl0=p.querySelector('.lv-pill'), d=pl0&&pl0.closest('.subsec'); if(!d) return; var ls=p.querySelector('#lv-st'); if(ls&&ls.closest('.subsec')) ls.closest('.subsec').remove();
     var pl=d.querySelector('.lv-pill'); if(pl) pl.innerHTML='<i></i>EARLY LOOK';
