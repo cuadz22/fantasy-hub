@@ -10582,7 +10582,7 @@ var _prev=window.__wkAfter; window.__wkAfter=function(){ try{ if(_prev) _prev();
     KEYS.forEach(function(key){
       var pairs=[]; Object.keys(P).forEach(function(id){ var b=P[id].s&&P[id].s[key], l=(live[nn(P[id].n)]||{})[key]; if(b>=500&&l>=0&&isFinite(l)) pairs.push(l/b); });
       pairs.sort(function(a,b){ return a-b; }); var med=pairs.length?pairs[pairs.length>>1]:0;
-      if(pairs.length<120||med<0.4||med>2.5){ skipped.push(key); return; } /* too little overlap or the scale moved: keep the stored numbers */
+      if(pairs.length<60||med<0.4||med>2.5){ skipped.push(key); return; } /* too little overlap or the scale moved: keep the stored numbers */
       Object.keys(P).forEach(function(id){ var l=(live[nn(P[id].n)]||{})[key]; if(l>=0&&isFinite(l)){ P[id].s=P[id].s||{}; P[id].s[key]=l; } });
       used.push(key); });
     return {ok:used.length>0,used:used,skipped:skipped};
@@ -10591,7 +10591,7 @@ var _prev=window.__wkAfter; window.__wkAfter=function(){ try{ if(_prev) _prev();
   try{ fetch('/api/hw?market=1',{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(j){
     var r=apply(j); window.__mktLive=r; if(!r.ok) return; r.at=j.updated; r.dp=j.dpAsOf;
     var fc=fd(j.updated), dp=fd(j.dpAsOf);
-    document.querySelectorAll('.art-meta').forEach(function(e){ if(/Blended values from six sources/.test(e.textContent)){ var t=e.textContent; if(r.used.indexOf('ros1')>=0) t=t.replace(/FantasyCalc \([^)]*\)/,'FantasyCalc ('+fc+')'); if(r.used.indexOf('dp1')>=0&&dp) t=t.replace(/KeepTradeCut and DynastyProcess \([^)]*\)/,'KeepTradeCut (Nov 3) and DynastyProcess ('+dp+')'); e.textContent=t; } });
+    document.querySelectorAll('.art-meta').forEach(function(e){ if(/Blended values from six sources/.test(e.textContent)){ var t=e.textContent; if(r.used.indexOf('ros1')>=0||r.used.indexOf('dyn1')>=0) t=t.replace(/FantasyCalc \([^)]*\)/,'FantasyCalc ('+fc+')'); if(r.used.indexOf('dp1')>=0&&dp) t=t.replace(/KeepTradeCut and DynastyProcess \([^)]*\)/,'KeepTradeCut (Nov 3) and DynastyProcess ('+dp+')'); e.textContent=t; } });
   }).catch(function(e){ window.__mktLive={ok:false,why:String(e&&e.message||e)}; }); }catch(e){}
 })();
 </script>

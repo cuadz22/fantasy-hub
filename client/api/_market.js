@@ -32,7 +32,7 @@ function csvRows(t) {
 // A series is only used if it looks like a real value list: enough players, finite numbers, sane range, a real top end.
 function sane(map) {
   const v = Object.values(map);
-  return v.length >= 250 && v.every((x) => Number.isFinite(x) && x >= 0 && x <= 15000) && Math.max(...v) >= 5000;
+  return v.length >= 150 && v.every((x) => Number.isFinite(x) && x >= 0 && x <= 15000) && Math.max(...v) >= 5000;
 }
 
 async function fcSeries(isDynasty, numQbs) {
