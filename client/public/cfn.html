@@ -5078,7 +5078,7 @@ async function smPrep(off){
 }
 async function sharePrevMatch(k,i){
   var m=PV8[k][i], X=pvx(k,m)||{}, ttl=m.a[1]+' vs '+m.b[1]+' · '+LGI[k].name+(X.pt?' · Primetime matchup':'');
-  var line=(X.pt?'Primetime matchup. ':'')+m.a[1]+' '+pvMl(m.p)+' vs '+m.b[1]+' '+pvMl(100-m.p)+'. Week 10 preview.';
+  var line=(X.pt?'Primetime matchup. ':'')+m.a[1]+' '+pvMl(m.p)+' vs '+m.b[1]+' '+pvMl(100-m.p)+'. Week 11 preview.';
   try{ cfnCtx(cfnG('L',k,'Weekly Preview'),ttl,line); }catch(_e){}
   var ov=document.createElement('div'); ov.setAttribute('style','position:fixed;inset:0;z-index:99999;background:rgba(10,11,14,.88);display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow:auto');
   ov.innerHTML='<div style="width:100%;max-width:460px;background:#1a1d24;border:1px solid #282c37;border-radius:16px;padding:14px"><div id="smBox"></div></div>';
@@ -5365,7 +5365,7 @@ async function prevCard(k){
   wvT(c,'WEEK 10 PREVIEW · '+LGI[k].name.toUpperCase(),W-PX,H-ftr+72,'800 26px '+IN,ACC,'right',3);
   return cv;
 }
-async function sharePrev(k){ try{cfnCtx(cfnG('L',k,'Weekly Preview'),'Week 10 Preview · '+LGI[k].name,'Week 10 preview and moneylines on the Cuadz Fantasy Network');}catch(_e){}
+async function sharePrev(k){ try{cfnCtx(cfnG('L',k,'Weekly Preview'),'Week 11 Preview · '+LGI[k].name,'Week 11 preview and moneylines on the Cuadz Fantasy Network');}catch(_e){}
   var ov=document.createElement('div'); ov.setAttribute('style','position:fixed;inset:0;z-index:99999;background:rgba(10,11,14,.88);display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow:auto');
   ov.innerHTML='<div style="width:100%;max-width:640px;background:#1a1d24;border:1px solid #282c37;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px"><div id="spBox"></div></div>';
   document.body.appendChild(ov); ov.addEventListener('click',function(e){ if(e.target===ov) ov.remove(); });
@@ -5375,10 +5375,10 @@ async function sharePrev(k){ try{cfnCtx(cfnG('L',k,'Weekly Preview'),'Week 10 Pr
   var url=cv.toDataURL('image/png'), fn='cfn-week10-preview-'+k+'.png';
   var blob=await new Promise(function(r){ cv.toBlob(r,'image/png'); }), file=null, can=false;
   try{ file=new File([blob],fn,{type:'image/png'}); can=!!(navigator.canShare&&navigator.canShare({files:[file]})); }catch(e){}
-  box.innerHTML='<img alt="Week 10 preview" src="'+url+'" style="width:100%;height:auto;border-radius:14px;border:1px solid #282c37;display:block"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="tc-btn" id="spGo" style="flex:1">'+(can?'Share':'Save image')+'</button>'+(can?'<button class="tc-ghost" id="spDl">Save</button>':'')+'<button class="tc-ghost" id="spCl">Close</button></div><div id="spMsg" style="color:#dfe2e8;font:500 12px Inter,sans-serif;margin-top:8px"></div>';
+  box.innerHTML='<img alt="Week 11 preview" src="'+url+'" style="width:100%;height:auto;border-radius:14px;border:1px solid #282c37;display:block"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="tc-btn" id="spGo" style="flex:1">'+(can?'Share':'Save image')+'</button>'+(can?'<button class="tc-ghost" id="spDl">Save</button>':'')+'<button class="tc-ghost" id="spCl">Close</button></div><div id="spMsg" style="color:#dfe2e8;font:500 12px Inter,sans-serif;margin-top:8px"></div>';
   function save(){ var a=document.createElement('a'); a.href=url; a.download=fn; document.body.appendChild(a); a.click(); a.remove(); document.getElementById('spMsg').textContent='Image saved. On a phone, press and hold the card to save it to Photos.'; }
   document.getElementById('spCl').onclick=function(){ ov.remove(); };
-  if(can){ document.getElementById('spGo').onclick=function(){ navigator.share({files:[file],title:'Week 10 Preview · '+LGI[k].name,text:'Week 10 preview and moneylines on the Cuadz Fantasy Network'}).catch(function(){}); }; document.getElementById('spDl').onclick=save; }
+  if(can){ document.getElementById('spGo').onclick=function(){ navigator.share({files:[file],title:'Week 11 Preview · '+LGI[k].name,text:'Week 11 preview and moneylines on the Cuadz Fantasy Network'}).catch(function(){}); }; document.getElementById('spDl').onclick=save; }
   else document.getElementById('spGo').onclick=save;
 }
 var LVMODE='pen'; var LVHI={"gl": {"Justin Jefferson": {"ch": "41.4 (2022 vs GB)", "sh": "29.2 (Wk 1 vs GB)", "av": "14.4", "gp": 6}, "Jordan Addison": {"ch": "41.3 (2024 vs ATL)", "sh": "20 (Wk 3 vs TB)", "av": "8.2", "gp": 6}, "Josh Allen": {"ch": "63.3 (2024 vs LAR)", "sh": "49.3 (Wk 2 vs DET)", "av": "32.5", "gp": 7}, "DJ Moore": {"ch": "51 (2023 vs WAS)", "sh": "23 (Wk 1 vs HOU)", "av": "10.6", "gp": 5}, "James Cook III": {"ch": "39.1 (2023 vs DAL)", "sh": "25.8 (Wk 5 vs LAR)", "av": "18.8", "gp": 7}, "T.J. Hockenson": {"ch": "39.9 (2022 vs SEA)", "sh": "26.9 (Wk 4 vs MIA)", "av": "11.2", "gp": 7}, "Aaron Jones Sr.": {"ch": "52.2 (2019 vs DAL)", "sh": "21.7 (Wk 5 vs NO)", "av": "11.4", "gp": 7}, "Jordan Mason": {"ch": "27 (2024 vs NE)", "sh": "11.9 (Wk 1 vs GB)", "av": "6.9", "gp": 3}, "Dalton Kincaid": {"ch": "24.1 (2025 vs KC)", "sh": "22.5 (Wk 2 vs DET)", "av": "11.3", "gp": 7}, "Khalil Shakir": {"ch": "23.6 (2024 vs LAR)", "sh": "13.4 (Wk 6 vs LV)", "av": "9.5", "gp": 7}, "Keon Coleman": {"ch": "27.2 (2025 vs BAL)", "sh": "25.6 (Wk 4 vs NE)", "av": "9.5", "gp": 7}}, "bh": {"Justin Jefferson": {"ch": "39.4 (2022 vs GB)", "sh": "29.2 (Wk 1 vs GB)", "av": "14.4", "gp": 6}, "Jordan Addison": {"ch": "39.3 (2024 vs ATL)", "sh": "20 (Wk 3 vs TB)", "av": "8.2", "gp": 6}, "Josh Allen": {"ch": "61.3 (2024 vs LAR)", "sh": "49.3 (Wk 2 vs DET)", "av": "33.2", "gp": 7}, "DJ Moore": {"ch": "49 (2023 vs WAS)", "sh": "21 (Wk 1 vs HOU)", "av": "10.6", "gp": 5}, "James Cook III": {"ch": "36.1 (2023 vs DAL)", "sh": "24.3 (Wk 6 vs LV)", "av": "18.8", "gp": 7}, "T.J. Hockenson": {"ch": "37.9 (2022 vs SEA)", "sh": "24.9 (Wk 4 vs MIA)", "av": "11.2", "gp": 7}, "Aaron Jones Sr.": {"ch": "49.2 (2019 vs DAL)", "sh": "18.7 (Wk 5 vs NO)", "av": "11.4", "gp": 7}, "Jordan Mason": {"ch": "24 (2024 vs NE)", "sh": "11.9 (Wk 1 vs GB)", "av": "6.9", "gp": 3}, "Dalton Kincaid": {"ch": "22.5 (2026 vs DET)", "sh": "22.5 (Wk 2 vs DET)", "av": "11.3", "gp": 7}, "Khalil Shakir": {"ch": "21.6 (2024 vs LAR)", "sh": "13.4 (Wk 6 vs LV)", "av": "9.5", "gp": 7}, "Keon Coleman": {"ch": "25.2 (2025 vs BAL)", "sh": "23.6 (Wk 4 vs NE)", "av": "9.5", "gp": 7}}, "rb": {"Justin Jefferson": {"ch": "40.4 (2022 vs GB)", "sh": "29.2 (Wk 1 vs GB)", "av": "14.4", "gp": 6}, "Jordan Addison": {"ch": "40.3 (2024 vs ATL)", "sh": "20 (Wk 3 vs TB)", "av": "8.7", "gp": 6}, "Josh Allen": {"ch": "59.88 (2024 vs LAR)", "sh": "46.82 (Wk 2 vs DET)", "av": "30.0", "gp": 7}, "DJ Moore": {"ch": "50 (2023 vs WAS)", "sh": "22 (Wk 1 vs HOU)", "av": "11.2", "gp": 5}, "James Cook III": {"ch": "38.1 (2023 vs DAL)", "sh": "24.8 (Wk 5 vs LAR)", "av": "18.8", "gp": 7}, "T.J. Hockenson": {"ch": "38.9 (2022 vs SEA)", "sh": "25.9 (Wk 4 vs MIA)", "av": "11.2", "gp": 7}, "Aaron Jones Sr.": {"ch": "51.2 (2019 vs DAL)", "sh": "20.7 (Wk 5 vs NO)", "av": "11.4", "gp": 7}, "Jordan Mason": {"ch": "26 (2024 vs NE)", "sh": "11.9 (Wk 1 vs GB)", "av": "6.9", "gp": 3}, "Dalton Kincaid": {"ch": "23.1 (2025 vs KC)", "sh": "22.5 (Wk 2 vs DET)", "av": "11.6", "gp": 7}, "Khalil Shakir": {"ch": "22.6 (2024 vs LAR)", "sh": "13.4 (Wk 6 vs LV)", "av": "9.8", "gp": 7}, "Keon Coleman": {"ch": "26.2 (2025 vs BAL)", "sh": "24.6 (Wk 4 vs NE)", "av": "9.5", "gp": 7}}, "sts": {"Justin Jefferson": {"ch": "40.4 (2022 vs GB)", "sh": "29.2 (Wk 1 vs GB)", "av": "14.4", "gp": 6}, "Jordan Addison": {"ch": "40.3 (2024 vs ATL)", "sh": "20 (Wk 3 vs TB)", "av": "8.2", "gp": 6}, "Josh Allen": {"ch": "63.3 (2024 vs LAR)", "sh": "49.3 (Wk 2 vs DET)", "av": "32.2", "gp": 7}, "DJ Moore": {"ch": "50 (2023 vs WAS)", "sh": "22 (Wk 1 vs HOU)", "av": "10.6", "gp": 5}, "James Cook III": {"ch": "39.1 (2023 vs DAL)", "sh": "25.8 (Wk 5 vs LAR)", "av": "18.8", "gp": 7}, "T.J. Hockenson": {"ch": "38.9 (2022 vs SEA)", "sh": "25.9 (Wk 4 vs MIA)", "av": "11.2", "gp": 7}, "Aaron Jones Sr.": {"ch": "52.2 (2019 vs DAL)", "sh": "21.7 (Wk 5 vs NO)", "av": "11.4", "gp": 7}, "Jordan Mason": {"ch": "27 (2024 vs NE)", "sh": "11.9 (Wk 1 vs GB)", "av": "6.9", "gp": 3}, "Dalton Kincaid": {"ch": "23.1 (2025 vs KC)", "sh": "22.5 (Wk 2 vs DET)", "av": "11.3", "gp": 7}, "Khalil Shakir": {"ch": "22.6 (2024 vs LAR)", "sh": "13.4 (Wk 6 vs LV)", "av": "9.5", "gp": 7}, "Keon Coleman": {"ch": "26.2 (2025 vs BAL)", "sh": "24.6 (Wk 4 vs NE)", "av": "9.5", "gp": 7}}};
@@ -5429,7 +5429,7 @@ function lvStandHtml(k){
   });
   list.sort(function(a,b){ return b.w-a.w||b.pf-a.pf; });
   var h='<div class="lvs-ctl"><button class="lg-tab'+(LVMODE==='dec'?' on':'')+'" onclick="lvSet(\''+k+'\',\'dec\')">Decided only</button><button class="lg-tab'+(LVMODE==='pen'?' on':'')+'" onclick="lvSet(\''+k+'\',\'pen\')">Favorites penciled in</button></div>';
-  h+='<div class="st-table"><div class="lvs-hdr"><span>#</span><span>Team</span><span>W-L</span><span>PF</span><span>Week 10 outlook</span></div>';
+  h+='<div class="st-table"><div class="lvs-hdr"><span>#</span><span>Team</span><span>W-L</span><span>PF</span><span>Week 11 outlook</span></div>';
   list.forEach(function(o,i){
     var mv=o.r0-(i+1), ar=mv>0?'<b class="lvs-up">&#9650;'+mv+'</b>':mv<0?'<b class="lvs-dn">&#9660;'+(-mv)+'</b>':'';
     var od=(o.res==='live'||o.res==='pW'||o.res==='pL')?'<span class="lvs-od"><i'+(rcAm(o.p).charAt(0)==='+'?' class="dg"':(o.res==='pW'?' class="pc"':''))+'>'+(o.pw+1)+'-'+o.pl+(o.t?'-'+o.t:'')+' <b>'+rcAm(o.p)+'</b></i><i'+(rcAm(100-o.p).charAt(0)==='+'?' class="dg"':(o.res==='pL'?' class="pc"':''))+'>'+o.pw+'-'+(o.pl+1)+(o.t?'-'+o.t:'')+' <b>'+rcAm(100-o.p)+'</b></i></span>':'';
@@ -5443,7 +5443,7 @@ function lvStandHtml(k){
 function lvSet(k,m){ LVMODE=m; var e=document.getElementById('lv-st'); if(e) e.innerHTML=lvStandHtml(k); }
 function lgLive(p,k){
   var M=PVL[k]||[], alive=M.filter(function(m){return m.left>0&&!lvDec(m);}).length, d=document.createElement('div'); d.className='subsec';
-  d.innerHTML='<div class="subsec-hd" style="display:flex;align-items:center;gap:8px">Week 10 &middot; Live <span class="lv-pill"><i></i>LIVE</span></div><div class="wp-grid">'+M.map(function(m,i){return wpCard(k,m,i,true);}).join('')+'</div><p class="lv-note">Week 10 is under way, so these are early scores. '+alive+' of '+M.length+' matchups are still undecided. Scores and projections from Yahoo, '+PVL_AT+'. Win odds are recalculated from each team&rsquo;s live projected total, so they move as games finish. Players marked live or to play show their projection (~) until they score. Career and season highs are single-game PPR-style totals recomputed with this league&rsquo;s own Yahoo scoring (bonuses included) from Pro-Football-Reference game logs; kickers and defenses are not included, and Rebirth&rsquo;s 40-yard reception bonus is not counted. Tap any matchup for full lineups.</p>';
+  d.innerHTML='<div class="subsec-hd" style="display:flex;align-items:center;gap:8px">Week 11 &middot; Early Look <span class="lv-pill"><i></i>LIVE</span></div><div class="wp-grid">'+M.map(function(m,i){return wpCard(k,m,i,true);}).join('')+'</div><p class="lv-note">Week 10 is under way, so these are early scores. '+alive+' of '+M.length+' matchups are still undecided. Scores and projections from Yahoo, '+PVL_AT+'. Win odds are recalculated from each team&rsquo;s live projected total, so they move as games finish. Players marked live or to play show their projection (~) until they score. Career and season highs are single-game PPR-style totals recomputed with this league&rsquo;s own Yahoo scoring (bonuses included) from Pro-Football-Reference game logs; kickers and defenses are not included, and Rebirth&rsquo;s 40-yard reception bonus is not counted. Tap any matchup for full lineups.</p>';
   var sb=document.createElement('div'); sb.style.cssText='display:flex;justify-content:flex-end;margin-bottom:8px'; sb.innerHTML='<button class="st-btn" style="padding:5px 12px">Share live matchups</button>'; sb.firstChild.onclick=function(){ var b=sb.firstChild,o=b.textContent; var u=location.origin+'/l/'+({gl:'gentlemens',bh:'beaners',rb:'rebirth',sts:'sts'})[k]+'-live-matchups.html'; var ttl=LGI[k].name+' Live Matchups'; var done=function(){ b.textContent='Link copied \u2713'; setTimeout(function(){ b.textContent=o; },1600); }; if(navigator.share&&/Android|iPhone|iPad/i.test(navigator.userAgent)){ navigator.share({title:ttl,url:u}).catch(function(){}); return; } try{ navigator.clipboard.writeText(u).then(done,function(){ prompt('Copy this link',u); }); }catch(e){ prompt('Copy this link',u); } }; p.appendChild(sb);
   p.appendChild(d);
   var d2=document.createElement('div'); d2.className='subsec'; d2.innerHTML='<div class="subsec-hd">Live Standings</div><div id="lv-st">'+lvStandHtml(k)+'</div>'; if(alive>0) p.appendChild(d2);
@@ -5452,7 +5452,7 @@ function wpFresh(k,m){ try{ var L=null; (PVL[k]||[]).forEach(function(x){ if(x.i
 function lgPreview(p,k){
   var sb=document.createElement('div'); sb.style.cssText='display:flex;justify-content:flex-end;margin-bottom:8px'; sb.innerHTML='<button class="st-btn" style="padding:5px 12px">Share preview</button>'; sb.firstChild.onclick=function(){ sharePrev(k); }; p.appendChild(sb);
   var d=document.createElement('div'); d.className='subsec';
-  d.innerHTML='<div class="subsec-hd">Week 10 Preview &middot; Moneylines</div><div class="wp-grid">'+(PV8[k]||[]).map(function(m,i){return wpCard(k,wpFresh(k,m),i);}).join('')+'</div><p class="lv-note">Tap any matchup for the full lineups. \ud83d\udd25 = beat his projection in each of his last two games; \u2744\ufe0f = fell short of it in both. Moneylines come from each team&rsquo;s projected total (Yahoo, lineups as of Nov 10, after the Week 9 finals and waivers, kickers and defenses included; managers&rsquo; own lineup choices are respected, but any empty or bye-week starting slot is filled with that team&rsquo;s best-projected bench player at the position and marked &ldquo;auto&rdquo;) and the Fraud Meter&rsquo;s scoring spread, with a small house edge built in. H2H is the all-time regular-season series record between the two managers.</p>';
+  d.innerHTML='<div class="subsec-hd">Week 11 Early Look &middot; Moneylines</div><div class="wp-grid">'+(PV8[k]||[]).map(function(m,i){return wpCard(k,wpFresh(k,m),i);}).join('')+'</div><p class="lv-note">Tap any matchup for the full lineups. \ud83d\udd25 = beat his projection in each of his last two games; \u2744\ufe0f = fell short of it in both. Moneylines come from each team&rsquo;s projected total (Yahoo, lineups as of Nov 10, after the Week 9 finals and waivers, kickers and defenses included; managers&rsquo; own lineup choices are respected, but any empty or bye-week starting slot is filled with that team&rsquo;s best-projected bench player at the position and marked &ldquo;auto&rdquo;) and the Fraud Meter&rsquo;s scoring spread, with a small house edge built in. H2H is the all-time regular-season series record between the two managers.</p>';
   p.appendChild(d);
 }
 
@@ -5657,7 +5657,7 @@ function lgRender(){
   var k = lgState.k, L = LGI[k], p = document.getElementById('lg-panel');
   document.getElementById('lg-eye').textContent = 'CFN · League' + (L.keeper ? ' · Keeper' : '');
   document.getElementById('lg-name').innerHTML = lgLogoImg(k)+L.name;
-  document.getElementById('lg-meta').textContent = 'Est. ' + L.est + ' · Week 10 live';
+  document.getElementById('lg-meta').textContent = 'Est. ' + L.est + ' · Week 11 preview';
   document.getElementById('lg-tabs').innerHTML = lgTabs(); p.setAttribute('data-tab', lgState.tab);
   p.innerHTML = '';
   var t = lgState.tab;
@@ -6469,7 +6469,7 @@ function pvCard(m){
 }
 function liveSub(k){
   var d=document.createElement('div'); d.className='subsec';
-  if(PV7[k]){d.innerHTML='<div class="subsec-hd">Week 10 &middot; Win Probability</div><div class="m3-grid">'+PV7[k].map(pvCard).join('')+'</div><p class="lv-note">Projected totals add up each team’s best healthy lineup from consensus weekly projections (byes and Out players excluded; kickers and defenses included), shown with the 10th&ndash;90th percentile range. Win probability uses the Fraud Meter’s team-by-team scoring spread. Lineups are auto-set, so they may differ from what managers have set.</p>'; return d;}
+  if(PV7[k]){d.innerHTML='<div class="subsec-hd">Week 11 &middot; Win Probability</div><div class="m3-grid">'+PV7[k].map(pvCard).join('')+'</div><p class="lv-note">Projected totals add up each team’s best healthy lineup from consensus weekly projections (byes and Out players excluded; kickers and defenses included), shown with the 10th&ndash;90th percentile range. Win probability uses the Fraud Meter’s team-by-team scoring spread. Lineups are auto-set, so they may differ from what managers have set.</p>'; return d;}
   d.innerHTML='<div class="subsec-hd">Week 4 &middot; Live</div><div class="m3-grid">'+LIVE4[k].map(lvCard).join('')+'</div><p class="lv-note">Scores as of Friday, Oct 2. Bars show the projected edge from Yahoo&rsquo;s live projections. Week 3 results are below.</p>';
   return d;
 }
@@ -9620,7 +9620,7 @@ body{font-family:var(--sf);-webkit-font-smoothing:antialiased;letter-spacing:-.0
 /* pass 11: opened lineups never stack names letter by letter; an opened headliner takes the full row */
 .wp2p .pn b{overflow-wrap:normal;word-break:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .wp2p .pn{overflow:hidden}
-#hl-list.wp-grid .wp-card.open{grid-column:1/-1;width:100%;max-width:760px;justify-self:center}
+#hl-list.wp-grid .wp-card.open{grid-column:1/-1}
 </style>
 <script id="cfn-app-js">
 (function(){
@@ -10117,78 +10117,152 @@ pmSquare=function(d,i){
    +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-top:10px;padding-bottom:12px;border-bottom:1px solid #262a34;flex:none">'+tb(A,wA,false)+mid+tb(B,!wA,true)+'</div>'
    +'<div style="display:flex;flex-direction:column;margin-top:2px">'+rows+'</div>'+pmFoot()+'</div>';
 };
-/* ---- Studio pass 12: cover, circular team logos, quieter Man of the Match, projections on matchup recap ---- */
-bigTeamImg=function(lg,team,sz){
-  var m=bigMg(lg,team), tid=(ST_BIG.tid[lg]||{})[team];
-  if(lg==='gl'&&ST_BIG.heads[m]) return '<img src="'+ST_BIG.heads[m]+'" style="width:'+sz+'px;height:'+sz+'px;object-fit:contain;display:block;flex:none">';
-  var u=(ST_BIG.logos[lg]||{})[tid], d=u&&BIG_LOGO_DATA[u];
-  if(d) return '<img src="'+d+'" style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;object-fit:cover;display:block;flex:none">';
-  var ini=m.split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
-  return '<div style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;border:2px solid #00DFCE;background:#282c37;color:#00DFCE;font-family:\'Bebas Neue\',sans-serif;font-size:'+Math.round(sz*.45)+'px;display:flex;align-items:center;justify-content:center;flex:none;box-sizing:border-box">'+stEsc(ini)+'</div>';
-};
-pmHead=function(k,mgr,id,sz,col){
-  var H=k==='gl'?(ST_BIG.heads||{})[mgr]:null, u=((ST_BIG.logos||{})[k]||{})[String(id)], d=u&&BIG_LOGO_DATA[u];
-  if(H) return '<img src="'+H+'" style="width:'+sz+'px;height:'+sz+'px;object-fit:contain;display:block;flex:none">';
-  if(d) return '<img src="'+d+'" style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;object-fit:cover;display:block;flex:none">';
-  return '<div style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;border:2px solid '+col+';background:#282c37;box-sizing:border-box;color:'+col+';font-weight:700;font-size:'+Math.round(sz*.34)+'px;display:flex;align-items:center;justify-content:center;flex:none">'+stEsc(rcIni(mgr))+'</div>';
-};
-window.cfnCoverHTML=function(d){
-  var k=d.id, lg=LG_LOGO[k]||'', name=(d.name||'').toUpperCase(), BBF='font-family:\'Bebas Neue\',Impact,sans-serif';
-  var logo='', SZ={gl:[232,300],bh:[462,260],rb:[204,260],sts:[223,260]};
-  if(lg&&SZ[k]){ var w0=SZ[k][0], h0=SZ[k][1], sc=Math.min(280/w0,215/h0)*0.72, lw=Math.round(w0*sc), lh=Math.round(h0*sc);
-    var im='<img src="'+lg+'" alt="" width="'+lw+'" height="'+lh+'" style="width:'+lw+'px;height:'+lh+'px;max-width:none;display:block;flex:none">';
-    logo=(k==='rb')?'<div style="width:'+lw+'px;height:'+Math.round(lh*224/260)+'px;overflow:hidden;flex:none">'+im+'</div>':im; }
-  return '<div style="width:540px;height:675px;background:#14161b;border-top:5px solid #00DFCE;border-bottom:5px solid #00DFCE;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;font-family:Inter,system-ui,sans-serif;position:relative;overflow:hidden">'
-   +'<div style="margin-top:36px;font-size:13px;font-weight:800;letter-spacing:4px;color:#dfe2e8;text-align:center">'+stEsc(name)+'</div>'
-   +'<div style="margin-top:20px;height:170px;display:flex;align-items:center;justify-content:center">'+logo+'</div>'
-   +'<div style="'+BBF+';font-size:136px;line-height:.9;color:#fff;letter-spacing:2px;margin-top:22px;white-space:nowrap">WEEK '+d.week+'</div>'
-   +'<div style="'+BBF+';font-size:80px;line-height:1;color:#00DFCE;letter-spacing:3px;margin-top:4px">RECAP</div>'
-   +'<div style="width:60px;height:2px;background:#2a2f38;margin-top:20px"></div>'
-   +'<div style="margin-top:20px;font-size:12px;font-weight:700;letter-spacing:3px;color:#c5c7cd">SWIPE FOR THE FULL BREAKDOWN</div>'
-   +'<img src="'+CFN_LOGO+'" alt="CFN" style="position:absolute;bottom:44px;left:50%;margin-left:-24px;width:48px;height:auto">'
-   +'<div style="position:absolute;bottom:20px;left:0;right:0;text-align:center;font-size:9px;font-weight:700;letter-spacing:2.5px;color:#dfe2e8">CUADZFANTASYNETWORK.COM</div></div>';
-};
+
+/* ---- Week rollover, built at load from Yahoo lineups: Week 10 final recap data + Week 11 early-look preview ---- */
 (function(){
-  var _w=pmWeekly;
-  pmWeekly=function(d){
-    var h=_w(d), lg=d.id, mo=stMotm(d);
-    /* rebuild only the Man of the Match block: quieter cards, matchup as one small line, owner beside the position */
-    function line(t,o,right){ var nm=bigMg(lg,t.name); var sp='<span style="font-size:9.5px;font-weight:600;color:#c9cdd6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">'+stEsc(nm)+'</span><span style="font-family:\'Bebas Neue\',sans-serif;font-size:14px;line-height:1;color:#fff;flex:none">'+stF(t.score)+'</span>';
-      return '<div style="flex:1;min-width:0;display:flex;align-items:center;gap:3px;justify-content:'+(right?'flex-end':'flex-start')+'">'+(right?sp+bigTeamImg(lg,t.name,15):bigTeamImg(lg,t.name,15)+sp)+'</div>'; }
-    var cards=mo.map(function(x){
-      var m=null; d.matchups.forEach(function(q){ if(q.teamA.name===x.a&&q.teamB.name===x.b) m=q; }); if(!m) m=d.matchups[0];
-      var pos=x.p.position==='SFLX'||x.p.position==='SFX'?'FLEX':x.p.position;
-      return '<div style="width:246px;height:84px;box-sizing:border-box;background:#1f232a;border:1px solid #31363f;border-radius:14px;padding:7px 10px 6px;display:flex;flex-direction:column;margin:0 3px 6px">'
-       +'<div style="display:flex;align-items:center;gap:9px">'+bigPhoto(x.p.name,40)
-       +'<div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+stEsc(rcShort(x.p.name))+'</div><div style="font-size:8.5px;color:#00DFCE;letter-spacing:.1em;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+stEsc(pos)+' – '+stEsc(bigMg(lg,x.team).toUpperCase())+'</div></div>'
-       +'<div style="font-family:\'Bebas Neue\',sans-serif;font-size:32px;color:#00DFCE;line-height:1;flex:none">'+Number(x.p.points).toFixed(1)+'</div></div>'
-       +'<div style="display:flex;align-items:center;gap:6px;margin-top:auto;border-top:1px solid #2a2f38;padding-top:4px">'+line(m.teamA,m.teamB,false)+'<span style="font-size:7.5px;color:#808797;font-weight:700;letter-spacing:.1em;flex:none">VS</span>'+line(m.teamB,m.teamA,true)+'</div></div>'; }).join('');
-    var a=h.indexOf('MAN OF THE MATCH'); if(a<0) a=h.toLowerCase().indexOf('man of the match');
-    var s1=h.indexOf('<div style="display:flex;flex-wrap:wrap;justify-content:center;margin:0 -3px">',a), s2=h.indexOf('Weekly awards'); if(s2<0) s2=h.toLowerCase().indexOf('weekly awards');
-    var e1=h.lastIndexOf('<div style="font-size:12px;font-weight:800',s2);
-    if(s1<0||e1<s1) return h;
-    return h.slice(0,s1)+'<div style="display:flex;flex-wrap:wrap;justify-content:center;margin:0 -3px">'+cards+'</div>'+h.slice(e1);
-  };
+var DONE=10, NEXT=11, LG=['gl','bh','rb','sts'];
+var B0={rec:{},nm:{}}; /* baked pre-Week-10 records and team names by Yahoo team id */
+try{ LG.forEach(function(k){ B0.rec[k]={}; B0.nm[k]={}; (PVL[k]||[]).forEach(function(e){ B0.rec[k][e.ia]=e.a[2]; B0.rec[k][e.ib]=e.b[2]; B0.nm[k][e.ia]=e.a[0]; B0.nm[k][e.ib]=e.b[0]; }); }); }catch(e){}
+window.PVL_WK=NEXT;
+function num(x){ var v=parseFloat(x); return isFinite(v)?v:0; }
+function r2(x){ return Math.round(x*100)/100; }
+function tname(k,id,fallback){ return B0.nm[k][id]||fallback; }
+function mgr(k,team){ return (ST_BIG.mgr[k]||{})[team]||team; }
+function slotOf(s){ return s==='Q/W/R/T'?'SFX':s; }
+function isStart(r){ return r[0]!=='BN'&&r[0]!=='IR'; }
+function elig(slot,pos){ if(slot==='QB'||slot==='RB'||slot==='WR'||slot==='TE'||slot==='K'||slot==='DEF') return slot===pos; if(slot==='W/R/T') return pos==='RB'||pos==='WR'||pos==='TE'; if(slot==='Q/W/R/T') return pos==='QB'||pos==='RB'||pos==='WR'||pos==='TE'; return false; }
+function resultRec(rec,win){ var p=String(rec||'0-0').split('-'), w=+p[0]||0, l=+p[1]||0, t=+p[2]||0; return win===1?(w+1)+'-'+l+(t?'-'+t:''):win===0?w+'-'+(l+1)+(t?'-'+t:''):w+'-'+l+'-'+(t+1); }
+/* ---------- Week 10 final ---------- */
+function build10(D,H){
+  var rcp={week:DONE,lg:{},oct:RCP.oct,od:{},nt:{}}, cfn={}, w4={}, res={};
+  LG.forEach(function(k){
+    rcp.lg[k]=[]; rcp.od[k]=[]; rcp.nt[k]={}; var ms=[]; res[k]={};
+    D[k].matchups.forEach(function(mm,mi){
+      var sides=[mm.L,mm.R].map(function(L){
+        var S=L.filter(isStart), skill=S.filter(function(r){ return r[0]!=='K'&&r[0]!=='DEF'; });
+        var rows=skill.map(function(r){ return [slotOf(r[0]),r[1],r2(num(r[5])),r2(num(r[4]))]; });
+        var kd=['K','DEF'].map(function(s){ var r=S.filter(function(x){ return x[0]===s; })[0]; return r?[r[1],r2(num(r[5])),r2(num(r[4]))]:['—',0,0]; });
+        var tot=r2(S.reduce(function(a,r){ return a+num(r[5]); },0));
+        var star=rows.slice().sort(function(a,b){ return b[2]-a[2]; })[0];
+        var dud=rows.filter(function(r){ return r[3]>=5; }).sort(function(a,b){ return (a[2]-a[3])-(b[2]-b[3]); })[0]||rows[0];
+        return {L:L,S:S,rows:rows,kd:kd,s:tot,star:star,dud:dud};
+      });
+      var A=sides[0], B=sides[1];
+      rcp.lg[k].push({t:[mm.ia,mm.ib],s:[A.s,B.s],L:[A.rows,B.rows],sd:[[[A.star[1],A.star[2]],[A.dud[1],A.dud[2],A.dud[3]]],[[B.star[1],B.star[2]],[B.dud[1],B.dud[2],B.dud[3]]]],kd:[A.kd,B.kd]});
+      res[k][mm.ia]={pf:A.s,pa:B.s,win:A.s>B.s?1:A.s<B.s?0:.5}; res[k][mm.ib]={pf:B.s,pa:A.s,win:B.s>A.s?1:B.s<A.s?0:.5};
+      /* notes: zero-stat starters and bench players who would have flipped a loss */
+      var notes=[];
+      [[A,B,mm.ia,mm.ib],[B,A,mm.ib,mm.ia]].forEach(function(q){ var X=q[0], Y=q[1], tn=tname(k,q[2],''), mg=mgr(k,tn);
+        X.S.forEach(function(r){ if(r[0]==='K'||r[0]==='DEF') return; if(num(r[5])===0&&num(r[4])>=6&&!/^bye/i.test(r[6]||'')&&/final/i.test(r[6]||'')) notes.push(tn+' ('+mg+'): '+r[1]+' ('+String(r[3]).toUpperCase()+') did not record a stat line and scored 0 vs '+r2(num(r[4]))+' projected'); });
+        var gap=Y.s-X.s; if(gap>0){ var best=null; X.S.forEach(function(sr){ if(sr[0]==='K'||sr[0]==='DEF') return; X.L.forEach(function(br){ if(br[0]!=='BN') return; if(!elig(sr[0],br[2])) return; var g=num(br[5])-num(sr[5]); if(g>gap&&(!best||g>best.g)) best={g:g,b:br,s:sr}; }); }); if(best) notes.push(tn+' ('+mg+') left '+best.b[1]+' ('+r2(num(best.b[5]))+') on the bench; starting him over '+best.s[1]+' ('+r2(num(best.s[5]))+') would have flipped a '+r2(gap)+'-point loss'); } });
+      if(notes.length) rcp.nt[k][String(mi)]=notes;
+      /* Studio data */
+      var an=tname(k,mm.ia,mm.an), bn=tname(k,mm.ib,mm.bn);
+      function tm(S,nm){ var pl=S.rows.slice().sort(function(a,b){ return b[2]-a[2]; }).slice(0,3).map(function(r){ return {name:r[1],position:r[0]==='W/R/T'?'FLEX':r[0]==='SFX'?'SFLX':r[0],points:r[2]}; });
+        var lu=S.rows.map(function(r){ return {position:r[0]==='W/R/T'?'FLEX':r[0]==='SFX'?'SFLX':r[0],name:r[1],points:r[2]}; }).concat([{position:'K',name:S.kd[0][0],points:S.kd[0][1]},{position:'DEF',name:S.kd[1][0],points:S.kd[1][1]}]);
+        return {name:nm,score:S.s,players:pl,lineup:lu}; }
+      ms.push({teamA:tm(A,an),teamB:tm(B,bn)});
+    });
+    cfn[k]=ms;
+  });
+  /* standings: apply Week 10 to the baked Week 9 table once */
+  return {rcp:rcp,cfn:cfn,res:res};
+}
+function applyOd(rcp,H){
+  var T=[Date.UTC(2026,10,13,5,0)/1000,Date.UTC(2026,10,15,21,15)/1000,Date.UTC(2026,10,16,1,0)/1000,Date.UTC(2026,10,16,4,30)/1000];
+  LG.forEach(function(k){ var h=H[k]; if(!h) return;
+    rcp.lg[k].forEach(function(m,i){ try{ var ia=m.t[0], ib=m.t[1], S=[];
+      (h.flock||[]).forEach(function(e){ if(e&&e.rows&&e.rows.length&&((e.ia===ia&&e.ib===ib)||(e.ia===ib&&e.ib===ia))){ var fl=e.ia===ib; S=e.rows.map(function(r){ return {t:r[0],p:fl?1-r[1]/1000:r[1]/1000}; }); } });
+      var lt=S.length?S[S.length-1].t:0;
+      (h.pts||[]).forEach(function(p){ if(p[0]<=lt) return; (p[1]||[]).forEach(function(r){ if(r[0]===ia) S.push({t:p[0],p:wpsProb(r[1],r[2],r[3],r[4])}); }); });
+      if(S.length<3) return;
+      function at(t){ var v=S[0].p; S.forEach(function(x){ if(x.t<=t) v=x.p; }); return Math.round(v*100); }
+      rcp.od[k][i]=[Math.round(S[0].p*100)].concat(T.map(at));
+    }catch(e){} }); });
+}
+function applyStand(res){
+  LG.forEach(function(k){ try{ var html=LGD.stand[k]; if(typeof html!=='string'||LGD.__standWk===DONE) return; var tmp=document.createElement('div'); tmp.innerHTML=html; var tb=tmp.querySelector('.st-table'); if(!tb) return;
+    var rows=[].slice.call(tb.querySelectorAll('.lgs-row')), byName={}; var tn2id={}; Object.keys(B0.nm[k]).forEach(function(id){ tn2id[B0.nm[k][id]]=id; });
+    rows.forEach(function(r){ var b=r.querySelector('.mg-nm b'), sp=r.children; var nm=b&&b.textContent, id=tn2id[nm]; var x=res[k][id]; if(!x) return; var c=[].slice.call(r.children);
+      var wl=c[2], pf=c[3], pa=c[4], sk=c[5]; wl.textContent=resultRec(wl.textContent,x.win); pf.textContent=(num(pf.textContent)+x.pf).toFixed(2); pa.textContent=(num(pa.textContent)+x.pa).toFixed(2);
+      var m=/^([WL])-(\d+)$/.exec(sk.textContent.trim()); var ch=x.win===1?'W':x.win===0?'L':null; if(ch){ sk.textContent=(m&&m[1]===ch)?ch+'-'+(+m[2]+1):ch+'-1'; }
+      r.__w=parseFloat(wl.textContent)||0; r.__pf=num(pf.textContent); });
+    var w2=function(r){ var p=r.children[2].textContent.split('-'); return (+p[0]||0)+0.5*(+p[2]||0); };
+    rows.sort(function(a,b){ return w2(b)-w2(a)||num(b.children[3].textContent)-num(a.children[3].textContent); });
+    rows.forEach(function(r,i){ var rk=r.querySelector('.st-rk'); if(rk) rk.textContent=String(i+1); tb.appendChild(r); });
+    LGD.stand[k]=tmp.innerHTML; }catch(e){ console.error(e); } });
+  LGD.__standWk=DONE;
+}
+/* ---------- Week 11 early look (optimised lineups) ---------- */
+function optimise(L){
+  var slots=L.filter(isStart).map(function(r){ return r[0]; });
+  var pool=L.filter(function(r){ var bye=/^bye/i.test(r[6]||''), out=r[7]==='O'||r[7]==='IR'||r[7]==='NA'||r[7]==='SUSP'; return !bye&&!out&&r[0]!=='IR'||(!bye&&!out&&r[0]==='IR'&&false); });
+  var used={}, pick={}; var order=['QB','RB','WR','TE','K','DEF','W/R/T','Q/W/R/T'];
+  var idx=slots.map(function(s,i){ return i; }).sort(function(a,b){ return order.indexOf(slots[a])-order.indexOf(slots[b]); });
+  idx.forEach(function(i){ var s=slots[i], best=null; pool.forEach(function(r,j){ if(used[j]) return; if(!elig(s,r[2])) return; var p=num(r[4]); if(r[7]==='D') p*=0.5; if(!best||p>best.p) best={p:p,j:j,r:r}; }); if(best){ used[best.j]=1; pick[i]=best.r; } });
+  var out=[], chosen={}; slots.forEach(function(s,i){ var r=pick[i]; if(r){ out.push([s].concat(r.slice(1))); chosen[r[1]]=1; } else { var cur=L.filter(isStart)[i]; out.push(cur); chosen[cur[1]]=1; } });
+  L.forEach(function(r){ if(!chosen[r[1]]) out.push([r[0]==='IR'?'IR':'BN'].concat(r.slice(1))); });
+  return out;
+}
+function build11(D){
+  var pvl={}, pv8={}, pvx={}, w5={};
+  LG.forEach(function(k){ pvl[k]=[]; pv8[k]=[]; pvx[k]={}; w5[k]=[]; var rec={}; (D[k].matchups||[]).forEach(function(mm){ [mm.ia,mm.ib].forEach(function(id){ rec[id]=resultRec(B0.rec[k][id],(K10[k]&&K10[k][id])?K10[k][id].win:null); }); });
+    (D[k].matchups||[]).forEach(function(mm,mi){
+      var an=tname(k,mm.ia,mm.an), bn=tname(k,mm.ib,mm.bn);
+      var LA=optimise(mm.L), LB=optimise(mm.R), mm2={ia:mm.ia,ib:mm.ib,an:mm.an,bn:mm.bn,L:LA,R:LB,ya:mm.ya,yb:mm.yb};
+      function tot(L){ return L.filter(isStart).reduce(function(a,r){ return a+num(r[4]); },0); }
+      var pa=tot(LA), pb=tot(LB);
+      function mk(nm,id,p){ var sd=p*0.18; return [nm,mgr(k,nm),rec[id]||'',r2(p),Math.round(p-1.28*sd),Math.round(p+1.28*sd),[]]; }
+      var e={a:mk(an,mm.ia,pa),b:mk(bn,mm.ib,pb),p:50,h2h:'',note:'',riv:0,pa:[0,0,0],pb:[0,0,0],ia:mm.ia,ib:mm.ib,ra:[],rb:[],ka:null,kb:null,da:null,db:null,ea:[],eb:[],left:20,cl:false,la:{s:0,done:false,cl:false,w:false},lb:{s:0,done:false,cl:false,w:false}};
+      pvl[k].push(e); pv8[k].push({a:e.a.slice(),b:e.b.slice(),p:50,h2h:'',note:'',riv:0,ia:mm.ia,ib:mm.ib,ra:[],rb:[],ka:null,kb:null,da:null,db:null,ea:[],eb:[]});
+      pvx[k][mm.ia+'-'+mm.ib]={pt:0,a:{pg:0,gp:DONE,mgr:e.a[1],name:an},b:{pg:0,gp:DONE,mgr:e.b[1],name:bn}};
+      e.__mm=mm2;
+    }); });
+  return {pvl:pvl,pv8:pv8,pvx:pvx};
+}
+var K10={};
+function primetime(k,mm){ var n=0; [mm.L,mm.R].forEach(function(L){ L.filter(isStart).forEach(function(r){ var s=String(r[6]||''); if(/^(thu|mon)\b/i.test(s)||/^sun 8:/i.test(s)) n++; }); }); return n; }
+function go(){
+  var H={}, D10={}, D11={};
+  var ps=[];
+  LG.forEach(function(k){
+    ps.push(fetch('/api/lineups?lg='+k+'&week='+DONE,{cache:'no-store'}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ D10[k]=j; }));
+    ps.push(fetch('/api/lineups?lg='+k+'&week='+NEXT,{cache:'no-store'}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ D11[k]=j; }));
+    ps.push(fetch('/api/lineups?lg='+k+'&week='+DONE+'&hist=1',{cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){ H[k]=j; }).catch(function(){}));
+  });
+  Promise.all(ps.map(function(p){ return p.catch(function(){ return 0; }); })).then(function(){
+    var ok10=LG.every(function(k){ return D10[k]&&D10[k].matchups&&D10[k].matchups.length>=6; }), ok11=LG.every(function(k){ return D11[k]&&D11[k].matchups&&D11[k].matchups.length>=6; });
+    if(ok10){ try{ var b=build10(D10,H); applyOd(b.rcp,H); K10=b.res; RCP=b.rcp; LG.forEach(function(k){ CFN_DATA[k].week=DONE; CFN_DATA[k].matchups=b.cfn[k]; var all=[]; b.cfn[k].forEach(function(m,mi){ [['teamA',0],['teamB',1]].forEach(function(q){ b.rcp.lg[k][mi].L[q[1]].forEach(function(r){ all.push([r[0],r[1],r[2],r[3],m[q[0]].name]); }); }); });
+          var mv=all.slice().sort(function(a,b){ return b[2]-a[2]; })[0], dd=all.filter(function(r){ return r[3]>=8; }).sort(function(a,b){ return (a[2]-a[3])-(b[2]-b[3]); })[0];
+          CFN_DATA[k].mvp=[mv[0]==='W/R/T'?'FLEX':mv[0],mv[1],mv[2],mv[4]]; CFN_DATA[k].dud=[dd[0]==='W/R/T'?'FLEX':dd[0],dd[1],dd[2],dd[4]];
+          var cards=ST_BIG.cards[k]; cards.w4=b.rcp.lg[k].map(function(m,mi){ function sd(i){ var nm=tname(k,m.t[i],''); return {id:m.t[i],m:mgr(k,nm),t:nm,r:resultRec(B0.rec[k][m.t[i]],K10[k][m.t[i]].win),s:m.s[i],k:m.kd[i][0][1],d:m.kd[i][1][1],rows:m.L[i].map(function(r){ return [r[0]==='W/R/T'?'FLEX':r[0],r[1],r[2]]; })}; } return {a:sd(0),b:sd(1)}; });
+        });
+        RC_REC=null; RC_STATE={}; applyStand(b.res); window.__WK10=b; }catch(e){ console.error('wk10',e); } }
+    if(ok11){ try{ var c=build11(D11);
+        LG.forEach(function(k){ PVL[k]=c.pvl[k]; PV8[k]=c.pv8[k]; PVX[k]=c.pvx[k]; });
+        LG.forEach(function(k){ var best=-1, bi=-1; D11[k].matchups.forEach(function(mm,mi){ var n=primetime(k,mm); if(n>best){ best=n; bi=mi; } }); if(bi>=0){ var m=D11[k].matchups[bi]; if(PVX[k][m.ia+'-'+m.ib]) PVX[k][m.ia+'-'+m.ib].pt=1; } });
+        LG.forEach(function(k){ ysApply(k,{matchups:D11[k].matchups.map(function(mm){ var e=null; PVL[k].forEach(function(x){ if(x.ia===mm.ia&&x.ib===mm.ib) e=x; }); return {ia:mm.ia,ib:mm.ib,L:e.__mm.L,R:e.__mm.R,ya:mm.ya,yb:mm.yb}; })}); });
+        LG.forEach(function(k){ ST_BIG.cards[k].w5=PVL[k].map(function(e){ function sd(a,rows,kk,dd,id){ return {id:id,m:a[1],t:a[0],r:a[2],s:a[3],lo:a[4],hi:a[5],k:kk?kk[1]:0,d:dd?dd[1]:0,rows:rows.map(function(r){ return [r[0],r[1],r[2],0]; })}; } return {a:sd(e.a,e.ra,e.ka,e.da,e.ia),b:sd(e.b,e.rb,e.kb,e.db,e.ib),wp:Math.round(e.p),h2h:e.h2h,riv:e.riv}; }); });
+        YS.at=Date.now(); window.__WK11=c; }catch(e){ console.error('wk11',e); } }
+    try{ if(window.__wkAfter) window.__wkAfter(); }catch(e){console.error(e);}
+    try{ ysRender(); }catch(e){}
+    try{ var lv=document.getElementById('view-league'); if(lv&&!lv.hidden) lgRender(); }catch(e){}
+    try{ if(typeof stRender==='function'&&!document.getElementById('view-studio').hidden) stRender(); }catch(e){}
+  });
+}
+setTimeout(go,300);
 })();
-pmSquare=function(d,i){
-  var k=d.id; pmEnsure(k);
-  var id=ST_BIG.cards[k].w4[i-1].a.id, idx=0; RCP.lg[k].forEach(function(m,j){ if(m.t[0]===id||m.t[1]===id) idx=j; });
-  var I=rcInfo(k,idx), A=I.A, B=I.B, wA=A.s>=B.s, n=Math.max(1,A.rows.length), lg=LG_LOGO[k];
-  var RH=Math.max(38,Math.min(62,Math.floor(420/n))), RS=Math.min(50,RH-8);
-  function tb(S,win,right){
-    var hd='<div style="display:flex;flex-direction:column;align-items:center;gap:3px;width:70px;flex:none">'+pmHead(k,S.mgr,S.id,66,'#00DFCE')+'<div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:#dfe2e8;white-space:nowrap">'+stEsc(S.mgr.toUpperCase())+'</div></div>';
-    var inf='<div style="flex:1;min-width:0;text-align:'+(right?'right':'left')+'"><div style="font-size:'+pmNameFs(S.team)+'px;font-weight:700;line-height:16px;height:16px;white-space:nowrap;overflow:hidden">'+stEsc(S.team)+'</div><div style="font-size:10.5px;color:#9aa1af;margin-top:2px">'+stEsc(S.rec||'')+'</div>'
-     +'<div style="font-family:\'Bebas Neue\',sans-serif;font-size:46px;line-height:.95;margin-top:3px;color:'+(win?'#fff':'#9aa1af')+'">'+rcF(S.s)+'</div></div>';
-    return '<div style="display:flex;gap:7px;width:206px;align-items:flex-start">'+(right?inf+hd:hd+inf)+'</div>'; }
-  var rows=A.rows.map(function(a,q){ var b=B.rows[q], wa=a[2]>b[2], wb=b[2]>a[2];
-    function nm(r,win,right){ return '<div style="flex:1;min-width:0;text-align:'+(right?'left':'right')+';font-size:13.5px;font-weight:'+(win?'600':'500')+';color:'+(win?'#fff':'#9aa1af')+';white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+stEsc(rcShort(r[1]))+cfnSh(r[1])+'</div>'; }
-    function pt(r,win){ var pj=r[3], pc=(pj==null)?'':'<div style="font-size:9.5px;font-weight:600;line-height:1;margin-top:2px;color:'+(r[2]>=pj?'#2fd3a4':'#ff5a52')+'">'+Number(pj).toFixed(1)+'</div>'; return '<div style="width:46px;flex:none;text-align:center"><div style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;line-height:1;color:'+(win?'#fff':'#9aa1af')+'">'+rcF(r[2])+'</div>'+pc+'</div>'; }
-    return '<div style="display:flex;align-items:center;gap:6px;height:'+RH+'px;border-bottom:1px solid #1b1e25">'+pmImg(a[1],RS)+nm(a,wa,false)+pt(a,wa)+pmPill(a[0])+pt(b,wb)+nm(b,wb,true)+pmImg(b[1],RS)+'</div>'; }).join('');
-  var mid='<div style="flex:1;text-align:center;padding-top:6px"><div style="font-size:15px;font-weight:700;color:#00DFCE;letter-spacing:.04em">Final</div><div style="font-size:10.5px;color:#9aa1af;margin-top:4px">'+rcLabel(Math.abs(A.s-B.s))+'</div></div>';
-  return '<div style="width:540px;height:675px;background:linear-gradient(180deg,#171a20,#121419 45%);color:#edeef1;font-family:Inter,\'Helvetica Neue\',Arial,sans-serif;position:relative;overflow:hidden;box-sizing:border-box;padding:16px 18px 12px;display:flex;flex-direction:column">'
-   +'<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:44px;flex:none"><img src="'+CFN_LOGO+'" alt="CFN" style="height:40px;width:auto;display:block;justify-self:start"><div style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;letter-spacing:.12em;color:#ff9f1c;line-height:1">WEEK '+RCP.week+'</div>'+(lg?'<img src="'+lg+'" alt="" style="height:42px;width:auto;max-width:96px;object-fit:contain;display:block;justify-self:end">':'<span></span>')+'</div>'
-   +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-top:24px;padding-bottom:12px;border-bottom:1px solid #262a34;flex:none">'+tb(A,wA,false)+mid+tb(B,!wA,true)+'</div>'
-   +'<div style="display:flex;flex-direction:column;margin-top:2px">'+rows+'</div>'+'<div style="margin-top:auto;text-align:center;padding-top:6px;flex:none;font-size:9px;font-weight:600;letter-spacing:.18em;color:#00DFCE;opacity:.9">CUADZFANTASYNETWORK.COM</div></div>';
+
+/* ---- Week 10 final / Week 11 labels + home card + Week 10 edition article (runtime) ---- */
+window.__wkAfter=function(){
+  var b=window.__WK10; if(!b) return;
+  try{ var fc=document.querySelector('.feat-card'); if(fc){ fc.querySelector('.feat-title').innerHTML='Week 10 Final &amp; Week 11 Early Look';
+    var best=null; LG.forEach(function(k){ b.rcp.lg[k].forEach(function(m,i){ [0,1].forEach(function(j){ if(!best||m.s[j]>best.s) best={s:m.s[j],k:k,t:m.t[j]}; }); }); });
+    var bn=best?tname(best.k,best.t,'')+' ('+mgr(best.k,tname(best.k,best.t,''))+')':'';
+    fc.querySelector('.feat-desc').textContent='Week 10 is in the books'+(best?': '+bn+' led the network with '+best.s.toFixed(2)+' points':'')+'. Final scores, recaps and win-odds swings for all 24 matchups, plus an early look at Week 11 built from optimized lineups. Waivers have not cleared yet, so lineups will move.';
+    fc.querySelector('.feat-meta span').textContent='Nov 17, 2026'; fc.setAttribute('onclick','showArticle(10)'); } }catch(e){ console.error(e); }
+  try{ document.querySelectorAll('.week-title').forEach(function(e){ e.textContent='Week 11'; }); document.querySelectorAll('.badge').forEach(function(e){ if(/Week 10/.test(e.textContent)) e.textContent='Week 11 Preview'; }); }catch(e){}
+  try{ var hh=document.querySelector('.hl-hd span'); if(hh&&/Week 10/.test(hh.textContent)) hh.textContent='Week 10 Final Headliners'; }catch(e){}
 };
 </script>
 </body></html>
