@@ -47,9 +47,9 @@ if (fnCount > 12) fail(`client/api has ${fnCount} functions; the Hobby plan allo
 }
 
 // 4. no outside provider names in anything the public can read
-const banned = /flock\s*fantasy|flockfantasy/i;
+const banned = /flock\s*fantasy|flockfantasy|fantasycalc|keeptradecut|dynastyprocess|fantasy_spew|\bspew\b|menton/i; // market sources stay private
 const publicFiles = ['cfn.html', ...fs.readdirSync(path.join(root, 'l')).filter((f) => f.endsWith('.html')).map((f) => 'l/' + f)];
-publicFiles.forEach((f) => { const t = rd(f); const m = banned.exec(t); if (m) fail(`${f}: contains "${m[0]}"`); });
+publicFiles.forEach((f) => { const t = rd(f).replace(/[A-Za-z0-9+\/=]{200,}/g, ''); const m = banned.exec(t); if (m) fail(`${f}: contains "${m[0]}"`); });
 ok(`provider-name scan over ${publicFiles.length} public pages`);
 
 // 5. recap copy: complete, sane, no template leftovers

@@ -1611,7 +1611,7 @@ body.cfn-app #view-league .lg-tabs:not(:has(.lgt-sub)){display:none!important}
   <div class="art-hd">
     <div class="art-eye">CFN · Market</div>
     <div class="art-title">Market</div>
-    <div class="art-meta">Blended values from six sources: FantasyCalc (Nov 11) and the Spew Week 10 chart, plus KeepTradeCut and DynastyProcess (Nov 3) and the Menton chart (Week 9) · trades through Nov 10</div>
+    <div class="art-meta">Blended market values, refreshed daily · trades through Nov 10</div>
   </div>
   <div class="tcx" id="tc-root">
     <div style="display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center">
@@ -6481,12 +6481,12 @@ var PL = D.players, PH = D.ph;
 var LGN = {gl:"Gentlemen's League",bh:'Beaners & Husseins',rb:'Rebirth',sts:'Shoot the Shits'};
 var PROF = {gl:{sf:0,keeper:0},sts:{sf:0,keeper:0},bh:{sf:0,keeper:1},rb:{sf:1,keeper:1}};
 var SRC = [
-  {id:'ros',lab:'FantasyCalc, rest of season',sub:'Built from real trades on thousands of leagues. Short-term lens.'},
-    {id:'dyn',lab:'FantasyCalc, dynasty',sub:'Long-term lens: age, draft capital, years of production left.'},
-  {id:'kt', lab:'KeepTradeCut',sub:'Community head-to-head player picks, converted to market points. Free, updates daily.'},
-  {id:'dp', lab:'DynastyProcess',sub:'Open data from expert rankings and market values.'},
-  {id:'sp', lab:'@fantasy_spew trade chart',sub:'Weekly PPR redraft trade values, converted to market points.'},
-  {id:'km', lab:'Kyle Menton trade chart',sub:'Weekly 12-team PPR trade values, converted to market points.'}
+  {id:'ros',lab:'Market model, rest of season',sub:'Short-term lens.'},
+    {id:'dyn',lab:'Market model, long term',sub:'Long-term lens: age, draft capital, years of production left.'},
+  {id:'kt', lab:'Community consensus',sub:'Converted to market points.'},
+  {id:'dp', lab:'Expert consensus',sub:'Converted to market points.'},
+  {id:'sp', lab:'Trade chart A',sub:'Weekly redraft trade values, converted to market points.'},
+  {id:'km', lab:'Trade chart B',sub:'Weekly trade values, converted to market points.'}
 ];
 var LG = 'gl', TEAMS = D.teams.gl, NEEDS = {}, ndSel = 1, view = 'hub';
 var sides = {A:[],B:[]}, teamSel = {A:0,B:0}, W = [1,.82,.68,.56,.46,.38], POS = ['QB','RB','WR','TE'], NSLOT = {QB:1,RB:2,WR:3,TE:1}, cache = {};
@@ -6780,7 +6780,7 @@ function mvList(){
   return {up:rows.filter(function(r){return r.d>0;}).slice(0,5), down:rows.filter(function(r){return r.d<0;}).slice(-5).reverse()};
 }
 function sgn(n,dp){ var a=Math.abs(n), t=dp?a.toFixed(dp).replace(/\.0+$/,''):fmt(a); return (n>0?'+':n<0?'−':'')+t; }
-function mvSrc(r){ var p=[]; if(r.sp&&r.sp.d!=null) p.push('Spew '+sgn(r.sp.d,1)); else if(r.sp) p.push('Spew flat'); if(r.km&&!r.km.n&&r.km.d!=null) p.push('Menton '+sgn(r.km.d,1)); else if(r.km&&!r.km.n) p.push('Menton flat'); return p.join(' · '); }
+function mvSrc(r){ var p=[]; if(r.sp&&r.sp.d!=null) p.push('Chart A '+sgn(r.sp.d,1)); else if(r.sp) p.push('Chart A flat'); if(r.km&&!r.km.n&&r.km.d!=null) p.push('Chart B '+sgn(r.km.d,1)); else if(r.km&&!r.km.n) p.push('Chart B flat'); return p.join(' · '); }
 function mvCalls(r){ var o=[]; if(r.sp&&r.sp.c) o.push(r.sp.c); if(r.km&&r.km.c) o.push({g:'BUY',p:'SHOP',r:'SELL'}[r.km.c]); var seen={}; return o.filter(function(x){ if(seen[x]) return false; seen[x]=1; return true; }); }
 function mvSeries(r){
   var row=((D.mv&&D.mv.rows)||[]).filter(function(x){ return x.k===r.k; })[0], out=[];
@@ -6830,7 +6830,7 @@ function moversHTML(){
    '.mv-sec{font:400 14px var(--tc-disp);letter-spacing:.14em;margin:12px 0 6px}'+
    '@media(max-width:820px){.mv-grid{grid-template-columns:1fr;gap:8px}.mv-c{aspect-ratio:auto;display:grid;grid-template-columns:minmax(0,1fr) 58px auto;grid-template-areas:"h ch dl";align-items:center;gap:10px;padding:10px 12px}.mv-h{grid-area:h}.mv-ch{grid-area:ch;height:40px}.mv-dl{grid-area:dl;flex-direction:column;align-items:flex-end;gap:2px;margin:0}.mv-lab,.mv-calls{display:none}.mv-d{font-size:24px}.mv-ar{display:none}.mv-c .tc-av.mvav{width:44px;height:44px}}'+
    '.mv-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}@media(max-width:560px){.mv-hd .tc-btn{width:100%}}</style>'+
-   '<div class="tc-panel"><div class="mv-hd"><div><h3>Market movers · Week '+D.mv.wk+'</h3><div class="tc-sub">Biggest value changes since last week, from the @fantasy_spew Week 10 trade chart, as a percent change in blended market value. Charts show weekly PPR points.</div></div><button class="tc-btn" onclick="TC.moversShare()">Share movers</button></div>'+
+   '<div class="tc-panel"><div class="mv-hd"><div><h3>Market movers · Week '+D.mv.wk+'</h3><div class="tc-sub">Biggest value changes since last week, as a percent change in blended market value. Charts show weekly PPR points.</div></div><button class="tc-btn" onclick="TC.moversShare()">Share movers</button></div>'+
    '<div class="mv-sec" style="color:#00DFCE">RISERS</div><div class="mv-grid">'+m.up.map(function(r){return mvCard1(r,1);}).join('')+'</div>'+
    '<div class="mv-sec" style="color:#ff6b6b">FALLERS</div><div class="mv-grid">'+m.down.map(function(r){return mvCard1(r,0);}).join('')+'</div></div>';
 }
@@ -6887,7 +6887,7 @@ async function mvCard(){
     }
   }
   await section('RISERS',ACC,m.up,1); await section('FALLERS',RED,m.down,0);
-  wvT(c,'Lines: weekly PPR points, Wk 1-7 (market value for players with under 3 games). Dashed = season average.',W/2,H-152,'400 18px '+IN,'#575d6a','center'); wvT(c,'Moves: @fantasy_spew Week 10 trade chart, scaled to FantasyCalc market points.',W/2,H-126,'400 18px '+IN,'#dfe2e8','center');
+  wvT(c,'Lines: weekly PPR points, Wk 1-7 (market value for players with under 3 games). Dashed = season average.',W/2,H-152,'400 18px '+IN,'#575d6a','center'); wvT(c,'Moves: weekly change in blended market value.',W/2,H-126,'400 18px '+IN,'#dfe2e8','center');
   c.strokeStyle='#282c37'; c.lineWidth=2; c.beginPath(); c.moveTo(PAD,H-112); c.lineTo(W-PAD,H-112); c.stroke();
   wvT(c,'CUADZ FANTASY NETWORK',PAD,H-50,'38px '+BB,'#e3e5e8','left',6);
   wvT(c,'cuadzfantasynetwork.com',W-PAD,H-52,'600 26px '+IN,ACC,'right');
@@ -10581,7 +10581,7 @@ var _prev=window.__wkAfter; window.__wkAfter=function(){ try{ if(_prev) _prev();
     var nt=d.querySelector('.lv-note'); if(nt) nt.innerHTML='Early look at Week 11: no games have been played and waivers have not cleared, so lineups and projections will change. Projections are from Yahoo, '+(window.PVL_AT||'')+'. Tap any matchup for full lineups.'; }catch(e){} };
 })();
 
-/* ---- Market values: pull FantasyCalc + DynastyProcess live, check them against the stored values, fall back if anything looks off ---- */
+/* ---- Market values: pull the live feed, check it against the stored values, fall back if anything looks off ---- */
 (function(){
   var KEYS=['ros1','ros2','dyn1','dyn2','dp1','dp2'], MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   function nn(x){ return String(x||'').toLowerCase().replace(/’/g,"'").replace(/\b(jr|sr|ii|iii|iv)\b\.?/g,'').replace(/[^a-z]/g,''); }
@@ -10601,7 +10601,7 @@ var _prev=window.__wkAfter; window.__wkAfter=function(){ try{ if(_prev) _prev();
   try{ fetch('/api/hw?market=1',{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(j){
     var r=apply(j); window.__mktLive=r; if(!r.ok) return; r.at=j.updated; r.dp=j.dpAsOf;
     var fc=fd(j.updated), dp=fd(j.dpAsOf);
-    document.querySelectorAll('.art-meta').forEach(function(e){ if(/Blended values from six sources/.test(e.textContent)){ var t=e.textContent; if(r.used.indexOf('ros1')>=0||r.used.indexOf('dyn1')>=0) t=t.replace(/FantasyCalc \([^)]*\)/,'FantasyCalc ('+fc+')'); if(r.used.indexOf('dp1')>=0&&dp) t=t.replace(/KeepTradeCut and DynastyProcess \([^)]*\)/,'KeepTradeCut (Nov 3) and DynastyProcess ('+dp+')'); e.textContent=t; } });
+    document.querySelectorAll('.art-meta').forEach(function(e){ if(/^Blended market values/.test(e.textContent)){ var f=(r.used.indexOf('ros1')>=0||r.used.indexOf('dyn1')>=0)&&fc?fc:''; if(f) e.textContent=e.textContent.replace('refreshed daily','updated '+f); } });
   }).catch(function(e){ window.__mktLive={ok:false,why:String(e&&e.message||e)}; }); }catch(e){}
 })();
 </script>
