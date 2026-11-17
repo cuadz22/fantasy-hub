@@ -30,7 +30,12 @@ const miss = markers.filter((m) => !html.includes(m) && !(m === 'id="art-body-10
 if (miss.length) fail('missing markers (stale or damaged file?): ' + miss.join(', ')); else ok('all work markers present');
 
 // 3b. the live market feed exists
-if (!fs.existsSync(path.join(root, '..', 'api', 'market.js'))) fail('client/api/market.js is missing'); else ok('market feed present');
+if (!fs.existsSync(path.join(root, '..', 'api', '_market.js'))) fail('client/api/_market.js is missing'); else ok('market feed present');
+
+// 3c. Hobby plan allows 12 serverless functions: underscore files and non-js files do not count
+const apiDir = path.join(root, '..', 'api');
+const fnCount = fs.readdirSync(apiDir).filter((f) => /\.(js|mjs|ts)$/.test(f) && !f.startsWith('_')).length;
+if (fnCount > 12) fail(`client/api has ${fnCount} functions; the Hobby plan allows 12 (move extras into an underscore module)`); else ok(`${fnCount}/12 serverless functions`);
 
 // 4. no outside provider names in anything the public can read
 const banned = /flock\s*fantasy|flockfantasy/i;

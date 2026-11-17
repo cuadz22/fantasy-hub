@@ -74,7 +74,7 @@
 
   // 6b. live market values: the feed answers, passes its own checks, and the page accepted at least one series
   try {
-    const r = await fetch('/api/market', { cache: 'no-store' }); const j = await r.json();
+    const r = await fetch('/api/hw?market=1', { cache: 'no-store' }); const j = await r.json();
     if (!r.ok || !j.ok || j.ok.length < 2) fail('market feed unhealthy: ' + JSON.stringify({ s: r.status, ok: j.ok, failed: j.failed }));
     else {
       for (let i = 0; i < 20 && window.__mktLive && window.__mktLive.why === 'pending'; i++) await sleep(250);

@@ -10588,7 +10588,7 @@ var _prev=window.__wkAfter; window.__wkAfter=function(){ try{ if(_prev) _prev();
     return {ok:used.length>0,used:used,skipped:skipped};
   }
   window.__mktLive={ok:false,why:'pending'};
-  try{ fetch('/api/market',{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(j){
+  try{ fetch('/api/hw?market=1',{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(j){
     var r=apply(j); window.__mktLive=r; if(!r.ok) return; r.at=j.updated; r.dp=j.dpAsOf;
     var fc=fd(j.updated), dp=fd(j.dpAsOf);
     document.querySelectorAll('.art-meta').forEach(function(e){ if(/Blended values from six sources/.test(e.textContent)){ var t=e.textContent; if(r.used.indexOf('ros1')>=0) t=t.replace(/FantasyCalc \([^)]*\)/,'FantasyCalc ('+fc+')'); if(r.used.indexOf('dp1')>=0&&dp) t=t.replace(/KeepTradeCut and DynastyProcess \([^)]*\)/,'KeepTradeCut (Nov 3) and DynastyProcess ('+dp+')'); e.textContent=t; } });
