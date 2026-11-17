@@ -1,0 +1,4 @@
+/* pass 11: opened lineups never stack names letter by letter; an opened headliner takes the full row */
+.wp2p .pn b{overflow-wrap:normal;word-break:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wp2p .pn{overflow:hidden}
+#hl-list.wp-grid .wp-card.open{grid-column:1/-1;width:100%;max-width:760px;justify-self:center}
