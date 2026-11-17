@@ -1,0 +1,28 @@
+name: Live site check
+on:
+  deployment_status:
+  schedule:
+    - cron: '17 */3 * * *'
+  workflow_dispatch:
+jobs:
+  live:
+    # after a production deploy finishes, every 3 hours, or on demand
+    if: github.event_name != 'deployment_status' || github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Let the new deploy settle
+        if: github.event_name == 'deployment_status'
+        run: sleep 45
+      - name: Install browser
+        run: |
+          npm i --no-save --no-package-lock playwright
+          npx playwright install --with-deps chromium
+      - name: API check
+        run: node tools/smoke_prod.js
+      - name: Page check
+        run: node tools/smoke_site.mjs
