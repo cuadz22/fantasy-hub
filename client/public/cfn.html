@@ -10416,7 +10416,7 @@ gl2:"George Pickens, Trevor Lawrence and Parker Washington combined for 114.00 p
 gl3:"Jahmyr Gibbs gave Ramon 47.20 points. Alexis answered with 49.85 from Dak Prescott and considerably more help. Sir finished at 201.25, turning Woodridge lore’s promising start into a 72.65-point defeat. James Cook III added 24.70 and Bhayshul Tuten another 20.30; the contributions kept coming after the quarterbacks were accounted for. Alexis joins Mr. Electricity at 8–2 ahead of their Week 11 meeting. Ramon drops to 5–5. Having Gibbs go off usually makes for a pleasant Sunday. This was an expensive exception.",
 gl4:"Pru gave Mr. Electricity its second loss, and the team name supplied the explanation. Christian McCaffrey scored 48.30, with Nico Collins and Tony Pollard contributing another 48.30 between them. Julio’s lineup never found a comparable answer; its highest scorer was Malik Washington at 15.70. Run CMC won by 43.15 and moved to 6–4, while Julio’s 8–2 record now comes with company at the top. Pru also takes a 4–3 lead in their all-time series. A playoff-race boost and a rivalry receipt in the same week.",
 gl5:"Kevin’s 204.75 was the league’s highest score, and the timing could hardly have been better. Brock Purdy, Chuba Hubbard and Isaiah Likely combined for 107.45, powering The Arbiter into the sixth playoff position at 5–5. John got useful production from Cam Skattebo and Deebo Samuel Sr., but 132.80 was nowhere near enough against this opponent. The Veterans fall to 3–7. Kevin needed a win to strengthen his position; his lineup submitted the week’s strongest application.",
-bh0:"Edwin led 141.4–83.0 on Sunday evening. Cuadz won 183.15–172.00. That is a 58.4-point deficit erased, followed by an 11.15-point cushion, which feels unnecessarily cruel to the team watching it happen. Christian McCaffrey finished with 46.30 and Chase Brown added 28.30 as cuadz build 002 completed the turnaround. Edwin’s 172.00 was the third-highest score in the league this week; the schedule gave him one of the two teams that beat it. Cuadz reaches 6–4 and fourth place. Olivas FC drops to 5–5 with a perfectly reasonable complaint.",
+bh0:"Edwin led 141.4–83.0 on Sunday evening. Cuadz won 183.15–172.00. That is a 58.4-point deficit erased, followed by an 11.15-point cushion, which feels unnecessarily cruel to the team watching it happen. Christian McCaffrey finished with 46.30 and Chase Brown added 28.30 as cuadz build 002 completed the turnaround. Edwin’s 172.00 was the fourth-highest score in the league this week; the schedule matched him with one of the three teams that topped it. Cuadz reaches 6–4 and fourth place. Olivas FC drops to 5–5 with a perfectly reasonable complaint.",
 bh1:"Cris won the meeting between contenders, and Dak Prescott supplied the separation. His 48.85 points, plus Parker Washington’s 28.20, pushed Love Thy Nabers past An Underdog Story and into first on the tiebreak. Gio got 27.30 from Josh Allen, but the supporting scores left too much ground to recover. Both teams are 8–2, with The JeantyMen’s Club completing the three-way tie. The standings say level. This week’s head-to-head result gives Cris a little more freedom to talk.",
 bh2:"Joe Burrow scored 45.25 for Kyle, which would have been more useful with some company. Kayshon Boutte and Greg Dulcich combined for zero, and Tyler Allgeier added 1.40. Eddie had Ja’Marr Chase, Jared Goff and Amon-Ra St. Brown producing together, so The JeantyMen’s Club won by 54.80. At 8–2, Eddie shares the league lead. Kyle got a headline quarterback performance and the wrong kind of headline result.",
 bh3:"Money O scored 245.00. Pretenders scored 74.50. Patrick Mahomes and Jahmyr Gibbs alone combined for 93.10, so Oscar’s other starters were adding insult to arithmetic. George Pickens contributed another 43.50 in the network’s highest-scoring lineup and widest win of the week. The 170.50-point margin moves Oscar to 5–5, still seventh and chasing a playoff place. Kevin falls to 2–8. The standings may require patience; this scoreboard required mercy.",
@@ -10552,6 +10552,21 @@ function build(){
   if(window.__wantArt){ var ww=window.__wantArt; window.__wantArt=0; showArticle(ww); }
 }
 var _prev=window.__wkAfter; window.__wkAfter=function(){ try{ if(_prev) _prev(); }catch(e){ console.error(e); } try{ build(); }catch(e){ console.error('art10',e); } };
+})();
+
+/* ---- Before kickoff: Week 11 cards show projections only (no live odds, no up/down arrows, no "to play" counts) ---- */
+(function(){
+  var o=window.wpCard, ol=window.lgLive; if(typeof o!=='function') return;
+  function pre(m){ try{ return !!(m&&m.a&&m.b&&m.la&&m.lb&&!(m.la.s>0)&&!(m.lb.s>0)&&!m.cl); }catch(e){ return false; } }
+  function cdf(z){ var t=1/(1+0.2316419*Math.abs(z)), d=0.3989423*Math.exp(-z*z/2), p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274)))); return z>0?1-p:p; }
+  window.wpCard=function(k,m,i,live){
+    if(live&&pre(m)){ var c={}; Object.keys(m).forEach(function(q){ c[q]=m[q]; });
+      var pa=+m.a[3]||0, pb=+m.b[3]||0, sd=0.18*Math.sqrt(pa*pa+pb*pb)||1; c.p=Math.max(5,Math.min(95,Math.round(cdf((pa-pb)/sd)*100)));
+      return o(k,c,i,false).replace(/<div class="wp-ml[^"]*"[^>]*>[^<]*<\/div>/g,''); }
+    return o(k,m,i,live); };
+  if(typeof ol==='function') window.lgLive=function(p,k){ ol(p,k); try{ var M=PVL[k]||[]; if(!M.length||!M.every(pre)) return; var pl0=p.querySelector('.lv-pill'), d=pl0&&pl0.closest('.subsec'); if(!d) return; var ls=p.querySelector('#lv-st'); if(ls&&ls.closest('.subsec')) ls.closest('.subsec').remove();
+    var pl=d.querySelector('.lv-pill'); if(pl) pl.innerHTML='<i></i>EARLY LOOK';
+    var nt=d.querySelector('.lv-note'); if(nt) nt.innerHTML='Early look at Week 11: no games have been played and waivers have not cleared, so lineups and projections will change. Projections are from Yahoo, '+(window.PVL_AT||'')+'. Tap any matchup for full lineups.'; }catch(e){} };
 })();
 </script>
 </body></html>
