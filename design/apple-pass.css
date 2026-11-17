@@ -160,3 +160,30 @@ body{font-family:var(--sf);-webkit-font-smoothing:antialiased;letter-spacing:-.0
 .sm-simple .wp-full .wp2r.dr{border-top:0;min-height:44px;padding-top:0}
 .sm-simple .wp2r.kr .wp2p .wp-ph,.sm-simple .wp2r.dr .wp2p .wp-ph{width:32px;height:32px;flex:0 0 32px}
 @media (min-width:1100px){#hl-list.wp-grid{width:min(1440px,calc(100vw - 64px));position:relative;left:50%;transform:translateX(-50%)}}
+
+/* ===== Apple pass 9: uniform card height, page-width headliners, league logo ===== */
+.wp-grid{align-items:stretch}
+.wp-grid:has(.wp-card.open){align-items:start}
+.wp-card{container-type:inline-size}
+.wp-card .wp-h2h{min-height:64px}
+.wp-card .wp-top>span:first-child{display:inline-flex;align-items:center;gap:6px;min-width:0;white-space:nowrap}
+.wp-card .wp-lgl{height:22px;width:auto;max-width:34px;object-fit:contain;flex:none}
+.wp-card .wp-tp{font-style:normal}
+@container (max-width:330px){
+ .wp-tp{display:none}
+ .wp-hint{display:none}
+ .wp-top{gap:6px;flex-wrap:nowrap}
+ .wp-top>span:first-child{flex:0 0 auto;font-size:11px}
+ .wp-lgl{height:20px!important;max-width:26px!important}
+ .wp-sh{padding:3px 9px!important;margin-left:auto}
+ .wp-top .wp-ptl+.wp-sh{margin-left:0}
+ .wp-top .wp-ptl{padding:3px 6px;font-size:9.5px;margin-left:auto;margin-right:0}
+ .wp-tm2 .wp-av,.wp-card .wp-tm2>:first-child,.wp-card .wp-tm2 .wp-av{width:38px!important;height:38px!important}
+ .wp-card .wp-tt b{font-size:22px}
+ .wp-card .wp-tt .pj{font-size:12px}
+ .wp-card .wp-tm2 .wp-nm{font-size:13px}
+ .wp-card .wp-split{column-gap:10px}
+ .wp-card .wp-tm2 .wp-late{font-size:11px}
+ .wp-card .wp-tm2 .wp-ml{font-size:10.5px}
+ .wp-pl>div span{font-size:12px}
+}
