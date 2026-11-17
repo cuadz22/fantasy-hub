@@ -72,6 +72,17 @@
   window.wpsClose();
   if (bad.length) fail('swings chart: ' + bad.join('; ')); else ok('24 swings charts read consistently');
 
+  // 6b. live market values: the feed answers, passes its own checks, and the page accepted at least one series
+  try {
+    const r = await fetch('/api/market', { cache: 'no-store' }); const j = await r.json();
+    if (!r.ok || !j.ok || j.ok.length < 2) fail('market feed unhealthy: ' + JSON.stringify({ s: r.status, ok: j.ok, failed: j.failed }));
+    else {
+      for (let i = 0; i < 20 && window.__mktLive && window.__mktLive.why === 'pending'; i++) await sleep(250);
+      if (!window.__mktLive || !window.__mktLive.ok) fail('page did not accept live market values: ' + JSON.stringify(window.__mktLive));
+      else ok('market feed: used ' + window.__mktLive.used.join(',') + (window.__mktLive.skipped.length ? ' (kept stored values for ' + window.__mktLive.skipped.join(',') + ')' : ''));
+    }
+  } catch (e) { fail('market feed error: ' + e.message); }
+
   // 7. week labels
   const wt = document.querySelector('.week-title'); if (wt && window.PVL_WK === 11 && !/Week 11/.test(wt.textContent)) fail('home week title is "' + wt.textContent + '"');
   return out;

@@ -10570,5 +10570,29 @@ var _prev=window.__wkAfter; window.__wkAfter=function(){ try{ if(_prev) _prev();
     var pl=d.querySelector('.lv-pill'); if(pl) pl.innerHTML='<i></i>EARLY LOOK';
     var nt=d.querySelector('.lv-note'); if(nt) nt.innerHTML='Early look at Week 11: no games have been played and waivers have not cleared, so lineups and projections will change. Projections are from Yahoo, '+(window.PVL_AT||'')+'. Tap any matchup for full lineups.'; }catch(e){} };
 })();
+
+/* ---- Market values: pull FantasyCalc + DynastyProcess live, check them against the stored values, fall back if anything looks off ---- */
+(function(){
+  var KEYS=['ros1','ros2','dyn1','dyn2','dp1','dp2'], MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function nn(x){ return String(x||'').toLowerCase().replace(/’/g,"'").replace(/\b(jr|sr|ii|iii|iv)\b\.?/g,'').replace(/[^a-z]/g,''); }
+  function fd(iso){ var d=new Date(iso); if(isNaN(d)) return ''; return MON[d.getMonth()]+' '+d.getDate(); }
+  function apply(j){
+    var D=window.__TCD; if(!D||!D.players||!j||!j.players) return {ok:false,why:'no data'};
+    var P=D.players, live=j.players, used=[], skipped=[];
+    KEYS.forEach(function(key){
+      var pairs=[]; Object.keys(P).forEach(function(id){ var b=P[id].s&&P[id].s[key], l=(live[nn(P[id].n)]||{})[key]; if(b>=500&&l>=0&&isFinite(l)) pairs.push(l/b); });
+      pairs.sort(function(a,b){ return a-b; }); var med=pairs.length?pairs[pairs.length>>1]:0;
+      if(pairs.length<120||med<0.4||med>2.5){ skipped.push(key); return; } /* too little overlap or the scale moved: keep the stored numbers */
+      Object.keys(P).forEach(function(id){ var l=(live[nn(P[id].n)]||{})[key]; if(l>=0&&isFinite(l)){ P[id].s=P[id].s||{}; P[id].s[key]=l; } });
+      used.push(key); });
+    return {ok:used.length>0,used:used,skipped:skipped};
+  }
+  window.__mktLive={ok:false,why:'pending'};
+  try{ fetch('/api/market',{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(j){
+    var r=apply(j); window.__mktLive=r; if(!r.ok) return; r.at=j.updated; r.dp=j.dpAsOf;
+    var fc=fd(j.updated), dp=fd(j.dpAsOf);
+    document.querySelectorAll('.art-meta').forEach(function(e){ if(/Blended values from six sources/.test(e.textContent)){ var t=e.textContent; if(r.used.indexOf('ros1')>=0) t=t.replace(/FantasyCalc \([^)]*\)/,'FantasyCalc ('+fc+')'); if(r.used.indexOf('dp1')>=0&&dp) t=t.replace(/KeepTradeCut and DynastyProcess \([^)]*\)/,'KeepTradeCut (Nov 3) and DynastyProcess ('+dp+')'); e.textContent=t; } });
+  }).catch(function(e){ window.__mktLive={ok:false,why:String(e&&e.message||e)}; }); }catch(e){}
+})();
 </script>
 </body></html>

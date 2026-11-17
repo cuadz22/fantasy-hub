@@ -25,9 +25,12 @@ if (!bad) ok(`${scripts.length} inline scripts parse`);
 
 // 3. markers that prove the latest work is still in the file (catches an old copy overwriting a newer one)
 const markers = ['pmHead=function', 'pmPreviewHTML=function', 'cfnCoverHTML=function', 'window.wpsOpenFin', 'window.__pwUpdate',
-  'window.__stsCustom', 'window.cfnOpenArt', 'window.RECAP10={', 'window.STORY10={', 'id="art-body-10"', 'wpsOpenFin', 'id="wkp"'];
+  'window.__stsCustom', 'window.cfnOpenArt', 'window.__mktLive', 'window.RECAP10={', 'window.STORY10={', 'id="art-body-10"', 'wpsOpenFin', 'id="wkp"'];
 const miss = markers.filter((m) => !html.includes(m) && !(m === 'id="art-body-10"' && html.includes('art-body-10')));
 if (miss.length) fail('missing markers (stale or damaged file?): ' + miss.join(', ')); else ok('all work markers present');
+
+// 3b. the live market feed exists
+if (!fs.existsSync(path.join(root, '..', 'api', 'market.js'))) fail('client/api/market.js is missing'); else ok('market feed present');
 
 // 4. no outside provider names in anything the public can read
 const banned = /flock\s*fantasy|flockfantasy/i;
