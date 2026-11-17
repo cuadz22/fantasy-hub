@@ -3,7 +3,7 @@
 .wp-card.wp-pt{border-color:var(--border);box-shadow:inset 3px 0 0 var(--accent)}
 .wp-top{font-size:12px;letter-spacing:0;text-transform:none;align-items:center;gap:8px;flex-wrap:nowrap}
 .wp-top>span:first-child{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wp-card .wp-ptl{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:none;padding:2px 9px;border-radius:99px;background:rgba(172,249,16,.12);color:var(--accent)}
+.wp-card .wp-ptl{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:none;padding:2px 9px;border-radius:99px;background:rgba(0,223,206,.12);color:var(--accent)}
 .wp-card .wp-sh{margin-left:0;border:0;background:rgba(255,255,255,.07);color:var(--text);font:500 12px Inter,sans-serif;letter-spacing:0;text-transform:none;padding:4px 11px;line-height:1.3;white-space:nowrap}
 .wp-card .wp-hint{font-size:12px;letter-spacing:0;text-transform:none;white-space:nowrap}
 .wp-card .wp-split{background:none;border:0;border-radius:0;overflow:visible;gap:12px;align-items:end}
@@ -85,9 +85,9 @@ body{font-family:var(--sf);-webkit-font-smoothing:antialiased;letter-spacing:-.0
 .wp-card .wp-tm2>:first-child,.wp-card .wp-tm2 .wp-av{width:50px;height:50px}
 .wp-card .wp-tt b{font-family:ui-rounded,'SF Pro Rounded',var(--sf);font-size:28px;font-weight:700;color:var(--text)!important;font-variant-numeric:tabular-nums}
 .wp-card .wp-tt .pj{font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--muted)!important}
-.wp-card .wp-tt.lo .pj{color:#acf910!important}
+.wp-card .wp-tt.lo .pj{color:#00DFCE!important}
 .wp-card .wp-tt.lu .pj{color:#ff5a52!important}
-:root[data-theme="light"] .wp-card .wp-tt.lo .pj{color:#4a7d00!important}
+:root[data-theme="light"] .wp-card .wp-tt.lo .pj{color:#007a70!important}
 .wp-tt .gl{color:inherit;opacity:.9}
 .wp-card .wp-tm2 .wp-ml{font-size:11px;font-weight:600;color:var(--muted)!important}
 .wp-card .wp-tm2 .wp-ml.mlf{color:#2fd3a4!important}
@@ -106,7 +106,7 @@ body{font-family:var(--sf);-webkit-font-smoothing:antialiased;letter-spacing:-.0
 .wp-slot.wp-s-K{color:#c58bff;background:#c58bff21;border-color:#c58bff59}.wp-slot.wp-s-DEF{color:#7fdbca;background:#7fdbca21;border-color:#7fdbca59}
 .wp-full .wp-slot.wp-s-FLX,.wp-full .wp-slot.wp-s-SFLX{width:auto;min-width:27px;padding:0 3px}
 .wp2s.pu b{color:var(--text)}
-.wp2s small i.pu{color:#acf910}.wp2s small i.pd{color:#ff5a52}
+.wp2s small i.pu{color:#00DFCE}.wp2s small i.pd{color:#ff5a52}
 @media (min-width:900px){.wp-card{max-width:640px;margin-left:auto;margin-right:auto}}
 
 /* ===== Apple pass 6: expand in place + simple share image ===== */

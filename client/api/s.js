@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
       '<meta name="twitter:description" content="' + esc(desc) + '"><meta name="twitter:image" content="' + base + '/i/' + id + '.jpg">' +
       '<meta name="theme-color" content="#14161b">' +
       '<noscript><meta http-equiv="refresh" content="0;url=' + esc(target) + '"></noscript>' +
-      '<style>body{margin:0;background:#14161b;color:#ebecef;font:500 16px system-ui,sans-serif;display:grid;place-items:center;min-height:100vh}a{color:#acf910}</style>' +
+      '<style>body{margin:0;background:#14161b;color:#ebecef;font:500 16px system-ui,sans-serif;display:grid;place-items:center;min-height:100vh}a{color:#00DFCE}</style>' +
       '<script>location.replace(' + JSON.stringify(target) + ');</script></head>' +
       '<body><p>Opening the Cuadz Fantasy Network… <a href="' + esc(target) + '">Tap here if nothing happens</a></p></body></html>';
     res.statusCode = 200;
