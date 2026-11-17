@@ -4,6 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'public');
@@ -36,6 +37,14 @@ if (!fs.existsSync(path.join(root, '..', 'api', '_market.js'))) fail('client/api
 const apiDir = path.join(root, '..', 'api');
 const fnCount = fs.readdirSync(apiDir).filter((f) => /\.(js|mjs|ts)$/.test(f) && !f.startsWith('_')).length;
 if (fnCount > 12) fail(`client/api has ${fnCount} functions; the Hobby plan allows 12 (move extras into an underscore module)`); else ok(`${fnCount}/12 serverless functions`);
+
+// 3d. the encrypted Commish data must be byte-for-byte the known-good copy (a global find-and-replace once clipped it and locked everyone out)
+{
+  const b = /CM_BLOB\s*=\s*["']([^"']+)/.exec(html);
+  const want = fs.readFileSync(new URL('./cm_blob.sha256', import.meta.url), 'utf8').trim();
+  const got = b ? crypto.createHash('sha256').update(b[1]).digest('hex') : '';
+  if (got !== want) fail('Commish data (CM_BLOB) changed or is damaged. If you re-encrypted it on purpose, update client/scripts/cm_blob.sha256'); else ok('Commish data matches the known-good copy');
+}
 
 // 4. no outside provider names in anything the public can read
 const banned = /flock\s*fantasy|flockfantasy/i;
