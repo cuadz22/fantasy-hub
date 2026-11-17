@@ -1,16 +1,15 @@
 // Daily market-value history. Kept in one private Blob file (market/history.json).
 //   /api/hw?snap=1  (daily cron) -> reads the live market feed and appends today's snapshot (at most once per 20 hours)
 //   /api/hw?hist=1  -> the stored history, for the Market page's movers
-const { put, list } = require('@vercel/blob');
+const { put, get } = require('@vercel/blob');
 const PATH = 'market/history.json', KEEP = 60, GAP_MS = 20 * 3600 * 1000;
 
 async function readHist() {
-  const { blobs } = await list({ prefix: PATH, limit: 1 });
-  if (!blobs.length) return { snaps: [] };
-  const b = blobs[0];
-  const r = await fetch(b.downloadUrl || b.url, { headers: { authorization: 'Bearer ' + process.env.BLOB_READ_WRITE_TOKEN } });
-  if (!r.ok) throw new Error('history read ' + r.status);
-  const j = await r.json();
+  let r;
+  try { r = await get(PATH, { access: 'private', useCache: false }); }
+  catch (e) { if (e && /not.?found|404/i.test(e.name + ' ' + e.message)) return { snaps: [] }; throw e; }
+  if (!r || r.statusCode !== 200 || !r.stream) return { snaps: [] };
+  const j = JSON.parse(await new Response(r.stream).text());
   return j && Array.isArray(j.snaps) ? j : { snaps: [] };
 }
 
