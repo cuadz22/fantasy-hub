@@ -7240,7 +7240,7 @@ function rcView(k){
      +'<div class="mid"><div class="fin">Final</div><div class="mr">'+rcLabel(Math.abs(sa-sb))+'</div>'+(LG_LOGO[k]?'<img class="lgl" src="'+LG_LOGO[k]+'" alt="">':'')+'</div>'
      +'<div class="tm rt"><div class="tr"><div class="sc B'+(wA?' dim':'')+'">'+rcF(sb)+'</div>'+av(B,'B')+'</div><div class="mg">'+rcEsc(B.mgr.toUpperCase())+'</div>'+(B.rec?'<div class="rec">'+rcEsc(B.rec)+'</div>':'')+'</div></div>'
      +'<div class="sd">'+sd(A,'A')+sd(B,'B')+'</div>'
-     +(function(){ var tr=rcTrail(k,cur); if(!tr) return ''; return '<div class="od"><div class="odh"><span class="odl">Win odds · '+rcEsc(tr.S.team)+'</span><span class="odt">'+rcEsc(tr.tag)+'</span></div>'+rcTrailHTML(tr,{h:104,t:24,b:24})+'</div>'; })()
+     +(function(){ var tr=rcTrail(k,cur); if(!tr) return ''; return '<div class="od"><div class="odh"><span class="odl">Win odds · '+rcEsc(tr.S.team)+'</span><span class="odt">'+rcEsc(tr.tag)+'</span></div>'+rcTrailHTML(tr,{h:104,t:24,b:24})+'<button type="button" class="wp-swb" onclick="event.stopPropagation();wpsOpenFin(\''+k+'\','+cur+')">\u25B8 Win probability swings</button></div>'; })()
      +(function(){ var n=RCP.nt&&RCP.nt[k]&&RCP.nt[k][cur]; if(!n||!n.length) return ''; return '<div class="od"><div class="odh"><span class="odl">Game notes</span><span class="odt">Injuries &amp; benchings</span></div>'+n.map(function(x){ return '<div style="font-size:12.5px;line-height:1.45;padding:7px 0;border-top:1px solid rgba(255,255,255,.07);color:#cfd5bd">'+rcEsc(x)+'</div>'; }).join('')+'</div>'; })()
      +'<div class="tabs"><b>Stats</b><span class="on">Matchup</span></div>'
      +'<div class="lu">'+rows+'</div>'
@@ -10396,6 +10396,12 @@ window.__powerTbl=function(k){ try{ var C=pwCalc(FM[k]), G=FM[k].week;
    +'</div><p style="font-size:10px;color:var(--dim);margin-top:2px">Power Score blends the Fraud Meter strength rating with actual record (record counts 15% in Week 1 and grows to 35%). 50 is a league-average team. Strength is updated with Week 10 scoring; playoff and title odds were last simulated through Week 9.</p></div>'; }catch(e){ console.error('pt',e); return ''; } };
 })();
 
+
+/* ---- Win probability swings for finished matchups: Flock Fantasy series saved for the week ---- */
+window.wpsOpenFin=function(k,i){ var r=(RCP.lg[k]||[])[i], nm=(CFN_DATA[k].matchups||[])[i]; if(!r||!nm) return;
+  var A=nm.teamA.name, B=nm.teamB.name, m={ia:r.t[0],ib:r.t[1],left:0}, o=wpsOv(), box=document.getElementById('wps-in'); o.hidden=false; document.body.style.overflow='hidden';
+  box.innerHTML='<div class="wps-h">Win probability swings</div><div class="wps-s">'+lgEsc(A)+' vs '+lgEsc(B)+'</div><div class="wps-ld">Loading\u2026</div>';
+  fetch('/api/lineups?lg='+k+'&week='+RCP.week+'&hist=1',{cache:'no-store'}).then(function(x){ return x.json(); }).then(function(j){ box.innerHTML=wpsBody(m,A,B,(j&&j.pts)||[],j&&j.flock); }).catch(function(){ box.innerHTML='<div class="wps-h">Win probability swings</div><div class="wps-ld">Could not load the history. Try again in a moment.</div>'; }); };
 /* ---- Week 10 edition article, generated at runtime from the Week 10 final data ---- */
 (function(){
 var LG=['gl','bh','rb','sts'], LBL=['Pre-game','After Thursday','After 1 p.m.','After 4 p.m.','After Sunday night'];
@@ -10437,7 +10443,7 @@ function build(){
       return '<div class="mp-col"><div class="mp-team">'+esc(x.tm[side])+'</div>'+top.map(function(r){ return '<div class="mprow"><span class="mp-name">'+esc(r[1])+'</span><span class="mp-pts">'+f2(r[2])+'</span></div>'; }).join('')+(low.length?'<div class="mp-sep"></div>'+low.map(function(r){ return '<div class="mprow"><span class="mp-name">'+esc(r[1])+'</span><span class="mp-pts lo">'+f2(r[2])+'</span></div>'; }).join(''):'')+'</div>'; }
     var odl=''; if(x.od){ var A=x.tm[0], a=x.od.map(function(p){ return ml(p); }); a.push(x.w===0?'W':'L');
       odl='<div style="font-size:9px;letter-spacing:.04em;color:var(--dim);margin-bottom:5px">Win odds, '+esc(A)+': pre-game · after Thursday · 1 p.m. · 4 p.m. · Sunday night · final<br><b style="color:var(--text)">'+a.join(' → ')+'</b></div>'; }
-    return '<div class="mcard"><div class="mcard-hd"><div class="mcard-row"><span class="mcard-tm'+(x.w===0?' w':'')+'">'+esc(x.tm[0])+'</span><span class="mcard-sc'+(x.w===0?' w':'')+'">'+f2(m.s[0])+'</span></div><div class="mcard-row"><span class="mcard-tm'+(x.w===1?' w':'')+'">'+esc(x.tm[1])+'</span><span class="mcard-sc'+(x.w===1?' w':'')+'">'+f2(m.s[1])+'</span></div><div class="mcard-status">Final</div></div><div class="mcard-players mp-cols">'+col(0)+col(1)+'</div><div style="padding:8px 11px 10px;border-top:.5px solid var(--border)">'+odl+'<div style="font-size:11.5px;line-height:1.5;color:var(--text)">'+recap(x)+'</div></div></div>'; }
+    return '<div class="mcard"><div class="mcard-hd"><div class="mcard-row"><span class="mcard-tm'+(x.w===0?' w':'')+'">'+esc(x.tm[0])+'</span><span class="mcard-sc'+(x.w===0?' w':'')+'">'+f2(m.s[0])+'</span></div><div class="mcard-row"><span class="mcard-tm'+(x.w===1?' w':'')+'">'+esc(x.tm[1])+'</span><span class="mcard-sc'+(x.w===1?' w':'')+'">'+f2(m.s[1])+'</span></div><div class="mcard-status">Final</div></div><div class="mcard-players mp-cols">'+col(0)+col(1)+'</div><div style="padding:8px 11px 10px;border-top:.5px solid var(--border)">'+odl+'<div style="font-size:11.5px;line-height:1.5;color:var(--text)">'+recap(x)+'</div><button type="button" class="wp-swb" onclick="wpsOpenFin(\''+k+'\','+x.i+')">\u25B8 Win probability swings</button></div></div>'; }
   function story(k){ var A=all[k], sc=[]; A.forEach(function(x){ [0,1].forEach(function(s){ sc.push({s:x.m.s[s],tn:x.tm[s],x:x,side:s}); }); });
     sc.sort(function(a,b){ return b.s-a.s; }); var top=sc[0], med=(sc[5].s+sc[6].s)/2;
     var cl=A.slice().sort(function(a,b){ return a.margin-b.margin; })[0], bl=A.slice().sort(function(a,b){ return b.margin-a.margin; })[0];
