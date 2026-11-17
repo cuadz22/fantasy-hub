@@ -10192,6 +10192,29 @@ pmSquare=function(d,i){
    +'<div style="display:flex;flex-direction:column;margin-top:2px">'+rows+'</div>'+'<div style="margin-top:auto;text-align:center;padding-top:6px;flex:none;font-size:9px;font-weight:600;letter-spacing:.18em;color:#00DFCE;opacity:.9">CUADZFANTASYNETWORK.COM</div></div>';
 };
 
+/* ---- Studio pass 13: Week preview slide restyled to match the matchup recap ---- */
+pmPreviewHTML=function(k,i){
+  var I=rcPrevInfo(k,i), A=I.A, B=I.B, favA=I.wp>=50, oA=rcAm(I.wp), oB=rcAm(100-I.wp), lg=LG_LOGO[k], n=Math.max(1,A.rows.length);
+  var RH=Math.max(38,Math.min(62,Math.floor(420/n))), RS=Math.min(50,RH-8);
+  function tb(S,fav,right,odd){
+    var hd='<div style="display:flex;flex-direction:column;align-items:center;gap:3px;width:70px;flex:none">'+pmHead(k,S.mgr,S.id,66,'#00DFCE')+'<div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:#dfe2e8;white-space:nowrap">'+stEsc(S.mgr.toUpperCase())+'</div></div>';
+    var inf='<div style="flex:1;min-width:0;text-align:'+(right?'right':'left')+'"><div style="font-size:'+pmNameFs(S.team)+'px;font-weight:700;line-height:16px;height:16px;white-space:nowrap;overflow:hidden">'+stEsc(S.team)+'</div><div style="font-size:10.5px;color:#9aa1af;margin-top:2px">'+stEsc(S.rec||'')+' · <b style="color:'+(fav?'#00DFCE':'#9aa1af')+'">'+odd+'</b></div>'
+     +'<div style="font-family:\'Bebas Neue\',sans-serif;font-size:46px;line-height:.95;margin-top:3px;color:'+(fav?'#fff':'#9aa1af')+'">'+rcF(S.s)+'</div></div>';
+    return '<div style="display:flex;gap:7px;width:206px;align-items:flex-start">'+(right?inf+hd:hd+inf)+'</div>'; }
+  var rows=A.rows.map(function(a,q){ var b=B.rows[q], wa=a[2]>b[2], wb=b[2]>a[2], ea=a[1]==='—', eb=b[1]==='—';
+    function nm(r,win,right,em){ return '<div style="flex:1;min-width:0;text-align:'+(right?'left':'right')+';font-size:13.5px;font-weight:'+(win?'600':'500')+';color:'+(win?'#fff':'#9aa1af')+';white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+stEsc(em?'Empty slot':rcShort(r[1]))+(em?'':cfnSh(r[1]))+'</div>'; }
+    function pt(r,win){ return '<div style="width:46px;flex:none;text-align:center;font-family:\'Bebas Neue\',sans-serif;font-size:22px;line-height:1;color:'+(win?'#fff':'#9aa1af')+'">'+rcF(r[2])+'</div>'; }
+    function ph(r,em){ return em?'<div style="width:'+RS+'px;height:'+RS+'px;border-radius:50%;background:#1f232b;flex:none"></div>':pmImg(r[1],RS); }
+    return '<div style="display:flex;align-items:center;gap:6px;height:'+RH+'px;border-bottom:1px solid #1b1e25">'+ph(a,ea)+nm(a,wa,false,ea)+pt(a,wa)+pmPill(a[0])+pt(b,wb)+nm(b,wb,true,eb)+ph(b,eb)+'</div>'; }).join('');
+  var mid='<div style="flex:1;text-align:center;padding-top:6px"><div style="font-size:15px;font-weight:700;color:#00DFCE;letter-spacing:.04em">Projected</div><div style="font-size:10.5px;color:#9aa1af;margin-top:4px">'+I.wp+'% · '+(100-I.wp)+'%</div></div>';
+  var note=(I.h2h?stEsc(I.h2h.replace(/^🔥 /,''))+(I.riv?' · RIVALRY':''):'Early look · optimized lineups · waivers have not cleared');
+  return '<div style="width:540px;height:675px;background:linear-gradient(180deg,#171a20,#121419 45%);color:#edeef1;font-family:Inter,\'Helvetica Neue\',Arial,sans-serif;position:relative;overflow:hidden;box-sizing:border-box;padding:16px 18px 12px;display:flex;flex-direction:column">'
+   +'<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:44px;flex:none"><img src="'+CFN_LOGO+'" alt="CFN" style="height:40px;width:auto;display:block;justify-self:start"><div style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;letter-spacing:.12em;color:#ff9f1c;line-height:1">WEEK '+(RCP.week+1)+' PREVIEW</div>'+(lg?'<img src="'+lg+'" alt="" style="height:42px;width:auto;max-width:96px;object-fit:contain;display:block;justify-self:end">':'<span></span>')+'</div>'
+   +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-top:24px;padding-bottom:12px;border-bottom:1px solid #262a34;flex:none">'+tb(A,favA,false,oA)+mid+tb(B,!favA,true,oB)+'</div>'
+   +'<div style="display:flex;flex-direction:column;margin-top:2px">'+rows+'</div>'
+   +'<div style="margin-top:auto;text-align:center;padding-top:6px;flex:none"><div style="font-size:9.5px;color:#9aa1af;margin-bottom:5px">'+note+'</div><div style="font-size:9px;font-weight:600;letter-spacing:.18em;color:#00DFCE;opacity:.9">CUADZFANTASYNETWORK.COM</div></div></div>';
+};
+
 /* ---- Week rollover, built at load from Yahoo lineups: Week 10 final recap data + Week 11 early-look preview ---- */
 (function(){
 var DONE=10, NEXT=11, LG=['gl','bh','rb','sts'];
@@ -10368,7 +10391,7 @@ function build(){
     var m=x.m, k=x.k, wN=x.tm[x.w], lN=x.tm[x.l], t=[];
     t.push(esc(wN)+' ('+esc(mgr(k,wN))+') beat '+esc(lN)+' '+f2(m.s[x.w])+' to '+f2(m.s[x.l])+' ('+f2(x.margin)+'-point margin).');
     var star=m.sd[x.w][0], lstar=m.sd[x.l][0]; t.push(esc(star[0])+' ('+f2(star[1])+') led the winners'+(lstar[1]>=20?', while '+esc(lstar[0])+' ('+f2(lstar[1])+') kept '+esc(lN)+' in it':'')+'.');
-    if(x.pw){ if(x.minp<=32&&x.mi>=0&&x.mi<4) t.push(esc(wN)+' trailed for much of the week, down to '+ml(x.minp)+' '+(x.mi===0?'before kickoff':LBL[x.mi].toLowerCase())+', and pulled it out.');
+    if(x.pw){ if(x.minp<=32&&x.mi>=0&&x.mi<4) t.push(esc(wN)+' trailed for much of the week, down to '+ml(x.minp)+' '+(x.mi===0?'before kickoff':LBL[x.mi].replace(/^After/,'after'))+', and pulled it out.');
       else if(x.pw[0]<=38) t.push('An upset: '+esc(wN)+' opened as the underdog at '+ml(x.pw[0])+'.');
       else if(x.margin<10) t.push('It stayed close until the last window of games.'); }
     var d=m.sd[x.l][1]; if(d&&d[2]>=8&&d[1]<d[2]*0.5) t.push(esc(lN)+' got '+f2(d[1])+' from '+esc(d[0])+' against a '+f2(d[2])+'-point projection.');
@@ -10389,7 +10412,7 @@ function build(){
     var p=[]; p.push(esc(top.tn)+' ('+esc(mgr(k,top.tn))+') posted the week’s high score, '+f2(top.s)+' ('+esc(top.x.m.sd[top.side][0][0])+' '+f2(top.x.m.sd[top.side][0][1])+'), '+(top.x.w===top.side?'and won by '+f2(top.x.margin)+'.':'but still lost to '+esc(top.x.tm[top.x.w])+'.'));
     if(lead) p.push(esc(lead.replace(/-/g,'–'))+' after Week 10.');
     p.push('The closest game was '+esc(cl.tm[cl.w])+' over '+esc(cl.tm[cl.l])+' by '+f2(cl.margin)+', and the biggest margin was '+esc(bl.tm[bl.w])+' over '+esc(bl.tm[bl.l])+' by '+f2(bl.margin)+'.');
-    if(cb) p.push('The wildest swing: '+esc(cb.tm[cb.w])+' dropped to '+ml(cb.minp)+' '+(cb.mi===0?'before kickoff':LBL[cb.mi].toLowerCase())+' and still won.');
+    if(cb) p.push('The wildest swing: '+esc(cb.tm[cb.w])+' dropped to '+ml(cb.minp)+' '+(cb.mi===0?'before kickoff':LBL[cb.mi].replace(/^After/,'after'))+' and still won.');
     return p.join(' '); }
   function motm(k){ return all[k].map(function(x){ var best=null; [0,1].forEach(function(s){ x.m.L[s].forEach(function(r){ if(!best||r[2]>best.p) best={p:r[2],n:r[1],t:x.tm[s]}; }); });
     return '<div class="motm-card"><div class="motm-card-eyebrow">⭐ MOTM</div><div class="motm-card-match">'+esc(x.tm[0])+' vs '+esc(x.tm[1])+'</div><div class="motm-card-player">'+esc(best.n)+'</div><div class="motm-card-team">'+esc(best.t)+'</div><div class="motm-card-pts">'+f2(best.p)+'</div></div>'; }).join(''); }
