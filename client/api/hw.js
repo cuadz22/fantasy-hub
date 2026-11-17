@@ -4,6 +4,7 @@ const SRC = 'https://gist.githubusercontent.com/cuadz22/1d8a87d05a2a13104516e023
 module.exports = async (req, res) => {
   // /api/hw?market=1 serves the live market values (kept in this file's route: the Hobby plan allows 12 functions)
   if (req.query && req.query.market) return require('./_market')(req, res);
+  if (req.query && (req.query.snap || req.query.hist)) return require('./_snap')(req, res);
   try {
     const r = await fetch(SRC + '?t=' + Math.floor(Date.now() / 300000), { headers: { 'User-Agent': 'cfn-site' } });
     if (!r.ok) throw new Error('upstream ' + r.status);

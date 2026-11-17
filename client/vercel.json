@@ -31,5 +31,11 @@
       "source": "/((?!api/)(?!.*\\.html$).*)",
       "destination": "/index.html"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/hw?snap=1",
+      "schedule": "17 9 * * *"
+    }
   ]
 }
