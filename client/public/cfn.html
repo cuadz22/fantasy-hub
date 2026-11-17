@@ -5965,7 +5965,7 @@ function lgPower(p,k){
         '<span style="padding:1px 7px;border-radius:999px;background:var(--bg3);color:var(--muted)">PO '+Math.round(t.po*100)+'% · 🏆 '+(t.title*100).toFixed(1).replace(/\.0$/,'')+'%</span></div></div>'+
       '<div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:3px"><span>Power</span><b style="color:var(--text);font-size:14px">'+r.score+'</b></div><div style="height:7px;border-radius:5px;background:var(--bg3);overflow:hidden"><i style="display:block;height:100%;width:'+r.score+'%;background:var(--accent)"></i></div></div></div>';
   });
-  h+='<details style="margin-top:10px"><summary style="cursor:pointer;color:var(--muted);font-size:12px">How the Power Score works</summary><div style="font-size:12px;color:var(--muted);line-height:1.5;margin:10px 0">Power Score blends the Fraud Meter’s strength rating (points on the board, all-play win %, weekly finish tiers, and roster strength going forward) with actual record. Record counts 15% in Week 1 and grows about 2 points a week up to 35%, because a record says little early and more later. Records are smoothed so a 1-0 start does not look like a dynasty. 50 is a league-average team. Playoff and title odds come from 6,000 simulations of the rest of the season.</div></details></div>';
+  h+='<details style="margin-top:10px"><summary style="cursor:pointer;color:var(--muted);font-size:12px">How the Power Score works</summary><div style="font-size:12px;color:var(--muted);line-height:1.5;margin:10px 0">Power Score blends the Fraud Meter’s strength rating (points on the board, all-play win %, weekly finish tiers, and roster strength going forward) with actual record. Record counts 15% in Week 1 and grows about 2 points a week up to 35%, because a record says little early and more later. Records are smoothed so a 1-0 start does not look like a dynasty. 50 is a league-average team. Playoff and title odds come from 6,000 simulations of the rest of the season. Odds shown were last simulated through Week 9.</div></details></div>';
   p.innerHTML=h;
 }
 
@@ -10362,6 +10362,40 @@ window.__wkAfter=function(){
   try{ var hh=document.querySelector('.hl-hd span'); if(hh&&/Week 10/.test(hh.textContent)) hh.textContent='Week 11 Headliners'; var pl=document.querySelector('.hl-hd .lv-pill'); if(pl) pl.innerHTML='<i></i>EARLY LOOK'; }catch(e){}
 };
 
+/* ---- Week 10: refresh Power Rankings data (FM) and STS custom standings ---- */
+(function(){
+var LG=['gl','bh','rb','sts'];
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function f2(x){ return (Math.round(x*100)/100).toFixed(2); }
+window.__pwUpdate=function(W){
+  LG.forEach(function(k){ try{ var F=FM[k]; if(!F||F.week!==9) return; var res=W.res[k], ids=Object.keys(res), sc=ids.map(function(id){ return res[id].pf; }), n=ids.length;
+    F.teams.forEach(function(t){ var x=res[String(t.tid)]; if(!x) return; var beats=0; sc.forEach(function(s){ if(x.pf>s) beats++; else if(x.pf===s) beats+=0; }); beats-=0; var G=t.G||F.week;
+      var oldPpg=t.ppg, nPpg=Math.round(((oldPpg*G+x.pf)/(G+1))*10)/10, oldS8=t.s8, nS8=Math.round((oldS8+(x.pf-oldPpg)/8)*10)/10;
+      t.strength=Math.round((t.strength+0.191*(nPpg-oldPpg)+0.703*(nS8-oldS8))*10)/10; t.ppg=nPpg; t.s8=nS8;
+      t.apw=Math.round(((t.apw*G*(n-1)+beats)/((G+1)*(n-1)))*1000)/1000; t.luck=Math.round((t.luck+(x.win===1?1:x.win===0?0:.5)-beats/(n-1))*100)/100;
+      if(x.win===1) t.w+=1; else if(x.win===0) t.l+=1; else t.w+=0.5; if(x.win===.5) t.l+=0.5; t.G=G+1; t.n=(t.n||0)+1; });
+    F.week=10; window.__pfMap=window.__pfMap||{}; var mp={}; try{ var tmp=document.createElement('div'); tmp.innerHTML=LGD.stand[k]; [].slice.call(tmp.querySelectorAll('.lgs-row')).forEach(function(r){ var b=r.querySelector('.mg-nm b'); if(b) mp[b.textContent]=parseFloat(r.children[3].textContent); }); }catch(e){} window.__pfMap[k]=mp;
+    var C=pwCalc(F), G=F.week, nn=F.teams.length-1; CFN_DATA[k].power=C.rows.map(function(r){ var t=r.t, ap=Math.round(t.apw*G*nn); return {rk:r.rank,name:t.name,wl:t.w+'-'+t.l,ap:ap+'-'+(G*nn-ap),pw:r.score,pf:f2(mp[t.name]!=null?mp[t.name]:t.ppg*G)}; });
+  }catch(e){ console.error('pw',k,e); } });
+};
+window.__stsCustom=function(W){
+  try{ var old=null; document.querySelectorAll('#art-body .lg-sec')[3].querySelectorAll('.subsec').forEach(function(s){ if(s.querySelector('.subsec-hd').textContent.indexOf('STS Custom')===0) old=s; }); if(!old) return null;
+    var rows=[].slice.call(old.querySelectorAll('.sts-row')).map(function(r){ var c=r.children; var wl=c[3].textContent.split('-'); return {n:c[1].textContent,pts:+c[2].textContent,w:+wl[0],l:+wl[1],t6:+c[4].textContent,pf:parseFloat(c[5].textContent)}; });
+    var M=W.rcp.lg.sts, names=W.cfn.sts, scores=[]; M.forEach(function(m,i){ scores.push({n:names[i].teamA.name,s:m.s[0],o:m.s[1]}); scores.push({n:names[i].teamB.name,s:m.s[1],o:m.s[0]}); });
+    var so=scores.slice().sort(function(a,b){ return b.s-a.s; }), top={}; so.slice(0,6).forEach(function(x){ top[x.n]=1; });
+    var by={}; rows.forEach(function(r){ by[r.n]=r; }); var miss=0;
+    scores.forEach(function(x){ var r=by[x.n]; if(!r){ miss++; return; } if(x.s>x.o){ r.w++; r.pts+=4; } else if(x.s<x.o) r.l++; else r.pts+=2; if(top[x.n]){ r.t6++; r.pts+=3; } r.pf=Math.round((r.pf+x.s)*100)/100; });
+    if(miss) return null;
+    rows.sort(function(a,b){ return b.pts-a.pts||b.pf-a.pf; });
+    var h='<div class="subsec"><div class="subsec-hd">STS Custom Standings · 4 pts per win + 3 pts for a top-6 score</div><div class="st-table"><div class="sts-hdr"><span>#</span><span>Team</span><span>PTS</span><span>W-L</span><span>Top 6</span><span>PF</span></div>'
+     +rows.map(function(r,i){ return '<div class="sts-row'+(i===6?' sts-cut':'')+'"><span class="st-rk"'+(i<6?' style="color:var(--accent)"':'')+'>'+(i+1)+'</span><span>'+esc(r.n)+'</span><span class="st-pct'+(i<6?' good':'')+'">'+r.pts+'</span><span>'+r.w+'-'+r.l+'</span><span>'+r.t6+'</span><span>'+f2(r.pf)+'</span></div>'; }).join('')+'</div></div>';
+    return h; }catch(e){ console.error('stsc',e); return null; } };
+window.__powerTbl=function(k){ try{ var C=pwCalc(FM[k]), G=FM[k].week;
+  return '<div class="subsec"><div class="subsec-hd">Power Rankings</div><div class="st-table"><div class="ap-hdr"><span>#</span><span>Team</span><span>W-L</span><span>All-Play</span><span>Power</span><span>PF</span></div>'
+   +C.rows.map(function(r,i){ var t=r.t, ap=Math.round(t.apw*G*(FM[k].teams.length-1)), tot=G*(FM[k].teams.length-1); return '<div class="ap-row"><span class="st-rk"'+(i<3?' style="color:var(--accent)"':'')+'>'+r.rank+'</span><span>'+esc(t.name)+'</span><span>'+t.w+'-'+t.l+'</span><span>'+ap+'-'+(tot-ap)+'</span><span class="st-pct'+(r.score>=56?' good':'')+'">'+r.score+'</span><span>'+f2(((window.__pfMap||{})[k]||{})[t.name]!=null?window.__pfMap[k][t.name]:t.ppg*G)+'</span></div>'; }).join('')
+   +'</div><p style="font-size:10px;color:var(--dim);margin-top:2px">Power Score blends the Fraud Meter strength rating with actual record (record counts 15% in Week 1 and grows to 35%). 50 is a league-average team. Strength is updated with Week 10 scoring; playoff and title odds were last simulated through Week 9.</p></div>'; }catch(e){ console.error('pt',e); return ''; } };
+})();
+
 /* ---- Week 10 edition article, generated at runtime from the Week 10 final data ---- */
 (function(){
 var LG=['gl','bh','rb','sts'], LBL=['Pre-game','After Thursday','After 1 p.m.','After 4 p.m.','After Sunday night'];
@@ -10379,7 +10413,7 @@ var CTX={
 };
 function ctxFor(rows){ var out=[]; rows.forEach(function(r){ var c=CTX[String(r[1]).toLowerCase()]; if(c) out.push(r[1]+' ('+f2(r[2])+') '+c); }); return out; }
 function build(){
-  var W=window.__WK10; if(!W||document.getElementById('art-body-10')) return;
+  var W=window.__WK10; if(!W||document.getElementById('art-body-10')) return; try{ window.__pwUpdate(W); }catch(e){}
   var rcp=W.rcp, cfn=W.cfn, D11=window.__D11||{};
   var all={}; /* league -> matchup info */
   var byeCnt={}, usedCnt={};
@@ -10444,7 +10478,7 @@ function build(){
    +'<div class="subsec"><div class="subsec-hd">Matchups</div><div class="m3-grid">'+all[k].map(mcard).join('')+'</div></div>'
    +'<div class="subsec"><div class="subsec-hd">Man of the Match</div><div class="motm-grid">'+motm(k)+'</div></div>'
    +'<div class="subsec"><div class="subsec-hd">Weekly Awards</div><div class="award-grid">'+awards(k)+'</div></div>'
-   +'<div class="subsec"><div class="subsec-hd">Week 11 Preview</div>'+preview(k)+'</div></div>'; });
+   +(window.__powerTbl?window.__powerTbl(k):'')+'<div class="subsec"><div class="subsec-hd">Week 11 Preview</div>'+preview(k)+'</div>'+(k==='sts'?(window.__stsCustom(W)||''):'')+'</div>'; });
   h+='</div>';
   var old=document.getElementById('art-body'); old.insertAdjacentHTML('beforebegin',h);
   WK_HD[10]=['CFN · Weekly Edition · Nov 17, 2026','Week 10 Final &amp; Week 11 Early Look'];
