@@ -6847,7 +6847,7 @@ function moversHTML(){
    '.mv-sec{font:400 14px var(--tc-disp);letter-spacing:.14em;margin:12px 0 6px}'+
    '@media(max-width:820px){.mv-grid{grid-template-columns:1fr;gap:8px}.mv-c{aspect-ratio:auto;display:grid;grid-template-columns:minmax(0,1fr) 58px auto;grid-template-areas:"h ch dl";align-items:center;gap:10px;padding:10px 12px}.mv-h{grid-area:h}.mv-ch{grid-area:ch;height:40px}.mv-dl{grid-area:dl;flex-direction:column;align-items:flex-end;gap:2px;margin:0}.mv-lab,.mv-calls{display:none}.mv-d{font-size:24px}.mv-ar{display:none}.mv-c .tc-av.mvav{width:44px;height:44px}}'+
    '.mv-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}@media(max-width:560px){.mv-hd .tc-btn{width:100%}}</style>'+
-   '<div class="tc-panel"><div class="mv-hd"><div><h3>Market movers · Week '+D.mv.wk+'</h3><div class="tc-sub">Biggest value changes since last week, as a percent change in blended market value. Charts show weekly PPR points.</div></div><button class="tc-btn" onclick="TC.moversShare()">Share movers</button></div>'+
+   '<div class="tc-panel"><div class="mv-hd"><div><h3>Market movers · Week '+D.mv.wk+'</h3><div class="tc-sub">Biggest value changes '+(D.mvAt?'since '+new Date(D.mvAt).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'since last week')+', as a percent change in blended market value. Charts show weekly PPR points.</div></div><button class="tc-btn" onclick="TC.moversShare()">Share movers</button></div>'+
    '<div class="mv-sec" style="color:#00DFCE">RISERS</div><div class="mv-grid">'+m.up.map(function(r){return mvCard1(r,1);}).join('')+'</div>'+
    '<div class="mv-sec" style="color:#ff6b6b">FALLERS</div><div class="mv-grid">'+m.down.map(function(r){return mvCard1(r,0);}).join('')+'</div></div>';
 }
@@ -10749,7 +10749,7 @@ var _prev=window.__wkAfter; window.__wkAfter=function(){ try{ if(_prev) _prev();
   window.__mktLive={ok:false,why:'pending'};
   try{ fetch('/api/hw?market=1',{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(j){
     var r=apply(j); window.__mktLive=r; if(!r.ok) return; r.at=j.updated; r.dp=j.dpAsOf;
-    try{ fetch('/api/hw?hist=1',{cache:'no-store'}).then(function(x){ return x.json(); }).then(function(h){ var sn=(h&&h.snaps)||[], now=Date.now(), best=null; sn.forEach(function(q){ var age=now-Date.parse(q.t); if(age>=5*864e5&&age<=10*864e5&&(!best||Math.abs(age-7*864e5)<Math.abs(now-Date.parse(best.t)-7*864e5))) best=q; }); if(best&&window.__mvSet) window.__mktLive.mv=window.__mvSet(best,window.__NEXTWK); else window.__mktLive.mv=false; }).catch(function(){}); }catch(e){}
+    try{ fetch('/api/hw?hist=1',{cache:'no-store'}).then(function(x){ return x.json(); }).then(function(h){ var sn=(h&&h.snaps)||[], now=Date.now(), best=null; sn.forEach(function(q){ var age=now-Date.parse(q.t); if(age>=20*36e5&&age<=10*864e5&&(!best||Math.abs(age-7*864e5)<Math.abs(now-Date.parse(best.t)-7*864e5))) best=q; }); if(best&&window.__mvSet) window.__mktLive.mv=window.__mvSet(best,window.__NEXTWK); else window.__mktLive.mv=false; }).catch(function(){}); }catch(e){}
     var fc=fd(j.updated), dp=fd(j.dpAsOf);
     document.querySelectorAll('.art-meta').forEach(function(e){ if(/^Blended market values/.test(e.textContent)){ var f=(r.used.indexOf('ros1')>=0||r.used.indexOf('dyn1')>=0)&&fc?fc:''; if(f) e.textContent=e.textContent.replace('refreshed daily','updated '+f); } });
   }).catch(function(e){ window.__mktLive={ok:false,why:String(e&&e.message||e)}; }); }catch(e){}
