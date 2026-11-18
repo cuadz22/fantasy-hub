@@ -49,8 +49,8 @@ async function loadTrades(lg) {
 }
 
 // Pick ownership = Yahoo snapshot + approved offseason trades (applied only while the pick is still with the giver, so a later Yahoo refresh can't double-apply).
-function owners(lg, trades) {
-  const rows = BASE[lg].dpk.map((r) => r.slice());
+function owners(lg, trades, live) {
+  const rows = (live || BASE[lg].dpk).map((r) => r.slice());
   trades.filter((t) => t.status === 'approved').sort((a, b) => (a.approved || 0) - (b.approved || 0)).forEach((t) => {
     (t.send.pk || []).forEach((p) => { if (rows[p[0] - 1] && rows[p[0] - 1][p[1] - 1] === t.from) rows[p[0] - 1][p[1] - 1] = t.to; });
     (t.get.pk || []).forEach((p) => { if (rows[p[0] - 1] && rows[p[0] - 1][p[1] - 1] === t.to) rows[p[0] - 1][p[1] - 1] = t.from; });
@@ -78,8 +78,8 @@ module.exports = async (req, res) => {
     if (!BASE[lg]) return json(res, 404, { error: 'unknown_league' });
 
     if (req.method === 'GET') {
-      const trades = await loadTrades(lg);
-      return json(res, 200, { lg, trades, rows: owners(lg, trades), locked: LOCKED[lg] || [] });
+      const trades = await loadTrades(lg), live = await require('./_dpk').liveDpk(lg);
+      return json(res, 200, { lg, trades, rows: owners(lg, trades, live), live: !!live, locked: LOCKED[lg] || [] });
     }
     if (req.method !== 'POST') return json(res, 405, { error: 'method' });
 
@@ -109,7 +109,7 @@ module.exports = async (req, res) => {
     }
 
     const trades = await loadTrades(lg);
-    const rows = owners(lg, trades);
+    const rows = owners(lg, trades, await require('./_dpk').liveDpk(lg));
     const save = async (t) => { await redis(['HSET', 'trades:' + lg, t.id, JSON.stringify(t)]); return t; };
     const stamp = (t, by, a) => { t.updated = Date.now(); (t.log = t.log || []).push({ t: t.updated, by, a }); };
 

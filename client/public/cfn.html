@@ -1669,7 +1669,7 @@ body.cfn-app #view-league .lg-tabs:not(:has(.lgt-sub)){display:none!important}
     <section id="tc-v-nd" hidden><div style="display:flex;flex-direction:column;gap:12px">
       <div class="tc-panel">
         <h3 id="tc-ndTitle">Team needs</h3>
-        <div class="tc-sub">Built from the real Week 4 rosters and this league's blend. Each position is rated against the other 11 teams. Tap a row to open that team.</div>
+        <div class="tc-sub">Built from the current rosters and this league's blend. Each position is rated against the other 11 teams. Tap a row to open that team.</div>
         <div class="tc-scroll"><table class="tc-hm" id="tc-hm" aria-label="Positional strength by team"></table></div>
       </div>
       <div class="tc-panel">
@@ -10672,4 +10672,5 @@ var _prev=window.__wkAfter; window.__wkAfter=function(){ try{ if(_prev) _prev();
   window.kpxTab=function(p,k){ if(k!=='rb') return; try{ var b=document.createElement('div'); b.className='kpx'; b.style.marginTop='0'; p.appendChild(b); render(b,k); }catch(e){ console.error('kpx',e); } };
 })();
 </script>
+<script>(function(){var tag=null,busy=false;function chk(){if(busy)return;busy=true;fetch('/cfn.html',{method:'HEAD',cache:'no-store'}).then(function(r){var e=r.headers.get('etag')||r.headers.get('last-modified')||r.headers.get('content-length');if(!e)return;if(tag===null){tag=e;return;}if(e!==tag){tag=e;if('caches' in window){caches.keys().then(function(k){return Promise.all(k.map(function(x){return caches.delete(x);}));}).catch(function(){}).then(function(){location.reload();});}else location.reload();}}).catch(function(){}).then(function(){busy=false;});}chk();document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')chk();});setInterval(chk,600000);})();</script>
 </body></html>

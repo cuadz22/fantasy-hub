@@ -5,6 +5,7 @@ module.exports = async (req, res) => {
   // /api/hw?market=1 serves the live market values (kept in this file's route: the Hobby plan allows 12 functions)
   if (req.query && req.query.market) return require('./_market')(req, res);
   if (req.query && (req.query.snap || req.query.hist)) return require('./_snap')(req, res);
+  if (req.query && req.query.dpk) return require('./_dpk')(req, res);
   try {
     const r = await fetch(SRC + '?t=' + Math.floor(Date.now() / 300000), { headers: { 'User-Agent': 'cfn-site' } });
     if (!r.ok) throw new Error('upstream ' + r.status);

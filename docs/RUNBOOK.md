@@ -32,3 +32,6 @@ Scrape Yahoo -> raw files -> `build.py` -> replace `PVL` and `PVL_AT` -> test ->
 - Chrome JS tool: no top-level `return`; use plain expressions; async returns `{}`.
 - Abbreviated kicker names need `C['ks']`; "(Empty)" slots must be dropped.
 - Don't leave browser tabs open.
+
+## Draft pick ownership (bh, rb)
+The pick board reads Yahoo's showtradedpicks page live (client/api/_dpk.js, 10 min cache) via /api/trades. client/api/trades-base.json and the baked DPK in cfn.html are only fallbacks: refresh both from Yahoo whenever a trade is made, but a stale fallback no longer shows on the live site while Yahoo is reachable.
