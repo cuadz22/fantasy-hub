@@ -37,11 +37,13 @@ async function liveDpk(lg) {
   const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 5000);
   try {
     const r = await fetch('https://football.fantasysports.yahoo.com/f1/' + id + '/showtradedpicks', { signal: ctl.signal, headers: { 'User-Agent': 'Mozilla/5.0 (compatible; cfn-site)', 'Accept-Language': 'en-US,en;q=0.9' } });
+    const body = await r.text();
+    mem._dbg = { status: r.status, len: body.length, url: r.url, head: body.slice(0, 160).replace(/\s+/g, ' '), rounds: (body.match(/<th colspan="2">Round/g) || []).length };
     if (!r.ok) throw new Error('yahoo ' + r.status);
-    const rows = parse(await r.text(), lg);
+    const rows = parse(body, lg);
     if (!rows) throw new Error('unparsed');
     mem[lg] = { t: Date.now(), rows }; return rows;
-  } catch (e) { return c ? c.rows : null; }
+  } catch (e) { mem._err = String((e && e.message) || e); return c ? c.rows : null; }
   finally { clearTimeout(tm); }
 }
 
@@ -49,7 +51,8 @@ async function liveDpk(lg) {
 async function route(req, res) {
   const q = new URL(req.url, 'http://x').searchParams, lg = String(q.get('lg') || '');
   const rows = await liveDpk(lg);
-  res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
-  res.end(JSON.stringify({ lg, source: rows ? 'yahoo' : 'none', rows: rows || null }));
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', rows && !q.get('debug') ? 'public, s-maxage=300, stale-while-revalidate=3600' : 'no-store');
+  res.end(JSON.stringify({ lg, source: rows ? 'yahoo' : 'none', rows: rows || null, debug: q.get('debug') ? { err: mem._err || null, last: mem._dbg || null } : undefined }));
 }
 module.exports = route; module.exports.liveDpk = liveDpk; module.exports.parse = parse;
