@@ -5453,7 +5453,7 @@ function wpFresh(k,m){ try{ var L=null; (PVL[k]||[]).forEach(function(x){ if(x.i
 function lgPreview(p,k){
   var sb=document.createElement('div'); sb.style.cssText='display:flex;justify-content:flex-end;margin-bottom:8px'; sb.innerHTML='<button class="st-btn" style="padding:5px 12px">Share preview</button>'; sb.firstChild.onclick=function(){ sharePrev(k); }; p.appendChild(sb);
   var d=document.createElement('div'); d.className='subsec';
-  d.innerHTML='<div class="subsec-hd">Week 11 Early Look &middot; Moneylines</div><div class="wp-grid">'+(PV8[k]||[]).map(function(m,i){return wpCard(k,wpFresh(k,m),i);}).join('')+'</div><p class="lv-note">Tap any matchup for the full lineups. \ud83d\udd25 = beat his projection in each of his last two games; \u2744\ufe0f = fell short of it in both. Moneylines come from each team&rsquo;s projected total (Yahoo, lineups as of Nov 10, after the Week 9 finals and waivers, kickers and defenses included; managers&rsquo; own lineup choices are respected, but any empty or bye-week starting slot is filled with that team&rsquo;s best-projected bench player at the position and marked &ldquo;auto&rdquo;) and the Fraud Meter&rsquo;s scoring spread, with a small house edge built in. H2H is the all-time regular-season series record between the two managers.</p>';
+  d.innerHTML='<div class="subsec-hd">Week 11 Early Look &middot; Moneylines</div><div class="wp-grid">'+(PV8[k]||[]).map(function(m,i){return wpCard(k,wpFresh(k,m),i);}).join('')+'</div><p class="lv-note">Tap any matchup for the full lineups. \ud83d\udd25 = beat his projection in each of his last two games; \u2744\ufe0f = fell short of it in both. Moneylines come from each team&rsquo;s projected total (Yahoo, refreshed live, kickers and defenses included; every lineup is the best one from the whole roster, with bye-week, out and injured-reserve players left out and doubtful players discounted) and the Fraud Meter&rsquo;s scoring spread, with a small house edge built in. H2H is the all-time regular-season series record between the two managers.</p>';
   p.appendChild(d);
 }
 
@@ -9916,6 +9916,7 @@ function ysRender(){
   YS.pending=false; ysKeep(function(){ ysRender0(); });
 }
 function ysRender0(){
+  try{ roadSyncW11(); }catch(e){}
   try{ PVL_AT='live from Yahoo, updated '+ysClock(); }catch(e){}
   try{ var v=document.getElementById('view-live'); if(v&&!v.hidden) liveRender(); }catch(e){ console.error(e); }
   try{ var lv=document.getElementById('view-league'); if(lv&&!lv.hidden&&(lgState.tab==='Matchups'||lgState.tab==='My Team')) lgRender(); }catch(e){ console.error(e); }
@@ -9923,10 +9924,44 @@ function ysRender0(){
   try{ var mv=document.getElementById('view-mine'); if(mv&&!mv.hidden) mineRender(); }catch(e){ console.error(e); }
   try{ var d=document.getElementById('lv-fdesc'); if(d){ var t=0,a=0; ['gl','bh','rb','sts'].forEach(function(k){ t+=(PVL[k]||[]).length; a+=liveAlive(k); }); d.textContent='Live scores, win odds and full lineups for all '+t+' matchups across the four leagues, primetime games included. '+a+' still undecided. Updated '+ysClock()+'.'; } }catch(e){}
 }
+/* Week 11 lineups: every live read is re-optimised (best lineup from the whole roster; bye, out and IR players left out) before it is shown.
+   Players whose game has already started or finished are locked in place and stay in their Yahoo slots, so scores stay true once the week is underway. */
+function ysPre(j){
+  try{
+    var opt=window.__optimise; if(typeof opt!=='function'||!j||!j.matchups) return j;
+    var ORD=['QB','RB','WR','TE','W/R/T','Q/W/R/T','K','DEF'];
+    var locked=function(x){ var t=String(x[6]||''); return t!==''&&!/^bye|no game/i.test(t)&&ysStat(t)!==3; };
+    var isB=function(x){ return x[0]==='BN'||x[0]==='IR'; };
+    j.matchups.forEach(function(m){ ['L','R'].forEach(function(q){
+      var L=m[q]; if(!L||!L.length) return;
+      var st=L.filter(function(x){ return !isB(x); }), pin=st.filter(locked);
+      var pool=L.filter(function(x){ return !locked(x); });
+      var out=opt(pool);
+      var res=pin.concat(out.filter(function(x){ return !isB(x); }));
+      res.sort(function(a,b){ var ia=ORD.indexOf(a[0]), ib=ORD.indexOf(b[0]); return (ia<0?9:ia)-(ib<0?9:ib); });
+      var bench=out.filter(isB).concat(L.filter(function(x){ return isB(x)&&locked(x); }));
+      m[q]=res.concat(bench);
+    }); });
+  }catch(e){ try{ console.error('ysPre',e); }catch(e2){} }
+  return j;
+}
+function roadSyncW11(){
+  try{
+    if(typeof ROAD==='undefined'||typeof PVL==='undefined'||PVL_WK!==11) return;
+    ['gl','bh','rb','sts'].forEach(function(k){ (PVL[k]||[]).forEach(function(e){
+      if(!e.ra||!e.ra.length||!e.rb||!e.rb.length) return;
+      [[e.ia,e.ra,e.ka,e.da,e.p],[e.ib,e.rb,e.kb,e.db,100-e.p]].forEach(function(s){
+        var T=null; (ROAD[k]||[]).forEach(function(x){ if(x.t===s[0]) T=x; }); if(!T||!T.L) return;
+        var L=s[1].map(function(r){ return [r[0]==='FLX'?'FLEX':r[0]==='SFX'?'SFLEX':r[0],r[1],r[2],0]; });
+        [s[2],s[3]].forEach(function(r,i){ if(r&&r[0]&&r[0]!=='\u2014') L.push([i?'DEF':'K',r[0],r[1],0]); });
+        T.L['11']=L; (T.g||[]).forEach(function(g){ if(g[0]===11) g[2]=Math.round(s[4]*10)/10; });
+      }); }); });
+  }catch(e){ try{ console.error('roadSyncW11',e); }catch(e2){} }
+}
 function ysRefresh(manual){
   if(YS.busy) return Promise.resolve(); YS.busy=true; YS.cyc=(YS.cyc||0)+1; var bust=(manual===true)?'&t='+Math.floor(Date.now()/20000):'';
   return Promise.all(['gl','bh','rb','sts'].map(function(k){
-    return fetch('/api/lineups?lg='+k+'&week='+PVL_WK+bust,{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(j){ if(j&&j.partial&&!YS.retry){ YS.retry=1; setTimeout(function(){ YS.retry=0; ysRefresh(); },25000); } return ysApply(k,j); }).catch(function(){ return -1; });
+    return fetch('/api/lineups?lg='+k+'&week='+PVL_WK+bust,{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(j){ if(j&&j.partial&&!YS.retry){ YS.retry=1; setTimeout(function(){ YS.retry=0; ysRefresh(); },25000); } return ysApply(k,ysPre(j)); }).catch(function(){ return -1; });
   })).then(function(rs){ var ok=rs.filter(function(x){return x>0;}).length; YS.ok=ok; YS.fail=rs.filter(function(x){return x<0;}).length; if(ok){ YS.at=Date.now(); ysSyncAll(); ysRender(); } YS.busy=false; try{ ysDone(manual===true,ok); }catch(e){} return rs; }).catch(function(){ YS.busy=false; try{ ysDone(manual===true,0); }catch(e){} });
 }
 (function(){ if(!/^https?:/.test(location.protocol)) return; setTimeout(ysRefresh,1500);
@@ -10328,6 +10363,7 @@ function optimise(L){
   L.forEach(function(r){ if(!chosen[r[1]]) out.push([r[0]==='IR'?'IR':'BN'].concat(r.slice(1))); });
   return out;
 }
+window.__optimise=optimise;
 function build11(D){
   var pvl={}, pv8={}, pvx={}, w5={};
   LG.forEach(function(k){ pvl[k]=[]; pv8[k]=[]; pvx[k]={}; w5[k]=[]; var rec={}; (D[k].matchups||[]).forEach(function(mm){ [mm.ia,mm.ib].forEach(function(id){ rec[id]=resultRec(B0.rec[k][id],(K10[k]&&K10[k][id])?K10[k][id].win:null); }); });
