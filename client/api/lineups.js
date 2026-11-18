@@ -89,7 +89,7 @@ module.exports = async (req, res) => {
     // A short or incomplete read must never sit in the edge cache: only a full league (all matchups, full rosters) is cached for the normal window.
     const partial = useOld ? matchups.length < 6 : matchups.length < 6 || matchups.some(m => m.L.length < 8 || m.R.length < 8);
     const ttl = partial ? 15 : cacheSeconds();
-    res.setHeader('Cache-Control', `s-maxage=${ttl}, stale-while-revalidate=${partial ? 0 : Math.min(60, ttl)}`);
+    res.setHeader('Cache-Control', `s-maxage=${ttl}, stale-while-revalidate=${partial ? 0 : (ttl >= 300 ? 3600 : Math.min(180, ttl * 2))}`);
     res.setHeader('Access-Control-Allow-Origin', '*');
     if (!partial && !useOld) await record(lg, week, matchups);
     res.end(JSON.stringify({ lg, week, at: new Date().toISOString(), ms: Date.now() - t0, partial, matchups, diag: q.get('dbg') ? { diag, t: diagT && Object.fromEntries(Object.entries(diagT).map(([k, v]) => [k, v ? [v.rows.length, v.opp, v.name, v.dbgc.slice(0, 4).join('/'), v.info] : null])) } : undefined }));
