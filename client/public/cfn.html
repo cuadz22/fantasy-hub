@@ -5689,7 +5689,7 @@ function lgRender(){
   } else if(t==='My Team'){ lgMine(p,k); }
 }
 /* ---------- waiver report share card ---------- */
-function wvImg(src){ return new Promise(function(res){ if(!src) return res(null); var im=new Image(); im.onload=function(){res(im);}; im.onerror=function(){res(null);}; im.src=src; }); }
+function wvImg(src){ return new Promise(function(res){ if(!src) return res(null); var im=new Image(); if(!/^data:/.test(src)) im.crossOrigin='anonymous'; var t=setTimeout(function(){res(null);},8000); im.onload=function(){clearTimeout(t);res(im);}; im.onerror=function(){clearTimeout(t);res(null);}; im.src=src; }); }
 function wvRR(c,x,y,w,h,r){ c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); }
 function wvT(c,s,x,y,font,color,al,ls){
   c.font=font; c.fillStyle=color; c.textBaseline='alphabetic'; ls=ls||0;
@@ -5806,7 +5806,8 @@ async function shareWaivers(k,wk){ try{cfnCtx(cfnG('L',k,'Waivers'),'Week '+wk+'
   box.innerHTML='<div style="color:#dfe2e8;font:500 14px Inter,sans-serif;text-align:center;padding:40px 0">Building your report…</div>';
   var cv;
   try{ cv=await wvCard(k,wk); }catch(e){ box.innerHTML='<div style="color:#ff8a80;font:500 14px Inter,sans-serif;text-align:center;padding:30px 0">Could not build the report.</div><button class="tc-ghost" id="wvX">Close</button>'; document.getElementById('wvX').onclick=function(){ ov.remove(); }; return; }
-  var url=cv.toDataURL('image/png'), fn='cfn-waivers-'+k+'-week-'+wk+'.png';
+  var url; try{ url=cv.toDataURL('image/png'); }catch(e){ box.innerHTML='<div style="color:#ff8a80;font:500 14px Inter,sans-serif;text-align:center;padding:30px 0">Could not build the report.</div><button class="tc-ghost" id="wvX">Close</button>'; document.getElementById('wvX').onclick=function(){ ov.remove(); }; return; }
+  var fn='cfn-waivers-'+k+'-week-'+wk+'.png';
   var blob=await new Promise(function(r){ cv.toBlob(r,'image/png'); }), file=null, can=false;
   try{ file=new File([blob],fn,{type:'image/png'}); can=!!(navigator.canShare&&navigator.canShare({files:[file]})); }catch(e){}
   box.innerHTML='<img alt="Waiver report" src="'+url+'" style="width:100%;height:auto;border-radius:14px;border:1px solid #282c37;display:block"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="tc-btn" id="wvGo" style="flex:1">'+(can?'Share':'Save image')+'</button>'+(can?'<button class="tc-ghost" id="wvDl" style="flex:1">Save image</button>':'')+'<button class="tc-ghost" id="wvCl" style="flex:1">Close</button></div><div id="wvMsg" style="color:#dfe2e8;font:400 12px Inter,sans-serif;text-align:center;min-height:16px"></div>';
