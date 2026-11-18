@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#101416"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="CFN"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png"><script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}</script><style id="wkp">html.wkp [id^="view-"]{visibility:hidden}html.wkp body::before{content:"Loading Week 11\2026";position:fixed;top:45%;left:0;right:0;text-align:center;color:#9a9e98;font:600 13px -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:.1em;text-transform:uppercase}</style><script>document.documentElement.classList.add("wkp");setTimeout(function(){document.documentElement.classList.remove("wkp")},6000);</script><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.wp-dec{margin:8px 0 4px;padding:7px 10px;border:1px solid var(--accent);border-radius:8px;font-size:11px;line-height:1.4;color:var(--accent);font-weight:600}
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#0b0e10"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="CFN"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png"><script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}</script><style id="wkp">html.wkp [id^="view-"]{visibility:hidden}html.wkp body::before{content:"Loading Week 11\2026";position:fixed;top:45%;left:0;right:0;text-align:center;color:#9a9e98;font:600 13px -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:.1em;text-transform:uppercase}</style><script>document.documentElement.classList.add("wkp");setTimeout(function(){document.documentElement.classList.remove("wkp")},6000);</script><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.wp-dec{margin:8px 0 4px;padding:7px 10px;border:1px solid var(--accent);border-radius:8px;font-size:11px;line-height:1.4;color:var(--accent);font-weight:600}
 .wp-sc{margin:8px 0 4px;padding:7px 10px;border:1px solid var(--border-l);border-radius:8px;font-size:11px;line-height:1.45;display:grid;gap:4px}
 .wp-sc b{color:var(--accent)}.wp-sc b.ud{color:#f59e0b}.wp-hl{border-top:1px solid var(--border-l);padding-top:4px;display:grid;gap:2px;font-size:10px;color:var(--muted)}
 .lvs-ctl{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
@@ -397,8 +397,9 @@ body.pc-lock{overflow:hidden}
 <style>
 /* ── Tokens – matching existing site exactly ── */
 :root {
-  --bg:  #101416;
-  --bg2: #14161b;
+  --bg:  #101417;
+  --bg2: #101417;
+  --bar: #0b0e10;
   --bg3: #21252c;
   --surface: #1f232a;
   --accent: #00DFCE;
@@ -412,6 +413,7 @@ body.pc-lock{overflow:hidden}
 }
 [data-theme="light"] {
   --bg: #F5F5F2;
+  --bar: #FFFFFF;
   --bg2: #FFFFFF;
   --bg3: #EBEBEA;
   --surface: #F0F0EE;
@@ -668,14 +670,14 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 header{
   display:flex;align-items:center;gap:24px;
   padding:0 24px;height:52px;
-  background:var(--bg2);border-bottom:.5px solid var(--border);
+  background:var(--bar);border-bottom:.5px solid var(--border);
   position:sticky;top:env(safe-area-inset-top,0px);z-index:200;
 }
 .logo{display:flex;align-items:center;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:.06em;color:var(--accent);flex-shrink:0;white-space:nowrap;cursor:pointer}
 .nav-wrap{position:relative;flex:1;height:100%;overflow:hidden;min-width:0}
 nav{display:flex;align-items:center;gap:0;height:100%;overflow-x:auto;scrollbar-width:none}
 nav::-webkit-scrollbar{display:none}
-.nav-fade{position:absolute;top:0;right:0;width:40px;height:100%;background:linear-gradient(to right,transparent,var(--bg2));pointer-events:none}
+.nav-fade{position:absolute;top:0;right:0;width:40px;height:100%;background:linear-gradient(to right,transparent,var(--bar));pointer-events:none}
 .ntab{
   display:flex;align-items:center;gap:6px;padding:0 13px;height:100%;
   font-size:11.5px;font-weight:500;color:var(--muted);white-space:nowrap;
