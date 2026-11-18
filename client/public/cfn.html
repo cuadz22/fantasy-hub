@@ -5582,12 +5582,12 @@ function lgRanks(p,k){
   h+='<div class="subsec"><div class="rb-rule" style="color:var(--muted)">Former managers are shown for the record. Their regular-season records were not kept, so they only earn playoff points.</div></div>';
   p.insertAdjacentHTML('beforeend',h);
 }
-var LG_GRP=[['Matchups',['Matchups','Weekly Preview']],['Standings',['Standings','Power Rankings','Fraud Meter']],['Waivers',['Waivers']],['Trades',['Trades','Keepers','Trade Desk','Trade Rules']],['My Team',['My Team']],['League Center',['Awards','History','All-Time Ranks','Rulebook']]];
+var LG_GRP=[['Matchups',['Matchups','Weekly Preview']],['Standings',['Standings','Power Rankings','Fraud Meter']],['Waivers',['Waivers']],['Trades',['Trades','Keepers','Keeper Prices','Trade Desk','Trade Rules']],['My Team',['My Team']],['League Center',['Awards','History','All-Time Ranks','Rulebook']]];
 function lgGrpOf(t){ if(t==='Live Matchups') t='Matchups'; for(var i=0;i<LG_GRP.length;i++){ if(LG_GRP[i][1].indexOf(t)>=0) return LG_GRP[i]; } return LG_GRP[0]; }
 function lgTabs(){
   var L=LGI[lgState.k], cur=lgGrpOf(lgState.tab);
   var top=LG_GRP.map(function(g){ return '<button class="lg-tab'+(g[0]===cur[0]?' on':'')+'" onclick="lgTab(\''+g[1][0]+'\')">'+g[0]+'</button>'; }).join('');
-  var tabs=cur[1].filter(function(t){ return L.keeper||!/^(Keepers|Trade Desk|Trade Rules)$/.test(t); });
+  var tabs=cur[1].filter(function(t){ return (L.keeper||!/^(Keepers|Trade Desk|Trade Rules)$/.test(t))&&(t!=='Keeper Prices'||lgState.k==='rb'); });
   var sub=tabs.length>1?tabs.map(function(t){ return '<button class="lg-tab'+(t===lgState.tab?' on':'')+'" onclick="lgTab(\''+t+'\')">'+(t==='Keepers'?'Draft Picks &amp; Keepers':t)+'</button>'; }).join(''):'';
   return '<div class="lgt-row lgt-grp">'+top+'</div>'+(sub?'<div class="lgt-row lgt-sub">'+sub+'</div>':'');
 }
@@ -5684,7 +5684,7 @@ function lgRender(){
   } else if(t==='Trades'){ TC.leagueTab(p,k);
   } else if(t==='History'){ lgHistory(p,k);
   } else if(t==='All-Time Ranks'){ lgRanks(p,k);
-  } else if(t==='Trade Rules'){ lgCC(p,k); } else if(t==='Trade Desk'){ lgTrade(p,k); } else if(t==='Keepers'){ lgKeepers(p,k);
+  } else if(t==='Keeper Prices'){ if(typeof window.kpxTab==='function') window.kpxTab(p,k); } else if(t==='Trade Rules'){ lgCC(p,k); } else if(t==='Trade Desk'){ lgTrade(p,k); } else if(t==='Keepers'){ lgKeepers(p,k);
   } else if(t==='Rulebook'){ lgRules(p,k);
   } else if(t==='My Team'){ lgMine(p,k); }
 }
@@ -7717,7 +7717,7 @@ function cfnCtx(go,title,desc){ window.__cfnCtx={go:go,title:title,desc:desc}; }
   ['showHome','showTab','showStudio'].forEach(function(n){ var f=window[n]; if(typeof f==='function') window[n]=function(){ clr(); return f.apply(this,arguments); }; });
   var _t=window.lgTabs; window.lgTabs=function(){ return _t.apply(this,arguments)+'<button class="lg-tab ext cfn-tablink" onclick="cfnCopyTab(this)">Share link</button>'; };
   window.cfnCopyTab=function(b){
-    var h=cur(), u=location.origin+location.pathname+h, pm={'#s=L~rb~Trade%20Rules':'/cant-cut-rebirth.html','#s=L~bh~Trade%20Rules':'/cant-cut-beaners.html'}, ls={gl:'gentlemens',bh:'beaners',rb:'rebirth',sts:'sts'}; if(pm[h]) u=location.origin+pm[h]; else if(ls[lgState.k]&&!/~c$/.test(h)) u=location.origin+'/l/'+ls[lgState.k]+'-'+String(lgState.tab).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.html'; var done=function(){ var o=b.textContent; b.textContent='Link copied ✓'; setTimeout(function(){ b.textContent=o; },1600); };
+    var h=cur(), u=location.origin+location.pathname+h, pm={'#s=L~rb~Keeper%20Prices':'/cfn.html#s=L~rb~Keeper%20Prices','#s=L~rb~Trade%20Rules':'/cant-cut-rebirth.html','#s=L~bh~Trade%20Rules':'/cant-cut-beaners.html'}, ls={gl:'gentlemens',bh:'beaners',rb:'rebirth',sts:'sts'}; if(pm[h]) u=location.origin+pm[h]; else if(ls[lgState.k]&&!/~c$/.test(h)) u=location.origin+'/l/'+ls[lgState.k]+'-'+String(lgState.tab).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.html'; var done=function(){ var o=b.textContent; b.textContent='Link copied ✓'; setTimeout(function(){ b.textContent=o; },1600); };
     var ttl=(LGI[lgState.k]?LGI[lgState.k].name+' · ':'')+lgState.tab;
     if(navigator.share&&/Android|iPhone|iPad/i.test(navigator.userAgent)){ navigator.share({title:ttl,url:u}).catch(function(){}); return; }
     try{ navigator.clipboard.writeText(u).then(done,function(){ prompt('Copy this link',u); }); }catch(e){ prompt('Copy this link',u); }
@@ -10669,7 +10669,7 @@ var _prev=window.__wkAfter; window.__wkAfter=function(){ try{ if(_prev) _prev();
   var st=document.createElement('style'); st.textContent='.kpx{margin-top:22px;padding:16px;border:1px solid var(--border);border-radius:14px;background:var(--bg2)}.kpx-top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.kpx-top b{font-size:16px}.kpx-note,.kpx-fine{font-size:12px;line-height:1.5;color:var(--muted);margin:10px 0}.kpx-grid{display:grid;grid-template-columns:minmax(0,1.3fr) 54px 74px minmax(0,2.4fr);gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--border);font-size:13px}.kpx-hd{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-top:0}.kpx-n{font-weight:700}.kpx-n em{font-style:normal;font-weight:500;color:var(--muted);margin-left:6px;font-size:11px}.kpx-p{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}.kpx-p2{font-weight:700;font-variant-numeric:tabular-nums}.kpx-x{color:#ff7a59;font-weight:700}.kpx-w{color:var(--muted);font-size:12px;line-height:1.4}.kpx-no .kpx-n{opacity:.7}@media(max-width:640px){.kpx-grid{grid-template-columns:minmax(0,1fr) 44px 64px}.kpx-w{grid-column:1 / -1}.kpx-hd span:last-child{display:none}}';
   document.head.appendChild(st);
   var o=window.lgCC; if(typeof o!=='function') return;
-  window.lgCC=function(p,k){ o(p,k); if(k!=='rb') return; try{ var b=document.createElement('div'); b.className='kpx'; p.appendChild(b); render(b,k); }catch(e){ console.error('kpx',e); } };
+  window.kpxTab=function(p,k){ if(k!=='rb') return; try{ var b=document.createElement('div'); b.className='kpx'; b.style.marginTop='0'; p.appendChild(b); render(b,k); }catch(e){ console.error('kpx',e); } };
 })();
 </script>
 </body></html>
