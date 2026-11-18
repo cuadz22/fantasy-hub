@@ -34,4 +34,4 @@ Scrape Yahoo -> raw files -> `build.py` -> replace `PVL` and `PVL_AT` -> test ->
 - Don't leave browser tabs open.
 
 ## Draft pick ownership (bh, rb)
-The pick board reads Yahoo's showtradedpicks page live (client/api/_dpk.js, 10 min cache) via /api/trades. client/api/trades-base.json and the baked DPK in cfn.html are only fallbacks: refresh both from Yahoo whenever a trade is made, but a stale fallback no longer shows on the live site while Yahoo is reachable.
+Yahoo's own Draft Picks page needs a login, so the server cannot read it. Instead client/api/_dpk.js replays the league's PUBLIC Transactions > Trades page (every completed trade, oldest first) on top of "everyone owns their own picks". Tested Nov 18: it reproduces Yahoo's login-only board exactly for both Rebirth and BH. It refuses (returns null) if any trade does not line up, and /api/trades then falls back to the snapshot in client/api/trades-base.json (and the baked DPK in cfn.html). Check it with /api/hw?dpk=1&lg=rb&debug=1 (source "yahoo" = live replay working). If it ever says "none", refresh the two snapshots from the Yahoo board while logged in.
