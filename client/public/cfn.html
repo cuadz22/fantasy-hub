@@ -10822,11 +10822,11 @@ function ini(n){ var p=nz(n).split(' '); return (p[0][0]||'')+((p[p.length-1]||'
 function ph(Y,n,pos,tm){
   var id=Y.S[n], u;
   if(pos==='DEF') u='https://sleepercdn.com/images/team_logos/nfl/'+String(tm).toLowerCase()+'.png';
-  else if(id) u='https://sleepercdn.com/content/nfl/players/thumb/'+id+'.jpg';
+  else if(id) u='https://sleepercdn.com/content/nfl/players/'+id+'.jpg';
   else return '<span class="db-in">'+esc(ini(n))+'</span>';
   return '<img class="db-ph" loading="lazy" referrerpolicy="no-referrer" alt="" src="'+u+'" onerror="dbImgErr(this)">';
 }
-window.dbImgErr=function(im){ if(!im.dataset.f&&/thumb/.test(im.src)){ im.dataset.f=1; im.src=im.src.replace('/thumb',''); } else { im.style.visibility='hidden'; } };
+window.dbImgErr=function(im){ im.style.visibility='hidden'; };
 function keeperSet(k){ var s={}; try{ if(k==='rb'&&window.LGD&&LGD.rbKeepers){ Object.keys(LGD.rbKeepers).forEach(function(o){ var a=LGD.rbKeepers[o][2026]; (a||[]).forEach(function(pk){ var nm=typeof pk==='string'?pk:pk.player; if(nm) s[nz(nm).toLowerCase()]=1; }); }); } }catch(e){} return s; }
 function css(){
   if(document.getElementById('db-css')) return; var e=document.createElement('style'); e.id='db-css';
@@ -10834,7 +10834,7 @@ function css(){
   '.db-h{font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--text)}.db-sub{font-size:11.5px;color:var(--dim);margin:2px 0 10px;line-height:1.5}'+
   '.db-leg{display:flex;gap:10px;flex-wrap:wrap;font-size:10.5px;color:var(--dim);margin:0 0 8px}.db-leg i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:4px;vertical-align:-1px}'+
   '.db-chips{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px}.db-ch{background:var(--bg2);border:1px solid var(--border);color:var(--muted);border-radius:999px;padding:3px 10px;font-size:11px;cursor:pointer}.db-ch.on{border-color:var(--accent);color:var(--text);background:var(--accent-dim)}'+
-  '.db-hls{font-size:11.5px;color:var(--muted);margin:0 0 8px;min-height:16px}'+
+  '.db-hls{font-size:11.5px;color:var(--muted);margin:0 0 6px;min-height:0}.db-hls:empty{display:none}'+
   '.db-wrap{overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}.db-g{display:grid;gap:4px;min-width:1340px}'+
   '.db-rl{position:sticky;left:0;z-index:2;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--dim);letter-spacing:.05em}'+
   '.db-ch2{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px 6px;min-width:0;text-align:center}.db-ch2 b{display:block;font-size:11.5px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.db-ch2 span{display:block;font-size:10px;color:var(--dim)}'+
@@ -10843,7 +10843,7 @@ function css(){
   '.db-pk{position:absolute;top:5px;right:6px;font-size:9px;color:var(--dim);font-variant-numeric:tabular-nums}'+
   '.db-ph{position:absolute;right:3px;bottom:0;height:44px;width:44px;object-fit:cover;object-position:50% 8%;border-radius:6px 6px 0 0}.db-in{position:absolute;right:6px;bottom:6px;width:30px;height:30px;border-radius:50%;background:var(--bg3);color:var(--dim);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}'+
   '.db-o{position:absolute;left:6px;bottom:4px;right:50px;font-size:9.5px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.92}.db-o em{font-style:normal;opacity:.7;margin-right:3px}'+
-  '.db-k{position:absolute;top:5px;right:26px;font-size:8px;font-weight:800;letter-spacing:.06em;color:var(--accent)}'+
+  '.db-kk{display:inline-block;margin-right:4px;padding:0 3px;border-radius:3px;background:var(--accent);color:#04201e;font-size:8px;font-weight:800;line-height:12px}'+
   '.db-note{font-size:10.5px;color:var(--dim);margin:2px 0 14px}'+
   '.db-sec{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--muted);padding:14px 0 6px;border-bottom:.5px solid var(--border);margin-bottom:10px}'+
   '.db-rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.db-rc{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:10px 10px 8px;min-width:0}'+
@@ -10859,7 +10859,7 @@ function cell(Y,k,P,col,isMulti,kset,kn){
   if(k==='bh'&&P[0]>=15) isK=true; if(k==='rb'&&kset[nz(P[3]).toLowerCase()]) isK=true;
   var nm=P[4]==='DEF'?P[3]:short(P[3]);
   return '<div class="db-c'+(st.hl[k]&&st.hl[k]!==P[2]?' dim':'')+'" data-t="'+P[2]+'" style="background:'+c+'26;border-color:'+c+'88" title="'+esc(P[3]+' · '+P[4]+' · '+P[5]+' | '+Y[k].T[P[2]]+' ('+own+') | pick '+((P[0]-1)*12+P[1])+' overall')+'">'+
-    '<div class="db-n">'+esc(nm)+'</div><div class="db-m">'+P[4]+' · '+esc(P[5])+'</div><div class="db-pk">'+P[0]+'.'+P[1]+'</div>'+(isK?'<div class="db-k">KEEP</div>':'')+
+    '<div class="db-n">'+esc(nm)+'</div><div class="db-m">'+P[4]+' · '+esc(P[5])+'</div><div class="db-pk">'+(isK?'<b class="db-kk">K</b>':'')+P[0]+'.'+P[1]+'</div>'+
     ph(Y,P[3],P[4],P[5])+'<div class="db-o"><em>'+dir+'</em>'+(k==='gl'?'':esc(own))+'</div></div>';
 }
 function board(Y,k){
@@ -10907,7 +10907,7 @@ window.lgDraft=function(p,k){
   if(isA){ h+=auction(Y,k)+rosters(Y,k); p.innerHTML=h; return; }
   var R=Math.max.apply(null,Y[k].P.map(function(q){return q[0];}));
   h+='<div class="db-sub">'+(LGN[k])+' &middot; '+R+' rounds, snake order (arrows show the direction of each round). '+(k==='gl'?'Each column is one team.':'Picks can be traded, so a team can hold several picks in one round; the owner is shown on every pick. Tap an owner below to light up all of their picks.')+(k==='bh'?' Rounds 15 and 16 hold each owner’s two keepers.':'')+'</div>';
-  h+='<div class="db-leg">'+POSN.map(function(x){ return '<span><i style="background:'+PC[x]+'"></i>'+x+'</span>'; }).join('')+'</div>';
+  h+='<div class="db-leg">'+POSN.map(function(x){ return '<span><i style="background:'+PC[x]+'"></i>'+x+'</span>'; }).join('')+(k==='gl'?'':'<span><b class="db-kk">K</b>Keeper</span>')+'</div>';
   var owners=T.map(function(t,i){ return [i,owner(k,t)]; }).sort(function(a,b){ return a[1].localeCompare(b[1]); });
   h+='<div class="db-chips">'+owners.map(function(o){ return '<button type="button" class="db-ch'+(st.hl[k]===o[0]?' on':'')+'" onclick="dbHl(\''+k+'\','+o[0]+')">'+esc(o[1])+'</button>'; }).join('')+'</div>';
   var hl='';
