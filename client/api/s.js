@@ -29,9 +29,9 @@ module.exports = async (req, res) => {
       '<meta property="og:image:width" content="' + rec.w + '"><meta property="og:image:height" content="' + rec.h + '">' +
       '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="' + esc(title) + '">' +
       '<meta name="twitter:description" content="' + esc(desc) + '"><meta name="twitter:image" content="' + base + '/i/' + id + '.jpg">' +
-      '<meta name="theme-color" content="#14161b">' +
+      '<meta name="theme-color" content="#101417">' +
       '<noscript><meta http-equiv="refresh" content="0;url=' + esc(target) + '"></noscript>' +
-      '<style>body{margin:0;background:#14161b;color:#ebecef;font:500 16px system-ui,sans-serif;display:grid;place-items:center;min-height:100vh}a{color:#00DFCE}</style>' +
+      '<style>body{margin:0;background:#101417;color:#ebecef;font:500 16px system-ui,sans-serif;display:grid;place-items:center;min-height:100vh}a{color:#00DFCE}</style>' +
       '<script>location.replace(' + JSON.stringify(target) + ');</script></head>' +
       '<body><p>Opening the Cuadz Fantasy Network… <a href="' + esc(target) + '">Tap here if nothing happens</a></p></body></html>';
     res.statusCode = 200;
