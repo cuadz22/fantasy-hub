@@ -7985,6 +7985,45 @@ function lvK(s){ return String(s||'').toLowerCase().replace(/\b(jr|sr|ii|iii|iv)
 function lvPts(r){ return Math.round((r.py*.04+r.ptd*4-2*r.it+r.ry*.1+r.rtd*6+r.rec+r.cy*.1+r.ctd*6-2*r.fl+2*r.two+6*r.st)*10)/10; }
 function lvObj(a){ return {k:a[0],pos:a[1],tm:a[2],wk:a[3],opp:a[4],h:a[5],cmp:a[6],att:a[7],py:a[8],ptd:a[9],it:a[10],car:a[11],ry:a[12],rtd:a[13],tgt:a[14],rec:a[15],cy:a[16],ctd:a[17],fl:a[18],two:a[19],st:a[20],ts:a[21],prov:a[22],nm:a[23]}; }
 function lvMean(a){ return a.length?a.reduce(function(s,x){return s+x;},0)/a.length:0; }
+/* ---- Week 11 kicker + defense upgrade alerts (this week only; expires once Week 11 games are played) ---- */
+var KD_WK=11, KD_BYE={SEA:1,GB:1,LAR:1,CLE:1,ATL:1,NE:1};
+var KD_DEFN={Cardinals:'ARI',Falcons:'ATL',Ravens:'BAL',Bills:'BUF',Panthers:'CAR',Bears:'CHI',Bengals:'CIN',Browns:'CLE',Cowboys:'DAL',Broncos:'DEN',Lions:'DET',Packers:'GB',Texans:'HOU',Colts:'IND',Jaguars:'JAX',Chiefs:'KC',Raiders:'LV',Chargers:'LAC',Rams:'LAR',Dolphins:'MIA',Vikings:'MIN',Patriots:'NE',Saints:'NO',Giants:'NYG',Jets:'NYJ',Eagles:'PHI',Steelers:'PIT','49ers':'SF',Seahawks:'SEA',Buccaneers:'TB',Titans:'TEN',Commanders:'WAS'};
+/* n, team, opponent, Yahoo top-20 rank, Yahoo proj pts, chart order, K confidence, implied team total, spread, venue */
+var KD_K=[["Ka'imi Fairbairn","HOU","vs IND",1,9.69,1,9.7,28,-11.5,"Indoor"],["Will Reichard","MIN","at SF",2,8.28,5,9.1,21.75,3,"Outdoor"],["Brandon Aubrey","DAL","vs TEN",3,9.75,2,8.5,31,-7.5,"Indoor"],["Tyler Bass","BUF","vs MIA",4,9.28,3,6.9,31,-16.5,"Outdoor"],["Cam Little","JAX","at NYG",5,8.72,4,8,26,-5.5,"Outdoor"],["Chris Boswell","PIT","at PHI",6,8.18,9,7.2,21.5,-4.5,"Outdoor"],["Evan McPherson","CIN","at WAS",7,9.22,8,7.2,29,-5.5,"Outdoor"],["Cairo Santos","CHI","vs NO",8,8.92,14,4,30,-11.5,"Outdoor"],["Jason Sanders","NYJ","at LAC",9,7.25,10,5.9,19,2.5,"Indoor"],["Jake Bates","DET","vs TB",10,8.73,11,4.5,26.5,-6.5,"Indoor"],["Chase McLaughlin","TB","at DET",11,7.54,6,8.7,20,6.5,"Indoor"],["Spencer Shrader","IND","at HOU",12,8.09,7,8.8,16.5,11.5,"Indoor"],["Matt Gay","LV","at DEN",13,6.98,20,5,15.5,9.5,"Outdoor"],["Harrison Butker","KC","vs ARI",14,8.52,21,1.1,28.5,-15.5,"Outdoor"],["Wil Lutz","DEN","vs LV",15,8.4,16,3.2,25,-9.5,"Outdoor"],["Dominic Zvada","NYG","vs JAX",16,7.7,18,4.5,20.5,5.5,"Outdoor"],["Joey Slye","TEN","at DAL",17,7.72,12,6.7,23.5,7.5,"Outdoor"],["Drew Stevens","WAS","vs CIN",18,7.92,17,5,23.5,5.5,"Outdoor"],["Ryan Fitzgerald","CAR","vs BAL",19,7.94,15,5.4,22.5,-1.5,"Outdoor"],["Cameron Dicker","LAC","vs NYJ",20,8.01,13,5.3,21.5,-2.5,"Indoor"],["Eddie Pineiro","SF","vs MIN",null,null,19,4,24.75,-3,"Outdoor"]];
+/* article (fptrack, Week 11): D/ST rank for the week, projection, tier */
+var KD_D=[{t:'PIT',n:'Steelers',opp:'at PHI',r:6,p:6.9,tier:'Stream'},{t:'NYJ',n:'Jets',opp:'at LAC',r:10,p:5.7,tier:'Longshot'},{t:'SF',n:'49ers',opp:'vs MIN',r:13,p:5.3,tier:'Avoid'}];
+function kdRanked(){ if(KD_K.__r) return KD_K.__r; var a=KD_K.map(function(x){ var yr=x[3]==null?21:x[3], cr=x[5]==null?22:x[5]; return {n:x[0],t:x[1],opp:x[2],yr:x[3],yp:x[4],cr:x[5],conf:x[6],imp:x[7],spr:x[8],ven:x[9],avg:(yr+cr)/2,k:lvK(x[0])}; });
+  a.sort(function(p,q){ return p.avg-q.avg||(q.yp||0)-(p.yp||0); }); a.forEach(function(x,i){ x.rank=i+1; }); return KD_K.__r=a; }
+window.__cmKD=function(k,R,mg){ var o={}; Object.keys(R).forEach(function(id){ var m=mg[id]; if(!m) return; var e=o[m]={K:null,DEF:null}; R[id].forEach(function(x){ if(x[0]==='K') e.K=x[1]; else if(x[0]==='DEF') e.DEF=x[1]; }); });
+  window.__KD=window.__KD||{}; var b=JSON.stringify(window.__KD[k]||null), a=JSON.stringify(o); if(a===b) return false; window.__KD[k]=o; return true; };
+function kdActive(){ return !(C&&C.gl>=KD_WK); }
+function kdWk11(){
+  if(!kdActive()) return '';
+  var KD=window.__KD||{}, lgs=['gl','sts','bh','rb'].filter(function(k){ return KD[k]&&KD[k].Cuadz; });
+  var RK=kdRanked();
+  var h='<style>.kd-w{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;margin:10px 0 14px}.kd-t{font-size:15px;font-weight:700;color:var(--text)}.kd-s{font-size:11.5px;color:var(--dim);margin:3px 0 10px;line-height:1.5}.kd-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:10px}.kd-c{border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:var(--bg)}.kd-lg{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:6px}.kd-r{font-size:12.5px;line-height:1.5;padding:5px 0;border-top:.5px solid var(--border);color:var(--text)}.kd-r b.p{display:inline-block;min-width:26px;color:var(--accent)}.kd-up{color:#bafc4f;font-weight:700}.kd-no{color:var(--dim)}.kd-bad{color:#e53653;font-weight:700}.kd-r small{display:block;color:var(--dim);font-size:11px}.kd-tb{width:100%;border-collapse:collapse;font-size:11.5px;font-variant-numeric:tabular-nums}.kd-tb th{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);text-align:right;padding:5px 6px;border-bottom:.5px solid var(--border);white-space:nowrap}.kd-tb td{text-align:right;padding:5px 6px;border-bottom:.5px solid var(--border);white-space:nowrap}.kd-tb th:nth-child(2),.kd-tb td:nth-child(2){text-align:left}.kd-fa{color:#bafc4f;font-weight:700}.kd-ow{color:var(--dim)}</style>';
+  h+='<div class="kd-w"><div class="kd-t">Week '+KD_WK+' kicker and defense upgrade alerts</div><div class="kd-s">Kickers use a consensus of the Yahoo Top 20 (projected points) and the K Confidence chart you sent: each kicker’s consensus rank is the average of his rank on the two lists. Defenses use the fptrack Week 11 article ranks (only PIT #6, NYJ #10 and SF #13 are ranked for the week). Availability is live from Yahoo. This is for Week '+KD_WK+' only and clears itself once the games are played.</div>';
+  if(!lgs.length) h+='<div class="kd-s">Loading your Yahoo rosters… (open this page again in a few seconds if nothing shows.)</div>';
+  h+='<div class="kd-g">'+lgs.map(function(k){
+    var mine=KD[k].Cuadz, taken={}, takenD={}; Object.keys(KD[k]).forEach(function(m){ if(KD[k][m].K) taken[lvK(KD[k][m].K)]=m; if(KD[k][m].DEF) takenD[KD_DEFN[KD[k][m].DEF]||KD[k][m].DEF]=m; });
+    var me=RK.filter(function(x){ return x.k===lvK(mine.K); })[0], out='<div class="kd-c"><div class="kd-lg">'+esc(LGN[k])+'</div>';
+    /* kicker */
+    var mt=me?me.t:((C&&C.ks||[]).filter(function(x){return lvK(x.n)===lvK(mine.K);})[0]||{}).t; mt=mt?String(mt).toUpperCase():'';
+    var kBye=KD_BYE[mt]?true:false, my=me?me.rank:99;
+    var ups=RK.filter(function(x){ return x.rank<my&&!taken[x.k]&&!KD_BYE[x.t]; }).slice(0,3);
+    out+='<div class="kd-r"><b class="p">K</b> '+esc(mine.K||'none')+' <span class="kd-no">'+(me?'consensus #'+me.rank+' (Yahoo '+(me.yr?'#'+me.yr:'unranked')+' · chart #'+me.cr+')':'not on either list')+'</span>'+(kBye?' <span class="kd-bad">BYE this week</span>':'')+
+      (ups.length?'<small class="kd-up">Pick up: '+ups.map(function(x){ return esc(x.n)+' #'+x.rank+' ('+x.t+' '+esc(x.opp)+(x.yp?', '+x.yp.toFixed(2)+' proj':'')+')'; }).join(' · ')+'</small>':'<small class="kd-no">'+(my===1?'You have the top-ranked kicker.':'No higher-ranked kicker is available in this league.')+'</small>')+'</div>';
+    /* defense */
+    var ab=KD_DEFN[mine.DEF]||mine.DEF, md=KD_D.filter(function(x){ return x.t===ab; })[0], dr=md?md.r:99, dBye=KD_BYE[ab]?true:false;
+    var du=KD_D.filter(function(x){ return x.r<dr&&!takenD[x.t]; });
+    out+='<div class="kd-r"><b class="p">D</b> '+esc(mine.DEF||'none')+' <span class="kd-no">'+(md?'article rank #'+md.r+' ('+esc(md.opp)+', '+md.p.toFixed(1)+' proj)':'not ranked in the article')+'</span>'+(dBye?' <span class="kd-bad">BYE this week</span>':'')+
+      (du.length?'<small class="kd-up">Pick up: '+du.map(function(x){ return esc(x.n)+' #'+x.r+' ('+esc(x.opp)+', '+x.p.toFixed(1)+' proj, article: '+x.tier+')'; }).join(' · ')+'</small>':'<small class="kd-no">'+(md?'No higher-ranked listed defense is available.':'None of the article’s ranked defenses are available here.')+'</small>')+'</div>';
+    return out+'</div>'; }).join('')+'</div>';
+  /* consensus table */
+  h+='<details style="margin-top:12px"><summary style="cursor:pointer;font-size:12px;color:var(--muted)">Full Week '+KD_WK+' kicker consensus</summary><div style="overflow-x:auto;margin-top:8px"><table class="kd-tb"><thead><tr><th>#</th><th>Kicker</th><th>Opp</th><th>Yahoo</th><th>Proj</th><th>Chart</th><th>K conf.</th><th>Implied</th><th>Spread</th>'+lgs.map(function(k){ return '<th>'+k.toUpperCase()+'</th>'; }).join('')+'</tr></thead><tbody>'+RK.map(function(x){
+    return '<tr><td>'+x.rank+'</td><td>'+esc(x.n)+'</td><td>'+esc(x.opp)+'</td><td>'+(x.yr?'#'+x.yr:'–')+'</td><td>'+(x.yp?x.yp.toFixed(2):'–')+'</td><td>#'+x.cr+'</td><td>'+x.conf+'</td><td>'+x.imp+'</td><td>'+(x.spr>0?'+':'')+x.spr+'</td>'+lgs.map(function(k){ var m=null; Object.keys(KD[k]).forEach(function(q){ if(lvK(KD[k][q].K)===x.k) m=q; }); return '<td class="'+(m?'kd-ow':'kd-fa')+'">'+(m?(m==='Cuadz'?'You':esc(m)):'FA')+'</td>'; }).join('')+'</tr>'; }).join('')+'</tbody></table></div></details></div>';
+  return h;
+}
 function cmLiveMerge(j){
   if(!C||!j||!j.r||!j.r.length) return false;
   if(C.__bm==null){ var bm=0; C.players.forEach(function(p){ (p.gm||[]).forEach(function(g){ if(g[0]>bm) bm=g[0]; }); p.__b={gm:(p.gm||[]).slice(),us:(p.us||[]).slice()}; }); C.__bm=bm; C.__s0={}; Object.keys(C.sched).forEach(function(t){ C.__s0[t]=C.sched[t].slice(); }); }
@@ -8008,7 +8047,7 @@ function cmLiveMerge(j){
     while(L+1<=gl&&L+1<=17&&L+1-bm<orig.length&&!orig[L+1-bm]) L++;
     var d=Math.max(0,L-bm); C.sched[t]=[''].concat(orig.slice(1+d)); C.tl[t]=L;
   });
-  LV.tw=j.tw; LV.gen=j.gen; LV.last=j.last; LV.prov=j.prov||0; C.liveWk=j.last;
+  LV.tw=j.tw; LV.gen=j.gen; LV.last=j.last; LV.prov=j.prov||0; C.liveWk=j.last; C.gl=gl;
   cache={}; return true;
 }
 function cmLiveKick(force){
@@ -8262,6 +8301,7 @@ function waivers(){
   var lg=S.wlg,li=LG.indexOf(lg),B=byNm(),cx=myCtx(lg),ov=wvOv(li),isRb=lg==='rb';
   var h='<div class="cm-box"><div class="cm-row"><div class="cm-f"><label>Which league?</label>'+chips('wlg',lg,[['gl',"Gentlemen's"],['sts','Shoot the Shits'],['bh','Beaners & Husseins'],['rb','Rebirth'],['fb','Fantasy Ball Z']])+'</div></div></div>';
   h+=how('How to read this page','Five lists for the league you pick. <b>Kicker ratings</b> grade every kicker for the week from Vegas lines, Yahoo projections, last-3 and season scoring. <b>Streaming defenses</b> are available D/STs sorted by next week\u2019s Yahoo projection so you can claim them a week early. <b>Dropped stars</b> are good players another team cut this season (a top-60 market value, or a starter-level scorer at his position, roughly the first 3 to 5 rounds of a draft). <b>Best available</b> shows the free agents who would actually start for you. <b>Trending up</b> are free agents whose usage and scoring have jumped in their last 3 games. This is a snapshot from '+esc(C.upd)+' (Week '+C.wk+'), not live Yahoo; ask me to refresh it before waivers run. Drops come from the Yahoo transaction log from Aug 24 on, so anything dropped in the offseason is not in here.');
+  h+=kdWk11();
   h+=wvDef(lg);
   h+=wvKick(lg);
   // dropped stars
@@ -9935,6 +9975,7 @@ function ysSyncAll(force){ var changed=false;
   try{ ['gl','sts','bh','rb'].forEach(function(k){ var R=YS.ro&&YS.ro[k]; if(!R) return; var ids=Object.keys(R);
     if(ids.length<10||!ids.every(function(id){return R[id].length>=10;})) return;
     var mg={}; (PVL[k]||[]).forEach(function(e){ mg[e.ia]=e.a[1]; mg[e.ib]=e.b[1]; });
+    try{ if(window.__cmKD&&window.__cmKD(k,R,mg)) changed=true; }catch(e){ console.error(e); }
     try{ if(window.__cmSync&&window.__cmSync(k,R,mg)) changed=true; }catch(e){ console.error(e); }
     try{ var D=window.__TCD, T=D&&D.teams&&D.teams[k]; if(T) T.forEach(function(t){ var rows=R[t.id]; if(!rows) return; var pl=[]; rows.forEach(function(x){ if(x[0]==='K'||x[0]==='DEF') return; var n=ysNn(x[1]); if(D.players[n]) pl.push([x[0],n]); }); if(pl.length>=8) t.pl=pl; }); }catch(e){ console.error(e); }
   }); }catch(e){ console.error(e); }
