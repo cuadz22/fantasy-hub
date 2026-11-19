@@ -37,3 +37,11 @@ Nothing here needs your computer to be on. Everything marked "automatic" runs on
 
 - Vercel Hobby crons run at most once a day and the function cap is 12 (currently at 12), so new routes go inside `api/hw.js` as underscore modules.
 - Scheduled tasks in the cloud cannot push to GitHub, so the week rollover in step 1 stays a manual commit until the constants are derived from the calendar.
+
+## Kickers and defenses (waivers)
+
+| What | How it stays current |
+|---|---|
+| Who owns each kicker and defense | Read live from the Yahoo lineups on every page load and every 90 seconds (bench and IR included, names matched by last name plus first initial). Nothing is baked. |
+| Kicker and defense rankings | Week 11 uses the hand-supplied charts. From Week 12 on the Waiver wire and Weekly ranks tabs read the K and DEF lists in the weekly-ranks feed (`/api/hw`) as soon as they appear, and say "waiting" until they do. |
+| Yahoo defense and kicker projections, Vegas lines | Still a baked snapshot (the Yahoo API app is not authorized, so nothing can read projections server-side). The week columns roll forward automatically; the as-of date is shown. |
