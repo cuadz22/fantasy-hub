@@ -24,7 +24,7 @@ function parseCsvLine(l) {
 }
 let NFL = null, NFL_T = 0;
 async function nfl() {
-  if (NFL && Date.now() - NFL_T < 1800000) return NFL;
+  if (NFL && Date.now() - NFL_T < 600000) return NFL;
   const r = await fetch('https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2026.csv.gz', { headers: { 'User-Agent': 'cfn-site' } });
   if (!r.ok) throw new Error('nflverse ' + r.status);
   const txt = require('zlib').gunzipSync(Buffer.from(await r.arrayBuffer())).toString('utf8').split('\n');
@@ -35,9 +35,9 @@ async function nfl() {
     if (!txt[i]) continue; const a = parseCsvLine(txt[i]); if (a[ix.season_type] !== 'REG') continue;
     const team = a[ix.team], wk = +a[ix.week]; (teamWks[team] = teamWks[team] || new Set()).add(wk);
     const pos = a[ix.position]; if (!/^(QB|RB|WR|TE)$/.test(pos)) continue;
-    const row = { pos, team, wk, opp: a[ix.opponent_team], gid: a[ix.game_id], cmp: num(a, 'completions'), att: num(a, 'attempts'), py: num(a, 'passing_yards'), ptd: num(a, 'passing_tds'), it: num(a, 'passing_interceptions'),
+    const row = { nm: a[ix.player_display_name], pos, team, wk, opp: a[ix.opponent_team], gid: a[ix.game_id], cmp: num(a, 'completions'), att: num(a, 'attempts'), py: num(a, 'passing_yards'), ptd: num(a, 'passing_tds'), it: num(a, 'passing_interceptions'),
       car: num(a, 'carries'), ry: num(a, 'rushing_yards'), rtd: num(a, 'rushing_tds'), rec: num(a, 'receptions'), tgt: num(a, 'targets'), cy: num(a, 'receiving_yards'), ctd: num(a, 'receiving_tds'),
-      fl: num(a, 'sack_fumbles_lost') + num(a, 'rushing_fumbles_lost') + num(a, 'receiving_fumbles_lost'), two: num(a, 'passing_2pt_conversions') + num(a, 'rushing_2pt_conversions') + num(a, 'receiving_2pt_conversions'), st: num(a, 'special_teams_tds'), c40: num(a, 'receiving_40') };
+      fl: num(a, 'sack_fumbles_lost') + num(a, 'rushing_fumbles_lost') + num(a, 'receiving_fumbles_lost'), two: num(a, 'passing_2pt_conversions') + num(a, 'rushing_2pt_conversions') + num(a, 'receiving_2pt_conversions'), st: num(a, 'special_teams_tds'), c40: num(a, 'receiving_40'), ts: num(a, 'target_share') };
     (byName[normN(a[ix.player_display_name])] = byName[normN(a[ix.player_display_name])] || []).push(row);
   }
   NFL = { byName, teamWks }; NFL_T = Date.now(); return NFL;
@@ -94,8 +94,54 @@ module.exports = async (req, res) => {
     if (!ok) { await new Promise(r => setTimeout(r, 600)); return res.status(401).json({ error: 'bad login' }); }
     return res.status(200).json({ ok: true, name: nm });
   }
-  if (!process.env.BALLDONTLIE_API_KEY) { res.setHeader('Cache-Control', 'no-store'); return res.status(503).json({ error: 'no key configured' }); }
   const q = req.query || {};
+  if (q.pw) {
+    // Whole-season box scores for every QB/RB/WR/TE, for the Commish player cards.
+    // Primary: nflverse weekly stats. Fallback: BallDontLie box scores for games that are Final but not in nflverse yet.
+    try {
+      const N = await nfl(), out = [], tw = {}, have = {};
+      Object.keys(N.teamWks).forEach(t => { tw[t] = Array.from(N.teamWks[t]).sort((x, y) => x - y); tw[t].forEach(w => { have[t + '|' + w] = 1; }); });
+      Object.keys(N.byName).forEach(k => {
+        N.byName[k].forEach(r => {
+          if (!(r.att || r.car || r.tgt || r.rec)) return;
+          const g = String(r.gid).split('_');
+          out.push([k, r.pos, r.team, r.wk, r.opp, g[3] === r.team ? 1 : 0, r.cmp, r.att, r.py, r.ptd, r.it, r.car, r.ry, r.rtd, r.tgt, r.rec, r.cy, r.ctd, r.fl, r.two, r.st, Math.round((r.ts || 0) * 1000) / 1000, 0, r.nm]);
+        });
+      });
+      let prov = 0;
+      if (process.env.BALLDONTLIE_API_KEY) {
+        try {
+          const BA = { WSH: 'WAS', LAR: 'LA', JAC: 'JAX' }, ab = x => BA[x] || x;
+          const gm = await pages('games', { seasons: ['2026'] }, 4);
+          const fin = (gm.data || []).filter(x => /final/i.test(x.status_state || x.status || '') && x.home_team && x.visitor_team)
+            .filter(x => !have[ab(x.home_team.abbreviation) + '|' + x.week] || !have[ab(x.visitor_team.abbreviation) + '|' + x.week]).slice(0, 8);
+          if (fin.length) {
+            const st = await pages('stats', { game_ids: fin.map(x => x.id) }, 8), by = {};
+            (st.data || []).forEach(x => {
+              const pos = x.player && x.player.position_abbreviation; if (!/^(QB|RB|WR|TE)$/.test(pos || '')) return;
+              const g = x.game, h = ab(g.home_team.abbreviation), v = ab(g.visitor_team.abbreviation), tm = ab(x.team.abbreviation), n0 = v => +v || 0;
+              const row = { nm: (x.player.first_name + ' ' + x.player.last_name), pos, tm, wk: g.week, opp: tm === h ? v : h, home: tm === h ? 1 : 0, cmp: n0(x.passing_completions), att: n0(x.passing_attempts), py: n0(x.passing_yards), ptd: n0(x.passing_touchdowns), it: n0(x.passing_interceptions), car: n0(x.rushing_attempts), ry: n0(x.rushing_yards), rtd: n0(x.rushing_touchdowns), tgt: n0(x.receiving_targets), rec: n0(x.receptions), cy: n0(x.receiving_yards), ctd: n0(x.receiving_touchdowns), fl: n0(x.fumbles_lost) };
+              if (!(row.att || row.car || row.tgt || row.rec)) return;
+              const gk = g.id + '|' + tm; by[gk] = by[gk] || { tg: 0, rows: [] }; by[gk].tg += row.tgt; by[gk].rows.push(row);
+            });
+            Object.keys(by).forEach(gk => by[gk].rows.forEach(r => {
+              if (have[r.tm + '|' + r.wk]) return;
+              out.push([normN(r.nm), r.pos, r.tm, r.wk, r.opp, r.home, r.cmp, r.att, r.py, r.ptd, r.it, r.car, r.ry, r.rtd, r.tgt, r.rec, r.cy, r.ctd, r.fl, 0, 0, by[gk].tg ? Math.round(r.tgt / by[gk].tg * 1000) / 1000 : 0, 1, r.nm]); prov++;
+            }));
+            fin.forEach(x => [ab(x.home_team.abbreviation), ab(x.visitor_team.abbreviation)].forEach(t => { if (!have[t + '|' + x.week]) { (tw[t] = tw[t] || []).push(x.week); } }));
+          }
+        } catch (e) { console.error('pw bdl', e && e.message); }
+      }
+      let last = 0; Object.keys(tw).forEach(t => tw[t].forEach(w => { if (w > last) last = w; }));
+      res.setHeader('Cache-Control', 'public, s-maxage=180, stale-while-revalidate=900');
+      return res.status(200).json({ gen: Date.now(), last, tw, prov, r: out });
+    } catch (e) {
+      console.error('live-stats pw', e && e.message);
+      res.setHeader('Cache-Control', 'no-store');
+      return res.status(502).json({ error: 'stats unavailable' });
+    }
+  }
+  if (!process.env.BALLDONTLIE_API_KEY) { res.setHeader('Cache-Control', 'no-store'); return res.status(503).json({ error: 'no key configured' }); }
   try {
     if (q.ping) {
       const g = await bdl('games', { per_page: 1 });

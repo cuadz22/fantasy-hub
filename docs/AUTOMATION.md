@@ -12,6 +12,7 @@ Nothing here needs your computer to be on. Everything marked "automatic" runs on
 | Market history (`/api/hw?snap=1`) | Vercel cron appends one snapshot of every player's value | Daily at 09:17 UTC |
 | Market Movers | Computed in the browser: today's live value vs the snapshot from about 7 days ago (5 to 10 day window), blended with the site's own weights. Falls back to the last baked list if history is too short. | Every page open |
 | Road to the Playoffs (records, odds, byes, seeds, remaining schedule, best lineups, "games left") | Rebuilt in the browser from the live Yahoo feed: baked base through Week 9, plus Week 10 results, plus 6,000 simulations over the remaining weeks (11 to 14 now). Re-runs at most every 10 minutes. | Every page open |
+| Commish player cards: stats, usage, season/last-3 averages, game log, remaining schedule | After unlock, the browser calls `/api/live-stats?pw=1` (nflverse weekly box scores; games that are Final but not yet in nflverse come from BallDontLie box scores and are tagged LIVE). Fresh weeks are merged over the Week 9 snapshot and finished games drop out of the upcoming schedule. | On open, then every 5 minutes (edge cache 3 min, nflverse cache 10 min) |
 | New site builds reach visitors | The service worker opens the saved copy instantly, checks for a newer build in the background, and reloads once if the build changed. | Every visit |
 
 ## Weekly checklist (Tuesday, after Monday Night Football; about 20 minutes)
@@ -31,6 +32,8 @@ Nothing here needs your computer to be on. Everything marked "automatic" runs on
 | Daily | Nothing; the market snapshot cron runs by itself |
 
 ## Limits
+
+- Commish defense-vs-position tables (soft/tough matchup colors), startable cutoffs and trade values are still the baked snapshot; only player stats, usage, averages, game log and remaining schedule are live.
 
 - Vercel Hobby crons run at most once a day and the function cap is 12 (currently at 12), so new routes go inside `api/hw.js` as underscore modules.
 - Scheduled tasks in the cloud cannot push to GitHub, so the week rollover in step 1 stays a manual commit until the constants are derived from the calendar.
