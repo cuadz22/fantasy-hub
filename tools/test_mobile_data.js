@@ -38,6 +38,32 @@ const T = require('./mobile_harness'), { M, mobile, lineups, call, mu, six, ok, 
   const old11 = await call(lineups, '/api/lineups?lg=gl&week=11'); ok(old11.j.matchups[0].ib === 7, 'week 11 still served after rollover');
   T.BOARD = mkBoard(12, [game('c', 'DAL', 'NYG', 0, 0, 'pre', 0, '0:00', null, '2026-11-26T21:30Z')], []);
   const fe = await M.finalEligible(11, await M.context()); ok(fe === false || fe === true, 'finalEligible evaluates');
+
+  // ---------- v2 additions ----------
+  const bw = await call(lineups, '/api/lineups?lg=gl&week=30'); ok(bw.s === 400 && bw.j.error === 'invalid_week' && bw.j.week === '30', 'week 30 -> 400 invalid_week echoing the request');
+  ok((await call(lineups, '/api/lineups?lg=gl&week=abc')).s === 400 && (await call(lineups, '/api/lineups?lg=gl&week=0')).s === 400, 'non-numeric and zero weeks rejected');
+  ok((await call(mobile, '/api/mobile?r=lineups&lg=gl&week=19')).s === 400 && (await call(mobile, '/api/mobile?r=lineups&lg=zz')).s === 400, 'named endpoint validates league and week');
+  // Yahoo clock text wins for live games; score and possession stay from the scoreboard
+  T.BOARD = mkBoard(12, [game('a', 'HOU', 'IND', 17, 14, 'in', 3, '2:42', 'home', '2026-11-20T01:15Z')], []); store.delete('mb:cur'); store.delete('mb:11');
+  const rec12 = (await M.rget('mw:gl:11')); rec12.matchups[0].R[0][6] = 'Q3 2:30, 17-14 vs Ind'; await M.rset('mw:gl:11', rec12, 0);
+  const wy = await call(lineups, '/api/lineups?lg=gl&week=11');
+  const hou = wy.j.matchups[0].R[0]; ok(hou[8] && hou[8].period === 'Q3 2:30' && hou[8].homeScore === 17 && hou[8].possessionTeam === 'HOU', 'Yahoo clock preferred, scoreboard score/possession kept: ' + JSON.stringify(hou[8]));
+  // named-field schema
+  await M.rset('ms:sleeper', { at: Date.now(), n: 1, map: { 'joeburrow|QB': '6770' } }, 0);
+  await M.saveWeek('gl', 13, [mu(1, 2), mu(3, 4), mu(5, 6), mu(7, 8), mu(9, 10), mu(11, 12)], false, { upcoming: true });
+  const nm = await call(mobile, '/api/mobile?r=lineups&lg=gl&week=13'); const m0 = nm.j.matchups[0], p0 = m0.teams[0].lineup[0];
+  ok(nm.s === 200 && nm.j.schemaVersion === 2 && nm.j.leagueId === 'gl' && nm.j.season === 2026 && nm.j.freshness.upcoming === true && nm.j.freshness.final === false, 'named schema envelope + freshness');
+  ok(m0.matchupId === 'gl-2026-w13-1v2' && m0.winProbability === null && m0.teams[0].teamId === 1 && m0.teams[0].lineup.length === 2, 'stable matchup id; odds reserved as null, never invented');
+  ok(p0.playerId === '6770' && /sleepercdn\.com\/content\/nfl\/players\/6770\.jpg\?v=1/.test(p0.photoURL) && p0.liveProjection === 20 && p0.originalProjection === 20 && p0.points === null && p0.nflTeam === 'CIN', 'player id, portrait, live and first-captured projection');
+  ok(m0.teams[0].lineup[1].playerId === 'cfn:bijan:RB', 'unknown players get a stable cfn: id');
+  const rr = await M.rget('mw:gl:13'); rr.matchups[0].L[0][4] = 25; await M.rset('mw:gl:13', rr, 0); await M.saveWeek('gl', 13, rr.matchups, false, { upcoming: true });
+  const nm2 = await call(mobile, '/api/mobile?r=lineups&lg=gl&week=13'); const q0 = nm2.j.matchups[0].teams[0].lineup[0]; ok(q0.liveProjection === 25 && q0.originalProjection === 20, 'original projection is kept when the live one moves');
+  // upcoming week 13s listed only when all four leagues have them
+  c = await call(mobile, '/api/mobile?r=context'); ok(!c.j.availableWeeks.includes(13), 'upcoming week 13 not listed until all four leagues are stored');
+  for (const lg of ['bh', 'rb', 'sts']) await M.saveWeek(lg, 13, six(1), false, { upcoming: true });
+  c = await call(mobile, '/api/mobile?r=context'); ok(c.j.availableWeeks.includes(13), 'upcoming week 13 listed once all four leagues are stored: ' + JSON.stringify(c.j.availableWeeks));
+  // media feed
+  const md = await call(mobile, '/api/mobile?r=media', { headers: { host: 'x' } }); ok(md.s === 200 && md.j.teams.gl['7'].ownerPhotoURL === 'https://cuadzfantasynetwork.com/media/owners/pru.png?v=' + require('../client/api/_media.json').teams.gl[7].ownerPhotoV && md.j.teams.rb['3'].logoURL && md.j.teams.rb['3'].ownerPhotoURL === null && md.j.teams.gl['7'].teamId === 7, 'media feed: GL owner portraits, other leagues Yahoo logos, versioned URLs');
   store.set('mlock', '1'); const sk = await call(mobile, '/api/mobile?r=cron'); ok(sk.j.skipped, 'cron lock stops overlapping refreshes'); store.delete('mlock');
   T.done();
 })().catch(e => { console.log('ERROR', e); process.exit(1); });

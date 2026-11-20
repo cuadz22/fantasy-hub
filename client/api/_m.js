@@ -69,17 +69,19 @@ async function context() {
   const h = (await rc(['HGETALL', 'mw:avail'])) || [], have = {};
   for (let i = 0; i + 1 < h.length; i += 2) { const [lg, w] = h[i].split(':'); (have[w] = have[w] || {})[lg] = h[i + 1]; }
   const weeks = [];
-  for (let w = 1; w <= Math.min(week, 14); w++) { const x = have[w] || {}; if (w === week ? Object.keys(x).length >= 1 : LGS.every(l => x[l])) weeks.push(w); }
+  for (let w = 1; w <= 14; w++) { const x = have[w] || {}; if (w === week ? Object.keys(x).length >= 1 : LGS.every(l => x[l])) weeks.push(w); }
   return { season, week, weeks, updated, board: b };
 }
 
 // ---- stored weekly lineups ----
+function mkOrig(matchups) { const o = {}; matchups.forEach(m => { m.L.forEach(r => { if (r[4] != null) o[m.ia + '|' + r[1]] = r[4]; }); m.R.forEach(r => { if (r[4] != null) o[m.ib + '|' + r[1]] = r[4]; }); }); return o; }
 const RK = (lg, w) => 'mw:' + lg + ':' + w;
 async function saveWeek(lg, week, matchups, partial, opts) {
   opts = opts || {}; const now = Date.now(), old = await rget(RK(lg, week));
   if (old && old.final && !opts.force) return old; // finished weeks are never overwritten
   if (partial && old && !old.partial) return old; // never replace a complete read with a short one
-  const rec = { lg, week, matchups, partial: !!partial, fetchedAt: now, sourceUpdatedAt: now, lastAttemptAt: now, lastError: null, final: !!opts.final && !partial };
+  const orig = opts.final && !(old && old.orig) ? null : Object.assign(mkOrig(matchups), (old && old.orig) || {}); // first projection captured for each player this week
+  const rec = { lg, week, matchups, partial: !!partial, fetchedAt: now, sourceUpdatedAt: now, lastAttemptAt: now, lastError: null, final: !!opts.final && !partial, upcoming: !!opts.upcoming, orig };
   await rset(RK(lg, week), rec, rec.final ? 0 : 21 * 86400);
   if (!partial) await rc(['HSET', 'mw:avail', lg + ':' + week, String(now)]);
   if (rec.final) { await rc(['HSET', 'mw:final', lg + ':' + week, String(now)]); backup(rec); }
@@ -94,14 +96,24 @@ async function restore(lg, week) {
   return null;
 }
 const statusClean = s => String(s || '').replace(/&#?\w*;?\s*$/, '').trim();
+// Games by canonical team code (live or final only).
+function gamesByTeam(board) { const o = {}; if (board) board.games.forEach(g => { if (g.state === 'in' || g.state === 'post') { o[g.homeTeam] = g; o[g.awayTeam] = g; } }); return o; }
+// Yahoo's own clock text is a little ahead of the scoreboard, so a live game shows Yahoo's clock when its status carries one; score and possession stay from the scoreboard.
+function periodFor(g, yahooStatus) {
+  if (g.state !== 'in') return g.period;
+  const t = String(yahooStatus || ''); let m = /^(Q[1-4]|OT)\s+(\d{1,2}:\d{2})/.exec(t); if (m) return m[1] + ' ' + m[2];
+  if (/^Halftime/i.test(t)) return 'Halftime'; return g.period;
+}
+function gameObj(g, status) { return { period: periodFor(g, status), homeTeam: g.homeTeam, awayTeam: g.awayTeam, homeScore: g.homeScore, awayScore: g.awayScore, possessionTeam: g.possessionTeam }; }
 // Row decoration: canonical team code, cleaned status, optional ninth item with the live game.
 function decorate(rec, board) {
-  const byTeam = {}; if (board) board.games.forEach(g => { if (g.state === 'in' || g.state === 'post') { byTeam[g.homeTeam] = g; byTeam[g.awayTeam] = g; } });
+  const byTeam = gamesByTeam(board);
   const fix = r => {
-    const t = canon(r[3]), o = [r[0], r[1], r[2], t, r[4], r[5], statusClean(r[6]), r[7] || ''], g = byTeam[t];
+    const t = canon(r[3]), st = statusClean(r[6]), o = [r[0], r[1], r[2], t, r[4], r[5], st, r[7] || ''], g = byTeam[t];
     if (g) {
-      if (!o[6]) o[6] = g.period + ', ' + (t === g.homeTeam ? g.homeScore + '-' + g.awayScore + ' vs ' + g.awayTeam : g.awayScore + '-' + g.homeScore + ' @ ' + g.homeTeam);
-      o.push({ period: g.period, homeTeam: g.homeTeam, awayTeam: g.awayTeam, homeScore: g.homeScore, awayScore: g.awayScore, possessionTeam: g.possessionTeam });
+      const go = gameObj(g, st);
+      if (!o[6]) o[6] = go.period + ', ' + (t === g.homeTeam ? g.homeScore + '-' + g.awayScore + ' vs ' + g.awayTeam : g.awayScore + '-' + g.homeScore + ' @ ' + g.homeTeam);
+      o.push(go);
     }
     return o;
   };
@@ -109,22 +121,24 @@ function decorate(rec, board) {
 }
 // Freshness thresholds: a live read older than 3 minutes is stale; outside games, older than 45 minutes.
 function staleAfterS(live) { return live ? 180 : 2700; }
-async function serveWeek(lg, week, ctx) {
+async function serveRaw(lg, week, ctx) {
   let rec = await rget(RK(lg, week)); if (!rec) rec = await restore(lg, week); if (!rec) return null;
   const board = week === ctx.week ? ctx.board : await getBoard(week, 3600);
   const age = Math.round((Date.now() - rec.fetchedAt) / 1000), live = week === ctx.week && isLive(ctx.board);
-  const stale = rec.final ? false : age > staleAfterS(live) || !!rec.lastError && age > 120;
-  return {
+  const stale = rec.final ? false : age > (rec.upcoming ? 36 * 3600 : staleAfterS(live)) || !!rec.lastError && age > 120;
+  const sv = {
     lg, week, at: new Date(rec.fetchedAt).toISOString(), partial: !!rec.partial, matchups: decorate(rec, board),
     fetchedAt: new Date(rec.fetchedAt).toISOString(), sourceUpdatedAt: new Date(rec.sourceUpdatedAt).toISOString(), cacheAgeSeconds: age,
     stale, final: !!rec.final, scoreboardUpdatedAt: board ? new Date(board.sourceUpdatedAt).toISOString() : null, scoreboardStale: !!(board && (board.stale || (isLive(board) && Date.now() - board.fetchedAt > 90000))),
-    lastError: rec.lastError || undefined
+    lastError: rec.lastError || undefined, upcoming: rec.upcoming || undefined
   };
+  return { sv, rec, board };
 }
+async function serveWeek(lg, week, ctx) { const r = await serveRaw(lg, week, ctx); return r && r.sv; }
 // A past week is final once the current NFL week has moved past it and its last game started at least 8 hours before this read.
 async function finalEligible(week, ctx) {
   if (!ctx || week >= ctx.week) return false;
   const b = await getBoard(week, 3600); if (!b || !b.lastStart || !b.games.every(g => g.state === 'post')) return false;
   return Date.now() - b.lastStart > 8 * 3600000;
 }
-module.exports = { finalEligible, LGS, sha, sleep, rc, rget, rset, canon, getBoard, parseBoard, isLive, soon, context, saveWeek, noteFail, serveWeek, decorate, restore, jfetch };
+module.exports = { serveRaw, gamesByTeam, gameObj, statusClean, mkOrig, finalEligible, LGS, sha, sleep, rc, rget, rset, canon, getBoard, parseBoard, isLive, soon, context, saveWeek, noteFail, serveWeek, decorate, restore, jfetch };

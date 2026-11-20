@@ -13,6 +13,8 @@ All JSON, `Access-Control-Allow-Origin: *`. Tokens and codes below are placehold
 | `GET /api/mobile/me` | Bearer session, returns the member and server-assigned teams | none |
 | `POST /api/mobile/auth/logout` | Revoke the session | none |
 | `GET /api/mobile/access?leagueId=gl&teamId=7` | Guard prototype for private routes: 200 only for the member's own team, else 403 | none |
+| `GET /api/mobile/lineups?lg=gl&week=5` | Named-field lineups (schemaVersion 2): stable matchup, player and game IDs, freshness inside the payload, live and first-captured projections; `winProbability` stays `null` until a week-specific model exists | 10 s live / 60 s idle, finished weeks 1 year |
+| `GET /api/mobile/media` | Versioned team logo URLs and Gentlemen's League owner portraits keyed by leagueId and teamId | edge 1 hour |
 | `GET /api/mobile/market-movers` | Top risers and fallers from the site's own gl 1QB model | edge 5 min, Redis 15 min |
 | `GET /api/mobile/cron` | Refresh job (Vercel cron, every minute) | none |
 
@@ -23,6 +25,10 @@ All JSON, `Access-Control-Allow-Origin: *`. Tokens and codes below are placehold
 ## Rows
 
 `[slot, name, position, nflTeam, projection, pointsOrNull, gameStatus, injuryStatus]` plus an optional ninth object for teams whose game is live or final. Team codes are uppercase (`WAS`, `LA`). `gameStatus` is Yahoo's text; it is filled from the scoreboard only when Yahoo's is empty. `possessionTeam` is `null` unless ESPN reports possession.
+
+## Notes
+
+Weeks outside 1 to 18 return 400 `invalid_week`. Upcoming weeks (through 14) are precomputed about daily and listed in `availableWeeks` once all four leagues have them (`upcoming:true`). For a live game the clock text comes from Yahoo when it carries one; score and possession come from the scoreboard. Player portraits and IDs come from the Sleeper player list (refreshed daily); players without a match get a stable `cfn:<name>:<pos>` ID and no portrait, DEF IDs are `def:<TEAM>`. Owner portraits are static files under `/media/owners/` (re-export with `node tools/export_mobile_media.js`).
 
 ## Setup still needed on Vercel
 

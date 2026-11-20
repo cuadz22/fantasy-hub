@@ -2,7 +2,8 @@
 // Also the cron entry (/api/mobile/cron): keeps the scoreboard and current-week lineups fresh and backfills finished weeks, independent of visitors.
 'use strict';
 const M = require('./_m'), A = require('./_mauth'), MV = require('./_mmovers');
-const { scrapeLeague } = require('./_lscrape');
+const { scrapeLeague } = require('./_lscrape'), Ids = require('./_ids'), Named = require('./_mnamed');
+const PUBLIC_BASE = process.env.MOBILE_PUBLIC_BASE || 'https://cuadzfantasynetwork.com';
 const J = (res, status, obj, cache, extra) => { res.statusCode = status; res.setHeader('Content-Type', 'application/json; charset=utf-8'); res.setHeader('Access-Control-Allow-Origin', '*'); res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type'); res.setHeader('Cache-Control', cache || 'no-store'); if (extra) Object.keys(extra).forEach(k => res.setHeader(k, extra[k])); res.end(JSON.stringify(obj)); };
 const bodyOf = req => { const b = req.body; if (b && typeof b === 'object') return b; try { return JSON.parse(b || '{}'); } catch (e) { return {}; } };
 const AUTH = { status: 401, json: { error: 'unauthorized' } };
@@ -33,6 +34,16 @@ async function cron(req, res) {
       break outer;
     }
   }
+  // Upcoming weeks (through 14): one league-week per run, each re-read about daily so opponents show before the week starts.
+  if (!out.backfill && el() < 28000) {
+    const ah = (await M.rc(['HGETALL', 'mw:avail'])) || [], seenAt = {}; for (let i = 0; i + 1 < ah.length; i += 2) seenAt[ah[i]] = Number(ah[i + 1]);
+    outer2: for (let w = cw + 1; w <= 14; w++) for (const lg of M.LGS) {
+      if (Date.now() - (seenAt[lg + ':' + w] || 0) < 24 * 3600000) continue;
+      try { const sc = await scrapeLeague(lg, w); if (sc.matchups.length && !sc.partial) { await M.saveWeek(lg, w, sc.matchups, false, { upcoming: true }); out.upcoming = lg + ':' + w + ' ok'; } else out.upcoming = lg + ':' + w + ' incomplete'; } catch (e) { out.upcoming = lg + ':' + w + ' failed'; }
+      break outer2;
+    }
+  }
+  if (el() < 20000) { const sl = await Ids.refresh(false); out.sleeper = sl ? sl.n : 'unavailable'; } // player ids/portraits, about once a day
   if (live) { // scoreboard every ~20 seconds while games are on
     for (let i = 0; i < 2 && el() < 32000; i++) { await M.sleep(18000); board = await M.getBoard(null, 0) || board; }
     out.scoreboardPasses = 3;
@@ -59,14 +70,34 @@ module.exports = async (req, res) => {
       const lg = String(q.get('leagueId') || ''), t = Number(q.get('teamId'));
       return A.canAccess(a.member, lg, t) ? J(res, 200, { ok: true, leagueId: lg, teamId: t }) : J(res, 403, { error: 'forbidden' });
     }
+    if (r === 'lineups' && req.method === 'GET') {
+      const lg = String(q.get('lg') || ''); if (!M.LGS.includes(lg)) return J(res, 400, { error: 'invalid_league' });
+      const c = await M.context(); if (!c) return J(res, 503, { error: 'context_unavailable' });
+      const wr = q.get('week'), week = wr == null || wr === '' ? c.week : Number(wr);
+      if (!Number.isInteger(week) || week < 1 || week > 18) return J(res, 400, { error: 'invalid_week', leagueId: lg, week: wr });
+      let raw = await M.serveRaw(lg, week, c);
+      if (!raw) { // not stored yet: one live read, then stored for everyone
+        const sc = await scrapeLeague(lg, week);
+        if (!sc.matchups.length) return J(res, sc.err ? 502 : 404, { leagueId: lg, week, available: false, error: sc.err ? 'provider_unavailable' : 'week_unavailable' });
+        await M.saveWeek(lg, week, sc.matchups, sc.partial, { final: await M.finalEligible(week, c) }); raw = await M.serveRaw(lg, week, c);
+        if (!raw) return J(res, 502, { leagueId: lg, week, available: false, error: 'provider_unavailable' });
+      }
+      const body = Named.build(raw.sv, raw.rec, raw.board, c.season, await Ids.getMap());
+      return J(res, 200, body, raw.sv.final ? 'public, s-maxage=31536000, max-age=86400' : 'public, s-maxage=' + (M.isLive(c.board) && week === c.week ? 10 : 60));
+    }
+    if (r === 'media' && req.method === 'GET') {
+      const MEDIA = require('./_media.json'), teams = {};
+      Object.keys(MEDIA.teams).forEach(lg => { teams[lg] = {}; Object.keys(MEDIA.teams[lg]).forEach(id => { const t = MEDIA.teams[lg][id]; teams[lg][id] = { teamId: Number(id), managerName: t.managerName, logoURL: t.logoURL, ownerPhotoURL: t.ownerPhotoPath ? PUBLIC_BASE + t.ownerPhotoPath + '?v=' + t.ownerPhotoV : null }; }); });
+      return J(res, 200, { schemaVersion: 1, version: MEDIA.v, note: 'ownerPhotoURL is only set for Gentlemen\'s League; other leagues use the Yahoo team logo. URLs are versioned: they change when an image changes.', teams }, 'public, s-maxage=3600, stale-while-revalidate=86400');
+    }
     if (r === 'market-movers' && req.method === 'GET') {
       const c = await M.context(); if (!c) return J(res, 503, { error: 'context_unavailable' });
       const hj = async u => { const x = await fetch(u, { headers: { 'User-Agent': 'cfn-mobile' } }); if (!x.ok) throw new Error('http ' + x.status); return x.json(); };
       const cached = await M.rget('mm:cache');
-      if (cached && Date.now() - cached.at < 15 * 60000 && cached.week === c.week && cached.v === 2) return J(res, 200, cached.body, 'public, s-maxage=300, stale-while-revalidate=600');
-      const m = await MV.compute(req.headers.host, c.week, hj);
+      if (cached && Date.now() - cached.at < 15 * 60000 && cached.week === c.week && cached.v === 3) return J(res, 200, cached.body, 'public, s-maxage=300, stale-while-revalidate=600');
+      const m = await MV.compute(req.headers.host, c.week, hj, undefined, await Ids.getMap());
       if (!m.ok) { if (cached) return J(res, 200, Object.assign({}, cached.body, { stale: true }), 'public, s-maxage=60'); return J(res, 503, { error: m.error || 'unavailable' }); }
-      await M.rset('mm:cache', { v: 2, at: Date.now(), week: c.week, key: m.key, body: m.body }, 86400);
+      await M.rset('mm:cache', { v: 3, at: Date.now(), week: c.week, key: m.key, body: m.body }, 86400);
       return J(res, 200, m.body, 'public, s-maxage=300, stale-while-revalidate=600');
     }
     J(res, 404, { error: 'not_found' });

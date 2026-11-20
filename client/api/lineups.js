@@ -48,9 +48,9 @@ module.exports = async (req, res) => {
   try {
     const q = new URL(req.url, 'http://x').searchParams;
     const lg = String(q.get('lg') || ''); if (!LGS.includes(lg)) throw new Error('bad league');
-    let week = parseInt(q.get('week'), 10);
-    if (!week) { const c0 = await M.context(); if (!c0) { res.statusCode = 503; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store'); res.end(JSON.stringify({ error: 'context_unavailable' })); return; } week = c0.week; } // default = the real current NFL week, not a fixed number
-    week = Math.min(18, Math.max(1, week));
+    const wkRaw = q.get('week'); let week;
+    if (wkRaw == null || wkRaw === '') { const c0 = await M.context(); if (!c0) { res.statusCode = 503; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store'); res.end(JSON.stringify({ error: 'context_unavailable' })); return; } week = c0.week; } // default = the real current NFL week, not a fixed number
+    else { week = Number(wkRaw); if (!Number.isInteger(week) || week < 1 || week > 18) { res.statusCode = 400; res.setHeader('Content-Type', 'application/json'); res.setHeader('Access-Control-Allow-Origin', '*'); res.setHeader('Cache-Control', 'no-store'); res.end(JSON.stringify({ lg, week: wkRaw, available: false, error: 'invalid_week', matchups: [] })); return; } }
     if (q.get('hist')) { // win-probability history for the chart
       const raw = (await redis(['LRANGE', 'wph:' + lg + ':' + week, 0, -1], 4000)) || [], pts = [];
       raw.forEach(x => { try { pts.push(JSON.parse(x)); } catch (e) {} });

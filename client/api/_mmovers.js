@@ -26,7 +26,7 @@ async function readHist() {
 const ET = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric' });
 const fd = t => ET.format(new Date(t));
 // Returns { ok, body, key } or { ok:false, error }.
-async function compute(host, week, fetchJson, hist) {
+async function compute(host, week, fetchJson, hist, idmap) {
   let live = null;
   try { live = await fetchJson('https://' + host + '/api/hw?market=1'); } catch (e) {}
   const lv = live && live.players ? liveSeries(live.players) : { out: {}, used: [] };
@@ -42,7 +42,9 @@ async function compute(host, week, fetchJson, hist) {
     const d = n0 - b0; rows.push({ k, p, b0, n0, d, pc: d / b0 * 100 });
   });
   rows.sort((a, b) => b.pc - a.pc);
-  const out = r => ({ id: r.k, name: r.p.n, position: r.p.p, team: canon(r.p.t) || null, currentValue: r.n0, change: r.d, percentChange: Math.round(r.pc * 100) / 100, priorValue: r.b0, photoURL: MM.sid[r.k] ? 'https://sleepercdn.com/content/nfl/players/' + MM.sid[r.k] + '.jpg?v=1' : null });
+  const pid = r => { const sid = (idmap && idmap[nn(r.p.n) + '|' + r.p.p]) || MM.sid[r.k]; return sid || 'cfn:' + r.k + ':' + r.p.p; };
+  const photo = r => { const sid = (idmap && idmap[nn(r.p.n) + '|' + r.p.p]) || MM.sid[r.k]; return sid ? 'https://sleepercdn.com/content/nfl/players/' + sid + '.jpg?v=1' : null; };
+  const out = r => ({ id: r.k, name: r.p.n, position: r.p.p, team: canon(r.p.t) || null, currentValue: r.n0, change: r.d, percentChange: Math.round(r.pc * 100) / 100, priorValue: r.b0, playerId: pid(r), photoURL: photo(r) });
   const up = rows.filter(r => r.d > 0).slice(0, 10).map(out), down = rows.filter(r => r.d < 0).slice(-10).reverse().map(out);
   const feedAt = live && (live.updated || live.dpAsOf);
   const body = { label: 'Week ' + week + ' · ' + fd(best.t) + ' to ' + fd(feedAt && /^\d{4}-\d\d-\d\d$/.test(feedAt) ? feedAt + 'T12:00:00Z' : now), players: up.concat(down), baselineAt: best.t, sourceUpdatedAt: feedAt || null, liveSeriesUsed: lv.used, model: 'cfn-gl-1qb', modelVersion: MM.v, computedAt: new Date(now).toISOString() };

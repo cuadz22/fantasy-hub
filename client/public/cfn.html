@@ -7288,8 +7288,10 @@ function wkRender(box,k,w){
       if(WKH.hist[hk]) add(WKH.hist[hk]); else fetch('/api/lineups?lg='+k+'&week='+w+'&hist=1',{cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){ WKH.hist[hk]=j; add(j); }).catch(function(){}); }
   }).catch(function(){ if(WKH.sel[k]===w) box.innerHTML='<div class="wkmsg">Could not load Week '+w+' right now. <a href="#" class="wkretry" style="color:var(--accent)">Try again</a></div>'; var a=box.querySelector('.wkretry'); if(a) a.onclick=function(e){ e.preventDefault(); wkRender(box,k,w); }; });
 }
+/* Season calendar from the app backend: once the NFL week moves on, finished weeks appear in the week selector without a manual edit. */
+window.__CTXWK=0; try{ fetch('/api/mobile/context').then(function(r){ return r.json(); }).then(function(j){ if(j&&j.currentWeek>0) window.__CTXWK=j.currentWeek; }).catch(function(){}); }catch(e){}
 function wkBar(k){
-  var last=(typeof RCP!=='undefined'&&RCP&&RCP.week)||10, curW=(typeof PVL_WK==='number'?PVL_WK:last+1), bar=document.createElement('div'), box=document.createElement('div'), cur=document.createElement('div');
+  var last=(typeof RCP!=='undefined'&&RCP&&RCP.week)||10; if(window.__CTXWK&&window.__CTXWK-1>last) last=Math.min(17,window.__CTXWK-1); var curW=(typeof PVL_WK==='number'?PVL_WK:last+1), bar=document.createElement('div'), box=document.createElement('div'), cur=document.createElement('div');
   bar.className='wkbar lg-tabs'; box.className='wkbox'; box.hidden=true;
   if(WKH.sel[k]==null) WKH.sel[k]=0;
   function paint(){ var sel=WKH.sel[k], h=''; for(var w=1;w<=last;w++) h+='<button type="button" class="lg-tab'+(sel===w?' on':'')+'" data-w="'+w+'">Wk '+w+'</button>'; h+='<button type="button" class="lg-tab'+(sel===0?' on':'')+'" data-w="0">Wk '+curW+' &middot; This week</button>'; bar.innerHTML=h;
