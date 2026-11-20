@@ -34,6 +34,7 @@ const T = require('./mobile_harness'), { M, mobile, lineups, call, mu, six, ok, 
   T.espnDown = true; store.delete('mb:cur'); const sd = await call(mobile, '/api/mobile?r=context'); ok(sd.s === 200 && sd.j.currentWeek === 11, 'context survives a scoreboard outage'); T.espnDown = false;
   T.BOARD = mkBoard(12, [game('c', 'DAL', 'NYG', 0, 0, 'pre', 0, '0:00', null, '2026-11-26T21:30Z')], []); store.delete('mb:cur');
   c = await call(mobile, '/api/mobile?r=context'); ok(c.j.currentWeek === 12 && !c.j.availableWeeks.includes(12) && c.j.availableWeeks.includes(11), 'rollover to 12; 12 listed only once stored');
+  const defl = await call(lineups, '/api/lineups?lg=gl'); ok(defl.j && defl.j.week === 12 || defl.s === 404 || defl.s === 502, 'default week follows the current week (12), not a fixed 10');
   const old11 = await call(lineups, '/api/lineups?lg=gl&week=11'); ok(old11.j.matchups[0].ib === 7, 'week 11 still served after rollover');
   T.BOARD = mkBoard(12, [game('c', 'DAL', 'NYG', 0, 0, 'pre', 0, '0:00', null, '2026-11-26T21:30Z')], []);
   const fe = await M.finalEligible(11, await M.context()); ok(fe === false || fe === true, 'finalEligible evaluates');

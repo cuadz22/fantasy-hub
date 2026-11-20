@@ -58,8 +58,8 @@ module.exports = async (req, res) => {
       res.end(JSON.stringify({ lg, week, n: pts.length, pts, flock: FLOCK && FLOCK.week === week && FLOCK[lg] ? FLOCK[lg] : null })); return;
     }
     // Stored read first: the cron refresh keeps current weeks fresh and finished weeks are kept for good, so opening the app never waits on Yahoo.
-    const wkGiven = parseInt(q.get('week'), 10);
-    if (!q.get('dbg') && !q.get('fresh') && wkGiven) {
+    const wkGiven = week;
+    if (!q.get('dbg') && !q.get('fresh')) {
       const ctx = await M.context();
       if (ctx) {
         const sv = await M.serveWeek(lg, wkGiven, ctx);
