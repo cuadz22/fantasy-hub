@@ -4,7 +4,7 @@ const { rget, rset, canon } = require('./_m');
 const nn = x => String(x || '').toLowerCase().replace(/’/g, "'").replace(/\b(jr|sr|ii|iii|iv)\b\.?/g, '').replace(/[^a-z]/g, '');
 let mem = null, memAt = 0;
 async function refresh(force) {
-  const rec = await rget('ms:sleeper');
+  const rec = await rget('ms:sleeper', 8000);
   if (!force && rec && Date.now() - rec.at < 20 * 3600000) return rec;
   const bo = await rget('ms:sleeper:fail'); if (!force && bo && Date.now() - bo.at < 15 * 60000) return rec; // back off after a failed download
   try {
@@ -14,10 +14,10 @@ async function refresh(force) {
     const all = await r.json(), map = {}; let n = 0;
     Object.keys(all).forEach(id => { const p = all[id]; if (!p || !p.full_name || !p.team && p.status !== 'Active') return; const pos = (p.fantasy_positions || [p.position])[0]; if (!['QB', 'RB', 'WR', 'TE', 'K'].includes(pos)) return; const key = nn(p.full_name) + '|' + pos; if (!map[key] || p.team) { map[key] = id; n++; } });
     if (n < 800) throw new Error('player list too small');
-    const out = { at: Date.now(), n, map }; await rset('ms:sleeper', out, 3 * 86400); return out;
+    const out = { at: Date.now(), n, map }; const ok = await rset('ms:sleeper', out, 3 * 86400, 12000); if (!ok) throw new Error('store failed'); return out;
   } catch (e) { await rset('ms:sleeper:fail', { at: Date.now(), why: String(e.message || e).slice(0, 60) }, 3600); return rec || null; }
 }
-async function getMap() { if (mem && Date.now() - memAt < 600000) return mem; const r = await rget('ms:sleeper'); mem = (r && r.map) || {}; memAt = Date.now(); return mem; }
+async function getMap() { if (mem && Date.now() - memAt < 600000) return mem; const r = await rget('ms:sleeper', 8000); mem = (r && r.map) || {}; memAt = Date.now(); return mem; }
 // Returns { id, photoURL } for a lineup or market player. DEF ids are the team code.
 function idFor(map, name, pos, team) {
   pos = String(pos || '').toUpperCase(); if (pos === 'DST') pos = 'DEF';

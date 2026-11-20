@@ -12,8 +12,8 @@ async function rc(cmd, ms) {
   try { const r = await fetch(URL_, { method: 'POST', headers: { Authorization: 'Bearer ' + TOKEN, 'Content-Type': 'application/json' }, body: JSON.stringify(cmd), signal: ctl.signal }); const j = await r.json(); return j.error ? null : j.result; }
   catch (e) { return null; } finally { clearTimeout(tm); }
 }
-async function rget(key) { const v = await rc(['GET', key]); if (v == null) return null; try { return JSON.parse(v); } catch (e) { return null; } }
-async function rset(key, obj, exSec) { const c = ['SET', key, JSON.stringify(obj)]; if (exSec) c.push('EX', exSec); return (await rc(c, 4000)) === 'OK'; }
+async function rget(key, ms) { const v = await rc(['GET', key], ms); if (v == null) return null; try { return JSON.parse(v); } catch (e) { return null; } }
+async function rset(key, obj, exSec, ms) { const c = ['SET', key, JSON.stringify(obj)]; if (exSec) c.push('EX', exSec); return (await rc(c, ms || 4000)) === 'OK'; }
 
 // ---- NFL calendar and scoreboard (ESPN public scoreboard; one request covers clock, score and possession) ----
 const ESPN = 'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard';
