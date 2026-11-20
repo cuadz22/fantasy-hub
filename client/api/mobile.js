@@ -18,6 +18,7 @@ async function cron(req, res) {
   const cw = board.week, live = M.isLive(board) || M.soon(board); out.week = cw; out.live = live;
   const final = {}; const fh = (await M.rc(['HGETALL', 'mw:final'])) || []; for (let i = 0; i + 1 < fh.length; i += 2) final[fh[i]] = 1;
   const ctx = await M.context();
+  { const sl = await Ids.refresh(false); out.sleeper = sl ? sl.n : 'unavailable'; } // player ids/portraits: downloaded about once a day, backs off after a failure
   for (const lg of M.LGS) { // current week: every minute in game windows, every 15 minutes otherwise
     if (el() > 38000) { out.lineups[lg] = 'time'; continue; }
     const rec = await M.rget('mw:' + lg + ':' + cw), age = rec ? Date.now() - rec.fetchedAt : Infinity;
@@ -43,7 +44,6 @@ async function cron(req, res) {
       break outer2;
     }
   }
-  if (el() < 20000) { const sl = await Ids.refresh(false); out.sleeper = sl ? sl.n : 'unavailable'; } // player ids/portraits, about once a day
   if (live) { // scoreboard every ~20 seconds while games are on
     for (let i = 0; i < 2 && el() < 32000; i++) { await M.sleep(18000); board = await M.getBoard(null, 0) || board; }
     out.scoreboardPasses = 3;
