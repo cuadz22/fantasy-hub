@@ -1,0 +1,42 @@
+// Context, weekly lineups, history, freshness, rollover. Run: node tools/test_mobile_data.js
+const T = require('./mobile_harness'), { M, mobile, lineups, call, mu, six, ok, store, game, mkBoard } = T;
+(async () => {
+  T.BOARD = mkBoard(11, [game('a', 'HOU', 'IND', 17, 14, 'in', 3, '2:42', 'home', '2026-11-20T01:15Z'), game('b', 'BUF', 'MIA', 0, 0, 'pre', 0, '0:00', null, '2026-11-22T18:00Z')], ['ATL', 'CLE']);
+  let c = await call(mobile, '/api/mobile?r=context');
+  ok(c.s === 200 && c.j.schemaVersion === 1 && c.j.season === 2026 && c.j.currentWeek === 11, 'context week 11');
+  ok(JSON.stringify(c.j.availableWeeks) === '[]', 'no stored weeks listed yet: ' + JSON.stringify(c.j.availableWeeks));
+  ok(/s-maxage=20/.test(c.h['cache-control']), 'context cache <=30s');
+  ok(!isNaN(Date.parse(c.j.updatedAt)), 'updatedAt is ISO');
+  for (const lg of M.LGS) { await M.saveWeek(lg, 5, six(1), false, { final: true }); await M.saveWeek(lg, 11, [mu(1, 7), mu(2, 8), mu(3, 9), mu(4, 10), mu(5, 11), mu(6, 12)], false, {}); }
+  c = await call(mobile, '/api/mobile?r=context'); ok(JSON.stringify(c.j.availableWeeks) === '[5,11]', 'available weeks = stored weeks: ' + JSON.stringify(c.j.availableWeeks));
+  const w5 = await call(lineups, '/api/lineups?lg=gl&week=5'), w11 = await call(lineups, '/api/lineups?lg=gl&week=11');
+  ok(w5.j.week === 5 && w11.j.week === 11, 'requested week returned');
+  ok(w5.j.matchups[0].ib === 2 && w11.j.matchups[0].ib === 7, 'week 5 vs week 11 opponents differ');
+  ok(w5.j.final === true && w5.j.stale === false && /31536000/.test(w5.h['cache-control']), 'week 5 final and cached long');
+  ok(w11.j.final === false && w11.j.partial === false && w11.j.sourceUpdatedAt && w11.j.fetchedAt && w11.j.cacheAgeSeconds < 5, 'week 11 freshness fields');
+  ok(w11.j.matchups.every(m => [m.L, m.R].every(L => L.every(r => r.length >= 8 && r.length <= 9))), 'rows keep 8 columns plus optional 9th');
+  const L0 = w11.j.matchups[0].L, R0 = w11.j.matchups[0].R;
+  ok(L0[0][3] === 'CIN' && R0[1][3] === 'WAS', 'team codes canonical uppercase (Wsh -> WAS)');
+  ok(R0[0].length === 9 && R0[0][8].period === 'Q3 2:42' && R0[0][8].homeScore === 17 && R0[0][8].awayScore === 14 && R0[0][8].possessionTeam === 'HOU' && R0[0][8].homeTeam === 'HOU' && R0[0][8].awayTeam === 'IND', 'live HOU row has strip + confirmed possession');
+  ok(R0[0][6] === 'Q3 2:42, 17-14 vs IND', 'gameStatus filled when Yahoo gave none: ' + R0[0][6]);
+  ok(L0[0].length === 8 && L0[1].length === 8, 'rows for teams not in a live game stay 8 columns');
+  ok(L0[0][6] === 'Sun 1:00 pm @ Hou' && L0[1][6] === 'Final' && L0[0][5] === null && L0[1][5] === 5, 'Yahoo status text kept, unplayed score stays null');
+  T.BOARD = mkBoard(11, [game('a', 'HOU', 'IND', 17, 14, 'in', 3, '2:42', null, '2026-11-20T01:15Z')], []); store.delete('mb:cur');
+  const w11b = await call(lineups, '/api/lineups?lg=gl&week=11'); ok(w11b.j.matchups[0].R[0][8].possessionTeam === null, 'possession null when the provider gives none');
+  await M.saveWeek('gl', 5, [mu(9, 12)], false, {}); const w5b = await call(lineups, '/api/lineups?lg=gl&week=5');
+  ok(w5b.j.matchups.length === 6 && w5b.j.matchups[0].ib === 2, 'finished week not overwritten');
+  const miss = await call(lineups, '/api/lineups?lg=gl&week=3'); ok(miss.s === 502 && miss.j.available === false && miss.j.error === 'provider_unavailable' || miss.s === 404 && miss.j.error === 'week_unavailable', 'missing week returns explicit unavailable (got ' + miss.s + ')');
+  const bad = await call(lineups, '/api/lineups?lg=zz&week=5'); ok(bad.s === 500, 'bad league errors');
+  const rec = await M.rget('mw:gl:11'), before = rec.sourceUpdatedAt;
+  await M.noteFail('gl', 11, 'yahoo 500'); const r2 = await M.rget('mw:gl:11'); ok(r2.sourceUpdatedAt === before && r2.fetchedAt === rec.fetchedAt && r2.lastError === 'yahoo 500', 'failed fetch keeps sourceUpdatedAt');
+  r2.fetchedAt = Date.now() - 400000; r2.sourceUpdatedAt = r2.fetchedAt; await M.rset('mw:gl:11', r2, 0);
+  const st = await call(lineups, '/api/lineups?lg=gl&week=11'); ok(st.j.stale === true && st.j.cacheAgeSeconds >= 399 && st.j.lastError === 'yahoo 500', 'old cache is flagged stale');
+  T.espnDown = true; store.delete('mb:cur'); const sd = await call(mobile, '/api/mobile?r=context'); ok(sd.s === 200 && sd.j.currentWeek === 11, 'context survives a scoreboard outage'); T.espnDown = false;
+  T.BOARD = mkBoard(12, [game('c', 'DAL', 'NYG', 0, 0, 'pre', 0, '0:00', null, '2026-11-26T21:30Z')], []); store.delete('mb:cur');
+  c = await call(mobile, '/api/mobile?r=context'); ok(c.j.currentWeek === 12 && !c.j.availableWeeks.includes(12) && c.j.availableWeeks.includes(11), 'rollover to 12; 12 listed only once stored');
+  const old11 = await call(lineups, '/api/lineups?lg=gl&week=11'); ok(old11.j.matchups[0].ib === 7, 'week 11 still served after rollover');
+  T.BOARD = mkBoard(12, [game('c', 'DAL', 'NYG', 0, 0, 'pre', 0, '0:00', null, '2026-11-26T21:30Z')], []);
+  const fe = await M.finalEligible(11, await M.context()); ok(fe === false || fe === true, 'finalEligible evaluates');
+  store.set('mlock', '1'); const sk = await call(mobile, '/api/mobile?r=cron'); ok(sk.j.skipped, 'cron lock stops overlapping refreshes'); store.delete('mlock');
+  T.done();
+})().catch(e => { console.log('ERROR', e); process.exit(1); });

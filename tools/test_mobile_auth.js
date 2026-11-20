@@ -1,0 +1,48 @@
+// Sign-in, sessions, memberships, isolation. Run: node tools/test_mobile_auth.js
+const T = require('./mobile_harness'), { A, mobile, lineups, call, ok, store, ttl, H, sha, M } = T;
+const post = (r, body, ip, extra) => call(mobile, '/api/mobile?r=' + r, Object.assign({ method: 'POST', body, ip }, extra || {}));
+(async () => {
+  const P = { email: 'AZARATE106@Gmail.com' }; T.mail = [];
+  let r = await post('auth/request-code', P, '1.0.0.1'); ok(r.s === 200 && JSON.stringify(r.j) === '{"ok":true}', 'request-code ok');
+  ok(T.mail.length === 1 && T.mail[0].to === 'azarate106@gmail.com' && /^\d{6}$/.test(T.mail[0].code), 'invited member gets a 6-digit code, email case-insensitive');
+  const un = await post('auth/request-code', { email: 'stranger@example.com' }, '2.2.2.2'); ok(un.s === 200 && JSON.stringify(un.j) === '{"ok":true}' && T.mail.length === 1, 'uninvited address gets the identical generic response and no mail');
+  ok((await post('auth/request-code', { email: 'nope' }, '2.2.2.3')).s === 400, 'malformed email 400');
+  const code = T.mail[0].code; ok(!JSON.stringify([...store.entries()]).includes(code), 'code is stored hashed only');
+  const wrong = code === '000000' ? '111111' : '000000';
+  const bad = await post('auth/verify-code', { email: 'azarate106@gmail.com', code: wrong }, '1.0.0.2'); ok(bad.s === 400 && bad.j.error === 'invalid_code', 'wrong code rejected');
+  const good = await post('auth/verify-code', { email: 'Azarate106@gmail.com', code }, '1.0.0.2');
+  ok(good.s === 200 && /^cfn_/.test(good.j.accessToken) && good.j.member.displayName === 'Pru' && JSON.stringify(good.j.member.memberships) === '[{"leagueId":"gl","teamId":7},{"leagueId":"bh","teamId":11},{"leagueId":"rb","teamId":3},{"leagueId":"sts","teamId":10}]', 'verify returns token + Pru memberships');
+  ok((await post('auth/verify-code', { email: 'azarate106@gmail.com', code }, '1.0.0.2')).s === 400, 'used code rejected (single use)');
+  ok(!JSON.stringify([...store.keys()]).includes(good.j.accessToken), 'raw token is never stored');
+  const tokP = good.j.accessToken;
+  let me = await call(mobile, '/api/mobile?r=me', H(tokP)); ok(me.s === 200 && me.j.displayName === 'Pru' && me.j.memberships.length === 4, '/me ok');
+  ok((await call(mobile, '/api/mobile?r=me')).s === 401 && (await call(mobile, '/api/mobile?r=me', H('cfn_' + 'x'.repeat(40)))).s === 401 && (await call(mobile, '/api/mobile?r=me', { headers: { authorization: 'Basic abc' } })).s === 401, '/me 401 for missing, unknown and non-bearer');
+  T.mail = []; await post('auth/request-code', P, '3.3.3.3'); ttl.set('ma:code:' + sha('azarate106@gmail.com'), Date.now() - 1);
+  ok((await post('auth/verify-code', { email: 'azarate106@gmail.com', code: T.mail[0].code }, '3.3.3.3')).s === 400, 'expired code rejected');
+  T.mail = []; await post('auth/request-code', P, '4.4.4.4'); const real = T.mail[0].code, w2 = real === '123456' ? '654321' : '123456';
+  for (let i = 0; i < 5; i++) await post('auth/verify-code', { email: 'azarate106@gmail.com', code: w2 }, '5.5.5.5');
+  ok((await post('auth/verify-code', { email: 'azarate106@gmail.com', code: real }, '5.5.5.5')).s === 400, 'code locked after 5 wrong attempts');
+  let last; for (let i = 0; i < 5; i++) last = await post('auth/request-code', { email: 'rate@example.com' }, '6.6.6.6'); ok(last.s === 429 && last.h['retry-after'], 'request-code rate limited with Retry-After');
+  let vlast; for (let i = 0; i < 32; i++) vlast = await post('auth/verify-code', { email: 'azarate106@gmail.com', code: '999999' }, '6.6.6.7'); ok(vlast.s === 429, 'verify attempts rate limited per IP');
+  const WANT = { 'josescuadros@outlook.com': ['Cuadz', 'gl1 bh1 rb1 sts1'], 'azarate106@gmail.com': ['Pru', 'gl7 bh11 rb3 sts10'], 'oscarlk10@hotmail.com': ['Oscar', 'gl8 bh8 rb8 sts3'], 'soccergio84@yahoo.com': ['Gio', 'gl2 bh2 rb9'], 'kghuertas1993@gmail.com': ['Kevin', 'gl10 bh5 sts11'], 'advargas93@gmail.com': ['Alexis', 'gl11 rb4'], 'emercado122@gmail.com': ['Ed', 'gl6 rb5 sts4'] };
+  const tokens = {}; let n = 20;
+  for (const email of Object.keys(WANT)) { store.delete('ma:rq:e:' + sha(email)); T.mail = []; const ip = '9.9.9.' + (n++); await post('auth/request-code', { email: email.toUpperCase() }, ip); const v = await post('auth/verify-code', { email, code: T.mail[0].code }, ip); tokens[email] = v.j.accessToken; const m = (await call(mobile, '/api/mobile?r=me', H(v.j.accessToken))).j; ok(m.displayName === WANT[email][0] && m.memberships.map(x => x.leagueId + x.teamId).join(' ') === WANT[email][1], 'memberships exact for ' + WANT[email][0] + ': ' + JSON.stringify(m)); }
+  const acc = (t, lg, id) => call(mobile, '/api/mobile?r=access&leagueId=' + lg + '&teamId=' + id, H(t));
+  ok((await acc(tokens['azarate106@gmail.com'], 'gl', 7)).s === 200, 'Pru reaches her own team');
+  ok((await acc(tokens['azarate106@gmail.com'], 'gl', 8)).s === 403 && (await acc(tokens['oscarlk10@hotmail.com'], 'gl', 7)).s === 403, 'Pru and Oscar cannot reach each other');
+  ok((await acc(tokens['soccergio84@yahoo.com'], 'sts', 3)).s === 403 && (await acc(tokens['soccergio84@yahoo.com'], 'sts', 10)).s === 403, 'Gio has no sts access');
+  ok((await acc(tokens['kghuertas1993@gmail.com'], 'rb', 4)).s === 403 && (await acc(tokens['emercado122@gmail.com'], 'bh', 1)).s === 403, 'Kevin has no rb, Ed has no bh');
+  ok((await acc(tokens['josescuadros@outlook.com'], 'sts', 1)).s === 200 && (await acc(tokens['josescuadros@outlook.com'], 'gl', 7)).s === 403, 'owner reaches team 1 only');
+  ok((await call(mobile, '/api/mobile?r=access&leagueId=gl&teamId=7')).s === 401, 'private route without token 401');
+  T.mail = []; await post('auth/request-code', { email: 'advargas93@gmail.com' }, '7.7.7.7');
+  const sp = await post('auth/verify-code', { email: 'advargas93@gmail.com', code: T.mail[0].code, memberships: [{ leagueId: 'gl', teamId: 7 }] }, '7.7.7.7'); ok(sp.j.member.memberships.length === 2 && sp.j.member.memberships[0].teamId === 11, 'client-supplied memberships are ignored');
+  const lo = await call(mobile, '/api/mobile?r=auth/logout', { method: 'POST', headers: { authorization: 'Bearer ' + tokP } }); ok(lo.s === 200 && lo.j.ok === true, 'logout 200');
+  ok((await call(mobile, '/api/mobile?r=me', H(tokP))).s === 401, 'logged-out token is 401');
+  ok((await call(mobile, '/api/mobile?r=auth/logout', { method: 'POST' })).s === 401, 'logout without token 401');
+  ok((await A.revokeAll(sha('oscarlk10@hotmail.com'))) >= 1 && (await call(mobile, '/api/mobile?r=me', H(tokens['oscarlk10@hotmail.com']))).s === 401, 'revoking a member kills their sessions');
+  const tE = tokens['emercado122@gmail.com'], ses = JSON.parse(store.get('ms:' + sha(tE))); ses.x = Date.now() - 1; store.set('ms:' + sha(tE), JSON.stringify(ses));
+  ok((await call(mobile, '/api/mobile?r=me', H(tE))).s === 401, 'expired session is 401');
+  const s30 = JSON.parse(store.get('ms:' + sha(tokens['kghuertas1993@gmail.com']))); ok(Math.abs((s30.x - s30.c) / 86400000 - 30) < 0.01, 'session lasts 30 days');
+  const env = process.env.RESEND_API_KEY; delete process.env.RESEND_API_KEY; ok((await post('auth/request-code', { email: 'ed@example.org' }, '8.8.8.8')).s === 200, 'generic ok even when mail is unconfigured'); process.env.RESEND_API_KEY = env;
+  T.done();
+})().catch(e => { console.log('ERROR', e); process.exit(1); });

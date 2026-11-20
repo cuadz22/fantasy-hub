@@ -8,6 +8,10 @@
   ],
   "rewrites": [
     {
+      "source": "/api/mobile/:p*",
+      "destination": "/api/mobile?r=:p*"
+    },
+    {
       "source": "/api/yahoo/:p",
       "destination": "/api/yahoo-:p"
     },
@@ -36,6 +40,15 @@
     {
       "path": "/api/hw?snap=1",
       "schedule": "17 9 * * *"
+    },
+    {
+      "path": "/api/mobile/cron",
+      "schedule": "* * * * *"
     }
-  ]
+  ],
+  "functions": {
+    "api/mobile.js": {
+      "maxDuration": 60
+    }
+  }
 }

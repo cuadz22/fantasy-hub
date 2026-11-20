@@ -33,10 +33,10 @@ if (miss.length) fail('missing markers (stale or damaged file?): ' + miss.join('
 // 3b. the live market feed exists
 if (!fs.existsSync(path.join(root, '..', 'api', '_market.js'))) fail('client/api/_market.js is missing'); else ok('market feed present');
 
-// 3c. Hobby plan allows 12 serverless functions: underscore files and non-js files do not count
+// 3c. Hobby allowed 12 serverless functions; the site is on Vercel Pro now, so the guard allows 50 (underscore files and non-js files do not count)
 const apiDir = path.join(root, '..', 'api');
 const fnCount = fs.readdirSync(apiDir).filter((f) => /\.(js|mjs|ts)$/.test(f) && !f.startsWith('_')).length;
-if (fnCount > 12) fail(`client/api has ${fnCount} functions; the Hobby plan allows 12 (move extras into an underscore module)`); else ok(`${fnCount}/12 serverless functions`);
+if (fnCount > 50) fail(`client/api has ${fnCount} functions; keep it under 50 (move extras into an underscore module)`); else ok(`${fnCount}/50 serverless functions`);
 
 // 3d. the encrypted Commish data must be byte-for-byte the known-good copy (a global find-and-replace once clipped it and locked everyone out)
 {

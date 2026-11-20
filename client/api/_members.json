@@ -1,0 +1,67 @@
+[
+ {
+  "h": "007b50c7e3b100b7703abbe7873b408454d06dfbe44ec34e91717eb3ac36e136",
+  "name": "Cuadz",
+  "teams": {
+   "gl": 1,
+   "bh": 1,
+   "rb": 1,
+   "sts": 1
+  }
+ },
+ {
+  "h": "6a4e39190fbba5144087d70c65983218fa2c33db6aa3ac2854e54349aaa2d3e8",
+  "name": "Pru",
+  "teams": {
+   "gl": 7,
+   "bh": 11,
+   "rb": 3,
+   "sts": 10
+  }
+ },
+ {
+  "h": "22e7a1653138a013f8a55eeebbddfc18d0ff60b6ceaa5c6f98013f66946dae89",
+  "name": "Oscar",
+  "teams": {
+   "gl": 8,
+   "bh": 8,
+   "rb": 8,
+   "sts": 3
+  }
+ },
+ {
+  "h": "9e5097933f3ab13b89d48acf8cdc6ab31646bb2fa27b127f74aa94d3a40b8e99",
+  "name": "Gio",
+  "teams": {
+   "gl": 2,
+   "bh": 2,
+   "rb": 9
+  }
+ },
+ {
+  "h": "b2e48d94882d516e3ab591e7c057e0b1e156cb354062d5911966779c3a375812",
+  "name": "Kevin",
+  "teams": {
+   "gl": 10,
+   "bh": 5,
+   "sts": 11
+  }
+ },
+ {
+  "h": "f96127b215ec9c7d2610c4721a2ca82cc440dea425ae76da1bc89ff8290968bc",
+  "name": "Alexis",
+  "teams": {
+   "gl": 11,
+   "rb": 4
+  }
+ },
+ {
+  "h": "ca97f8e8e0f0f0577d99dc058bf72b01fa2b90643978e2c9dcaccba8561ff507",
+  "name": "Ed",
+  "teams": {
+   "gl": 6,
+   "rb": 5,
+   "sts": 4
+  }
+ }
+]
