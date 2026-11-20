@@ -17,7 +17,7 @@ async function rset(key, obj, exSec) { const c = ['SET', key, JSON.stringify(obj
 
 // ---- NFL calendar and scoreboard (ESPN public scoreboard; one request covers clock, score and possession) ----
 const ESPN = 'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard';
-const ABB = { WSH: 'WAS', LAR: 'LA' }; // canonical uppercase, matching the abbreviations Yahoo shows in lineups
+const ABB = { WSH: 'WAS', LAR: 'LA', LVR: 'LV', JAC: 'JAX', KAN: 'KC', NOR: 'NO', SFO: 'SF', TAM: 'TB', GBP: 'GB', NEP: 'NE', SDG: 'LAC', STL: 'LA' }; // canonical uppercase, matching the abbreviations Yahoo shows in lineups
 const canon = t => { t = String(t || '').toUpperCase().trim(); return ABB[t] || t; };
 async function jfetch(url, ms) {
   const ac = new AbortController(), t = setTimeout(() => ac.abort(), ms || 6000);

@@ -5,6 +5,7 @@
 const MM = require('./_mm.json');
 const { get } = (() => { try { return require('@vercel/blob'); } catch (e) { return {}; } })();
 const W = { ros: .34, dyn: 0, dp: .11, sp: .20, km: .21, kt: .14 }, IDS = ['ros', 'dyn', 'pj', 'kt', 'dp', 'sp', 'km'], KEYS = ['ros1', 'ros2', 'dyn1', 'dyn2', 'dp1', 'dp2'];
+const { canon } = require('./_m');
 const nn = x => String(x || '').toLowerCase().replace(/’/g, "'").replace(/\b(jr|sr|ii|iii|iv)\b\.?/g, '').replace(/[^a-z]/g, '');
 function value(s) { let num = 0, den = 0; IDS.forEach(id => { const v = s[id + '1']; if (v != null && W[id] > 0) { num += v * W[id]; den += W[id]; } }); return den ? Math.round(num / den) : null; }
 // Same acceptance checks as the site: only use a live series when enough players overlap and its scale matches the stored one.
@@ -41,7 +42,7 @@ async function compute(host, week, fetchJson, hist) {
     const d = n0 - b0; rows.push({ k, p, b0, n0, d, pc: d / b0 * 100 });
   });
   rows.sort((a, b) => b.pc - a.pc);
-  const out = r => ({ id: r.k, name: r.p.n, position: r.p.p, team: String(r.p.t || '').toUpperCase() || null, currentValue: r.n0, change: r.d, percentChange: Math.round(r.pc * 100) / 100, priorValue: r.b0, photoURL: MM.sid[r.k] ? 'https://sleepercdn.com/content/nfl/players/' + MM.sid[r.k] + '.jpg?v=1' : null });
+  const out = r => ({ id: r.k, name: r.p.n, position: r.p.p, team: canon(r.p.t) || null, currentValue: r.n0, change: r.d, percentChange: Math.round(r.pc * 100) / 100, priorValue: r.b0, photoURL: MM.sid[r.k] ? 'https://sleepercdn.com/content/nfl/players/' + MM.sid[r.k] + '.jpg?v=1' : null });
   const up = rows.filter(r => r.d > 0).slice(0, 10).map(out), down = rows.filter(r => r.d < 0).slice(-10).reverse().map(out);
   const feedAt = live && (live.updated || live.dpAsOf);
   const body = { label: 'Week ' + week + ' · ' + fd(best.t) + ' to ' + fd(feedAt && /^\d{4}-\d\d-\d\d$/.test(feedAt) ? feedAt + 'T12:00:00Z' : now), players: up.concat(down), baselineAt: best.t, sourceUpdatedAt: feedAt || null, liveSeriesUsed: lv.used, model: 'cfn-gl-1qb', modelVersion: MM.v, computedAt: new Date(now).toISOString() };
