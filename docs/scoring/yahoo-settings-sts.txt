@@ -1,7 +1,10 @@
+Source: https://football.fantasysports.yahoo.com/f1/101814/settings
+Observed: 2026-11-21
+
 Setting | Value
 League ID#: | 101814
 League Name: | shoot the shits
-League Logo: | 
+League Logo: |
 Auto-renew Enabled: | Yes
 Custom League URL: | https://football.fantasysports.yahoo.com/league/shoottheshits
 Draft Type: | Live Salary Cap Draft
@@ -46,38 +49,38 @@ Offense | League Value | Yahoo Default Value
 Passing Yards (Yahoo Default: 25 yards per point) | 20 yards per point; 2 points at 325 yards | 25 yards per point
 Passing Touchdowns (Yahoo Default: 4) | 6 | 4
 Interceptions (Yahoo Default: -1) | -2.5 | -1
-Rushing Yards | 10 yards per point; 3 points at 100 yards | 
-Rushing Touchdowns | 6 | 
+Rushing Yards | 10 yards per point; 3 points at 100 yards |
+Rushing Touchdowns | 6 |
 Receptions (Yahoo Default: 0.5) | 1 | 0.5
-Receiving Yards | 10 yards per point; 1 points at 100 yards | 
-Receiving Touchdowns | 6 | 
-Return Touchdowns | 6 | 
-2-Point Conversions | 2 | 
-Fumbles Lost | -2 | 
-Offensive Fumble Return TD | 6 | 
+Receiving Yards | 10 yards per point; 1 points at 100 yards |
+Receiving Touchdowns | 6 |
+Return Touchdowns | 6 |
+2-Point Conversions | 2 |
+Fumbles Lost | -2 |
+Offensive Fumble Return TD | 6 |
 Kickers | League Value | Yahoo Default Value
-Point After Attempt Made | 1 | 
+Point After Attempt Made | 1 |
 Field Goals Total Yards (Yahoo Default: 0) | 10 yards per point | 0
 Defense/Special Teams | League Value | Yahoo Default Value
-Sack | 1 | 
-Interception | 2 | 
-Fumble Recovery | 2 | 
-Touchdown | 6 | 
+Sack | 1 |
+Interception | 2 |
+Fumble Recovery | 2 |
+Touchdown | 6 |
 Safety (Yahoo Default: 2) | 4 | 2
 Block Kick (Yahoo Default: 2) | 3 | 2
-Kickoff and Punt Return Touchdowns | 6 | 
+Kickoff and Punt Return Touchdowns | 6 |
 Points Allowed 0 points (Yahoo Default: 10) | 8 | 10
 Points Allowed 1-6 points (Yahoo Default: 7) | 5 | 7
 Points Allowed 7-13 points (Yahoo Default: 4) | 3 | 4
-Points Allowed 14-20 points | 1 | 
-Points Allowed 21-27 points | 0 | 
-Points Allowed 28-34 points | -1 | 
+Points Allowed 14-20 points | 1 |
+Points Allowed 21-27 points | 0 |
+Points Allowed 28-34 points | -1 |
 Points Allowed 35+ points (Yahoo Default: -4) | -3 | -4
 4th Down Stops (Yahoo Default: 0) | 1 | 0
 Defensive Yards Allowed 0-99 (Yahoo Default: 0) | 8 | 0
 Defensive Yards Allowed 100-199 (Yahoo Default: 0) | 5 | 0
 Defensive Yards Allowed 200-299 (Yahoo Default: 0) | 3 | 0
 Defensive Yards Allowed 300-399 (Yahoo Default: 0) | 1 | 0
-Defensive Yards Allowed 400-499 | 0 | 
+Defensive Yards Allowed 400-499 | 0 |
 Defensive Yards Allowed 500+ (Yahoo Default: 0) | -2 | 0
-Extra Point Returned | 2 | 
+Extra Point Returned | 2 |
