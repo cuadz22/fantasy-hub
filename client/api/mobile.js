@@ -64,6 +64,11 @@ module.exports = async (req, res) => {
       const body = Named.build(raw.sv, raw.rec, raw.board, c ? c.season : M.SEASON, await Ids.getMap());
       return J(res, 200, body, raw.sv.stale || raw.sv.partial ? 'no-store' : raw.sv.final ? 'public, s-maxage=3600, max-age=60' : 'public, s-maxage=' + (c && M.isLive(c.board) && week === c.week ? 10 : 60));
     }
+    if (r === 'standings' && req.method === 'GET') {
+      const lg = q.get('lg'); if (!M.LGS.includes(lg)) return J(res, 400, { error: 'invalid_league' });
+      const body = await require('./_mstandings').get(lg, M);
+      return J(res, 200, body, body.stale ? 'no-store' : 'public, s-maxage=30, max-age=0');
+    }
     if (r === 'media' && req.method === 'GET') {
       const MEDIA = require('./_media.json'), teams = {};
       Object.keys(MEDIA.teams).forEach(lg => { teams[lg] = {}; Object.keys(MEDIA.teams[lg]).forEach(id => { const t = MEDIA.teams[lg][id]; teams[lg][id] = { teamId: Number(id), managerName: t.managerName, logoURL: t.logoURL, ownerPhotoURL: t.ownerPhotoPath ? PUBLIC_BASE + t.ownerPhotoPath + '?v=' + t.ownerPhotoV : null }; }); });
