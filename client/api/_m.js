@@ -168,6 +168,11 @@ async function serveRaw(lg, week, ctx) {
     stale, final: !!rec.final, scoreboardUpdatedAt: board ? new Date(board.sourceUpdatedAt).toISOString() : null, scoreboardStale: !!(board && (board.stale || (isLive(board) && Date.now() - board.fetchedAt > 90000))),
     lastError: rec.lastError || undefined, upcoming: rec.upcoming || undefined
   };
+  const probability = require('./_mprobability');
+  sv.matchups = sv.matchups.map(m => ({...m, winProbability: probability.build(m, {
+    final: sv.final, partial: sv.partial, stale: sv.stale || sv.scoreboardStale,
+    updatedAt: new Date(Math.max(rec.sourceUpdatedAt, scoring.stats?.scoreUpdatedAt || 0, board?.sourceUpdatedAt || 0)).toISOString()
+  })}));
   return { sv, rec, board };
 }
 async function serveWeek(lg, week, ctx) { const r = await serveRaw(lg, week, ctx); return r && r.sv; }
