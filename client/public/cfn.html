@@ -5448,10 +5448,10 @@ function lvStandHtml(k){
 function lvSet(k,m){ LVMODE=m; var e=document.getElementById('lv-st'); if(e) e.innerHTML=lvStandHtml(k); }
 function lgLive(p,k){
   var M=PVL[k]||[], alive=M.filter(function(m){return m.left>0&&!lvDec(m);}).length, d=document.createElement('div'); d.className='subsec';
-  d.innerHTML='<div class="subsec-hd" style="display:flex;align-items:center;gap:8px">Week 11 &middot; Early Look <span class="lv-pill"><i></i>LIVE</span></div><div class="wp-grid">'+M.map(function(m,i){return wpCard(k,m,i,true);}).join('')+'</div><p class="lv-note">Week 10 is under way, so these are early scores. '+alive+' of '+M.length+' matchups are still undecided. Scores and projections from Yahoo, '+PVL_AT+'. Win odds are recalculated from each team&rsquo;s live projected total, so they move as games finish. Players marked live or to play show their projection (~) until they score. Career and season highs are single-game PPR-style totals recomputed with this league&rsquo;s own Yahoo scoring (bonuses included) from Pro-Football-Reference game logs; kickers and defenses are not included, and Rebirth&rsquo;s 40-yard reception bonus is not counted. Tap any matchup for full lineups.</p>';
+  d.innerHTML='<div class="subsec-hd" style="display:flex;align-items:center;gap:8px">Week '+PVL_WK+' &middot; Matchups <span class="lv-pill"><i></i>LIVE</span></div><div class="wp-grid">'+M.map(function(m,i){return wpCard(k,m,i,true);}).join('')+'</div><p class="lv-note">Week '+PVL_WK+' matchups are in progress. '+alive+' of '+M.length+' matchups are still undecided. Scores and projections from Yahoo, '+PVL_AT+'. Win odds are recalculated from each team&rsquo;s live projected total, so they move as games finish. Players marked live or to play show their projection (~) until they score. Career and season highs are single-game PPR-style totals recomputed with this league&rsquo;s own Yahoo scoring (bonuses included) from Pro-Football-Reference game logs; kickers and defenses are not included, and Rebirth&rsquo;s 40-yard reception bonus is not counted. Tap any matchup for full lineups.</p>';
   var sb=document.createElement('div'); sb.style.cssText='display:flex;justify-content:flex-end;margin-bottom:8px'; sb.innerHTML='<button class="st-btn" style="padding:5px 12px">Share live matchups</button>'; sb.firstChild.onclick=function(){ var b=sb.firstChild,o=b.textContent; var u=location.origin+'/l/'+({gl:'gentlemens',bh:'beaners',rb:'rebirth',sts:'sts'})[k]+'-live-matchups.html'; var ttl=LGI[k].name+' Live Matchups'; var done=function(){ b.textContent='Link copied \u2713'; setTimeout(function(){ b.textContent=o; },1600); }; if(navigator.share&&/Android|iPhone|iPad/i.test(navigator.userAgent)){ navigator.share({title:ttl,url:u}).catch(function(){}); return; } try{ navigator.clipboard.writeText(u).then(done,function(){ prompt('Copy this link',u); }); }catch(e){ prompt('Copy this link',u); } }; p.appendChild(sb);
   p.appendChild(d);
-  var d2=document.createElement('div'); d2.className='subsec'; d2.innerHTML='<div class="subsec-hd">Live Standings</div><div id="lv-st">'+lvStandHtml(k)+'</div>'; if(alive>0) p.appendChild(d2);
+  // Live projected standings are intentionally omitted; official records use completed weeks only.
 }
 function wpFresh(k,m){ try{ var L=null; (PVL[k]||[]).forEach(function(x){ if(x.ia===m.ia&&x.ib===m.ib) L=x; }); if(!L) return m; var o={}; Object.keys(m).forEach(function(q){ o[q]=m[q]; }); ['ra','rb','ka','kb','da','db'].forEach(function(q){ if(L[q]) o[q]=L[q]; }); return o; }catch(e){ return m; } }
 function lgPreview(p,k){
@@ -5662,15 +5662,16 @@ function lgRender(){
   var k = lgState.k, L = LGI[k], p = document.getElementById('lg-panel');
   document.getElementById('lg-eye').textContent = 'CFN · League' + (L.keeper ? ' · Keeper' : '');
   document.getElementById('lg-name').innerHTML = lgLogoImg(k)+L.name;
-  document.getElementById('lg-meta').textContent = 'Est. ' + L.est + ' · Week 11 preview';
+  document.getElementById('lg-meta').textContent = 'Est. ' + L.est + ' · Week ' + (window.__cfnStandings && window.__cfnStandings[k] ? window.__cfnStandings[k].currentWeek : PVL_WK);
   document.getElementById('lg-tabs').innerHTML = lgTabs(); p.setAttribute('data-tab', lgState.tab);
   p.innerHTML = '';
   var t = lgState.tab;
   if(t==='Standings'){
+    if(window.cfnLoadStandings) cfnLoadStandings(k);
     var sb=document.createElement('div'); sb.style.cssText='display:flex;justify-content:flex-end;margin-bottom:8px'; sb.innerHTML='<button class="st-btn" id="stdShareBtn" style="padding:5px 12px">Share standings</button>'; p.appendChild(sb); sb.firstChild.onclick=function(){ shareStand(k); };
-    if(k==='sts') lgSub(k,'STS Custom').forEach(function(n){ p.appendChild(n); });
+    // STS custom points remain in its dedicated tools; this table is W-L reference.
     var d = document.createElement('div'); d.className='subsec';
-    d.innerHTML = '<div class="subsec-hd">'+(k==='sts'?'Win-Loss (reference)':'Standings')+'</div>'+stdAvg(LGD.stand[k])+'<p style="font-size:10px;color:var(--dim)">Ranked by wins, then points for · Strk = current streak</p>';
+    d.innerHTML = '<div class="subsec-hd">'+(k==='sts'?'Win-Loss (reference)':'Standings')+'</div>'+(window.cfnStandingsHTML?cfnStandingsHTML(k):'<p>Loading standings…</p>');
     p.appendChild(d);
   } else if(t==='Matchups'){
     var wb=wkBar(k); p.appendChild(wb.bar); p.appendChild(wb.box); p.appendChild(wb.cur); p=wb.cur;
@@ -10556,17 +10557,7 @@ function applyOd(rcp,H){
     }catch(e){} }); });
 }
 function applyStand(res){
-  LG.forEach(function(k){ try{ var html=LGD.stand[k]; if(typeof html!=='string'||LGD.__standWk===DONE) return; var tmp=document.createElement('div'); tmp.innerHTML=html; var tb=tmp.querySelector('.st-table'); if(!tb) return;
-    var rows=[].slice.call(tb.querySelectorAll('.lgs-row')), byName={}; var tn2id={}; Object.keys(B0.nm[k]).forEach(function(id){ tn2id[B0.nm[k][id]]=id; });
-    rows.forEach(function(r){ var b=r.querySelector('.mg-nm b'), sp=r.children; var nm=b&&b.textContent, id=tn2id[nm]; var x=res[k][id]; if(!x) return; var c=[].slice.call(r.children);
-      var wl=c[2], pf=c[3], pa=c[4], sk=c[5]; wl.textContent=resultRec(wl.textContent,x.win); pf.textContent=(num(pf.textContent)+x.pf).toFixed(2); pa.textContent=(num(pa.textContent)+x.pa).toFixed(2);
-      var m=/^([WL])-(\d+)$/.exec(sk.textContent.trim()); var ch=x.win===1?'W':x.win===0?'L':null; if(ch){ sk.textContent=(m&&m[1]===ch)?ch+'-'+(+m[2]+1):ch+'-1'; }
-      r.__w=parseFloat(wl.textContent)||0; r.__pf=num(pf.textContent); });
-    var w2=function(r){ var p=r.children[2].textContent.split('-'); return (+p[0]||0)+0.5*(+p[2]||0); };
-    rows.sort(function(a,b){ return w2(b)-w2(a)||num(b.children[3].textContent)-num(a.children[3].textContent); });
-    rows.forEach(function(r,i){ var rk=r.querySelector('.st-rk'); if(rk) rk.textContent=String(i+1); tb.appendChild(r); });
-    LGD.stand[k]=tmp.innerHTML; }catch(e){ console.error(e); } });
-  LGD.__standWk=DONE;
+  // Standings now come from /api/mobile/standings. Never add Week 10 a second time.
 }
 /* ---------- Week 11 early look (optimised lineups) ---------- */
 function optimise(L){
@@ -11121,4 +11112,5 @@ window.lgDraft=function(p,k){
 };
 })();
 </script>
+<script src="/mobile-standings.js?v=1"></script>
 </body></html>

@@ -20,6 +20,7 @@ async function get(path, expected = 200) {
     const teams=new Set(); for(const m of j.matchups) { teams.add(m.ia); teams.add(m.ib); assert(m.L.length>=8 && m.R.length>=8); } assert.equal(teams.size,12);
     assert(Number.isFinite(Date.parse(j.sourceUpdatedAt))); assert(j.cacheAgeSeconds>=0);
     const named=await get('/api/mobile/lineups?lg='+lg+'&week='+c.currentWeek); assert.equal(named.schemaVersion,2); assert.equal(named.matchups.length,6);
+    const standings=await get('/api/mobile/standings?lg='+lg); assert.equal(standings.leagueId,lg); assert.equal(standings.throughWeek,Math.min(c.currentWeek-1,14)); assert.equal(standings.stale,false); assert.equal(standings.rows.length,12); assert(standings.rows.every(t=>t.wins+t.losses+t.ties===standings.throughWeek)); assert.equal(standings.rows.reduce((n,t)=>n+t.wins-t.losses,0),0);
   }
   for (const week of [1,5,14]) if(c.availableWeeks.includes(week)) { const j=await get('/api/lineups?lg=gl&week='+week); assert.equal(j.week,week); assert.equal(j.matchups.length,6); }
   await get('/api/lineups?lg=gl&week=99',400); await get('/api/mobile/cron',401); await get('/api/mobile/me',401);

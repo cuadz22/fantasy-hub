@@ -272,7 +272,7 @@ rep('PVL_AT="Nov 10, all Week 9 games final";','PVL_AT="Friday, Nov 13, after Th
 rep("""<div class="subsec-hd">Week 9 Results &middot; Final</div>""","""<div class="subsec-hd">Week 10 &middot; Live</div>""")
 _a=h.index("<p class=\"lv-note\">All '+M.length+' Week 9 matchups are final")
 _b=h.index("Career and season highs",_a)
-h=h[:_a]+"<p class=\"lv-note\">Week 10 is under way, so these are early scores. '+alive+' of '+M.length+' matchups are still undecided. Scores and projections from Yahoo, '+PVL_AT+'. Win odds are recalculated from each team&rsquo;s live projected total, so they move as games finish. Players marked live or to play show their projection (~) until they score. "+h[_b:]
+h=h[:_a]+"<p class=\"lv-note\">Week '+PVL_WK+' matchups are in progress. '+alive+' of '+M.length+' matchups are still undecided. Scores and projections from Yahoo, '+PVL_AT+'. Win odds are recalculated from each team&rsquo;s live projected total, so they move as games finish. Players marked live or to play show their projection (~) until they score. "+h[_b:]
 # ---------------- live card style: no green box, "in play" tag + subtle proj label
 rep(".wp-c.tp,.wp-pl>div.tp{box-shadow:inset 0 0 0 1px var(--accent);border-radius:7px;background:rgba(172,249,16,.10)}\n",".wp-c.tp,.wp-pl>div.tp{}\n")
 rep(".wp-c.tp b,.wp-pl>div.tp b{font-style:italic;color:var(--accent)}\n",".wp-c.tp b,.wp-pl>div.tp b{font-style:normal}\n.wp-pj{font-family:Inter,system-ui,sans-serif;font-size:9px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);margin-right:4px;vertical-align:3px}\n")
