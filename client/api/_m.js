@@ -3,17 +3,30 @@
 const crypto = require('crypto');
 const URL_ = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL, TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 const LGS = ['gl', 'bh', 'rb', 'sts'];
+// These Yahoo league IDs belong to the 2026 season. Never silently reuse them next year.
+const SEASON = 2026;
 const sha = s => crypto.createHash('sha256').update(String(s)).digest('hex');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
-// Storage trouble must never take the site down: every call is time-boxed and returns null on failure.
-async function rc(cmd, ms) {
-  if (!URL_ || !TOKEN) return null;
-  const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), ms || 2500);
-  try { const r = await fetch(URL_, { method: 'POST', headers: { Authorization: 'Bearer ' + TOKEN, 'Content-Type': 'application/json' }, body: JSON.stringify(cmd), signal: ctl.signal }); const j = await r.json(); return j.error ? null : j.result; }
-  catch (e) { return null; } finally { clearTimeout(tm); }
+// Strict commands distinguish an unavailable store from an absent value. Reads used
+// for optional decorations may fall back; writes and job coordination must fail loudly.
+async function command(cmd, ms = 2500) {
+  if (!URL_ || !TOKEN) throw new Error('storage_unconfigured');
+  const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), ms);
+  try {
+    const r = await fetch(URL_, { method: 'POST', headers: { Authorization: 'Bearer ' + TOKEN, 'Content-Type': 'application/json' }, body: JSON.stringify(cmd), signal: ctl.signal });
+    if (!r.ok) throw new Error('storage_http_' + r.status);
+    const j = await r.json(); if (j.error || !Object.prototype.hasOwnProperty.call(j, 'result')) throw new Error('storage_command_failed');
+    return j.result;
+  } catch (e) { throw new Error(e.name === 'AbortError' ? 'storage_timeout' : e.message); }
+  finally { clearTimeout(tm); }
 }
-async function rget(key, ms) { const v = await rc(['GET', key], ms); if (v == null) return null; try { return JSON.parse(v); } catch (e) { return null; } }
+async function rc(cmd, ms) { try { return await command(cmd, ms); } catch { return null; } }
+async function read(key, ms) { const v = await command(['GET', key], ms); return v == null ? null : JSON.parse(v); }
+async function rget(key, ms) { try { return await read(key, ms); } catch { return null; } }
 async function rset(key, obj, exSec, ms) { const c = ['SET', key, JSON.stringify(obj)]; if (exSec) c.push('EX', exSec); return (await rc(c, ms || 4000)) === 'OK'; }
+async function write(key, obj, exSec = 0) { if (!(await rset(key, obj, exSec))) throw new Error('storage_write_failed'); return obj; }
+async function lock(key, seconds = 80) { const token = crypto.randomUUID(); return await command(['SET', key, token, 'NX', 'EX', seconds]) === 'OK' ? token : null; }
+async function unlock(key, token) { return command(['EVAL', "if redis.call('GET',KEYS[1]) == ARGV[1] then return redis.call('DEL',KEYS[1]) else return 0 end", 1, key, token]); }
 
 // ---- NFL calendar and scoreboard (ESPN public scoreboard; one request covers clock, score and possession) ----
 const ESPN = 'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard';
@@ -45,14 +58,15 @@ function parseBoard(j) {
 async function getBoard(week, maxAgeS) {
   const key = 'mb:' + (week || 'cur'), now = Date.now();
   const rec = await rget(key);
-  if (rec && rec.done) return rec; // a finished week's board never changes
+  // Re-read finished games daily so official corrections can propagate.
+  if (rec && rec.done && now - rec.fetchedAt < 86400000) return rec;
   if (rec && now - rec.fetchedAt <= (maxAgeS === undefined ? 20 : maxAgeS) * 1000) return rec;
   try {
-    const j = await jfetch(week ? ESPN + '?seasontype=2&week=' + week : ESPN, 6000), b = parseBoard(j);
-    if (!b.week || !b.games.length) throw new Error('empty scoreboard');
+    const j = await jfetch(week ? ESPN + '?dates=' + SEASON + '&seasontype=2&week=' + week : ESPN, 6000), b = parseBoard(j);
+    if (b.season !== SEASON || !b.week || (week && b.week !== week) || !b.games.length) throw new Error('empty scoreboard');
     const allDone = b.games.every(g => g.state === 'post');
     const out = Object.assign(b, { fetchedAt: now, sourceUpdatedAt: now, done: !!week && allDone });
-    await rset(key, out, week && allDone ? 0 : 6 * 3600);
+    await rset(key, out, week && allDone ? 0 : 30 * 86400);
     return out;
   } catch (e) { if (rec) return Object.assign({}, rec, { stale: true, error: String(e.message || e).slice(0, 80) }); return null; }
 }
@@ -60,8 +74,9 @@ const isLive = b => !!b && b.games.some(g => g.state === 'in');
 const soon = b => !!b && b.games.some(g => g.state === 'pre' && Date.parse(g.start) - Date.now() < 25 * 60000 && Date.parse(g.start) - Date.now() > -60000);
 
 // ---- context: season, current week, and which weeks have stored data ----
-async function context() {
-  const b = await getBoard(null, 120);
+async function context(options = {}) {
+  let b = options.cachedOnly ? await rget('mb:cur') : await getBoard(null, 120);
+  if (b && Date.now() - b.fetchedAt > 5 * 60000) b = { ...b, stale: true };
   let week = b && b.week, season = b && b.season, updated = b && b.sourceUpdatedAt;
   if (!week) { const c = await rget('mc:ctx'); if (c) { week = c.week; season = c.season; updated = c.updated; } }
   if (!week) return null;
@@ -70,40 +85,50 @@ async function context() {
   for (let i = 0; i + 1 < h.length; i += 2) { const [lg, w] = h[i].split(':'); (have[w] = have[w] || {})[lg] = h[i + 1]; }
   const weeks = [];
   for (let w = 1; w <= 14; w++) { const x = have[w] || {}; if (w === week ? Object.keys(x).length >= 1 : LGS.every(l => x[l])) weeks.push(w); }
-  return { season, week, weeks, updated, board: b };
+  return { season, week, weeks, updated, stale: !b || !!b.stale, board: b };
 }
 
 // ---- stored weekly lineups ----
 function mkOrig(matchups) { const o = {}; matchups.forEach(m => { m.L.forEach(r => { if (r[4] != null) o[m.ia + '|' + r[1]] = r[4]; }); m.R.forEach(r => { if (r[4] != null) o[m.ib + '|' + r[1]] = r[4]; }); }); return o; }
 const RK = (lg, w) => 'mw:' + lg + ':' + w;
 async function saveWeek(lg, week, matchups, partial, opts) {
-  opts = opts || {}; const now = Date.now(), old = await rget(RK(lg, week));
+  opts = opts || {}; const now = Date.now(), old = await read(RK(lg, week));
   if (old && old.final && !opts.force) return old; // finished weeks are never overwritten
-  if (partial && old && !old.partial) return old; // never replace a complete read with a short one
+  if (partial && old && !old.partial) { await noteFail(lg, week, 'partial_roster'); return old; } // never replace a complete read with a short one
   const orig = opts.final && !(old && old.orig) ? null : Object.assign(mkOrig(matchups), (old && old.orig) || {}); // first projection captured for each player this week
-  const rec = { lg, week, matchups, partial: !!partial, fetchedAt: now, sourceUpdatedAt: now, lastAttemptAt: now, lastError: null, final: !!opts.final && !partial, upcoming: !!opts.upcoming, orig };
-  await rset(RK(lg, week), rec, rec.final ? 0 : 21 * 86400);
-  if (!partial) await rc(['HSET', 'mw:avail', lg + ':' + week, String(now)]);
-  if (rec.final) { await rc(['HSET', 'mw:final', lg + ':' + week, String(now)]); backup(rec); }
+  const rec = { season: SEASON, lg, week, matchups, partial: !!partial, fetchedAt: now, sourceUpdatedAt: now, lastAttemptAt: now, lastError: null, final: !!opts.final && !partial, upcoming: !!opts.upcoming, orig };
+  await write(RK(lg, week), rec, 0);
+  if (!partial) await command(['HSET', 'mw:avail', lg + ':' + week, String(now)]);
+  await rc(['DEL', 'mw:error:' + lg + ':' + week]);
+  if (rec.final) await command(['HSET', 'mw:final', lg + ':' + week, String(now)]);
+  // Await durable backups; serverless runtimes may stop after the response.
+  const lastBackup = await rget('mw:backup:' + lg + ':' + week);
+  if (rec.final || !lastBackup || now - lastBackup.at > 15 * 60000) {
+    if (await backup(rec)) await rset('mw:backup:' + lg + ':' + week, { at: now }, 0);
+  }
   return rec;
 }
-async function noteFail(lg, week, err) { const old = await rget(RK(lg, week)); if (!old) return; old.lastAttemptAt = Date.now(); old.lastError = String(err || 'fetch failed').slice(0, 100); await rset(RK(lg, week), old, old.final ? 0 : 21 * 86400); }
-async function backup(rec) { // durable copy of finished weeks outside Redis
-  try { const { put } = require('@vercel/blob'); await put('mobile/weeks/' + rec.lg + '-' + rec.week + '.json', JSON.stringify(rec), { access: 'private', addRandomSuffix: false, allowOverwrite: true, contentType: 'application/json' }); } catch (e) {}
+async function noteFail(lg, week, err) {
+  // Failure metadata is separate: a slow failing request cannot roll back good scores.
+  await write('mw:error:' + lg + ':' + week, { at: Date.now(), error: String(err || 'fetch_failed').slice(0, 100) }, 86400);
+}
+async function backup(rec) {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) return false;
+  try {
+    const { put } = require('@vercel/blob');
+    await put('mobile/weeks/' + SEASON + '/' + rec.lg + '-' + rec.week + '.json', JSON.stringify(rec), { access: 'private', addRandomSuffix: false, allowOverwrite: true, contentType: 'application/json', abortSignal: AbortSignal.timeout(5000) });
+    return true;
+  } catch { console.error(JSON.stringify({ event: 'weekly_backup_failed', league: rec.lg, week: rec.week })); return false; }
 }
 async function restore(lg, week) {
-  try { const { get } = require('@vercel/blob'); const r = await get('mobile/weeks/' + lg + '-' + week + '.json', { access: 'private', useCache: false }); if (!r || r.statusCode !== 200 || !r.stream) return null; const rec = JSON.parse(await new Response(r.stream).text()); if (rec && rec.matchups) { await rset(RK(lg, week), rec, 0); await rc(['HSET', 'mw:avail', lg + ':' + week, String(rec.fetchedAt)]); return rec; } } catch (e) {}
+  try { const { get } = require('@vercel/blob'); let r = await get('mobile/weeks/' + SEASON + '/' + lg + '-' + week + '.json', { access: 'private', useCache: false, abortSignal: AbortSignal.timeout(3500) }); if (!r || r.statusCode !== 200 || !r.stream) r = await get('mobile/weeks/' + lg + '-' + week + '.json', { access: 'private', useCache: false, abortSignal: AbortSignal.timeout(3500) }); if (!r || r.statusCode !== 200 || !r.stream) return null; const rec = JSON.parse(await new Response(r.stream).text()); if (rec && rec.lg === lg && rec.week === week && (!rec.season || rec.season === SEASON) && rec.matchups) { await rset(RK(lg, week), rec, 0); await rc(['HSET', 'mw:avail', lg + ':' + week, String(rec.fetchedAt)]); return rec; } } catch (e) {}
   return null;
 }
 const statusClean = s => String(s || '').replace(/&#?\w*;?\s*$/, '').trim();
 // Games by canonical team code (live or final only).
 function gamesByTeam(board) { const o = {}; if (board) board.games.forEach(g => { if (g.state === 'in' || g.state === 'post') { o[g.homeTeam] = g; o[g.awayTeam] = g; } }); return o; }
 // Yahoo's own clock text is a little ahead of the scoreboard, so a live game shows Yahoo's clock when its status carries one; score and possession stay from the scoreboard.
-function periodFor(g, yahooStatus) {
-  if (g.state !== 'in') return g.period;
-  const t = String(yahooStatus || ''); let m = /^(Q[1-4]|OT)\s+(\d{1,2}:\d{2})/.exec(t); if (m) return m[1] + ' ' + m[2];
-  if (/^Halftime/i.test(t)) return 'Halftime'; return g.period;
-}
+function periodFor(g) { return g.period; } // clock, score and possession share one provider snapshot
 function gameObj(g, status) { return { period: periodFor(g, status), homeTeam: g.homeTeam, awayTeam: g.awayTeam, homeScore: g.homeScore, awayScore: g.awayScore, possessionTeam: g.possessionTeam }; }
 // Row decoration: canonical team code, cleaned status, optional ninth item with the live game.
 function decorate(rec, board) {
@@ -122,12 +147,18 @@ function decorate(rec, board) {
 // Freshness thresholds: a live read older than 3 minutes is stale; outside games, older than 45 minutes.
 function staleAfterS(live) { return live ? 180 : 2700; }
 async function serveRaw(lg, week, ctx) {
-  let rec = await rget(RK(lg, week)); if (!rec) rec = await restore(lg, week); if (!rec) return null;
-  const board = week === ctx.week ? ctx.board : await getBoard(week, 3600);
-  const age = Math.round((Date.now() - rec.fetchedAt) / 1000), live = week === ctx.week && isLive(ctx.board);
+  let rec, storageError;
+  try { rec = await read(RK(lg, week)); } catch (e) { storageError = e; }
+  if (!rec) rec = await restore(lg, week);
+  if (!rec && storageError) throw storageError;
+  if (!rec) return null;
+  const board = ctx && week === ctx.week ? ctx.board : await rget('mb:' + week);
+  const failure = await rget('mw:error:' + lg + ':' + week);
+  if (failure && failure.at >= rec.fetchedAt) rec = Object.assign({}, rec, { lastError: failure.error, lastAttemptAt: failure.at });
+  const age = Math.round((Date.now() - rec.fetchedAt) / 1000), live = ctx ? week === ctx.week && isLive(ctx.board) : isLive(board);
   const stale = rec.final ? false : age > (rec.upcoming ? 36 * 3600 : staleAfterS(live)) || !!rec.lastError && age > 120;
   const sv = {
-    lg, week, at: new Date(rec.fetchedAt).toISOString(), partial: !!rec.partial, matchups: decorate(rec, board),
+    lg, week, season: rec.season || SEASON, scoreSource: 'yahoo', rosterSource: 'yahoo', at: new Date(rec.fetchedAt).toISOString(), partial: !!rec.partial, matchups: decorate(rec, board),
     fetchedAt: new Date(rec.fetchedAt).toISOString(), sourceUpdatedAt: new Date(rec.sourceUpdatedAt).toISOString(), cacheAgeSeconds: age,
     stale, final: !!rec.final, scoreboardUpdatedAt: board ? new Date(board.sourceUpdatedAt).toISOString() : null, scoreboardStale: !!(board && (board.stale || (isLive(board) && Date.now() - board.fetchedAt > 90000))),
     lastError: rec.lastError || undefined, upcoming: rec.upcoming || undefined
@@ -141,4 +172,4 @@ async function finalEligible(week, ctx) {
   const b = await getBoard(week, 3600); if (!b || !b.lastStart || !b.games.every(g => g.state === 'post')) return false;
   return Date.now() - b.lastStart > 8 * 3600000;
 }
-module.exports = { serveRaw, gamesByTeam, gameObj, statusClean, mkOrig, finalEligible, LGS, sha, sleep, rc, rget, rset, canon, getBoard, parseBoard, isLive, soon, context, saveWeek, noteFail, serveWeek, decorate, restore, jfetch };
+module.exports = { SEASON, command, read, write, lock, unlock, backup, serveRaw, gamesByTeam, gameObj, statusClean, mkOrig, finalEligible, LGS, sha, sleep, rc, rget, rset, canon, getBoard, parseBoard, isLive, soon, context, saveWeek, noteFail, serveWeek, decorate, restore, jfetch };

@@ -1,0 +1,153 @@
+{
+  "source": "BALLDONTLIE, game 1392366, fetched 2026-11-21",
+  "yahooRebirthPoints": 16.8,
+  "stat": {
+    "player": {
+      "id": 725,
+      "first_name": "Nico",
+      "last_name": "Collins",
+      "position": "Wide Receiver",
+      "position_abbreviation": "WR",
+      "height": "6' 4\"",
+      "weight": "222 lbs",
+      "jersey_number": "12",
+      "college": "Michigan",
+      "experience": "6th Season",
+      "age": 27
+    },
+    "passing_completions": null,
+    "passing_attempts": null,
+    "passing_yards": null,
+    "yards_per_pass_attempt": null,
+    "passing_touchdowns": null,
+    "passing_interceptions": null,
+    "sacks": null,
+    "sacks_loss": null,
+    "qbr": null,
+    "qb_rating": null,
+    "rushing_attempts": null,
+    "rushing_yards": null,
+    "yards_per_rush_attempt": null,
+    "rushing_touchdowns": null,
+    "long_rushing": null,
+    "receptions": 3,
+    "receiving_yards": 58,
+    "yards_per_reception": 19.3,
+    "receiving_touchdowns": 1,
+    "long_reception": 42,
+    "receiving_targets": 5,
+    "fumbles": null,
+    "fumbles_lost": null,
+    "fumbles_recovered": null,
+    "total_tackles": null,
+    "defensive_sacks": null,
+    "solo_tackles": null,
+    "tackles_for_loss": null,
+    "passes_defended": null,
+    "qb_hits": null,
+    "fumbles_touchdowns": null,
+    "defensive_interceptions": null,
+    "interception_yards": null,
+    "interception_touchdowns": null,
+    "kick_returns": null,
+    "kick_return_yards": null,
+    "yards_per_kick_return": null,
+    "long_kick_return": null,
+    "kick_return_touchdowns": null,
+    "punt_returns": null,
+    "punt_return_yards": null,
+    "yards_per_punt_return": null,
+    "long_punt_return": null,
+    "punt_return_touchdowns": null,
+    "field_goal_attempts": null,
+    "field_goals_made": null,
+    "field_goal_pct": null,
+    "long_field_goal_made": null,
+    "extra_points_made": null,
+    "total_points": null,
+    "punts": null,
+    "punt_yards": null,
+    "gross_avg_punt_yards": null,
+    "touchbacks": null,
+    "punts_inside_20": null,
+    "long_punt": null
+  },
+  "plays": [
+    {
+      "id": "401873066834",
+      "type_slug": "passing-touchdown",
+      "text": "B.Fisher reported in as eligible.  C.Stroud pass deep right to N.Collins for 42 yards, TOUCHDOWN. K.Fairbairn extra point is GOOD, Center-A.Brinkman, Holder-K.Kroeger.",
+      "stat_yardage": 42,
+      "participants": [
+        {
+          "player_id": 725,
+          "type": "receiver"
+        },
+        {
+          "player_id": 57,
+          "type": "passer"
+        },
+        {
+          "player_id": 1828,
+          "type": "xp_kicker"
+        }
+      ]
+    },
+    {
+      "id": "4018730661186",
+      "type_slug": "pass-reception",
+      "text": "(Shotgun) C.Stroud pass short left to N.Collins to HST 36 for 6 yards (A.Ajiake).",
+      "stat_yardage": 6,
+      "participants": [
+        {
+          "player_id": 725,
+          "type": "receiver"
+        },
+        {
+          "player_id": 57,
+          "type": "passer"
+        },
+        {
+          "player_id": 365938,
+          "type": "tackler"
+        }
+      ]
+    },
+    {
+      "id": "4018730662909",
+      "type_slug": "pass-incompletion",
+      "text": "(Shotgun) C.Stroud pass incomplete short right to N.Collins.",
+      "stat_yardage": 0,
+      "participants": [
+        {
+          "player_id": 725,
+          "type": "receiver"
+        },
+        {
+          "player_id": 57,
+          "type": "passer"
+        }
+      ]
+    },
+    {
+      "id": "4018730663602",
+      "type_slug": "pass-reception",
+      "text": "(Shotgun) C.Stroud pass short middle to N.Collins to IND 47 for 10 yards (C.Allen).",
+      "stat_yardage": 10,
+      "participants": [
+        {
+          "player_id": 725,
+          "type": "receiver"
+        },
+        {
+          "player_id": 57,
+          "type": "passer"
+        },
+        {
+          "player_id": 33935949,
+          "type": "tackler"
+        }
+      ]
+    }
+  ]
+}

@@ -8,10 +8,10 @@ const text = h => dec(h.replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<st
 const num = s => { s = String(s || '').trim(); if (/^[\u2013\u2014-]+$/.test(s)) return null; const m = /^-?\d+(?:\.\d+)?/.exec(s); return m ? parseFloat(m[0]) : null; };
 const SLOTS = /^(QB|RB|WR|TE|K|DEF|BN|IR|W\/R\/T|Q\/W\/R\/T|W\/R|W\/T|R\/T|FLX|SFX|DL|LB|DB|D)$/;
 
-async function fetchPage(lg, week, mid1) {
+async function fetchPage(lg, week, mid1, signal) {
   if (!IDS[lg]) throw new Error('bad league');
   const url = 'https://football.fantasysports.yahoo.com/f1/' + IDS[lg] + '/matchup?week=' + (parseInt(week, 10) || 1) + '&mid1=' + (parseInt(mid1, 10) || 1);
-  const r = await fetch(url, { headers: { 'User-Agent': UA, 'Accept': 'text/html', 'Accept-Language': 'en-US,en;q=0.9' }, redirect: 'follow' });
+  const r = await fetch(url, { headers: { 'User-Agent': UA, 'Accept': 'text/html', 'Accept-Language': 'en-US,en;q=0.9' }, redirect: 'follow', signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(6500)]) : AbortSignal.timeout(6500) });
   if (!r.ok) throw new Error('yahoo ' + r.status);
   const html = await r.text();
   if (/login\.yahoo\.com/i.test(r.url)) throw new Error('login wall');
@@ -54,10 +54,10 @@ function parsePage(html) {
 // Team page reader (verified Nov 15): Yahoo now builds the current week's matchup pages in the browser, so the raw
 // matchup HTML has no lineups. The team page (/f1/<league>/<teamId>?week=N) still ships the full roster in the HTML:
 // rows are <tr> cells [0]=slot [2]=player [4]=Fan Pts [5]=Proj Pts, in the Offense, Kickers and Defense tables.
-async function fetchTeam(lg, week, tid) {
+async function fetchTeam(lg, week, tid, signal) {
   if (!IDS[lg]) throw new Error('bad league');
   const url = 'https://football.fantasysports.yahoo.com/f1/' + IDS[lg] + '/' + (parseInt(tid, 10) || 1) + '?week=' + (parseInt(week, 10) || 1);
-  const r = await fetch(url, { headers: { 'User-Agent': UA, 'Accept': 'text/html', 'Accept-Language': 'en-US,en;q=0.9' }, redirect: 'follow' });
+  const r = await fetch(url, { headers: { 'User-Agent': UA, 'Accept': 'text/html', 'Accept-Language': 'en-US,en;q=0.9' }, redirect: 'follow', signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(6500)]) : AbortSignal.timeout(6500) });
   if (!r.ok) throw new Error('yahoo ' + r.status);
   const html = await r.text();
   if (/login\.yahoo\.com/i.test(r.url)) throw new Error('login wall');

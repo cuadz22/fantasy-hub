@@ -2,14 +2,15 @@
 const { fetchPage, parsePage, fetchTeam, parseTeam } = require('./_ysweep');
 const clean = s => String(s || '').replace(/&#x[0-9a-f]+;|&#\d+;/gi, '').replace(/\s+/g, ' ').trim();
 const row = x => [x.slot, x.name, x.pos, x.team, x.proj, x.pts, clean(x.status), x.inj || ''];
-async function scrapeLeague(lg, week) {
+async function scrapeLeague(lg, week, options = {}) {
+  const signal = options.signal || AbortSignal.timeout(32000);
   const seen = new Set(), matchups = [], diag = {}; let diagT = null;
   try {
     const ids = Array.from({ length: 12 }, (_, i) => i + 1), T = {}; diagT = T; let next = 0;
     await Promise.all(Array.from({ length: 6 }, async () => {
-      while (next < ids.length) {
+      while (next < ids.length && !signal.aborted) {
         const id = ids[next++]; let last = null;
-        for (let n = 0; n < 3; n++) { try { const pt = parseTeam(await fetchTeam(lg, week, id), id); if (pt.rows.length >= 8) { T[id] = pt; last = null; break; } last = 'rows ' + pt.rows.length; } catch (e) { last = String(e.message || e).slice(0, 60); } await new Promise(r => setTimeout(r, 350 * (n + 1))); }
+        for (let n = 0; n < 2 && !signal.aborted; n++) { try { const pt = parseTeam(await fetchTeam(lg, week, id, signal), id); if (pt.rows.length >= 8) { T[id] = pt; last = null; break; } last = 'rows ' + pt.rows.length; } catch (e) { last = String(e.message || e).slice(0, 60); } await new Promise(r => setTimeout(r, 350 * (n + 1))); }
         if (last) { T[id] = T[id] || null; diag[id] = last; }
       }
     }));
@@ -23,13 +24,14 @@ async function scrapeLeague(lg, week) {
     });
   } catch (e) { matchups.length = 0; }
   const useOld = !matchups.length; let err = null;
-  try { for (let mid = 1; useOld && mid <= 14 && matchups.length < 7; mid++) {
+  try { for (let mid = 1; useOld && !signal.aborted && mid <= 14 && matchups.length < 7; mid++) {
     if (seen.has(mid)) continue;
-    const p = parsePage(await fetchPage(lg, week, mid));
+    const p = parsePage(await fetchPage(lg, week, mid, signal));
     if (p.teams.length < 2 || (!p.L.length && !p.R.length)) { seen.add(mid); continue; }
     const [a, b] = p.teams; seen.add(a.id); seen.add(b.id);
     matchups.push({ ia: a.id, ib: b.id, an: a.name, bn: b.name, L: p.L.map(row), R: p.R.map(row) });
   } } catch (e) { err = String(e.message || e).slice(0, 80); }
+  if (signal.aborted) err = 'yahoo_deadline';
   const partial = useOld ? matchups.length < 6 : matchups.length < 6 || matchups.some(m => m.L.length < 8 || m.R.length < 8);
   return { matchups, partial, useOld, diag, diagT, err };
 }

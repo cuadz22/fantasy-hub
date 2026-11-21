@@ -17,7 +17,7 @@ async function refresh(force) {
     const out = { at: Date.now(), n, map }; const ok = await rset('ms:sleeper', out, 3 * 86400, 12000); if (!ok) throw new Error('store failed'); return out;
   } catch (e) { await rset('ms:sleeper:fail', { at: Date.now(), why: String(e.message || e).slice(0, 60) }, 3600); return rec || null; }
 }
-async function getMap() { if (mem && Date.now() - memAt < 600000) return mem; const r = await rget('ms:sleeper', 8000); mem = (r && r.map) || {}; memAt = Date.now(); return mem; }
+async function getMap() { if (mem && Date.now() - memAt < 600000) return mem; const r = await rget('ms:sleeper', 1200); mem = (r && r.map) || {}; memAt = Date.now(); return mem; }
 // Returns { id, photoURL } for a lineup or market player. DEF ids are the team code.
 function idFor(map, name, pos, team) {
   pos = String(pos || '').toUpperCase(); if (pos === 'DST') pos = 'DEF';
