@@ -59,27 +59,9 @@ async function cards() {
   CARDS = { gen: j.generated_at, wk: j.week, idx, dvp }; CARDS_T = Date.now();
   return CARDS;
 }
-async function bdl(path, params) {
-  const u = new URL(BASE + path);
-  for (const [k, v] of Object.entries(params || {})) {
-    if (Array.isArray(v)) v.forEach(x => u.searchParams.append(k + '[]', x)); else u.searchParams.set(k, v);
-  }
-  const r = await fetch(u, { headers: { Authorization: process.env.BALLDONTLIE_API_KEY } });
-  const body = await r.json().catch(() => ({}));
-  return { status: r.status, body };
-}
-async function pages(path, params, max) {
-  let out = [], cursor, n = 0;
-  do {
-    const p = Object.assign({ per_page: 100 }, params);
-    if (cursor) p.cursor = cursor;
-    const { status, body } = await bdl(path, p);
-    if (status !== 200) return { status, data: out };
-    out = out.concat(body.data || []);
-    cursor = body.meta && body.meta.next_cursor; n++;
-  } while (cursor && n < (max || 8));
-  return { status: 200, data: out };
-}
+const BDL = require('./_bdl');
+async function bdl(path, params) { return { status: 200, body: await BDL.page(path, params) }; }
+async function pages(path, params, max) { return { status: 200, data: await BDL.all(path, params, { maxPages: max || 20, signal: AbortSignal.timeout(25000) }) }; }
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   if (req.method === 'POST') {

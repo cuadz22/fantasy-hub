@@ -47,9 +47,9 @@ module.exports = async (req, res) => {
   const t0 = Date.now();
   try {
     const q = new URL(req.url, 'http://x').searchParams;
-    const lg = String(q.get('lg') || ''); if (!LGS.includes(lg)) throw new Error('bad league');
+    const lg = String(q.get('lg') || ''); if (!LGS.includes(lg)) { res.statusCode = 400; res.setHeader('Cache-Control', 'no-store'); return res.end(JSON.stringify({ error: 'invalid_league' })); }
     const wkRaw = q.get('week'); let week;
-    if (wkRaw == null || wkRaw === '') { const c0 = await M.context(); if (!c0) { res.statusCode = 503; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store'); res.end(JSON.stringify({ error: 'context_unavailable' })); return; } week = c0.week; } // default = the real current NFL week, not a fixed number
+    if (wkRaw == null || wkRaw === '') { const c0 = await M.context({ cachedOnly: true }); if (!c0) { res.statusCode = 503; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store'); res.end(JSON.stringify({ error: 'context_unavailable' })); return; } week = c0.week; } // default = the real current NFL week, not a fixed number
     else { week = Number(wkRaw); if (!Number.isInteger(week) || week < 1 || week > 18) { res.statusCode = 400; res.setHeader('Content-Type', 'application/json'); res.setHeader('Access-Control-Allow-Origin', '*'); res.setHeader('Cache-Control', 'no-store'); res.end(JSON.stringify({ lg, week: wkRaw, available: false, error: 'invalid_week', matchups: [] })); return; } }
     if (q.get('hist')) { // win-probability history for the chart
       const raw = (await redis(['LRANGE', 'wph:' + lg + ':' + week, 0, -1], 4000)) || [], pts = [];
@@ -57,35 +57,16 @@ module.exports = async (req, res) => {
       res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate=30'); res.setHeader('Access-Control-Allow-Origin', '*');
       res.end(JSON.stringify({ lg, week, n: pts.length, pts, flock: FLOCK && FLOCK.week === week && FLOCK[lg] ? FLOCK[lg] : null })); return;
     }
-    // Stored read first: the cron refresh keeps current weeks fresh and finished weeks are kept for good, so opening the app never waits on Yahoo.
-    const wkGiven = week;
-    if (!q.get('dbg') && !q.get('fresh')) {
-      const ctx = await M.context();
-      if (ctx) {
-        const sv = await M.serveWeek(lg, wkGiven, ctx);
-        if (sv) {
-          sv.ms = Date.now() - t0;
-          res.setHeader('Content-Type', 'application/json'); res.setHeader('Access-Control-Allow-Origin', '*');
-          res.setHeader('Cache-Control', sv.final ? 'public, s-maxage=31536000, max-age=86400' : 'public, s-maxage=' + (M.isLive(ctx.board) && wkGiven === ctx.week ? 10 : 60) + ', stale-while-revalidate=0');
-          res.end(JSON.stringify(sv)); return;
-        }
-      }
-    }
-    const sc = await scrapeLeague(lg, week), matchups = sc.matchups, scErr = sc.err, useOld = sc.useOld, diag = sc.diag, diagT = sc.diagT;
-    res.setHeader('Content-Type', 'application/json');
-    // A short or incomplete read must never sit in the edge cache: only a full league (all matchups, full rosters) is cached for the normal window.
-    const partial = useOld ? matchups.length < 6 : matchups.length < 6 || matchups.some(m => m.L.length < 8 || m.R.length < 8);
-    const fin = q.get('final') === '1' && !partial; // finished past week: never changes, cache it for a year (also saves server CPU)
-    const ttl = partial ? 15 : fin ? 31536000 : cacheSeconds();
-    res.setHeader('Cache-Control', fin ? 'public, s-maxage=31536000, max-age=86400' : `s-maxage=${ttl}, stale-while-revalidate=${partial ? 0 : (ttl >= 300 ? 3600 : Math.min(180, ttl * 2))}`);
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    if (!partial && !useOld && !fin) await record(lg, week, matchups);
-    if (!matchups.length) { res.statusCode = scErr ? 502 : 404; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store'); res.end(JSON.stringify({ lg, week, available: false, error: scErr ? 'provider_unavailable' : 'week_unavailable', matchups: [] })); return; }
-    let saved = null; if (!q.get('dbg')) { try { const c1 = await M.context(); saved = await M.saveWeek(lg, week, matchups, partial, { final: await M.finalEligible(week, c1) }); if (saved && c1) { const sv2 = await M.serveWeek(lg, week, c1); if (sv2) { sv2.ms = Date.now() - t0; res.setHeader('Access-Control-Allow-Origin', '*'); res.setHeader('Cache-Control', sv2.final ? 'public, s-maxage=31536000, max-age=86400' : partial ? 's-maxage=15' : 's-maxage=30'); res.end(JSON.stringify(sv2)); return; } } } catch (e) {} }
-    const nowIso = new Date().toISOString();
-    res.end(JSON.stringify({ lg, week, at: nowIso, fetchedAt: nowIso, sourceUpdatedAt: nowIso, cacheAgeSeconds: 0, stale: false, final: !!(saved && saved.final), ms: Date.now() - t0, partial, matchups, diag: q.get('dbg') ? { diag, t: diagT && Object.fromEntries(Object.entries(diagT).map(([k, v]) => [k, v ? [v.rows.length, v.opp, v.name, v.dbgc.slice(0, 4).join('/'), v.info] : null])) } : undefined }));
+    const ctx = await M.context({ cachedOnly: true });
+    const sv = await M.serveWeek(lg, week, ctx);
+    res.setHeader('Content-Type', 'application/json'); res.setHeader('Access-Control-Allow-Origin', '*');
+    if (!sv) { res.statusCode = 404; res.setHeader('Cache-Control', 'no-store'); return res.end(JSON.stringify({ lg, week, available: false, error: 'week_unavailable', matchups: [] })); }
+    sv.ms = Date.now() - t0;
+    res.setHeader('Cache-Control', sv.stale || sv.partial ? 'no-store' : sv.final ? 'public, s-maxage=3600, max-age=60' : 'public, s-maxage=10, max-age=0');
+    res.end(JSON.stringify(sv));
   } catch (e) {
-    res.statusCode = 500; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store');
-    res.end(JSON.stringify({ error: String(e.message || e) }));
+    res.statusCode = 503; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store');
+    res.end(JSON.stringify({ error: 'feed_unavailable' }));
   }
 };
+module.exports.record = record;

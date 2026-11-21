@@ -1,16 +1,20 @@
 // Offline tests for the iPhone app backend: in-memory Redis, fixture scoreboard, captured mail. Run: node tools/test_mobile.js
-process.env.KV_REST_API_URL = 'https://fake-redis.test'; process.env.KV_REST_API_TOKEN = 't'; process.env.RESEND_API_KEY = 'test-key'; process.env.MOBILE_AUTH_PEPPER = 'test-pepper';
+process.env.KV_REST_API_URL = 'https://fake-redis.test'; process.env.KV_REST_API_TOKEN = 't'; process.env.RESEND_API_KEY = 'test-key'; process.env.MOBILE_AUTH_PEPPER = 'test-pepper'; process.env.CRON_SECRET = 'test-cron';
 const crypto = require('crypto'), sha = s => crypto.createHash('sha256').update(s).digest('hex');
 const store = new Map(), ttl = new Map(); let mail = [], BOARD = null, espnDown = false;
 const exp = k => { const t = ttl.get(k); if (t && t < Date.now()) { store.delete(k); ttl.delete(k); } };
 function redis(c) {
   const [op, k, ...a] = c; exp(k); const U = op.toUpperCase();
+  if (U === 'EVAL') { const key = a[1], token = a[2]; if (store.get(key) !== token) return 0; store.delete(key); ttl.delete(key); return 1; }
   if (U === 'GET') return store.has(k) ? store.get(k) : null;
   if (U === 'SET') { if (a.includes('NX') && store.has(k)) return null; store.set(k, a[0]); const i = a.indexOf('EX'); if (i >= 0) ttl.set(k, Date.now() + a[i + 1] * 1000); else ttl.delete(k); return 'OK'; }
   if (U === 'DEL') { const had = store.delete(k); ttl.delete(k); return had ? 1 : 0; }
   if (U === 'INCR') { const n = (Number(store.get(k)) || 0) + 1; store.set(k, String(n)); return n; }
   if (U === 'EXPIRE') { ttl.set(k, Date.now() + a[0] * 1000); return 1; }
   if (U === 'TTL') return ttl.has(k) ? Math.ceil((ttl.get(k) - Date.now()) / 1000) : -1;
+  if (U === 'RPUSH') { const l = store.get(k) || []; l.push(...a); store.set(k, l); return l.length; }
+  if (U === 'LTRIM') { store.set(k, (store.get(k) || []).slice(Number(a[0]), a[1] === -1 ? undefined : Number(a[1]) + 1)); return 'OK'; }
+  if (U === 'LINDEX') return (store.get(k) || []).at(Number(a[0])) || null;
   if (U === 'HSET') { const h = store.get(k) || {}; h[a[0]] = a[1]; store.set(k, h); return 1; }
   if (U === 'HGETALL') { const h = store.get(k) || {}; return Object.entries(h).flat(); }
   if (U === 'SADD') { const s = store.get(k) || []; if (!s.includes(a[0])) s.push(a[0]); store.set(k, s); return 1; }

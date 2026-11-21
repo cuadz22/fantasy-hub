@@ -44,6 +44,34 @@
     {
       "path": "/api/mobile/cron",
       "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/mobile/cron-lineups?lg=gl",
+      "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/mobile/cron-lineups?lg=bh",
+      "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/mobile/cron-lineups?lg=rb",
+      "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/mobile/cron-lineups?lg=sts",
+      "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/mobile/cron-ball",
+      "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/mobile/cron-maintenance",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/mobile/cron-portraits",
+      "schedule": "23 */6 * * *"
     }
   ],
   "functions": {
