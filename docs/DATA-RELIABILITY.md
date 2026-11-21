@@ -47,7 +47,7 @@ Server-only Redis control `scoring:control:2026` contains mode (`shadow` or `gua
 
 Both `/api/lineups` and `/api/mobile/lineups` use the same publication boundary. `scoreSource` is `yahoo`, `mixed`, or `balldontlie`; per-player source/observation metadata and fallback reason counts are additive. Projections remain Yahoo projections. Before updating a team's total, the original starter sum must reconcile to Yahoo's official total. Bench/IR points are excluded. Invalid totals/duplicate starters preserve the whole Yahoo side.
 
-Live stats older than 90 seconds or rosters older than 180 seconds cannot override Yahoo. Final snapshots expire for publication after two hours unless refreshed. Errors do not advance observation timestamps. The app may poll every 15 seconds; that is not a promise of 15-second end-to-end latency. Provider delay, network/CDN time and polling add latency.
+Live stats older than 90 seconds or rosters older than 180 seconds during live/near-game windows cannot override Yahoo. Between games the roster limit is 360 seconds, allowing the normal five-minute refresh schedule. Final snapshots expire for publication after two hours unless refreshed. Errors do not advance observation timestamps. The app may poll every 15 seconds; that is not a promise of 15-second end-to-end latency. Provider delay, network/CDN time and polling add latency.
 
 Read-only paid-provider replay endpoint `/api/mobile/scoring-replay?week=W&game=ID` requires an operations/cron bearer and POST. Omitting `game` returns the season/week schedule; a game request must name a finished regular-season game. It is bounded, returns no secrets and never overwrites live snapshots.
 

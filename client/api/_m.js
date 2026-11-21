@@ -160,7 +160,7 @@ async function serveRaw(lg, week, ctx) {
   if (failure && failure.at >= rec.fetchedAt) rec = Object.assign({}, rec, { lastError: failure.error, lastAttemptAt: failure.at });
   const age = Math.round((Date.now() - rec.fetchedAt) / 1000), live = ctx ? week === ctx.week && isLive(ctx.board) : isLive(board);
   const stale = rec.final ? false : age > (rec.upcoming ? 36 * 3600 : staleAfterS(live)) || !!rec.lastError && age > 120;
-  const scoring = await require('./_mscores').apply(rec);
+  const scoring = await require('./_mscores').apply(rec, {live: isLive(board) || soon(board)});
   rec = scoring.rec;
   const sv = {
     lg, week, season: rec.season || SEASON, scoreSource: scoring.source, projectionSource: 'yahoo', scoring: scoring.stats, rosterUpdatedAt: new Date(rec.sourceUpdatedAt).toISOString(), rosterSource: 'yahoo', at: new Date(rec.fetchedAt).toISOString(), partial: !!rec.partial, matchups: decorate(rec, board),

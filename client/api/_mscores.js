@@ -25,7 +25,7 @@ function calculate(lg, snapshots, mapping = {}, now = Date.now()) {
     }
     for (const t of [snap.game.home_team, snap.game.visitor_team]) put('DEF|' + M.canon(t.abbreviation), {...meta, ...out.defenses[t.id], providerId: t.id});
   }
-  return { entries, mapping: nextMapping, conflicts, generatedAt: now, rulesVersion: S.version };
+  return { entries, mapping: nextMapping, conflicts, generatedAt: now, live: snapshots.some(s => s.game.status_state !== 'final' && !/^final/i.test(s.game.status || '')), rulesVersion: S.version };
 }
 async function publish(c, snapshots) {
   const mappingKey = 'bdl:' + c.season + ':identities', mappings = await M.read(mappingKey) || {};
@@ -48,9 +48,11 @@ function overlay(rec, bundle, control, now = Date.now()) {
   const stats = { used: 0, fallback: 0, reasons: {}, scoreUpdatedAt: null };
   const reason = k => { stats.fallback++; stats.reasons[k] = (stats.reasons[k] || 0) + 1; };
   if (!enabled(control, rec) || !bundle || bundle.season !== rec.season || bundle.week !== rec.week || bundle.league !== rec.lg || bundle.rulesVersion !== S.version) return { rec, source: 'yahoo', stats };
-  // Allow at most three minutes of unconfirmed roster state during games. A late
+  // Allow three minutes during games, six between games (the idle job runs
+  // every five minutes). A late
   // lineup swap cannot be hidden by a newly fetched scoring timestamp.
-  if (rec.partial || now - rec.sourceUpdatedAt > 180000) { reason('roster_unconfirmed'); return { rec, source: 'yahoo', stats }; }
+  const rosterMaxAge = bundle.live ? 180000 : 360000;
+  if (rec.partial || now - rec.sourceUpdatedAt > rosterMaxAge) { reason('roster_unconfirmed'); return { rec, source: 'yahoo', stats }; }
   const copy = { ...rec, matchups: rec.matchups.map(m => ({...m})) };
   for (const m of copy.matchups) for (const [side, totalKey] of [['L','ya'], ['R','yb']]) {
     const rows = m[side], baseline = rows.filter(r=>!reserve(r)).reduce((sum,r)=>sum+(Number.isFinite(r[5])?r[5]:0),0), official = m[totalKey]?.[0];
@@ -84,11 +86,12 @@ function overlay(rec, bundle, control, now = Date.now()) {
   const sources = copy.matchups.flatMap(m=>['L','R'].flatMap(side=>(m[side+'ScoreDetails']||[]).filter((_,i)=>!reserve(m[side][i]) && Number.isFinite(m[side][i][5])).map(d=>d.source)));
   return { rec: copy, source: stats.used ? sources.includes('yahoo') ? 'mixed' : 'balldontlie' : 'yahoo', stats };
 }
-async function apply(rec) {
+async function apply(rec, options = {}) {
   try {
     const control = await M.read('scoring:control:' + M.SEASON);
     if (!enabled(control, rec)) return { rec, source: 'yahoo', stats: null };
-    return overlay(rec, await M.read(key(rec.season, rec.week, rec.lg)), control);
+    const bundle = await M.read(key(rec.season, rec.week, rec.lg));
+    return overlay(rec, bundle ? {...bundle, live: !!options.live || !!bundle.live} : null, control);
   } catch { return { rec, source: 'yahoo', stats: { fallback: 1, reasons: { scoring_store_unavailable: 1 } } }; }
 }
 module.exports = { identity, fingerprint, calculate, publish, enabled, overlay, apply, key, reserve };
