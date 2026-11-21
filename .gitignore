@@ -7,3 +7,6 @@ dist/
 data/nflverse/
 .vercel
 .env*
+
+# Local provider replay downloads; curated compressed fixtures are committed.
+tools/fixtures/replay/

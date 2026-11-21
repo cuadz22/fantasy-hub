@@ -96,7 +96,10 @@ async function saveWeek(lg, week, matchups, partial, opts) {
   if (old && old.final && !opts.force) return old; // finished weeks are never overwritten
   if (partial && old && !old.partial) { await noteFail(lg, week, 'partial_roster'); return old; } // never replace a complete read with a short one
   const orig = opts.final && !(old && old.orig) ? null : Object.assign(mkOrig(matchups), (old && old.orig) || {}); // first projection captured for each player this week
-  const rec = { season: SEASON, lg, week, matchups, partial: !!partial, fetchedAt: now, sourceUpdatedAt: now, lastAttemptAt: now, lastError: null, final: !!opts.final && !partial, upcoming: !!opts.upcoming, orig };
+  const rosterFingerprint = require('./_mscores').fingerprint({ matchups });
+  const rosterHistory = [...(old?.rosterHistory || [])];
+  if (old?.rosterFingerprint !== rosterFingerprint) rosterHistory.push({ at: now, fingerprint: rosterFingerprint });
+  const rec = { rosterFingerprint, rosterHistory: rosterHistory.slice(-100), season: SEASON, lg, week, matchups, partial: !!partial, fetchedAt: now, sourceUpdatedAt: now, lastAttemptAt: now, lastError: null, final: !!opts.final && !partial, upcoming: !!opts.upcoming, orig };
   await write(RK(lg, week), rec, 0);
   if (!partial) await command(['HSET', 'mw:avail', lg + ':' + week, String(now)]);
   await rc(['DEL', 'mw:error:' + lg + ':' + week]);
@@ -157,8 +160,10 @@ async function serveRaw(lg, week, ctx) {
   if (failure && failure.at >= rec.fetchedAt) rec = Object.assign({}, rec, { lastError: failure.error, lastAttemptAt: failure.at });
   const age = Math.round((Date.now() - rec.fetchedAt) / 1000), live = ctx ? week === ctx.week && isLive(ctx.board) : isLive(board);
   const stale = rec.final ? false : age > (rec.upcoming ? 36 * 3600 : staleAfterS(live)) || !!rec.lastError && age > 120;
+  const scoring = await require('./_mscores').apply(rec);
+  rec = scoring.rec;
   const sv = {
-    lg, week, season: rec.season || SEASON, scoreSource: 'yahoo', rosterSource: 'yahoo', at: new Date(rec.fetchedAt).toISOString(), partial: !!rec.partial, matchups: decorate(rec, board),
+    lg, week, season: rec.season || SEASON, scoreSource: scoring.source, projectionSource: 'yahoo', scoring: scoring.stats, rosterUpdatedAt: new Date(rec.sourceUpdatedAt).toISOString(), rosterSource: 'yahoo', at: new Date(rec.fetchedAt).toISOString(), partial: !!rec.partial, matchups: decorate(rec, board),
     fetchedAt: new Date(rec.fetchedAt).toISOString(), sourceUpdatedAt: new Date(rec.sourceUpdatedAt).toISOString(), cacheAgeSeconds: age,
     stale, final: !!rec.final, scoreboardUpdatedAt: board ? new Date(board.sourceUpdatedAt).toISOString() : null, scoreboardStale: !!(board && (board.stale || (isLive(board) && Date.now() - board.fetchedAt > 90000))),
     lastError: rec.lastError || undefined, upcoming: rec.upcoming || undefined

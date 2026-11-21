@@ -77,9 +77,9 @@ async function health() {
   const leagues = {};
   if (c) for (const lg of M.LGS) {
     const raw = await M.serveRaw(lg, c.week, c), backup = await M.rget('mw:backup:' + lg + ':' + c.week);
-    leagues[lg] = raw ? { ageSeconds: raw.sv.cacheAgeSeconds, stale: raw.sv.stale, partial: raw.sv.partial, source: raw.sv.scoreSource, backedUpAt: backup && backup.at } : { unavailable: true };
+    leagues[lg] = raw ? { ageSeconds: raw.sv.cacheAgeSeconds, stale: raw.sv.stale, partial: raw.sv.partial, source: raw.sv.scoreSource, scoring: raw.sv.scoring, backedUpAt: backup && backup.at } : { unavailable: true };
   }
   const ball = c ? await M.rget('bdl:' + c.season + ':' + c.week + ':health') : null;
-  return { schemaVersion: 1, currentWeek: c && c.week, calendarStale: !c || c.stale, scoreMode: 'yahoo_with_bdl_shadow', leagues, ball, jobs: jobState };
+  return { schemaVersion: 1, currentWeek: c && c.week, calendarStale: !c || c.stale, scoreMode: (await M.rget('scoring:control:' + M.SEASON))?.mode || 'shadow', leagues, ball, jobs: jobState };
 }
 module.exports = { authorized, run, refreshLeague, calendar, maintenance, health };
