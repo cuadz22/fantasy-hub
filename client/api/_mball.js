@@ -6,14 +6,14 @@ const key = (season, week) => 'bdl:' + season + ':' + week;
 const active = g => ['in_progress', 'inprogress', 'live'].includes(g.status_state) || /quarter|halftime|^[1-4](st|nd|rd|th)/i.test(g.status || '');
 const finished = g => g.status_state === 'final' || /^final/i.test(g.status || '');
 const pos = x => x === 'PK' ? 'K' : x;
-async function collect() {
+async function collect({ force = false } = {}) {
   const started = Date.now(), signal = AbortSignal.timeout(52000);
   const c = await M.context({ cachedOnly: true });
   if (!c || c.season !== M.SEASON) throw new Error('calendar_unavailable');
   const prefix = key(c.season, c.week), prior = await M.read(prefix + ':health');
   // During games collect at ~15-second offsets within one minute job;
   // between games recheck final corrections hourly.
-  if (!M.isLive(c.board) && !M.soon(c.board) && prior?.ok && !prior.live && !(prior.nextStartAt && prior.nextStartAt - started < 25 * 60000 && started - prior.nextStartAt < 8 * 3600000) && started - prior.checkedAt < 5 * 60000) return { skipped: 'outside_game_window', week: c.week };
+  if (!force && !M.isLive(c.board) && !M.soon(c.board) && prior?.ok && !prior.live && !(prior.nextStartAt && prior.nextStartAt - started < 25 * 60000 && started - prior.nextStartAt < 8 * 3600000) && started - prior.checkedAt < 5 * 60000) return { skipped: 'outside_game_window', week: c.week };
   const games = await B.all('games', { seasons: [c.season], weeks: [c.week] }, { signal, maxPages: 3 });
   if (!games.length || games.some(g => g.season !== c.season || g.week !== c.week || g.postseason)) throw new Error('bdl_invalid_schedule');
   await M.write(prefix + ':schedule', { observedAt: Date.now(), games }, 0);
@@ -24,7 +24,7 @@ async function collect() {
       const game = due[index++];
       try {
         const previous = await M.read(prefix + ':game:' + game.id);
-        if (finished(game) && previous && previous.game.status === game.status && Date.now() - previous.observedAt < 3600000) { results.push({ gameId: game.id, ok: true, cached: true }); continue; }
+        if (!force && finished(game) && previous && previous.game.status === game.status && Date.now() - previous.observedAt < 3600000) { results.push({ gameId: game.id, ok: true, cached: true }); continue; }
         results.push(await ingestGame(game, prefix, signal));
       } catch (e) { results.push({ gameId: game.id, ok: false, error: String(e.message).slice(0, 80) }); }
     }
@@ -45,7 +45,9 @@ async function collect() {
     publication = await publishStored(c, games);
   }
   const comparison = await compare(c, games, started + 55000);
-  const health = { ok: results.every(r => r.ok), checkedAt: Date.now(), season: c.season, week: c.week, mode: 'guarded-capable', live: games.some(active), nextStartAt: games.filter(g=>!finished(g)&&!active(g)).reduce((min,g)=>Math.min(min,Date.parse(g.date)),Infinity) < Infinity ? Math.min(...games.filter(g=>!finished(g)&&!active(g)).map(g=>Date.parse(g.date))) : null, games: results, publication, comparison, ms: Date.now() - started };
+  const upcoming = games.filter(g=>!finished(g)&&!active(g)).map(g=>Date.parse(g.date)).filter(Number.isFinite);
+  const nextStartAt = upcoming.length ? Math.min(...upcoming) : null;
+  const health = { ok: results.every(r => r.ok), checkedAt: Date.now(), season: c.season, week: c.week, mode: 'guarded-capable', live: games.some(active), nextStartAt, games: results, publication, comparison, ms: Date.now() - started };
   await M.write(prefix + ':health', health, 0);
   if (!health.ok) throw new Error('bdl_partial_collection');
   return health;

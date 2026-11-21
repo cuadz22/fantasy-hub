@@ -27,11 +27,11 @@ async function run(name, work) {
     return { status: 503, body };
   } finally { await M.unlock(key, token).catch(() => {}); }
 }
-async function refreshLeague(lg) {
+async function refreshLeague(lg, force = false) {
   const c = await M.context({ cachedOnly: true });
   if (!c || c.season !== M.SEASON) throw new Error('calendar_unavailable');
   const old = await M.read('mw:' + lg + ':' + c.week), active = M.isLive(c.board) || M.soon(c.board);
-  if (old && !old.partial && Date.now() - old.fetchedAt < (active ? 45000 : 5 * 60000)) return { week: c.week, skipped: 'fresh' };
+  if (!force && old && !old.partial && Date.now() - old.fetchedAt < (active ? 45000 : 5 * 60000)) return { week: c.week, skipped: 'fresh' };
   try {
     const sc = await scrapeLeague(lg, c.week);
     if (sc.partial || sc.matchups.length !== 6) throw new Error(sc.err || 'incomplete_lineup');

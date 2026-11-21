@@ -32,10 +32,10 @@ module.exports = async (req, res) => {
       if (r === 'health') return J(res, 200, await jobs.health());
       let name, work;
       if (r === 'cron' || r === 'cron-calendar') { name = 'calendar'; work = jobs.calendar; }
-      else if (r === 'cron-lineups' && M.LGS.includes(q.get('lg'))) { name = 'lineups-' + q.get('lg'); work = () => jobs.refreshLeague(q.get('lg')); }
+      else if (r === 'cron-lineups' && M.LGS.includes(q.get('lg'))) { name = 'lineups-' + q.get('lg'); work = () => jobs.refreshLeague(q.get('lg'), q.get('force') === '1'); }
       else if (r === 'cron-maintenance') { name = 'maintenance'; work = jobs.maintenance; }
       else if (r === 'cron-portraits') { name = 'portraits'; work = async () => { const v = await Ids.refresh(false); if (!v) throw new Error('portraits_unavailable'); return { count: v.n }; }; }
-      else if (r === 'cron-ball') { name = 'ball'; work = () => require('./_mball').collect(); }
+      else if (r === 'cron-ball') { name = 'ball'; work = () => require('./_mball').collect({ force: q.get('force') === '1' }); }
       else return J(res, 400, { error: 'invalid_job' });
       const result = await jobs.run(name, work); return J(res, result.status, result.body);
     }
