@@ -13,7 +13,7 @@ function build(sv, rec, board, season, idmap) {
     matchups: rec.matchups.map(m => ({
       matchupId: sv.lg + '-' + season + '-w' + sv.week + '-' + m.ia + 'v' + m.ib,
       teams: [[m.ia, m.an, m.L, m.ya, m.LScoreDetails], [m.ib, m.bn, m.R, m.yb, m.RScoreDetails]].map(([id, name, rows, tot, details]) => ({ teamId: id, name, pointsToDate: tot ? tot[0] : null, yahooProjection: tot ? tot[1] : null, lineup: rows.map((r, i) => player(r, id, details?.[i])) })),
-      winProbability: null // reserved: no week-specific odds model is published yet, never reused from another week
+      winProbability: sv.matchups.find(x => x.ia === m.ia && x.ib === m.ib)?.winProbability || null
     }))
   };
 }
