@@ -12,16 +12,30 @@ module.exports = async (req, res) => {
   try {
     if (req.method === 'OPTIONS') return J(res, 204, {});
     const q = new URL(req.url, 'http://x').searchParams, r = String(q.get('r') || '').replace(/^\/+|\/+$/g, '');
+    if (r === 'scoring-replay') {
+      if (!require('./_mjobs').authorized(req)) return J(res, 401, { error: 'unauthorized' });
+      if (req.method !== 'POST') return J(res, 405, { error: 'method_not_allowed' });
+      const week = Number(q.get('week')), id = Number(q.get('game'));
+      if (!Number.isInteger(week) || week < 1 || week > 18 || !Number.isSafeInteger(id) || id < 0) return J(res, 400, { error: 'invalid_game' });
+      const B = require('./_bdl'), signal = AbortSignal.timeout(40000);
+      const games = await B.all('games', { seasons: [M.SEASON], weeks: [week] }, { signal, maxPages: 3 });
+      if (!id) return J(res, 200, { games });
+      const game = games.find(g => g.id === id && g.season === M.SEASON && g.week === week && !g.postseason);
+      if (!game || !require('./_mball').finished(game)) return J(res, 400, { error: 'finished_game_required' });
+      const [stats, teamStats, plays] = await Promise.all(['stats', 'team_stats', 'plays'].map(path => B.all(path, path === 'plays' ? { game_id: id } : { game_ids: [id] }, { signal })));
+      if (!stats.length || teamStats.length !== 2 || !plays.length || [...stats, ...teamStats, ...plays].some(x => x.game?.id !== id)) return J(res, 503, { error: 'incomplete_game' });
+      return J(res, 200, { schemaVersion: 1, game, observedAt: Date.now(), stats, teamStats, plays });
+    }
     if (r === 'cron' || r.startsWith('cron-') || r === 'health') {
       const jobs = require('./_mjobs');
       if (!jobs.authorized(req)) return J(res, 401, { error: 'unauthorized' });
       if (r === 'health') return J(res, 200, await jobs.health());
       let name, work;
       if (r === 'cron' || r === 'cron-calendar') { name = 'calendar'; work = jobs.calendar; }
-      else if (r === 'cron-lineups' && M.LGS.includes(q.get('lg'))) { name = 'lineups-' + q.get('lg'); work = () => jobs.refreshLeague(q.get('lg')); }
+      else if (r === 'cron-lineups' && M.LGS.includes(q.get('lg'))) { name = 'lineups-' + q.get('lg'); work = () => jobs.refreshLeague(q.get('lg'), q.get('force') === '1'); }
       else if (r === 'cron-maintenance') { name = 'maintenance'; work = jobs.maintenance; }
       else if (r === 'cron-portraits') { name = 'portraits'; work = async () => { const v = await Ids.refresh(false); if (!v) throw new Error('portraits_unavailable'); return { count: v.n }; }; }
-      else if (r === 'cron-ball') { name = 'ball'; work = () => require('./_mball').collect(); }
+      else if (r === 'cron-ball') { name = 'ball'; work = () => require('./_mball').collect({ force: q.get('force') === '1' }); }
       else return J(res, 400, { error: 'invalid_job' });
       const result = await jobs.run(name, work); return J(res, result.status, result.body);
     }

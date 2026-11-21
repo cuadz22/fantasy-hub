@@ -1,7 +1,7 @@
 // Audited against public Yahoo settings, 2026-11-21. See docs/scoring.
 // Shadow mode only: unsupported event coverage is explicit, never treated as verified zero.
 'use strict';
-const version = 'yahoo-2026-11-21-v1';
+const version = 'yahoo-2026-11-21-v2';
 const rules = {
   gl: { passYards: .05, interception: -2, passBonus: 2, rushBonus: 3, receiveBonus: 2, returnTD: 6, longReception: 0, longReceiveTD: 0 },
   bh: { passYards: .05, interception: -1, passBonus: 0, rushBonus: 0, receiveBonus: 0, returnTD: 0, longReception: 0, longReceiveTD: 0 },
