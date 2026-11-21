@@ -47,6 +47,8 @@ ok(out.rec.matchups[0].ya[1]===100,'Yahoo projection is not relabeled as a BDL p
 ok(out.rec.matchups[0].L[1][5]!==0&&out.rec.matchups[0].ya[0]===points,'bench stats may update but do not count');
 ok(P.overlay(rec,bundle,control,now+91000).rec.matchups[0].ya[0]===0,'delayed provider falls back');
 ok(P.overlay({...rec,sourceUpdatedAt:now-181000},bundle,control,now).source==='yahoo','unconfirmed roster cannot be masked by fresh stats');
+ok(P.overlay({...rec,sourceUpdatedAt:now-240000},{...bundle,live:false},control,now).stats.used>0,'idle roster interval does not trigger premature fallback');
+ok(P.overlay({...rec,sourceUpdatedAt:now-361000},{...bundle,live:false},control,now).source==='yahoo','idle roster freshness is still bounded');
 ok(P.overlay({...rec,partial:true},bundle,control,now).source==='yahoo','partial roster fails closed');
 const badTotal=clone(rec);badTotal.matchups[0].ya[0]=100;ok(P.overlay(badTotal,bundle,control,now).rec.matchups[0].ya[0]===100,'unreconciled official team total retained');
 const duplicate=clone(rec);duplicate.matchups[0].L.push(clone(row));ok(P.overlay(duplicate,bundle,control,now).rec.matchups[0].ya[0]===0,'duplicate starter cannot be counted twice');
