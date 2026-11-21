@@ -54,7 +54,15 @@ async function get(league, M) {
   if (cached && cached.body.currentWeek === ctx.week && Date.now() - cached.at < 60000) return { ...cached.body, stale: !!ctx.stale };
   try {
     const weeks = await Promise.all(Array.from({ length: Math.min(ctx.week - 1, 14) }, async (_, i) => (await M.rget('mw:' + league + ':' + (i + 1))) || await M.restore(league, i + 1)));
-    const body = compute({ league, season: ctx.season, currentWeek: ctx.week, weeks });
+    // Older 2026 backfills predate the explicit season field. These keys and
+    // Yahoo league IDs are fixed to M.SEASON; accept only dated records from it.
+    const normalized = weeks.map(rec => {
+      if (!rec || rec.season != null) return rec;
+      const stamp = typeof rec.sourceUpdatedAt === 'number' ? rec.sourceUpdatedAt : Date.parse(rec.sourceUpdatedAt);
+      if (new Date(stamp).getUTCFullYear() !== M.SEASON) return rec;
+      return { ...rec, season: M.SEASON };
+    });
+    const body = compute({ league, season: ctx.season, currentWeek: ctx.week, weeks: normalized });
     await M.write(key, { at: Date.now(), body });
     return { ...body, stale: !!ctx.stale };
   } catch (error) {

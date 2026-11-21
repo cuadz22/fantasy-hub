@@ -15,6 +15,10 @@ for(const change of [w=>w.pop(),w=>w[0].partial=true,w=>w[0].final=false,w=>w[0]
  const bad=structuredClone(input);change(bad.weeks);assert.throws(()=>compute(bad));
 }
 (async()=>{
+ const legacy=makeWeek(1);delete legacy.season;
+ const legacyM={SEASON:2026,context:async()=>({season:2026,week:2}),rget:async k=>k.startsWith('mw:')?legacy:null,restore:async()=>null,write:async()=>{}};
+ assert.equal((await get('gl',legacyM)).throughWeek,1);
+ legacy.sourceUpdatedAt=Date.UTC(2025,10,1);await assert.rejects(()=>get('gl',legacyM));
  const logs=console.error;console.error=()=>{};
  const cached={at:0,body:result};const fake={SEASON:2026,context:async()=>({season:2026,week:4}),rget:async k=>k.startsWith('mstandings:')?cached:null,restore:async()=>null,write:async()=>{throw Error('must not publish incomplete')}};
  const saved=await get('gl',fake);assert.equal(saved.stale,true);assert.equal(saved.throughWeek,2);
