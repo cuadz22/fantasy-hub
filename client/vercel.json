@@ -72,6 +72,10 @@
     {
       "path": "/api/mobile/cron-portraits",
       "schedule": "23 */6 * * *"
+    },
+    {
+      "path": "/api/mobile/cron-push",
+      "schedule": "* * * * *"
     }
   ],
   "functions": {

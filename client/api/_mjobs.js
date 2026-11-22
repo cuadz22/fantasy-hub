@@ -72,7 +72,7 @@ async function storeOne(lg, w, opts) {
 }
 async function health() {
   const c = await M.context({ cachedOnly: true });
-  const jobs = ['calendar', ...M.LGS.map(l => 'lineups-' + l), 'ball', 'maintenance', 'portraits'];
+  const jobs = ['calendar', ...M.LGS.map(l => 'lineups-' + l), 'ball', 'maintenance', 'portraits', 'push'];
   const jobState = Object.fromEntries(await Promise.all(jobs.map(async name => [name, await M.read('mj:health:' + name)])));
   const leagues = {};
   if (c) for (const lg of M.LGS) {
