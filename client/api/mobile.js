@@ -47,6 +47,7 @@ module.exports = async (req, res) => {
     if (r === 'auth/request-code' && req.method === 'POST') { const x = await A.requestCode(req, bodyOf(req)); return J(res, x.status, x.json, 'no-store', x.retryAfter ? { 'Retry-After': x.retryAfter } : null); }
     if (r === 'auth/verify-code' && req.method === 'POST') { const x = await A.verifyCode(req, bodyOf(req)); return J(res, x.status, x.json, 'no-store', x.retryAfter ? { 'Retry-After': x.retryAfter } : null); }
     if (r === 'auth/logout' && req.method === 'POST') { const x = await A.logout(req); return J(res, x.status, x.json); }
+    if (r === 'push/test' && req.method === 'POST') { const x = await require('./_mpush').testDevice(req, bodyOf(req)); return J(res, x.status, x.json); }
     if (r === 'push/device' && req.method === 'POST') { const x = await require('./_mpush').registration(req, bodyOf(req)); return J(res, x.status, x.json); }
     if (r === 'me' && req.method === 'GET') { const a = await A.authenticate(req); return a ? J(res, 200, A.memberOut(a.member)) : J(res, AUTH.status, AUTH.json); }
     if (r === 'access' && req.method === 'GET') { // guard for every future private route: a session may only touch its own teams

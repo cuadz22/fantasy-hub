@@ -54,6 +54,13 @@ const member={h:'owner',teams:{gl:1,bh:1}};
  for(const lg of M.LGS)await M.write('mw:'+lg+':'+e.week,{...record(lg,m.teams[lg]||99),sourceUpdatedAt:realNow});
  await P.registration(req,{...body,revision:4});let device=await M.read('push:v1:device:'+id);device.enabledAt=realNow-120000;await M.write('push:v1:device:'+id,device);
  await P.tick();await P.tick();ok(actual===1,'whole worker routes real TD exactly once');
+ const testBody={installation:body.installation};
+ ok((await P.testDevice({headers:{}},testBody)).status===401,'test push requires login');
+ await M.write('ms:'+h2,{e:m2.h,c:Date.now(),x:Date.now()+86400000});
+ ok((await P.testDevice({headers:{authorization:'Bearer '+t2}},testBody)).status===403,'test push cannot reach another owner');
+ ok((await P.testDevice(req,testBody)).status===200,'member can test only their own enabled device');
+ ok((await P.testDevice(req,testBody)).status===429,'repeated test push rate limited');
+ actual=1;
  // Use another real TD as a fresh event after disabling, revoking, and expiring.
  const second=es[1];live.plays.find(p=>second.id.endsWith(':'+p.id)).wallclock=new Date(realNow-30000).toISOString();await M.write(`bdl:${e.season}:${e.week}:game:${live.game.id}`,live);
  await P.registration(req,{...body,revision:5,enabled:'false'});await P.tick();ok(actual===1,'disabled device receives nothing');

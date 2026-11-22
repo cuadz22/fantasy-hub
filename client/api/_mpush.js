@@ -20,6 +20,16 @@ async function registration(req,body){
   return {status:200,json:{enabled:device.enabled,ready:environment==='production'&&AP.configured()&&process.env.CFN_PUSH_ENABLED==='true'}};
  } finally {await M.unlock(key+':lock',lock);}
 }
+async function testDevice(req,body){
+ const a=await A.authenticate(req);if(!a)return {status:401,json:{error:'unauthorized'}};
+ const id=hashDevice('production',String(body.installation||'').toLowerCase()),d=await M.read(NS+'device:'+id);
+ if(!d?.enabled||d.member!==a.member.h||d.session!==a.th)return {status:403,json:{error:'device_not_enabled'}};
+ if(!AP.configured()||process.env.CFN_PUSH_ENABLED!=='true')return {status:503,json:{error:'delivery_unavailable'}};
+ const claimed=await M.command(['SET',NS+'test:'+id,'1','NX','EX',60]);if(!claimed)return {status:429,json:{error:'please_wait'}};
+ const result=await AP.send(d,{aps:{alert:{title:'CFN test notification',body:'You’re ready for starter touchdown alerts.'},sound:'default','thread-id':'cfn-touchdowns'}},'cfn-self-test');
+ if(result.invalid)await M.command(['DEL',NS+'device:'+id]);
+ return {status:result.state==='sent'?200:503,json:{accepted:result.state==='sent'}};
+}
 async function unregisterSession(th){
  const ids=await M.command(['SMEMBERS',NS+'devices']);
  for(const id of ids){const key=NS+'device:'+id,d=await M.read(key);if(d?.session===th)await M.command(['DEL',key]);}
@@ -90,4 +100,4 @@ async function collect(){
  }
  return out;
 }
-module.exports={registration,unregisterSession,deliver,tick,collect,hashDevice};
+module.exports={testDevice,registration,unregisterSession,deliver,tick,collect,hashDevice};
