@@ -65,7 +65,7 @@ async function authenticate(req) {
   const m = MEMBERS.find(x => x.h === s.e); if (!m) return null; // removed from the allowlist => session dead
   return { member: m, th };
 }
-async function logout(req) { const a = await authenticate(req); if (!a) return { status: 401, json: { error: 'unauthorized' } }; await rc(['DEL', 'ms:' + a.th]); await rc(['SREM', 'msu:' + a.member.h, a.th]); return { status: 200, json: { ok: true } }; }
+async function logout(req) { const a = await authenticate(req); if (!a) return { status: 401, json: { error: 'unauthorized' } }; await require('./_m').command(['DEL', 'ms:' + a.th]); await rc(['SREM', 'msu:' + a.member.h, a.th]); return { status: 200, json: { ok: true } }; }
 async function revokeAll(emailHash) { const set = (await rc(['SMEMBERS', 'msu:' + emailHash])) || []; for (const th of set) await rc(['DEL', 'ms:' + th]); await rc(['DEL', 'msu:' + emailHash]); return set.length; }
 function canAccess(member, lg, teamId) { return member.teams[lg] != null && Number(member.teams[lg]) === Number(teamId); }
 module.exports = { requestCode, verifyCode, authenticate, logout, revokeAll, memberOut, canAccess, normEmail, memberFor, MEMBERS };

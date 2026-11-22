@@ -35,6 +35,7 @@ module.exports = async (req, res) => {
       else if (r === 'cron-lineups' && M.LGS.includes(q.get('lg'))) { name = 'lineups-' + q.get('lg'); work = () => jobs.refreshLeague(q.get('lg'), q.get('force') === '1'); }
       else if (r === 'cron-maintenance') { name = 'maintenance'; work = jobs.maintenance; }
       else if (r === 'cron-portraits') { name = 'portraits'; work = async () => { const v = await Ids.refresh(false); if (!v) throw new Error('portraits_unavailable'); return { count: v.n }; }; }
+      else if (r === 'cron-push') { name = 'push'; work = () => require('./_mpush').collect(); }
       else if (r === 'cron-ball') { name = 'ball'; work = () => require('./_mball').collect({ force: q.get('force') === '1' }); }
       else return J(res, 400, { error: 'invalid_job' });
       const result = await jobs.run(name, work); return J(res, result.status, result.body);
@@ -46,6 +47,7 @@ module.exports = async (req, res) => {
     if (r === 'auth/request-code' && req.method === 'POST') { const x = await A.requestCode(req, bodyOf(req)); return J(res, x.status, x.json, 'no-store', x.retryAfter ? { 'Retry-After': x.retryAfter } : null); }
     if (r === 'auth/verify-code' && req.method === 'POST') { const x = await A.verifyCode(req, bodyOf(req)); return J(res, x.status, x.json, 'no-store', x.retryAfter ? { 'Retry-After': x.retryAfter } : null); }
     if (r === 'auth/logout' && req.method === 'POST') { const x = await A.logout(req); return J(res, x.status, x.json); }
+    if (r === 'push/device' && req.method === 'POST') { const x = await require('./_mpush').registration(req, bodyOf(req)); return J(res, x.status, x.json); }
     if (r === 'me' && req.method === 'GET') { const a = await A.authenticate(req); return a ? J(res, 200, A.memberOut(a.member)) : J(res, AUTH.status, AUTH.json); }
     if (r === 'access' && req.method === 'GET') { // guard for every future private route: a session may only touch its own teams
       const a = await A.authenticate(req); if (!a) return J(res, 401, AUTH.json);
