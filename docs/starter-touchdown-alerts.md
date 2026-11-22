@@ -6,7 +6,7 @@ NFL GOAT play-by-play access was verified against the paid account and a real fi
 
 Opt-in, authenticated members only. Passing, rushing and receiving touchdowns with stable provider play IDs and matching cumulative box scores qualify. Returns and D/ST touchdowns are not included in this first version. Explicit starter slots (including flex/superflex) qualify; bench/IR/unknown slots do not. Player name, actual position and NFL team must match uniquely. Memberships always come from the server allowlist.
 
-One alert per play per installation combines multiple involved starters and leagues. Tapping opens the corresponding matchup, or asks which affected league when more than one applies. Different devices may each receive one alert. Apple banners use the CFN icon and system typography/material.
+One alert per play per league per installation combines involved starters within that league. Tapping opens that league’s corresponding matchup directly. Different devices may each receive one alert. Apple banners use the CFN icon and system typography/material.
 
 ## Reliability
 
@@ -23,3 +23,9 @@ Authenticated GET /api/mobile/health includes push job state. No emails or token
 ## Release validation
 
 Automated tests use in-memory Redis and a real captured BDL game; they never message testers. Production APNs connectivity was checked with an intentionally invalid token (BadDeviceToken, not an authentication error). This is not proof of physical-device delivery. After installing build 12, enable Account > Notifications > Starter touchdowns and validate delivery on an opted-in phone. External testers require TestFlight approval.
+
+## Private rollout — November 22
+
+`client/api/_pushrollout.json` allows only Jose’s existing member hash. All worker deliveries and self-tests enforce this allowlist; registrations outside it are not ready for delivery. Removing the hash disables access. Do not expand it without explicit authorization.
+
+The authenticated self-test derives a real starter and matchup from the signed-in member’s server-side assignments and current week. It labels the notification TEST and Simulated play, makes no scoring changes, rate-limits each installation to one per minute, and uses the same touchdown navigation payload as real alerts. Default league is Gentlemen’s League for Jose.
