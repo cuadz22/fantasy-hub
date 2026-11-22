@@ -45,10 +45,13 @@ async function devices(now){
  }
  return out;
 }
-// A single durable claim per event/device survives worker retries. Ambiguous transport
+// A single durable claim per event/league/device survives worker retries. Ambiguous transport
 // outcomes are not retried: a missed alert is preferable to duplicate touchdown alerts.
 async function deliver({event,recipient,device,now=Date.now(),store=M,sender=AP.send}){
- const k=NS+'delivery:'+M.sha(event.id+':'+device.id),old=await store.read(k);
+ const target=recipient.targets[0];
+ if(recipient.targets.length!==1||!target)return {state:'invalid_destination'};
+ const deliveryId=event.id+':'+target.leagueId+':'+target.teamId;
+ const k=NS+'delivery:'+M.sha(deliveryId+':'+device.id),old=await store.read(k);
  if(old&&old.state!=='retry')return {state:'duplicate_suppressed'};
  if(old&&old.nextAttemptAt>now)return {state:'backoff'};
  if(event.at<device.enabledAt||now-event.at>MAX_AGE)return {state:'expired'};
@@ -58,7 +61,7 @@ async function deliver({event,recipient,device,now=Date.now(),store=M,sender=AP.
   if(check&&check.nextAttemptAt>now)return {state:'backoff'};
   const attempt=(check?.attempt||0)+1;
   await store.write(k,{state:'sending',attempt,at:now},TTL);
-  let result;try{result=await sender(device,TD.payload(event,recipient),M.sha(event.id).slice(0,60));}catch{result={state:'uncertain'};}
+  let result;try{result=await sender(device,TD.payload(event,recipient),M.sha(deliveryId).slice(0,60));}catch{result={state:'uncertain'};}
   await store.write(k,{...result,attempt,at:now,nextAttemptAt:now+Math.min(60000,15000*attempt)},TTL);
   if(result.invalid)await store.command(['DEL',NS+'device:'+device.id]);
   return result;

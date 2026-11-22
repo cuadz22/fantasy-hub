@@ -30,7 +30,7 @@ function events(snapshot) {
 }
 function recipients(event, records, members, now=Date.now()) {
  return members.flatMap(member=>{
-  const targets=[], players=new Map();
+  const alerts=[];
   for(const [lg,teamId] of Object.entries(member.teams)){
    const rec=records[lg];
    if(!rec || rec.lg!==lg || rec.season!==event.season || rec.week!==event.week || rec.partial || !Array.isArray(rec.matchups) || !Number.isFinite(rec.sourceUpdatedAt) || now-rec.sourceUpdatedAt>180000 || rec.sourceUpdatedAt>now+5000 || rec.sourceUpdatedAt<event.at)continue;
@@ -39,16 +39,15 @@ function recipients(event, records, members, now=Date.now()) {
    if(!Array.isArray(rows)||rows.some(r=>!Array.isArray(r)))continue;
    const found=event.people.filter(p=>{const rs=rows.filter(r=>identity(r)===p.identity);return rs.length===1&&slots.has(String(rs[0][0]).toUpperCase());});
    if(!found.length)continue;
-   found.forEach(p=>players.set(p.id,p));targets.push({leagueId:lg,teamId,week:event.week,season:event.season});
+   alerts.push({member:member.h,targets:[{leagueId:lg,teamId,week:event.week,season:event.season}],players:found});
   }
-  if(!targets.length)return [];
-  return [{member:member.h,targets,players:[...players.values()]}];
+  return alerts;
  });
 }
 function payload(event, recipient) {
  const names=recipient.players.map(p=>p.name), passing=recipient.players.length===1&&recipient.players[0].role==='passer';
  const action=passing?'touchdown pass':recipient.players.length===1&&recipient.players[0].role==='rusher'?'rushing touchdown':recipient.players.length===1?'receiving touchdown':'touchdown';
  const detail=(event.yards!=null?event.yards+'-yard ':'')+action;
- return {aps:{alert:{title:(passing?'Touchdown pass · ':'Touchdown · ')+names.join(' & '),body:detail.charAt(0).toUpperCase()+detail.slice(1)+'\n'+recipient.targets.map(t=>leagues[t.leagueId]).join(' · ')},sound:'default','thread-id':'cfn-touchdowns'},cfn:{type:'touchdown',eventId:event.id,targets:recipient.targets}};
+ return {aps:{alert:{title:(passing?'🔥 Touchdown pass! · ':'🔥 Touchdown! · ')+names.join(' & '),body:detail.charAt(0).toUpperCase()+detail.slice(1)+'\n'+recipient.targets.map(t=>leagues[t.leagueId]).join(' · ')},sound:'default','thread-id':'cfn-touchdowns-'+recipient.targets[0].leagueId},cfn:{type:'touchdown',eventId:event.id,targets:recipient.targets}};
 }
 module.exports={events,recipients,payload,slots};

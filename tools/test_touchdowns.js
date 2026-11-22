@@ -9,7 +9,7 @@ const member={h:'owner',teams:{gl:1,bh:1}};
 (async()=>{
  ok(es.length>0&&e.people.some(p=>p.name==='Nico Collins')&&e.people.some(p=>p.name==='C.J. Stroud'),'real Thursday TD attributes QB and receiver');
  let rs=TD.recipients(e,{gl:record('gl'),bh:record('bh')},[member],now);
- ok(rs.length===1&&rs[0].targets.length===2&&rs[0].players.length===2,'QB plus receiver across leagues generates one owner payload');
+ ok(rs.length===2&&rs.every(r=>r.targets.length===1&&r.players.length===2),'one alert per league combines QB plus receiver in that league');
  const recipients=rs[0];
  ok(TD.events({}).length===0,'malformed provider snapshot suppressed');
  ok(TD.recipients(e,{gl:{...record('gl'),matchups:null}},[member],now).length===0,'malformed league does not block others');
@@ -26,17 +26,22 @@ const member={h:'owner',teams:{gl:1,bh:1}};
  let modified=clone(snap);modified.plays.find(p=>e.id.endsWith(':'+p.id)).text+=' NO PLAY';ok(!TD.events(modified).some(x=>x.id===e.id),'nullified touchdown excluded');
  modified=clone(snap);modified.stats.find(s=>s.player.id===e.people.find(p=>p.role==='receiver').id).receiving_touchdowns=99;ok(!TD.events(modified).some(x=>x.id===e.id),'box/play disagreement excluded');
  modified=clone(snap);modified.plays.push({...clone(modified.plays.find(p=>e.id.endsWith(':'+p.id))),text:'different revision'});ok(!TD.events(modified).some(x=>x.id===e.id),'conflicting duplicate play excluded');
- for(const m of A.MEMBERS){const records={};for(const [lg,id] of Object.entries(m.teams))records[lg]=record(lg,id);const got=TD.recipients(e,records,A.MEMBERS,now);ok(got.length===1&&got[0].member===m.h,'actual team assignments: '+m.name);}
+ for(const m of A.MEMBERS){const records={};for(const [lg,id] of Object.entries(m.teams))records[lg]=record(lg,id);const got=TD.recipients(e,records,A.MEMBERS,now);ok(got.length===Object.keys(m.teams).length&&got.every(r=>r.member===m.h),'actual team assignments: '+m.name);}
  let sent=0;const sender=async()=>{sent++;return {state:'sent'};};
  const d={id:'test-device',enabledAt:e.at-10000};
  const args={event:e,recipient:recipients,device:d,now,sender};
  await Promise.all([P.deliver(args),P.deliver(args),P.deliver(args)]);ok(sent===1,'concurrent workers send once');
  await P.deliver(args);ok(sent===1,'retry after persisted delivery suppressed');
+ await P.deliver({...args,recipient:rs[1]});await P.deliver({...args,recipient:rs[1]});ok(sent===2,'second league sends once without being suppressed by first');
+ const onlyReceiver=record('bh',1,[row(e.people.find(p=>p.role==='receiver'))]);
+ const scoped=TD.recipients(e,{gl:record('gl'),bh:onlyReceiver},[member],now);
+ ok(scoped.find(r=>r.targets[0].leagueId==='bh').players.length===1,'each league names only its own starters');
+ ok(TD.payload(e,scoped[0]).aps['thread-id']!==TD.payload(e,scoped[1]).aps['thread-id'],'notifications grouped separately by league');
  let uncertain=0;const a2={...args,device:{...d,id:'uncertain'},sender:async()=>{uncertain++;return {state:'uncertain'};}};await P.deliver(a2);await P.deliver(a2);ok(uncertain===1,'ambiguous timeout never retried');
  let count=0;const a3={...args,device:{...d,id:'retry'},sender:async()=>{count++;return count===1?{state:'retry'}:{state:'sent'};}};await P.deliver(a3);await P.deliver(a3);ok(count===1,'known rejection respects backoff');await P.deliver({...a3,now:now+16000});ok(count===2,'known rejection can safely retry');
  ok((await P.deliver({...args,device:{...d,id:'old'},now:e.at+180001})).state==='expired','old events suppressed');
  ok((await P.deliver({...args,device:{...d,id:'new',enabledAt:e.at+1}})).state==='expired','no pre-opt-in alerts');
- const payload=TD.payload(e,recipients);ok(payload.cfn.targets.length===2&&payload.aps.alert.title.includes('Nico Collins'),'multi-league tap destinations and text');
+ const payload=TD.payload(e,recipients);ok(payload.cfn.targets.length===1&&payload.aps.alert.title.includes('🔥 Touchdown!')&&payload.aps.alert.title.includes('Nico Collins'),'single-league tap destination and celebratory text');
  // Authenticated device registration through the real route and fake Redis, no email sends.
  const m=A.MEMBERS[0],token='cfn_'+('a'.repeat(32)),th=M.sha(token);await M.write('ms:'+th,{e:m.h,c:Date.now(),x:Date.now()+86400000});
  const req={headers:{authorization:'Bearer '+token}},body={installation:'12345678-1234-1234-1234-123456789abc',revision:1,token:'f'.repeat(64),environment:'production',enabled:'true',member:'attacker',teams:{gl:99}};
@@ -58,7 +63,7 @@ const member={h:'owner',teams:{gl:1,bh:1}};
  await M.write(`bdl:${e.season}:${e.week}:game:${live.game.id}`,live);
  for(const lg of M.LGS)await M.write('mw:'+lg+':'+e.week,{...record(lg,m.teams[lg]||99),sourceUpdatedAt:realNow});
  await P.registration(req,{...body,revision:4});let device=await M.read('push:v1:device:'+id);device.enabledAt=realNow-120000;await M.write('push:v1:device:'+id,device);
- await P.tick();await P.tick();ok(actual===1,'whole worker routes real TD exactly once');
+ await P.tick();await P.tick();ok(actual===Object.keys(m.teams).length,'whole worker routes real TD once per league');
  const testBody={installation:body.installation};
  ok((await P.testDevice({headers:{}},testBody)).status===401,'test push requires login');
  await M.write('ms:'+h2,{e:m2.h,c:Date.now(),x:Date.now()+86400000});
