@@ -6,7 +6,7 @@ const hashDevice=(env,installation)=>M.sha(env+':'+installation);
 async function registration(req,body){
  const a=await A.authenticate(req);if(!a)return {status:401,json:{error:'unauthorized'}};
  const token=String(body.token||'').toLowerCase(),environment=body.environment,installation=String(body.installation||'').toLowerCase(),revision=Number(body.revision);
- if(!/^[a-f0-9]{64,200}$/.test(token)||!['sandbox','production'].includes(environment)||!['true','false'].includes(body.enabled)||!/^[a-f0-9-]{36}$/.test(installation)||!Number.isSafeInteger(revision)||revision<1)return {status:400,json:{error:'invalid_device'}};
+ if(!/^[a-f0-9]{64,200}$/.test(token)||!['sandbox','production'].includes(environment)||!['true','false'].includes(body.enabled)||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(installation)||!Number.isSafeInteger(revision)||revision<1)return {status:400,json:{error:'invalid_device'}};
  const id=hashDevice(environment,installation),key=NS+'device:'+id;
  const lock=await M.lock(key+':lock',15);if(!lock)return {status:409,json:{error:'device_busy'}};
  try {
@@ -68,13 +68,13 @@ async function tick({deadline=Date.now()+48000}={}){
  if(process.env.CFN_PUSH_ENABLED!=='true'||!AP.configured())return {enabled:false};
  const now=Date.now(),ds=await devices(now);if(!ds.length)return {enabled:true,devices:0};
  const c=await M.context({cachedOnly:true});if(!c||c.stale||c.season!==M.SEASON)throw Error('push_calendar_unavailable');
- const schedule=await M.read(`bdl:${c.season}:${c.week}:schedule`);if(!schedule||now-schedule.observedAt>180000)throw Error('push_schedule_delayed');
+ const schedule=await M.read(`bdl:${c.season}:${c.week}:schedule`);if(!schedule||!Array.isArray(schedule.games)||!Number.isFinite(schedule.observedAt)||now-schedule.observedAt>180000)throw Error('push_schedule_delayed');
  const records={};for(const lg of M.LGS)records[lg]=await M.read('mw:'+lg+':'+c.week);
  const totals={enabled:true,devices:ds.length,events:0,sent:0,suppressed:0};
  for(const g of schedule.games){
   if(Date.now()>deadline-10000)break;
   const snap=await M.read(`bdl:${c.season}:${c.week}:game:${g.id}`);
-  if(!snap||snap.game.season!==c.season||snap.game.week!==c.week||now-snap.observedAt>90000)continue;
+  if(!snap?.game||!Number.isFinite(snap.observedAt)||snap.game.season!==c.season||snap.game.week!==c.week||now-snap.observedAt>90000)continue;
   const eligible=TD.events(snap).filter(e=>now-e.at>=20000&&now-e.at<=MAX_AGE);
   for(const e of eligible){
    totals.events++;
@@ -98,6 +98,6 @@ async function collect(){
   const result=await tick({deadline:start+55000});out.push(result);
   if(!result.enabled||!result.devices)break;
  }
- return out;
+ return {checks:out};
 }
 module.exports={testDevice,registration,unregisterSession,deliver,tick,collect,hashDevice};

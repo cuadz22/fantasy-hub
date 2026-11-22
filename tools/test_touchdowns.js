@@ -11,6 +11,11 @@ const member={h:'owner',teams:{gl:1,bh:1}};
  let rs=TD.recipients(e,{gl:record('gl'),bh:record('bh')},[member],now);
  ok(rs.length===1&&rs[0].targets.length===2&&rs[0].players.length===2,'QB plus receiver across leagues generates one owner payload');
  const recipients=rs[0];
+ ok(TD.events({}).length===0,'malformed provider snapshot suppressed');
+ ok(TD.recipients(e,{gl:{...record('gl'),matchups:null}},[member],now).length===0,'malformed league does not block others');
+ const wrongPosition=e.people.map(p=>{const r=row(p);r[2]='K';return r;});
+ ok(TD.recipients(e,{gl:record('gl',1,wrongPosition)},[member],now).length===0,'actual player position prevents mistaken kicker attribution');
+
  const bench=e.people.map(p=>{const r=row(p);r[0]='BN';return r;});
  ok(TD.recipients(e,{gl:record('gl',1,bench)},[member],now).length===0,'bench excluded');
  for(const slot of ['IR','IR+','NA','BE','unknown']){const rows=e.people.map(p=>{const r=row(p);r[0]=slot;return r;});ok(TD.recipients(e,{gl:record('gl',1,rows)},[member],now).length===0,'exclude '+slot);}
