@@ -18,31 +18,32 @@ async function collect({ force = false } = {}) {
   if (!games.length || games.some(g => g.season !== c.season || g.week !== c.week || g.postseason)) throw new Error('bdl_invalid_schedule');
   await M.write(prefix + ':schedule', { observedAt: Date.now(), games }, 0);
   const due = games.filter(g => active(g) || finished(g) || Date.parse(g.date) <= Date.now() + 5 * 60000);
-  const results = []; let index = 0;
+  const results = [], persisted = new Map(); let index = 0;
   await Promise.all(Array.from({ length: Math.min(4, due.length) }, async () => {
     while (index < due.length && !signal.aborted) {
       const game = due[index++];
       try {
-        const previous = await M.read(prefix + ':game:' + game.id);
-        if (!force && finished(game) && previous && previous.game.status === game.status && Date.now() - previous.observedAt < 3600000) { results.push({ gameId: game.id, ok: true, cached: true }); continue; }
-        results.push(await ingestGame(game, prefix, signal));
+        const previous = !force && finished(game) ? await M.read(prefix + ':game:' + game.id) : null;
+        if (!force && finished(game) && previous && previous.game.status === game.status && Date.now() - previous.observedAt < 3600000) { persisted.set(game.id, previous); results.push({ gameId: game.id, ok: true, cached: true }); continue; }
+        results.push(await ingestGame(game, prefix, signal, persisted));
       } catch (e) { results.push({ gameId: game.id, ok: false, error: String(e.message).slice(0, 80) }); }
     }
   }));
   for (const g of due.slice(index)) results.push({ gameId: g.id, ok: false, error: 'collector_deadline' });
-  let publication = await publishStored(c, games);
+  let publication = await publishStored(c, games, persisted);
   for (const offset of [15000, 30000, 45000]) {
     if (!games.some(active) || signal.aborted || Date.now() - started > 44000) break;
     if (Date.now() - started > offset + 2000) continue;
     const wait = started + offset - Date.now(); if (wait > 0) await M.sleep(wait);
-    const live = games.filter(active); let next = 0;
+    // Reuse only this pass: other games must still pick up stored corrections.
+    const passSnapshots = new Map(), live = games.filter(active); let next = 0;
     await Promise.all(Array.from({length: Math.min(4, live.length)}, async () => {
       while (next < live.length && !signal.aborted && Date.now() - started < 49000) {
         const g = live[next++];
-        try { await ingestGame(g, prefix, signal); } catch(e) { results.push({gameId:g.id,ok:false,error:String(e.message).slice(0,80)}); }
+        try { await ingestGame(g, prefix, signal, passSnapshots); } catch(e) { results.push({gameId:g.id,ok:false,error:String(e.message).slice(0,80)}); }
       }
     }));
-    publication = await publishStored(c, games);
+    publication = await publishStored(c, games, passSnapshots);
   }
   const comparison = await compare(c, games, started + 55000);
   const upcoming = games.filter(g=>!finished(g)&&!active(g)).map(g=>Date.parse(g.date)).filter(Number.isFinite);
@@ -52,7 +53,7 @@ async function collect({ force = false } = {}) {
   if (!health.ok) throw new Error('bdl_partial_collection');
   return health;
 }
-async function ingestGame(game, prefix, signal) {
+async function ingestGame(game, prefix, signal, persisted) {
   // Full cumulative snapshots, including re-reading plays: corrections can remove
   // or alter a prior event. Never add a touchdown twice after a retry.
   const [stats, teamStats, plays] = await Promise.all([
@@ -68,10 +69,12 @@ async function ingestGame(game, prefix, signal) {
   const latestGame = plays.length && plays[plays.length - 1].game || game;
   const snapshot = { schemaVersion: 1, game: latestGame, observedAt, stats, teamStats, plays, revision: M.sha(JSON.stringify([stats, teamStats, plays])) };
   await M.write(prefix + ':game:' + game.id, snapshot, 0);
+  // Only successfully persisted data can bypass the immediate read-back.
+  if (persisted) persisted.set(game.id, snapshot);
   return { gameId: game.id, ok: true, observedAt, stats: stats.length, plays: plays.length };
 }
-async function publishStored(c, games) {
-  const snapshots = (await Promise.all(games.map(g => M.read(key(c.season,c.week)+':game:'+g.id)))).filter(Boolean);
+async function publishStored(c, games, persisted = new Map()) {
+  const snapshots = (await Promise.all(games.map(g => persisted.has(g.id) ? persisted.get(g.id) : M.read(key(c.season,c.week)+':game:'+g.id)))).filter(Boolean);
   return require('./_mscores').publish(c, snapshots);
 }
 async function compare(c, games, deadline = Date.now() + 15000) {

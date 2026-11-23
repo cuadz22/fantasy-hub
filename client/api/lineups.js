@@ -48,8 +48,8 @@ module.exports = async (req, res) => {
   try {
     const q = new URL(req.url, 'http://x').searchParams;
     const lg = String(q.get('lg') || ''); if (!LGS.includes(lg)) { res.statusCode = 400; res.setHeader('Cache-Control', 'no-store'); return res.end(JSON.stringify({ error: 'invalid_league' })); }
-    const wkRaw = q.get('week'); let week;
-    if (wkRaw == null || wkRaw === '') { const c0 = await M.context({ cachedOnly: true }); if (!c0) { res.statusCode = 503; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store'); res.end(JSON.stringify({ error: 'context_unavailable' })); return; } week = c0.week; } // default = the real current NFL week, not a fixed number
+    const wkRaw = q.get('week'); let week, ctx;
+    if (wkRaw == null || wkRaw === '') { const c0 = ctx = await M.context({ cachedOnly: true }); if (!c0) { res.statusCode = 503; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store'); res.end(JSON.stringify({ error: 'context_unavailable' })); return; } week = c0.week; } // default = the real current NFL week, not a fixed number
     else { week = Number(wkRaw); if (!Number.isInteger(week) || week < 1 || week > 18) { res.statusCode = 400; res.setHeader('Content-Type', 'application/json'); res.setHeader('Access-Control-Allow-Origin', '*'); res.setHeader('Cache-Control', 'no-store'); res.end(JSON.stringify({ lg, week: wkRaw, available: false, error: 'invalid_week', matchups: [] })); return; } }
     if (q.get('hist')) { // win-probability history for the chart
       const raw = (await redis(['LRANGE', 'wph:' + lg + ':' + week, 0, -1], 4000)) || [], pts = [];
@@ -57,7 +57,7 @@ module.exports = async (req, res) => {
       res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate=30'); res.setHeader('Access-Control-Allow-Origin', '*');
       res.end(JSON.stringify({ lg, week, n: pts.length, pts, flock: FLOCK && FLOCK.week === week && FLOCK[lg] ? FLOCK[lg] : null })); return;
     }
-    const ctx = await M.context({ cachedOnly: true });
+    if (!ctx) ctx = await M.context({ cachedOnly: true });
     const sv = await M.serveWeek(lg, week, ctx);
     res.setHeader('Content-Type', 'application/json'); res.setHeader('Access-Control-Allow-Origin', '*');
     if (!sv) { res.statusCode = 404; res.setHeader('Cache-Control', 'no-store'); return res.end(JSON.stringify({ lg, week, available: false, error: 'week_unavailable', matchups: [] })); }
