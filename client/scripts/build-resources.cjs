@@ -26,6 +26,15 @@ for(const team of D.teams.rb) for(const slot of team.pl) {
 const tools={};
 for(const key of ['waivers','waiversUpdated','clip','clipUpdated','rules','history','allt','cc']) tools[key]=LGD[key];
 Object.assign(tools,{trades:D.trades,teams:D.teams,players:D.players,awards:object(html,'AWARDS'),fraud:FM,resources,draft:draft(html)['2026'],draftSeasons:draft(html),historicalFinals:object(html,'HISTX')});
+// October was published later inside the recap object, not the original September array.
+const october=object(html,'RCP').oct || {};
+for(const [lg,award] of Object.entries(october)) {
+ if(award.month !== 'October' || !Array.isArray(award.players)) throw Error('Invalid October award');
+ tools.awards[lg]=[...(tools.awards[lg]||[]).filter(a=>a.month!==award.month),award];
+}
+// Explicit editorial picks are scoped to their authored week; never roll them forward.
+const featuredSource=object(html,'PVX');
+tools.featuredMatchups={season:2026,weeks:{'10':Object.fromEntries(Object.entries(featuredSource).map(([lg,items])=>[lg,Object.entries(items).filter(([,v])=>v.pt===1).map(([pair])=>pair.split('-').map(Number))]))}};
 const powerScope={};
 vm.runInNewContext(html.slice(html.indexOf("function pwWeight("),html.indexOf("function lgPower(")),powerScope,{timeout:1000});
 tools.power=Object.fromEntries(Object.entries(FM).map(([lg,f])=>[lg,{week:f.week,rows:powerScope.pwCalc(f).rows.map(r=>({name:r.t.name,score:r.score,z:r.z,record:r.t.w+"–"+r.t.l}))}]));

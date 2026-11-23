@@ -89,7 +89,7 @@ module.exports = async (req, res) => {
     if (r === 'media' && req.method === 'GET') {
       const MEDIA = require('./_media.json'), teams = {};
       Object.keys(MEDIA.teams).forEach(lg => { teams[lg] = {}; Object.keys(MEDIA.teams[lg]).forEach(id => { const t = MEDIA.teams[lg][id]; teams[lg][id] = { teamId: Number(id), managerName: t.managerName, logoURL: t.logoURL, ownerPhotoURL: t.ownerPhotoPath ? PUBLIC_BASE + t.ownerPhotoPath + '?v=' + t.ownerPhotoV : null }; }); });
-      return J(res, 200, { schemaVersion: 1, version: MEDIA.v, note: 'ownerPhotoURL is only set for Gentlemen\'s League; other leagues use the Yahoo team logo. URLs are versioned: they change when an image changes.', teams }, 'public, s-maxage=3600, stale-while-revalidate=86400');
+      return J(res, 200, { schemaVersion: 1, version: MEDIA.v, featuredMatchups: require('./_resources.json').tools.featuredMatchups, note: 'ownerPhotoURL is only set for Gentlemen\'s League; other leagues use the Yahoo team logo. URLs are versioned: they change when an image changes.', teams }, 'public, s-maxage=3600, stale-while-revalidate=86400');
     }
     if (r === 'market-movers' && req.method === 'GET') {
       const c = await M.context({ cachedOnly: true }); if (!c) return J(res, 503, { error: 'context_unavailable' });

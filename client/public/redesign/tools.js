@@ -42,25 +42,13 @@ const route = (id) => {
   location.hash = `league-${league}/${id}`;
 };
 function controls() {
-  return `<div class="controls expanded-controls"><div class="tabs" aria-label="League navigation">${["overview", "team", "standings", "trades", "waivers"].map((id) => `<a href="#league-${league}/${id}" class="tab-link ${leagueTab === id ? "active" : ""}" ${leagueTab === id ? 'aria-current="page"' : ""}>${names[id]}</a>`).join("")}<details class="league-tools" id="league-tools"><summary class="${!["overview", "team", "standings", "trades", "waivers"].includes(leagueTab) ? "active" : ""}">League tools <span aria-hidden="true">⌄</span></summary><div class="tool-menu">${sections.map(([title, ids]) => `<div><div class="eyebrow">${title}</div>${ids.filter(available).map(link).join("")}</div>`).join("")}</div></details></div>${["overview", "lineups", "team", "weekly"].includes(leagueTab) ? weekControl() : ""}</div>`;
+  return `<div class="controls expanded-controls"><div class="tabs" aria-label="League navigation">${["overview", "team", "standings", "trades", "waivers"].map((id) => `<a href="#league-${league}/${id}" class="tab-link ${leagueTab === id ? "active" : ""}" ${leagueTab === id ? 'aria-current="page"' : ""}>${names[id]}</a>`).join("")}<details class="league-tools" id="league-tools"><summary class="${!["overview", "team", "standings", "trades", "waivers"].includes(leagueTab) ? "active" : ""}">League tools <span aria-hidden="true">⌄</span></summary><div class="tool-menu">${sections.map(([title, ids]) => `<div><div class="eyebrow">${title}</div>${ids.filter(available).map(link).join("")}</div>`).join("")}</div></details></div>${["overview", "lineups", "team", "weekly"].includes(leagueTab) ? CFNPolish.weekStrip((CFNData.state.context?.availableWeeks||[requestedWeek()]).slice().sort((a,b)=>b-a),requestedWeek(),"data-matchup-week") : ""}</div>`;
 }
 const heading = (title, sub = "League records") =>
   `<div class="tool-heading"><div><div class="eyebrow">${leagues[league]}</div><h2>${title}</h2></div><span class="archive-label">${sub}</span></div>`;
 const table = (heads, rows, cls = "") =>
   `<div class="table-wrap ${cls}" tabindex="0" aria-label="Scrollable data table"><table><thead><tr>${heads.map((h) => `<th scope="col">${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((x) => `<td>${x}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
-const photo = (n) => {
-  const src = S.photos[n] || S.photos[n + " Jr."];
-  return (
-    img(src, "avatar", "") ||
-    `<span class="avatar fallback" aria-hidden="true">${esc(
-      n
-        .split(" ")
-        .map((x) => x[0])
-        .slice(0, 2)
-        .join(""),
-    )}</span>`
-  );
-};
+const photo = (n, pos='', team='') => CFNPolish.avatar(n,pos,team);
 const empty = (title, text) =>
   `<article class="note-card empty-state"><h3>${title}</h3><p>${text}</p></article>`;
 const savednote = (text) => `<p class="subnote archive-note">${text}</p>`;
@@ -122,14 +110,14 @@ function waiversView() {
     weeks = [...new Set(all.map((w) => w.week))].sort((a, b) => b - a);
   return (
     heading("Waiver report", `Saved report · ${T.waiversUpdated}`) +
-    `<div class="filter-row"><label for="waiver-week">Report week</label><select id="waiver-week"><option value="all">All saved weeks</option>${weeks.map((w) => `<option value="${w}">Week ${w}</option>`).join("")}</select><span>${all.length} claims in archive</span></div><div id="waiver-results">${waiverRows(all)}</div>`
+    CFNPolish.weekStrip(weeks, weeks[0], 'data-waiver-week',true) + `<div id="waiver-results">${waiverRows(all.filter(w=>w.week===weeks[0]))}</div>`
   );
 }
 function waiverRows(rs) {
   return `<div class="waiver-list">${rs.slice().sort((a,b)=>b.week-a.week)
     .map((w) => {
       const bid = w.bids.find((b) => b.won);
-      return `<details class="waiver-card"><summary>${photo(w.player)}<div><b>${esc(w.player)}</b><small>${esc(w.position)} · ${esc(w.nflTeam)} · ${esc(w.date)}</small></div><div class="waiver-team"><b>${esc(w.winner)}</b><small>Successful claim</small></div><strong class="bid">$${bid?.amount ?? 0}</strong><span class="disclosure">⌄</span></summary><div class="bid-detail">${w.bids.map((b) => `<div><span>${esc(b.manager)}${b.won ? ' <span class="status-tag">Won</span>' : ""}</span><b>$${b.amount}</b></div>`).join("")}</div></details>`;
+      return `<details class="waiver-card"><summary>${photo(w.player,w.position,w.nflTeam)}<div><b>${esc(w.player)}</b><small>${esc(w.position)} · ${esc(w.nflTeam)} · ${esc(w.date)}</small></div><div class="waiver-team"><b>${esc(w.winner)}</b><small>Successful claim</small></div><strong class="bid">$${bid?.amount ?? 0}</strong><span class="disclosure">⌄</span></summary><div class="bid-detail">${w.bids.map((b) => `<div><span>${esc(b.manager)}${b.won ? ' <span class="status-tag">Won</span>' : ""}</span><b>$${b.amount}</b></div>`).join("")}</div></details>`;
     })
     .join("")}</div>`;
 }
@@ -137,7 +125,7 @@ function historyView() {
   let h = T.history[league];
   return (
     heading("League history") +
-    `<div class="history-grid">${(h?.seasons || []).map((s) => `<article class="champion-card"><div class="champion-top"><span class="trophy">♛</span><span>${s.year}</span></div><div class="eyebrow">League champion</div><h3>${esc(s.champion.team)}</h3><p>${esc(s.champion.owner)} · ${esc(s.champion.record)}</p><div class="history-podium"><div><span>Runner-up</span><b>${esc(s.runnerUp)}</b></div><div><span>Third place</span><b>${esc(s.thirdPlace)}</b></div></div><details><summary>Championship details</summary><p>Champion’s final score: <strong>${esc(s.champion.points)}</strong></p><p>Opponent’s final score and historical lineups are not included in this saved archive.</p></details></article>`).join("")}</div><section class="content-section"><h3>Records worth remembering.</h3><div class="record-grid">${(h?.records || []).map((r) => `<article class="note-card"><div class="eyebrow">${esc(r.label)}</div><h3>${esc(r.value)}</h3><p>${esc(r.holder)}</p></article>`).join("")}</div></section>`
+    `<div class="history-grid">${(h?.seasons || []).map((s) => `<article class="champion-card"><div class="champion-top"><span class="trophy">♛</span><span>${s.year}</span></div><div class="eyebrow">League champion</div><h3>${esc(s.champion.team)}</h3><p>${esc(s.champion.owner)} · ${esc(s.champion.record)}</p><div class="history-podium"><div><span>Runner-up</span><b>${esc(s.runnerUp)}</b></div><div><span>Third place</span><b>${esc(s.thirdPlace)}</b></div></div>${T.historicalFinals[league]?.[s.year] ? `<button class="championship-open" data-championship="${s.year}">View championship matchup <span aria-hidden="true">↗</span></button>` : `<p class="subnote">Final lineup not available in the archive.</p>`}</article>`).join("")}</div><section class="content-section"><h3>Records worth remembering.</h3><div class="record-grid">${(h?.records || []).map((r) => `<article class="note-card"><div class="eyebrow">${esc(r.label)}</div><h3>${esc(r.value)}</h3><p>${esc(r.holder)}</p></article>`).join("")}</div></section>`
   );
 }
 function alltimeView() {
@@ -156,7 +144,7 @@ function alltimeView() {
           ((r[0] + r[2] / 2) / (r.reduce((a, b) => a + b, 0) || 1)) *
           100
         ).toFixed(1) + "%",
-      ]),
+      ]), "records-table",
     ) +
     `<section class="content-section"><h3>Head to head</h3><div class="filter-row"><label for="history-owner">Manager</label><select id="history-owner">${sorted.map(([n]) => `<option>${esc(n)}</option>`).join("")}</select></div><div id="h2h-results">${h2h(sorted[0]?.[0])}</div></section>`
   );
@@ -171,7 +159,7 @@ function h2h(owner) {
       const ns = k.split("|"),
         first = ns[0] === owner;
       return [esc(ns[first ? 1 : 0]), r[first ? 0 : 1], r[first ? 1 : 0], r[2]];
-    }),
+    }), "records-table",
   );
 }
 function rulesView(tradeOnly = false) {
@@ -185,7 +173,7 @@ function rulesView(tradeOnly = false) {
 function awardsView() {
   return (
     heading("League awards") +
-    `<div class="award-grid">${(T.awards[league] || []).map((a) => `<article class="award-card"><div class="eyebrow">${esc(a.weeks)} · 2026</div><span class="trophy">♛</span><h3>Mr. ${esc(a.month)}</h3><h2>${esc(a.team)}</h2><p>${esc(a.mgr)}</p><div class="award-stats"><div><strong>${esc(a.rec)}</strong><span>Record</span></div><div><strong>${esc(a.pf)}</strong><span>Points for</span></div><div><strong>${esc(a.ap)}</strong><span>All-play</span></div></div><p class="award-note">${esc(a.note)}</p><div class="award-players">${a.players.map((p) => `<div>${photo(p[0])}<span>${esc(p[0])}<small>${esc(p[1])} · ${p[2]} points</small></span></div>`).join("")}</div></article>`).join("") || empty("The next award belongs here", "No award recipient is present in this saved archive.")}</div>`
+    `<div class="award-grid">${(T.awards[league] || []).map((a) => `<article class="award-card"><div class="eyebrow">${esc(a.weeks)} · 2026</div><span class="trophy">♛</span><h3>Mr. ${esc(a.month)}</h3><h2>${esc(a.team)}</h2><p>${esc(a.mgr)}</p><div class="award-stats"><div><strong>${esc(a.rec)}</strong><span>Record</span></div><div><strong>${esc(a.pf)}</strong><span>Points for</span></div><div><strong>${esc(a.ap)}</strong><span>All-play</span></div></div><p class="award-note">${esc(a.note)}</p><div class="award-players">${a.players.map((p) => `<div>${photo(p[0],p[1])}<span>${esc(p[0])}<small>${esc(p[1])} · ${p[2]} points</small></span></div>`).join("")}</div></article>`).join("") || empty("The next award belongs here", "No award recipient is present in this saved archive.")}</div>`
   );
 }
 function resourceRows(sec) {
@@ -268,7 +256,7 @@ function cantcutView() {
 function draftView() {
   const d = T.draft[league];
   if(!d) return heading("Draft board")+empty("Draft results unavailable", "Open the existing draft archive below.");
-  const tile=(p,auction=false)=>p ? `<div class="draft-pick"><span class="slot ${esc(p[4])}">${esc(p[4])}</span><b>${esc(p[3])}</b><small>${esc(p[5])} · ${auction ? '$'+p[6] : 'Pick '+((p[0]-1)*12+p[1])}</small><span class="draft-owner">${esc(d.T[p[2]])}</span></div>` : '<span class="muted">—</span>';
+  const tile=(p,auction=false)=>p ? `<div class="draft-pick" style="--position-color:${({QB:"#63a6f4",RB:"#53bea6",WR:"#f49a58",TE:"#d98bdc",K:"#a8c84d",DEF:"#dac15e"})[p[4]]||"#6b829b"}"><div class="draft-face">${photo(p[3],p[4],p[5])}${CFNPolish.badge(p[4])}</div><b>${esc(p[3])}</b><small>${esc(p[5])} · ${auction ? '$'+p[6] : 'Pick '+((p[0]-1)*12+p[1])}</small><span class="draft-owner">${esc(d.T[p[2]])}</span></div>` : '<span class="muted">—</span>';
   if(league==='sts') {
     return heading("2026 auction draft", "As drafted · Winning bids")+`<div class="auction-grid">${d.T.map((team,i)=>{const picks=d.P.filter(p=>p[2]===i);return `<article class="note-card"><h3>${esc(team)}</h3><p>$${picks.reduce((n,p)=>n+p[6],0)} spent · ${picks.length} players</p>${picks.map(p=>tile(p,true)).join('')}</article>`;}).join('')}</div>`;
   }
@@ -295,9 +283,8 @@ function fraudView() {
   if(!p)return empty('Fraud meter',CFNData.state.failures['power-'+league] ? 'Current results could not be verified. Please try again.' : 'Checking completed results…');
   return heading('Fraud meter',`Through Week ${p.throughWeek} · Updates automatically`) + powerNotice(p) +
     savednote('Luck compares actual wins (ties count as half) with expected wins if you faced every team each week. Positive means your schedule helped; negative means it hurt.') +
-    table(['Team','Record','Points / game','All-play win %','Luck (wins)'],[...p.rows].sort((a,b)=>b.luckWins-a.luckWins).map(t=>[
-      esc(t.name),esc(t.record),t.pointsPerGame.toFixed(1),t.allPlayWinPercent.toFixed(1)+'%',
-      `<span class="${t.luckWins>0?'up':'down'}">${t.luckWins>0?'+':''}${t.luckWins.toFixed(2)}</span>`]));
+    CFNPolish.fraud(p);
+
 }
 
 function rosterChoices() {
@@ -482,7 +469,7 @@ function leaguePage() {
         "Let the league decide.",
         "Voting stays in the existing secure flow with the original voting tool.",
       );
-  return hero + controls() + body + originalLink();
+  return hero + controls() + body + (["history","alltime","awards","draft","fraud","waivers"].includes(leagueTab) ? "" : originalLink());
 }
 
 const moreNames = {

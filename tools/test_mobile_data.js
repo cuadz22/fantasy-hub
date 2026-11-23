@@ -40,6 +40,9 @@ const T = require('./mobile_harness'), { M, mobile, lineups, call, mu, six, ok, 
   T.BOARD = mkBoard(12, [game('c', 'DAL', 'NYG', 0, 0, 'pre', 0, '0:00', null, '2026-11-26T21:30Z')], []);
   const fe = await M.finalEligible(11, await M.context()); ok(fe === false || fe === true, 'finalEligible evaluates');
 
+  const media = await call(mobile, '/api/mobile?r=media');
+  ok(media.s === 200 && media.j.schemaVersion === 1 && Object.values(media.j.teams).every(t=>Object.keys(t).length===12), 'media retains old schema and all 48 team identities');
+  ok(JSON.stringify(media.j.featuredMatchups)===JSON.stringify(require('../client/api/_resources.json').tools.featuredMatchups), 'Primetime uses exact season/week-scoped editorial metadata');
   // ---------- v2 additions ----------
   const bw = await call(lineups, '/api/lineups?lg=gl&week=30'); ok(bw.s === 400 && bw.j.error === 'invalid_week' && bw.j.week === '30', 'week 30 -> 400 invalid_week echoing the request');
   ok((await call(lineups, '/api/lineups?lg=gl&week=abc')).s === 400 && (await call(lineups, '/api/lineups?lg=gl&week=0')).s === 400, 'non-numeric and zero weeks rejected');

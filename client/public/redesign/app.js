@@ -56,7 +56,7 @@ const esc = (s) =>
 const clean = (s) => (s || "").replace(/[❄️🔥]/gu, "").trim();
 function img(src, cls = "", alt = "") {
   if (!src) return "";
-  let safe = src.startsWith("assets/");
+  let safe = src.startsWith("assets/") || /^\/media\/[a-zA-Z0-9/_?.=-]+$/.test(src);
   try {
     const u = new URL(src);
     safe =
@@ -64,6 +64,8 @@ function img(src, cls = "", alt = "") {
       [
         "cuadzfantasynetwork.com",
         "sleepercdn.com",
+        "a.espncdn.com",
+        "s.yimg.com",
         "yahoofantasysports-res.cloudinary.com",
       ].includes(u.hostname);
   } catch {}
@@ -99,7 +101,7 @@ const scores = (c) =>
               .join("")
               .toUpperCase(),
           )}</span>`
-        }<div><div class="score">${esc(t.score || "—")}</div><div class="projection ${t.projectionDirection || state(t.projection)}">${esc(num(t.projection))}</div></div></div>${t.odds ? `<div class="odds">Moneyline <strong>${esc(t.odds)}</strong></div>` : ""}</div>`,
+        }<div><div class="score">${esc(t.score || "—")}</div>${t.projection === "" ? "" : `<div class="projection ${t.projectionDirection || state(t.projection)}">${esc(num(t.projection))}</div>`}</div></div>${t.odds ? `<div class="odds">Moneyline <strong>${esc(t.odds)}</strong></div>` : ""}</div>`,
     )
     .join("")}</div>`;
 const probability = (c) => {
@@ -108,17 +110,10 @@ const probability = (c) => {
   return `<div class="probability" aria-label="CFN estimate: ${esc(c.teams[0].name)} ${n}%, ${esc(c.teams[1].name)} ${100 - n}%"><div class="prob-label"><span>${n}%</span><span>${c.final ? "Final result" : "CFN win estimate"}</span><span>${100 - n}%</span></div><div class="track"><i class="fill" style="${n >= 50 ? "left:0" : "right:0"};width:${Math.max(n, 100 - n)}%"></i><i class="ball" style="left:${n}%"></i></div></div>`;
 };
 const card = (c) => c.unavailable ? `<article class="match"><div class="card-label">${img(c.leagueLogo)}<span>${leagues[c.league]}</span></div><h3>Checking matchups…</h3><p>Current scores are unavailable. Please try refreshing.</p></article>` :
-  `<button class="match" data-detail="${c.id || c.league}" aria-label="Open ${esc(c.teams[0].name)} versus ${esc(c.teams[1].name)}"><div class="card-label">${img(c.leagueLogo)}<span>${leagues[c.league]}</span><span class="chevron">›</span></div>${scores(c)}${probability(c)}<div class="card-freshness">${esc(feedNote(c))}</div></button>`;
+  `<button class="match" data-detail="${c.id || c.league}" aria-label="Open ${esc(c.teams[0].name)} versus ${esc(c.teams[1].name)}"><div class="card-label">${img(c.leagueLogo)}<span>${leagues[c.league]}</span><span class="chevron">›</span></div>${CFNPolish.featuredBadge(c)}${scores(c)}${probability(c)}<div class="card-freshness">${esc(feedNote(c))}</div></button>`;
 const player = (p) =>
   `${img(p.photo)}<div><b>${esc(clean(p.name))}</b><small>${esc(p.game)}</small></div>`;
-const rows = (c) =>
-  c.rows
-    .filter((r) => r.left.name || r.right.name)
-    .map(
-      (r) =>
-        `<div class="player-row"><div class="player">${player(r.left)}</div><div class="player-points">${esc(r.left.score || "—")}<small>${esc(num(r.left.proj))}</small></div><span class="slot ${esc(r.slot)}">${esc(r.slot)}</span><div class="player-points">${esc(r.right.score || "—")}<small>${esc(num(r.right.proj))}</small></div><div class="player right">${player(r.right)}</div></div>`,
-    )
-    .join("");
+const rows = (c) => CFNPolish.rows(c);
 
 function network() {
   return `<section class="hero"><div><div class="eyebrow">The network · Week ${requestedWeek()}</div><h1>The week in play.</h1><p>Four leagues. Every matchup has a story.</p></div>${weekControl()}</section><div class="section-head"><h2>This week’s headliners</h2><span class="text-link">Select a matchup for the full lineup</span></div><section class="group" aria-label="Featured matchups">${Object.keys(
@@ -162,8 +157,8 @@ function detail(id) {
   document.querySelector("#detail").dataset.matchup = id;
   const k = id.split("-")[0];
   const c = currentCards(k).find((c) => c.id === id) || headliner(k);
-  document.querySelector("#detail-body").innerHTML =
-    `<div class="dialog-head"><span>${leagues[k]} · Week ${c.week || 11}</span><button class="share-page" data-share-matchup="${esc(c.id || k)}" aria-label="Share matchup">Share ↗</button><button class="close" data-close aria-label="Close matchup">×</button></div><div class="dialog-score">${scores(c)}${probability(c)}</div><div class="lineup-title"><span>${esc(c.teams[0].owner)} · ${esc(c.teams[0].record)}</span><span>Points / projection</span><span>${esc(c.teams[1].owner)} · ${esc(c.teams[1].record)}</span></div>${rows(c)}<p class="subnote" style="padding:0 22px">${esc(feedNote(c))}</p>`;
+  document.querySelector("#detail-body").innerHTML = CFNPolish.detail(c);
+  CFNPolish.swings(c);
   document.querySelector("#detail").showModal();
 }
 document.querySelector("#brand").src = S.logo;

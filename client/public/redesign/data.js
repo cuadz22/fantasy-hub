@@ -6,6 +6,10 @@
     pending = new Map();
   const state = {
     resources: null,
+    portraits: {},
+    teamColors: {},
+    photoIDs: {},
+    named: {},
     picks: {},
     power: {},
     context: null,
@@ -109,6 +113,7 @@
       position: row[2],
       game: row[6] || "",
       photo: photos[row[1]],
+      nflTeam: row[3],
       score: bye ? "BYE" : finite(row[5]) ? row[5].toFixed(2) : "—",
       proj: bye ? "—" : finite(row[4]) ? row[4].toFixed(2) : "—",
     };
@@ -119,6 +124,8 @@
     return d.matchups.map((m) => {
       const starters = (side) =>
         side.filter((r) => !["BN", "IR", "IR+"].includes(r[0]));
+      const namedTeams = state.named[lg]?.week === d.week ? state.named[lg].matchups.find(x=>x.teams.some(t=>t.teamId===m.ia)&&x.teams.some(t=>t.teamId===m.ib))?.teams : null;
+      const enriched = (row,id) => { const a=athlete(row,photos); const n=namedTeams?.find(t=>t.teamId===id)?.lineup.find(p=>p.name===row?.[1]&&p.slot===row?.[0]); return {...a, photo:n?.photoURL || a.photo, playerId:n?.playerId, originalProjection:n?.originalProjection, projectionDirection:n && Number.isFinite(n.originalProjection) && Number.isFinite(n.liveProjection) ? n.liveProjection > n.originalProjection+0.05 ? "up" : n.liveProjection < n.originalProjection-0.05 ? "down" : "" : ""}; };
       const left = starters(m.L),
         right = starters(m.R);
       const teams = [0, 1].map((i) => {
@@ -139,7 +146,7 @@
         );
         const baseline =
           active.length && active.every((r) => finite(r[4]))
-            ? active.reduce((sum, r) => sum + r[4], 0)
+            ? active.reduce((sum, r) => { const p=namedTeams?.find(t=>t.teamId===id)?.lineup.find(p=>p.name===r[1]&&p.slot===r[0]);return sum + (finite(p?.originalProjection) ? p.originalProjection : r[4]); }, 0)
             : null;
         const delta =
           baseline != null && finite(totals[1]) ? totals[1] - baseline : 0;
@@ -175,8 +182,8 @@
           { length: Math.max(left.length, right.length) },
           (_, i) => ({
             slot: left[i]?.[0] || right[i]?.[0],
-            left: athlete(left[i], photos),
-            right: athlete(right[i], photos),
+            left: enriched(left[i], m.ia),
+            right: enriched(right[i], m.ib),
           }),
         ),
         prob,
@@ -205,8 +212,15 @@
     if(lg==='bh' && d.rows.slice(14).some(r=>r.some((id,i)=>id!==i+1))) throw Error("Keeper picks cannot be traded");
     return d;
   }
+  async function loadPresentation() {
+    await Promise.all([
+      capture("portraits",async()=>{state.portraits=await read("/redesign/portraits.json",3600000);}),
+      capture("photoIDs",async()=>{state.photoIDs=await read("/redesign/player-photo-ids.json",3600000);}),
+      capture("teamColors",async()=>{state.teamColors=await read("/redesign/team-colors.json",3600000);})
+    ]);
+  }
   async function loadResources(lg, picks=false) {
-    const jobs=[capture("resources",async()=>{state.resources=validateResources(await read("/resources/v1.json",60000));})];
+    const jobs=[loadPresentation(),capture("resources",async()=>{state.resources=validateResources(await read("/resources/v1.json",60000));})];
     if(picks) jobs.push(capture("picks-"+lg,async()=>{state.picks[lg]=validatePicks(await read("/api/trades?lg="+lg,60000),lg);}));
     await Promise.all(jobs);
   }
@@ -242,7 +256,7 @@
         : page === "league"
           ? [lg]
           : [];
-    const jobs = [];
+    const jobs = [loadPresentation()];
     if (ids.length)
       jobs.push(
         capture("media", async () => {
@@ -252,11 +266,15 @@
     for (const id of ids) {
       jobs.push(
         capture("lineups-" + id, async () => {
-          const d = validateLineups(
-            await read(`/api/lineups?lg=${id}&week=${week}`),
-            id,
-            week,
-          );
+          let d;
+          try {
+            const named=await read(`/api/mobile/lineups?lg=${id}&week=${week}`);
+            d=validateLineups(fromNamed(named,id,week),id,week);
+            state.named[id]=named;
+          } catch {
+            d=validateLineups(await read(`/api/lineups?lg=${id}&week=${week}`),id,week);
+            delete state.named[id];
+          }
           if (d.season !== ctx.season) throw new Error("Season mismatch");
           state.lineups[id] = d;
         }),
@@ -283,7 +301,15 @@
       );
     await Promise.all(jobs);
   }
-  const api = {
+  function fromNamed(n, lg, week) {
+    if(n.schemaVersion!==2||n.season!==(state.context?.season||2026)||n.leagueId!==lg||n.week!==week||!Array.isArray(n.matchups)) throw Error('Wrong named lineup');
+    return {lg, week, season:n.season, ...n.freshness, matchups:n.matchups.map(m=>{
+      if(m.teams?.length!==2)throw Error('Incomplete named matchup');
+      const [a,b]=m.teams, rows=t=>t.lineup.map(p=>[p.slot,p.name,p.position,p.nflTeam,p.liveProjection,p.points,p.gameStatus,p.injuryStatus]);
+      return {ia:a.teamId,ib:b.teamId,an:a.name,bn:b.name,ya:[a.pointsToDate,a.yahooProjection],yb:[b.pointsToDate,b.yahooProjection],L:rows(a),R:rows(b),winProbability:m.winProbability};
+    })};
+  }
+  const api = { fromNamed,
     state,
     load,
     cards,
