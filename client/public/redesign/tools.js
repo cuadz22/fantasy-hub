@@ -625,6 +625,8 @@ function render(keepScroll = false, skipLoad = false) {
   document
     .querySelectorAll("details.more-nav")
     .forEach((d) => (d.open = false));
+  document.querySelector("#leagues-menu").classList.toggle("selected",page === "league");
+  document.querySelector("#share-page").hidden = page === "commish";
   document.title = `CFN · ${page === "league" ? leagues[league] + " · " + names[leagueTab] : moreNames[page] || page}`;
   if (!keepScroll) window.scrollTo(0, 0);
   if (!skipLoad) loadRoute(page);
@@ -709,13 +711,13 @@ document.addEventListener("click", (e) => {
       `<h2>Round ${p.dataset.pickRound}</h2>${rs.map((r) => `<p>${esc(r.detail)}<br><span class="status-tag">${esc(r.value)}</span></p>`).join("")}`,
     );
   }
-  document.querySelectorAll("#more-menu, #league-tools").forEach((d) => {
+  document.querySelectorAll("#more-menu, #league-tools, #leagues-menu").forEach((d) => {
     if (!d.contains(e.target)) d.open = false;
   });
 });
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape")
-    document.querySelectorAll("#more-menu, #league-tools").forEach((d) => {
+    document.querySelectorAll("#more-menu, #league-tools, #leagues-menu").forEach((d) => {
       if (d.open) {
         d.open = false;
         d.querySelector("summary").focus();

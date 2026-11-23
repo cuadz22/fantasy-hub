@@ -2802,3 +2802,17 @@ nav a,
 .draft-pick .slot { width:fit-content; }
 .auction-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; }
 .auction-grid .draft-pick { border-top:1px solid var(--line); }
+/* League identities retain their own palettes; controls remain quiet. */
+.league-pop{left:-40px;right:auto;top:calc(100% - 1px);width:320px;z-index:25}
+.league-pop a{display:flex;align-items:center;gap:16px;min-height:62px}
+.league-pop img,.league-pop a>span{width:52px;height:40px;object-fit:contain;flex-shrink:0}
+.league-pop a>span{display:grid;place-items:center;font-weight:750;font-size:15px;color:var(--text)}
+.identity>img[src*="leagues/sts"]{width:112px}
+.card-label img[src*="leagues/sts"]{width:48px;object-fit:contain}
+.page-actions{max-width:1240px;margin:18px auto -22px;padding:0 28px;display:flex;align-items:center;justify-content:flex-end;gap:12px;min-height:34px}
+.share-page{border:1px solid var(--control-border);background:var(--control);color:var(--text);border-radius:24px;padding:8px 14px;font:500 12px system-ui;cursor:pointer;white-space:nowrap}
+.share-page:hover{background:var(--surface)}
+#share-status{font-size:12px;color:var(--muted)}
+.dialog-head .share-page{margin-left:auto;margin-right:12px}
+.share-fallback{display:flex;gap:8px;max-width:100%;padding:8px}.share-fallback input{min-width:0;width:300px}
+@media(max-width:600px){.league-pop{position:fixed;left:12px;right:12px;top:66px;width:auto}.page-actions{margin:10px 0 -14px;padding:0 20px}.dialog-head .share-page{margin-right:5px;padding:8px}.dialog-head>span{min-width:0}}

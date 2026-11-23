@@ -9,6 +9,13 @@
     />
     <link rel="icon" href="assets/image-59.png" />
     <title>CFN · Fantasy Network</title>
+    <meta name="description" content="Independent leagues. One network. Matchups, standings, league history and the player market.">
+    <meta property="og:title" content="Cuadz Fantasy Network">
+    <meta property="og:description" content="Your leagues. Your rivalries. All here.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cuadzfantasynetwork.com/">
+    <meta property="og:image" content="https://cuadzfantasynetwork.com/redesign/assets/previews/network.jpg">
+    <meta name="twitter:card" content="summary_large_image">
     <script src="theme.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -19,8 +26,12 @@
           ><img id="brand" alt="CFN"
         /></a>
         <nav aria-label="Main navigation">
-          <a href="#network">Network</a><a href="#league">Leagues</a
-          ><a href="#market">Market</a>
+          <a href="#network">Network</a><details class="more-nav" id="leagues-menu"><summary>Leagues <span aria-hidden="true">⌄</span></summary><div class="more-pop league-pop">
+<a href="#league-gl"><img src="assets/leagues/gl.svg" alt=""><strong>Gentlemen’s League</strong></a>
+<a href="#league-bh"><span aria-hidden="true">B&amp;H</span><strong>Beaners &amp; Husseins</strong></a>
+<a href="#league-rb"><img src="assets/leagues/rb.svg" alt=""><strong>Rebirth</strong></a>
+<a href="#league-sts"><img src="assets/leagues/sts.svg" data-league-art="assets/leagues/sts.svg" alt=""><strong>Shoot the Shits</strong></a>
+</div></details><a href="#market">Market</a>
           <details class="more-nav" id="more-menu">
             <summary>More <span aria-hidden="true">⌄</span></summary>
             <div class="more-pop">
@@ -50,6 +61,7 @@
       </div>
     </header>
     <a class="skip-link" href="#main">Skip to content</a>
+    <div class="page-actions"><button class="share-page" id="share-page">Share page ↗</button><span id="share-status" role="status"></span></div>
     <main id="main" tabindex="-1"></main>
     <footer>
       <span>CUADZ FANTASY NETWORK</span>
@@ -62,10 +74,13 @@
     </footer>
     <dialog id="detail"><div id="detail-body"></div></dialog>
     <script src="snapshot.js"></script>
+    <script src="branding.js"></script>
     <script src="data.js"></script>
     <script src="app.js"></script>
     <script src="tools.js"></script>
     <script src="studio-export.js"></script>
+    <script src="share-pages.js"></script>
+    <script src="sharing.js"></script>
   <!-- LEGACY_RESOURCE_CONTRACT -->
   </body>
 </html>
