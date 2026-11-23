@@ -98,6 +98,7 @@ const fs = require("node:fs"),
   routes.push("network", "market", "exposure", "studio", "pickem", "archive");
   for (const route of routes) {
     await ev(`location.hash=${JSON.stringify(route)}`);
+    await ev(`loadRoute(location.hash.startsWith('#league-')?'league':location.hash.slice(1)).then(()=>render(true,true))`);
     await pause(100);
     assert(
       await ev(`document.querySelector('main').innerText.length>60`),

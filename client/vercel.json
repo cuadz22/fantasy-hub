@@ -2,7 +2,7 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/cfn.html",
+      "destination": "/redesign/index.html",
       "permanent": false
     }
   ],

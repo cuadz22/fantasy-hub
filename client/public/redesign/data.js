@@ -5,6 +5,8 @@
   const cache = new Map(),
     pending = new Map();
   const state = {
+    resources: null,
+    picks: {},
     context: null,
     lineups: {},
     standings: {},
@@ -192,6 +194,21 @@
       state.failures[key] = error.message;
     }
   }
+  function validateResources(d) {
+    if(d.schemaVersion !== 1 || d.season !== 2026 || !/^[a-f0-9]{64}$/.test(d.sourceVersion) || !d.tools?.draftSeasons || !Array.isArray(d.tools.resources)) throw Error("Invalid resource contract");
+    return d;
+  }
+  function validatePicks(d, lg) {
+    const rounds = {bh:16, rb:17}[lg];
+    if(!rounds || d.lg !== lg || !Array.isArray(d.rows) || d.rows.length !== rounds || d.rows.some(r=>!Array.isArray(r)||r.length!==12||r.some(id=>!Number.isInteger(id)||id<1||id>12))) throw Error("Invalid pick ledger");
+    if(lg==='bh' && d.rows.slice(14).some(r=>r.some((id,i)=>id!==i+1))) throw Error("Keeper picks cannot be traded");
+    return d;
+  }
+  async function loadResources(lg, picks=false) {
+    const jobs=[capture("resources",async()=>{state.resources=validateResources(await read("/resources/v1.json",60000));})];
+    if(picks) jobs.push(capture("picks-"+lg,async()=>{state.picks[lg]=validatePicks(await read("/api/trades?lg="+lg,60000),lg);}));
+    await Promise.all(jobs);
+  }
   async function load(page, lg, selectedWeek) {
     await capture("context", async () => {
       state.context = validateContext(
@@ -258,6 +275,7 @@
     validateLineups,
     validateStandings,
     validateContext,
+    loadResources, validateResources, validatePicks,
   };
   root.CFNData = api;
   if (typeof module !== "undefined") module.exports = api;

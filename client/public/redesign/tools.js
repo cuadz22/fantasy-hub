@@ -1,4 +1,4 @@
-const T = window.TOOLS_DATA;
+const T = {};
 
 const names = {
   vote: "MVP voting",
@@ -44,7 +44,7 @@ const route = (id) => {
 function controls() {
   return `<div class="controls expanded-controls"><div class="tabs" aria-label="League navigation">${["overview", "team", "standings", "trades", "waivers"].map((id) => `<a href="#league-${league}/${id}" class="tab-link ${leagueTab === id ? "active" : ""}" ${leagueTab === id ? 'aria-current="page"' : ""}>${names[id]}</a>`).join("")}<details class="league-tools" id="league-tools"><summary class="${!["overview", "team", "standings", "trades", "waivers"].includes(leagueTab) ? "active" : ""}">League tools <span aria-hidden="true">⌄</span></summary><div class="tool-menu">${sections.map(([title, ids]) => `<div><div class="eyebrow">${title}</div>${ids.filter(available).map(link).join("")}</div>`).join("")}</div></details></div>${["overview", "lineups", "team", "weekly"].includes(leagueTab) ? weekControl() : ""}</div>`;
 }
-const heading = (title, sub = "Saved archive · Preview only") =>
+const heading = (title, sub = "League records") =>
   `<div class="tool-heading"><div><div class="eyebrow">${leagues[league]}</div><h2>${title}</h2></div><span class="archive-label">${sub}</span></div>`;
 const table = (heads, rows, cls = "") =>
   `<div class="table-wrap ${cls}" tabindex="0" aria-label="Scrollable data table"><table><thead><tr>${heads.map((h) => `<th scope="col">${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((x) => `<td>${x}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
@@ -126,7 +126,7 @@ function waiversView() {
   );
 }
 function waiverRows(rs) {
-  return `<div class="waiver-list">${rs
+  return `<div class="waiver-list">${rs.slice().sort((a,b)=>b.week-a.week)
     .map((w) => {
       const bid = w.bids.find((b) => b.won);
       return `<details class="waiver-card"><summary>${photo(w.player)}<div><b>${esc(w.player)}</b><small>${esc(w.position)} · ${esc(w.nflTeam)} · ${esc(w.date)}</small></div><div class="waiver-team"><b>${esc(w.winner)}</b><small>Successful claim</small></div><strong class="bid">$${bid?.amount ?? 0}</strong><span class="disclosure">⌄</span></summary><div class="bid-detail">${w.bids.map((b) => `<div><span>${esc(b.manager)}${b.won ? ' <span class="status-tag">Won</span>' : ""}</span><b>$${b.amount}</b></div>`).join("")}</div></details>`;
@@ -189,7 +189,8 @@ function awardsView() {
   );
 }
 function resourceRows(sec) {
-  return T.resources.filter((r) => r.league === league && r.section === sec);
+  if(sec === "Draft Picks") return pickRows();
+  return (T.resources || []).filter((r) => r.league === league && r.section === sec);
 }
 function resourcesView(sec) {
   let rs = resourceRows(sec),
@@ -201,7 +202,7 @@ function resourcesView(sec) {
     heading(sec) +
     `<div class="filter-row"><label for="resource-group">${sec === "Keepers" ? "Manager" : "Team"}</label><select id="resource-group" data-section="${sec}"><option value="all">All ${sec === "Keepers" ? "managers" : "teams"}</option>${groups.map((g) => `<option>${esc(g)}</option>`).join("")}</select>${seasons.length ? `<label for="resource-season">Season</label><select id="resource-season" data-section="${sec}">${seasons.map((s) => `<option>${s}</option>`).join("")}</select>` : ""}<input type="search" id="resource-search" data-section="${sec}" placeholder="Find a player" aria-label="Find a player"></div><div id="resource-results">${resourcesTable(rs.filter((r) => !seasons.length || r.season === seasons[0]))}</div>` +
     savednote(
-      "Prices and contract information are saved examples. No roster or keeper decisions are submitted from this preview.",
+      "Uses the website’s keeper records and pricing rules. These are estimates; confirm eligibility and available picks before keeping a player. No decisions are submitted here.",
     )
   );
 }
@@ -216,14 +217,21 @@ function resourcesTable(rs) {
     ]),
   );
 }
+function pickRows() {
+  const d=CFNData.state.picks[league]; if(!d || !T.teams) return [];
+  const teams=T.teams[league], name=id=>teams.find(t=>t.id===id)?.team || "Team "+id;
+  return d.rows.flatMap((row,r)=>row.map((id,i)=>({league,section:"Draft Picks",group:name(id),title:"Round "+(r+1),value:id===i+1?"Own pick":"Acquired",detail:"Originally: "+name(i+1)+(league==="bh"&&r>=14?" · Keeper round":""),season:""})));
+}
 function picksView() {
+  const ledger=CFNData.state.picks[league];
+  if(!ledger) return heading("Draft-pick ownership", "Live ledger not loaded")+empty("Checking current ownership", "Please try again or open the original board below.");
   const rs = resourceRows("Draft Picks"),
-    teams = [...new Set(rs.map((r) => r.group))].sort(),
+    teams = T.teams[league].slice().sort((a,b)=>a.id-b.id).map(t=>t.team),
     rounds = [
       ...new Set(rs.map((r) => Number(r.title.replace(/\D/g, "")))),
     ].sort((a, b) => a - b);
   return (
-    heading("Draft-pick ownership") +
+    heading("Draft-pick ownership", CFNData.state.failures["picks-"+league] ? "Last loaded ledger · refresh delayed" : ledger.live ? "Yahoo trades + approved league trades" : "Saved ledger · provider refresh unavailable") +
     savednote(
       "Each cell shows the number of picks that team owns in the round. Select a count to see where the picks came from.",
     ) +
@@ -253,40 +261,27 @@ function cantcutView() {
     ]),
   ];
   return (
-    heading("Can’t cut list", `Saved list · ${T.cc.asof}`) +
-    `<article class="note-card"><h3>${league === "rb" ? "Yahoo list + top 10 scoring quarterbacks" : "Yahoo can’t-cut list"}</h3><p>${league === "rb" ? "Rebirth also protects the top 10 scoring quarterbacks under its superflex rule." : "The Yahoo list is the reference for this league."} This is an archived list for design review.</p></article><div class="protected-grid">${list.map((n) => `<div>${photo(n)}<span><b>${esc(n)}</b><small>${league === "rb" && T.cc.qb10.includes(n) ? "Top 10 QB" + (T.cc.list.includes(n) ? " · Yahoo" : "") : "Yahoo list"}</small></span><span class="lock-mark" aria-label="Protected">◇</span></div>`).join("")}</div>`
+    heading("Can’t cut list", `Source updated · ${T.cc.asof}`) +
+    `<article class="note-card"><h3>${league === "rb" ? "Yahoo list + top 10 scoring quarterbacks" : "Yahoo can’t-cut list"}</h3><p>${league === "rb" ? "Rebirth also protects the top 10 scoring quarterbacks under its superflex rule." : "The Yahoo list is the reference for this league."} The source date above identifies when this protection list was last updated.</p></article><div class="protected-grid">${list.map((n) => `<div>${photo(n)}<span><b>${esc(n)}</b><small>${league === "rb" && T.cc.qb10.includes(n) ? "Top 10 QB" + (T.cc.list.includes(n) ? " · Yahoo" : "") : "Yahoo list"}</small></span><span class="lock-mark" aria-label="Protected">◇</span></div>`).join("")}</div>`
   );
 }
 function draftView() {
   const d = T.draft[league];
-  if (!d)
-    return (
-      heading("Draft board") +
-      empty(
-        "No draft archive included",
-        "The board will use the same compact layout when a saved draft is available.",
-      )
-    );
-  const rounds = [...new Set(d.P.map((p) => p[0]))];
-  return (
-    heading("2026 draft board", "Archived draft · Scroll to explore") +
-    `<div class="table-wrap picks-wrap" tabindex="0" aria-label="Draft results, scroll horizontally"><table class="draft-table"><thead><tr><th>Round</th>${d.T.map((t) => `<th>${esc(t)}</th>`).join("")}</tr></thead><tbody>${rounds
-      .map(
-        (r) =>
-          `<tr><th scope="row">${r}</th>${d.T.map((t, i) => {
-            const p = d.P.find((p) => p[0] === r && p[2] === i);
-            return `<td>${p ? `<span class="slot ${p[4]}">${esc(p[4])}</span><b>${esc(p[3])}</b><small>${esc(p[5])} · ${p[0]}.${String(p[1]).padStart(2, "0")}</small>` : "—"}</td>`;
-          }).join("")}</tr>`,
-      )
-      .join("")}</tbody></table></div>`
-  );
+  if(!d) return heading("Draft board")+empty("Draft results unavailable", "Open the existing draft archive below.");
+  const tile=(p,auction=false)=>p ? `<div class="draft-pick"><span class="slot ${esc(p[4])}">${esc(p[4])}</span><b>${esc(p[3])}</b><small>${esc(p[5])} · ${auction ? '$'+p[6] : 'Pick '+((p[0]-1)*12+p[1])}</small><span class="draft-owner">${esc(d.T[p[2]])}</span></div>` : '<span class="muted">—</span>';
+  if(league==='sts') {
+    return heading("2026 auction draft", "As drafted · Winning bids")+`<div class="auction-grid">${d.T.map((team,i)=>{const picks=d.P.filter(p=>p[2]===i);return `<article class="note-card"><h3>${esc(team)}</h3><p>$${picks.reduce((n,p)=>n+p[6],0)} spent · ${picks.length} players</p>${picks.map(p=>tile(p,true)).join('')}</article>`;}).join('')}</div>`;
+  }
+  const rounds=[...new Set(d.P.map(p=>p[0]))].sort((a,b)=>a-b), grid=new Map();
+  for(const p of d.P) {const key=p[0]+'.'+p[1];if(grid.has(key)) throw Error('Duplicate draft slot');grid.set(key,p);}
+  return heading("2026 draft board", "As drafted · Snake order")+savednote("Columns follow draft slots. Every selection shows its actual drafting team, including traded picks. Scroll sideways to view all 12 slots.")+`<div class="table-wrap picks-wrap" tabindex="0" aria-label="Draft board, scroll horizontally"><table class="draft-table"><thead><tr><th>Round</th>${Array.from({length:12},(_,i)=>`<th>Slot ${i+1}</th>`).join('')}</tr></thead><tbody>${rounds.map(r=>`<tr><th scope="row">R${r} ${r%2?'→':'←'}</th>${Array.from({length:12},(_,i)=>`<td>${tile(grid.get(r+'.'+(r%2?i+1:12-i)))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
 function powerView() {
   const p = T.power[league];
   return (
     heading("Power rankings", `Archived model · Through Week ${p.week}`) +
     savednote(
-      "Saved output of the website’s own ranking formula. This snapshot is older than the Week 11 matchup examples.",
+      "The website’s published model for the week shown. This does not replace the current official standings.",
     ) +
     `<div class="ranking-list">${p.rows.map((r, i) => `<div><span class="rank">${i + 1}</span><div><b>${esc(r.name)}</b><small>${r.record} · ${r.score >= 68 ? "Title favorite" : r.score >= 56 ? "Contender" : r.score >= 47 ? "Playoff bubble" : r.score >= 38 ? "Pretender" : "Rebuilding"}</small></div><div class="strength-track"><i style="width:${r.score}%"></i></div><strong>${r.score}</strong></div>`).join("")}</div>`
   );
@@ -370,7 +365,7 @@ function weeklyView() {
 function deskView() {
   return (
     heading("Trade desk", "Local draft · Nothing is submitted") +
-    `<p class="subnote">Try the layout by choosing two teams. This preview builds a local proposal without sending it to anyone.</p><div class="trade-builder">${[0, 1].map((n) => `<section class="note-card"><label for="trade-team-${n}">Team ${n + 1}</label><select id="trade-team-${n}" data-trade-team="${n}">${T.teams[league].map((t, i) => `<option value="${i}" ${i === n ? "selected" : ""}>${esc(t.team)}</option>`).join("")}</select><div id="trade-roster-${n}">${tradeRoster(n, n)}</div></section>`).join("")}</div><div class="proposal-summary" id="proposal-summary">Choose the assets each team would send.</div>`
+    `<p class="subnote">Choose two teams to draft a proposal. Nothing is sent until you share it yourself.</p><div class="trade-builder">${[0, 1].map((n) => `<section class="note-card"><label for="trade-team-${n}">Team ${n + 1}</label><select id="trade-team-${n}" data-trade-team="${n}">${T.teams[league].map((t, i) => `<option value="${i}" ${i === n ? "selected" : ""}>${esc(t.team)}</option>`).join("")}</select><div id="trade-roster-${n}">${tradeRoster(n, n)}</div></section>`).join("")}</div><div class="proposal-summary" id="proposal-summary">Choose the assets each team would send.</div>`
   );
 }
 function tradeRoster(index, side) {
@@ -384,6 +379,7 @@ function tradeRoster(index, side) {
     .join("")}`;
 }
 function toolBody() {
+  if (!["overview","lineups","team","standings","weekly","vote"].includes(leagueTab) && !CFNData.state.resources) return empty("Loading league records", "The current resource feed is being checked. Please try again if it does not load.");
   switch (leagueTab) {
     case "standings":
       return standingsView();
@@ -481,7 +477,7 @@ function leaguePage() {
         "Around the league",
         cs.length
           ? `Week ${requestedWeek()} · ${cs.length} matchups`
-          : "Archived example · Current matchups unavailable",
+          : "Current matchups unavailable",
       ) +
       `<section class="group">${(cs.length ? cs : [c]).map(card).join("")}</section>` +
       `<section class="content-section league-directory"><div><h2>More to your league.</h2><p>From this week’s moves to the seasons that built it.</p></div><div class="directory-grid">${sections.map(([title, ids]) => `<section><h3>${title}</h3>${ids.filter(available).map(link).join("")}</section>`).join("")}</div></section>`;
@@ -492,7 +488,7 @@ function leaguePage() {
       heading("MVP voting", "Existing voting tool") +
       empty(
         "Let the league decide.",
-        "Voting stays in the existing secure flow while the new presentation is being reviewed.",
+        "Voting stays in the existing secure flow with the original voting tool.",
       );
   return hero + controls() + body + originalLink();
 }
@@ -508,6 +504,7 @@ function globalHero(title, desc) {
   return `<section class="hero"><div><div class="eyebrow">CFN · Across the network</div><h1>${title}</h1><p>${desc}</p></div></section>`;
 }
 function exposure() {
+  if(!CFNData.state.resources) return globalHero("Player exposure", "Loading league records…");
   const owners = [
     ...new Set(
       Object.values(T.teams)
@@ -545,6 +542,7 @@ function exposureRows(owner) {
     .join("")}</div>`;
 }
 function studio() {
+  if(!CFNData.state.resources) return globalHero("Studio", "Loading league records…");
   return (
     globalHero(
       "Made to be shared.",
@@ -570,7 +568,7 @@ function pickem() {
       "Make your call.",
       "The network’s weekly picks, in their own space.",
     ) +
-    `<div class="editorial"><article class="story"><div class="eyebrow">Pick’em</div><h2>Who have you got?</h2><p>Choose your winners, follow the leaderboard, and keep the rivalry going.</p><a class="pill" href="https://cuadzfantasynetwork.com/l/pickem.html" target="_blank" rel="noopener">Open Pick’em ↗</a></article><aside class="note-card"><h3>Your picks stay protected.</h3><p>The existing submission, deadline, and leaderboard flow remains in place. This preview does not submit picks.</p></aside></div>`
+    `<div class="editorial"><article class="story"><div class="eyebrow">Pick’em</div><h2>Who have you got?</h2><p>Choose your winners, follow the leaderboard, and keep the rivalry going.</p><a class="pill" href="https://cuadzfantasynetwork.com/l/pickem.html" target="_blank" rel="noopener">Open Pick’em ↗</a></article><aside class="note-card"><h3>Your picks stay protected.</h3><p>The existing submission, deadline, and leaderboard flow remains in place. Use the original tool to submit your picks.</p></aside></div>`
   );
 }
 function archive() {
@@ -635,23 +633,20 @@ function render(keepScroll = false, skipLoad = false) {
   document
     .querySelectorAll("details.more-nav")
     .forEach((d) => (d.open = false));
-  document.title = `CFN · ${page === "league" ? leagues[league] + " · " + names[leagueTab] : moreNames[page] || page} preview`;
+  document.title = `CFN · ${page === "league" ? leagues[league] + " · " + names[leagueTab] : moreNames[page] || page}`;
   if (!keepScroll) window.scrollTo(0, 0);
   if (!skipLoad) loadRoute(page);
 }
 // A single route handler owns navigation.
 window.addEventListener("hashchange", () => render());
 async function loadRoute(page) {
-  if (!["network", "league", "market", "studio"].includes(page)) return;
-  if (
-    page === "league" &&
-    !["overview", "lineups", "team", "standings", "weekly"].includes(leagueTab)
-  )
-    return;
   const generation = ++routeGeneration;
-  await CFNData.load(page, league, selectedWeek);
-  if (generation === routeGeneration && !document.querySelector("#detail").open)
-    render(true, true);
+  const jobs=[];
+  if(["league","exposure","studio"].includes(page)) jobs.push(CFNData.loadResources(league,page==="league" && leagueTab==="picks"));
+  if(["network","market","studio"].includes(page) || (page==="league" && ["overview","lineups","team","standings","weekly"].includes(leagueTab))) jobs.push(CFNData.load(page,league,selectedWeek));
+  await Promise.all(jobs);
+  if(CFNData.state.resources) Object.assign(T,CFNData.state.resources.tools);
+  if(generation===routeGeneration && !document.querySelector("#detail").open) render(true,true);
 }
 document.addEventListener("change", (e) => {
   if (e.target.id === "matchup-week") {

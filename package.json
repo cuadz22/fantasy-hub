@@ -9,7 +9,8 @@
     "build": "cd client && npm run build",
     "start": "cd server && npm run start",
     "test": "node tools/test_live.js",
-    "test:reliability": "node tools/test_mobile_data.js && node tools/test_mobile_auth.js && node tools/test_mobile_movers.js && node tools/test_reliability.js && node tools/test_scoring.js && node tools/test_standings.js && node tools/test_probability.js && node tools/test_touchdowns.js && node tools/test_read_efficiency.js"
+    "test:reliability": "node tools/test_mobile_data.js && node tools/test_mobile_auth.js && node tools/test_mobile_movers.js && node tools/test_reliability.js && node tools/test_scoring.js && node tools/test_standings.js && node tools/test_probability.js && node tools/test_touchdowns.js && node tools/test_read_efficiency.js",
+    "test:migration": "node tools/resources/build.cjs && node tools/resources/test.cjs && node tools/redesign/test.cjs"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

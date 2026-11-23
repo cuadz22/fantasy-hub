@@ -81,7 +81,7 @@ const headliner = (k) => {
         (t) => t.name.toLowerCase() === saved.teams[0].name.toLowerCase(),
       ),
     ) ||
-    currentCards(k)[0] || { ...saved, week: 11 }
+    currentCards(k)[0] || { league:k, leagueLogo:saved.leagueLogo, unavailable:true, week:requestedWeek(), teams:[{name:"Awaiting matchup"},{name:"Awaiting matchup"}], rows:[], prob:null }
   );
 };
 const scores = (c) =>
@@ -107,7 +107,7 @@ const probability = (c) => {
   let n = Math.max(0, Math.min(100, Number(c.prob)));
   return `<div class="probability" aria-label="CFN estimate: ${esc(c.teams[0].name)} ${n}%, ${esc(c.teams[1].name)} ${100 - n}%"><div class="prob-label"><span>${n}%</span><span>${c.final ? "Final result" : "CFN win estimate"}</span><span>${100 - n}%</span></div><div class="track"><i class="fill" style="${n >= 50 ? "left:0" : "right:0"};width:${Math.max(n, 100 - n)}%"></i><i class="ball" style="left:${n}%"></i></div></div>`;
 };
-const card = (c) =>
+const card = (c) => c.unavailable ? `<article class="match"><div class="card-label">${img(c.leagueLogo)}<span>${leagues[c.league]}</span></div><h3>Checking matchups…</h3><p>Current scores are unavailable. Please try refreshing.</p></article>` :
   `<button class="match" data-detail="${c.id || c.league}" aria-label="Open ${esc(c.teams[0].name)} versus ${esc(c.teams[1].name)}"><div class="card-label">${img(c.leagueLogo)}<span>${leagues[c.league]}</span><span class="chevron">›</span></div>${scores(c)}${probability(c)}<div class="card-freshness">${esc(feedNote(c))}</div></button>`;
 const player = (p) =>
   `${img(p.photo)}<div><b>${esc(clean(p.name))}</b><small>${esc(p.game)}</small></div>`;
@@ -173,7 +173,7 @@ document.addEventListener("click", (e) => {
     document.querySelector("#detail").close();
   if (e.target.closest("[data-story]")) {
     document.querySelector("#detail-body").innerHTML =
-      `<div class="dialog-head"><span>The weekly edition · Nov 17 · Archive</span><button class="close" data-close aria-label="Close article">×</button></div><article class="dialog-copy"><div class="eyebrow">CFN Staff · Saved excerpt</div><h2>Week 10 Final & Week 11 Early Look</h2><p>Week 10 is in the books: Money O (Oscar) led the network with 245.00 points. Final scores, recaps and win-odds swings for all 24 matchups, plus an early look at Week 11.</p><p>In Gentlemen’s League, Run CMC handed Mr. Electricity its second loss. Sir reached 8–2, setting up a Week 11 meeting between the two leaders.</p><p class="subnote">This preview shows the article treatment using a saved excerpt.</p></article>`;
+      `<div class="dialog-head"><span>The weekly edition · Nov 17 · Archive</span><button class="close" data-close aria-label="Close article">×</button></div><article class="dialog-copy"><div class="eyebrow">CFN Staff · Saved excerpt</div><h2>Week 10 Final & Week 11 Early Look</h2><p>Week 10 is in the books: Money O (Oscar) led the network with 245.00 points. Final scores, recaps and win-odds swings for all 24 matchups, plus an early look at Week 11.</p><p>In Gentlemen’s League, Run CMC handed Mr. Electricity its second loss. Sir reached 8–2, setting up a Week 11 meeting between the two leaders.</p><p class="subnote">An excerpt from the November 17 weekly edition.</p></article>`;
     document.querySelector("#detail").showModal();
   }
 });

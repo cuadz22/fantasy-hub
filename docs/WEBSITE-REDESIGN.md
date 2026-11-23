@@ -5,14 +5,20 @@ Preview: http://127.0.0.1:8770/redesign/index.html
 
 ## Scope and production safety
 
-This candidate is additive under `client/public/redesign/`. It does not replace the
-production homepage, change an API, move a data file, change authentication, alter
-notification recipients, or install any new cron job. The existing website and app
-continue using the same production services. No Vercel deployment has been made.
+Production cutover is authorized. The new root redirects to `/redesign/index.html`.
+The original `/cfn.html`, league tools, commissioner payload, API contracts, cron
+jobs, auth, scoring and notification recipient restrictions remain unchanged.
+One additive public GET `/api/mobile/resources` exposes the versioned resource
+contract; `/resources/v1.json` serves the identical document without a function call.
 
-The preview server permits public GET requests only, on five explicitly allowed
-feed routes. It cannot proxy authentication, push delivery, cron, or other writes.
-It uses no credentials. Its cache is in memory and separate from production Redis.
+`client/scripts/build-resources.cjs` compiles the canonical site's resources on every
+build. The redesigned homepage also carries identical non-executable JSON literals
+for existing Swift parsers. Do not remove this compatibility block until all clients
+have moved to the versioned endpoint. The build fails if any literal changes during
+serialization. This is data compatibility, not execution of the old website scripts.
+
+The local preview proxy permits public GETs only. It cannot send auth emails, push
+notifications, submit votes/trades or run jobs. Its cache is separate from Redis.
 
 ## What is connected
 
@@ -23,9 +29,9 @@ It uses no credentials. Its cache is in memory and separate from production Redi
 | Teams | Every team selectable; current starters and scores | Full bench/roster tools linked |
 | Standings | Existing final-only standings feed; completed-week validation; team opens its starter roster | STS custom points used when provided, otherwise explicitly W-L reference |
 | Player market | Existing model's five risers/fallers, photos, values, source timestamp | Full market/analyzer linked |
-| Trades and waivers | Archived examples in redesigned layouts, explicitly dated/saved | Existing current tools linked |
+| Trades and waivers | Canonical website records in redesigned layouts, explicitly dated | Existing current tools linked |
 | History / all-time / H2H / awards | Saved archive in new presentation | Full historical results remain linked |
-| Draft board / picks / keepers / keeper prices / can't-cut | Saved archive, searchable and scrollable, pick provenance | Existing authoritative tools linked; no decisions submitted |
+| Draft board / picks / keepers / keeper prices / can't-cut | Build-generated canonical resources; live pick ledger; all draft selections preserved | Existing authoritative tools linked; no decisions submitted |
 | Power rankings / fraud meter / weekly preview | Saved model outputs labeled by week; featured preview uses selected feed | Existing model tools linked |
 | Rulebook / trade rules | Saved content in readable disclosures | Existing full rules linked |
 | Exposure | Saved cross-league roster view, clearly labeled | Existing `/exposure.html` retained |
@@ -81,7 +87,7 @@ routing changes are required to review this local candidate.
 - Failed reads retain known data with delayed/archived labeling. Old standings are
   never substituted as current; official and projected records remain separate.
 - One router owns navigation. Export renderer loads only when an export is requested.
-- All new files are formatted and isolated; original source/data remain byte-identical.
+- Original source/data remain byte-identical; root routing and one additive resource endpoint are the only existing production behavior changes.
 
 ## Reproduce checks
 
@@ -120,3 +126,25 @@ It is not a failure, and modifying that production bundle is outside this candid
 These are code, fixture, browser, and public-feed checks. They do not constitute a
 new production sign-in or a real notification send, and do not certify a future
 homepage cutover. The live app and backend were not deployed or modified.
+
+## Resource migration verification (November 22 ET)
+
+- `npm run test:migration`: validates six legacy objects, exact source hash, 600
+  keeper/pricing rows, all 780 draft selections, approved trade ledger, config/API
+  change scope, and 267 protected production files.
+- Actual released 1.3 and 1.4 (17) Swift parsers each produce 1,043 identical rows
+  from the old and redesigned HTML. No app update is needed for this cutover.
+- Draft picks use `/api/trades` with 60-second shared request caching. BH team 1
+  has zero round-two picks, matching the current site. No old pick snapshot fallback.
+- Snake boards use round/pick slots and reverse even rounds; acquired picks are not
+  lost by grouping one slot per owner. STS displays its auction bids and team totals.
+- Source snapshots retain their dates: power/fraud models remain Week 9 until the
+  canonical source updates. Live scores/official standings never use those snapshots.
+- Full regression and browser suite passed again. No real login code or notification
+  was sent by these checks; existing auth/push code is unchanged and fixture-tested.
+- Rollback target before cutover: dpl_FVU7dSWsdhPMunt3kBVn792qH8s2
+  (fantasy-c25732snb-cuadz-fantasy-network.vercel.app, source c554e97).
+
+Deployment procedure: stage production with `--prod --skip-domain`, verify hosted
+APIs, old Swift parsers, assets, resource parity and pick ledger; promote only that
+verified deployment. Then repeat read-only checks on the public domain.
