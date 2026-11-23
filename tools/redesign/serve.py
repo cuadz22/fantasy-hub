@@ -7,7 +7,7 @@ from pathlib import Path
 import urllib.request, urllib.error, threading, time, json
 ROOT = Path(__file__).resolve().parents[2] / 'client/public'
 CACHE, LOCK, KEY_LOCKS = {}, threading.Lock(), {}
-ALLOWED = {'/api/trades': 60, '/api/mobile/context': 300, '/api/mobile/media': 3600, '/api/mobile/standings': 300, '/api/lineups': 60, '/api/mobile/market-movers': 900}
+ALLOWED = {'/api/mobile/power': 60, '/api/trades': 60, '/api/mobile/context': 300, '/api/mobile/media': 3600, '/api/mobile/standings': 300, '/api/lineups': 60, '/api/mobile/market-movers': 900}
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self,*a,**kw): super().__init__(*a,directory=str(ROOT),**kw)
     def do_GET(self):

@@ -106,7 +106,7 @@ const fixture = (n) =>
         ].includes(p),
     );
   let protectedCount = 0;
-  for (const file of files.filter(f => !["client/api/mobile.js","client/vercel.json","vercel.json"].includes(f))) {
+  for (const file of files.filter(f => !["client/api/mobile.js","client/api/_mpush.js","client/api/_mball.js","client/vercel.json","vercel.json"].includes(f))) {
     const expected = cp
       .execFileSync("git", ["rev-parse", `${baseline}:${file}`], {
         encoding: "utf8",

@@ -152,3 +152,32 @@ HTML actually downloaded from the staged root. No emails or alerts were sent.
 Reproduce hosted checks with `CFN_VERCEL_DEPLOYMENT=<url>` and
 `node tools/check-deployment.cjs` / `node tools/resources/check-hosted.cjs`.
 Omit the deployment variable to verify the public domain after promotion.
+
+## Current rankings and off-game notification health
+
+The redesigned power/fraud pages now read `/api/mobile/power?lg=gl|bh|rb|sts`.
+The versioned `cfn-earned-performance-v2` model recalculates from every validated,
+completed regular-season week before the canonical current week (capped at 14).
+It shares the official standings validator and team IDs, but writes only its own
+`mpower:v2:` cache. Current games, projections and provisional BDL totals cannot
+enter official records or this ranking. Historical corrections are picked up
+on recalculation. The five-minute server cache and one-minute CDN/browser cache
+bound repeated history reads; visible power/fraud pages refresh automatically.
+Incomplete history never masquerades as a current ranking from an earlier week.
+
+The original model's capped relative scoring, mild recency weights, median,
+all-play rate, weekly finish tiers and 15–35% record blend are retained. The
+obsolete manually saved future-roster projection adjustment is removed. Its
+observed-performance arithmetic is checked against the original Python model.
+The fraud table uses current all-play expected wins and actual record, not old
+rest-of-season simulations. Legacy embedded data and every pre-existing mobile
+response shape remain unchanged; old apps use the FM literal for team names,
+not these newly calculated power rankings. No app update is required.
+
+`_gamewindow.js` defines the collector's five-minute idle cadence and push's
+three-minute live schedule requirement. Only a fresh calendar, matching healthy
+collector, and complete schedule with no live/near/overdue/unknown game can
+acknowledge an idle schedule (maximum seven minutes with cron/runtime grace).
+The idle path sends nothing and avoids repeated roster/game reads. Genuine live
+schedule delays still fail closed. Snapshot/event freshness, deduplication,
+member assignments, device revocation and Jose-only rollout are unchanged.
