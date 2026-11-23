@@ -1,0 +1,52 @@
+'use strict';
+const H=require('./mobile_harness'),{M,A,ok}=H,fs=require('fs'),path=require('path');
+const Y=require('../client/api/_connectedYahoo'),C=require('../client/api/_connected');
+const read=n=>fs.readFileSync(path.join(__dirname,'fixtures/connected-yahoo',n),'utf8');
+const standingsHTML=read('standings.html'),currentHTML=read('team12-week11.html'),nextHTML=read('team12-week12.html');
+const rejects=(f,label)=>{let rejected=false;try{f()}catch{rejected=true}ok(rejected,label)};
+(async()=>{
+ const standings=Y.parseStandings(standingsHTML),current=Y.parseRoster(currentHTML,12,11),next=Y.parseRoster(nextHTML,12,12);
+ ok(standings.rows.length===12&&standings.throughWeek===10,'official standings from complete records');
+ ok(standings.rows.find(r=>r.teamId===12).rank===3,'team IDs are independent of ranking');
+ ok(standings.rows.every(r=>r.logoURL?.startsWith('https://')),'Yahoo team logos retained');
+ ok(current.opp===10&&next.opp===3,'each week has its own opponent');
+ ok(current.players.find(p=>p.name==='Patrick Mahomes').points===34.2&&next.players.find(p=>p.name==='Patrick Mahomes').points===null,'current and upcoming scores remain distinct');
+ ok(current.players.find(p=>p.name==='Mike Gesicki').status==='Mon 8:15 pm @ Was','readable scheduled status');
+ ok(current.players.filter(p=>p.status==='Bye').every(p=>p.projection===null&&p.points===null),'bye percentages never become fantasy projections');
+ ok(current.players.find(p=>p.name==='Panthers').footballPosition==='DEF'&&current.players.find(p=>p.name==='Garrett Wilson').footballPosition==='WR'&&current.players.find(p=>p.name==='Garrett Wilson').position==='FLX','real positions retained independently of lineup slots');
+ ok(current.players.find(p=>p.name==='Jeremiyah Love').injuryStatus==='IR','provider injury status retained');
+ rejects(()=>Y.parseRoster(currentHTML,12,12),'reject wrong week');
+ rejects(()=>Y.parseRoster(currentHTML.replaceAll('697400','123456'),12,11),'reject another league');
+ rejects(()=>Y.parseRoster(currentHTML,1,11),'reject another team');
+ rejects(()=>Y.parseRoster(currentHTML.replace('Week 11 vs','Week 10 vs'),12,11),'reject canonical with stale matchup content');
+ rejects(()=>Y.parseRoster(currentHTML.replaceAll('Patrick Mahomes',''),12,11),'reject incomplete player data');
+ rejects(()=>Y.parseStandings(standingsHTML.replace('9-1-0','10-1-0')),'reject partially rolled-over standings');
+ rejects(()=>Y.parseStandings(standingsHTML.replace('1348.25','1400.25')),'reject unbalanced standings');
+ rejects(()=>Y.parseStandings(standingsHTML.replaceAll('/697400/5','/697400/12')),'reject duplicated team');
+ const teams=Array.from({length:12},(_,i)=>({...current,id:i+1,opp:(i%2===0?i+2:i),name:'Team '+(i+1)}));
+ const body=Y.normalize({standings,teams,week:11});
+ ok(body.matchups.length===6&&body.matchups.every(m=>m.home.reportedForecast===112.84),'provider totals and live forecasts retained');
+ rejects(()=>Y.normalize({standings,teams:teams.slice(1),week:11}),'reject missing team');
+ rejects(()=>Y.normalize({standings,teams:teams.map((t,i)=>i===0?{...t,opp:3}:t),week:11}),'reject mismatched opponents');
+ await M.write('connected:v1:fb:2026:11',body);
+ for(const [name,id] of [['Cuadz',12],['Ed',1],['Alexis',2],['Kevin',9]]){
+  const member=A.MEMBERS.find(m=>m.name===name||m.displayName===name||m.n===name);
+  if(!member)throw Error('test_member_not_found '+name);
+  const token='cfn_'+name.padEnd(40,'x');await M.write('ms:'+M.sha(token),{e:member.h,x:Date.now()+600000});
+  const req={headers:{authorization:'Bearer '+token}},cat=(await C.catalog(req)).json.leagues;
+  ok(cat.find(l=>l.id==='fb')?.teamId===id,name+' receives assigned Yahoo team');
+  ok((await C.snapshot(req,'fb',11)).json.teamId===id,name+' shared snapshot uses own perspective');
+  if(name!=='Cuadz')ok((await C.snapshot(req,'sl',11)).status===403,name+' cannot access private Sleeper league');
+  ok((await C.snapshot(req,'fb',0)).status===400,'invalid week rejected for '+name);
+ }
+ const other=A.MEMBERS.find(m=>m.name==='Pru'||m.displayName==='Pru'||m.n==='Pru');
+ const token='cfn_'+'unassigned'.padEnd(40,'x');await M.write('ms:'+M.sha(token),{e:other.h,x:Date.now()+600000});
+ const req={headers:{authorization:'Bearer '+token}};
+ ok((await C.catalog(req)).json.leagues.length===0&&(await C.snapshot(req,'fb',11)).status===403,'unassigned member denied');
+ ok((await C.snapshot({headers:{}},'fb',11)).status===401,'anonymous access denied');
+ const oldFetch=global.fetch;global.fetch=async()=>{throw Error('provider_down')};
+ let failed=false;try{await Y.refresh(11)}catch{failed=true}finally{global.fetch=oldFetch}
+ ok(failed&&JSON.stringify(await M.read('connected:v1:fb:2026:11'))===JSON.stringify(body),'provider failure preserves complete last-good snapshot');
+ ok(M.LGS.join(',')==='gl,bh,rb,sts','core league collection unchanged');
+ H.done();
+})().catch(e=>{console.error(e);process.exit(1)});

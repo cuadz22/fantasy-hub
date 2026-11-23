@@ -40,7 +40,7 @@ function fixture(){
  const req={headers:{authorization:'Bearer '+token}};
  ok((await C.catalog(req)).json.leagues.length===2,'Jose sees two catalog entries');
  ok((await C.catalog({headers:{}})).status===401,'private catalog');
- ok((await C.snapshot(req,'fb',11)).json.error==='provider_access_required','blocked Yahoo not faked');
+ ok((await C.snapshot(req,'fb',11)).json.error==='week_unavailable','missing Yahoo week not faked');
  await M.write('connected:v1:sl:2026:11',s);
  ok((await C.snapshot(req,'sl',11)).json.matchups.length===6,'cached read');
  const before=H.store.size;await C.snapshot(req,'sl',11);ok(H.store.size===before,'read does not write or scrape');

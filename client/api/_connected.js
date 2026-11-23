@@ -2,7 +2,15 @@
 // Additive, private imports. Never write CFN's calendar, scoring, or standings keys.
 const M=require('./_m'), A=require('./_mauth');
 const OWNER='007b50c7e3b100b7703abbe7873b408454d06dfbe44ec34e91717eb3ac36e136';
-const CONFIG={sl:{id:'sl',name:'Sleepers',provider:'sleeper',providerId:'1397634144770469888',ownerId:'79237951498108928',teamId:1},fb:{id:'fb',name:'Fantasy Ball Z',provider:'yahoo',providerId:'697400',teamId:null}};
+const CONFIG={sl:{id:'sl',name:'Sleepers',provider:'sleeper',providerId:'1397634144770469888',ownerId:'79237951498108928',teamId:1},fb:{id:'fb',name:'Fantasy Ball Z',provider:'yahoo',providerId:'697400'}};
+// Explicit owner-confirmed assignments. Names may change; Yahoo team IDs do not.
+const FB_MEMBERS={
+ [OWNER]:12,
+ 'ca97f8e8e0f0f0577d99dc058bf72b01fa2b90643978e2c9dcaccba8561ff507':1, // Ed — Commissioner Shenron
+ 'f96127b215ec9c7d2610c4721a2ca82cc440dea425ae76da1bc89ff8290968bc':2, // Alexis — KRILLIN EM
+ 'b2e48d94882d516e3ab591e7c057e0b1e156cb354062d5911966779c3a375812':9 // Kevin — HA-HA-HA Haaland!
+};
+const assignedTeam=(member,lg)=>lg==='sl'&&member.h===OWNER?CONFIG.sl.teamId:lg==='fb'?FB_MEMBERS[member.h]:undefined;
 const safeURL=s=>{try{const u=new URL(s);return u.protocol==='https:'&&!u.username&&!u.password?u.href:null}catch{return null}};
 const finite=n=>typeof n==='number'&&Number.isFinite(n);
 const requireValue=(ok,why)=>{if(!ok)throw Error(why)};
@@ -71,22 +79,22 @@ async function refreshSleeper(week){
 }
 async function catalog(req){
  const a=await A.authenticate(req);if(!a)return {status:401,json:{error:'unauthorized'}};
- if(a.member.h!==OWNER)return {status:200,json:{schemaVersion:1,leagues:[]}};
- return {status:200,json:{schemaVersion:1,leagues:[{...CONFIG.sl,ownerId:undefined,state:'connected'},{...CONFIG.fb,state:'needs_access'}]}};
+ const leagues=Object.keys(CONFIG).filter(lg=>assignedTeam(a.member,lg)!=null).map(lg=>({...CONFIG[lg],ownerId:undefined,teamId:assignedTeam(a.member,lg),state:'connected'}));
+ return {status:200,json:{schemaVersion:1,leagues}};
 }
 async function snapshot(req,lg,week){
  const a=await A.authenticate(req);if(!a)return {status:401,json:{error:'unauthorized'}};
- if(a.member.h!==OWNER||!CONFIG[lg])return {status:403,json:{error:'forbidden'}};
+ const teamId=assignedTeam(a.member,lg);
+ if(teamId==null||!CONFIG[lg])return {status:403,json:{error:'forbidden'}};
  if(!Number.isInteger(week)||week<1||week>18)return {status:400,json:{error:'invalid_week'}};
- if(lg==='fb')return {status:409,json:{error:'provider_access_required'}};
  const body=await M.read(`connected:v1:${lg}:${M.SEASON}:${week}`);
  if(!body)return {status:404,json:{error:'week_unavailable'}};
  const context=await M.context({cachedOnly:true});
- const maxAge=context&&!context.stale&&week!==context.week?86400000:180000;
+ const maxAge=context&&!context.stale&&week!==context.week?86400000:lg==='fb'&&context&&!context.stale&&!M.isLive(context.board)?600000:180000;
  const stale=!Number.isFinite(Date.parse(body.observedAt))||Date.now()-Date.parse(body.observedAt)>maxAge;
- return {status:200,json:{...body,stale,matchups:body.matchups.map(m=>({...m,sourceStale:stale}))}};
+ return {status:200,json:{...body,teamId,stale,matchups:body.matchups.map(m=>({...m,sourceStale:stale}))}};
 }
-async function refreshScheduled(week){
+async function refreshSleeperScheduled(week){
  requireValue(Number.isInteger(week)&&week>=1&&week<=18,'invalid_week');
  const current=await refreshSleeper(week);
  // One additional week per run: rotate historical AND upcoming regular-season weeks.
@@ -100,5 +108,29 @@ async function refreshScheduled(week){
   }
  }
  return {current};
+}
+async function refreshYahooScheduled(week){
+ requireValue(Number.isInteger(week)&&week>=1&&week<=18,'invalid_week');
+ const Y=require('./_connectedYahoo'),context=await M.context({cachedOnly:true});
+ const saved=await M.read(`connected:v1:fb:${M.SEASON}:${week}`);
+ const age=Date.now()-Date.parse(saved?.observedAt);
+ const interval=context&&!context.stale&&!M.isLive(context.board)?300000:55000;
+ const current=Number.isFinite(age)&&age<interval?{league:'fb',week,cached:true}:await Y.refresh(week);
+ const candidates=Array.from({length:Math.max(14,week)},(_,i)=>i+1).filter(w=>w!==week);
+ const extra=candidates[Math.floor(Date.now()/60000)%candidates.length];
+ if(extra){
+  const old=await M.read(`connected:v1:fb:${M.SEASON}:${extra}`),oldAge=Date.now()-Date.parse(old?.observedAt);
+  if(!Number.isFinite(oldAge)||oldAge>(extra>week?3600000:86400000)){
+   try{return {current,history:await Y.refresh(extra)}}catch(error){return {current,history:{week:extra,unavailable:true,error:error.message}}}
+  }
+ }
+ return {current};
+}
+async function refreshScheduled(week){
+ // A provider outage must not prevent the other provider from publishing.
+ const results=await Promise.allSettled([refreshSleeperScheduled(week),refreshYahooScheduled(week)]);
+ const failed=results.map((r,i)=>r.status==='rejected'?(['sl','fb'][i]+':'+r.reason.message):null).filter(Boolean);
+ if(failed.length)throw Error('connected_refresh_failed '+failed.join(', '));
+ return {sleeper:results[0].value,yahoo:results[1].value};
 }
 module.exports={CONFIG,catalog,snapshot,refreshSleeper,refreshScheduled,normalizeSleeper};
