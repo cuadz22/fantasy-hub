@@ -1,11 +1,20 @@
 // Independent alert worker. Never participates in score publication.
 'use strict';
-const M=require('./_m'), A=require('./_mauth'), TD=require('./_touchdowns'), AP=require('./_apns');
+const M=require('./_m'), A=require('./_mauth'), TD=require('./_touchdowns'), AP=require('./_apns'), I=require('./_ids');
 const NS='push:v1:', TTL=35*86400, MAX_AGE=180000;
 // Explicit private rollout. Missing/empty configuration permits nobody.
 const rollout=require('./_pushrollout.json');
 const allowed=member=>Array.isArray(rollout.memberHashes)&&rollout.memberHashes.includes(member);
 const hashDevice=(env,installation)=>M.sha(env+':'+installation);
+async function notificationPayload(event,recipient) {
+ let photoURL=null;
+ // Existing ten-minute process cache; lookup only for an actual send, never on idle ticks.
+ if(recipient.players.length===1)try {
+  const p=recipient.players[0];
+  photoURL=I.idFor(await I.getMap(),p.name,p.position,p.nflTeam).photoURL;
+ }catch{} // A missing portrait must never prevent the touchdown alert.
+ return TD.payload(event,recipient,photoURL);
+}
 async function registration(req,body){
  const a=await A.authenticate(req);if(!a)return {status:401,json:{error:'unauthorized'}};
  const token=String(body.token||'').toLowerCase(),environment=body.environment,installation=String(body.installation||'').toLowerCase(),revision=Number(body.revision);
@@ -40,10 +49,10 @@ async function testDevice(req,body){
  const player=Array.isArray(rows)&&rows.find(r=>Array.isArray(r)&&TD.slots.has(String(r[0]).toUpperCase())&&['QB','RB','WR','TE'].includes(String(r[2]).toUpperCase())&&typeof r[1]==='string'&&r[1]);
  if(!player)return {status:503,json:{error:'starter_unavailable'}};
  const event={id:'test:'+Date.now()+':'+id,season:c.season,week:c.week,yards:20};
- const recipient={targets:[{leagueId:lg,teamId,season:c.season,week:c.week}],players:[{name:player[1],role:String(player[2]).toUpperCase()==='QB'?'passer':String(player[2]).toUpperCase()==='RB'?'rusher':'receiver'}]};
- const payload=TD.payload(event,recipient);
+ const recipient={targets:[{leagueId:lg,teamId,season:c.season,week:c.week}],players:[{name:player[1],position:player[2],nflTeam:player[3],role:String(player[2]).toUpperCase()==='QB'?'passer':String(player[2]).toUpperCase()==='RB'?'rusher':'receiver'}]};
+ const payload=await notificationPayload(event,recipient);
  payload.aps.alert.title='TEST · '+payload.aps.alert.title;
- payload.aps.alert.body='Simulated play — no score change.\n'+payload.aps.alert.body;
+ payload.aps.alert.body='Simulated · '+payload.aps.alert.body;
  payload.cfn.test=true;
  const claimed=await M.command(['SET',NS+'test:'+id,'1','NX','EX',60]);if(!claimed)return {status:429,json:{error:'please_wait'}};
  const result=await AP.send(d,payload,'cfn-self-test');
@@ -82,7 +91,7 @@ async function deliver({event,recipient,device,now=Date.now(),store=M,sender=AP.
   if(check&&check.nextAttemptAt>now)return {state:'backoff'};
   const attempt=(check?.attempt||0)+1;
   await store.write(k,{state:'sending',attempt,at:now},TTL);
-  let result;try{result=await sender(device,TD.payload(event,recipient),M.sha(deliveryId).slice(0,60));}catch{result={state:'uncertain'};}
+  let result;try{result=await sender(device,await notificationPayload(event,recipient),M.sha(deliveryId).slice(0,60));}catch{result={state:'uncertain'};}
   await store.write(k,{...result,attempt,at:now,nextAttemptAt:now+Math.min(60000,15000*attempt)},TTL);
   if(result.invalid)await store.command(['DEL',NS+'device:'+device.id]);
   return result;

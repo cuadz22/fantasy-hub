@@ -22,7 +22,7 @@ function events(snapshot) {
    const field={passer:'passing_touchdowns',receiver:'receiving_touchdowns',rusher:'rushing_touchdowns'}[role];
    const count=unique.filter(x=>seen.get(x.id)!==null && !nullified(x) && x.scoring_play && x.type_slug===p.type_slug && (x.participants||[]).some(y=>y.type===role&&y.player_id===s.player.id)).length;
    if(s[field]!==count)return []; // Wait for box score and play feed to agree.
-   people.push({id:s.player.id,name:s.player.first_name+' '+s.player.last_name,identity:identity(['',s.player.first_name+' '+s.player.last_name,s.player.position_abbreviation,s.team.abbreviation]),role});
+   people.push({id:s.player.id,position:s.player.position_abbreviation,nflTeam:s.team.abbreviation,name:s.player.first_name+' '+s.player.last_name,identity:identity(['',s.player.first_name+' '+s.player.last_name,s.player.position_abbreviation,s.team.abbreviation]),role});
   }
   const at=Date.parse(p.wallclock);if(!Number.isFinite(at))return [];
   return [{id:`${g.season}:${g.id}:${p.id}`,gameId:g.id,season:g.season,week:g.week,at,people,yards:Number.isFinite(p.stat_yardage)?p.stat_yardage:null}];
@@ -44,10 +44,15 @@ function recipients(event, records, members, now=Date.now()) {
   return alerts;
  });
 }
-function payload(event, recipient) {
+function payload(event, recipient, photoURL = null) {
  const names=recipient.players.map(p=>p.name), passing=recipient.players.length===1&&recipient.players[0].role==='passer';
  const action=passing?'touchdown pass':recipient.players.length===1&&recipient.players[0].role==='rusher'?'rushing touchdown':recipient.players.length===1?'receiving touchdown':'touchdown';
  const detail=(event.yards!=null?event.yards+'-yard ':'')+action;
- return {aps:{alert:{title:(passing?'🔥 Touchdown pass! · ':'🔥 Touchdown! · ')+names.join(' & '),body:detail.charAt(0).toUpperCase()+detail.slice(1)+'\n'+recipient.targets.map(t=>leagues[t.leagueId]).join(' · ')},sound:'default','thread-id':'cfn-touchdowns-'+recipient.targets[0].leagueId},cfn:{type:'touchdown',eventId:event.id,targets:recipient.targets}};
+ const out = {aps:{alert:{title:names.join(' & ')+(passing?' TD pass!':' TD!')+' 🏈🔥🙌',body:detail.charAt(0).toUpperCase()+detail.slice(1)+' · '+recipient.targets.map(t=>leagues[t.leagueId]).join(' · ')},sound:'default','thread-id':'cfn-touchdowns-'+recipient.targets[0].leagueId},cfn:{type:'touchdown',eventId:event.id,targets:recipient.targets}};
+ // Only a mapped single player gets a portrait; never imply one player represents a stack.
+ if(recipient.players.length===1 && typeof photoURL==='string' && /^https:\/\/sleepercdn\.com\/content\/nfl\/players\/\d+\.jpg(?:\?v=1)?$/.test(photoURL)) {
+  out.aps['mutable-content']=1; out.cfn.imageURL=photoURL;
+ }
+ return out;
 }
 module.exports={events,recipients,payload,slots};

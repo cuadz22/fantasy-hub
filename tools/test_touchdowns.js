@@ -41,7 +41,29 @@ const member={h:A.MEMBERS[0].h,teams:{gl:1,bh:1}};
  let count=0;const a3={...args,device:{...d,id:'retry'},sender:async()=>{count++;return count===1?{state:'retry'}:{state:'sent'};}};await P.deliver(a3);await P.deliver(a3);ok(count===1,'known rejection respects backoff');await P.deliver({...a3,now:now+16000});ok(count===2,'known rejection can safely retry');
  ok((await P.deliver({...args,device:{...d,id:'old'},now:e.at+180001})).state==='expired','old events suppressed');
  ok((await P.deliver({...args,device:{...d,id:'new',enabledAt:e.at+1}})).state==='expired','no pre-opt-in alerts');
- const payload=TD.payload(e,recipients);ok(payload.cfn.targets.length===1&&payload.aps.alert.title.includes('🔥 Touchdown!')&&payload.aps.alert.title.includes('Nico Collins'),'single-league tap destination and celebratory text');
+ const payload=TD.payload(e,recipients);ok(payload.cfn.targets.length===1&&payload.aps.alert.title.includes('TD! 🏈🔥🙌')&&payload.aps.alert.title.includes('Nico Collins'),'single-league tap destination and celebratory text');
+ // Optional image payload keeps exact deep-link routing and compact copy.
+ const single={...recipients,players:[e.people.find(p=>p.role==='receiver')]};
+ const portrait='https://sleepercdn.com/content/nfl/players/7569.jpg?v=1';
+ const rich=TD.payload(e,single,portrait);
+ ok(rich.aps['mutable-content']===1&&rich.cfn.imageURL===portrait,'single scorer gets mutable portrait payload');
+ ok(JSON.stringify(rich.cfn.targets)===JSON.stringify(TD.payload(e,single).cfn.targets),'photo preserves exact league/team destination');
+ ok(!rich.aps.alert.body.includes('\n')&&!rich.aps.alert.subtitle,'compact body has no extra rows or subtitle');
+ ok(!TD.payload(e,recipients,portrait).cfn.imageURL,'QB/receiver stack never shows a misleading single portrait');
+ for(const bad of ['https://evil.test/photo.jpg','file:///tmp/photo','http://sleepercdn.com/content/nfl/players/7569.jpg','https://sleepercdn.com/content/nfl/players/../7569.jpg',null]) {
+  const plain=TD.payload(e,single,bad);ok(!plain.cfn.imageURL&&!plain.aps['mutable-content'],'invalid/missing portrait keeps text alert');
+ }
+ const IDS=require('../client/api/_ids'),originalMap=IDS.getMap;
+ IDS.getMap=async()=>{throw Error('photo store unavailable')};
+ let fallbackPayload;
+ await P.deliver({...args,recipient:single,device:{...d,id:'missing-photo'},sender:async(device,p)=>{fallbackPayload=p;return {state:'sent'}}});
+ ok(fallbackPayload?.aps.alert.title.includes('Nico Collins')&&!fallbackPayload.cfn.imageURL,'portrait lookup failure still sends touchdown');
+ IDS.getMap=async()=>({[IDS.nn(single.players[0].name)+'|'+single.players[0].position]:'7569'});
+ let photoPayload,photoSent=0;
+ const photoArgs={...args,recipient:single,device:{...d,id:'rich-photo'},sender:async(device,p)=>{photoSent++;photoPayload=p;return {state:'sent'}}};
+ await P.deliver(photoArgs);await P.deliver(photoArgs);
+ ok(photoSent===1&&photoPayload?.cfn.imageURL===portrait,'real delivery maps position plus name to portrait and dedupes');
+ IDS.getMap=originalMap;
  // Authenticated device registration through the real route and fake Redis, no email sends.
  const m=A.MEMBERS[0],token='cfn_'+('a'.repeat(32)),th=M.sha(token);await M.write('ms:'+th,{e:m.h,c:Date.now(),x:Date.now()+86400000});
  const req={headers:{authorization:'Bearer '+token}},body={installation:'12345678-1234-1234-1234-123456789abc',revision:1,token:'f'.repeat(64),environment:'production',enabled:'true',member:'attacker',teams:{gl:99}};
@@ -70,7 +92,7 @@ const member={h:A.MEMBERS[0].h,teams:{gl:1,bh:1}};
  ok((await P.testDevice({headers:{authorization:'Bearer '+t2}},testBody)).status===403,'test push cannot reach another owner');
  ok((await P.testDevice(req,testBody)).status===200,'member can test only their own enabled device');
  ok(lastPayload.cfn.targets.length===1&&lastPayload.cfn.targets[0].leagueId==='gl'&&lastPayload.cfn.targets[0].teamId===m.teams.gl&&lastPayload.cfn.targets[0].week===e.week,'self-test opens real member matchup');
- ok(lastPayload.cfn.test===true&&lastPayload.aps.alert.title.startsWith('TEST · 🔥'),'self-test is visibly simulated');
+ ok(lastPayload.cfn.test===true&&lastPayload.aps.alert.title.startsWith('TEST · '),'self-test is visibly simulated');
  ok((await P.testDevice(req,testBody)).status===429,'repeated test push rate limited');
  actual=1;
  // Use another real TD as a fresh event after disabling, revoking, and expiring.
