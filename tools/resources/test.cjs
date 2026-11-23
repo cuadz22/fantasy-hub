@@ -31,9 +31,19 @@ for(const league of ['bh','rb']) {
 }
 for(const file of ['client/vercel.json','vercel.json']) {
  const old=JSON.parse(cp.execFileSync('git',['show','c554e97:'+file],{encoding:'utf8'}));
- const next=JSON.parse(fs.readFileSync(file));old.redirects.find(x=>x.source==='/').destination='/redesign/index.html';assert.deepEqual(next,old,'Only root destination may change');
+ const next=JSON.parse(fs.readFileSync(file));old.redirects.find(x=>x.source==='/').destination='/redesign/index.html';
+ if(file==='client/vercel.json') {
+  const additions=next.crons.filter(x=>['/api/mobile/cron-network','/api/mobile/cron-connected'].includes(x.path));
+  assert.deepEqual(additions,[{path:'/api/mobile/cron-network',schedule:'* * * * *'},{path:'/api/mobile/cron-connected',schedule:'* * * * *'}]);
+  next.crons=next.crons.filter(x=>!additions.includes(x));
+ }
+ assert.deepEqual(next,old,'Existing routes and scoring schedules remain unchanged');
 }
-const mobile=fs.readFileSync('client/api/mobile.js','utf8');
+const currentMobile=fs.readFileSync('client/api/mobile.js','utf8');
+const addedRoutes=['cron-network','cron-connected','network-preview','network','network/publish','network/test','connected','connected/snapshot'];
+const addedLines=currentMobile.split('\n').filter(line=>addedRoutes.some(route=>line.includes("r === '"+route+"'")));
+assert.equal(addedLines.length,addedRoutes.length,'Exactly the tested additive routes');
+const mobile=currentMobile.split('\n').filter(line=>!addedLines.includes(line)).join('\n');
 const oldMobile=cp.execFileSync('git',['show','c554e97:client/api/mobile.js'],{encoding:'utf8'});
 assert.equal(mobile.replace(/    if \(r === 'power' && req.method === 'GET'\) \{[\s\S]*?\n    \}\n/, '').replace("if (r === 'resources' && req.method === 'GET') return J(res, 200, require('./_resources.json'), 'public, s-maxage=60, stale-while-revalidate=60');\n    ",''),oldMobile,'No change to existing mobile routes');
 console.log('Resource migration: source parity, immutable legacy contracts, all draft slots, live pick ownership, and unchanged existing API/routing behavior passed');

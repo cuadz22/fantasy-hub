@@ -76,6 +76,14 @@
     {
       "path": "/api/mobile/cron-push",
       "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/mobile/cron-network",
+      "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/mobile/cron-connected",
+      "schedule": "* * * * *"
     }
   ],
   "functions": {

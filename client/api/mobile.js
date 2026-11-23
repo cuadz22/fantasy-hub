@@ -36,6 +36,8 @@ module.exports = async (req, res) => {
       else if (r === 'cron-maintenance') { name = 'maintenance'; work = jobs.maintenance; }
       else if (r === 'cron-portraits') { name = 'portraits'; work = async () => { const v = await Ids.refresh(false); if (!v) throw new Error('portraits_unavailable'); return { count: v.n }; }; }
       else if (r === 'cron-push') { name = 'push'; work = () => require('./_mpush').collect(); }
+      else if (r === 'cron-network') { name = 'network'; work = () => require('./_network').tick(); }
+      else if (r === 'cron-connected') { name = 'connected'; work = async () => { const c = await M.context({cachedOnly:true}); if (!c || c.stale) throw Error('context_unavailable'); return require('./_connected').refreshScheduled(c.week); }; }
       else if (r === 'cron-ball') { name = 'ball'; work = () => require('./_mball').collect({ force: q.get('force') === '1' }); }
       else return J(res, 400, { error: 'invalid_job' });
       const result = await jobs.run(name, work); return J(res, result.status, result.body);
@@ -50,6 +52,12 @@ module.exports = async (req, res) => {
     if (r === 'auth/logout' && req.method === 'POST') { const x = await A.logout(req); return J(res, x.status, x.json); }
     if (r === 'push/test' && req.method === 'POST') { const x = await require('./_mpush').testDevice(req, bodyOf(req)); return J(res, x.status, x.json); }
     if (r === 'push/device' && req.method === 'POST') { const x = await require('./_mpush').registration(req, bodyOf(req)); return J(res, x.status, x.json); }
+    if (r === 'network-preview' && req.method === 'GET') return J(res, 200, {schemaVersion:1,canPublish:false,posts:require('./_network').staticPosts()}, 'public, s-maxage=300');
+    if (r === 'network' && req.method === 'GET') { const x = await require('./_network').feed(req); return J(res,x.status,x.json); }
+    if (r === 'network/publish' && req.method === 'POST') { const x = await require('./_network').publish(req,bodyOf(req)); return J(res,x.status,x.json); }
+    if (r === 'network/test' && req.method === 'POST') { const x = await require('./_network').test(req,bodyOf(req)); return J(res,x.status,x.json); }
+    if (r === 'connected' && req.method === 'GET') { const x=await require('./_connected').catalog(req); return J(res,x.status,x.json); }
+    if (r === 'connected/snapshot' && req.method === 'GET') { const x=await require('./_connected').snapshot(req,q.get('lg'),Number(q.get('week'))); return J(res,x.status,x.json); }
     if (r === 'me' && req.method === 'GET') { const a = await A.authenticate(req); return a ? J(res, 200, A.memberOut(a.member)) : J(res, AUTH.status, AUTH.json); }
     if (r === 'access' && req.method === 'GET') { // guard for every future private route: a session may only touch its own teams
       const a = await A.authenticate(req); if (!a) return J(res, 401, AUTH.json);

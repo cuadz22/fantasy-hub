@@ -18,7 +18,7 @@ async function notificationPayload(event,recipient) {
 async function registration(req,body){
  const a=await A.authenticate(req);if(!a)return {status:401,json:{error:'unauthorized'}};
  const token=String(body.token||'').toLowerCase(),environment=body.environment,installation=String(body.installation||'').toLowerCase(),revision=Number(body.revision);
- if(!/^[a-f0-9]{64,200}$/.test(token)||!['sandbox','production'].includes(environment)||!['true','false'].includes(body.enabled)||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(installation)||!Number.isSafeInteger(revision)||revision<1)return {status:400,json:{error:'invalid_device'}};
+ if((body.announcements!=null&&!['true','false'].includes(body.announcements))||!/^[a-f0-9]{64,200}$/.test(token)||!['sandbox','production'].includes(environment)||!['true','false'].includes(body.enabled)||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(installation)||!Number.isSafeInteger(revision)||revision<1)return {status:400,json:{error:'invalid_device'}};
  const id=hashDevice(environment,installation),key=NS+'device:'+id;
  const lock=await M.lock(key+':lock',15);if(!lock)return {status:409,json:{error:'device_busy'}};
  try {
@@ -27,7 +27,7 @@ async function registration(req,body){
   if(old&&old.revision>=revision)return {status:409,json:{error:'superseded_settings'}};
   // A stable installation ID and monotonic revision also protect account switches
   // and APNs token rotation from delayed requests and duplicate deliveries.
-  const device={token,environment,member:a.member.h,session:a.th,revision,enabled:body.enabled==='true',enabledAt:old?.member===a.member.h&&old.enabled?old.enabledAt:now,updatedAt:now};
+  const device={token,environment,member:a.member.h,session:a.th,revision,announcements:body.announcements==='true',announcementsEnabledAt:old?.member===a.member.h&&old.announcements?old.announcementsEnabledAt:now,enabled:body.enabled==='true',enabledAt:old?.member===a.member.h&&old.enabled?old.enabledAt:now,updatedAt:now};
   await M.write(key,device,TTL);await M.command(['SADD',NS+'devices',id]);
   return {status:200,json:{enabled:device.enabled,ready:allowed(a.member.h)&&environment==='production'&&AP.configured()&&process.env.CFN_PUSH_ENABLED==='true'}};
  } finally {await M.unlock(key+':lock',lock);}
