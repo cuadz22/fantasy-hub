@@ -35,6 +35,9 @@ for(const [lg,award] of Object.entries(october)) {
 // Explicit editorial picks are scoped to their authored week; never roll them forward.
 const featuredSource=object(html,'PVX');
 tools.featuredMatchups={season:2026,weeks:{'10':Object.fromEntries(Object.entries(featuredSource).map(([lg,items])=>[lg,Object.entries(items).filter(([,v])=>v.pt===1).map(([pair])=>pair.split('-').map(Number))]))}};
+// Commissioner-selected Week 12 features. Brian is STS team 12 (not Bryan, team 2).
+tools.featuredMatchups.weeks['12']={bh:[[1,8]],rb:[[1,3]],sts:[[12,6]]};
+tools.featuredMatchups.rivalryWeeks={'12':['gl']};
 const powerScope={};
 vm.runInNewContext(html.slice(html.indexOf("function pwWeight("),html.indexOf("function lgPower(")),powerScope,{timeout:1000});
 tools.power=Object.fromEntries(Object.entries(FM).map(([lg,f])=>[lg,{week:f.week,rows:powerScope.pwCalc(f).rows.map(r=>({name:r.t.name,score:r.score,z:r.z,record:r.t.w+"–"+r.t.l}))}]));
