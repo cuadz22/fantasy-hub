@@ -13,7 +13,7 @@ async function collect({ force = false } = {}) {
   const prefix = key(c.season, c.week), prior = await M.read(prefix + ':health');
   // During games collect at ~15-second offsets within one minute job;
   // between games recheck final corrections hourly.
-  if (!force && !M.isLive(c.board) && !M.soon(c.board) && prior?.ok && !prior.live && !(prior.nextStartAt && prior.nextStartAt - started < 25 * 60000 && started - prior.nextStartAt < 8 * 3600000) && started - prior.checkedAt < 5 * 60000) return { skipped: 'outside_game_window', week: c.week };
+  if (!force && !M.isLive(c.board) && !M.soon(c.board) && prior?.ok && !prior.live && !(prior.nextStartAt && prior.nextStartAt - started < 25 * 60000 && started - prior.nextStartAt < 8 * 3600000) && started - prior.checkedAt < require('./_gamewindow').IDLE_POLL_MS) return { skipped: 'outside_game_window', week: c.week };
   const games = await B.all('games', { seasons: [c.season], weeks: [c.week] }, { signal, maxPages: 3 });
   if (!games.length || games.some(g => g.season !== c.season || g.week !== c.week || g.postseason)) throw new Error('bdl_invalid_schedule');
   await M.write(prefix + ':schedule', { observedAt: Date.now(), games }, 0);

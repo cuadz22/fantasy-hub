@@ -276,38 +276,30 @@ function draftView() {
   for(const p of d.P) {const key=p[0]+'.'+p[1];if(grid.has(key)) throw Error('Duplicate draft slot');grid.set(key,p);}
   return heading("2026 draft board", "As drafted · Snake order")+savednote("Columns follow draft slots. Every selection shows its actual drafting team, including traded picks. Scroll sideways to view all 12 slots.")+`<div class="table-wrap picks-wrap" tabindex="0" aria-label="Draft board, scroll horizontally"><table class="draft-table"><thead><tr><th>Round</th>${Array.from({length:12},(_,i)=>`<th>Slot ${i+1}</th>`).join('')}</tr></thead><tbody>${rounds.map(r=>`<tr><th scope="row">R${r} ${r%2?'→':'←'}</th>${Array.from({length:12},(_,i)=>`<td>${tile(grid.get(r+'.'+(r%2?i+1:12-i)))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
+function powerData() {
+  const p=CFNData.state.power[league],ctx=CFNData.state.context;
+  return p && ctx && p.season===ctx.season && p.currentWeek===ctx.currentWeek ? p : null;
+}
+function powerNotice(p) {
+  return p.stale || CFNData.state.failures['power-'+league] ? savednote('Refresh delayed. Showing the last verified calculation for this completed week.') : '';
+}
 function powerView() {
-  const p = T.power[league];
-  return (
-    heading("Power rankings", `Archived model · Through Week ${p.week}`) +
-    savednote(
-      "The website’s published model for the week shown. This does not replace the current official standings.",
-    ) +
-    `<div class="ranking-list">${p.rows.map((r, i) => `<div><span class="rank">${i + 1}</span><div><b>${esc(r.name)}</b><small>${r.record} · ${r.score >= 68 ? "Title favorite" : r.score >= 56 ? "Contender" : r.score >= 47 ? "Playoff bubble" : r.score >= 38 ? "Pretender" : "Rebuilding"}</small></div><div class="strength-track"><i style="width:${r.score}%"></i></div><strong>${r.score}</strong></div>`).join("")}</div>`
-  );
+  const p=powerData();
+  if(!p)return empty('Power rankings',CFNData.state.failures['power-'+league] ? 'Current results could not be verified. Please try again.' : 'Checking completed results…');
+  return heading('Power rankings',`Through Week ${p.throughWeek} · Updates automatically`) + powerNotice(p) +
+    savednote(`Based on completed-game scoring, all-play results and weekly finishes. Record contributes ${Math.round(p.recordWeight*100)}%. 50 is league average; live games do not change official records.`) +
+    `<div class="ranking-list">${p.rows.map(r=>`<div><span class="rank">${r.rank}</span><div><b>${esc(r.name)}</b><small>${esc(r.record)} · ${r.pointsPerGame.toFixed(1)} points/game · ${r.allPlayWinPercent}% all-play</small></div><div class="strength-track"><i style="width:${r.score}%"></i></div><strong>${r.score}</strong></div>`).join('')}</div>`;
 }
 function fraudView() {
-  const f = T.fraud[league];
-  return (
-    heading("Fraud meter", `Archived model · Through Week ${f.week}`) +
-    savednote(
-      "The saved model compares record and underlying performance. Values are shown as archived, not recalculated from current games.",
-    ) +
-    table(
-      ["Team", "Record", "Points / game", "All-play win %", "Luck (wins)"],
-      f.teams
-        .slice()
-        .sort((a, b) => b.luck - a.luck)
-        .map((t) => [
-          esc(t.name),
-          `${t.w}–${t.l}`,
-          t.ppg,
-          (t.apw * 100).toFixed(1) + "%",
-          `<span class="${t.luck > 0 ? "up" : "down"}">${t.luck > 0 ? "+" : ""}${t.luck.toFixed(2)}</span>`,
-        ]),
-    )
-  );
+  const p=powerData();
+  if(!p)return empty('Fraud meter',CFNData.state.failures['power-'+league] ? 'Current results could not be verified. Please try again.' : 'Checking completed results…');
+  return heading('Fraud meter',`Through Week ${p.throughWeek} · Updates automatically`) + powerNotice(p) +
+    savednote('Luck compares actual wins (ties count as half) with expected wins if you faced every team each week. Positive means your schedule helped; negative means it hurt.') +
+    table(['Team','Record','Points / game','All-play win %','Luck (wins)'],[...p.rows].sort((a,b)=>b.luckWins-a.luckWins).map(t=>[
+      esc(t.name),esc(t.record),t.pointsPerGame.toFixed(1),t.allPlayWinPercent.toFixed(1)+'%',
+      `<span class="${t.luckWins>0?'up':'down'}">${t.luckWins>0?'+':''}${t.luckWins.toFixed(2)}</span>`]));
 }
+
 function rosterChoices() {
   return currentCards(league)
     .flatMap((c) =>
@@ -642,6 +634,7 @@ window.addEventListener("hashchange", () => render());
 async function loadRoute(page) {
   const generation = ++routeGeneration;
   const jobs=[];
+  if(page==="league" && ["power","fraud"].includes(leagueTab)) jobs.push(CFNData.loadPower(league));
   if(["league","exposure","studio"].includes(page)) jobs.push(CFNData.loadResources(league,page==="league" && leagueTab==="picks"));
   if(["network","market","studio"].includes(page) || (page==="league" && ["overview","lineups","team","standings","weekly"].includes(leagueTab))) jobs.push(CFNData.load(page,league,selectedWeek));
   await Promise.all(jobs);
@@ -662,7 +655,7 @@ setInterval(() => {
     !document.querySelector("details[open]") &&
     (location.hash === "#network" ||
       !location.hash ||
-      /league.*overview$/.test(location.hash))
+      /league.*(?:overview|power|fraud)$/.test(location.hash))
   )
     loadRoute(location.hash.includes("league") ? "league" : "network");
 }, 60000);

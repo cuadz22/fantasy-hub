@@ -101,7 +101,14 @@ async function tick({deadline=Date.now()+48000}={}){
  if(process.env.CFN_PUSH_ENABLED!=='true'||!AP.configured())return {enabled:false};
  const now=Date.now(),ds=await devices(now);if(!ds.length)return {enabled:true,devices:0};
  const c=await M.context({cachedOnly:true});if(!c||c.stale||c.season!==M.SEASON)throw Error('push_calendar_unavailable');
- const schedule=await M.read(`bdl:${c.season}:${c.week}:schedule`);if(!schedule||!Array.isArray(schedule.games)||!Number.isFinite(schedule.observedAt)||now-schedule.observedAt>180000)throw Error('push_schedule_delayed');
+ const window=require('./_gamewindow'),prefix=`bdl:${c.season}:${c.week}`;
+ const schedule=await M.read(prefix+':schedule');
+ if(!schedule?.games?.length||!window.recent(schedule.observedAt,now,window.LIVE_SCHEDULE_MS)){
+  const health=await M.read(prefix+':health');
+  if(!window.idleSchedule(schedule,health,c,now))throw Error('push_schedule_delayed');
+  const idle={enabled:true,devices:ds.length,events:0,sent:0,suppressed:0,idle:true,reason:'outside_game_window'};
+  await M.write(NS+'health',{...idle,checkedAt:now},86400);return idle;
+ }
  const records={};for(const lg of M.LGS)records[lg]=await M.read('mw:'+lg+':'+c.week);
  const totals={enabled:true,devices:ds.length,events:0,sent:0,suppressed:0};
  for(const g of schedule.games){
@@ -129,7 +136,7 @@ async function collect(){
   if(Date.now()-start>48000)break;
   const wait=start+offset-Date.now();if(wait>0)await M.sleep(wait);
   const result=await tick({deadline:start+55000});out.push(result);
-  if(!result.enabled||!result.devices)break;
+  if(!result.enabled||!result.devices||result.idle)break;
  }
  return {checks:out};
 }

@@ -7,6 +7,7 @@
   const state = {
     resources: null,
     picks: {},
+    power: {},
     context: null,
     lineups: {},
     standings: {},
@@ -209,6 +210,22 @@
     if(picks) jobs.push(capture("picks-"+lg,async()=>{state.picks[lg]=validatePicks(await read("/api/trades?lg="+lg,60000),lg);}));
     await Promise.all(jobs);
   }
+  function validatePower(d, lg, context) {
+    validateStandings(d, lg, context);
+    if(d.schemaVersion!==1 || d.modelVersion!=='cfn-earned-performance-v2' || d.rows.length!==12 ||
+       new Set(d.rows.map(r=>r.teamId)).size!==12 || d.rows.some((r,i)=>
+       !Number.isInteger(r.teamId)||r.teamId<1||r.teamId>12||r.rank!==i+1||
+       !finite(r.score)||r.score<1||r.score>99||!finite(r.allPlayWinPercent)||
+       r.allPlayWinPercent<0||r.allPlayWinPercent>100||!finite(r.luckWins))) throw Error('Invalid power rankings');
+    return d;
+  }
+  async function loadPower(lg) {
+    await capture('power-'+lg,async()=>{
+      const ctx=validateContext(await read('/api/mobile/context',60000));
+      state.context=ctx;
+      state.power[lg]=validatePower(await read('/api/mobile/power?lg='+lg,60000),lg,ctx);
+    });
+  }
   async function load(page, lg, selectedWeek) {
     await capture("context", async () => {
       state.context = validateContext(
@@ -275,7 +292,7 @@
     validateLineups,
     validateStandings,
     validateContext,
-    loadResources, validateResources, validatePicks,
+    loadResources, validateResources, validatePicks, loadPower, validatePower,
   };
   root.CFNData = api;
   if (typeof module !== "undefined") module.exports = api;

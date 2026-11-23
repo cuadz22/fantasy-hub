@@ -35,5 +35,5 @@ for(const file of ['client/vercel.json','vercel.json']) {
 }
 const mobile=fs.readFileSync('client/api/mobile.js','utf8');
 const oldMobile=cp.execFileSync('git',['show','c554e97:client/api/mobile.js'],{encoding:'utf8'});
-assert.equal(mobile.replace("if (r === 'resources' && req.method === 'GET') return J(res, 200, require('./_resources.json'), 'public, s-maxage=60, stale-while-revalidate=60');\n    ",''),oldMobile,'No change to existing mobile routes');
+assert.equal(mobile.replace(/    if \(r === 'power' && req.method === 'GET'\) \{[\s\S]*?\n    \}\n/, '').replace("if (r === 'resources' && req.method === 'GET') return J(res, 200, require('./_resources.json'), 'public, s-maxage=60, stale-while-revalidate=60');\n    ",''),oldMobile,'No change to existing mobile routes');
 console.log('Resource migration: source parity, immutable legacy contracts, all draft slots, live pick ownership, and unchanged existing API/routing behavior passed');

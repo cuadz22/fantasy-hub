@@ -68,6 +68,11 @@ module.exports = async (req, res) => {
       const body = Named.build(raw.sv, raw.rec, raw.board, c ? c.season : M.SEASON, await Ids.getMap());
       return J(res, 200, body, raw.sv.stale || raw.sv.partial ? 'no-store' : raw.sv.final ? 'public, s-maxage=3600, max-age=60' : 'public, s-maxage=' + (c && M.isLive(c.board) && week === c.week ? 10 : 60));
     }
+    if (r === 'power' && req.method === 'GET') {
+      const lg = q.get('lg'); if (!M.LGS.includes(lg)) return J(res, 400, { error: 'invalid_league' });
+      const body = await require('./_mpower').get(lg, M);
+      return J(res, 200, body, body.stale ? 'no-store' : 'public, s-maxage=60, max-age=0');
+    }
     if (r === 'standings' && req.method === 'GET') {
       const lg = q.get('lg'); if (!M.LGS.includes(lg)) return J(res, 400, { error: 'invalid_league' });
       const body = await require('./_mstandings').get(lg, M);
