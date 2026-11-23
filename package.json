@@ -12,7 +12,8 @@
     "test:reliability": "node tools/test_mobile_data.js && node tools/test_mobile_auth.js && node tools/test_mobile_movers.js && node tools/test_reliability.js && node tools/test_scoring.js && node tools/test_standings.js && node tools/test_power.js && node tools/test_gamewindow.js && node tools/test_probability.js && node tools/test_touchdowns.js && node tools/test_read_efficiency.js",
     "test:migration": "node tools/resources/build.cjs && node tools/resources/test.cjs && node tools/redesign/test.cjs && node tools/redesign/test-sharing.cjs && node tools/redesign/test-polish.cjs",
     "build:sharing": "node tools/redesign/build-sharing.cjs",
-    "test:connections": "node tools/test_connected_network.js"
+    "test:connections": "node tools/test_connected_network.js",
+    "test:release": "npm run test:reliability && npm run test:migration && node tools/test_connected_network.js && node tools/test_league_updates.js && node tools/test_feed_presentation.js && node tools/test_special_logs.js"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

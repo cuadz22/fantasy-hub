@@ -6,7 +6,7 @@ window.CFNPolish = (() => {
  function teamCode(name,team){const c=canonical(team);return nfl[c]?c:Object.keys(nfl).find(k=>norm(name).endsWith(norm(nfl[k][0])))||'';}
  function portrait(name,pos,team,provided){
    if(provided)return provided;
-   if(['DEF','DST','D/ST'].includes(pos)){const t=teamCode(name,team);if(t)return 'https://a.espncdn.com/i/teamlogos/nfl/500/'+({WAS:'wsh'}[t]||t.toLowerCase())+'.png';}
+   if(['DEF','DST','D/ST'].includes(pos)||(!pos&&teamCode(name,''))){const t=teamCode(name,team);if(t)return 'https://a.espncdn.com/i/teamlogos/nfl/500/'+({WAS:'wsh'}[t]||t.toLowerCase())+'.png';}
    const photos=CFNData.state.portraits, key=norm(name);
    let stable=CFNData.state.photoIDs?.[key+'|'+pos];
    if(!stable && ['', 'FLX', 'SFX', 'WRT'].includes(pos)){const candidates=Object.entries(CFNData.state.photoIDs||{}).filter(([k])=>k.split('|')[0]===key);if(candidates.length===1)stable=candidates[0][1];}

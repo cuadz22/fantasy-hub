@@ -576,8 +576,8 @@ function render(keepScroll = false, skipLoad = false) {
     ? "league"
     : moreNames[hash]
       ? hash
-      : hash === "market"
-        ? "market"
+      : ["market","updates"].includes(hash)
+        ? hash
         : "network";
   if (m) {
     league = m[1] || league;
@@ -589,7 +589,9 @@ function render(keepScroll = false, skipLoad = false) {
       ? leaguePage()
       : page === "network"
         ? network()
-        : page === "market"
+        : page === "updates"
+          ? CFNUpdates.page()
+          : page === "market"
           ? market()
           : page === "exposure"
             ? exposure()
@@ -623,6 +625,7 @@ window.addEventListener("hashchange", () => render());
 async function loadRoute(page) {
   const generation = ++routeGeneration;
   const jobs=[];
+  if(page==="updates") jobs.push(CFNUpdates.load());
   if(page==="league" && ["power","fraud"].includes(leagueTab)) jobs.push(CFNData.loadPower(league));
   if(["league","exposure","studio"].includes(page)) jobs.push(CFNData.loadResources(league,page==="league" && leagueTab==="picks"));
   if(["network","market","studio"].includes(page) || (page==="league" && ["overview","lineups","team","standings","weekly"].includes(leagueTab))) jobs.push(CFNData.load(page,league,selectedWeek));

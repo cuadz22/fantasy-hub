@@ -40,7 +40,7 @@ for(const file of ['client/vercel.json','vercel.json']) {
  assert.deepEqual(next,old,'Existing routes and scoring schedules remain unchanged');
 }
 const currentMobile=fs.readFileSync('client/api/mobile.js','utf8');
-const addedRoutes=['cron-cantcut','cron-network','cron-connected','network-preview','network','network/publish','network/test','connected','connected/snapshot'];
+const addedRoutes=['news','player-log','cron-cantcut','cron-network','cron-connected','network-preview','network','network/publish','network/test','connected','connected/snapshot'];
 const addedLines=currentMobile.split('\n').filter(line=>addedRoutes.some(route=>line.includes("r === '"+route+"'")));
 assert.equal(addedLines.length,addedRoutes.length,'Exactly the tested additive routes');
 const featuredField="featuredMatchups: require('./_resources.json').tools.featuredMatchups, ";

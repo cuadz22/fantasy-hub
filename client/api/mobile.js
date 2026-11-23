@@ -43,6 +43,8 @@ module.exports = async (req, res) => {
       else return J(res, 400, { error: 'invalid_job' });
       const result = await jobs.run(name, work); return J(res, result.status, result.body);
     }
+    if (r === 'player-log' && req.method === 'GET') {       const league=q.get('lg'),pos=require('./_speciallogs').position(q.get('pos'));       if(!M.LGS.includes(league)||!['QB','RB','WR','TE','K','DEF'].includes(pos)||!q.get('player')) return J(res,400,{error:'invalid_player_history'});       return J(res,200,await require('./_speciallogs').history({name:q.get('player').slice(0,60),pos,league,team:q.get('team')}),'public, s-maxage=300, stale-while-revalidate=600');     }
+    if (r === 'news' && req.method === 'GET') return J(res, 200, await require('./_news').feed(), 'public, s-maxage=600, stale-while-revalidate=60');
     if (r === 'resources' && req.method === 'GET') return J(res, 200, await require('./_leagueupdates').resources(), 'public, s-maxage=60, stale-while-revalidate=60');
     if (r === 'context' && req.method === 'GET') {
       const c = await M.context({ cachedOnly: true }); if (!c) return J(res, 503, { error: 'context_unavailable' });
@@ -53,7 +55,7 @@ module.exports = async (req, res) => {
     if (r === 'auth/logout' && req.method === 'POST') { const x = await A.logout(req); return J(res, x.status, x.json); }
     if (r === 'push/test' && req.method === 'POST') { const x = await require('./_mpush').testDevice(req, bodyOf(req)); return J(res, x.status, x.json); }
     if (r === 'push/device' && req.method === 'POST') { const x = await require('./_mpush').registration(req, bodyOf(req)); return J(res, x.status, x.json); }
-    if (r === 'network-preview' && req.method === 'GET') return J(res, 200, {schemaVersion:1,canPublish:false,posts:require('./_network').staticPosts()}, 'public, s-maxage=300');
+    if (r === 'network-preview' && req.method === 'GET') return J(res, 200, {schemaVersion:1,canPublish:false,posts:require('./_network').staticPosts(Date.now(),await require('./_leagueupdates').resources())}, 'public, s-maxage=300');
     if (r === 'network' && req.method === 'GET') { const x = await require('./_network').feed(req); return J(res,x.status,x.json); }
     if (r === 'network/publish' && req.method === 'POST') { const x = await require('./_network').publish(req,bodyOf(req)); return J(res,x.status,x.json); }
     if (r === 'network/test' && req.method === 'POST') { const x = await require('./_network').test(req,bodyOf(req)); return J(res,x.status,x.json); }

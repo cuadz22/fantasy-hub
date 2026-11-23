@@ -16,7 +16,7 @@ function dated(value,season){
 function side(lg,s){
  const candidates=(RES.tools.teams[lg]||[]).filter(t=>norm(t.team)===norm(s.team)||norm(t.mgr)===norm(s.mgr));
  const id=candidates.length===1?candidates[0].id:null;
- return {teamId:id,name:s.team,logoURL:id?MEDIA.teams?.[lg]?.[id]?.logoURL||null:null,players:(s.gets||[]).filter(x=>typeof x==='string')};
+ return {teamId:id,name:s.team,logoURL:id?MEDIA.teams?.[lg]?.[id]?.logoURL||null:null,owner:s.mgr,players:(s.gets||[]).filter(x=>typeof x==='string'),assets:(s.gets||[]).filter(x=>typeof x==='string').map(n=>require('./_feedmedia').asset(n))};
 }
 function staticPosts(now=Date.now(),resources=RES){
  const out=[];
@@ -32,7 +32,7 @@ function staticPosts(now=Date.now(),resources=RES){
   for(const r of RES.tools.waivers[lg]||[]){if(!Number.isInteger(r.week)||r.week<1||r.week>18)continue;const rows=groups.get(r.week)||[];rows.push(r);groups.set(r.week,rows);}
   for(const [week,rows] of groups){
    const at=rows.map(x=>dated(x.date,RES.season)).filter(Boolean).sort().at(-1);if(!at||Date.parse(at)>now)continue;
-   const claims=rows.map(r=>({player:r.player,team:r.winner,amount:r.bids?.find(b=>b.won)?.amount??null}));
+   const claims=rows.map(r=>({player:r.player,team:r.winner,amount:r.bids?.find(b=>b.won)?.amount??null,asset:require('./_feedmedia').asset(r.player,r.position,r.nflTeam)}));
    out.push({id:`waivers:${RES.season}:${lg}:${week}`,kind:'waivers',leagueId:lg,week,title:`Week ${week} waiver report`,body:`${claims.length} successful claims · one weekly report`,publishedAt:at,dateOnly:true,claims,url:'https://cuadzfantasynetwork.com/share/league-'+lg+'-waivers.html',logoURL:logo(lg)});
   }
  }
