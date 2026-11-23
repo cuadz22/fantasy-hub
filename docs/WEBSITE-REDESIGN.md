@@ -54,22 +54,9 @@ and depends on the keeper season marker `If kept next season (2027)`.
 **Do not switch the production root to this candidate yet.** Merely retaining
 `/cfn.html` is insufficient because installed app builds request `/`.
 
-Before a root switch:
-1. Inventory every production HTML/data consumer, including older app builds.
-2. Add structured, versioned public resource exports from the existing source data.
-   Do not create a second keeper, scoring, standings, or probability model.
-3. Update and test app readers with those exports, including offline fallback.
-4. Either preserve the exact legacy root contract for supported older apps or wait
-   until a documented supported-build migration has completed. Do not guess by
-   user-agent string or silently strand existing TestFlight installs.
-5. Connect/verify the remaining archived tool views, or retain explicit links to
-   their working original screens. Preserve private commissioner access checks.
-6. Validate the hosted candidate and existing app consumers, capture a rollback
-   deployment, and only then plan a production cutover.
-
-The candidate path uses explicit `index.html` because the existing catch-all rewrite
-can otherwise send a directory request to the old React entrypoint. No production
-routing changes are required to review this local candidate.
+The migration now preserves that root HTML contract and verifies it using the
+released Swift parsers. Existing detailed tools remain linked, and the explicit
+`/redesign/index.html` destination avoids the old catch-all directory rewrite.
 
 ## Intentional data / performance boundaries
 
@@ -108,7 +95,7 @@ notifications, trades, votes or commissioner operations are sent by these checks
 Build emits the pre-existing Vite bundle-size warning for the original React app.
 It is not a failure, and modifying that production bundle is outside this candidate.
 
-## Verification recorded November 22, 2026 (ET)
+## Initial preview verification (before migration)
 
 - Browser: 72 routes, 64 responsive/theme combinations (1440, 768, 390, 360 px;
   dark/light), no uncaught JavaScript errors or page-wide horizontal overflow.
@@ -123,9 +110,8 @@ It is not a failure, and modifying that production bundle is outside this candid
   final standings, probabilities, touchdown routing/deduplication, read efficiency.
 - Build: passed. Original bundle-size advisory remains.
 
-These are code, fixture, browser, and public-feed checks. They do not constitute a
-new production sign-in or a real notification send, and do not certify a future
-homepage cutover. The live app and backend were not deployed or modified.
+These initial preview checks did not deploy or modify the live app/backend.
+The migration and hosted verification results below supersede the preview-only status.
 
 ## Resource migration verification (November 22 ET)
 
@@ -148,3 +134,21 @@ homepage cutover. The live app and backend were not deployed or modified.
 Deployment procedure: stage production with `--prod --skip-domain`, verify hosted
 APIs, old Swift parsers, assets, resource parity and pick ledger; promote only that
 verified deployment. Then repeat read-only checks on the public domain.
+
+## Hosted candidate verified
+
+Staged production: `dpl_4YRwE5tggoZ4Kp61LQ1uhRKAnBS7`,
+`fantasy-kd3m7vu0m-cuadz-fantasy-network.vercel.app`, runtime source `a90dff9`.
+Created from the successful Git build with `autoAssignCustomDomains=false`.
+Local CLI uploads hit a monorepo packaging issue; Git deployment builds the same
+source correctly. No project settings or protections were changed to work around it.
+
+Hosted checks passed: current + historical lineups, both old positional and named
+mobile schemas, all four official standings (through Week 10), invalid-week errors,
+unauthenticated auth/cron guards, new resource endpoint parity, original site byte
+parity, assets and live trade ledgers. Both released Swift parsers also passed on the
+HTML actually downloaded from the staged root. No emails or alerts were sent.
+
+Reproduce hosted checks with `CFN_VERCEL_DEPLOYMENT=<url>` and
+`node tools/check-deployment.cjs` / `node tools/resources/check-hosted.cjs`.
+Omit the deployment variable to verify the public domain after promotion.
