@@ -7,7 +7,7 @@ const leagues = {
 };
 let league = "gl",
   leagueTab = "overview",
-  selectedWeek = null,
+  selectedWeek = (() => { const w=Number(new URLSearchParams(location.search).get("week")); return Number.isInteger(w) && w>=1 && w<=18 ? w : null; })(),
   routeGeneration = 0;
 const requestedWeek = () =>
   selectedWeek || CFNData.state.context?.currentWeek || 11;
@@ -68,7 +68,7 @@ function img(src, cls = "", alt = "") {
       ].includes(u.hostname);
   } catch {}
   return safe
-    ? `<img src="${esc(src)}" class="${cls}" alt="${esc(alt)}" loading="lazy" referrerpolicy="no-referrer">`
+    ? `<img src="${esc(themedLeagueArt(src))}" ${src === CFNLeagueArt.sts ? `data-league-art="${esc(src)}"` : ""} class="${cls}" alt="${esc(alt)}" loading="lazy" referrerpolicy="no-referrer">`
     : "";
 }
 const num = (s) => (s || "—").replace(/[▲▼]/g, "");
@@ -159,10 +159,11 @@ function market() {
 }
 
 function detail(id) {
+  document.querySelector("#detail").dataset.matchup = id;
   const k = id.split("-")[0];
   const c = currentCards(k).find((c) => c.id === id) || headliner(k);
   document.querySelector("#detail-body").innerHTML =
-    `<div class="dialog-head"><span>${leagues[k]} · Week ${c.week || 11}</span><button class="close" data-close aria-label="Close matchup">×</button></div><div class="dialog-score">${scores(c)}${probability(c)}</div><div class="lineup-title"><span>${esc(c.teams[0].owner)} · ${esc(c.teams[0].record)}</span><span>Points / projection</span><span>${esc(c.teams[1].owner)} · ${esc(c.teams[1].record)}</span></div>${rows(c)}<p class="subnote" style="padding:0 22px">${esc(feedNote(c))}</p>`;
+    `<div class="dialog-head"><span>${leagues[k]} · Week ${c.week || 11}</span><button class="share-page" data-share-matchup="${esc(c.id || k)}" aria-label="Share matchup">Share ↗</button><button class="close" data-close aria-label="Close matchup">×</button></div><div class="dialog-score">${scores(c)}${probability(c)}</div><div class="lineup-title"><span>${esc(c.teams[0].owner)} · ${esc(c.teams[0].record)}</span><span>Points / projection</span><span>${esc(c.teams[1].owner)} · ${esc(c.teams[1].record)}</span></div>${rows(c)}<p class="subnote" style="padding:0 22px">${esc(feedNote(c))}</p>`;
   document.querySelector("#detail").showModal();
 }
 document.querySelector("#brand").src = S.logo;
