@@ -1,0 +1,4744 @@
+{
+  "lg": "gl",
+  "week": 11,
+  "season": 2026,
+  "scoreSource": "mixed",
+  "projectionSource": "yahoo",
+  "scoring": {
+    "used": 107,
+    "fallback": 1,
+    "reasons": {
+      "fumble_touchback_coverage": 1
+    },
+    "scoreUpdatedAt": 1795405366012
+  },
+  "rosterUpdatedAt": "2026-11-23T03:47:04.227Z",
+  "rosterSource": "yahoo",
+  "at": "2026-11-23T03:47:04.227Z",
+  "partial": false,
+  "matchups": [
+    {
+      "ia": 1,
+      "ib": 6,
+      "an": "cuadz build 001",
+      "bn": "MAGNETO IS STILL RIGHT",
+      "L": [
+        [
+          "QB",
+          "Joe Burrow",
+          "QB",
+          "CIN",
+          31.1,
+          null,
+          "Mon 8:15 pm @ Was",
+          ""
+        ],
+        [
+          "RB",
+          "Samaje Perine",
+          "RB",
+          "CIN",
+          7.23,
+          null,
+          "Mon 8:15 pm @ Was",
+          ""
+        ],
+        [
+          "RB",
+          "Jordan Mason",
+          "RB",
+          "MIN",
+          8.47,
+          3.3,
+          "Q3 0:00, 10-28 @ SF",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "WR",
+          "Rashee Rice",
+          "WR",
+          "KC",
+          14.1,
+          11.3,
+          "Final W 34-7 vs Ari",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "KC",
+            "awayTeam": "ARI",
+            "homeScore": 34,
+            "awayScore": 7,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Tre' Harris",
+          "WR",
+          "LAC",
+          7.64,
+          4.8,
+          "Final L 24-27 vs NYJ",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "LAC",
+            "awayTeam": "NYJ",
+            "homeScore": 24,
+            "awayScore": 27,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Elic Ayomanor",
+          "WR",
+          "TEN",
+          9.95,
+          5.7,
+          "Final L 30-51 @ Dal",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DAL",
+            "awayTeam": "TEN",
+            "homeScore": 51,
+            "awayScore": 30,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "TE",
+          "Mike Gesicki",
+          "TE",
+          "CIN",
+          7.95,
+          null,
+          "Mon 8:15 pm @ Was",
+          ""
+        ],
+        [
+          "W/R/T",
+          "Germie Bernard",
+          "WR",
+          "PIT",
+          7.79,
+          10,
+          "Final L 16-19 @ Phi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "PHI",
+            "awayTeam": "PIT",
+            "homeScore": 19,
+            "awayScore": 16,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Drake London",
+          "WR",
+          "ATL",
+          100,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Jadarian Price",
+          "RB",
+          "SEA",
+          80,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Bijan Robinson",
+          "RB",
+          "ATL",
+          100,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Rhamondre Stevenson",
+          "RB",
+          "NE",
+          91,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Patrick Mahomes",
+          "QB",
+          "KC",
+          28.5,
+          34.2,
+          "Final W 34-7 vs Ari",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "KC",
+            "awayTeam": "ARI",
+            "homeScore": 34,
+            "awayScore": 7,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Davante Adams",
+          "WR",
+          "LA",
+          88,
+          null,
+          "Bye",
+          "IR"
+        ],
+        [
+          "IR",
+          "Jeremiyah Love",
+          "RB",
+          "ARI",
+          0,
+          0,
+          "Final L 7-34 @ KC",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "KC",
+            "awayTeam": "ARI",
+            "homeScore": 34,
+            "awayScore": 7,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "K",
+          "Spencer Shrader",
+          "K",
+          "IND",
+          8.55,
+          3.4,
+          "Final L 3-26 @ Hou",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "HOU",
+            "awayTeam": "IND",
+            "homeScore": 26,
+            "awayScore": 3,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "DEF",
+          "Lions",
+          "DEF",
+          "DET",
+          8.99,
+          9,
+          "Final W 31-21 vs TB",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ]
+      ],
+      "R": [
+        [
+          "QB",
+          "Jacoby Brissett",
+          "QB",
+          "BAL",
+          17.88,
+          18.5,
+          "Final L 33-35 @ Car",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CAR",
+            "awayTeam": "BAL",
+            "homeScore": 35,
+            "awayScore": 33,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Ashton Jeanty",
+          "RB",
+          "LV",
+          13.78,
+          27.9,
+          "Final L 24-38 @ Den",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Justice Hill",
+          "RB",
+          "BAL",
+          7.32,
+          17.6,
+          "Final L 33-35 @ Car",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CAR",
+            "awayTeam": "BAL",
+            "homeScore": 35,
+            "awayScore": 33,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Amon-Ra St. Brown",
+          "WR",
+          "DET",
+          19.81,
+          14.7,
+          "Final W 31-21 vs TB",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Jaylen Waddle",
+          "WR",
+          "DEN",
+          11.8,
+          9.1,
+          "Final W 38-24 vs LV",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Chimere Dike",
+          "WR",
+          "TEN",
+          8.78,
+          13.3,
+          "Final L 30-51 @ Dal",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DAL",
+            "awayTeam": "TEN",
+            "homeScore": 51,
+            "awayScore": 30,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "TE",
+          "Tyler Warren",
+          "TE",
+          "IND",
+          12,
+          3.2,
+          "Final L 3-26 @ Hou",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "HOU",
+            "awayTeam": "IND",
+            "homeScore": 26,
+            "awayScore": 3,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "W/R/T",
+          "Stefon Diggs",
+          "WR",
+          "WAS",
+          13.61,
+          null,
+          "Mon 8:15 pm vs Cin",
+          ""
+        ],
+        [
+          "BN",
+          "J. Croskey-Merritt",
+          "RB",
+          "WAS",
+          0,
+          null,
+          "Mon 8:15 pm vs Cin",
+          ""
+        ],
+        [
+          "BN",
+          "Pat Bryant",
+          "WR",
+          "DEN",
+          7.87,
+          6.2,
+          "Final W 38-24 vs LV",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Kaelon Black",
+          "RB",
+          "SF",
+          5.39,
+          0.5,
+          "Q3 0:00, 28-10 vs Min",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "BN",
+          "Denzel Boston",
+          "WR",
+          "CLE",
+          71,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Matthew Golden",
+          "WR",
+          "GB",
+          97,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Jonathon Brooks",
+          "RB",
+          "CAR",
+          0,
+          0,
+          "Final W 35-33 vs Bal",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CAR",
+            "awayTeam": "BAL",
+            "homeScore": 35,
+            "awayScore": 33,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "IR",
+          "Drake Maye",
+          "QB",
+          "NE",
+          71,
+          null,
+          "Bye",
+          "O"
+        ],
+        [
+          "K",
+          "Jake Bates",
+          "K",
+          "DET",
+          9.85,
+          9.6,
+          "Final W 31-21 vs TB",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "DEF",
+          "Bengals",
+          "DEF",
+          "CIN",
+          8.33,
+          null,
+          "Mon 8:15 pm @ Was",
+          ""
+        ]
+      ],
+      "ya": [
+        47.5,
+        95.9
+      ],
+      "yb": [
+        113.9,
+        135.84
+      ],
+      "LScoreDetails": [
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 544,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 795,
+          "gameId": 1392371,
+          "observedAt": 1795405366503,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13874411,
+          "gameId": 1392374,
+          "observedAt": 1795405366846,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13874089,
+          "gameId": 1392369,
+          "observedAt": 1795405366128,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 33934318,
+          "gameId": 1392376,
+          "observedAt": 1795405366492,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 34,
+          "gameId": 1392371,
+          "observedAt": 1795405366503,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 278419,
+          "gameId": 1392366,
+          "observedAt": 1795405366012,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 25,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        }
+      ],
+      "RScoreDetails": [
+        {
+          "source": "balldontlie",
+          "providerId": 18,
+          "gameId": 1392373,
+          "observedAt": 1795405366603,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13873873,
+          "gameId": 1392375,
+          "observedAt": 1795405366909,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 518,
+          "gameId": 1392373,
+          "observedAt": 1795405366603,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 113,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 701,
+          "gameId": 1392375,
+          "observedAt": 1795405366909,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13874116,
+          "gameId": 1392369,
+          "observedAt": 1795405366128,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13874582,
+          "gameId": 1392366,
+          "observedAt": 1795405366012,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13874137,
+          "gameId": 1392375,
+          "observedAt": 1795405366909,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 33934007,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 278253,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        }
+      ],
+      "winProbability": {
+        "source": "cfn",
+        "modelVersion": "cfn-remaining-points-v1",
+        "homeTeamId": 1,
+        "awayTeamId": 6,
+        "homePercent": 2,
+        "awayPercent": 98,
+        "homeProjected": 95.9,
+        "awayProjected": 135.84,
+        "status": "estimate",
+        "updatedAt": "2026-11-23T03:47:14.179Z"
+      }
+    },
+    {
+      "ia": 2,
+      "ib": 5,
+      "an": "Jameson On The Rocks",
+      "bn": "Woodridge lore",
+      "L": [
+        [
+          "QB",
+          "C.J. Stroud",
+          "QB",
+          "HOU",
+          27.47,
+          28.4,
+          "Final W 26-3 vs Ind",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "HOU",
+            "awayTeam": "IND",
+            "homeScore": 26,
+            "awayScore": 3,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Omarion Hampton",
+          "RB",
+          "LAC",
+          11.84,
+          10.3,
+          "Final L 24-27 vs NYJ",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "LAC",
+            "awayTeam": "NYJ",
+            "homeScore": 24,
+            "awayScore": 27,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Jaylen Warren",
+          "RB",
+          "PIT",
+          16.31,
+          4.9,
+          "Final L 16-19 @ Phi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "PHI",
+            "awayTeam": "PIT",
+            "homeScore": 19,
+            "awayScore": 16,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Ja'Marr Chase",
+          "WR",
+          "CIN",
+          24.56,
+          null,
+          "Mon 8:15 pm @ Was",
+          ""
+        ],
+        [
+          "WR",
+          "Luther Burden III",
+          "WR",
+          "CHI",
+          14.7,
+          3.3,
+          "Final W 21-13 vs NO",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "DeVonta Smith",
+          "WR",
+          "PHI",
+          14.18,
+          9.1,
+          "Final W 19-16 vs Pit",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "PHI",
+            "awayTeam": "PIT",
+            "homeScore": 19,
+            "awayScore": 16,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "TE",
+          "Pat Freiermuth",
+          "TE",
+          "PIT",
+          7.6,
+          9,
+          "Final L 16-19 @ Phi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "PHI",
+            "awayTeam": "PIT",
+            "homeScore": 19,
+            "awayScore": 16,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "W/R/T",
+          "Jameson Williams",
+          "WR",
+          "DET",
+          12.06,
+          19.3,
+          "Final W 31-21 vs TB",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Caleb Williams",
+          "QB",
+          "CHI",
+          25.89,
+          20.15,
+          "Final W 21-13 vs NO",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Jakobi Meyers",
+          "WR",
+          "JAX",
+          9.26,
+          12.5,
+          "Final L 18-23 @ NYG",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Jordan Addison",
+          "WR",
+          "MIN",
+          0,
+          0,
+          "Q3 0:00, 10-28 @ SF",
+          "O",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "BN",
+          "Aaron Rodgers",
+          "QB",
+          "PIT",
+          20.54,
+          20.25,
+          "Final L 16-19 @ Phi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "PHI",
+            "awayTeam": "PIT",
+            "homeScore": 19,
+            "awayScore": 16,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Tank Dell",
+          "WR",
+          "HOU",
+          9.03,
+          5.7,
+          "Final W 26-3 vs Ind",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "HOU",
+            "awayTeam": "IND",
+            "homeScore": 26,
+            "awayScore": 3,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "K",
+          "Cairo Santos",
+          "K",
+          "CHI",
+          9.91,
+          8.6,
+          "Final W 21-13 vs NO",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "DEF",
+          "Bears",
+          "DEF",
+          "CHI",
+          9.87,
+          19,
+          "Final W 21-13 vs NO",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Seahawks",
+          "DEF",
+          "SEA",
+          83,
+          null,
+          "Bye",
+          ""
+        ]
+      ],
+      "R": [
+        [
+          "QB",
+          "Josh Allen",
+          "QB",
+          "BUF",
+          28.67,
+          17.2,
+          "Final W 26-9 vs Mia",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "BUF",
+            "awayTeam": "MIA",
+            "homeScore": 26,
+            "awayScore": 9,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Javonte Williams",
+          "RB",
+          "DAL",
+          19.19,
+          24.1,
+          "Final W 51-30 vs Ten",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DAL",
+            "awayTeam": "TEN",
+            "homeScore": 51,
+            "awayScore": 30,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Jahmyr Gibbs",
+          "RB",
+          "DET",
+          23.62,
+          27.8,
+          "Final W 31-21 vs TB",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Courtland Sutton",
+          "WR",
+          "DEN",
+          9.1,
+          0,
+          "Final W 38-24 vs LV",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Ja'Kobi Lane",
+          "WR",
+          "BAL",
+          6.87,
+          0,
+          "Final L 33-35 @ Car",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CAR",
+            "awayTeam": "BAL",
+            "homeScore": 35,
+            "awayScore": 33,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Xavier Worthy",
+          "WR",
+          "KC",
+          6.88,
+          11.8,
+          "Final W 34-7 vs Ari",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "KC",
+            "awayTeam": "ARI",
+            "homeScore": 34,
+            "awayScore": 7,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "TE",
+          "Trey McBride",
+          "TE",
+          "ARI",
+          14.08,
+          14.8,
+          "Final L 7-34 @ KC",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "KC",
+            "awayTeam": "ARI",
+            "homeScore": 34,
+            "awayScore": 7,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "W/R/T",
+          "Colston Loveland",
+          "TE",
+          "CHI",
+          11.42,
+          11.9,
+          "Final W 21-13 vs NO",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Tre Tucker",
+          "WR",
+          "LV",
+          10,
+          7,
+          "Final L 24-38 @ Den",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Devaughn Vele",
+          "WR",
+          "NO",
+          6.19,
+          14.6,
+          "Final L 13-21 @ Chi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Travis Etienne Jr.",
+          "RB",
+          "NO",
+          11.31,
+          7.6,
+          "Final L 13-21 @ Chi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Mike Washington Jr.",
+          "RB",
+          "LV",
+          6.2,
+          4.2,
+          "Final L 24-38 @ Den",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Chris Godwin Jr.",
+          "WR",
+          "TB",
+          8.96,
+          4.3,
+          "Final L 21-31 @ Det",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "IR",
+          "Omar Cooper Jr.",
+          "WR",
+          "NYJ",
+          0,
+          0,
+          "Final W 27-24 @ LAC",
+          "O",
+          {
+            "period": "Final",
+            "homeTeam": "LAC",
+            "awayTeam": "NYJ",
+            "homeScore": 24,
+            "awayScore": 27,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "K",
+          "Cam Little",
+          "K",
+          "JAX",
+          9.99,
+          13.4,
+          "Final L 18-23 @ NYG",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Ka'imi Fairbairn",
+          "K",
+          "HOU",
+          10.98,
+          5.7,
+          "Final W 26-3 vs Ind",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "HOU",
+            "awayTeam": "IND",
+            "homeScore": 26,
+            "awayScore": 3,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "DEF",
+          "49ers",
+          "DEF",
+          "SF",
+          8.37,
+          17,
+          "Q3 0:00, 28-10 vs Min",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ]
+      ],
+      "ya": [
+        111.9,
+        136.46
+      ],
+      "yb": [
+        138,
+        136.09
+      ],
+      "LScoreDetails": [
+        {
+          "source": "balldontlie",
+          "providerId": 57,
+          "gameId": 1392366,
+          "observedAt": 1795405366012,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13873977,
+          "gameId": 1392374,
+          "observedAt": 1795405366846,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 488,
+          "gameId": 1392376,
+          "observedAt": 1795405366492,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13874242,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 826,
+          "gameId": 1392376,
+          "observedAt": 1795405366492,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 950,
+          "gameId": 1392376,
+          "observedAt": 1795405366492,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 656,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 277867,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 37,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 94,
+          "gameId": 1392376,
+          "observedAt": 1795405366492,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 112,
+          "gameId": 1392366,
+          "observedAt": 1795405366012,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 7508,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 24,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        }
+      ],
+      "RScoreDetails": [
+        {
+          "source": "balldontlie",
+          "providerId": 38,
+          "gameId": 1392367,
+          "observedAt": 1795405366104,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 489,
+          "gameId": 1392369,
+          "observedAt": 1795405366128,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 477,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 850,
+          "gameId": 1392375,
+          "observedAt": 1795405366909,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 88093,
+          "gameId": 1392371,
+          "observedAt": 1795405366503,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 846,
+          "gameId": 1392371,
+          "observedAt": 1795405366503,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13874670,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 597,
+          "gameId": 1392375,
+          "observedAt": 1795405366909,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 277738,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 471,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 33934371,
+          "gameId": 1392375,
+          "observedAt": 1795405366909,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 100,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 278371,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 1828,
+          "gameId": 1392366,
+          "observedAt": 1795405366012,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 30,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        }
+      ],
+      "winProbability": {
+        "source": "cfn",
+        "modelVersion": "cfn-remaining-points-v1",
+        "homeTeamId": 2,
+        "awayTeamId": 5,
+        "homePercent": 47,
+        "awayPercent": 53,
+        "homeProjected": 136.46,
+        "awayProjected": 137.38,
+        "status": "estimate",
+        "updatedAt": "2026-11-23T03:47:14.179Z"
+      }
+    },
+    {
+      "ia": 3,
+      "ib": 7,
+      "an": "Nico de Gallo",
+      "bn": "Run CMC",
+      "L": [
+        [
+          "QB",
+          "Trevor Lawrence",
+          "QB",
+          "JAX",
+          23.76,
+          17.75,
+          "Final L 18-23 @ NYG",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Braelon Allen",
+          "RB",
+          "NYJ",
+          8.9,
+          9.4,
+          "Final W 27-24 @ LAC",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "LAC",
+            "awayTeam": "NYJ",
+            "homeScore": 24,
+            "awayScore": 27,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Rico Dowdle",
+          "RB",
+          "PIT",
+          9.87,
+          7.4,
+          "Final L 16-19 @ Phi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "PHI",
+            "awayTeam": "PIT",
+            "homeScore": 19,
+            "awayScore": 16,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Parker Washington",
+          "WR",
+          "JAX",
+          14.42,
+          20.3,
+          "Final L 18-23 @ NYG",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "George Pickens",
+          "WR",
+          "DAL",
+          16.95,
+          25.8,
+          "Final W 51-30 vs Ten",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DAL",
+            "awayTeam": "TEN",
+            "homeScore": 51,
+            "awayScore": 30,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Adonai Mitchell",
+          "WR",
+          "NYJ",
+          10.54,
+          5,
+          "Final W 27-24 @ LAC",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "LAC",
+            "awayTeam": "NYJ",
+            "homeScore": 24,
+            "awayScore": 27,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "TE",
+          "Michael Mayer",
+          "TE",
+          "LV",
+          10.43,
+          1.4,
+          "Final L 24-38 @ Den",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "W/R/T",
+          "Tyler Allgeier",
+          "RB",
+          "ARI",
+          9.03,
+          2.3,
+          "Final L 7-34 @ KC",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "KC",
+            "awayTeam": "ARI",
+            "homeScore": 34,
+            "awayScore": 7,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Brock Bowers",
+          "TE",
+          "LV",
+          0,
+          0,
+          "Final L 24-38 @ Den",
+          "O",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Alvin Kamara",
+          "RB",
+          "NO",
+          7.47,
+          7.2,
+          "Final L 13-21 @ Chi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Malachi Fields",
+          "WR",
+          "NYG",
+          6.94,
+          4.5,
+          "Final W 23-18 vs Jax",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Tyler Higbee",
+          "TE",
+          "LA",
+          21,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Matthew Stafford",
+          "QB",
+          "LA",
+          88,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "IR",
+          "Puka Nacua",
+          "WR",
+          "LA",
+          84,
+          null,
+          "Bye",
+          "IR"
+        ],
+        [
+          "K",
+          "Wil Lutz",
+          "K",
+          "DEN",
+          9.67,
+          8.8,
+          "Final W 38-24 vs LV",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "DEF",
+          "Texans",
+          "DEF",
+          "HOU",
+          10.67,
+          22,
+          "Final W 26-3 vs Ind",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "HOU",
+            "awayTeam": "IND",
+            "homeScore": 26,
+            "awayScore": 3,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Jaguars",
+          "DEF",
+          "JAX",
+          10.09,
+          6,
+          "Final L 18-23 @ NYG",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ]
+      ],
+      "R": [
+        [
+          "QB",
+          "Cam Ward",
+          "QB",
+          "TEN",
+          24.43,
+          28.7,
+          "Final L 30-51 @ Dal",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DAL",
+            "awayTeam": "TEN",
+            "homeScore": 51,
+            "awayScore": 30,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Christian McCaffrey",
+          "RB",
+          "SF",
+          18.5,
+          5.3,
+          "Q3 0:00, 28-10 vs Min",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "RB",
+          "Tony Pollard",
+          "RB",
+          "TEN",
+          18.55,
+          14,
+          "Final L 30-51 @ Dal",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DAL",
+            "awayTeam": "TEN",
+            "homeScore": 51,
+            "awayScore": 30,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Nico Collins",
+          "WR",
+          "HOU",
+          16.46,
+          14.8,
+          "Final W 26-3 vs Ind",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "HOU",
+            "awayTeam": "IND",
+            "homeScore": 26,
+            "awayScore": 3,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Chris Olave",
+          "WR",
+          "NO",
+          15.14,
+          21.2,
+          "Final L 13-21 @ Chi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Khalil Shakir",
+          "WR",
+          "BUF",
+          11.59,
+          17.3,
+          "Final W 26-9 vs Mia",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "BUF",
+            "awayTeam": "MIA",
+            "homeScore": 26,
+            "awayScore": 9,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "TE",
+          "Sam LaPorta",
+          "TE",
+          "DET",
+          11.6,
+          9.2,
+          "Final W 31-21 vs TB",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "W/R/T",
+          "David Montgomery",
+          "RB",
+          "HOU",
+          14.73,
+          18.4,
+          "Final W 26-3 vs Ind",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "HOU",
+            "awayTeam": "IND",
+            "homeScore": 26,
+            "awayScore": 3,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Tyler Shough",
+          "QB",
+          "NO",
+          22.18,
+          18.5,
+          "Final L 13-21 @ Chi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "DeMario Douglas",
+          "WR",
+          "NE",
+          39,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "KC Concepcion Jr.",
+          "WR",
+          "CLE",
+          80,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Blake Corum",
+          "RB",
+          "LA",
+          89,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "IR",
+          "Lamar Jackson",
+          "QB",
+          "BAL",
+          0,
+          0,
+          "Final L 33-35 @ Car",
+          "IR",
+          {
+            "period": "Final",
+            "homeTeam": "CAR",
+            "awayTeam": "BAL",
+            "homeScore": 35,
+            "awayScore": 33,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "K",
+          "Evan McPherson",
+          "K",
+          "CIN",
+          10.37,
+          null,
+          "Mon 8:15 pm @ Was",
+          ""
+        ],
+        [
+          "DEF",
+          "Jets",
+          "DEF",
+          "NYJ",
+          8.59,
+          9,
+          "Final W 27-24 @ LAC",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "LAC",
+            "awayTeam": "NYJ",
+            "homeScore": 24,
+            "awayScore": 27,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Patriots",
+          "DEF",
+          "NE",
+          29,
+          null,
+          "Bye",
+          ""
+        ]
+      ],
+      "ya": [
+        120.15,
+        120.15
+      ],
+      "yb": [
+        137.9,
+        152.9
+      ],
+      "LScoreDetails": [
+        {
+          "source": "balldontlie",
+          "providerId": 42,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 279851,
+          "gameId": 1392374,
+          "observedAt": 1795405366846,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 520,
+          "gameId": 1392376,
+          "observedAt": 1795405366492,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 1057,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 684,
+          "gameId": 1392369,
+          "observedAt": 1795405366128,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 278420,
+          "gameId": 1392374,
+          "observedAt": 1795405366846,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 952,
+          "gameId": 1392375,
+          "observedAt": 1795405366909,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 494,
+          "gameId": 1392371,
+          "observedAt": 1795405366503,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 493,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 33934400,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 7515,
+          "gameId": 1392375,
+          "observedAt": 1795405366909,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 10,
+          "gameId": 1392366,
+          "observedAt": 1795405366012,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        }
+      ],
+      "RScoreDetails": [
+        {
+          "source": "balldontlie",
+          "providerId": 13873931,
+          "gameId": 1392369,
+          "observedAt": 1795405366128,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 461,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 472,
+          "gameId": 1392369,
+          "observedAt": 1795405366128,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 725,
+          "gameId": 1392366,
+          "observedAt": 1795405366012,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 823,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 712,
+          "gameId": 1392367,
+          "observedAt": 1795405366104,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 744,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 469,
+          "gameId": 1392366,
+          "observedAt": 1795405366012,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13874050,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 4,
+          "gameId": 1392374,
+          "observedAt": 1795405366846,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        }
+      ],
+      "winProbability": {
+        "source": "cfn",
+        "modelVersion": "cfn-remaining-points-v1",
+        "homeTeamId": 3,
+        "awayTeamId": 7,
+        "homePercent": 1,
+        "awayPercent": 99,
+        "homeProjected": 120.15,
+        "awayProjected": 152.9,
+        "status": "estimate",
+        "updatedAt": "2026-11-23T03:47:14.179Z"
+      }
+    },
+    {
+      "ia": 4,
+      "ib": 10,
+      "an": "Chupamela HPT",
+      "bn": "The Arbiter",
+      "L": [
+        [
+          "QB",
+          "Jared Goff",
+          "QB",
+          "DET",
+          23.82,
+          27.15,
+          "Final W 31-21 vs TB",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Bucky Irving",
+          "RB",
+          "TB",
+          16.58,
+          19,
+          "Final L 21-31 @ Det",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "D'Andre Swift",
+          "RB",
+          "CHI",
+          16.14,
+          11.9,
+          "Final W 21-13 vs NO",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Jordyn Tyson",
+          "WR",
+          "NO",
+          11.79,
+          2,
+          "Final L 13-21 @ Chi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Zay Flowers",
+          "WR",
+          "BAL",
+          15.12,
+          16.4,
+          "Final L 33-35 @ Car",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CAR",
+            "awayTeam": "BAL",
+            "homeScore": 35,
+            "awayScore": 33,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Xavier Hutchinson",
+          "WR",
+          "HOU",
+          8.95,
+          3.3,
+          "Final W 26-3 vs Ind",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "HOU",
+            "awayTeam": "IND",
+            "homeScore": 26,
+            "awayScore": 3,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "TE",
+          "Chig Okonkwo",
+          "TE",
+          "WAS",
+          9.63,
+          null,
+          "Mon 8:15 pm vs Cin",
+          ""
+        ],
+        [
+          "W/R/T",
+          "Kyle Monangai",
+          "RB",
+          "CHI",
+          9.08,
+          1.8,
+          "Final W 21-13 vs NO",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Rachaad White",
+          "RB",
+          "WAS",
+          8.28,
+          null,
+          "Mon 8:15 pm vs Cin",
+          "Q"
+        ],
+        [
+          "BN",
+          "Keenan Allen",
+          "WR",
+          "SF",
+          6.64,
+          6.8,
+          "Q3 0:00, 28-10 vs Min",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "BN",
+          "Jaxon Smith-Njigba",
+          "WR",
+          "SEA",
+          100,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Bam Knight",
+          "RB",
+          "ARI",
+          7.47,
+          5.5,
+          "Final L 7-34 @ KC",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "KC",
+            "awayTeam": "ARI",
+            "homeScore": 34,
+            "awayScore": 7,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Tucker Kraft",
+          "TE",
+          "GB",
+          93,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Kenny Gainwell",
+          "RB",
+          "TB",
+          7.97,
+          9.9,
+          "Final L 21-31 @ Det",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "K",
+          "Chris Boswell",
+          "K",
+          "PIT",
+          9.26,
+          12.7,
+          "Final L 16-19 @ Phi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "PHI",
+            "awayTeam": "PIT",
+            "homeScore": 19,
+            "awayScore": 16,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "DEF",
+          "Chiefs",
+          "DEF",
+          "KC",
+          12.09,
+          11,
+          "Final W 34-7 vs Ari",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "KC",
+            "awayTeam": "ARI",
+            "homeScore": 34,
+            "awayScore": 7,
+            "possessionTeam": null
+          }
+        ]
+      ],
+      "R": [
+        [
+          "QB",
+          "Brock Purdy",
+          "QB",
+          "SF",
+          23.37,
+          29.75,
+          "Q3 0:00, 28-10 vs Min",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "RB",
+          "Chuba Hubbard",
+          "RB",
+          "CAR",
+          17.71,
+          29,
+          "Final W 35-33 vs Bal",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CAR",
+            "awayTeam": "BAL",
+            "homeScore": 35,
+            "awayScore": 33,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Chase Brown",
+          "RB",
+          "CIN",
+          15.66,
+          null,
+          "Mon 8:15 pm @ Was",
+          ""
+        ],
+        [
+          "WR",
+          "CeeDee Lamb",
+          "WR",
+          "DAL",
+          24.48,
+          32.2,
+          "Final W 51-30 vs Ten",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DAL",
+            "awayTeam": "TEN",
+            "homeScore": 51,
+            "awayScore": 30,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Tetairoa McMillan",
+          "WR",
+          "CAR",
+          15.07,
+          19.1,
+          "Final W 35-33 vs Bal",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CAR",
+            "awayTeam": "BAL",
+            "homeScore": 35,
+            "awayScore": 33,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "DJ Moore",
+          "WR",
+          "BUF",
+          14.06,
+          23.1,
+          "Final W 26-9 vs Mia",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "BUF",
+            "awayTeam": "MIA",
+            "homeScore": 26,
+            "awayScore": 9,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "TE",
+          "Isaiah Likely",
+          "TE",
+          "NYG",
+          14.23,
+          4.5,
+          "Final W 23-18 vs Jax",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "W/R/T",
+          "Jonah Coleman",
+          "RB",
+          "DEN",
+          17.99,
+          37.9,
+          "Final W 38-24 vs LV",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Caleb Douglas",
+          "WR",
+          "MIA",
+          9.88,
+          5,
+          "Final L 9-26 @ Buf",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "BUF",
+            "awayTeam": "MIA",
+            "homeScore": 26,
+            "awayScore": 9,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "T.J. Hockenson",
+          "TE",
+          "MIN",
+          10.73,
+          9.8,
+          "Q3 0:00, 10-28 @ SF",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "BN",
+          "Makai Lemon",
+          "WR",
+          "PHI",
+          7.86,
+          1.3,
+          "Final W 19-16 vs Pit",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "PHI",
+            "awayTeam": "PIT",
+            "homeScore": 19,
+            "awayScore": 16,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Keon Coleman",
+          "WR",
+          "BUF",
+          9.11,
+          3.7,
+          "Final W 26-9 vs Mia",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "BUF",
+            "awayTeam": "MIA",
+            "homeScore": 26,
+            "awayScore": 9,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "TreVeyon Henderson",
+          "RB",
+          "NE",
+          42,
+          null,
+          "Bye",
+          "IR"
+        ],
+        [
+          "BN",
+          "Chris Rodriguez Jr.",
+          "RB",
+          "JAX",
+          5.15,
+          5.1,
+          "Final L 18-23 @ NYG",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "IR",
+          "De'Zhaun Stribling",
+          "WR",
+          "SF",
+          0,
+          0,
+          "Q3 0:00, 28-10 vs Min",
+          "IR",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "K",
+          "Chase McLaughlin",
+          "K",
+          "TB",
+          9.37,
+          3,
+          "Final L 21-31 @ Det",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "DEF",
+          "Chargers",
+          "DEF",
+          "LAC",
+          9.1,
+          2,
+          "Final L 24-27 vs NYJ",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "LAC",
+            "awayTeam": "NYJ",
+            "homeScore": 24,
+            "awayScore": 27,
+            "possessionTeam": null
+          }
+        ]
+      ],
+      "ya": [
+        105.25,
+        114.88
+      ],
+      "yb": [
+        180.55,
+        202.05
+      ],
+      "LScoreDetails": [
+        {
+          "source": "balldontlie",
+          "providerId": 32,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 278135,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 465,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 33934742,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 615,
+          "gameId": 1392373,
+          "observedAt": 1795405366603,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 624,
+          "gameId": 1392366,
+          "observedAt": 1795405366012,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13873984,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 88,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 697,
+          "gameId": 1392371,
+          "observedAt": 1795405366503,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 12,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 7507,
+          "gameId": 1392376,
+          "observedAt": 1795405366492,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 14,
+          "gameId": 1392371,
+          "observedAt": 1795405366503,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        }
+      ],
+      "RScoreDetails": [
+        {
+          "source": "balldontlie",
+          "providerId": 27,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 480,
+          "gameId": 1392373,
+          "observedAt": 1795405366603,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 575,
+          "gameId": 1392369,
+          "observedAt": 1795405366128,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13874457,
+          "gameId": 1392373,
+          "observedAt": 1795405366603,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 673,
+          "gameId": 1392367,
+          "observedAt": 1795405366104,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 917,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 33934066,
+          "gameId": 1392375,
+          "observedAt": 1795405366909,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 33934412,
+          "gameId": 1392367,
+          "observedAt": 1795405366104,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 837,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 33934561,
+          "gameId": 1392376,
+          "observedAt": 1795405366492,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 277567,
+          "gameId": 1392367,
+          "observedAt": 1795405366104,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 534,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 7523,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 17,
+          "gameId": 1392374,
+          "observedAt": 1795405366846,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        }
+      ],
+      "winProbability": {
+        "source": "cfn",
+        "modelVersion": "cfn-remaining-points-v1",
+        "homeTeamId": 4,
+        "awayTeamId": 10,
+        "homePercent": 1,
+        "awayPercent": 99,
+        "homeProjected": 114.88,
+        "awayProjected": 202.05,
+        "status": "estimate",
+        "updatedAt": "2026-11-23T03:47:14.179Z"
+      }
+    },
+    {
+      "ia": 8,
+      "ib": 12,
+      "an": "Wide receiver university",
+      "bn": "El Hueso",
+      "L": [
+        [
+          "QB",
+          "Kirk Cousins",
+          "QB",
+          "MIN",
+          19.73,
+          7.05,
+          "Q3 0:00, 10-28 @ SF",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "RB",
+          "Ollie Gordon II",
+          "RB",
+          "MIA",
+          12.22,
+          8.7,
+          "Final L 9-26 @ Buf",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "BUF",
+            "awayTeam": "MIA",
+            "homeScore": 26,
+            "awayScore": 9,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Emmett Johnson",
+          "RB",
+          "KC",
+          22.76,
+          27.3,
+          "Final W 34-7 vs Ari",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "KC",
+            "awayTeam": "ARI",
+            "homeScore": 34,
+            "awayScore": 7,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Justin Jefferson",
+          "WR",
+          "MIN",
+          18.62,
+          10.3,
+          "Q3 0:00, 10-28 @ SF",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "WR",
+          "Malik Nabers",
+          "WR",
+          "NYG",
+          15.78,
+          18.5,
+          "Final W 23-18 vs Jax",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Ladd McConkey",
+          "WR",
+          "LAC",
+          10.45,
+          20.7,
+          "Final L 24-27 vs NYJ",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "LAC",
+            "awayTeam": "NYJ",
+            "homeScore": 24,
+            "awayScore": 27,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "TE",
+          "Juwan Johnson",
+          "TE",
+          "NO",
+          7.86,
+          0,
+          "Final L 13-21 @ Chi",
+          "Q",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "W/R/T",
+          "Aaron Jones Sr.",
+          "RB",
+          "MIN",
+          8.67,
+          10.7,
+          "Q3 0:00, 10-28 @ SF",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "BN",
+          "Quentin Johnston",
+          "WR",
+          "LAC",
+          7.28,
+          2,
+          "Final L 24-27 vs NYJ",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "LAC",
+            "awayTeam": "NYJ",
+            "homeScore": 24,
+            "awayScore": 27,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Harold Fannin Jr.",
+          "TE",
+          "CLE",
+          92,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Quinshon Judkins",
+          "RB",
+          "CLE",
+          94,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Travis Hunter",
+          "WR",
+          "JAX",
+          2.57,
+          2.2,
+          "Final L 18-23 @ NYG",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "J.K. Dobbins",
+          "RB",
+          "DEN",
+          6.44,
+          0,
+          "Final W 38-24 vs LV",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Sione Vaki",
+          "RB",
+          "DET",
+          3.67,
+          1.6,
+          "Final W 31-21 vs TB",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "K",
+          "Will Reichard",
+          "K",
+          "MIN",
+          9.28,
+          5.8,
+          "Q3 0:00, 10-28 @ SF",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "DEF",
+          "Panthers",
+          "DEF",
+          "CAR",
+          8.11,
+          7,
+          "Final W 35-33 vs Bal",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CAR",
+            "awayTeam": "BAL",
+            "homeScore": 35,
+            "awayScore": 33,
+            "possessionTeam": null
+          }
+        ]
+      ],
+      "R": [
+        [
+          "QB",
+          "Bo Nix",
+          "QB",
+          "DEN",
+          24.44,
+          15.75,
+          "Final W 38-24 vs LV",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Cam Skattebo",
+          "RB",
+          "NYG",
+          14.99,
+          5.8,
+          "Final W 23-18 vs Jax",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Saquon Barkley",
+          "RB",
+          "PHI",
+          12.16,
+          13.5,
+          "Final W 19-16 vs Pit",
+          "Q",
+          {
+            "period": "Final",
+            "homeTeam": "PHI",
+            "awayTeam": "PIT",
+            "homeScore": 19,
+            "awayScore": 16,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Garrett Wilson",
+          "WR",
+          "NYJ",
+          16.13,
+          6.9,
+          "Final W 27-24 @ LAC",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "LAC",
+            "awayTeam": "NYJ",
+            "homeScore": 24,
+            "awayScore": 27,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Deebo Samuel Sr.",
+          "WR",
+          "SF",
+          9.24,
+          6.2,
+          "Q3 0:00, 28-10 vs Min",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "WR",
+          "Mike Evans",
+          "WR",
+          "SF",
+          11.43,
+          24.9,
+          "Q3 0:00, 28-10 vs Min",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "TE",
+          "Travis Kelce",
+          "TE",
+          "KC",
+          11.9,
+          25.4,
+          "Final W 34-7 vs Ari",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "KC",
+            "awayTeam": "ARI",
+            "homeScore": 34,
+            "awayScore": 7,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "W/R/T",
+          "DK Metcalf",
+          "WR",
+          "PIT",
+          10.38,
+          1.2,
+          "Final L 16-19 @ Phi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "PHI",
+            "awayTeam": "PIT",
+            "homeScore": 19,
+            "awayScore": 16,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Bryce Young",
+          "QB",
+          "CAR",
+          23.88,
+          22.5,
+          "Final W 35-33 vs Bal",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CAR",
+            "awayTeam": "BAL",
+            "homeScore": 35,
+            "awayScore": 33,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "A.J. Brown",
+          "WR",
+          "NE",
+          81,
+          null,
+          "Bye",
+          "D"
+        ],
+        [
+          "BN",
+          "Kyren Williams",
+          "RB",
+          "LA",
+          99,
+          null,
+          "Bye",
+          "Q"
+        ],
+        [
+          "BN",
+          "Corey Kiner",
+          "RB",
+          "NE",
+          25,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Antonio Williams",
+          "WR",
+          "WAS",
+          8.51,
+          null,
+          "Mon 8:15 pm vs Cin",
+          ""
+        ],
+        [
+          "BN",
+          "Kaleb Johnson",
+          "RB",
+          "GB",
+          9,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "IR",
+          "Josh Jacobs",
+          "RB",
+          "GB",
+          91,
+          null,
+          "Bye",
+          "O"
+        ],
+        [
+          "K",
+          "Harrison Butker",
+          "K",
+          "KC",
+          9.48,
+          12.4,
+          "Final W 34-7 vs Ari",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "KC",
+            "awayTeam": "ARI",
+            "homeScore": 34,
+            "awayScore": 7,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "DEF",
+          "Bills",
+          "DEF",
+          "BUF",
+          11.39,
+          14,
+          "Final W 26-9 vs Mia",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "BUF",
+            "awayTeam": "MIA",
+            "homeScore": 26,
+            "awayScore": 9,
+            "possessionTeam": null
+          }
+        ]
+      ],
+      "ya": [
+        116.05,
+        130.12
+      ],
+      "yb": [
+        126.05,
+        131.22
+      ],
+      "LScoreDetails": [
+        {
+          "source": "balldontlie",
+          "providerId": 26,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13873940,
+          "gameId": 1392367,
+          "observedAt": 1795405366104,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 33934178,
+          "gameId": 1392371,
+          "observedAt": 1795405366503,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 111,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 277804,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 277681,
+          "gameId": 1392374,
+          "observedAt": 1795405366846,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 930,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 496,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 718,
+          "gameId": 1392374,
+          "observedAt": 1795405366846,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13874106,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 669,
+          "gameId": 1392375,
+          "observedAt": 1795405366909,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 279908,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 277801,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "fumble_touchback_coverage",
+          "observedAt": 1795405624227
+        }
+      ],
+      "RScoreDetails": [
+        {
+          "source": "balldontlie",
+          "providerId": 277730,
+          "gameId": 1392375,
+          "observedAt": 1795405366909,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13874196,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 476,
+          "gameId": 1392376,
+          "observedAt": 1795405366492,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 115,
+          "gameId": 1392374,
+          "observedAt": 1795405366846,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 102,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 815,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 835,
+          "gameId": 1392371,
+          "observedAt": 1795405366503,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 824,
+          "gameId": 1392376,
+          "observedAt": 1795405366492,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 75,
+          "gameId": 1392373,
+          "observedAt": 1795405366603,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 7519,
+          "gameId": 1392371,
+          "observedAt": 1795405366503,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 3,
+          "gameId": 1392367,
+          "observedAt": 1795405366104,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        }
+      ],
+      "winProbability": {
+        "source": "cfn",
+        "modelVersion": "cfn-remaining-points-v1",
+        "homeTeamId": 8,
+        "awayTeamId": 12,
+        "homePercent": 46,
+        "awayPercent": 54,
+        "homeProjected": 130.13,
+        "awayProjected": 131.22,
+        "status": "estimate",
+        "updatedAt": "2026-11-23T03:47:14.179Z"
+      }
+    },
+    {
+      "ia": 9,
+      "ib": 11,
+      "an": "Mr. Electricity",
+      "bn": "Sir",
+      "L": [
+        [
+          "QB",
+          "Jayden Daniels",
+          "QB",
+          "WAS",
+          26.97,
+          null,
+          "Mon 8:15 pm vs Cin",
+          ""
+        ],
+        [
+          "RB",
+          "Jonathan Taylor",
+          "RB",
+          "IND",
+          14.61,
+          6.7,
+          "Final L 3-26 @ Hou",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "HOU",
+            "awayTeam": "IND",
+            "homeScore": 26,
+            "awayScore": 3,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Breece Hall",
+          "RB",
+          "NYJ",
+          14.52,
+          19,
+          "Final W 27-24 @ LAC",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "LAC",
+            "awayTeam": "NYJ",
+            "homeScore": 24,
+            "awayScore": 27,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Jalen Coker",
+          "WR",
+          "CAR",
+          12.59,
+          8.7,
+          "Final W 35-33 vs Bal",
+          "Q",
+          {
+            "period": "Final",
+            "homeTeam": "CAR",
+            "awayTeam": "BAL",
+            "homeScore": 35,
+            "awayScore": 33,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Malik Washington",
+          "WR",
+          "MIA",
+          9.55,
+          7.1,
+          "Final L 9-26 @ Buf",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "BUF",
+            "awayTeam": "MIA",
+            "homeScore": 26,
+            "awayScore": 9,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Carnell Tate",
+          "WR",
+          "TEN",
+          15.34,
+          13.8,
+          "Final L 30-51 @ Dal",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DAL",
+            "awayTeam": "TEN",
+            "homeScore": 51,
+            "awayScore": 30,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "TE",
+          "George Kittle",
+          "TE",
+          "SF",
+          12.99,
+          18.4,
+          "Q3 0:00, 28-10 vs Min",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "W/R/T",
+          "Dallas Goedert",
+          "TE",
+          "PHI",
+          10.27,
+          4.8,
+          "Final W 19-16 vs Pit",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "PHI",
+            "awayTeam": "PIT",
+            "homeScore": 19,
+            "awayScore": 16,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Kenneth Walker III",
+          "RB",
+          "KC",
+          0,
+          0,
+          "Final W 34-7 vs Ari",
+          "O",
+          {
+            "period": "Final",
+            "homeTeam": "KC",
+            "awayTeam": "ARI",
+            "homeScore": 34,
+            "awayScore": 7,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Christian Watson",
+          "WR",
+          "GB",
+          99,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Woody Marks",
+          "RB",
+          "HOU",
+          0,
+          0,
+          "Final W 26-3 vs Ind",
+          "O",
+          {
+            "period": "Final",
+            "homeTeam": "HOU",
+            "awayTeam": "IND",
+            "homeScore": 26,
+            "awayScore": 3,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Jordan Love",
+          "QB",
+          "GB",
+          93,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "IR",
+          "RJ Harvey",
+          "RB",
+          "DEN",
+          0,
+          0,
+          "Final W 38-24 vs LV",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "K",
+          "Tyler Bass",
+          "K",
+          "BUF",
+          10.42,
+          18.5,
+          "Final W 26-9 vs Mia",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "BUF",
+            "awayTeam": "MIA",
+            "homeScore": 26,
+            "awayScore": 9,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "DEF",
+          "Broncos",
+          "DEF",
+          "DEN",
+          10.61,
+          16,
+          "Final W 38-24 vs LV",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DEN",
+            "awayTeam": "LV",
+            "homeScore": 38,
+            "awayScore": 24,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Giants",
+          "DEF",
+          "NYG",
+          6.39,
+          10,
+          "Final W 23-18 vs Jax",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Steelers",
+          "DEF",
+          "PIT",
+          10.06,
+          9,
+          "Final L 16-19 @ Phi",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "PHI",
+            "awayTeam": "PIT",
+            "homeScore": 19,
+            "awayScore": 16,
+            "possessionTeam": null
+          }
+        ]
+      ],
+      "R": [
+        [
+          "QB",
+          "Dak Prescott",
+          "QB",
+          "DAL",
+          29.67,
+          49.15,
+          "Final W 51-30 vs Ten",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DAL",
+            "awayTeam": "TEN",
+            "homeScore": 51,
+            "awayScore": 30,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "James Cook III",
+          "RB",
+          "BUF",
+          17.53,
+          17.2,
+          "Final W 26-9 vs Mia",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "BUF",
+            "awayTeam": "MIA",
+            "homeScore": 26,
+            "awayScore": 9,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "RB",
+          "Derrick Henry",
+          "RB",
+          "BAL",
+          15.31,
+          19.1,
+          "Final L 33-35 @ Car",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CAR",
+            "awayTeam": "BAL",
+            "homeScore": 35,
+            "awayScore": 33,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Tee Higgins",
+          "WR",
+          "CIN",
+          17.87,
+          null,
+          "Mon 8:15 pm @ Was",
+          ""
+        ],
+        [
+          "WR",
+          "Rome Odunze",
+          "WR",
+          "CHI",
+          10.58,
+          8.5,
+          "Final W 21-13 vs NO",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CHI",
+            "awayTeam": "NO",
+            "homeScore": 21,
+            "awayScore": 13,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "WR",
+          "Josh Downs",
+          "WR",
+          "KC",
+          9.74,
+          9.9,
+          "Final W 34-7 vs Ari",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "KC",
+            "awayTeam": "ARI",
+            "homeScore": 34,
+            "awayScore": 7,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "TE",
+          "Mark Andrews",
+          "TE",
+          "BAL",
+          8.35,
+          3.4,
+          "Final L 33-35 @ Car",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "CAR",
+            "awayTeam": "BAL",
+            "homeScore": 35,
+            "awayScore": 33,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "W/R/T",
+          "Bhayshul Tuten",
+          "RB",
+          "JAX",
+          15.71,
+          8.3,
+          "Final L 18-23 @ NYG",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Ryan Flournoy",
+          "WR",
+          "DAL",
+          11.08,
+          2.1,
+          "Final W 51-30 vs Ten",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DAL",
+            "awayTeam": "TEN",
+            "homeScore": 51,
+            "awayScore": 30,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Emeka Egbuka",
+          "WR",
+          "TB",
+          11.55,
+          3.8,
+          "Final L 21-31 @ Det",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Brenton Strange",
+          "TE",
+          "JAX",
+          8.87,
+          4.6,
+          "Final L 18-23 @ NYG",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "NYG",
+            "awayTeam": "JAX",
+            "homeScore": 23,
+            "awayScore": 18,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "BN",
+          "Kyle Pitts Sr.",
+          "TE",
+          "ATL",
+          64,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "BN",
+          "Zach Charbonnet",
+          "RB",
+          "SEA",
+          87,
+          null,
+          "Bye",
+          ""
+        ],
+        [
+          "K",
+          "Brandon Aubrey",
+          "K",
+          "DAL",
+          11.14,
+          10.9,
+          "Final W 51-30 vs Ten",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DAL",
+            "awayTeam": "TEN",
+            "homeScore": 51,
+            "awayScore": 30,
+            "possessionTeam": null
+          }
+        ],
+        [
+          "DEF",
+          "Vikings",
+          "DEF",
+          "MIN",
+          7.43,
+          2,
+          "Q3 0:00, 10-28 @ SF",
+          "",
+          {
+            "period": "Q4 15:00",
+            "homeTeam": "SF",
+            "awayTeam": "MIN",
+            "homeScore": 28,
+            "awayScore": 10,
+            "possessionTeam": "SF"
+          }
+        ],
+        [
+          "BN",
+          "Buccaneers",
+          "DEF",
+          "TB",
+          6.85,
+          1,
+          "Final L 21-31 @ Det",
+          "",
+          {
+            "period": "Final",
+            "homeTeam": "DET",
+            "awayTeam": "TB",
+            "homeScore": 31,
+            "awayScore": 21,
+            "possessionTeam": null
+          }
+        ]
+      ],
+      "ya": [
+        113,
+        143.22
+      ],
+      "yb": [
+        128.45,
+        144.18
+      ],
+      "LScoreDetails": [
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 490,
+          "gameId": 1392366,
+          "observedAt": 1795405366012,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 473,
+          "gameId": 1392374,
+          "observedAt": 1795405366846,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 364100,
+          "gameId": 1392373,
+          "observedAt": 1795405366603,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 279725,
+          "gameId": 1392367,
+          "observedAt": 1795405366104,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 33934712,
+          "gameId": 1392369,
+          "observedAt": 1795405366128,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 754,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 762,
+          "gameId": 1392376,
+          "observedAt": 1795405366492,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 2104,
+          "gameId": 1392367,
+          "observedAt": 1795405366104,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 15,
+          "gameId": 1392375,
+          "observedAt": 1795405366909,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 20,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 7,
+          "gameId": 1392376,
+          "observedAt": 1795405366492,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        }
+      ],
+      "RScoreDetails": [
+        {
+          "source": "balldontlie",
+          "providerId": 25,
+          "gameId": 1392369,
+          "observedAt": 1795405366128,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 464,
+          "gameId": 1392367,
+          "observedAt": 1795405366104,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 36,
+          "gameId": 1392373,
+          "observedAt": 1795405366603,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 277866,
+          "gameId": 1392368,
+          "observedAt": 1795405366090,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 851,
+          "gameId": 1392371,
+          "observedAt": 1795405366503,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 773,
+          "gameId": 1392373,
+          "observedAt": 1795405366603,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13874014,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 279886,
+          "gameId": 1392369,
+          "observedAt": 1795405366128,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 13874067,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 1165,
+          "gameId": 1392372,
+          "observedAt": 1795405366928,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "yahoo",
+          "reason": "identity_or_stats_missing",
+          "observedAt": 1795405624227
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 7529,
+          "gameId": 1392369,
+          "observedAt": 1795405366128,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 23,
+          "gameId": 1392377,
+          "observedAt": 1795405635663,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        },
+        {
+          "source": "balldontlie",
+          "providerId": 28,
+          "gameId": 1392370,
+          "observedAt": 1795405366317,
+          "rulesVersion": "yahoo-2026-11-21-v2"
+        }
+      ],
+      "winProbability": {
+        "source": "cfn",
+        "modelVersion": "cfn-remaining-points-v1",
+        "homeTeamId": 9,
+        "awayTeamId": 11,
+        "homePercent": 45,
+        "awayPercent": 55,
+        "homeProjected": 143.22,
+        "awayProjected": 145.15,
+        "status": "estimate",
+        "updatedAt": "2026-11-23T03:47:14.179Z"
+      }
+    }
+  ],
+  "fetchedAt": "2026-11-23T03:47:04.227Z",
+  "sourceUpdatedAt": "2026-11-23T03:47:04.227Z",
+  "cacheAgeSeconds": 17,
+  "stale": false,
+  "final": false,
+  "scoreboardUpdatedAt": "2026-11-23T03:47:14.179Z",
+  "scoreboardStale": false,
+  "ms": 36
+}
