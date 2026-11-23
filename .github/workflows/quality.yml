@@ -20,7 +20,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm ci
       - run: npm ci --prefix client
       - run: npm run test:release
       - run: npm run build
