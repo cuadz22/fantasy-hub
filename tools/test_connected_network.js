@@ -17,6 +17,15 @@ function fixture(){
  ok(mine.reportedScore===36&&mine.players[2].position==='BN','provider total excludes bench');
  ok(mine.players[1].footballPosition==='DEF'&&mine.players[0].footballPosition==='QB','defense and QB identities');
  ok(mine.players.every(p=>p.projection===null),'no invented projections');
+ const scheduled=clone(input);scheduled.board={season:2026,week:11,byes:['DAL'],games:[{homeTeam:'CIN',awayTeam:'PIT',state:'pre',start:'2026-11-24T01:15:00Z'}]};
+ let ps=C.normalizeSleeper(scheduled).matchups[0].home.players;
+ ok(ps[0].status.includes('vs PIT')&&ps[0].points===null&&ps[2].status==='Bye','scheduled games and byes');
+ scheduled.board.games[0]={...scheduled.board.games[0],state:'in',period:'Q2 8:12',homeScore:14,awayScore:7,possessionTeam:'CIN'};
+ ps=C.normalizeSleeper(scheduled).matchups[0].home.players;
+ ok(ps[0].game.possessionTeam==='CIN'&&ps[0].points===30,'live game retains scores and possession');
+ scheduled.board.games[0].state='post';scheduled.board.games[0].period='Final';
+ ok(C.normalizeSleeper(scheduled).matchups[0].home.players[0].status==='Final vs PIT','finished status');
+ scheduled.board.week=12;ok(C.normalizeSleeper(scheduled).matchups[0].home.players[0].status==='Game status unavailable','wrong week not substituted');
  ok(s.standings.throughWeek===10&&s.standings.rows[0].pointsFor===1000.45,'official scoring week and decimals');
  let d=clone(input);d.matchups[0].custom_points=39;ok(C.normalizeSleeper(d).matchups[0].home.reportedScore===39,'commissioner override');
  d=clone(input);d.matchups[0].starters[0]='0';ok(C.normalizeSleeper(d).matchups[0].home.players[0].name==='Empty','empty starting slot retained');

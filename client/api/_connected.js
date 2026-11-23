@@ -64,7 +64,7 @@ async function refreshSleeper(week){
  const key=`connected:v1:sl:${M.SEASON}:${week}`,lock=await M.lock(key+':lock',45);if(!lock)return {busy:true};
  try{
   const base='https://api.sleeper.app/v1/league/'+CONFIG.sl.providerId;
-  const [league,users,rosters,matchups,players,board]=await Promise.all([M.jfetch(base),M.jfetch(base+'/users'),M.jfetch(base+'/rosters'),M.jfetch(base+'/matchups/'+week),playerDictionary(),M.rget('mb:'+week)]);
+  const [league,users,rosters,matchups,players,board]=await Promise.all([M.jfetch(base),M.jfetch(base+'/users'),M.jfetch(base+'/rosters'),M.jfetch(base+'/matchups/'+week),playerDictionary(),M.getBoard(week, 120)]);
   const body=normalizeSleeper({league,users,rosters,matchups,players,board,week});
   await M.write(key,body,180*86400);return {league:'sl',week,matchups:body.matchups.length};
  }finally{await M.unlock(key+':lock',lock)}
@@ -82,20 +82,21 @@ async function snapshot(req,lg,week){
  const body=await M.read(`connected:v1:${lg}:${M.SEASON}:${week}`);
  if(!body)return {status:404,json:{error:'week_unavailable'}};
  const context=await M.context({cachedOnly:true});
- const maxAge=context&&!context.stale&&week<context.week?86400000:180000;
+ const maxAge=context&&!context.stale&&week!==context.week?86400000:180000;
  const stale=!Number.isFinite(Date.parse(body.observedAt))||Date.now()-Date.parse(body.observedAt)>maxAge;
  return {status:200,json:{...body,stale,matchups:body.matchups.map(m=>({...m,sourceStale:stale}))}};
 }
 async function refreshScheduled(week){
  requireValue(Number.isInteger(week)&&week>=1&&week<=18,'invalid_week');
  const current=await refreshSleeper(week);
- // One additional week at most per run: bounded backfill, no request-time scrape.
- // Rotate one prior week each minute instead of scanning every cache key.
- if(week>1){
-  const prior=1+(Math.floor(Date.now()/60000)%(week-1));
-  const saved=await M.read(`connected:v1:sl:${M.SEASON}:${prior}`);
-  if(!saved||Date.now()-Date.parse(saved.observedAt)>86400000){
-   try{return {current,history:await refreshSleeper(prior)}}catch{return {current,history:{week:prior,unavailable:true}}}
+ // One additional week per run: rotate historical AND upcoming regular-season weeks.
+ // Upcoming rosters are provisional provider snapshots, never copied from this week.
+ const candidates=Array.from({length:Math.max(14,week)},(_,i)=>i+1).filter(w=>w!==week);
+ const extra=candidates[Math.floor(Date.now()/60000)%candidates.length];
+ if(extra){
+  const saved=await M.read(`connected:v1:sl:${M.SEASON}:${extra}`);
+  if(!saved||!Number.isFinite(Date.parse(saved.observedAt))||Date.now()-Date.parse(saved.observedAt)>86400000){
+   try{return {current,history:await refreshSleeper(extra)}}catch{return {current,history:{week:extra,unavailable:true}}}
   }
  }
  return {current};

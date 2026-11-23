@@ -84,6 +84,14 @@
     {
       "path": "/api/mobile/cron-connected",
       "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/mobile/cron-cantcut",
+      "schedule": "0 10,22 * * *"
+    },
+    {
+      "path": "/api/mobile/cron-trades",
+      "schedule": "*/15 * * * *"
     }
   ],
   "functions": {

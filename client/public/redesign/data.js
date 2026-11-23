@@ -220,7 +220,7 @@
     ]);
   }
   async function loadResources(lg, picks=false) {
-    const jobs=[loadPresentation(),capture("resources",async()=>{state.resources=validateResources(await read("/resources/v1.json",60000));})];
+    const jobs=[loadPresentation(),capture("resources",async()=>{state.resources=validateResources(await read("/api/mobile/resources",60000));})];
     if(picks) jobs.push(capture("picks-"+lg,async()=>{state.picks[lg]=validatePicks(await read("/api/trades?lg="+lg,60000),lg);}));
     await Promise.all(jobs);
   }

@@ -38,11 +38,12 @@ module.exports = async (req, res) => {
       else if (r === 'cron-push') { name = 'push'; work = () => require('./_mpush').collect(); }
       else if (r === 'cron-network') { name = 'network'; work = () => require('./_network').tick(); }
       else if (r === 'cron-connected') { name = 'connected'; work = async () => { const c = await M.context({cachedOnly:true}); if (!c || c.stale) throw Error('context_unavailable'); return require('./_connected').refreshScheduled(c.week); }; }
+      else if (r === 'cron-cantcut' || r === 'cron-trades') { name=r.slice(5); work=()=>require('./_leagueupdates').refresh(name); }
       else if (r === 'cron-ball') { name = 'ball'; work = () => require('./_mball').collect({ force: q.get('force') === '1' }); }
       else return J(res, 400, { error: 'invalid_job' });
       const result = await jobs.run(name, work); return J(res, result.status, result.body);
     }
-    if (r === 'resources' && req.method === 'GET') return J(res, 200, require('./_resources.json'), 'public, s-maxage=60, stale-while-revalidate=60');
+    if (r === 'resources' && req.method === 'GET') return J(res, 200, await require('./_leagueupdates').resources(), 'public, s-maxage=60, stale-while-revalidate=60');
     if (r === 'context' && req.method === 'GET') {
       const c = await M.context({ cachedOnly: true }); if (!c) return J(res, 503, { error: 'context_unavailable' });
       return J(res, 200, { schemaVersion: 1, season: c.season, currentWeek: c.week, availableWeeks: c.weeks, updatedAt: new Date(c.updated || Date.now()).toISOString(), stale: c.stale, live: M.isLive(c.board), byes: c.board ? c.board.byes : [] }, 'public, s-maxage=20, stale-while-revalidate=10');

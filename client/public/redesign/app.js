@@ -110,7 +110,7 @@ const probability = (c) => {
   return `<div class="probability" aria-label="CFN estimate: ${esc(c.teams[0].name)} ${n}%, ${esc(c.teams[1].name)} ${100 - n}%"><div class="prob-label"><span>${n}%</span><span>${c.final ? "Final result" : "CFN win estimate"}</span><span>${100 - n}%</span></div><div class="track"><i class="fill" style="${n >= 50 ? "left:0" : "right:0"};width:${Math.max(n, 100 - n)}%"></i><i class="ball" style="left:${n}%"></i></div></div>`;
 };
 const card = (c) => c.unavailable ? `<article class="match"><div class="card-label">${img(c.leagueLogo)}<span>${leagues[c.league]}</span></div><h3>Checking matchups…</h3><p>Current scores are unavailable. Please try refreshing.</p></article>` :
-  `<button class="match" data-detail="${c.id || c.league}" aria-label="Open ${esc(c.teams[0].name)} versus ${esc(c.teams[1].name)}"><div class="card-label">${img(c.leagueLogo)}<span>${leagues[c.league]}</span><span class="chevron">›</span></div>${CFNPolish.featuredBadge(c)}${scores(c)}${probability(c)}<div class="card-freshness">${esc(feedNote(c))}</div></button>`;
+  `<button class="match" data-detail="${c.id || c.league}" aria-label="Open ${esc(c.teams[0].name)} versus ${esc(c.teams[1].name)}"><div class="card-label">${img(c.leagueLogo)}<span>${leagues[c.league]}</span>${CFNPolish.featuredBadge(c)}<span class="chevron">›</span></div>${scores(c)}${probability(c)}<div class="card-freshness">${esc(feedNote(c))}</div></button>`;
 const player = (p) =>
   `${img(p.photo)}<div><b>${esc(clean(p.name))}</b><small>${esc(p.game)}</small></div>`;
 const rows = (c) => CFNPolish.rows(c);

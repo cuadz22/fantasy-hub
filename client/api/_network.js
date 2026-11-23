@@ -18,10 +18,10 @@ function side(lg,s){
  const id=candidates.length===1?candidates[0].id:null;
  return {teamId:id,name:s.team,logoURL:id?MEDIA.teams?.[lg]?.[id]?.logoURL||null:null,players:(s.gets||[]).filter(x=>typeof x==='string')};
 }
-function staticPosts(now=Date.now()){
+function staticPosts(now=Date.now(),resources=RES){
  const out=[];
  for(const lg of M.LGS){
-  for(const t of RES.tools.trades[lg]||[]){
+  for(const t of resources.tools.trades[lg]||[]){
    if(!t.a?.team||!t.b?.team)continue;
    const at=dated(t.date,RES.season);if(!at||Date.parse(at)>now)continue;
    const sides=[side(lg,t.a),side(lg,t.b)];
@@ -52,7 +52,7 @@ function visible(p,member,now){return (p.leagueId==='network'||Number.isInteger(
 async function feed(req){
  const a=await A.authenticate(req);if(!a)return {status:401,json:{error:'unauthorized'}};
  if(!eligible(a.member.h))return {status:403,json:{error:'private_rollout'}};
- const now=Date.now(),posts=[...staticPosts(now),...await stored()].filter(p=>visible(p,a.member,now)).map(publicPost).sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt)||a.id.localeCompare(b.id));
+ const now=Date.now(),posts=[...staticPosts(now,await require('./_leagueupdates').resources()),...await stored()].filter(p=>visible(p,a.member,now)).map(publicPost).sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt)||a.id.localeCompare(b.id));
  return {status:200,json:{schemaVersion:1,canPublish:admin(a.member.h),posts,checkedAt:new Date(now).toISOString()}};
 }
 function validate(body,member,now=Date.now()){

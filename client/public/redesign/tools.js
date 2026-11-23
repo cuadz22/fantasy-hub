@@ -32,7 +32,7 @@ const sections = [
 const available = (id) =>
   (id !== "vote" || league === "gl") &&
   !(
-    ["keepers", "picks", "desk", "traderules"].includes(id) &&
+    ["keepers", "picks", "desk", "traderules", "cantcut"].includes(id) &&
     !["bh", "rb"].includes(league)
   ) &&
   !(id === "prices" && league !== "rb");
@@ -232,7 +232,7 @@ function picksView() {
                 (x) =>
                   x.group === t && Number(x.title.replace(/\D/g, "")) === r,
               );
-              return `<td>${own.length ? `<button data-pick-team="${esc(t)}" data-pick-round="${r}" class="pick-count ${own.length > 1 ? "multiple" : ""}" aria-label="${esc(t)}, round ${r}, ${own.length} picks">${own.length}</button>` : '<span class="muted">—</span>'}</td>`;
+              return `<td>${own.length ? `<button data-pick-team="${esc(t)}" data-pick-round="${r}" class="pick-count ${own.length > 1 ? "multiple" : ""}" aria-label="${esc(t)}, round ${r}, ${own.length} picks">${own.length}</button>` : '<span class="pick-count missing" aria-label="No picks">0</span>'}</td>`;
             })
             .join(
               "",
@@ -256,13 +256,13 @@ function cantcutView() {
 function draftView() {
   const d = T.draft[league];
   if(!d) return heading("Draft board")+empty("Draft results unavailable", "Open the existing draft archive below.");
-  const tile=(p,auction=false)=>p ? `<div class="draft-pick" style="--position-color:${({QB:"#63a6f4",RB:"#53bea6",WR:"#f49a58",TE:"#d98bdc",K:"#a8c84d",DEF:"#dac15e"})[p[4]]||"#6b829b"}"><div class="draft-face">${photo(p[3],p[4],p[5])}${CFNPolish.badge(p[4])}</div><b>${esc(p[3])}</b><small>${esc(p[5])} · ${auction ? '$'+p[6] : 'Pick '+((p[0]-1)*12+p[1])}</small><span class="draft-owner">${esc(d.T[p[2]])}</span></div>` : '<span class="muted">—</span>';
+  const tile=(p,auction=false)=>p ? `<div class="draft-pick" style="--position-color:${({QB:"#63a6f4",RB:"#53bea6",WR:"#f49a58",TE:"#d98bdc",K:"#a8c84d",DEF:"#dac15e"})[p[4]]||"#6b829b"}"><div class="draft-face">${photo(p[3],p[4],p[5])}${CFNPolish.badge(p[4])}</div><b>${esc(p[3])}</b><small>${esc(p[5])} · ${auction ? '$'+p[6] : 'Pick '+((p[0]-1)*12+p[1])}</small><strong class="draft-owner">${esc(d.T[p[2]])}</strong>${auction ? "" : `<span class="draft-direction" aria-label="Round proceeds ${p[0]%2?'left to right':'right to left'}">${p[0]%2?'→':'←'}</span>`}</div>` : '<span class="muted">—</span>';
   if(league==='sts') {
     return heading("2026 auction draft", "As drafted · Winning bids")+`<div class="auction-grid">${d.T.map((team,i)=>{const picks=d.P.filter(p=>p[2]===i);return `<article class="note-card"><h3>${esc(team)}</h3><p>$${picks.reduce((n,p)=>n+p[6],0)} spent · ${picks.length} players</p>${picks.map(p=>tile(p,true)).join('')}</article>`;}).join('')}</div>`;
   }
   const rounds=[...new Set(d.P.map(p=>p[0]))].sort((a,b)=>a-b), grid=new Map();
   for(const p of d.P) {const key=p[0]+'.'+p[1];if(grid.has(key)) throw Error('Duplicate draft slot');grid.set(key,p);}
-  return heading("2026 draft board", "As drafted · Snake order")+savednote("Columns follow draft slots. Every selection shows its actual drafting team, including traded picks. Scroll sideways to view all 12 slots.")+`<div class="table-wrap picks-wrap" tabindex="0" aria-label="Draft board, scroll horizontally"><table class="draft-table"><thead><tr><th>Round</th>${Array.from({length:12},(_,i)=>`<th>Slot ${i+1}</th>`).join('')}</tr></thead><tbody>${rounds.map(r=>`<tr><th scope="row">R${r} ${r%2?'→':'←'}</th>${Array.from({length:12},(_,i)=>`<td>${tile(grid.get(r+'.'+(r%2?i+1:12-i)))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  return heading("2026 draft board", "As drafted · Snake order")+savednote("Columns follow draft slots. Every selection shows its actual drafting team, including traded picks. Arrows show the direction of each round. On smaller screens, swipe sideways to see every slot.")+`<div class="table-wrap picks-wrap" tabindex="0" aria-label="Draft board, scroll horizontally"><table class="draft-table"><thead><tr><th>Round</th>${Array.from({length:12},(_,i)=>`<th>Slot ${i+1}</th>`).join('')}</tr></thead><tbody>${rounds.map(r=>`<tr><th scope="row">R${r} ${r%2?'→':'←'}</th>${Array.from({length:12},(_,i)=>`<td>${tile(grid.get(r+'.'+(r%2?i+1:12-i)))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
 function powerData() {
   const p=CFNData.state.power[league],ctx=CFNData.state.context;

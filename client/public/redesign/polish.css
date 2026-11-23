@@ -32,3 +32,20 @@ button.player{border:0;border-radius:8px;background:none;color:inherit;text-alig
 
 .player-points.long-score{font-size:20px}
 @media(max-width:600px){.player-row{grid-template-columns:minmax(0,1fr) 50px 26px 50px minmax(0,1fr)}.player-points.long-score{font-size:17px}}
+
+/* Quiet, semantic draft colors; keep player score columns neutral. */
+.pick-count.multiple{color:var(--good);background:color-mix(in srgb,var(--good) 13%,transparent)}
+.pick-count.missing{display:inline-grid;place-items:center;color:var(--bad);background:color-mix(in srgb,var(--bad) 11%,transparent)}
+.card-label .primetime-badge{margin:0 0 0 auto;flex-shrink:0;font-size:9px;padding:4px 6px;white-space:nowrap}
+.card-label>span:not(.chevron):not(.primetime-badge){min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.draft-table .draft-pick{background:linear-gradient(160deg,color-mix(in srgb,var(--position-color) 15%,var(--soft)),var(--soft));height:100%}
+.draft-table .draft-owner{font-weight:750;font-size:11px;line-height:1.3;overflow-wrap:anywhere}
+.draft-pick small{font-weight:650}.draft-direction{margin-top:auto;align-self:center;opacity:.55;font-size:18px;line-height:1}
+@media(min-width:1100px){
+ .draft-table{width:100%;table-layout:fixed}
+ .draft-table th,.draft-table td,.draft-table td:last-child{width:auto;min-width:0;max-width:none;padding:3px}
+ .draft-table th:first-child{width:48px;min-width:48px;max-width:48px}
+ .draft-table .draft-pick{min-width:0;padding:6px;min-height:182px;border-radius:9px}
+ .draft-table .portrait{width:30px;height:30px}.draft-table .slot{font-size:9px;min-width:20px;padding:3px}
+ .draft-table td b{font-size:11px;overflow-wrap:anywhere}.draft-table .draft-owner{font-size:10px}
+}
