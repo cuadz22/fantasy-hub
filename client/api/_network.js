@@ -49,10 +49,13 @@ async function stored(){
 }
 function publicPost(p){const {audience,notify,createdBy,deliveryDeviceID,...out}=p;return out;}
 function visible(p,member,now){return (p.leagueId==='network'||Number.isInteger(member.teams[p.leagueId]))&&(!p.audience||p.audience===member.h)&&Date.parse(p.publishedAt)<=now&&(!p.expiresAt||Date.parse(p.expiresAt)>now);}
+// A recap-store outage must not take trades, login or touchdown delivery down.
+async function recapPosts(){try{return await require('./_recaps').list()}catch{return []}}
+async function publicFeed(){return [...staticPosts(Date.now(),await require('./_leagueupdates').resources()),...await recapPosts()].map(publicPost).sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt));}
 async function feed(req,includeConnected=false){
  const a=await A.authenticate(req);if(!a)return {status:401,json:{error:'unauthorized'}};
  if(!eligible(a.member.h))return {status:403,json:{error:'private_rollout'}};
- const now=Date.now(),posts=[...staticPosts(now,await require('./_leagueupdates').resources()),...await stored()].filter(p=>visible(p,a.member,now)).map(publicPost).sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt)||a.id.localeCompare(b.id));
+ const now=Date.now(),posts=[...staticPosts(now,await require('./_leagueupdates').resources()),...await stored(),...await recapPosts()].filter(p=>visible(p,a.member,now)).map(publicPost).sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt)||a.id.localeCompare(b.id));
  // Explicit client opt-in preserves old builds. These imports never enter the
  // announcement publisher or touchdown-delivery pipeline.
  if(includeConnected){posts.push(...await require('./_connectedUpdates').memberPosts(a.member));posts.sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt)||a.id.localeCompare(b.id));}
@@ -105,7 +108,7 @@ async function deliver(post,device,{store=M,sender=require('./_apns').send,now=D
 async function tick(){
  const AP=require('./_apns');if(process.env.CFN_PUSH_ENABLED!=='true'||!AP.configured())return {enabled:false};
  const automatic=await require('./_networkevents').observe(staticPosts(Date.now(),await require('./_leagueupdates').resources()));
- const posts=[...await stored(),...automatic].filter(p=>p.notify&&Date.now()-Date.parse(p.publishedAt)<=86400000&&(!p.expiresAt||Date.parse(p.expiresAt)>Date.now()));
+ const posts=[...await stored(),...automatic,...await recapPosts()].filter(p=>p.notify&&Date.now()-Date.parse(p.publishedAt)<=86400000&&(!p.expiresAt||Date.parse(p.expiresAt)>Date.now()));
  if(!posts.length)return {enabled:true,posts:0,sent:0};
  const ids=await M.command(['SMEMBERS','push:v1:devices']);let sent=0;const deadline=Date.now()+15000;
  for(const id of ids){if(Date.now()>deadline)break;const d=await M.read('push:v1:device:'+id);if(!d?.announcements||!eligible(d.member))continue;for(const p of posts){if(Date.now()>deadline)break;const r=await deliver(p,{id,...d});if(r.state==='sent')sent++;}}
@@ -124,4 +127,4 @@ async function test(req,body){
  await save(post);const result=await deliver(post,{id,...d});
  return {status:result.state==='sent'?200:503,json:{accepted:result.state==='sent'}};
 }
-module.exports={feed,publish,staticPosts,validate,visible,payload,deliver,tick,test,eligible,logo};
+module.exports={publicFeed,feed,publish,staticPosts,validate,visible,payload,deliver,tick,test,eligible,logo};

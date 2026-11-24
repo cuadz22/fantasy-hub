@@ -33,8 +33,8 @@ for(const file of ['client/vercel.json','vercel.json']) {
  const old=JSON.parse(cp.execFileSync('git',['show','c554e97:'+file],{encoding:'utf8'}));
  const next=JSON.parse(fs.readFileSync(file));old.redirects.find(x=>x.source==='/').destination='/redesign/index.html';
  if(file==='client/vercel.json') {
-  const additions=next.crons.filter(x=>['/api/mobile/cron-network','/api/mobile/cron-connected','/api/mobile/cron-cantcut','/api/mobile/cron-trades','/api/mobile/cron-market','/api/mobile/cron-activities'].includes(x.path));
-  assert.deepEqual(additions,[{path:'/api/mobile/cron-network',schedule:'* * * * *'},{path:'/api/mobile/cron-connected',schedule:'* * * * *'},{path:'/api/mobile/cron-cantcut',schedule:'0 10,22 * * *'},{path:'/api/mobile/cron-trades',schedule:'*/15 * * * *'},{path:'/api/mobile/cron-market',schedule:'7,37 * * * *'},{path:'/api/mobile/cron-activities',schedule:'* * * * *'}]);
+  const additions=next.crons.filter(x=>['/api/mobile/cron-network','/api/mobile/cron-connected','/api/mobile/cron-cantcut','/api/mobile/cron-trades','/api/mobile/cron-market','/api/mobile/cron-activities','/api/mobile/cron-recaps'].includes(x.path));
+  assert.deepEqual(additions,[{path:'/api/mobile/cron-network',schedule:'* * * * *'},{path:'/api/mobile/cron-connected',schedule:'* * * * *'},{path:'/api/mobile/cron-cantcut',schedule:'0 10,22 * * *'},{path:'/api/mobile/cron-trades',schedule:'*/15 * * * *'},{path:'/api/mobile/cron-market',schedule:'7,37 * * * *'},{path:'/api/mobile/cron-activities',schedule:'* * * * *'},{path:'/api/mobile/cron-recaps',schedule:'*/15 10-23 * * 2'}]);
   next.crons=next.crons.filter(x=>!additions.includes(x));
  }
  assert.deepEqual(next,old,'Existing routes and scoring schedules remain unchanged');
@@ -45,7 +45,7 @@ const addedLines=currentMobile.split('\n').filter(line=>addedRoutes.some(route=>
 assert.equal(addedLines.length,addedRoutes.length,'Exactly the tested additive routes');
 const featuredField="featuredMatchups: require('./_resources.json').tools.featuredMatchups, ";
 assert.equal(currentMobile.split(featuredField).length,2,'Only one optional media field added');
-const mobile=currentMobile.replace(featuredField,'').split('\n').filter(line=>!addedLines.includes(line)).join('\n');
+const mobile=currentMobile.replace(/^.*else if \(r === 'cron-recaps'\).*\n/gm,'').replace(/^.*if \(r === 'recaps' \|\|.*\n/gm,'').replace(featuredField,'').split('\n').filter(line=>!addedLines.includes(line)).join('\n');
 const oldMobile=cp.execFileSync('git',['show','c554e97:client/api/mobile.js'],{encoding:'utf8'});
 assert.equal(mobile.replace(/    if \(r === 'power' && req.method === 'GET'\) \{[\s\S]*?\n    \}\n/, '').replace("if (r === 'resources' && req.method === 'GET') return J(res, 200, await require('./_leagueupdates').resources(), 'public, s-maxage=60, stale-while-revalidate=60');\n    ",''),oldMobile,'No change to existing mobile routes');
 console.log('Resource migration: source parity, immutable legacy contracts, all draft slots, live pick ownership, and unchanged existing API/routing behavior passed');

@@ -8,6 +8,7 @@ const names = {
   standings: "Standings",
   trades: "Trades",
   waivers: "Waivers",
+  recaps: "Recaps",
   history: "History",
   alltime: "All-time records",
   rules: "Rulebook",
@@ -24,7 +25,7 @@ const names = {
   traderules: "Trade rules",
 };
 const sections = [
-  ["League history", ["history", "alltime", "awards"]],
+  ["League history", ["recaps", "history", "alltime", "awards"]],
   ["Roster & draft", ["draft", "picks", "keepers", "prices", "cantcut"]],
   ["Insights", ["power", "fraud", "weekly"]],
   ["Resources", ["rules", "desk", "traderules", "vote"]],
@@ -358,6 +359,7 @@ function tradeRoster(index, side) {
     .join("")}`;
 }
 function toolBody() {
+  if(leagueTab==="recaps") return CFNRecaps.archive(league);
   if (!["overview","lineups","team","standings","weekly","vote"].includes(leagueTab) && !CFNData.state.resources) return empty("Loading league records", "The current resource feed is being checked. Please try again if it does not load.");
   switch (leagueTab) {
     case "standings":
@@ -521,13 +523,13 @@ function exposureRows(owner) {
     .join("")}</div>`;
 }
 function studio() {
-  if(!CFNData.state.resources) return globalHero("Made to be shared.", "Your weekly recap drafts and league stories.") + '<section id="weekly-recaps" aria-label="Weekly recap drafts"></section><p class="subnote">Other Studio tools are loading league records…</p>';
+  if(!CFNData.state.resources) return globalHero("Made to be shared.", "Your weekly recap drafts and league stories.") + '<p><a class="pill" href="recap-review.html">Review website &amp; app recaps →</a></p><section id="weekly-recaps" aria-label="Weekly recap drafts"></section><p class="subnote">Other Studio tools are loading league records…</p>';
   return (
     globalHero(
       "Made to be shared.",
       "A quieter canvas for your matchups, league stories, and awards.",
     ) +
-    `<section id="weekly-recaps" aria-label="Weekly recap drafts"></section><div class="filter-row"><label for="studio-league">League</label><select id="studio-league">${Object.entries(
+    `<p><a class="pill" href="recap-review.html">Review website &amp; app recaps →</a></p><section id="weekly-recaps" aria-label="Weekly recap drafts"></section><div class="filter-row"><label for="studio-league">League</label><select id="studio-league">${Object.entries(
       leagues,
     )
       .map(([k, v]) => `<option value="${k}">${v}</option>`)
@@ -550,7 +552,8 @@ function pickem() {
     `<div class="editorial"><article class="story"><div class="eyebrow">Pick’em</div><h2>Who have you got?</h2><p>Choose your winners, follow the leaderboard, and keep the rivalry going.</p><a class="pill" href="https://cuadzfantasynetwork.com/l/pickem.html" target="_blank" rel="noopener">Open Pick’em ↗</a></article><aside class="note-card"><h3>Your picks stay protected.</h3><p>The existing submission, deadline, and leaderboard flow remains in place. Use the original tool to submit your picks.</p></aside></div>`
   );
 }
-function archive() {
+function archive() { return CFNRecaps.archive() + `<details><summary>Earlier network editions</summary>${legacyArchive()}</details>`; }
+function legacyArchive() {
   return (
     globalHero(
       "The weekly editions.",
@@ -625,6 +628,7 @@ window.addEventListener("hashchange", () => render());
 async function loadRoute(page) {
   const generation = ++routeGeneration;
   const jobs=[];
+  if(page==="archive" || (page==="league"&&leagueTab==="recaps")) jobs.push(CFNRecaps.load());
   if(page==="updates") jobs.push(CFNUpdates.load());
   if(page==="league" && ["power","fraud"].includes(leagueTab)) jobs.push(CFNData.loadPower(league));
   if(["league","exposure","studio"].includes(page)) jobs.push(CFNData.loadResources(league,page==="league" && leagueTab==="picks"));

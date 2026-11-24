@@ -36,6 +36,7 @@ module.exports = async (req, res) => {
       else if (r === 'cron-maintenance') { name = 'maintenance'; work = jobs.maintenance; }
       else if (r === 'cron-portraits') { name = 'portraits'; work = async () => { const v = await Ids.refresh(false); if (!v) throw new Error('portraits_unavailable'); return { count: v.n }; }; }
       else if (r === 'cron-push') { name = 'push'; work = () => require('./_mpush').collect(); }
+      else if (r === 'cron-recaps') { name = 'recaps'; work = () => require('./_recaps').scheduled(); }
       else if (r === 'cron-network') { name = 'network'; work = () => require('./_network').tick(); }
       else if (r === 'cron-connected') { name = 'connected'; work = async () => { const c = await M.context({cachedOnly:true}); if (!c || c.stale) throw Error('context_unavailable'); return require('./_connected').refreshScheduled(c.week); }; }
       else if (r === 'cron-cantcut' || r === 'cron-trades') { name=r.slice(5); work=()=>require('./_leagueupdates').refresh(name); }
@@ -60,7 +61,8 @@ module.exports = async (req, res) => {
     if (r === 'widget' && req.method === 'GET') { const x=await require('./_liveactivity').read(req); return J(res,x.status,x.json); }
     if (r === 'push/test' && req.method === 'POST') { const x = await require('./_mpush').testDevice(req, bodyOf(req)); return J(res, x.status, x.json); }
     if (r === 'push/device' && req.method === 'POST') { const x = await require('./_mpush').registration(req, bodyOf(req)); return J(res, x.status, x.json); }
-    if (r === 'network-preview' && req.method === 'GET') return J(res, 200, {schemaVersion:1,canPublish:false,posts:require('./_network').staticPosts(Date.now(),await require('./_leagueupdates').resources())}, 'public, s-maxage=300');
+    if (r === 'recaps' || r.startsWith('recaps/')) { const x=await require('./_recaps').route(req,r,q,bodyOf(req)); return J(res,x.status,x.json); }
+    if (r === 'network-preview' && req.method === 'GET') return J(res, 200, {schemaVersion:1,canPublish:false,posts:await require('./_network').publicFeed()}, 'public, s-maxage=300');
     if (r === 'network' && req.method === 'GET') { const x = await require('./_network').feed(req,q.get('connected')==='1'); return J(res,x.status,x.json); }
     if (r === 'network/publish' && req.method === 'POST') { const x = await require('./_network').publish(req,bodyOf(req)); return J(res,x.status,x.json); }
     if (r === 'network/test' && req.method === 'POST') { const x = await require('./_network').test(req,bodyOf(req)); return J(res,x.status,x.json); }

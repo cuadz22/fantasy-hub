@@ -100,6 +100,10 @@
     {
       "path": "/api/mobile/cron-activities",
       "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/mobile/cron-recaps",
+      "schedule": "*/15 10-23 * * 2"
     }
   ],
   "functions": {
