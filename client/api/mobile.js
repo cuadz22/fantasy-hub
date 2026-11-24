@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
       const result = await jobs.run(name, work); return J(res, result.status, result.body);
     }
     if (r === 'player-log' && req.method === 'GET') {       const league=q.get('lg'),pos=require('./_speciallogs').position(q.get('pos'));       if(!M.LGS.includes(league)||!['QB','RB','WR','TE','K','DEF'].includes(pos)||!q.get('player')) return J(res,400,{error:'invalid_player_history'});       return J(res,200,await require('./_speciallogs').history({name:q.get('player').slice(0,60),pos,league,team:q.get('team')}),'public, s-maxage=300, stale-while-revalidate=600');     }
-    if (r === 'news' && req.method === 'GET') return J(res, 200, await require('./_news').feed(), 'public, s-maxage=600, stale-while-revalidate=60');
+    if (r === 'news' && req.method === 'GET') return J(res, 200, await (q.get('player') ? require('./_news').playerFeed(q.get('player').slice(0,80)) : require('./_news').feed()), 'public, s-maxage=600, stale-while-revalidate=60');
     if (r === 'resources' && req.method === 'GET') return J(res, 200, await require('./_leagueupdates').resources(), 'public, s-maxage=60, stale-while-revalidate=60');
     if (r === 'context' && req.method === 'GET') {
       const c = await M.context({ cachedOnly: true }); if (!c) return J(res, 503, { error: 'context_unavailable' });

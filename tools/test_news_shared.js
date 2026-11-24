@@ -1,0 +1,24 @@
+'use strict';
+const assert=require('node:assert/strict'),N=require('../client/api/_news'),M=require('../client/api/_m');
+const now=Date.parse('2026-11-24T23:00:00Z');
+const html=(name='Rashee Rice',date='Tue, Nov 24th 6:16am EST')=>`<div class="player-news-item"><img alt="${name}"><p>WR - KC</p><div class="player-news-header"><div><a href="/nfl/news/123/rice.php">Rice &amp; update</a><p>${date}<br>By Reporter</p></div></div><p>Caught six passes. (Source: <a>Report</a>)</p><p>Fantasy Impact: Do not copy analysis</p></div><!-- .player-news-item -->`;
+const rows=N.fantasyPros(html(),now);assert.equal(rows.length,1);assert.equal(rows[0].publishedAt,'2026-11-24T11:16:00.000Z');assert.equal(rows[0].summary,'Caught six passes.');assert.equal(rows[0].headline,'Rice & update');assert.equal(rows[0].players[0].name,'Rashee Rice');
+assert.equal(N.fpDate('Wed, Jan 1st 1:00am EST',Date.parse('2027-01-01T08:00:00Z')),'2027-01-01T06:00:00.000Z');
+assert.equal(N.fpDate('Thu, Dec 31st 11:00pm EST',Date.parse('2027-01-01T08:00:00Z')),'2027-01-01T04:00:00.000Z');
+assert.equal(N.fpDate('2 weeks ago',now),null);assert.equal(N.fantasyPros(html('Rice','Tue, Nov 24th 11:59pm EST'),now).length,0);
+assert.throws(()=>N.fantasyPros('<html>Login</html>',now));
+const page=`<meta name="description" content="Get the latest news for Rashee Rice (Kansas City Chiefs)."><div class="subsection feature-stretch "><div class="content"><a href="/nfl/news/123/rice.php"><b>Rice update</b></a><p>Caught six passes.</p></div><span class="pull-right timestamp">Nov 22, 2026</span>`;
+assert.equal(N.playerPage(page,{name:'Rashee Rice'},now)[0].dateOnly,true);assert.throws(()=>N.playerPage(page,{name:'Mike Gesicki'},now),/identity/);assert.equal(N.playerPage(page.replace('Nov 22, 2026','1 week ago'),{name:'Rashee Rice'},now).length,0);
+const retained={...rows[0],id:'older',url:'https://www.fantasypros.com/nfl/news/2/older.php',publishedAt:'2026-11-20T12:00:00Z'};
+const expired={...retained,id:'expired',publishedAt:'2026-11-01T12:00:00Z'};
+assert.equal(N.combine([[retained,expired],rows,rows],now).length,2);
+const original=M.rc;M.rc=async()=>[];
+(async()=>{
+ let calls=0;const saved={body:{articles:[retained,rows[0]]}};
+ const body=await N.collect(saved,async url=>{calls++;if(url.includes('gist'))throw Error('offline');return {ok:true,text:async()=>html()};},now);
+ assert.equal(calls,5);assert(body.partial);assert.equal(body.articles.length,2);assert(body.articles.some(a=>a.id==='older'));
+ await assert.rejects(N.collect(saved,async()=>{throw Error('offline');},now),/unavailable/);
+ const onlyCards=await N.collect(saved,async url=>{if(!url.includes('gist'))throw Error('offline');return {ok:true,json:async()=>({players:[{name:'Mike Gesicki',team:'CIN',position:'TE',news_items:[{link:'https://www.rotowire.com/football/player/mike-gesicki',headline:'Gesicki update',timestamp:'2026-11-24T12:00:00Z',blurb:'Five catches.'}]}]})};},now);
+ assert(onlyCards.partial);assert(onlyCards.articles.some(a=>a.players[0].name==='Mike Gesicki'));assert(onlyCards.articles.some(a=>a.id==='older'));
+ console.log('Shared news: publisher parsing, identity validation, source dates, year rollover, date-only handling, deduplication, retention, bounded refresh, partial outage and total outage passed.');
+})().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>M.rc=original);
