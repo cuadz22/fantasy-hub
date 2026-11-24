@@ -135,7 +135,7 @@ module.exports = async (req, res) => {
     if (q.card) {
       const C = await cards().catch(() => ({gen:null,wk:null,idx:{},dvp:{}})), a = C.idx[normN(q.card)] || [], x = (q.team && a.find(y => y.team === q.team)) || a[0];
       const context = await require('./_m').context({cachedOnly:true});
-      res.setHeader('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=600');
+      res.setHeader('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=60');
       if (!x) { const adjusted=require('./_playerweek').metadata({},C.wk,context,q.team); return res.status(200).json({gen:C.gen,wk:adjusted.week,p:adjusted.card,stale:adjusted.stale}); }
       const e = x.fantasypros_ecr || {}, sp = x.sleeper_projection_rank || {};
       const seen = {}, news = [].concat(x.news_items || [], x.news || [], x.news_rotowire || []).filter(n => { const k = n && (n.link || n.headline); if (!k || seen[k]) return false; seen[k] = 1; return true; }).sort((p1, p2) => Date.parse(p2.timestamp || 0) - Date.parse(p1.timestamp || 0)).slice(0, 4);

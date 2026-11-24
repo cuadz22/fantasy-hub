@@ -29,7 +29,7 @@ function staticPosts(now=Date.now(),resources=RES){
    out.push({id,kind:'trade',leagueId:lg,title:'Completed trade',body:sides.map(s=>s.name+' receives '+s.players.join(', ')).join('\n'),publishedAt:at,dateOnly:true,sides,url:'https://cuadzfantasynetwork.com/share/league-'+lg+'-trades.html',logoURL:logo(lg)});
   }
   const groups=new Map();
-  for(const r of RES.tools.waivers[lg]||[]){if(!Number.isInteger(r.week)||r.week<1||r.week>18)continue;const rows=groups.get(r.week)||[];rows.push(r);groups.set(r.week,rows);}
+  for(const r of resources.tools.waivers[lg]||[]){if(!Number.isInteger(r.week)||r.week<1||r.week>18)continue;const rows=groups.get(r.week)||[];rows.push(r);groups.set(r.week,rows);}
   for(const [week,rows] of groups){
    const at=rows.map(x=>dated(x.date,RES.season)).filter(Boolean).sort().at(-1);if(!at||Date.parse(at)>now)continue;
    const claims=rows.map(r=>({player:r.player,team:r.winner,amount:r.bids?.find(b=>b.won)?.amount??null,asset:require('./_feedmedia').asset(r.player,r.position,r.nflTeam)}));
@@ -61,7 +61,7 @@ async function feed(req,includeConnected=false){
 function validate(body,member,now=Date.now()){
  if(!/^[a-f0-9-]{36}$/i.test(body.id||'')||!['announcement','recap'].includes(body.kind)||!M.LGS.includes(body.leagueId)||!Number.isInteger(member.teams[body.leagueId]))throw Error('invalid_post');
  const title=String(body.title||'').trim(),text=String(body.body||'').trim();
- if(!title||title.length>100||!text||text.length>1600||typeof body.notify!=='boolean'||(body.notify&&body.kind!=='announcement'))throw Error('invalid_post');
+ if(!title||title.length>100||!text||text.length>1600||typeof body.notify!=='boolean')throw Error('invalid_post');
  const week=body.week==null?undefined:Number(body.week);if(week!=null&&(!Number.isInteger(week)||week<1||week>18))throw Error('invalid_week');
  const url=body.url||undefined;
  if(url){let u;try{u=new URL(url)}catch{throw Error('invalid_url')}if(u.origin!=='https://cuadzfantasynetwork.com'||u.username||u.password)throw Error('invalid_url');}
@@ -84,7 +84,9 @@ async function publish(req,body){
  return save(post);
 }
 function payload(post){
- return {aps:{alert:{title:post.test?'TEST · League announcement':'📣 '+post.title,body:names[post.leagueId]+' · '+post.body.slice(0,130)},sound:'default','mutable-content':1,'thread-id':'cfn-announcements-'+post.leagueId},cfn:{type:'announcement',postId:post.id,leagueId:post.leagueId,imageURL:logo(post.leagueId),test:post.test===true}};
+ const icon=['trade','waivers'].includes(post.kind)?'https://cuadzfantasynetwork.com/notification-media/'+post.kind+'-v1.png':logo(post.leagueId);
+ const summary=post.kind==='trade'&&post.sides?.length===2 ? post.sides.map(s=>s.name).join(' ↔ ') : post.body;
+ return {aps:{alert:{title:post.test?'TEST · League announcement':'📣 '+post.title,body:names[post.leagueId]+' · '+summary.slice(0,130)},sound:'default','mutable-content':1,'thread-id':'cfn-announcements-'+post.leagueId},cfn:{type:'announcement',postId:post.id,leagueId:post.leagueId,imageURL:icon,kind:post.kind,test:post.test===true}};
 }
 async function deliver(post,device,{store=M,sender=require('./_apns').send,now=Date.now()}={}){
  const member=A.MEMBERS.find(m=>m.h===device.member);
@@ -102,7 +104,8 @@ async function deliver(post,device,{store=M,sender=require('./_apns').send,now=D
 }
 async function tick(){
  const AP=require('./_apns');if(process.env.CFN_PUSH_ENABLED!=='true'||!AP.configured())return {enabled:false};
- const posts=(await stored()).filter(p=>p.notify&&Date.now()-Date.parse(p.publishedAt)<=86400000&&(!p.expiresAt||Date.parse(p.expiresAt)>Date.now()));
+ const automatic=await require('./_networkevents').observe(staticPosts(Date.now(),await require('./_leagueupdates').resources()));
+ const posts=[...await stored(),...automatic].filter(p=>p.notify&&Date.now()-Date.parse(p.publishedAt)<=86400000&&(!p.expiresAt||Date.parse(p.expiresAt)>Date.now()));
  if(!posts.length)return {enabled:true,posts:0,sent:0};
  const ids=await M.command(['SMEMBERS','push:v1:devices']);let sent=0;const deadline=Date.now()+15000;
  for(const id of ids){if(Date.now()>deadline)break;const d=await M.read('push:v1:device:'+id);if(!d?.announcements||!eligible(d.member))continue;for(const p of posts){if(Date.now()>deadline)break;const r=await deliver(p,{id,...d});if(r.state==='sent')sent++;}}

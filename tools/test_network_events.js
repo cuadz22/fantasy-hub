@@ -1,0 +1,35 @@
+'use strict';
+const H=require('./mobile_harness'),{M,A,ok}=H,N=require('../client/api/_network'),E=require('../client/api/_networkevents');
+(async()=>{
+ const now=Date.now(),at=new Date(now-60000).toISOString();
+ const old={id:'old-trade',kind:'trade',leagueId:'gl',title:'Completed trade',body:'A receives B',publishedAt:at,sides:[{name:'A'},{name:'B'}]};
+ ok((await E.observe([old],{now})).length===0,'first run only baselines existing events');
+ const trade={...old,id:'new-trade'},waiver={...old,id:'waivers:2026:gl:12',kind:'waivers',title:'Week 12 waiver report'};
+ const backfill={...old,id:'backfill',publishedAt:new Date(now-7*86400000).toISOString()};
+ const future={...old,id:'future',publishedAt:new Date(now+86400000).toISOString()};
+ const drafts={...old,id:'draft',kind:'recap'};
+ const queue=await E.observe([old,trade,waiver,backfill,future,drafts],{now});
+ ok(queue.length===2&&queue.every(p=>p.notify),'new trade and published report only');
+ ok(queue.every(p=>p.publishedAt===new Date(now).toISOString()),'delivery age is publication discovery time');
+ ok((await E.observe([old,trade,waiver],{now:now+1000})).length===2,'repeat discovery does not append duplicates');
+ await E.observe([],{now:now+2000});
+ ok((await E.observe([old,trade,waiver],{now:now+3000})).length===2,'temporary source omission does not create new events');
+ const member=A.MEMBERS.find(m=>N.eligible(m.h));
+ const session='events-test-session';await M.write('ms:'+session,{e:member.h,x:now+86400000});
+ const phone={id:'events-phone',member:member.h,session,token:'fake',environment:'production',announcements:true,announcementsEnabledAt:now-1000};
+ const ipad={...phone,id:'events-ipad'};
+ for(const d of [phone,ipad])await M.write('push:v1:device:'+d.id,d);
+ let sends=0;const options={now,sender:async()=>{sends++;return {state:'sent'}}};
+ for(const p of queue)await Promise.all([N.deliver(p,phone,options),N.deliver(p,phone,options),N.deliver(p,ipad,options)]);
+ ok(sends===4,'exactly one alert per event on each opted-in device');
+ for(const p of queue)await N.deliver(p,phone,options);
+ ok(sends===4,'cron rerun does not resend');
+ ok((await N.deliver({...queue[0],id:'not-member',leagueId:'unknown'},phone,options)).state==='not_eligible','unrelated league excluded');
+ ok((await N.deliver({...queue[0],id:'new-optin'},{...phone,announcementsEnabledAt:now+1},options)).state==='expired','newly opted-in device does not get earlier publications');
+ const recap=N.validate({id:require('crypto').randomUUID(),kind:'recap',leagueId:'gl',title:'Week 11 recap',body:'Reviewed and published.',notify:true},member,now);
+ ok(recap.notify&&N.payload(recap).cfn.imageURL.endsWith('/gl-v1.png'),'approved recap can notify with league logo');
+ for(const p of queue){const payload=N.payload(p);ok(payload.cfn.type==='announcement'&&payload.cfn.postId===p.id&&payload.cfn.leagueId==='gl','existing deep-link route preserved');ok(payload.cfn.imageURL.endsWith('/'+p.kind+'-v1.png'),'event-specific image');}
+ ok((await E.observe([old,trade,waiver],{now:now+2*86400000})).length===0,'expired events no longer queued');
+ ok((await E.observe([old,trade,waiver],{now:now+2*86400000+1000})).length===0,'seen IDs prevent late replay');
+ H.done();
+})().catch(e=>{console.error(e);process.exit(1)});
