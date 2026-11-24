@@ -64,7 +64,7 @@ function derive(feed,table,media=MEDIA.teams[feed.leagueId]){
  if(topSix&&week<14){const a=rows[5],b=rows[6];context+=` With ${14-week} regular-season weeks left, ${a.name} holds sixth at ${a.record}; ${b.name} sits seventh at ${b.record}. The top six qualify. These are current positions, not clinched places.`;}
  const facts={leagueId,season,week,teamOfWeek,matches,awards,standings};
  const sourceRevision=M.sha(JSON.stringify(facts));
- return {schemaVersion:1,id:`recap:${season}:${leagueId}:${week}`,leagueId,season,week,sourceRevision,title:`Week ${week} recap`,intro:`${best.owner} set the pace with ${money(best.points)} points. Here’s how the six matchups finished.`,standingsContext:context,standingsLabel:leagueId==='sts'?'League points':'Official standings',...facts,reviewNotes:warnings,generatedAt:new Date().toISOString(),status:'draft'};
+ return {schemaVersion:1,id:`recap:${season}:${leagueId}:${week}`,leagueId,season,week,sourceRevision,title:`Week ${week} recap`,intro:`${best.owner} set the pace with ${money(best.points)} points. Here’s how the six matchups finished.`,standingsContext:context,standingsLabel:leagueId==='sts'?'League points':'Official standings',...facts,...require('./_recapcopy').compose(facts,{topSix}),reviewNotes:warnings,generatedAt:new Date().toISOString(),status:'draft'};
 }
 async function collect(lg,week,store=M){
  const records=await Promise.all(Array.from({length:week},(_,i)=>store.read('mw:'+lg+':'+(i+1))));

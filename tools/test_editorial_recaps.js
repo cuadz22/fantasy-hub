@@ -43,3 +43,14 @@ const db=new Map(),writes=[],locks=new Set();const store={read:async k=>clone(db
  assert.equal(tick.id,'recap:2026:rb:11');assert.equal(tick.pending[0].leagueId,'bh');assert.equal((await R.list(false,store)).length,1);
  assert(writes.every(k=>k.startsWith('recaps:v1:')));console.log('Recaps: four real leagues, totals, positions, benches, standings, review gate, immutable public revisions, source changes, duplicate publication and Eastern schedule passed.');
 })().catch(e=>{console.error(e);process.exit(1)});
+// One story per match, with every award attached to its existing result. Copy
+// uses validated final totals and explicit playoff rules, never probabilities.
+for(const [lg,d] of Object.entries(docs)){
+ assert.equal(new Set(d.matches.map(m=>m.id)).size,6);
+ for(const a of d.awards)for(const id of a.matchupIds)assert.equal(d.matches.filter(m=>m.id===id).length,1);
+ assert(d.intro.includes(d.standings[0].name));
+ assert(!/chance|probability|%/.test(d.intro+d.matches.map(m=>m.body).join('')));
+ assert(!d.matches.some(m=>m.body.includes('undefined')));
+ if(['gl','sts'].includes(lg))assert(!d.intro.includes('playoff places'));
+ else assert(d.intro.includes('six playoff places'));
+}
