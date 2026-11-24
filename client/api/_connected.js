@@ -16,7 +16,7 @@ const SL_MEMBERS={
  'f96127b215ec9c7d2610c4721a2ca82cc440dea425ae76da1bc89ff8290968bc':2, // Alexis — Team VARG
  'b2e48d94882d516e3ab591e7c057e0b1e156cb354062d5911966779c3a375812':6 // Kevin — GuruKev
 };
-const assignedTeam=(member,lg)=>lg==='sl'?SL_MEMBERS[member.h]:lg==='fb'?FB_MEMBERS[member.h]:undefined;
+const assignedTeam=(member,lg)=>lg==='fb'?FB_MEMBERS[member.h]:undefined;
 const safeURL=s=>{try{const u=new URL(s);return u.protocol==='https:'&&!u.username&&!u.password?u.href:null}catch{return null}};
 const finite=n=>typeof n==='number'&&Number.isFinite(n);
 const requireValue=(ok,why)=>{if(!ok)throw Error(why)};
@@ -157,13 +157,9 @@ async function refreshYahooScheduled(week){
  return {current};
 }
 async function refreshScheduled(week){
- // A provider outage must not prevent the other provider from publishing.
- const results=await Promise.allSettled([refreshSleeperScheduled(week),refreshYahooScheduled(week),require('./_connectedUpdates').refreshScheduled(week)]);
- // Transactions have a separate cache and refresh budget. Their failure cannot
- // roll back, block, or overwrite a published score/standings snapshot.
- const transactions=results[2].status==='fulfilled'?results[2].value:{unavailable:true};
- const failed=results.slice(0,2).map((r,i)=>r.status==='rejected'?(['sl','fb'][i]+':'+r.reason.message):null).filter(Boolean);
- if(failed.length)throw Error('connected_refresh_failed '+failed.join(', '));
- return {sleeper:results[0].value,yahoo:results[1].value,transactions};
+ // Retired Sleeper league: retain archives, but stop polling and member exposure.
+ const results=await Promise.allSettled([refreshYahooScheduled(week),require('./_connectedUpdates').refreshScheduled(week)]);
+ if(results[0].status==='rejected')throw Error('connected_refresh_failed fb:'+results[0].reason.message);
+ return {yahoo:results[0].value,transactions:results[1].status==='fulfilled'?results[1].value:{unavailable:true}};
 }
 module.exports={CONFIG,catalog,snapshot,refreshSleeper,refreshScheduled,normalizeSleeper,schedule,assignedTeam,playerDictionary};

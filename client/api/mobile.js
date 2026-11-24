@@ -39,6 +39,8 @@ module.exports = async (req, res) => {
       else if (r === 'cron-network') { name = 'network'; work = () => require('./_network').tick(); }
       else if (r === 'cron-connected') { name = 'connected'; work = async () => { const c = await M.context({cachedOnly:true}); if (!c || c.stale) throw Error('context_unavailable'); return require('./_connected').refreshScheduled(c.week); }; }
       else if (r === 'cron-cantcut' || r === 'cron-trades') { name=r.slice(5); work=()=>require('./_leagueupdates').refresh(name); }
+      else if (r === 'cron-activities') { name='activities'; work=()=>require('./_liveactivity').tick(); }
+      else if (r === 'cron-market') { name='market'; work=()=>require('./_marketrefresh').refresh(); }
       else if (r === 'cron-ball') { name = 'ball'; work = () => require('./_mball').collect({ force: q.get('force') === '1' }); }
       else return J(res, 400, { error: 'invalid_job' });
       const result = await jobs.run(name, work); return J(res, result.status, result.body);
@@ -53,6 +55,9 @@ module.exports = async (req, res) => {
     if (r === 'auth/request-code' && req.method === 'POST') { const x = await A.requestCode(req, bodyOf(req)); return J(res, x.status, x.json, 'no-store', x.retryAfter ? { 'Retry-After': x.retryAfter } : null); }
     if (r === 'auth/verify-code' && req.method === 'POST') { const x = await A.verifyCode(req, bodyOf(req)); return J(res, x.status, x.json, 'no-store', x.retryAfter ? { 'Retry-After': x.retryAfter } : null); }
     if (r === 'auth/logout' && req.method === 'POST') { const x = await A.logout(req); return J(res, x.status, x.json); }
+    if (r === 'activity/register' && req.method === 'POST') { const x=await require('./_liveactivity').register(req,bodyOf(req)); return J(res,x.status,x.json); }
+    if (r === 'activity/remove' && req.method === 'POST') { const x=await require('./_liveactivity').remove(req,bodyOf(req)); return J(res,x.status,x.json); }
+    if (r === 'widget' && req.method === 'GET') { const x=await require('./_liveactivity').read(req); return J(res,x.status,x.json); }
     if (r === 'push/test' && req.method === 'POST') { const x = await require('./_mpush').testDevice(req, bodyOf(req)); return J(res, x.status, x.json); }
     if (r === 'push/device' && req.method === 'POST') { const x = await require('./_mpush').registration(req, bodyOf(req)); return J(res, x.status, x.json); }
     if (r === 'network-preview' && req.method === 'GET') return J(res, 200, {schemaVersion:1,canPublish:false,posts:require('./_network').staticPosts(Date.now(),await require('./_leagueupdates').resources())}, 'public, s-maxage=300');

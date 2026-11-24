@@ -38,11 +38,11 @@ function fixture(){
  }
  const token='cfn_'+'a'.repeat(40),member=A.MEMBERS[0];await M.write('ms:'+M.sha(token),{e:member.h,x:Date.now()+600000});
  const req={headers:{authorization:'Bearer '+token}};
- ok((await C.catalog(req)).json.leagues.length===2,'Jose sees two catalog entries');
+ ok((await C.catalog(req)).json.leagues.length===1,'Only Fantasy Ball Z remains in connected catalog');
  ok((await C.catalog({headers:{}})).status===401,'private catalog');
  ok((await C.snapshot(req,'fb',11)).json.error==='week_unavailable','missing Yahoo week not faked');
  await M.write('connected:v1:sl:2026:11',s);
- ok((await C.snapshot(req,'sl',11)).json.matchups.length===6,'cached read');
+ ok((await C.snapshot(req,'sl',11)).status===403,'retired Sleeper cannot be read even with cached data');
  const before=H.store.size;await C.snapshot(req,'sl',11);ok(H.store.size===before,'read does not write or scrape');
  const oldMe=await call(mobile,'/?r=me',{headers:req.headers});ok(oldMe.j.memberships.length===4,'old app memberships unchanged');
  ok(M.LGS.length===4,'existing scoring jobs still four leagues');

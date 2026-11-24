@@ -92,6 +92,14 @@
     {
       "path": "/api/mobile/cron-trades",
       "schedule": "*/15 * * * *"
+    },
+    {
+      "path": "/api/mobile/cron-market",
+      "schedule": "7,37 * * * *"
+    },
+    {
+      "path": "/api/mobile/cron-activities",
+      "schedule": "* * * * *"
     }
   ],
   "functions": {

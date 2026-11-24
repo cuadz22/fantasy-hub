@@ -9,7 +9,7 @@ function jwt(){
  const signature=crypto.sign('sha256',Buffer.from(text),{key:process.env.CFN_APNS_PRIVATE_KEY.replace(/\\n/g,'\n'),dsaEncoding:'ieee-p1363'}).toString('base64url');
  cached={at:Date.now(),value:text+'.'+signature};return cached.value;
 }
-async function send(device,payload,id){
+async function send(device,payload,id,type='alert'){
  if(!configured())throw Error('push_unconfigured');
  const auth=jwt();
  return new Promise(resolve=>{
@@ -18,7 +18,7 @@ async function send(device,payload,id){
   const finish=result=>{if(done)return;done=true;clearTimeout(timer);client.destroy();resolve(result);};
   timer=setTimeout(()=>finish({state:'uncertain'}),7000);
   client.on('error',()=>finish({state:'uncertain'}));
-  const req=client.request({':method':'POST',':path':'/3/device/'+device.token,authorization:'bearer '+auth,'apns-topic':'com.cuadz.cfn.prototype','apns-push-type':'alert','apns-priority':'10','apns-expiration':String(Math.floor(Date.now()/1000)+120),'apns-collapse-id':id});
+  const req=client.request({':method':'POST',':path':'/3/device/'+device.token,authorization:'bearer '+auth,'apns-topic':'com.cuadz.cfn.prototype'+(type==='liveactivity'?'.push-type.liveactivity':''),'apns-push-type':type,'apns-priority':type==='liveactivity'?'5':'10','apns-expiration':String(Math.floor(Date.now()/1000)+120),'apns-collapse-id':id});
   req.on('response',h=>{status=h[':status'];});req.on('data',c=>{body+=c;});req.on('error',()=>finish({state:'uncertain'}));
   req.on('end',()=>{let reason;try{reason=JSON.parse(body).reason;}catch{}
    finish({state:status===200?'sent':status===429||status>=500?'retry':'rejected',status,reason,invalid:status===410||reason==='BadDeviceToken'||reason==='DeviceTokenNotForTopic'});

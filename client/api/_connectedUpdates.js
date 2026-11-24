@@ -26,7 +26,7 @@ function yahooTable(html){
  return table;
 }
 function teamMap(snapshot){
- check(snapshot?.season===M.SEASON&&['sl','fb'].includes(snapshot.leagueId)&&snapshot.matchups?.length===6,'missing_transaction_teams');
+ check(snapshot?.season===M.SEASON&&['fb'].includes(snapshot.leagueId)&&snapshot.matchups?.length===6,'missing_transaction_teams');
  const teams=new Map(snapshot.matchups.flatMap(m=>[m.home,m.away]).map(t=>[t.id,t]));
  check(teams.size===12,'incomplete_transaction_teams');return teams;
 }
@@ -95,7 +95,7 @@ async function page(filter,count=0){
  check(r.ok&&new URL(r.url).hostname==='football.fantasysports.yahoo.com','transactions_unavailable');return r.text();
 }
 async function refresh(lg,week,{force=false}={}){
- check(['sl','fb'].includes(lg)&&Number.isInteger(week)&&week>=1&&week<=18,'invalid_scope');
+ check(['fb'].includes(lg)&&Number.isInteger(week)&&week>=1&&week<=18,'invalid_scope');
  const k=key(lg),saved=await M.read(k)||{items:[],cursor:0,backfilled:[]};
  if(!force&&Date.now()-Date.parse(saved.observedAt)<900000)return {cached:true};
  const lock=await M.lock(k+':lock',55);if(!lock)return {busy:true};
@@ -121,9 +121,9 @@ async function refresh(lg,week,{force=false}={}){
  }finally{await M.unlock(k+':lock',lock)}
 }
 async function refreshScheduled(week){
- const results=await Promise.allSettled(['sl','fb'].map(lg=>refresh(lg,week)));
+ const results=await Promise.allSettled(['fb'].map(lg=>refresh(lg,week)));
  let calendarReady=true;try{await calendar()}catch{calendarReady=false}
- return {...Object.fromEntries(results.map((r,i)=>[['sl','fb'][i],r.status==='fulfilled'?r.value:{unavailable:true,error:r.reason.message}])),calendarReady};
+ return {...Object.fromEntries(results.map((r,i)=>[['fb'][i],r.status==='fulfilled'?r.value:{unavailable:true,error:r.reason.message}])),calendarReady};
 }
 async function calendar(){
  const k=`connected:updates:calendar:${M.SEASON}`,saved=await M.read(k);if(saved)return saved;
@@ -148,7 +148,7 @@ function posts(lg,saved,teams,entries,now=Date.now()){
  return out;
 }
 async function memberPosts(member){
- const leagues=['sl','fb'].filter(lg=>C.assignedTeam(member,lg)!=null);if(!leagues.length)return [];
+ const leagues=['fb'].filter(lg=>C.assignedTeam(member,lg)!=null);if(!leagues.length)return [];
  const context=await M.context({cachedOnly:true});if(!context)return [];
  const entries=await M.rget(`connected:updates:calendar:${M.SEASON}`)||[];
  const results=await Promise.allSettled(leagues.map(async lg=>{const [saved,snapshot]=await Promise.all([M.rget(key(lg)),M.rget(`connected:v1:${lg}:${M.SEASON}:${context.week}`)]);if(!saved||!snapshot)return [];return posts(lg,saved,teamMap(snapshot),entries);}));

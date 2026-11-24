@@ -33,14 +33,14 @@ for(const file of ['client/vercel.json','vercel.json']) {
  const old=JSON.parse(cp.execFileSync('git',['show','c554e97:'+file],{encoding:'utf8'}));
  const next=JSON.parse(fs.readFileSync(file));old.redirects.find(x=>x.source==='/').destination='/redesign/index.html';
  if(file==='client/vercel.json') {
-  const additions=next.crons.filter(x=>['/api/mobile/cron-network','/api/mobile/cron-connected','/api/mobile/cron-cantcut','/api/mobile/cron-trades'].includes(x.path));
-  assert.deepEqual(additions,[{path:'/api/mobile/cron-network',schedule:'* * * * *'},{path:'/api/mobile/cron-connected',schedule:'* * * * *'},{path:'/api/mobile/cron-cantcut',schedule:'0 10,22 * * *'},{path:'/api/mobile/cron-trades',schedule:'*/15 * * * *'}]);
+  const additions=next.crons.filter(x=>['/api/mobile/cron-network','/api/mobile/cron-connected','/api/mobile/cron-cantcut','/api/mobile/cron-trades','/api/mobile/cron-market','/api/mobile/cron-activities'].includes(x.path));
+  assert.deepEqual(additions,[{path:'/api/mobile/cron-network',schedule:'* * * * *'},{path:'/api/mobile/cron-connected',schedule:'* * * * *'},{path:'/api/mobile/cron-cantcut',schedule:'0 10,22 * * *'},{path:'/api/mobile/cron-trades',schedule:'*/15 * * * *'},{path:'/api/mobile/cron-market',schedule:'7,37 * * * *'},{path:'/api/mobile/cron-activities',schedule:'* * * * *'}]);
   next.crons=next.crons.filter(x=>!additions.includes(x));
  }
  assert.deepEqual(next,old,'Existing routes and scoring schedules remain unchanged');
 }
 const currentMobile=fs.readFileSync('client/api/mobile.js','utf8');
-const addedRoutes=['news','player-log','cron-cantcut','cron-network','cron-connected','network-preview','network','network/publish','network/test','connected','connected/snapshot','connected/schedule'];
+const addedRoutes=['activity/register','activity/remove','widget','cron-market','cron-activities','news','player-log','cron-cantcut','cron-network','cron-connected','network-preview','network','network/publish','network/test','connected','connected/snapshot','connected/schedule'];
 const addedLines=currentMobile.split('\n').filter(line=>addedRoutes.some(route=>line.includes("r === '"+route+"'")));
 assert.equal(addedLines.length,addedRoutes.length,'Exactly the tested additive routes');
 const featuredField="featuredMatchups: require('./_resources.json').tools.featuredMatchups, ";
