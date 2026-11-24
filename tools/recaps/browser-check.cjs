@@ -1,0 +1,11 @@
+const {chromium}=require(process.env.CFN_PLAYWRIGHT||'/tmp/cfn-browser-check/node_modules/playwright');const assert=require('node:assert/strict');const fs=require('node:fs');
+(async()=>{
+const b=await chromium.launch({headless:true,channel:'chrome'});const page=await b.newPage({viewport:{width:1440,height:1080}});const errors=[],writes=[];
+page.on('pageerror',e=>errors.push(e.message));
+await page.route('**/api/**',async route=>{if(route.request().method()!=='GET'){writes.push(route.request().url());await route.abort();return;}const u=new URL(route.request().url());await route.fulfill({response:await route.fetch({url:'https://cuadzfantasynetwork.com'+u.pathname+u.search})});});
+await page.goto((process.env.STUDIO_BASE||'http://127.0.0.1:8793')+'/redesign/index.html#studio');await page.locator('[data-recap-league="gl"]').waitFor({timeout:60000});
+for(const id of ['gl','bh','rb','sts']){await page.locator(`[data-recap-league="${id}"]`).click();await page.waitForFunction(id=>document.querySelector(`[data-recap-league="${id}"]`)?.getAttribute('aria-pressed')==='true'&&document.querySelectorAll('.recap-slide').length===9,id);assert.equal(await page.locator('.recap-slide').count(),9);await page.locator('.recap-slide').last().scrollIntoViewIfNeeded();await page.waitForFunction(()=>[...document.querySelectorAll('.recap-slide img')].slice(-2).every(i=>i.complete&&i.naturalWidth>0));const zip=await page.locator('.recap-bundle').getAttribute('href');const r=await fetch(zip,{method:'HEAD'});assert(r.ok);assert(Number(r.headers.get('content-length'))>1e6);console.log(id,'nine slides and ZIP passed');}
+await page.locator('[data-recap-league="gl"]').click();await page.waitForTimeout(500);await page.evaluate(()=>{document.querySelector('.recap-slides').scrollLeft=0;window.scrollTo(0,0)});await page.screenshot({path:'/tmp/cfn-studio-desktop.png'});
+await page.setViewportSize({width:390,height:844});await page.waitForTimeout(300);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:'/tmp/cfn-studio-mobile.png'});
+assert.equal(writes.length,0);assert.deepEqual(errors,[]);console.log('Desktop/mobile, all four league selectors, images, downloads, no API writes, no browser errors passed.');await b.close();
+})().catch(e=>{console.error(e);process.exit(1)});

@@ -521,13 +521,13 @@ function exposureRows(owner) {
     .join("")}</div>`;
 }
 function studio() {
-  if(!CFNData.state.resources) return globalHero("Studio", "Loading league records…");
+  if(!CFNData.state.resources) return globalHero("Made to be shared.", "Your weekly recap drafts and league stories.") + '<section id="weekly-recaps" aria-label="Weekly recap drafts"></section><p class="subnote">Other Studio tools are loading league records…</p>';
   return (
     globalHero(
       "Made to be shared.",
       "A quieter canvas for your matchups, league stories, and awards.",
     ) +
-    `<div class="filter-row"><label for="studio-league">League</label><select id="studio-league">${Object.entries(
+    `<section id="weekly-recaps" aria-label="Weekly recap drafts"></section><div class="filter-row"><label for="studio-league">League</label><select id="studio-league">${Object.entries(
       leagues,
     )
       .map(([k, v]) => `<option value="${k}">${v}</option>`)

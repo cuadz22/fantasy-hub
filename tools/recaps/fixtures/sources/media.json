@@ -1,0 +1,359 @@
+{
+  "schemaVersion": 1,
+  "version": "e9573ba410",
+  "featuredMatchups": {
+    "season": 2026,
+    "weeks": {
+      "10": {
+        "gl": [
+          [
+            7,
+            9
+          ]
+        ],
+        "bh": [
+          [
+            2,
+            6
+          ]
+        ],
+        "rb": [
+          [
+            3,
+            11
+          ]
+        ],
+        "sts": [
+          [
+            11,
+            12
+          ]
+        ]
+      },
+      "12": {
+        "bh": [
+          [
+            1,
+            8
+          ]
+        ],
+        "rb": [
+          [
+            1,
+            3
+          ]
+        ],
+        "sts": [
+          [
+            12,
+            6
+          ]
+        ]
+      }
+    },
+    "rivalryWeeks": {
+      "12": [
+        "gl"
+      ]
+    }
+  },
+  "note": "ownerPhotoURL is only set for Gentlemen's League; other leagues use the Yahoo team logo. URLs are versioned: they change when an image changes.",
+  "teams": {
+    "gl": {
+      "1": {
+        "teamId": 1,
+        "managerName": "Cuadz",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/27760359433_2f13185f77.png",
+        "ownerPhotoURL": "https://cuadzfantasynetwork.com/media/owners/cuadz.png?v=b1acdcc9"
+      },
+      "2": {
+        "teamId": 2,
+        "managerName": "Gio",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/6c6414df4663d63ee454a6f9cedb192ff56fd9e759ebbf539c4b0ea5254fc8d2.jpg",
+        "ownerPhotoURL": "https://cuadzfantasynetwork.com/media/owners/gio.png?v=75046a46"
+      },
+      "3": {
+        "teamId": 3,
+        "managerName": "Jeff",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/66034aeaa7e5f749431ed3eedbfeb06417360d72f45415776870755e41e61c20.png",
+        "ownerPhotoURL": "https://cuadzfantasynetwork.com/media/owners/jeff.png?v=076145fc"
+      },
+      "4": {
+        "teamId": 4,
+        "managerName": "Vic",
+        "logoURL": "https://s.yimg.com/cv/apiv2/default/nfl/nfl_9_v.png",
+        "ownerPhotoURL": "https://cuadzfantasynetwork.com/media/owners/vic.png?v=a5bfe6b0"
+      },
+      "5": {
+        "teamId": 5,
+        "managerName": "Ramon",
+        "logoURL": "https://s.yimg.com/cv/apiv2/fandom-shop-production-assets-NEW-avatars/avatar_football_artist_skee_default_new_8-11.png",
+        "ownerPhotoURL": "https://cuadzfantasynetwork.com/media/owners/ramon.png?v=578f5e6d"
+      },
+      "6": {
+        "teamId": 6,
+        "managerName": "Ed",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/350be219e1c358f836107625bfcad6d218acba430e5afa8818092dcf5e8eed19.jpg",
+        "ownerPhotoURL": "https://cuadzfantasynetwork.com/media/owners/ed.png?v=0bd6af76"
+      },
+      "7": {
+        "teamId": 7,
+        "managerName": "Pru",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/111462ed59f1152360be6ed8bd5f62933e246bb79b7732ef181d98f81370724f.jpg",
+        "ownerPhotoURL": "https://cuadzfantasynetwork.com/media/owners/pru.png?v=058190d4"
+      },
+      "8": {
+        "teamId": 8,
+        "managerName": "Oscar",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/b7c50a09cf452d86635338978d16b57ff9e498d0e95671385679232ecc99ee01.jpg",
+        "ownerPhotoURL": "https://cuadzfantasynetwork.com/media/owners/oscar.png?v=7c7012c3"
+      },
+      "9": {
+        "teamId": 9,
+        "managerName": "Julio Z",
+        "logoURL": "https://s.yimg.com/cv/apiv2/default/nfl/nfl_5_j.png",
+        "ownerPhotoURL": "https://cuadzfantasynetwork.com/media/owners/julio-z.png?v=812b0ad9"
+      },
+      "10": {
+        "teamId": 10,
+        "managerName": "Kevin",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/2909d9c36a43a24380e6992994f1517f89fb379402d8d73987ee16b3eafe543b.jpg",
+        "ownerPhotoURL": "https://cuadzfantasynetwork.com/media/owners/kevin.png?v=c8ed1b27"
+      },
+      "11": {
+        "teamId": 11,
+        "managerName": "Alexis",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/32131a507e57a4830b8e8af691ea424da5c5a65ff000d8691e13bd474135e732.jpg",
+        "ownerPhotoURL": "https://cuadzfantasynetwork.com/media/owners/alexis.png?v=675eb080"
+      },
+      "12": {
+        "teamId": 12,
+        "managerName": "John",
+        "logoURL": "https://s.yimg.com/ep/cx/blendr/v2/image-alien-png_1721174225838.png",
+        "ownerPhotoURL": "https://cuadzfantasynetwork.com/media/owners/john.png?v=1a48c007"
+      }
+    },
+    "bh": {
+      "1": {
+        "teamId": 1,
+        "managerName": "Cuadz",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/7f1bc84cba656f4927db2b28d82ec987fec061d2e5566de71d35b9b04c18963a.jpg",
+        "ownerPhotoURL": null
+      },
+      "2": {
+        "teamId": 2,
+        "managerName": "Gio",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/a5727619bbb73107c092e9377d197ebc6e77866a3309a668c49cd9f1f5f1b0c8.jpg",
+        "ownerPhotoURL": null
+      },
+      "3": {
+        "teamId": 3,
+        "managerName": "Eddie",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/e6f7a77ea94493284f783107110d52ea153df718f844f6fd6ea811f53db2ca71.png",
+        "ownerPhotoURL": null
+      },
+      "4": {
+        "teamId": 4,
+        "managerName": "Kyle",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/a5cb224240e60f34a50a3ff86eeae821788e1ad5a341e663bb416fad8645768b.jpg",
+        "ownerPhotoURL": null
+      },
+      "5": {
+        "teamId": 5,
+        "managerName": "Kevin",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/7157c26d03be0a6bf074d1eeba5a8f050eb7fa506e820fe69ef7d583c4c8e14a.jpg",
+        "ownerPhotoURL": null
+      },
+      "6": {
+        "teamId": 6,
+        "managerName": "Cris",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/283b7b43204296f93eabb522fd937050be9996bd75c067b683703b3bf13f9151.jpg",
+        "ownerPhotoURL": null
+      },
+      "7": {
+        "teamId": 7,
+        "managerName": "Hihi",
+        "logoURL": "https://s.yimg.com/ba/images/eacc385c2cb12bc7f6d0b46483514043fc1fa737beeffd12dc3d60d37e1a51c2.png",
+        "ownerPhotoURL": null
+      },
+      "8": {
+        "teamId": 8,
+        "managerName": "Oscar",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/858ecbc844c2f92453d994757b1931b07f84880d4e9b7b0dbbee4ff7d2c02196.jpg",
+        "ownerPhotoURL": null
+      },
+      "9": {
+        "teamId": 9,
+        "managerName": "Bishoy",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/659bf86b5761cd0e6ebea5aa9e168b2bdcf975b18d29afd0e2f68db083c15a4f.jpg",
+        "ownerPhotoURL": null
+      },
+      "10": {
+        "teamId": 10,
+        "managerName": "Edwin",
+        "logoURL": "https://s.yimg.com/ba/images/a4f38d07f716e900102f1534e92baf1ca2e6ab6b5dd2c22da458c30eebdd19d3.png",
+        "ownerPhotoURL": null
+      },
+      "11": {
+        "teamId": 11,
+        "managerName": "Pru",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/c764c6ab3913665224ed4368ab99f75ca60adb7208811f74cef659dc3aafe493.jpg",
+        "ownerPhotoURL": null
+      },
+      "12": {
+        "teamId": 12,
+        "managerName": "Mina",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/e294964959d6f3568443ef34322d04a82e55216aa4b7be05746e39850fdd6f20.jpg",
+        "ownerPhotoURL": null
+      }
+    },
+    "rb": {
+      "1": {
+        "teamId": 1,
+        "managerName": "Cuadz",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/b045fccf51067758723dfc6017796e71f40f9179c92e4e86376357f0672c1eaf.jpg",
+        "ownerPhotoURL": null
+      },
+      "2": {
+        "teamId": 2,
+        "managerName": "Cris",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/d3282dcaeffaf2d572e057173c4a560be3a280dc95d7d4ef9b1ab016e0483f0b.jpg",
+        "ownerPhotoURL": null
+      },
+      "3": {
+        "teamId": 3,
+        "managerName": "Pru",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/d4183efa754ad10ea8679a7a7300dae77687909d22c8f4e38cc2cc779d3e4801.jpg",
+        "ownerPhotoURL": null
+      },
+      "4": {
+        "teamId": 4,
+        "managerName": "Alexis",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/79f4f0aaa426b56e1754dba3c20ca29e31ed4ce5831f4705c092974185fc4cb1.jpg",
+        "ownerPhotoURL": null
+      },
+      "5": {
+        "teamId": 5,
+        "managerName": "Ed",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/53fe792ee178ae574f37f2a5466ca0de54fac3441a61d19be0555ff9b4fe4a19.png",
+        "ownerPhotoURL": null
+      },
+      "6": {
+        "teamId": 6,
+        "managerName": "Hihi",
+        "logoURL": "https://s.yimg.com/cv/apiv2/default/nfl/nfl_1_j.png",
+        "ownerPhotoURL": null
+      },
+      "7": {
+        "teamId": 7,
+        "managerName": "John",
+        "logoURL": "https://s.yimg.com/cv/apiv2/default/nfl/nfl_8_j.png",
+        "ownerPhotoURL": null
+      },
+      "8": {
+        "teamId": 8,
+        "managerName": "Oscar",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/8e622aacc2a80e6a5c64dc5b7bb0db715113936ffd122bd6dde4962263b551f5.jpg",
+        "ownerPhotoURL": null
+      },
+      "9": {
+        "teamId": 9,
+        "managerName": "Gio",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/8ae026a685829f4115a121fb042373e50daf7ef2d1451cc793a58fef8c0fcde7.jpg",
+        "ownerPhotoURL": null
+      },
+      "10": {
+        "teamId": 10,
+        "managerName": "Big Vic",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/ba6349518b873211f383fc3d6ece6cc1091570efce5882b2dc1f96834596f46e.jpg",
+        "ownerPhotoURL": null
+      },
+      "11": {
+        "teamId": 11,
+        "managerName": "Jeff",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/7831dd1775f5ab669973959e31fabe6f5c46989f191ae989356f58f6fc8ed8d2.jpg",
+        "ownerPhotoURL": null
+      },
+      "12": {
+        "teamId": 12,
+        "managerName": "Julio Z",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/7616c7d3bbc41323a2e8ffc5d52092a0a7d3be5c95096d461a6e3ffaef6e54ef.jpg",
+        "ownerPhotoURL": null
+      }
+    },
+    "sts": {
+      "1": {
+        "teamId": 1,
+        "managerName": "Cuadz",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/9a4dad9a7def1d91ca4c6d70711af90523cdc46e0033a057575f0917422554a7.jpg",
+        "ownerPhotoURL": null
+      },
+      "2": {
+        "teamId": 2,
+        "managerName": "Bryan",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/ba7cb21081ab453cf37fc9f42ba4e98eeea1feca760e806bac10a7226971bb6c.jpg",
+        "ownerPhotoURL": null
+      },
+      "3": {
+        "teamId": 3,
+        "managerName": "Oscar",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/d2fb6a0073b8110ebf0671ab67bdffa0e696be8363eb2385f36703cedf066d97.jpg",
+        "ownerPhotoURL": null
+      },
+      "4": {
+        "teamId": 4,
+        "managerName": "Ed",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/09e84fb1ead27fe94f493390d7f7f9dfca73a42cfbfb7e4339f2188b047466e1.jpg",
+        "ownerPhotoURL": null
+      },
+      "5": {
+        "teamId": 5,
+        "managerName": "Oscar S",
+        "logoURL": "https://s.yimg.com/ba/images/8106b019585a3cd9f584b470d393cc5fc821a808d1d0efdf231d868083544b0b.png",
+        "ownerPhotoURL": null
+      },
+      "6": {
+        "teamId": 6,
+        "managerName": "Edwin",
+        "logoURL": "https://s.yimg.com/ep/cx/blendr/v2/image-helmet-2-png_1721175003165.png",
+        "ownerPhotoURL": null
+      },
+      "7": {
+        "teamId": 7,
+        "managerName": "Mina",
+        "logoURL": "https://s.yimg.com/ba/images/6ce0df2b1cf23235dcbc7e3331136d6ad54622586674ff4c16869c1fca6c015e.png",
+        "ownerPhotoURL": null
+      },
+      "8": {
+        "teamId": 8,
+        "managerName": "Julio A",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/de3e06165f5f2f47226105c485a62cd8232f9481385254bb2302485f04dfa927.jpg",
+        "ownerPhotoURL": null
+      },
+      "9": {
+        "teamId": 9,
+        "managerName": "Julio Z",
+        "logoURL": "https://s.yimg.com/cv/apiv2/default/nfl/nfl_4_j.png",
+        "ownerPhotoURL": null
+      },
+      "10": {
+        "teamId": 10,
+        "managerName": "Pru",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/f122865a154d910c52b982db493accbe8a90eab7a6de5c04dcf09088a35f2ef1.jpg",
+        "ownerPhotoURL": null
+      },
+      "11": {
+        "teamId": 11,
+        "managerName": "Kevin",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/5714932310b59d9c7533a78bf2639d4f2700d179181b158f12a01616108357b3.jpg",
+        "ownerPhotoURL": null
+      },
+      "12": {
+        "teamId": 12,
+        "managerName": "Brian",
+        "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/07e6616c8a061eef1ef787e64f8f7cdd886fc893e3bbd788ffc8a9b58530d7fa.png",
+        "ownerPhotoURL": null
+      }
+    }
+  }
+}
