@@ -98,7 +98,9 @@ async function snapshot(req,lg,week){
  const context=await M.context({cachedOnly:true});
  const maxAge=context&&!context.stale&&week!==context.week?86400000:lg==='fb'&&context&&!context.stale&&!M.isLive(context.board)?600000:180000;
  const stale=!Number.isFinite(Date.parse(body.observedAt))||Date.now()-Date.parse(body.observedAt)>maxAge;
- return {status:200,json:{...body,teamId,stale,matchups:body.matchups.map(m=>({...m,sourceStale:stale}))}};
+ // Orient only this member's response. Shared snapshots and stable matchup IDs
+ // retain provider order, so one member cannot change another member's view.
+ return {status:200,json:{...body,teamId,stale,matchups:body.matchups.map(m=>({...m,...(m.away.id===teamId?{home:m.away,away:m.home}:{}),sourceStale:stale}))}};
 }
 // Schedules are derived from independently validated weekly snapshots. Never
 // change the global current week or fill missing weeks with another week's games.
@@ -131,7 +133,7 @@ async function refreshSleeperScheduled(week){
  const extra=candidates[Math.floor(Date.now()/60000)%candidates.length];
  if(extra){
   const saved=await M.read(`connected:v1:sl:${M.SEASON}:${extra}`);
-  if(!saved||!Number.isFinite(Date.parse(saved.observedAt))||Date.now()-Date.parse(saved.observedAt)>86400000){
+  if(!saved||!Number.isFinite(Date.parse(saved.observedAt))||Date.now()-Date.parse(saved.observedAt)>(extra>week?3600000:86400000)){
    try{return {current,history:await refreshSleeper(extra)}}catch{return {current,history:{week:extra,unavailable:true}}}
   }
  }
@@ -156,9 +158,12 @@ async function refreshYahooScheduled(week){
 }
 async function refreshScheduled(week){
  // A provider outage must not prevent the other provider from publishing.
- const results=await Promise.allSettled([refreshSleeperScheduled(week),refreshYahooScheduled(week)]);
- const failed=results.map((r,i)=>r.status==='rejected'?(['sl','fb'][i]+':'+r.reason.message):null).filter(Boolean);
+ const results=await Promise.allSettled([refreshSleeperScheduled(week),refreshYahooScheduled(week),require('./_connectedUpdates').refreshScheduled(week)]);
+ // Transactions have a separate cache and refresh budget. Their failure cannot
+ // roll back, block, or overwrite a published score/standings snapshot.
+ const transactions=results[2].status==='fulfilled'?results[2].value:{unavailable:true};
+ const failed=results.slice(0,2).map((r,i)=>r.status==='rejected'?(['sl','fb'][i]+':'+r.reason.message):null).filter(Boolean);
  if(failed.length)throw Error('connected_refresh_failed '+failed.join(', '));
- return {sleeper:results[0].value,yahoo:results[1].value};
+ return {sleeper:results[0].value,yahoo:results[1].value,transactions};
 }
-module.exports={CONFIG,catalog,snapshot,refreshSleeper,refreshScheduled,normalizeSleeper,schedule};
+module.exports={CONFIG,catalog,snapshot,refreshSleeper,refreshScheduled,normalizeSleeper,schedule,assignedTeam,playerDictionary};

@@ -61,6 +61,6 @@ button.player{border:0;border-radius:8px;background:none;color:inherit;text-alig
 .feed-trade .trade-owner span{color:var(--accent);font-weight:600;white-space:nowrap}
 .feed-trade .trade-team-name{text-align:center;font-size:11px;line-height:1.35;margin:4px 0 8px}
 .feed-trade .trade-arrow{align-self:center;color:var(--accent);font-size:22px}
-.feed-trade .trade-picks{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:10px;text-align:center}
+.feed-trade .trade-picks{display:flex;flex-direction:row;justify-content:center;align-items:baseline;gap:5px;margin-top:6px;text-align:left}
 .feed-trade .trade-picks small{font-size:10px;color:var(--muted)}
-.feed-trade .trade-picks strong{font-size:19px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.feed-trade .trade-picks strong{font-size:16px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}

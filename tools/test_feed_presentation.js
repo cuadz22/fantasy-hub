@@ -16,7 +16,7 @@ const scope={window:{},document:{addEventListener(){}},esc:s=>String(s).replaceA
 vm.createContext(scope);vm.runInContext(fs.readFileSync('client/public/redesign/updates.js','utf8'),scope);
 const markup=scope.window.CFNUpdates.content({kind:'trade',sides:[{name:'Team A',owner:'John',players:['Joe Burrow']},{name:'Team B',owner:'Ed',players:['Round 2 pick','2027 Round 4 pick (from Kevin)']}]});
 const [left,right]=markup.split('trade-arrow');
-assert(left.includes('John')&&left.includes('Picks · rounds')&&left.includes('2027 Round 4 pick (from Kevin)'));
+assert(left.includes('John')&&left.includes('Pick rounds')&&left.includes('2027 Round 4 pick (from Kevin)'));
 assert(!left.includes('Joe Burrow'));assert(right.includes('Ed')&&right.includes('Joe Burrow'));
 assert(!markup.includes('receives')&&!markup.includes('avatar fallback'));
 console.log('Compact trade markup: sender direction, grouped rounds, original-owner/year details, and player portraits passed.');

@@ -56,7 +56,7 @@ module.exports = async (req, res) => {
     if (r === 'push/test' && req.method === 'POST') { const x = await require('./_mpush').testDevice(req, bodyOf(req)); return J(res, x.status, x.json); }
     if (r === 'push/device' && req.method === 'POST') { const x = await require('./_mpush').registration(req, bodyOf(req)); return J(res, x.status, x.json); }
     if (r === 'network-preview' && req.method === 'GET') return J(res, 200, {schemaVersion:1,canPublish:false,posts:require('./_network').staticPosts(Date.now(),await require('./_leagueupdates').resources())}, 'public, s-maxage=300');
-    if (r === 'network' && req.method === 'GET') { const x = await require('./_network').feed(req); return J(res,x.status,x.json); }
+    if (r === 'network' && req.method === 'GET') { const x = await require('./_network').feed(req,q.get('connected')==='1'); return J(res,x.status,x.json); }
     if (r === 'network/publish' && req.method === 'POST') { const x = await require('./_network').publish(req,bodyOf(req)); return J(res,x.status,x.json); }
     if (r === 'network/test' && req.method === 'POST') { const x = await require('./_network').test(req,bodyOf(req)); return J(res,x.status,x.json); }
     if (r === 'connected' && req.method === 'GET') { const x=await require('./_connected').catalog(req); return J(res,x.status,x.json); }

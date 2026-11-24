@@ -35,7 +35,9 @@ const rejects=(f,label)=>{let rejected=false;try{f()}catch{rejected=true}ok(reje
   const token='cfn_'+name.padEnd(40,'x');await M.write('ms:'+M.sha(token),{e:member.h,x:Date.now()+600000});
   const req={headers:{authorization:'Bearer '+token}},cat=(await C.catalog(req)).json.leagues;
   ok(cat.find(l=>l.id==='fb')?.teamId===id,name+' receives assigned Yahoo team');
-  ok((await C.snapshot(req,'fb',11)).json.teamId===id,name+' shared snapshot uses own perspective');
+  const personal=(await C.snapshot(req,'fb',11)).json;
+  ok(personal.teamId===id&&personal.matchups.find(m=>m.home.id===id||m.away.id===id).home.id===id,name+' own team appears on left');
+  ok(JSON.stringify(await M.read('connected:v1:fb:2026:11'))===JSON.stringify(body),'member orientation leaves shared snapshot unchanged');
   ok(cat.find(l=>l.id==='sl')?.teamId===({Cuadz:1,Ed:7,Alexis:2,Kevin:6})[name],name+' receives confirmed Sleeper team');
   const schedule=await C.schedule(req,'fb');ok(schedule.status===200&&schedule.json.teamId===id&&schedule.json.weeks[0].week===11,name+' schedule uses assigned team and actual week');
   ok((await C.snapshot(req,'fb',0)).status===400,'invalid week rejected for '+name);

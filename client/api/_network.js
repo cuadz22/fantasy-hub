@@ -49,10 +49,13 @@ async function stored(){
 }
 function publicPost(p){const {audience,notify,createdBy,deliveryDeviceID,...out}=p;return out;}
 function visible(p,member,now){return (p.leagueId==='network'||Number.isInteger(member.teams[p.leagueId]))&&(!p.audience||p.audience===member.h)&&Date.parse(p.publishedAt)<=now&&(!p.expiresAt||Date.parse(p.expiresAt)>now);}
-async function feed(req){
+async function feed(req,includeConnected=false){
  const a=await A.authenticate(req);if(!a)return {status:401,json:{error:'unauthorized'}};
  if(!eligible(a.member.h))return {status:403,json:{error:'private_rollout'}};
  const now=Date.now(),posts=[...staticPosts(now,await require('./_leagueupdates').resources()),...await stored()].filter(p=>visible(p,a.member,now)).map(publicPost).sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt)||a.id.localeCompare(b.id));
+ // Explicit client opt-in preserves old builds. These imports never enter the
+ // announcement publisher or touchdown-delivery pipeline.
+ if(includeConnected){posts.push(...await require('./_connectedUpdates').memberPosts(a.member));posts.sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt)||a.id.localeCompare(b.id));}
  return {status:200,json:{schemaVersion:1,canPublish:admin(a.member.h),posts,checkedAt:new Date(now).toISOString()}};
 }
 function validate(body,member,now=Date.now()){
