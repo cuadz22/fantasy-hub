@@ -100,7 +100,7 @@ async function snapshot(req,lg,week){
  const stale=!Number.isFinite(Date.parse(body.observedAt))||Date.now()-Date.parse(body.observedAt)>maxAge;
  // Orient only this member's response. Shared snapshots and stable matchup IDs
  // retain provider order, so one member cannot change another member's view.
- return {status:200,json:{...body,teamId,stale,matchups:body.matchups.map(m=>({...m,...(m.away.id===teamId?{home:m.away,away:m.home}:{}),sourceStale:stale}))}};
+ return {status:200,json:{...body,superSaiyanUsedTeamIds:require('./_seasonBadges').superSaiyanUsedTeamIds(body),teamId,stale,matchups:body.matchups.map(m=>({...m,...(m.away.id===teamId?{home:m.away,away:m.home}:{}),sourceStale:stale}))}};
 }
 // Schedules are derived from independently validated weekly snapshots. Never
 // change the global current week or fill missing weeks with another week's games.

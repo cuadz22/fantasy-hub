@@ -37,7 +37,7 @@ const db=new Map(),writes=[],locks=new Set();const store={read:async k=>clone(db
  const edited=await R.edit({...d,intro:'Reviewed copy.'},{store});
  assert.notEqual((await R.detail(d.id,false,store)).intro,edited.intro);
  await R.publish({id:edited.id,revision:edited.revision,notify:true,reviewed:true},{store,collector});
- const p=(await R.list(false,store))[0];assert.equal(p.body,'Reviewed copy.');assert.equal(p.publishedAt,first.publishedAt);assert.equal(p.notify,false);assert.equal((await R.list(false,store)).length,1);
+ const p=(await R.list(false,store))[0];assert(p.body.startsWith('Your Week 11 recap is ready.'));assert.equal(p.recapPreview.total,8);assert.deepEqual(p.recapPreview.players.map(x=>x.position),['QB','RB','WR']);assert(p.recapPreview.players.every(x=>docs.gl.teamOfWeek.some(t=>t.name===x.name&&t.photoURL===x.photoURL)));assert.equal(p.publishedAt,first.publishedAt);assert.equal(p.notify,false);assert.equal((await R.list(false,store)).length,1);
  for(const time of ['2026-11-24T10:59:00Z','2026-11-25T12:00:00Z','2026-07-07T09:59:00Z'])assert.equal((await R.scheduled(new Date(time),store)).skipped,'outside_recap_window');
  const tick=await R.scheduled(new Date('2026-11-24T12:00:00Z'),store,{collector:async(lg)=>{if(lg==='bh')throw Error('missing_results');return collector(lg);}});
  assert.equal(tick.id,'recap:2026:rb:11');assert.equal(tick.pending[0].leagueId,'bh');assert.equal((await R.list(false,store)).length,1);

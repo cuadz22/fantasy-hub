@@ -12,6 +12,12 @@ function fixture(){
  return {league:{league_id:C.CONFIG.sl.providerId,season:'2026',sport:'nfl',name:'Sleepers',total_rosters:12,roster_positions:['QB','DEF','BN'],settings:{last_scored_leg:10,leg:11}},users,rosters,matchups,players:{100:{full_name:'Test Quarterback',position:'QB',team:'CIN'},200:{full_name:'Test Receiver',position:'WR',team:'DAL'},PIT:{first_name:'Pittsburgh',last_name:'Steelers',position:'DEF',team:'PIT'}},week:11};
 }
 (async()=>{
+ const badge = require('../client/api/_seasonBadges').superSaiyanUsedTeamIds;
+ const badgeTable = {season:2026,leagueId:'fb',standings:{rows:[{teamId:2,name:'Renamed'},{teamId:10},{teamId:12}]}};
+ ok(JSON.stringify(badge(badgeTable))==='[2,10]','confirmed usage follows stable IDs, not names');
+ ok(badge({...badgeTable,season:2027}).length===0,'usage resets next season');
+ ok(badge({...badgeTable,leagueId:'gl'}).length===0,'usage stays in Fantasy Ball Z');
+ ok(badge({...badgeTable,standings:{rows:[{teamId:12}]}}).length===0,'no markers for absent teams');
  const input=fixture(),s=C.normalizeSleeper(input),mine=s.matchups[0].home;
  ok(s.matchups.length===6&&s.standings.rows.length===12,'complete import');
  ok(mine.reportedScore===36&&mine.players[2].position==='BN','provider total excludes bench');

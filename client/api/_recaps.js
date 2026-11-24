@@ -124,7 +124,7 @@ async function publish(body,{store=M,collector=collect,now=Date.now()}={}){
   if(old?.publishedRevision===body.revision)return {duplicate:true,id:body.id};
   const publishedAt=old?.post?.publishedAt||new Date(now).toISOString();
   const doc={...latest,status:'published',publishedAt,updatedAt:new Date(now).toISOString()};
-  const post={id:doc.id,kind:'recap',leagueId:doc.leagueId,week:doc.week,title:doc.title,body:doc.intro.slice(0,500),recapID:doc.id,publishedAt,url:'https://cuadzfantasynetwork.com/redesign/recap.html?id='+encodeURIComponent(doc.id),logoURL:require('./_network').logo(doc.leagueId),notify:old?.post?old.post.notify:body.notify};
+  const post={id:doc.id,kind:'recap',leagueId:doc.leagueId,week:doc.week,title:doc.title,...require('./_recapfeed').presentation(doc),recapID:doc.id,publishedAt,url:'https://cuadzfantasynetwork.com/redesign/recap.html?id='+encodeURIComponent(doc.id),logoURL:require('./_network').logo(doc.leagueId),notify:old?.post?old.post.notify:body.notify};
   await store.write(key(doc.id)+':published:'+doc.revision,doc);
   await store.write(INDEX,[...index.filter(x=>x.id!==doc.id),{id:doc.id,leagueId:doc.leagueId,week:doc.week,season:doc.season,draftRevision:doc.revision,publishedRevision:doc.revision,post}]);
   await store.write(key(doc.id),{...doc,publishedRevision:doc.revision});
