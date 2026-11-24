@@ -41,12 +41,24 @@ async function refreshLeague(lg, force = false) {
   } catch (e) { await M.noteFail(lg, c.week, e.message); throw e; }
 }
 async function calendar() {
-  let b = await M.getBoard(null, 0);
+  const R = require('./_weekrollover');
+  const old = await M.read('mb:cur') || await M.read('mc:ctx');
+  if (old && old.season !== M.SEASON) throw Error('calendar_season_mismatch');
+  let b = await M.getBoard(old?.week || null, 0);
   if (!b || b.stale) throw new Error('scoreboard_unavailable');
+  b = { ...b, done: false, rolloverPolicy: R.POLICY };
+  await M.write('mb:cur', b, 30 * 86400);
   await M.write('mc:ctx', { week: b.week, season: b.season, updated: b.sourceUpdatedAt }, 30 * 86400);
-  // Keep game clocks fresh independently of roster retrieval.
-  if (M.isLive(b)) { await M.sleep(18000); b = await M.getBoard(null, 0); if (!b || b.stale) throw new Error('scoreboard_unavailable'); }
-  return { week: b.week, sourceUpdatedAt: b.sourceUpdatedAt };
+  const rollover = await R.advance(M, b, storeOne);
+  if (rollover.state === 'advanced') b = await M.read('mb:cur');
+  if (M.isLive(b)) {
+    await M.sleep(18000);
+    const fresh = await M.getBoard(b.week, 0);
+    if (!fresh || fresh.stale) throw new Error('scoreboard_unavailable');
+    b = { ...fresh, done: false, rolloverPolicy: R.POLICY };
+    await M.write('mb:cur', b, 30 * 86400);
+  }
+  return { week: b.week, sourceUpdatedAt: b.sourceUpdatedAt, rollover };
 }
 async function maintenance() {
   const startedAt = Date.now();
@@ -68,6 +80,7 @@ async function maintenance() {
 function pair(a) { const out = []; for (let i = 0; i + 1 < a.length; i += 2) out.push([a[i], a[i + 1]]); return out; }
 async function storeOne(lg, w, opts) {
   const sc = await scrapeLeague(lg, w); if (sc.partial || sc.matchups.length !== 6) throw new Error('incomplete_lineup_' + lg + '_' + w);
+  if (!require('./_weekrollover').validWeek({lg,week:w,season:M.SEASON,matchups:sc.matchups,partial:sc.partial},lg,w,M.SEASON)) throw Error('invalid_week_totals_' + lg + '_' + w);
   await M.saveWeek(lg, w, sc.matchups, false, opts); return { league: lg, week: w };
 }
 async function health() {

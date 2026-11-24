@@ -133,17 +133,20 @@ module.exports = async (req, res) => {
       return res.status(200).json({ games: g.status, stats: s.status, plays: p.status });
     }
     if (q.card) {
-      const C = await cards(), a = C.idx[normN(q.card)] || [], x = (q.team && a.find(y => y.team === q.team)) || a[0];
+      const C = await cards().catch(() => ({gen:null,wk:null,idx:{},dvp:{}})), a = C.idx[normN(q.card)] || [], x = (q.team && a.find(y => y.team === q.team)) || a[0];
+      const context = await require('./_m').context({cachedOnly:true});
       res.setHeader('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=600');
-      if (!x) return res.status(200).json({ gen: C.gen, wk: C.wk, p: null });
+      if (!x) { const adjusted=require('./_playerweek').metadata({},C.wk,context,q.team); return res.status(200).json({gen:C.gen,wk:adjusted.week,p:adjusted.card,stale:adjusted.stale}); }
       const e = x.fantasypros_ecr || {}, sp = x.sleeper_projection_rank || {};
       const seen = {}, news = [].concat(x.news_items || [], x.news || [], x.news_rotowire || []).filter(n => { const k = n && (n.link || n.headline); if (!k || seen[k]) return false; seen[k] = 1; return true; }).sort((p1, p2) => Date.parse(p2.timestamp || 0) - Date.parse(p1.timestamp || 0)).slice(0, 4);
-      return res.status(200).json({ gen: C.gen, wk: C.wk, p: { rank: x.rank || null, rs: x.rank_source || null, fpMin: e.rank_min || null, fpMax: e.rank_max || null, fpN: e.total_experts || null, sr: x.sleeper_rank || null, pts: sp.pts_ppr == null ? null : sp.pts_ppr, news, mu: x.matchup || null, dvp: C.dvp[x.position] || {} } });
+      const adjusted = require('./_playerweek').metadata({ rank: x.rank || null, rs: x.rank_source || null, fpMin: e.rank_min || null, fpMax: e.rank_max || null, fpN: e.total_experts || null, sr: x.sleeper_rank || null, pts: sp.pts_ppr == null ? null : sp.pts_ppr, news, mu: x.matchup || null, dvp: C.dvp[x.position] || {} }, C.wk, context, q.team || x.team);
+      return res.status(200).json({gen:C.gen,wk:adjusted.week,p:adjusted.card,stale:adjusted.stale,rankWeek:adjusted.rankWeek});
     }
     if (q.player) {
       const nm = String(q.player).slice(0, 60), pos = String(q.pos || '').toUpperCase(), lg = SCORING[q.lg] ? q.lg : 'gl';
-      const N = await nfl(), k0 = normN(nm), rows = (N.byName[k0] || []).filter(r => !pos || r.pos === pos);
-      res.setHeader('Cache-Control', 'public, s-maxage=900, stale-while-revalidate=3600');
+      const N = await nfl().catch(() => ({byName:{},teamWks:{}})), k0 = normN(nm), rows = (N.byName[k0] || []).filter(r => !pos || r.pos === pos);
+      const recorded = await require('./_speciallogs').history({name:nm,pos,league:lg,team:q.team}).catch(() => null);
+      res.setHeader('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=60');
       const hist = CAREER[k0 + '|' + (pos || (rows[0] && rows[0].pos) || '')] || null;
       let ch = hist && hist[lg] ? { pts: hist[lg][0], yr: hist[lg][1], wk: hist[lg][2], opp: hist[lg][3] } : null;
       const log = [];
@@ -160,7 +163,9 @@ module.exports = async (req, res) => {
       const team = rows.length ? rows.sort((x, y) => y.wk - x.wk)[0].team : null;
       const wks = team && N.teamWks[team] ? Array.from(N.teamWks[team]).sort((x, y) => x - y) : undefined;
       if (ch && /^[A-Z]/.test(ch.opp) && !/^(vs|@)/.test(ch.opp)) ch.opp = ch.opp;
-      return res.status(200).json({ wks, ch, log: log.slice(0, 12) });
+      const merged = require('./_playerweek').mergeLogs(log, recorded?.log || []);
+      if (!merged.length && !rows.length && !recorded) throw Error('player_history_unavailable');
+      return res.status(200).json({wks:[...new Set([...(wks||[]),...(recorded?.wks||[])])].sort((a,b)=>a-b),ch,log:merged});
     }
     if (q.plays) {
       const r = await pages('plays', { game_id: String(q.plays).replace(/\D/g, '') }, 6);

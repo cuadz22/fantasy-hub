@@ -1,7 +1,7 @@
 'use strict';
 // Additive read-only Yahoo resources. Never writes scoring, calendar, or official standings.
 const M=require('./_m'), BASE=require('./_resources.json');
-const KEY='league-resources:v1:2026', IDS={bh:100398,rb:101720};
+const KEY='league-resources:v1:2026', IDS={gl:101813,bh:100398,rb:101720,sts:101814};
 const text=s=>String(s||'').replace(/<[^>]*>/g,'').replace(/&amp;/g,'&').replace(/&#39;|&apos;/g,"'").replace(/&quot;/g,'"').replace(/&nbsp;/g,' ').replace(/&#(\d+);/g,(_,n)=>String.fromCodePoint(+n)).replace(/\s+/g,' ').trim();
 function players(html){
  const re=/<a\b[^>]*class="[^"]*\bNowrap name\b[^>]*>([\s\S]*?)<\/a>/g,all=[...html.matchAll(re)];
@@ -60,9 +60,17 @@ async function refresh(kind){
    const list=cantcut(a),qbs=quarterbacks(b);
    saved.cc={list,qb10:qbs.map(p=>p.name),quarterbacks:qbs,asof:now.slice(0,10),sourceUpdatedAt:now};
   }else{
-   const loaded=await Promise.all(Object.keys(IDS).map(async lg=>[lg,trades(await page(IDS[lg]+'/transactions?transactionsfilter=trade&count=0'),lg)]));
-   for(const [lg,items] of loaded){saved.trades||={};saved.trades[lg]=mergeTrades(saved.trades[lg]||BASE.tools.trades[lg]||[],items);}
-   saved.tradesUpdatedAt=now;
+   const loaded=await Promise.allSettled(Object.keys(IDS).map(async lg=>[lg,trades(await page(IDS[lg]+'/transactions?transactionsfilter=trade&count=0'),lg)]));
+   saved.tradeFreshness||={}; const failed=[];
+   loaded.forEach((result,i)=>{
+    const lg=Object.keys(IDS)[i];
+    if(result.status==='rejected'){failed.push(lg);return;}
+    const [,items]=result.value;saved.trades||={};saved.trades[lg]=mergeTrades(saved.trades[lg]||BASE.tools.trades[lg]||[],items);saved.tradeFreshness[lg]=now;
+   });
+   if(!failed.length)saved.tradesUpdatedAt=now;
+   await M.write(KEY,saved);memo=null;
+   if(failed.length)throw Error('trade_refresh_incomplete_'+failed.join('_'));
+   return {kind,updatedAt:now,leagues:Object.keys(IDS)};
   }
   await M.write(KEY,saved);memo=null;return {kind,updatedAt:now};
  }finally{await M.unlock(KEY+':lock',lock)}
@@ -71,7 +79,7 @@ let memo=null;
 async function resources(){
  if(memo&&Date.now()-memo.at<60000)return memo.body;
  const saved=await M.rget(KEY);
- const body={...BASE,tools:{...BASE.tools,cc:saved?.cc||BASE.tools.cc,trades:{...BASE.tools.trades,...saved?.trades}},resourceFreshness:{cantCut:saved?.cc?.sourceUpdatedAt||null,trades:saved?.tradesUpdatedAt||null}};
+ const body={...BASE,tools:{...BASE.tools,cc:saved?.cc||BASE.tools.cc,trades:{...BASE.tools.trades,...saved?.trades}},resourceFreshness:{cantCut:saved?.cc?.sourceUpdatedAt||null,trades:saved?.tradesUpdatedAt||null,tradeLeagues:saved?.tradeFreshness||{}}};
  memo={at:Date.now(),body};return body;
 }
 module.exports={cantcut,quarterbacks,trades,mergeTrades,refresh,resources};

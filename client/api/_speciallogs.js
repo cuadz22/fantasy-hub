@@ -24,14 +24,16 @@ function build(records,{name,pos,league,team}){
 }
 async function history(query){
  if(!M.LGS.includes(query.league)||!['QB','RB','WR','TE','K','DEF'].includes(position(query.pos)))throw Error('unsupported_history');
- let records=memo.get(query.league);
+ const context=await M.context({cachedOnly:true});
+ const cacheKey=query.league+':'+(context?.week||'unknown');
+ let records=memo.get(cacheKey);
  if(!records||Date.now()-records.at>300000){
-  if(!pending.has(query.league))pending.set(query.league,(async()=>{
+  if(!pending.has(cacheKey))pending.set(cacheKey,(async()=>{
    const raw=await M.command(['MGET',...Array.from({length:18},(_,i)=>'mw:'+query.league+':'+(i+1))],6000);
    if(!Array.isArray(raw)||raw.length!==18)throw Error('history_unavailable');
-   const entry={at:Date.now(),rows:raw.map(v=>v?JSON.parse(v):null)};memo.set(query.league,entry);return entry;
-  })().finally(()=>pending.delete(query.league)));
-  records=await pending.get(query.league);
+   const entry={at:Date.now(),rows:raw.map(v=>v?JSON.parse(v):null)};memo.set(cacheKey,entry);return entry;
+  })().finally(()=>pending.delete(cacheKey)));
+  records=await pending.get(cacheKey);
  }
  const result=build(records.rows,query);
  if(!['K','DEF'].includes(position(query.pos)))return result;

@@ -1,0 +1,12 @@
+const assert=require('node:assert/strict');
+const P=require('../client/api/_playerweek');
+const ctx={season:2026,week:12,board:{week:12,byes:['BUF'],games:[{homeTeam:'CIN',awayTeam:'PIT',start:'2026-11-29T18:00:00Z',state:'pre'}]}};
+const old={rank:'QB1',sr:'QB2',pts:32,mu:{week:11,opponent:'WAS',tier:'easy'},news:[{headline:'News'}]};
+const next=P.metadata(old,11,ctx,'CIN');
+assert.equal(next.week,12);assert.equal(next.card.mu.opponent,'PIT');assert.equal(next.card.mu.week,12);assert.equal(next.card.rank,null);assert.equal(next.card.mu.tier,undefined);assert.deepEqual(next.card.news,old.news);assert.equal(old.rank,'QB1');
+assert.equal(P.metadata(old,11,ctx,'BUF').card.mu.bye,true);
+assert.equal(P.metadata(old,11,ctx,'KC').card.mu,null);
+assert.equal(P.metadata({...old,mu:{opponent:'PIT',tier:'easy'}},12,ctx,'CIN').card.rank,'QB1');
+const logs=P.mergeLogs([{wk:10,pts:40,fin:true},{wk:11,pts:23,line:'200 yds',fin:true}],[{wk:11,pts:24.5,fin:true,line:'Final'},{wk:9,bye:true,pts:null}]);
+assert.deepEqual(logs.map(x=>x.wk),[11,10,9]);assert.equal(logs[0].pts,24.5);assert.equal(logs[0].line,'200 yds');
+console.log('PASS: player week/opponent rollover, stale rank rejection, bye, missing schedules, immutable input, league-scored history merge');

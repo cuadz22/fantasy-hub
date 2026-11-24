@@ -14,5 +14,11 @@ const cc="Can't Cut List"+roster,qb='<option value="S_S_2026" selected>'+roster;
  ok((await M.read('league-resources:v1:2026')).cc.sourceUpdatedAt===old.cc.sourceUpdatedAt,'failed fetch never advances source date');
  ok((await U.resources()).tools.cc.list[0]==='Saved','last verified snapshot preserved');
  ok((await H.call(H.mobile,'/?r=cron-cantcut')).s===401,'refresh job protected');
+ const baseFetch=global.fetch, requested=[];
+ global.fetch=async(url,opts)=>{if(String(url).includes('fantasysports.yahoo.com')){requested.push(String(url));throw Error('test provider outage');}return baseFetch(url,opts);};
+ try{await U.refresh('trades')}catch{}
+ ok([101813,100398,101720,101814].every(id=>requested.some(u=>u.includes('/'+id+'/transactions'))),'all four leagues polled independently for new trades');
+ ok((await M.read('league-resources:v1:2026')).tradesUpdatedAt===undefined,'outage cannot relabel trades as freshly updated');
+ global.fetch=baseFetch;
  H.done();
 })().catch(e=>{console.error(e);process.exit(1)});

@@ -58,8 +58,13 @@ function parseBoard(j) {
 async function getBoard(week, maxAgeS) {
   const key = 'mb:' + (week || 'cur'), now = Date.now();
   const rec = await rget(key);
+  // Once managed by CFN, a viewer cannot roll the clock back to ESPN's default.
+  if (!week && rec?.rolloverPolicy) {
+    const fresh = await getBoard(rec.week, maxAgeS);
+    return fresh ? { ...fresh, done: false, rolloverPolicy: rec.rolloverPolicy } : { ...rec, stale: true };
+  }
   // Re-read finished games daily so official corrections can propagate.
-  if (rec && rec.done && now - rec.fetchedAt < 86400000) return rec;
+  if (maxAgeS !== 0 && rec && rec.done && now - rec.fetchedAt < 86400000) return rec;
   if (rec && now - rec.fetchedAt <= (maxAgeS === undefined ? 20 : maxAgeS) * 1000) return rec;
   try {
     const j = await jfetch(week ? ESPN + '?dates=' + SEASON + '&seasontype=2&week=' + week : ESPN, 6000), b = parseBoard(j);
@@ -176,10 +181,9 @@ async function serveRaw(lg, week, ctx) {
   return { sv, rec, board };
 }
 async function serveWeek(lg, week, ctx) { const r = await serveRaw(lg, week, ctx); return r && r.sv; }
-// A past week is final once the current NFL week has moved past it and its last game started at least 8 hours before this read.
+// Completion, not an arbitrary delay after kickoff, allows late games to close safely.
 async function finalEligible(week, ctx) {
   if (!ctx || week >= ctx.week) return false;
-  const b = await getBoard(week, 3600); if (!b || !b.lastStart || !b.games.every(g => g.state === 'post')) return false;
-  return Date.now() - b.lastStart > 8 * 3600000;
+  const b = await getBoard(week, 3600); return require('./_weekrollover').completed(b);
 }
 module.exports = { SEASON, command, read, write, lock, unlock, backup, serveRaw, gamesByTeam, gameObj, statusClean, mkOrig, finalEligible, LGS, sha, sleep, rc, rget, rset, canon, getBoard, parseBoard, isLive, soon, context, saveWeek, noteFail, serveWeek, decorate, restore, jfetch };

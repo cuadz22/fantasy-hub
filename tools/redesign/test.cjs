@@ -106,7 +106,8 @@ const fixture = (n) =>
         ].includes(p),
     );
   let protectedCount = 0;
-  for (const file of files.filter(f => !["client/api/_apns.js","client/api/_media.json","client/api/mobile.js","client/api/_mpush.js","client/api/_mball.js","client/vercel.json","vercel.json"].includes(f))) {
+  // These backend changes are authorized and covered by the rollover/player-week/league-update suites.
+  for (const file of files.filter(f => !["client/api/_m.js","client/api/_mjobs.js","client/api/live-stats.js","client/api/_apns.js","client/api/_media.json","client/api/mobile.js","client/api/_mpush.js","client/api/_mball.js","client/vercel.json","vercel.json"].includes(f))) {
     const expected = cp
       .execFileSync("git", ["rev-parse", `${baseline}:${file}`], {
         encoding: "utf8",

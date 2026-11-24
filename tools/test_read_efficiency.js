@@ -27,8 +27,30 @@ const gets = key => commands.filter(c => c[0] === 'GET' && c[1] === key).length;
   ok((await M.context({ cachedOnly: true })).week === 12, 'new calendar week is visible without process cache');
   await M.write('mb:cur', board);
   T.BOARD = T.mkBoard(11, [T.game('1','HOU','IND',10,7,'post',4,'0:00',null,new Date(now).toISOString())]);
-  await require('../client/api/_mjobs').calendar();
+  const clockNow=Date.now; Date.now=()=>Date.parse('2026-11-23T12:00:00Z');
+  try { await require('../client/api/_mjobs').calendar(); } finally { Date.now=clockNow; }
   ok(JSON.parse(T.store.get('mc:ctx')).week === 11, 'calendar still persists recovery context');
+  // Provider defaults can lag CFN. Missing scoreboard cache must recover the
+  // committed week, and unavailable storage must never reset it from ESPN.
+  const requests=[],previousFetch=global.fetch;
+  global.fetch=async(url,opts)=>{if(String(url).includes('espn.com'))requests.push(String(url));return previousFetch(url,opts);};
+  const games=[T.game('2','CIN','PIT',0,0,'pre',0,'',null,'2026-11-29T18:00:00Z')];
+  T.BOARD=T.mkBoard(12,games);T.store.delete('mb:cur');
+  await M.write('mc:ctx',{week:12,season:2026,updated:now});
+  Date.now=()=>Date.parse('2026-11-24T12:00:00Z');
+  try {
+    await require('../client/api/_mjobs').calendar();
+    ok(requests.every(url=>url.includes('week=12')), 'recovery requests committed week instead of provider default');
+    ok(JSON.parse(T.store.get('mb:cur')).week===12, 'recovered board cannot regress');
+    T.store.delete('mb:12');requests.length=0;
+    await M.getBoard(null,0);
+    ok(requests.length===1&&requests[0].includes('week=12'), 'viewers cannot regress managed week');
+    const read=M.read;M.read=async()=>{throw Error('storage unavailable');};
+    try {await assert.rejects(require('../client/api/_mjobs').calendar(),/storage unavailable/);checks++;}finally{M.read=read;}
+    ok(JSON.parse(T.store.get('mb:cur')).week===12,'storage failure cannot overwrite committed week');
+  } finally {Date.now=clockNow;global.fetch=previousFetch;}
+  await M.write('mb:cur',board);
+
 
   // Both legacy request forms retain their response contract with one context read.
   const serveWeek = M.serveWeek;
