@@ -36,7 +36,8 @@ const rejects=(f,label)=>{let rejected=false;try{f()}catch{rejected=true}ok(reje
   const req={headers:{authorization:'Bearer '+token}},cat=(await C.catalog(req)).json.leagues;
   ok(cat.find(l=>l.id==='fb')?.teamId===id,name+' receives assigned Yahoo team');
   ok((await C.snapshot(req,'fb',11)).json.teamId===id,name+' shared snapshot uses own perspective');
-  if(name!=='Cuadz')ok((await C.snapshot(req,'sl',11)).status===403,name+' cannot access private Sleeper league');
+  ok(cat.find(l=>l.id==='sl')?.teamId===({Cuadz:1,Ed:7,Alexis:2,Kevin:6})[name],name+' receives confirmed Sleeper team');
+  const schedule=await C.schedule(req,'fb');ok(schedule.status===200&&schedule.json.teamId===id&&schedule.json.weeks[0].week===11,name+' schedule uses assigned team and actual week');
   ok((await C.snapshot(req,'fb',0)).status===400,'invalid week rejected for '+name);
  }
  const other=A.MEMBERS.find(m=>m.name==='Pru'||m.displayName==='Pru'||m.n==='Pru');
@@ -44,6 +45,7 @@ const rejects=(f,label)=>{let rejected=false;try{f()}catch{rejected=true}ok(reje
  const req={headers:{authorization:'Bearer '+token}};
  ok((await C.catalog(req)).json.leagues.length===0&&(await C.snapshot(req,'fb',11)).status===403,'unassigned member denied');
  ok((await C.snapshot({headers:{}},'fb',11)).status===401,'anonymous access denied');
+ ok((await C.schedule({headers:{}},'fb')).status===401&&(await C.schedule(req,'sl')).status===403,'schedule access checks');
  const oldFetch=global.fetch;global.fetch=async()=>{throw Error('provider_down')};
  let failed=false;try{await Y.refresh(11)}catch{failed=true}finally{global.fetch=oldFetch}
  ok(failed&&JSON.stringify(await M.read('connected:v1:fb:2026:11'))===JSON.stringify(body),'provider failure preserves complete last-good snapshot');

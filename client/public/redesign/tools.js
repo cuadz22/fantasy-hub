@@ -100,10 +100,10 @@ function standingsView() {
 }
 function tradesView() {
   const ts = T.trades[league] || [];
-  return (
-    heading("Trade history") +
-    `<div class="trade-list">${ts.map((t) => `<article class="trade-card"><div class="trade-date">${esc(t.date)} · 2026 <span>Completed trade</span></div><div class="trade-sides">${["a", "b"].map((side) => `<section><div class="eyebrow">${esc(t[side].mgr)}</div><h3>${esc(t[side].team)}</h3><div class="receive">Receives from ${esc(t[side === "a" ? "b" : "a"].mgr)}</div>${t[side].gets.map((n) => `<div class="asset-row">${/pick|FAB/i.test(n) ? '<span class="avatar fallback">↗</span>' : photo(n)}<span>${esc(n)}</span></div>`).join("")}</section>`).join('<div class="trade-arrow" aria-hidden="true">⇄</div>')}</div></article>`).join("") || empty("No trades in this snapshot", "This space will hold completed trades for the selected league.")}</div>`
-  );
+  return heading("Trade history") + `<div class="trade-list">${ts.map(t => {
+    const post={kind:'trade',sides:['a','b'].map(key=>({owner:t[key].mgr,name:t[key].team,players:t[key].gets}))};
+    return `<article class="trade-card"><div class="trade-date">${esc(t.date)} · 2026 <span>Completed trade</span></div>${CFNUpdates.content(post)}</article>`;
+  }).join('') || empty("No trades in this snapshot", "This space will hold completed trades for the selected league.")}</div>`;
 }
 function waiversView() {
   let all = T.waivers[league] || [],

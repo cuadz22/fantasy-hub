@@ -17,7 +17,15 @@ window.CFNUpdates=(()=>{
  function teams(){const d=CFNData.state.lineups[state.league];return (d?.matchups||[]).flatMap(m=>[{id:m.ia,name:m.an,players:m.L.map(r=>r[1])},{id:m.ib,name:m.bn,players:m.R.map(r=>r[1])}]).sort((a,b)=>a.id-b.id);}
  const date=s=>new Date(s).toLocaleDateString('en-US',{month:'short',day:'numeric'});
  function asset(a){return `<div class="asset-row">${a.kind&&a.kind!=='player'?'<span class="avatar fallback" aria-hidden="true">↗</span>':CFNPolish.avatar(a.name,a.position||'',a.team||'',safeURL(a.photoURL))}<span>${esc(a.name)}</span></div>`;}
- function trade(p,compact){const sides=p.sides;if(sides?.length!==2)return `<p>${esc(p.body)}</p>`;return `<div class="trade-sides feed-trade">${sides.map((sender,i)=>{const receiver=sides[1-i],items=receiver.assets||receiver.players.map(name=>({name,kind:/pick|FAB/i.test(name)?'pick':'player'}));return `<section><b>${esc(sender.owner||sender.name)}</b>${sender.owner?`<small class="trade-team-name">${esc(sender.name)}</small>`:''}<div class="receive">Sends ${i?'←':'→'}</div>${items.slice(0,compact?2:items.length).map(asset).join('')}${compact&&items.length>2?`<small>+${items.length-2} more</small>`:''}<small class="trade-recipient">${esc(receiver.owner||receiver.name)} receives</small></section>`;}).join('<span class="trade-arrow" aria-hidden="true">⇄</span>')}</div>`;}
+ function trade(p,compact){
+  const sides=p.sides;if(sides?.length!==2)return `<p>${esc(p.body)}</p>`;
+  return `<div class="trade-sides feed-trade">${sides.map((sender,i)=>{
+   const receiver=sides[1-i],items=receiver.assets||receiver.players.map(name=>({name,kind:/FAB/i.test(name)?'budget':/pick/i.test(name)?'pick':'player'}));
+   const picks=items.filter(a=>a.kind==='pick'),others=items.filter(a=>a.kind!=='pick');
+   const round=a=>/^round\s+(\d+)\s*(?:pick)?$/i.exec(a.name)?.[1]||a.name;
+   return `<section><div class="trade-owner"><b>${esc(sender.owner||sender.name)}</b> <span>sends</span></div>${sender.owner?`<small class="trade-team-name">${esc(sender.name)}</small>`:''}${others.slice(0,compact?2:others.length).map(asset).join('')}${compact&&others.length>2?`<small>+${others.length-2} more</small>`:''}${picks.length?`<div class="trade-picks"><small>${picks.length===1?'Pick round':'Picks · rounds'}</small><strong>${picks.map(a=>esc(round(a))).join(' · ')}</strong></div>`:''}</section>`;
+  }).join('<span class="trade-arrow" aria-hidden="true">⇄</span>')}</div>`;
+ }
  function content(p,compact=false){if(p.kind==='trade')return trade(p,compact);if(p.claims)return p.claims.map(c=>`<div class="update-claim">${asset(c.asset||{name:c.player})}<div><b>${esc(c.team)}</b><small>Successful claim</small></div>${c.amount!=null?`<strong>$${esc(c.amount)}</strong>`:''}</div>`).join('');return `<p>${esc(p.body)}</p>`;}
  function page(){const choices=teams(),selected=choices.find(t=>t.id===state.team),keys=new Set(selected?.players.map(CFNPolish.norm)||[]);
  let news=(state.news?.articles||[]).filter(n=>!state.team||n.players.some(p=>keys.has(CFNPolish.norm(p.name))));

@@ -55,3 +55,12 @@ button.player{border:0;border-radius:8px;background:none;color:inherit;text-alig
 @media(max-width:600px){.nav-wrap nav{flex-wrap:wrap;justify-content:center;gap:5px 12px;min-width:0}.nav-wrap{flex-wrap:wrap}.updates-list{min-width:0}.update-news>div:last-child{min-width:0}.feed-trade .asset-row>span:last-child{overflow-wrap:anywhere}}
 .update-post>.text-link{border:0;background:transparent;color:var(--accent);font-size:12px;font-weight:600;padding:6px 0;cursor:pointer}.update-detail .text-link{color:var(--accent)}
 @media(max-width:600px){.nav-wrap{height:auto;min-height:0;display:grid;grid-template-columns:1fr auto;gap:0 12px;padding:8px 18px 0}.nav-wrap .brand{grid-column:1;grid-row:1}.nav-wrap .theme-switch{grid-column:2;grid-row:1;margin:0}.nav-wrap nav{grid-column:1/-1;grid-row:2;height:44px;flex-wrap:nowrap;justify-content:space-between;gap:8px}.nav-wrap .preview-label{display:none}.league-pop{top:96px}.page-actions{margin-top:12px}}
+
+/* Compact, directional trade cards shared by feed and League Center. */
+.feed-trade .trade-owner{text-align:center;font-size:13px;line-height:1.35;overflow-wrap:anywhere}
+.feed-trade .trade-owner span{color:var(--accent);font-weight:600;white-space:nowrap}
+.feed-trade .trade-team-name{text-align:center;font-size:11px;line-height:1.35;margin:4px 0 8px}
+.feed-trade .trade-arrow{align-self:center;color:var(--accent);font-size:22px}
+.feed-trade .trade-picks{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:10px;text-align:center}
+.feed-trade .trade-picks small{font-size:10px;color:var(--muted)}
+.feed-trade .trade-picks strong{font-size:19px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}

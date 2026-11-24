@@ -10,7 +10,13 @@ const FB_MEMBERS={
  'f96127b215ec9c7d2610c4721a2ca82cc440dea425ae76da1bc89ff8290968bc':2, // Alexis — KRILLIN EM
  'b2e48d94882d516e3ab591e7c057e0b1e156cb354062d5911966779c3a375812':9 // Kevin — HA-HA-HA Haaland!
 };
-const assignedTeam=(member,lg)=>lg==='sl'&&member.h===OWNER?CONFIG.sl.teamId:lg==='fb'?FB_MEMBERS[member.h]:undefined;
+const SL_MEMBERS={
+ [OWNER]:1,
+ 'ca97f8e8e0f0f0577d99dc058bf72b01fa2b90643978e2c9dcaccba8561ff507':7, // Ed — Cup Of Coffee
+ 'f96127b215ec9c7d2610c4721a2ca82cc440dea425ae76da1bc89ff8290968bc':2, // Alexis — Team VARG
+ 'b2e48d94882d516e3ab591e7c057e0b1e156cb354062d5911966779c3a375812':6 // Kevin — GuruKev
+};
+const assignedTeam=(member,lg)=>lg==='sl'?SL_MEMBERS[member.h]:lg==='fb'?FB_MEMBERS[member.h]:undefined;
 const safeURL=s=>{try{const u=new URL(s);return u.protocol==='https:'&&!u.username&&!u.password?u.href:null}catch{return null}};
 const finite=n=>typeof n==='number'&&Number.isFinite(n);
 const requireValue=(ok,why)=>{if(!ok)throw Error(why)};
@@ -94,6 +100,28 @@ async function snapshot(req,lg,week){
  const stale=!Number.isFinite(Date.parse(body.observedAt))||Date.now()-Date.parse(body.observedAt)>maxAge;
  return {status:200,json:{...body,teamId,stale,matchups:body.matchups.map(m=>({...m,sourceStale:stale}))}};
 }
+// Schedules are derived from independently validated weekly snapshots. Never
+// change the global current week or fill missing weeks with another week's games.
+const scheduleCache=new Map();
+async function schedule(req,lg){
+ const a=await A.authenticate(req);if(!a)return {status:401,json:{error:'unauthorized'}};
+ const teamId=assignedTeam(a.member,lg);
+ if(teamId==null||!CONFIG[lg])return {status:403,json:{error:'forbidden'}};
+ let cached=scheduleCache.get(lg);
+ if(!cached||Date.now()-cached.at>60000){
+ const weeks=[];
+ const raw=await M.command(['MGET',...Array.from({length:18},(_,i)=>`connected:v1:${lg}:${M.SEASON}:${i+1}`)]);
+ requireValue(Array.isArray(raw)&&raw.length===18,'schedule_unavailable');
+ for(let week=1;week<=18;week++){
+  const s=raw[week-1]?JSON.parse(raw[week-1]):null;
+  if(!s||s.leagueId!==lg||s.week!==week||s.season!==M.SEASON)continue;
+  const matches=s.matchups.map(m=>({id:m.id,home:{id:m.home.id,name:m.home.name,logoURL:m.home.logoURL||null,score:m.home.reportedScore},away:{id:m.away.id,name:m.away.name,logoURL:m.away.logoURL||null,score:m.away.reportedScore}}));
+  weeks.push({week,observedAt:s.observedAt,matches});
+ }
+ cached={at:Date.now(),weeks};scheduleCache.set(lg,cached);
+ }
+ return {status:200,json:{schemaVersion:1,leagueId:lg,season:M.SEASON,teamId,weeks:cached.weeks}};
+}
 async function refreshSleeperScheduled(week){
  requireValue(Number.isInteger(week)&&week>=1&&week<=18,'invalid_week');
  const current=await refreshSleeper(week);
@@ -133,4 +161,4 @@ async function refreshScheduled(week){
  if(failed.length)throw Error('connected_refresh_failed '+failed.join(', '));
  return {sleeper:results[0].value,yahoo:results[1].value};
 }
-module.exports={CONFIG,catalog,snapshot,refreshSleeper,refreshScheduled,normalizeSleeper};
+module.exports={CONFIG,catalog,snapshot,refreshSleeper,refreshScheduled,normalizeSleeper,schedule};

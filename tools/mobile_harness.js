@@ -6,6 +6,7 @@ const exp = k => { const t = ttl.get(k); if (t && t < Date.now()) { store.delete
 function redis(c) {
   const [op, k, ...a] = c; exp(k); const U = op.toUpperCase();
   if (U === 'EVAL') { const key = a[1], token = a[2]; if (store.get(key) !== token) return 0; store.delete(key); ttl.delete(key); return 1; }
+  if (U === 'MGET') return [k,...a].map(key=>{exp(key);return store.get(key)??null;});
   if (U === 'GET') return store.has(k) ? store.get(k) : null;
   if (U === 'SET') { if (a.includes('NX') && store.has(k)) return null; store.set(k, a[0]); const i = a.indexOf('EX'); if (i >= 0) ttl.set(k, Date.now() + a[i + 1] * 1000); else ttl.delete(k); return 'OK'; }
   if (U === 'DEL') { const had = store.delete(k); ttl.delete(k); return had ? 1 : 0; }
