@@ -2,9 +2,9 @@
 'use strict';
 const M=require('./_m'), A=require('./_mauth'), TD=require('./_touchdowns'), AP=require('./_apns'), I=require('./_ids');
 const NS='push:v1:', TTL=35*86400, MAX_AGE=180000;
-// Explicit private rollout. Missing/empty configuration permits nobody.
+// Invited-member rollout; removed/uninvited identities always fail closed.
 const rollout=require('./_pushrollout.json');
-const allowed=member=>Array.isArray(rollout.memberHashes)&&rollout.memberHashes.includes(member);
+const allowed=member=>A.MEMBERS.some(m=>m.h===member)&&(rollout.allInvitedMembers===true||(Array.isArray(rollout.memberHashes)&&rollout.memberHashes.includes(member)));
 const hashDevice=(env,installation)=>M.sha(env+':'+installation);
 async function notificationPayload(event,recipient) {
  let photoURL=null;

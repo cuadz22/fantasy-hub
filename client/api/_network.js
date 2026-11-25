@@ -4,7 +4,7 @@ const M=require('./_m'), A=require('./_mauth'), crypto=require('node:crypto');
 const RES=require('./_resources.json'), MEDIA=require('./_media.json');
 const CONFIG=require('./_networkrollout.json');
 const KEY='network:v1:posts', names={gl:'Gentlemen’s League',bh:'Beaners & Husseins',rb:'Rebirth',sts:'Shoot the Shits'};
-const eligible=h=>CONFIG.memberHashes.includes(h);
+const eligible=h=>A.MEMBERS.some(m=>m.h===h)&&(CONFIG.allInvitedMembers===true||(Array.isArray(CONFIG.memberHashes)&&CONFIG.memberHashes.includes(h)));
 const admin=h=>CONFIG.publishers.includes(h);
 const logo=lg=>'https://cuadzfantasynetwork.com/notification-media/'+lg+'-v1.png';
 const norm=x=>String(x||'').toLowerCase().replace(/[^a-z0-9]/g,'');

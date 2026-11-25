@@ -58,7 +58,7 @@ function fixture(){
  ok(new Set(waivers.map(p=>p.leagueId+':'+p.week)).size===waivers.length,'one waiver report per week');
  ok(posts.filter(p=>p.kind==='trade').every(p=>p.sides.length===2&&p.body.includes('receives')),'trade direction explicit');
  ok((await N.feed({headers:{}})).status===401,'feed authenticated');
- ok((await N.feed({headers:{authorization:'Bearer '+otherToken}})).status===403,'network private rollout');
+ ok((await N.feed({headers:{authorization:'Bearer '+otherToken}})).status===200,'invited members can read their Network feed');
  const body={id:require('crypto').randomUUID(),kind:'announcement',leagueId:'gl',title:'Private test',body:'No actual notification is sent by this test.',notify:true};
  const post=N.validate(body,member);ok(post.leagueId==='gl'&&N.payload(post).cfn.imageURL.endsWith('/gl-v1.png'),'league logo and destination');
  for(const change of [{leagueId:'sl'},{url:'https://evil.test/'},{notify:'true'},{body:''}]){let rejected=false;try{N.validate({...body,...change},member)}catch{rejected=true}ok(rejected,'reject invalid publication '+JSON.stringify(change));}
@@ -71,6 +71,6 @@ function fixture(){
  const off={...device,id:'off',announcements:false};ok((await N.deliver({...post,id:'second'},off,options)).state==='not_eligible'&&sends===1,'opt out');
  const testPost={...post,id:'one-device',deliveryDeviceID:'another-device'};ok((await N.deliver(testPost,device,options)).state==='not_eligible','test limited to its target device');
  await M.write('push:v1:device:'+device.id,{...device,announcements:false});ok((await N.deliver({...post,id:'third'},device,options)).state==='revoked'&&sends===1,'opt out revalidated');
- const other={...device,member:A.MEMBERS[1].h};ok((await N.deliver({...post,id:'fourth'},other,options)).state==='not_eligible','no other tester push');
+ const other={...device,member:'uninvited'};ok((await N.deliver({...post,id:'fourth'},other,options)).state==='not_eligible','uninvited identity receives no push');
  H.done();
 })().catch(e=>{console.error(e);process.exit(1)});

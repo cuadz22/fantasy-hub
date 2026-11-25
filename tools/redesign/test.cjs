@@ -85,8 +85,10 @@ const fixture = (n) =>
   await D.load("league", "gl");
   assert.equal(D.state.lineups.gl, lineups);
   assert(D.state.failures.context);
-  // Existing production bytes must stay identical to the branch baseline.
-  const baseline = "c554e97";
+  // Release freeze: compare against the independently verified November 25 deployment.
+  // The original redesign baseline predates approved market, history and notification fixes.
+  // Keep this pinned (never derive from HEAD), so unreviewed changes still fail.
+  const baseline = "3479f9a";
   const files = cp
     .execFileSync("git", ["ls-tree", "-r", "--name-only", baseline], {
       encoding: "utf8",
@@ -106,8 +108,9 @@ const fixture = (n) =>
         ].includes(p),
     );
   let protectedCount = 0;
-  // These backend changes are authorized and covered by the rollover/player-week/league-update suites.
-  for (const file of files.filter(f => !["client/api/_m.js","client/api/_mjobs.js","client/api/live-stats.js","client/api/_apns.js","client/api/_media.json","client/api/mobile.js","client/api/_mpush.js","client/api/_mball.js","client/vercel.json","vercel.json"].includes(f))) {
+  // Only the reviewed invited-member rollout changes are permitted; all feeds stay frozen.
+  const rolloutFiles = new Set(["client/api/_pushrollout.json", "client/api/_networkrollout.json", "client/api/_mpush.js", "client/api/_network.js"]);
+  for (const file of files.filter(f => !rolloutFiles.has(f))) {
     const expected = cp
       .execFileSync("git", ["rev-parse", `${baseline}:${file}`], {
         encoding: "utf8",
