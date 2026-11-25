@@ -1,0 +1,7186 @@
+{
+  "schemaVersion": 1,
+  "revision": "20261125-verified-v1",
+  "leagueKey": "gl",
+  "status": "ready",
+  "sampleData": false,
+  "generatedAt": "2026-11-25T12:15:30Z",
+  "coverageLabel": "2023–2025 · 2026 through Week 11 · Verified owners only",
+  "complete": false,
+  "completedSeasons": [
+    2023,
+    2024,
+    2025
+  ],
+  "managers": [
+    {
+      "id": "cfn-alexis",
+      "name": "Alexis",
+      "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/32131a507e57a4830b8e8af691ea424da5c5a65ff000d8691e13bd474135e732.jpg"
+    },
+    {
+      "id": "cfn-cuadz",
+      "name": "Cuadz",
+      "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/27760359433_2f13185f77.png"
+    },
+    {
+      "id": "cfn-ed",
+      "name": "Ed",
+      "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/350be219e1c358f836107625bfcad6d218acba430e5afa8818092dcf5e8eed19.jpg"
+    },
+    {
+      "id": "cfn-gio",
+      "name": "Gio",
+      "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/6c6414df4663d63ee454a6f9cedb192ff56fd9e759ebbf539c4b0ea5254fc8d2.jpg"
+    },
+    {
+      "id": "cfn-jeff",
+      "name": "Jeff",
+      "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/66034aeaa7e5f749431ed3eedbfeb06417360d72f45415776870755e41e61c20.png"
+    },
+    {
+      "id": "cfn-john",
+      "name": "John",
+      "logoURL": "https://s.yimg.com/ep/cx/blendr/v2/image-alien-png_1721174225838.png"
+    },
+    {
+      "id": "cfn-julio-z",
+      "name": "Julio Z",
+      "logoURL": "https://s.yimg.com/cv/apiv2/default/nfl/nfl_5_j.png"
+    },
+    {
+      "id": "cfn-kevin",
+      "name": "Kevin",
+      "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/2909d9c36a43a24380e6992994f1517f89fb379402d8d73987ee16b3eafe543b.jpg"
+    },
+    {
+      "id": "cfn-oscar",
+      "name": "Oscar",
+      "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/b7c50a09cf452d86635338978d16b57ff9e498d0e95671385679232ecc99ee01.jpg"
+    },
+    {
+      "id": "cfn-pru",
+      "name": "Pru",
+      "logoURL": "https://yahoofantasysports-res.cloudinary.com/image/upload/t_s90sq/fantasy-logos/111462ed59f1152360be6ed8bd5f62933e246bb79b7732ef181d98f81370724f.jpg"
+    },
+    {
+      "id": "cfn-ramon",
+      "name": "Ramon",
+      "logoURL": "https://s.yimg.com/cv/apiv2/fandom-shop-production-assets-NEW-avatars/avatar_football_artist_skee_default_new_8-11.png"
+    },
+    {
+      "id": "cfn-vic",
+      "name": "Vic",
+      "logoURL": "https://s.yimg.com/cv/apiv2/default/nfl/nfl_9_v.png"
+    }
+  ],
+  "teamMappings": [
+    {
+      "season": 2023,
+      "teamID": 1,
+      "managerID": "cfn-cuadz"
+    },
+    {
+      "season": 2023,
+      "teamID": 10,
+      "managerID": "cfn-ed"
+    },
+    {
+      "season": 2023,
+      "teamID": 11,
+      "managerID": "cfn-alexis"
+    },
+    {
+      "season": 2023,
+      "teamID": 12,
+      "managerID": "cfn-vic"
+    },
+    {
+      "season": 2023,
+      "teamID": 2,
+      "managerID": "cfn-oscar"
+    },
+    {
+      "season": 2023,
+      "teamID": 3,
+      "managerID": "cfn-julio-z"
+    },
+    {
+      "season": 2023,
+      "teamID": 4,
+      "managerID": "cfn-john"
+    },
+    {
+      "season": 2023,
+      "teamID": 5,
+      "managerID": "cfn-pru"
+    },
+    {
+      "season": 2023,
+      "teamID": 6,
+      "managerID": "cfn-kevin"
+    },
+    {
+      "season": 2023,
+      "teamID": 7,
+      "managerID": "cfn-gio"
+    },
+    {
+      "season": 2023,
+      "teamID": 9,
+      "managerID": "cfn-jeff"
+    },
+    {
+      "season": 2024,
+      "teamID": 1,
+      "managerID": "cfn-cuadz"
+    },
+    {
+      "season": 2024,
+      "teamID": 10,
+      "managerID": "cfn-alexis"
+    },
+    {
+      "season": 2024,
+      "teamID": 11,
+      "managerID": "cfn-jeff"
+    },
+    {
+      "season": 2024,
+      "teamID": 12,
+      "managerID": "cfn-oscar"
+    },
+    {
+      "season": 2024,
+      "teamID": 3,
+      "managerID": "cfn-vic"
+    },
+    {
+      "season": 2024,
+      "teamID": 4,
+      "managerID": "cfn-kevin"
+    },
+    {
+      "season": 2024,
+      "teamID": 5,
+      "managerID": "cfn-gio"
+    },
+    {
+      "season": 2024,
+      "teamID": 6,
+      "managerID": "cfn-john"
+    },
+    {
+      "season": 2024,
+      "teamID": 7,
+      "managerID": "cfn-julio-z"
+    },
+    {
+      "season": 2024,
+      "teamID": 8,
+      "managerID": "cfn-pru"
+    },
+    {
+      "season": 2024,
+      "teamID": 9,
+      "managerID": "cfn-ed"
+    },
+    {
+      "season": 2025,
+      "teamID": 1,
+      "managerID": "cfn-cuadz"
+    },
+    {
+      "season": 2025,
+      "teamID": 10,
+      "managerID": "cfn-julio-z"
+    },
+    {
+      "season": 2025,
+      "teamID": 11,
+      "managerID": "cfn-kevin"
+    },
+    {
+      "season": 2025,
+      "teamID": 12,
+      "managerID": "cfn-alexis"
+    },
+    {
+      "season": 2025,
+      "teamID": 2,
+      "managerID": "cfn-jeff"
+    },
+    {
+      "season": 2025,
+      "teamID": 3,
+      "managerID": "cfn-vic"
+    },
+    {
+      "season": 2025,
+      "teamID": 5,
+      "managerID": "cfn-john"
+    },
+    {
+      "season": 2025,
+      "teamID": 6,
+      "managerID": "cfn-gio"
+    },
+    {
+      "season": 2025,
+      "teamID": 7,
+      "managerID": "cfn-pru"
+    },
+    {
+      "season": 2025,
+      "teamID": 8,
+      "managerID": "cfn-ed"
+    },
+    {
+      "season": 2025,
+      "teamID": 9,
+      "managerID": "cfn-oscar"
+    },
+    {
+      "season": 2026,
+      "teamID": 1,
+      "managerID": "cfn-cuadz"
+    },
+    {
+      "season": 2026,
+      "teamID": 10,
+      "managerID": "cfn-kevin"
+    },
+    {
+      "season": 2026,
+      "teamID": 11,
+      "managerID": "cfn-alexis"
+    },
+    {
+      "season": 2026,
+      "teamID": 12,
+      "managerID": "cfn-john"
+    },
+    {
+      "season": 2026,
+      "teamID": 2,
+      "managerID": "cfn-gio"
+    },
+    {
+      "season": 2026,
+      "teamID": 3,
+      "managerID": "cfn-jeff"
+    },
+    {
+      "season": 2026,
+      "teamID": 4,
+      "managerID": "cfn-vic"
+    },
+    {
+      "season": 2026,
+      "teamID": 5,
+      "managerID": "cfn-ramon"
+    },
+    {
+      "season": 2026,
+      "teamID": 6,
+      "managerID": "cfn-ed"
+    },
+    {
+      "season": 2026,
+      "teamID": 7,
+      "managerID": "cfn-pru"
+    },
+    {
+      "season": 2026,
+      "teamID": 8,
+      "managerID": "cfn-oscar"
+    },
+    {
+      "season": 2026,
+      "teamID": 9,
+      "managerID": "cfn-julio-z"
+    }
+  ],
+  "matchups": [
+    {
+      "id": "gl-2023-w01-1-7",
+      "season": 2023,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "103.80"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "I Was At The Draft",
+        "score": "128.25"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w01"
+      ]
+    },
+    {
+      "id": "gl-2023-w01-2-12",
+      "season": 2023,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "190.25"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "106.90"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w01"
+      ]
+    },
+    {
+      "id": "gl-2023-w01-3-6",
+      "season": 2023,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "129.50"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "123.40"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w01"
+      ]
+    },
+    {
+      "id": "gl-2023-w01-4-10",
+      "season": 2023,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "104.70"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "82.65"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w01"
+      ]
+    },
+    {
+      "id": "gl-2023-w01-5-9",
+      "season": 2023,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "118.00"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "134.35"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w01"
+      ]
+    },
+    {
+      "id": "gl-2023-w02-1-9",
+      "season": 2023,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "153.50"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "146.35"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w02"
+      ]
+    },
+    {
+      "id": "gl-2023-w02-2-4",
+      "season": 2023,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "121.00"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "157.05"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w02"
+      ]
+    },
+    {
+      "id": "gl-2023-w02-3-10",
+      "season": 2023,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "112.25"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "165.75"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w02"
+      ]
+    },
+    {
+      "id": "gl-2023-w02-5-6",
+      "season": 2023,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "150.85"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "153.90"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w02"
+      ]
+    },
+    {
+      "id": "gl-2023-w02-11-12",
+      "season": 2023,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "153.00"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "125.05"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w02"
+      ]
+    },
+    {
+      "id": "gl-2023-w03-1-3",
+      "season": 2023,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "132.90"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "155.75"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w03"
+      ]
+    },
+    {
+      "id": "gl-2023-w03-2-7",
+      "season": 2023,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "154.95"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "I Was At The Draft",
+        "score": "158.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w03"
+      ]
+    },
+    {
+      "id": "gl-2023-w03-4-11",
+      "season": 2023,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "144.85"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "122.05"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w03"
+      ]
+    },
+    {
+      "id": "gl-2023-w03-5-12",
+      "season": 2023,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "167.45"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "174.10"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w03"
+      ]
+    },
+    {
+      "id": "gl-2023-w03-6-9",
+      "season": 2023,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "140.05"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "182.05"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w03"
+      ]
+    },
+    {
+      "id": "gl-2023-w04-2-10",
+      "season": 2023,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "153.90"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "179.50"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w04"
+      ]
+    },
+    {
+      "id": "gl-2023-w04-3-5",
+      "season": 2023,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "124.55"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "55.85"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w04"
+      ]
+    },
+    {
+      "id": "gl-2023-w04-4-6",
+      "season": 2023,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "117.55"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "160.35"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w04"
+      ]
+    },
+    {
+      "id": "gl-2023-w04-7-11",
+      "season": 2023,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "I Was At The Draft",
+        "score": "117.75"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "212.25"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w04"
+      ]
+    },
+    {
+      "id": "gl-2023-w04-9-12",
+      "season": 2023,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "112.25"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "127.05"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w04"
+      ]
+    },
+    {
+      "id": "gl-2023-w05-1-2",
+      "season": 2023,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "210.15"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "136.10"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w05"
+      ]
+    },
+    {
+      "id": "gl-2023-w05-4-9",
+      "season": 2023,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "188.95"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "123.00"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w05"
+      ]
+    },
+    {
+      "id": "gl-2023-w05-5-7",
+      "season": 2023,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "103.20"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "I Was At The Draft",
+        "score": "121.70"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w05"
+      ]
+    },
+    {
+      "id": "gl-2023-w05-6-11",
+      "season": 2023,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "115.25"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "168.40"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w05"
+      ]
+    },
+    {
+      "id": "gl-2023-w05-10-12",
+      "season": 2023,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "123.40"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "115.35"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w05"
+      ]
+    },
+    {
+      "id": "gl-2023-w06-1-10",
+      "season": 2023,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "133.35"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "133.25"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w06"
+      ]
+    },
+    {
+      "id": "gl-2023-w06-2-5",
+      "season": 2023,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "151.40"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "127.35"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w06"
+      ]
+    },
+    {
+      "id": "gl-2023-w06-3-4",
+      "season": 2023,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "121.70"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "180.75"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w06"
+      ]
+    },
+    {
+      "id": "gl-2023-w06-6-7",
+      "season": 2023,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "118.25"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "I Was At The Draft",
+        "score": "157.80"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w06"
+      ]
+    },
+    {
+      "id": "gl-2023-w06-9-11",
+      "season": 2023,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "147.65"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "102.60"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w06"
+      ]
+    },
+    {
+      "id": "gl-2023-w07-1-4",
+      "season": 2023,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "132.05"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "128.15"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w07"
+      ]
+    },
+    {
+      "id": "gl-2023-w07-2-9",
+      "season": 2023,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "159.40"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "130.55"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w07"
+      ]
+    },
+    {
+      "id": "gl-2023-w07-3-11",
+      "season": 2023,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "109.95"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "152.60"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w07"
+      ]
+    },
+    {
+      "id": "gl-2023-w07-6-12",
+      "season": 2023,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "112.75"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "126.30"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w07"
+      ]
+    },
+    {
+      "id": "gl-2023-w07-7-10",
+      "season": 2023,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "I Was At The Draft",
+        "score": "96.35"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "181.35"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w07"
+      ]
+    },
+    {
+      "id": "gl-2023-w08-1-6",
+      "season": 2023,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "144.60"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "184.45"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w08"
+      ]
+    },
+    {
+      "id": "gl-2023-w08-2-3",
+      "season": 2023,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "152.60"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "144.25"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w08"
+      ]
+    },
+    {
+      "id": "gl-2023-w08-5-11",
+      "season": 2023,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "171.20"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "151.75"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w08"
+      ]
+    },
+    {
+      "id": "gl-2023-w08-7-12",
+      "season": 2023,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "I Was At The Draft",
+        "score": "113.20"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "88.80"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w08"
+      ]
+    },
+    {
+      "id": "gl-2023-w08-9-10",
+      "season": 2023,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "161.00"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "129.05"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w08"
+      ]
+    },
+    {
+      "id": "gl-2023-w09-1-12",
+      "season": 2023,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "133.90"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "117.40"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w09"
+      ]
+    },
+    {
+      "id": "gl-2023-w09-2-11",
+      "season": 2023,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "117.45"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "144.80"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w09"
+      ]
+    },
+    {
+      "id": "gl-2023-w09-3-9",
+      "season": 2023,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "90.55"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "112.90"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w09"
+      ]
+    },
+    {
+      "id": "gl-2023-w09-4-7",
+      "season": 2023,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "140.65"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "I Was At The Draft",
+        "score": "175.70"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w09"
+      ]
+    },
+    {
+      "id": "gl-2023-w09-5-10",
+      "season": 2023,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "150.65"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "110.05"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w09"
+      ]
+    },
+    {
+      "id": "gl-2023-w10-1-5",
+      "season": 2023,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "102.95"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "201.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w10"
+      ]
+    },
+    {
+      "id": "gl-2023-w10-2-6",
+      "season": 2023,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "111.55"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "126.55"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w10"
+      ]
+    },
+    {
+      "id": "gl-2023-w10-3-7",
+      "season": 2023,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "151.15"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "I Was At The Draft",
+        "score": "132.60"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w10"
+      ]
+    },
+    {
+      "id": "gl-2023-w10-4-12",
+      "season": 2023,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "131.00"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "155.05"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w10"
+      ]
+    },
+    {
+      "id": "gl-2023-w10-10-11",
+      "season": 2023,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "148.85"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "134.05"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w10"
+      ]
+    },
+    {
+      "id": "gl-2023-w11-1-11",
+      "season": 2023,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "127.45"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "138.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w11"
+      ]
+    },
+    {
+      "id": "gl-2023-w11-3-12",
+      "season": 2023,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "125.60"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "106.35"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w11"
+      ]
+    },
+    {
+      "id": "gl-2023-w11-4-5",
+      "season": 2023,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "140.70"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "150.00"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w11"
+      ]
+    },
+    {
+      "id": "gl-2023-w11-6-10",
+      "season": 2023,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "153.55"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "147.30"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w11"
+      ]
+    },
+    {
+      "id": "gl-2023-w11-7-9",
+      "season": 2023,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "I Was At The Draft",
+        "score": "123.85"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "119.90"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w11"
+      ]
+    },
+    {
+      "id": "gl-2023-w12-1-7",
+      "season": 2023,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "143.95"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "I Was At The Draft",
+        "score": "147.15"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w12"
+      ]
+    },
+    {
+      "id": "gl-2023-w12-2-12",
+      "season": 2023,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "148.75"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "124.30"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w12"
+      ]
+    },
+    {
+      "id": "gl-2023-w12-3-6",
+      "season": 2023,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "164.80"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "150.15"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w12"
+      ]
+    },
+    {
+      "id": "gl-2023-w12-4-10",
+      "season": 2023,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "134.10"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "154.15"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w12"
+      ]
+    },
+    {
+      "id": "gl-2023-w12-5-9",
+      "season": 2023,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "161.70"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "124.95"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w12"
+      ]
+    },
+    {
+      "id": "gl-2023-w13-1-9",
+      "season": 2023,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "151.00"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "91.70"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w13"
+      ]
+    },
+    {
+      "id": "gl-2023-w13-2-4",
+      "season": 2023,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "189.50"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "125.20"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w13"
+      ]
+    },
+    {
+      "id": "gl-2023-w13-3-10",
+      "season": 2023,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "215.65"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "168.10"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w13"
+      ]
+    },
+    {
+      "id": "gl-2023-w13-5-6",
+      "season": 2023,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "190.65"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "93.80"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w13"
+      ]
+    },
+    {
+      "id": "gl-2023-w13-11-12",
+      "season": 2023,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "153.95"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "122.10"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w13"
+      ]
+    },
+    {
+      "id": "gl-2023-w14-1-3",
+      "season": 2023,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "126.05"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "125.15"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w14"
+      ]
+    },
+    {
+      "id": "gl-2023-w14-2-7",
+      "season": 2023,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "117.10"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "I Was At The Draft",
+        "score": "120.75"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w14"
+      ]
+    },
+    {
+      "id": "gl-2023-w14-4-11",
+      "season": 2023,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "138.85"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "155.05"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w14"
+      ]
+    },
+    {
+      "id": "gl-2023-w14-5-12",
+      "season": 2023,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "163.55"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "111.05"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w14"
+      ]
+    },
+    {
+      "id": "gl-2023-w14-6-9",
+      "season": 2023,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "115.10"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "115.70"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w14"
+      ]
+    },
+    {
+      "id": "gl-2023-w15-3-5",
+      "season": 2023,
+      "weekStart": 15,
+      "weekEnd": 15,
+      "stage": "playoff",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "148.75"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "148.80"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w15"
+      ]
+    },
+    {
+      "id": "gl-2023-w15-4-9",
+      "season": 2023,
+      "weekStart": 15,
+      "weekEnd": 15,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "70.00"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "108.60"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w15"
+      ]
+    },
+    {
+      "id": "gl-2023-w15-6-12",
+      "season": 2023,
+      "weekStart": 15,
+      "weekEnd": 15,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "121.80"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "105.45"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w15"
+      ]
+    },
+    {
+      "id": "gl-2023-w16-5-11",
+      "season": 2023,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "playoff",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "147.25"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "135.90"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w16"
+      ]
+    },
+    {
+      "id": "gl-2023-w16-1-9",
+      "season": 2023,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "146.35"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "118.60"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w16"
+      ]
+    },
+    {
+      "id": "gl-2023-w16-2-3",
+      "season": 2023,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wheels",
+        "score": "158.15"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Julio is Back",
+        "score": "147.25"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w16"
+      ]
+    },
+    {
+      "id": "gl-2023-w16-4-12",
+      "season": 2023,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "176.70"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "103.95"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w16"
+      ]
+    },
+    {
+      "id": "gl-2023-w16-6-10",
+      "season": 2023,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "203.20"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "172.20"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w16"
+      ]
+    },
+    {
+      "id": "gl-2023-w17-5-7",
+      "season": 2023,
+      "weekStart": 17,
+      "weekEnd": 17,
+      "stage": "playoff",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "King Quon",
+        "score": "186.25"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "I Was At The Draft",
+        "score": "113.45"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w17"
+      ]
+    },
+    {
+      "id": "gl-2023-w17-1-6",
+      "season": 2023,
+      "weekStart": 17,
+      "weekEnd": 17,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Papi Champaño",
+        "score": "125.95"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "El Caballero",
+        "score": "92.55"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2023-w17"
+      ]
+    },
+    {
+      "id": "gl-2023-w17-9-10",
+      "season": 2023,
+      "weekStart": 17,
+      "weekEnd": 17,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Waller General",
+        "score": "58.70"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Oppenheimer",
+        "score": "161.35"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2023-w17"
+      ]
+    },
+    {
+      "id": "gl-2024-w01-1-5",
+      "season": 2024,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "114.20"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "157.15"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w01"
+      ]
+    },
+    {
+      "id": "gl-2024-w01-3-9",
+      "season": 2024,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "174.10"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "137.35"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w01"
+      ]
+    },
+    {
+      "id": "gl-2024-w01-4-8",
+      "season": 2024,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "146.60"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "86.70"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w01"
+      ]
+    },
+    {
+      "id": "gl-2024-w01-6-7",
+      "season": 2024,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "159.15"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "146.00"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w01"
+      ]
+    },
+    {
+      "id": "gl-2024-w01-10-11",
+      "season": 2024,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "126.75"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "107.10"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w01"
+      ]
+    },
+    {
+      "id": "gl-2024-w02-1-4",
+      "season": 2024,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "155.15"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "131.50"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w02"
+      ]
+    },
+    {
+      "id": "gl-2024-w02-5-12",
+      "season": 2024,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "140.95"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "115.10"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w02"
+      ]
+    },
+    {
+      "id": "gl-2024-w02-6-11",
+      "season": 2024,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "152.85"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "122.10"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w02"
+      ]
+    },
+    {
+      "id": "gl-2024-w02-7-8",
+      "season": 2024,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "152.20"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "148.50"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w02"
+      ]
+    },
+    {
+      "id": "gl-2024-w02-9-10",
+      "season": 2024,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "141.25"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "120.55"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w02"
+      ]
+    },
+    {
+      "id": "gl-2024-w03-1-12",
+      "season": 2024,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "104.35"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "167.35"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w03"
+      ]
+    },
+    {
+      "id": "gl-2024-w03-3-5",
+      "season": 2024,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "168.15"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "133.20"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w03"
+      ]
+    },
+    {
+      "id": "gl-2024-w03-4-7",
+      "season": 2024,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "151.35"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "102.85"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w03"
+      ]
+    },
+    {
+      "id": "gl-2024-w03-6-9",
+      "season": 2024,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "199.40"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "115.75"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w03"
+      ]
+    },
+    {
+      "id": "gl-2024-w03-8-11",
+      "season": 2024,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "156.20"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "120.40"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w03"
+      ]
+    },
+    {
+      "id": "gl-2024-w04-1-7",
+      "season": 2024,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "138.30"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "80.35"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w04"
+      ]
+    },
+    {
+      "id": "gl-2024-w04-3-12",
+      "season": 2024,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "163.10"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "136.25"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w04"
+      ]
+    },
+    {
+      "id": "gl-2024-w04-4-11",
+      "season": 2024,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "166.10"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "133.15"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w04"
+      ]
+    },
+    {
+      "id": "gl-2024-w04-5-10",
+      "season": 2024,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "155.60"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "130.95"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w04"
+      ]
+    },
+    {
+      "id": "gl-2024-w04-8-9",
+      "season": 2024,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "127.50"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "155.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w04"
+      ]
+    },
+    {
+      "id": "gl-2024-w05-1-3",
+      "season": 2024,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "149.85"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "142.75"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w05"
+      ]
+    },
+    {
+      "id": "gl-2024-w05-4-9",
+      "season": 2024,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "122.55"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "121.60"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w05"
+      ]
+    },
+    {
+      "id": "gl-2024-w05-5-6",
+      "season": 2024,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "180.60"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "122.95"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w05"
+      ]
+    },
+    {
+      "id": "gl-2024-w05-7-11",
+      "season": 2024,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "150.25"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "196.50"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w05"
+      ]
+    },
+    {
+      "id": "gl-2024-w05-10-12",
+      "season": 2024,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "140.90"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "173.00"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w05"
+      ]
+    },
+    {
+      "id": "gl-2024-w06-1-11",
+      "season": 2024,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "115.00"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "102.75"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w06"
+      ]
+    },
+    {
+      "id": "gl-2024-w06-3-10",
+      "season": 2024,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "121.55"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "148.20"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w06"
+      ]
+    },
+    {
+      "id": "gl-2024-w06-5-8",
+      "season": 2024,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "145.15"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "107.40"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w06"
+      ]
+    },
+    {
+      "id": "gl-2024-w06-6-12",
+      "season": 2024,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "141.65"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "139.40"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w06"
+      ]
+    },
+    {
+      "id": "gl-2024-w06-7-9",
+      "season": 2024,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "169.85"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "188.95"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w06"
+      ]
+    },
+    {
+      "id": "gl-2024-w07-1-10",
+      "season": 2024,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "138.40"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "114.70"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w07"
+      ]
+    },
+    {
+      "id": "gl-2024-w07-3-6",
+      "season": 2024,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "118.15"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "155.10"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w07"
+      ]
+    },
+    {
+      "id": "gl-2024-w07-4-5",
+      "season": 2024,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "133.60"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "145.45"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w07"
+      ]
+    },
+    {
+      "id": "gl-2024-w07-8-12",
+      "season": 2024,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "111.15"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "101.00"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w07"
+      ]
+    },
+    {
+      "id": "gl-2024-w07-9-11",
+      "season": 2024,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "194.30"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "102.20"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w07"
+      ]
+    },
+    {
+      "id": "gl-2024-w08-1-9",
+      "season": 2024,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "150.75"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "147.50"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w08"
+      ]
+    },
+    {
+      "id": "gl-2024-w08-3-8",
+      "season": 2024,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "110.25"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "197.20"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w08"
+      ]
+    },
+    {
+      "id": "gl-2024-w08-4-12",
+      "season": 2024,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "104.25"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "150.05"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w08"
+      ]
+    },
+    {
+      "id": "gl-2024-w08-5-7",
+      "season": 2024,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "160.35"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "173.40"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w08"
+      ]
+    },
+    {
+      "id": "gl-2024-w08-6-10",
+      "season": 2024,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "139.25"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "145.80"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w08"
+      ]
+    },
+    {
+      "id": "gl-2024-w09-1-6",
+      "season": 2024,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "142.40"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "116.25"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w09"
+      ]
+    },
+    {
+      "id": "gl-2024-w09-3-4",
+      "season": 2024,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "139.15"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "143.75"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w09"
+      ]
+    },
+    {
+      "id": "gl-2024-w09-5-11",
+      "season": 2024,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "135.50"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "120.85"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w09"
+      ]
+    },
+    {
+      "id": "gl-2024-w09-7-12",
+      "season": 2024,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "167.70"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "170.15"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w09"
+      ]
+    },
+    {
+      "id": "gl-2024-w09-8-10",
+      "season": 2024,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "151.75"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "163.25"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w09"
+      ]
+    },
+    {
+      "id": "gl-2024-w10-3-7",
+      "season": 2024,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "107.20"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "97.90"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w10"
+      ]
+    },
+    {
+      "id": "gl-2024-w10-4-10",
+      "season": 2024,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "92.20"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "128.20"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w10"
+      ]
+    },
+    {
+      "id": "gl-2024-w10-5-9",
+      "season": 2024,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "133.80"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "139.30"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w10"
+      ]
+    },
+    {
+      "id": "gl-2024-w10-6-8",
+      "season": 2024,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "121.60"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "162.70"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w10"
+      ]
+    },
+    {
+      "id": "gl-2024-w10-11-12",
+      "season": 2024,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "120.35"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "179.55"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w10"
+      ]
+    },
+    {
+      "id": "gl-2024-w11-1-8",
+      "season": 2024,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "93.35"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "173.10"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w11"
+      ]
+    },
+    {
+      "id": "gl-2024-w11-3-11",
+      "season": 2024,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "145.50"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "145.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w11"
+      ]
+    },
+    {
+      "id": "gl-2024-w11-4-6",
+      "season": 2024,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "150.75"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "112.50"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w11"
+      ]
+    },
+    {
+      "id": "gl-2024-w11-7-10",
+      "season": 2024,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "160.75"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "144.60"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w11"
+      ]
+    },
+    {
+      "id": "gl-2024-w11-9-12",
+      "season": 2024,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "204.45"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "157.85"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w11"
+      ]
+    },
+    {
+      "id": "gl-2024-w12-1-5",
+      "season": 2024,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "129.75"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "146.45"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w12"
+      ]
+    },
+    {
+      "id": "gl-2024-w12-3-9",
+      "season": 2024,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "143.70"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "188.50"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w12"
+      ]
+    },
+    {
+      "id": "gl-2024-w12-4-8",
+      "season": 2024,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "169.15"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "137.45"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w12"
+      ]
+    },
+    {
+      "id": "gl-2024-w12-6-7",
+      "season": 2024,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "136.95"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "107.85"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w12"
+      ]
+    },
+    {
+      "id": "gl-2024-w12-10-11",
+      "season": 2024,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "127.35"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "112.55"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w12"
+      ]
+    },
+    {
+      "id": "gl-2024-w13-1-4",
+      "season": 2024,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "158.80"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "119.30"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w13"
+      ]
+    },
+    {
+      "id": "gl-2024-w13-5-12",
+      "season": 2024,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "201.75"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "189.45"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w13"
+      ]
+    },
+    {
+      "id": "gl-2024-w13-6-11",
+      "season": 2024,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "110.65"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "150.60"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w13"
+      ]
+    },
+    {
+      "id": "gl-2024-w13-7-8",
+      "season": 2024,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "104.35"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "156.40"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w13"
+      ]
+    },
+    {
+      "id": "gl-2024-w13-9-10",
+      "season": 2024,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "157.05"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "186.90"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w13"
+      ]
+    },
+    {
+      "id": "gl-2024-w14-1-12",
+      "season": 2024,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "146.65"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "181.55"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w14"
+      ]
+    },
+    {
+      "id": "gl-2024-w14-3-5",
+      "season": 2024,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "180.30"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "139.75"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w14"
+      ]
+    },
+    {
+      "id": "gl-2024-w14-4-7",
+      "season": 2024,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "154.50"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "164.50"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w14"
+      ]
+    },
+    {
+      "id": "gl-2024-w14-6-9",
+      "season": 2024,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "134.95"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "170.35"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w14"
+      ]
+    },
+    {
+      "id": "gl-2024-w14-8-11",
+      "season": 2024,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "168.95"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "130.20"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w14"
+      ]
+    },
+    {
+      "id": "gl-2024-w15-1-12",
+      "season": 2024,
+      "weekStart": 15,
+      "weekEnd": 15,
+      "stage": "playoff",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "134.70"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "138.35"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w15"
+      ]
+    },
+    {
+      "id": "gl-2024-w15-4-10",
+      "season": 2024,
+      "weekStart": 15,
+      "weekEnd": 15,
+      "stage": "playoff",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "155.40"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "181.75"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w15"
+      ]
+    },
+    {
+      "id": "gl-2024-w15-6-11",
+      "season": 2024,
+      "weekStart": 15,
+      "weekEnd": 15,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "134.80"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Chinga tú Rhamondre",
+        "score": "93.85"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w15"
+      ]
+    },
+    {
+      "id": "gl-2024-w16-5-12",
+      "season": 2024,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "playoff",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "157.75"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "140.60"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w16"
+      ]
+    },
+    {
+      "id": "gl-2024-w16-9-10",
+      "season": 2024,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "playoff",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "192.25"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "151.80"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w16"
+      ]
+    },
+    {
+      "id": "gl-2024-w16-1-4",
+      "season": 2024,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "los rompediscotekas",
+        "score": "169.30"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "Risky Business",
+        "score": "192.30"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w16"
+      ]
+    },
+    {
+      "id": "gl-2024-w16-3-6",
+      "season": 2024,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "131.50"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "124.60"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w16"
+      ]
+    },
+    {
+      "id": "gl-2024-w16-7-8",
+      "season": 2024,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "120.80"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "181.70"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w16"
+      ]
+    },
+    {
+      "id": "gl-2024-w17-5-9",
+      "season": 2024,
+      "weekStart": 17,
+      "weekEnd": 17,
+      "stage": "playoff",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Lights Camera Jackson 🎬",
+        "score": "187.60"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "Magneto Was Right",
+        "score": "221.95"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w17"
+      ]
+    },
+    {
+      "id": "gl-2024-w17-3-8",
+      "season": 2024,
+      "weekStart": 17,
+      "weekEnd": 17,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "178.30"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Love Yourz",
+        "score": "157.55"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2024-w17"
+      ]
+    },
+    {
+      "id": "gl-2024-w17-6-7",
+      "season": 2024,
+      "weekStart": 17,
+      "weekEnd": 17,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "JFamous",
+        "score": "88.85"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "104.05"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w17"
+      ]
+    },
+    {
+      "id": "gl-2024-w17-10-12",
+      "season": 2024,
+      "weekStart": 17,
+      "weekEnd": 17,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "132.60"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Maliks Naber-Hood",
+        "score": "173.00"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2024-w17"
+      ]
+    },
+    {
+      "id": "gl-2025-w01-1-6",
+      "season": 2025,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "108.45"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "119.30"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w01"
+      ]
+    },
+    {
+      "id": "gl-2025-w01-2-7",
+      "season": 2025,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "114.65"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "104.10"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w01"
+      ]
+    },
+    {
+      "id": "gl-2025-w01-3-9",
+      "season": 2025,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "130.50"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "157.00"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w01"
+      ]
+    },
+    {
+      "id": "gl-2025-w01-5-10",
+      "season": 2025,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "169.25"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "165.05"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w01"
+      ]
+    },
+    {
+      "id": "gl-2025-w01-8-12",
+      "season": 2025,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "100.65"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "119.90"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w01"
+      ]
+    },
+    {
+      "id": "gl-2025-w02-1-12",
+      "season": 2025,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "165.65"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "173.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w02"
+      ]
+    },
+    {
+      "id": "gl-2025-w02-2-10",
+      "season": 2025,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "144.80"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "125.45"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w02"
+      ]
+    },
+    {
+      "id": "gl-2025-w02-3-11",
+      "season": 2025,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "122.45"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "97.25"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w02"
+      ]
+    },
+    {
+      "id": "gl-2025-w02-5-8",
+      "season": 2025,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "122.50"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "151.70"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w02"
+      ]
+    },
+    {
+      "id": "gl-2025-w02-7-9",
+      "season": 2025,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "101.25"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "136.30"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w02"
+      ]
+    },
+    {
+      "id": "gl-2025-w03-2-8",
+      "season": 2025,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "117.50"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "133.70"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w03"
+      ]
+    },
+    {
+      "id": "gl-2025-w03-3-6",
+      "season": 2025,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "133.00"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "142.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w03"
+      ]
+    },
+    {
+      "id": "gl-2025-w03-5-12",
+      "season": 2025,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "131.35"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "141.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w03"
+      ]
+    },
+    {
+      "id": "gl-2025-w03-7-11",
+      "season": 2025,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "150.40"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "162.75"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w03"
+      ]
+    },
+    {
+      "id": "gl-2025-w03-9-10",
+      "season": 2025,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "125.95"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "174.80"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w03"
+      ]
+    },
+    {
+      "id": "gl-2025-w04-1-3",
+      "season": 2025,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "160.15"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "195.50"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w04"
+      ]
+    },
+    {
+      "id": "gl-2025-w04-2-5",
+      "season": 2025,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "137.35"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "164.10"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w04"
+      ]
+    },
+    {
+      "id": "gl-2025-w04-6-7",
+      "season": 2025,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "153.50"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "167.90"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w04"
+      ]
+    },
+    {
+      "id": "gl-2025-w04-8-9",
+      "season": 2025,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "154.55"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "131.55"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w04"
+      ]
+    },
+    {
+      "id": "gl-2025-w04-10-11",
+      "season": 2025,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "135.15"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "98.55"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w04"
+      ]
+    },
+    {
+      "id": "gl-2025-w05-1-7",
+      "season": 2025,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "118.60"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "141.60"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w05"
+      ]
+    },
+    {
+      "id": "gl-2025-w05-2-12",
+      "season": 2025,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "123.40"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "190.55"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w05"
+      ]
+    },
+    {
+      "id": "gl-2025-w05-5-9",
+      "season": 2025,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "173.00"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "164.05"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w05"
+      ]
+    },
+    {
+      "id": "gl-2025-w05-6-10",
+      "season": 2025,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "97.00"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "134.00"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w05"
+      ]
+    },
+    {
+      "id": "gl-2025-w05-8-11",
+      "season": 2025,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "142.65"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "169.40"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w05"
+      ]
+    },
+    {
+      "id": "gl-2025-w06-1-10",
+      "season": 2025,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "100.65"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "111.40"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w06"
+      ]
+    },
+    {
+      "id": "gl-2025-w06-2-9",
+      "season": 2025,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "146.35"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "132.80"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w06"
+      ]
+    },
+    {
+      "id": "gl-2025-w06-3-12",
+      "season": 2025,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "113.55"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "210.25"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w06"
+      ]
+    },
+    {
+      "id": "gl-2025-w06-5-11",
+      "season": 2025,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "130.25"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "120.90"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w06"
+      ]
+    },
+    {
+      "id": "gl-2025-w06-6-8",
+      "season": 2025,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "156.20"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "127.75"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w06"
+      ]
+    },
+    {
+      "id": "gl-2025-w07-1-8",
+      "season": 2025,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "129.45"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "187.20"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w07"
+      ]
+    },
+    {
+      "id": "gl-2025-w07-2-11",
+      "season": 2025,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "131.60"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "125.10"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w07"
+      ]
+    },
+    {
+      "id": "gl-2025-w07-3-7",
+      "season": 2025,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "144.30"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "153.80"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w07"
+      ]
+    },
+    {
+      "id": "gl-2025-w07-5-6",
+      "season": 2025,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "147.05"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "224.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w07"
+      ]
+    },
+    {
+      "id": "gl-2025-w07-9-12",
+      "season": 2025,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "98.20"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "159.30"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w07"
+      ]
+    },
+    {
+      "id": "gl-2025-w08-1-5",
+      "season": 2025,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "127.90"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "188.05"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w08"
+      ]
+    },
+    {
+      "id": "gl-2025-w08-2-6",
+      "season": 2025,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "111.90"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "119.25"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w08"
+      ]
+    },
+    {
+      "id": "gl-2025-w08-3-10",
+      "season": 2025,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "114.25"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "115.45"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w08"
+      ]
+    },
+    {
+      "id": "gl-2025-w08-7-12",
+      "season": 2025,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "131.25"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "117.50"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w08"
+      ]
+    },
+    {
+      "id": "gl-2025-w08-9-11",
+      "season": 2025,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "140.75"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "187.10"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w08"
+      ]
+    },
+    {
+      "id": "gl-2025-w09-1-2",
+      "season": 2025,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "139.65"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "151.30"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w09"
+      ]
+    },
+    {
+      "id": "gl-2025-w09-3-8",
+      "season": 2025,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "169.80"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "140.65"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w09"
+      ]
+    },
+    {
+      "id": "gl-2025-w09-6-9",
+      "season": 2025,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "133.15"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "139.75"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w09"
+      ]
+    },
+    {
+      "id": "gl-2025-w09-7-10",
+      "season": 2025,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "89.90"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "111.30"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w09"
+      ]
+    },
+    {
+      "id": "gl-2025-w09-11-12",
+      "season": 2025,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "157.60"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "167.40"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w09"
+      ]
+    },
+    {
+      "id": "gl-2025-w10-1-9",
+      "season": 2025,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "136.20"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "122.30"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w10"
+      ]
+    },
+    {
+      "id": "gl-2025-w10-3-5",
+      "season": 2025,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "115.05"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "141.55"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w10"
+      ]
+    },
+    {
+      "id": "gl-2025-w10-6-11",
+      "season": 2025,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "129.50"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "152.75"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w10"
+      ]
+    },
+    {
+      "id": "gl-2025-w10-7-8",
+      "season": 2025,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "110.80"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "136.10"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w10"
+      ]
+    },
+    {
+      "id": "gl-2025-w10-10-12",
+      "season": 2025,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "179.60"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "142.60"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w10"
+      ]
+    },
+    {
+      "id": "gl-2025-w11-1-11",
+      "season": 2025,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "126.70"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "116.35"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w11"
+      ]
+    },
+    {
+      "id": "gl-2025-w11-2-3",
+      "season": 2025,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "123.15"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "100.35"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w11"
+      ]
+    },
+    {
+      "id": "gl-2025-w11-5-7",
+      "season": 2025,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "121.30"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "106.20"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w11"
+      ]
+    },
+    {
+      "id": "gl-2025-w11-6-12",
+      "season": 2025,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "156.55"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "173.70"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w11"
+      ]
+    },
+    {
+      "id": "gl-2025-w11-8-10",
+      "season": 2025,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "123.10"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "90.35"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w11"
+      ]
+    },
+    {
+      "id": "gl-2025-w12-1-6",
+      "season": 2025,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "135.45"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "113.25"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w12"
+      ]
+    },
+    {
+      "id": "gl-2025-w12-2-7",
+      "season": 2025,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "155.20"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "103.70"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w12"
+      ]
+    },
+    {
+      "id": "gl-2025-w12-3-9",
+      "season": 2025,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "200.55"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "120.25"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w12"
+      ]
+    },
+    {
+      "id": "gl-2025-w12-5-10",
+      "season": 2025,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "182.30"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "173.35"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w12"
+      ]
+    },
+    {
+      "id": "gl-2025-w12-8-12",
+      "season": 2025,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "126.15"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "180.50"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w12"
+      ]
+    },
+    {
+      "id": "gl-2025-w13-1-12",
+      "season": 2025,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "134.70"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "146.70"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w13"
+      ]
+    },
+    {
+      "id": "gl-2025-w13-2-10",
+      "season": 2025,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "165.50"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "76.00"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w13"
+      ]
+    },
+    {
+      "id": "gl-2025-w13-3-11",
+      "season": 2025,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "100.90"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "123.80"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w13"
+      ]
+    },
+    {
+      "id": "gl-2025-w13-5-8",
+      "season": 2025,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "130.75"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "137.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w13"
+      ]
+    },
+    {
+      "id": "gl-2025-w13-7-9",
+      "season": 2025,
+      "weekStart": 13,
+      "weekEnd": 13,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "124.25"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "126.35"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w13"
+      ]
+    },
+    {
+      "id": "gl-2025-w14-2-8",
+      "season": 2025,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "119.40"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "130.25"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w14"
+      ]
+    },
+    {
+      "id": "gl-2025-w14-3-6",
+      "season": 2025,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "117.60"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "150.30"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w14"
+      ]
+    },
+    {
+      "id": "gl-2025-w14-5-12",
+      "season": 2025,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "124.20"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "143.00"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w14"
+      ]
+    },
+    {
+      "id": "gl-2025-w14-7-11",
+      "season": 2025,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "110.50"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "105.60"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w14"
+      ]
+    },
+    {
+      "id": "gl-2025-w14-9-10",
+      "season": 2025,
+      "weekStart": 14,
+      "weekEnd": 14,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "154.45"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "163.35"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w14"
+      ]
+    },
+    {
+      "id": "gl-2025-w15-2-8",
+      "season": 2025,
+      "weekStart": 15,
+      "weekEnd": 15,
+      "stage": "playoff",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "124.45"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "136.50"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w15"
+      ]
+    },
+    {
+      "id": "gl-2025-w15-5-6",
+      "season": 2025,
+      "weekStart": 15,
+      "weekEnd": 15,
+      "stage": "playoff",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "147.05"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "232.00"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w15"
+      ]
+    },
+    {
+      "id": "gl-2025-w15-1-3",
+      "season": 2025,
+      "weekStart": 15,
+      "weekEnd": 15,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "91.40"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "139.55"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w15"
+      ]
+    },
+    {
+      "id": "gl-2025-w15-9-11",
+      "season": 2025,
+      "weekStart": 15,
+      "weekEnd": 15,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "117.55"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "99.35"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w15"
+      ]
+    },
+    {
+      "id": "gl-2025-w16-6-12",
+      "season": 2025,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "playoff",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "156.90"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "179.50"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w16"
+      ]
+    },
+    {
+      "id": "gl-2025-w16-8-10",
+      "season": 2025,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "playoff",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "142.40"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "143.15"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w16"
+      ]
+    },
+    {
+      "id": "gl-2025-w16-1-11",
+      "season": 2025,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "Help Me",
+        "score": "133.95"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "QUON-less",
+        "score": "105.95"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w16"
+      ]
+    },
+    {
+      "id": "gl-2025-w16-2-5",
+      "season": 2025,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Bo-Nix-N-Harmony",
+        "score": "141.70"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "The Veterans",
+        "score": "148.55"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w16"
+      ]
+    },
+    {
+      "id": "gl-2025-w16-3-7",
+      "season": 2025,
+      "weekStart": 16,
+      "weekEnd": 16,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "162.35"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Justin Credible",
+        "score": "81.60"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w16"
+      ]
+    },
+    {
+      "id": "gl-2025-w17-10-12",
+      "season": 2025,
+      "weekStart": 17,
+      "weekEnd": 17,
+      "stage": "playoff",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "139.65"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "169.95"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2025-w17"
+      ]
+    },
+    {
+      "id": "gl-2025-w17-3-9",
+      "season": 2025,
+      "weekStart": 17,
+      "weekEnd": 17,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "128.20"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Malik’s Naber Hood",
+        "score": "115.60"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w17"
+      ]
+    },
+    {
+      "id": "gl-2025-w17-6-8",
+      "season": 2025,
+      "weekStart": 17,
+      "weekEnd": 17,
+      "stage": "consolation",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Bo Meets World ⚡️",
+        "score": "177.70"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "HEAVIER THAN THE CROWN",
+        "score": "116.85"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2025-w17"
+      ]
+    },
+    {
+      "id": "gl-2026-w01-1-2",
+      "season": 2026,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "cuadz build 001",
+        "score": "115.40"
+      },
+      "away": {
+        "managerID": "cfn-gio",
+        "teamName": "Jameson On The Rocks",
+        "score": "122.55"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w01"
+      ]
+    },
+    {
+      "id": "gl-2026-w01-3-11",
+      "season": 2026,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Nico de Gallo",
+        "score": "84.05"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "127.55"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w01"
+      ]
+    },
+    {
+      "id": "gl-2026-w01-4-8",
+      "season": 2026,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "184.95"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wide receiver university",
+        "score": "144.80"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w01"
+      ]
+    },
+    {
+      "id": "gl-2026-w01-5-9",
+      "season": 2026,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ramon",
+        "teamName": "Woodridge lore",
+        "score": "156.10"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "235.40"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w01"
+      ]
+    },
+    {
+      "id": "gl-2026-w01-6-12",
+      "season": 2026,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "MAGNETO IS STILL RIGHT",
+        "score": "92.10"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "El Hueso",
+        "score": "131.25"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w01"
+      ]
+    },
+    {
+      "id": "gl-2026-w01-7-10",
+      "season": 2026,
+      "weekStart": 1,
+      "weekEnd": 1,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Run CMC",
+        "score": "154.20"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "The Arbiter",
+        "score": "161.65"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w01"
+      ]
+    },
+    {
+      "id": "gl-2026-w02-1-5",
+      "season": 2026,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "cuadz build 001",
+        "score": "174.60"
+      },
+      "away": {
+        "managerID": "cfn-ramon",
+        "teamName": "Woodridge lore",
+        "score": "104.80"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w02"
+      ]
+    },
+    {
+      "id": "gl-2026-w02-2-12",
+      "season": 2026,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Jameson On The Rocks",
+        "score": "149.20"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "El Hueso",
+        "score": "151.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w02"
+      ]
+    },
+    {
+      "id": "gl-2026-w02-3-9",
+      "season": 2026,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Nico de Gallo",
+        "score": "90.65"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "146.80"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w02"
+      ]
+    },
+    {
+      "id": "gl-2026-w02-4-6",
+      "season": 2026,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "138.60"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "MAGNETO IS STILL RIGHT",
+        "score": "128.30"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w02"
+      ]
+    },
+    {
+      "id": "gl-2026-w02-7-8",
+      "season": 2026,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Run CMC",
+        "score": "129.15"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wide receiver university",
+        "score": "111.30"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w02"
+      ]
+    },
+    {
+      "id": "gl-2026-w02-10-11",
+      "season": 2026,
+      "weekStart": 2,
+      "weekEnd": 2,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "The Arbiter",
+        "score": "150.25"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "169.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w02"
+      ]
+    },
+    {
+      "id": "gl-2026-w03-1-12",
+      "season": 2026,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "cuadz build 001",
+        "score": "176.00"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "El Hueso",
+        "score": "151.35"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w03"
+      ]
+    },
+    {
+      "id": "gl-2026-w03-2-4",
+      "season": 2026,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Jameson On The Rocks",
+        "score": "133.65"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "105.65"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w03"
+      ]
+    },
+    {
+      "id": "gl-2026-w03-3-5",
+      "season": 2026,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Nico de Gallo",
+        "score": "107.50"
+      },
+      "away": {
+        "managerID": "cfn-ramon",
+        "teamName": "Woodridge lore",
+        "score": "142.65"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w03"
+      ]
+    },
+    {
+      "id": "gl-2026-w03-6-7",
+      "season": 2026,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "MAGNETO IS STILL RIGHT",
+        "score": "109.50"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Run CMC",
+        "score": "124.80"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w03"
+      ]
+    },
+    {
+      "id": "gl-2026-w03-8-11",
+      "season": 2026,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wide receiver university",
+        "score": "128.40"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "143.30"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w03"
+      ]
+    },
+    {
+      "id": "gl-2026-w03-9-10",
+      "season": 2026,
+      "weekStart": 3,
+      "weekEnd": 3,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "170.70"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "The Arbiter",
+        "score": "126.95"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w03"
+      ]
+    },
+    {
+      "id": "gl-2026-w04-1-4",
+      "season": 2026,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "cuadz build 001",
+        "score": "125.75"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "134.00"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w04"
+      ]
+    },
+    {
+      "id": "gl-2026-w04-2-7",
+      "season": 2026,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Jameson On The Rocks",
+        "score": "127.15"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Run CMC",
+        "score": "182.10"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w04"
+      ]
+    },
+    {
+      "id": "gl-2026-w04-3-10",
+      "season": 2026,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Nico de Gallo",
+        "score": "125.35"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "The Arbiter",
+        "score": "201.10"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w04"
+      ]
+    },
+    {
+      "id": "gl-2026-w04-5-12",
+      "season": 2026,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ramon",
+        "teamName": "Woodridge lore",
+        "score": "136.20"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "El Hueso",
+        "score": "137.65"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w04"
+      ]
+    },
+    {
+      "id": "gl-2026-w04-6-11",
+      "season": 2026,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "MAGNETO IS STILL RIGHT",
+        "score": "115.50"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "129.35"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w04"
+      ]
+    },
+    {
+      "id": "gl-2026-w04-8-9",
+      "season": 2026,
+      "weekStart": 4,
+      "weekEnd": 4,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wide receiver university",
+        "score": "137.15"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "172.05"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w04"
+      ]
+    },
+    {
+      "id": "gl-2026-w05-1-7",
+      "season": 2026,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "cuadz build 001",
+        "score": "144.00"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Run CMC",
+        "score": "85.40"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w05"
+      ]
+    },
+    {
+      "id": "gl-2026-w05-2-11",
+      "season": 2026,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Jameson On The Rocks",
+        "score": "169.85"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "122.30"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w05"
+      ]
+    },
+    {
+      "id": "gl-2026-w05-3-8",
+      "season": 2026,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Nico de Gallo",
+        "score": "211.45"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wide receiver university",
+        "score": "154.15"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w05"
+      ]
+    },
+    {
+      "id": "gl-2026-w05-4-12",
+      "season": 2026,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "175.45"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "El Hueso",
+        "score": "151.65"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w05"
+      ]
+    },
+    {
+      "id": "gl-2026-w05-5-10",
+      "season": 2026,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ramon",
+        "teamName": "Woodridge lore",
+        "score": "158.65"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "The Arbiter",
+        "score": "125.05"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w05"
+      ]
+    },
+    {
+      "id": "gl-2026-w05-6-9",
+      "season": 2026,
+      "weekStart": 5,
+      "weekEnd": 5,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "MAGNETO IS STILL RIGHT",
+        "score": "129.80"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "134.65"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w05"
+      ]
+    },
+    {
+      "id": "gl-2026-w06-1-11",
+      "season": 2026,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "cuadz build 001",
+        "score": "101.10"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "127.40"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w06"
+      ]
+    },
+    {
+      "id": "gl-2026-w06-2-9",
+      "season": 2026,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Jameson On The Rocks",
+        "score": "112.95"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "169.00"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w06"
+      ]
+    },
+    {
+      "id": "gl-2026-w06-3-6",
+      "season": 2026,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Nico de Gallo",
+        "score": "120.00"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "MAGNETO IS STILL RIGHT",
+        "score": "123.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w06"
+      ]
+    },
+    {
+      "id": "gl-2026-w06-4-5",
+      "season": 2026,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "139.30"
+      },
+      "away": {
+        "managerID": "cfn-ramon",
+        "teamName": "Woodridge lore",
+        "score": "131.55"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w06"
+      ]
+    },
+    {
+      "id": "gl-2026-w06-7-12",
+      "season": 2026,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Run CMC",
+        "score": "143.30"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "El Hueso",
+        "score": "103.85"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w06"
+      ]
+    },
+    {
+      "id": "gl-2026-w06-8-10",
+      "season": 2026,
+      "weekStart": 6,
+      "weekEnd": 6,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wide receiver university",
+        "score": "105.95"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "The Arbiter",
+        "score": "145.00"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w06"
+      ]
+    },
+    {
+      "id": "gl-2026-w07-1-9",
+      "season": 2026,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "cuadz build 001",
+        "score": "118.20"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "116.20"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w07"
+      ]
+    },
+    {
+      "id": "gl-2026-w07-2-3",
+      "season": 2026,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Jameson On The Rocks",
+        "score": "150.80"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Nico de Gallo",
+        "score": "141.65"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w07"
+      ]
+    },
+    {
+      "id": "gl-2026-w07-4-7",
+      "season": 2026,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "172.65"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Run CMC",
+        "score": "140.10"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w07"
+      ]
+    },
+    {
+      "id": "gl-2026-w07-5-8",
+      "season": 2026,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ramon",
+        "teamName": "Woodridge lore",
+        "score": "176.20"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wide receiver university",
+        "score": "147.55"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w07"
+      ]
+    },
+    {
+      "id": "gl-2026-w07-6-10",
+      "season": 2026,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "MAGNETO IS STILL RIGHT",
+        "score": "141.85"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "The Arbiter",
+        "score": "114.50"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w07"
+      ]
+    },
+    {
+      "id": "gl-2026-w07-11-12",
+      "season": 2026,
+      "weekStart": 7,
+      "weekEnd": 7,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "122.90"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "El Hueso",
+        "score": "108.55"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w07"
+      ]
+    },
+    {
+      "id": "gl-2026-w08-1-3",
+      "season": 2026,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "cuadz build 001",
+        "score": "128.70"
+      },
+      "away": {
+        "managerID": "cfn-jeff",
+        "teamName": "Nico de Gallo",
+        "score": "167.20"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w08"
+      ]
+    },
+    {
+      "id": "gl-2026-w08-2-10",
+      "season": 2026,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Jameson On The Rocks",
+        "score": "156.85"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "The Arbiter",
+        "score": "128.15"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w08"
+      ]
+    },
+    {
+      "id": "gl-2026-w08-4-11",
+      "season": 2026,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "139.30"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "194.85"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w08"
+      ]
+    },
+    {
+      "id": "gl-2026-w08-5-7",
+      "season": 2026,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ramon",
+        "teamName": "Woodridge lore",
+        "score": "123.95"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Run CMC",
+        "score": "117.90"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w08"
+      ]
+    },
+    {
+      "id": "gl-2026-w08-6-8",
+      "season": 2026,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ed",
+        "teamName": "MAGNETO IS STILL RIGHT",
+        "score": "119.55"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wide receiver university",
+        "score": "142.55"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w08"
+      ]
+    },
+    {
+      "id": "gl-2026-w08-9-12",
+      "season": 2026,
+      "weekStart": 8,
+      "weekEnd": 8,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "128.70"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "El Hueso",
+        "score": "107.35"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w08"
+      ]
+    },
+    {
+      "id": "gl-2026-w09-1-10",
+      "season": 2026,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "cuadz build 001",
+        "score": "148.95"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "The Arbiter",
+        "score": "165.90"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w09"
+      ]
+    },
+    {
+      "id": "gl-2026-w09-2-8",
+      "season": 2026,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Jameson On The Rocks",
+        "score": "118.85"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wide receiver university",
+        "score": "91.60"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w09"
+      ]
+    },
+    {
+      "id": "gl-2026-w09-3-12",
+      "season": 2026,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Nico de Gallo",
+        "score": "140.60"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "El Hueso",
+        "score": "104.55"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w09"
+      ]
+    },
+    {
+      "id": "gl-2026-w09-4-9",
+      "season": 2026,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "95.70"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "188.20"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w09"
+      ]
+    },
+    {
+      "id": "gl-2026-w09-5-6",
+      "season": 2026,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ramon",
+        "teamName": "Woodridge lore",
+        "score": "135.90"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "MAGNETO IS STILL RIGHT",
+        "score": "130.25"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w09"
+      ]
+    },
+    {
+      "id": "gl-2026-w09-7-11",
+      "season": 2026,
+      "weekStart": 9,
+      "weekEnd": 9,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Run CMC",
+        "score": "130.10"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "129.00"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w09"
+      ]
+    },
+    {
+      "id": "gl-2026-w10-1-8",
+      "season": 2026,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "cuadz build 001",
+        "score": "130.35"
+      },
+      "away": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wide receiver university",
+        "score": "151.25"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w10"
+      ]
+    },
+    {
+      "id": "gl-2026-w10-2-6",
+      "season": 2026,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Jameson On The Rocks",
+        "score": "123.55"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "MAGNETO IS STILL RIGHT",
+        "score": "96.70"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w10"
+      ]
+    },
+    {
+      "id": "gl-2026-w10-3-4",
+      "season": 2026,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Nico de Gallo",
+        "score": "161.20"
+      },
+      "away": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "122.45"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w10"
+      ]
+    },
+    {
+      "id": "gl-2026-w10-5-11",
+      "season": 2026,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-ramon",
+        "teamName": "Woodridge lore",
+        "score": "128.60"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "201.25"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w10"
+      ]
+    },
+    {
+      "id": "gl-2026-w10-7-9",
+      "season": 2026,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-pru",
+        "teamName": "Run CMC",
+        "score": "156.55"
+      },
+      "away": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "113.40"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w10"
+      ]
+    },
+    {
+      "id": "gl-2026-w10-10-12",
+      "season": 2026,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-kevin",
+        "teamName": "The Arbiter",
+        "score": "204.75"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "El Hueso",
+        "score": "132.80"
+      },
+      "outcome": "home",
+      "sourceIDs": [
+        "yh-gl-2026-w10"
+      ]
+    },
+    {
+      "id": "gl-2026-w11-1-6",
+      "season": 2026,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-cuadz",
+        "teamName": "cuadz build 001",
+        "score": "102.20"
+      },
+      "away": {
+        "managerID": "cfn-ed",
+        "teamName": "MAGNETO IS STILL RIGHT",
+        "score": "125.40"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w11"
+      ]
+    },
+    {
+      "id": "gl-2026-w11-2-5",
+      "season": 2026,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-gio",
+        "teamName": "Jameson On The Rocks",
+        "score": "120.00"
+      },
+      "away": {
+        "managerID": "cfn-ramon",
+        "teamName": "Woodridge lore",
+        "score": "138.00"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w11"
+      ]
+    },
+    {
+      "id": "gl-2026-w11-3-7",
+      "season": 2026,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-jeff",
+        "teamName": "Nico de Gallo",
+        "score": "120.15"
+      },
+      "away": {
+        "managerID": "cfn-pru",
+        "teamName": "Run CMC",
+        "score": "158.20"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w11"
+      ]
+    },
+    {
+      "id": "gl-2026-w11-4-10",
+      "season": 2026,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-vic",
+        "teamName": "Chupamela HPT",
+        "score": "115.85"
+      },
+      "away": {
+        "managerID": "cfn-kevin",
+        "teamName": "The Arbiter",
+        "score": "190.15"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w11"
+      ]
+    },
+    {
+      "id": "gl-2026-w11-8-12",
+      "season": 2026,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-oscar",
+        "teamName": "Wide receiver university",
+        "score": "122.75"
+      },
+      "away": {
+        "managerID": "cfn-john",
+        "teamName": "El Hueso",
+        "score": "127.55"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w11"
+      ]
+    },
+    {
+      "id": "gl-2026-w11-9-11",
+      "season": 2026,
+      "weekStart": 11,
+      "weekEnd": 11,
+      "stage": "regular",
+      "status": "final",
+      "home": {
+        "managerID": "cfn-julio-z",
+        "teamName": "Mr. Electricity",
+        "score": "132.95"
+      },
+      "away": {
+        "managerID": "cfn-alexis",
+        "teamName": "Sir",
+        "score": "139.75"
+      },
+      "outcome": "away",
+      "sourceIDs": [
+        "yh-gl-2026-w11"
+      ]
+    }
+  ],
+  "championships": [
+    {
+      "season": 2023,
+      "managerID": "cfn-pru",
+      "teamName": "King Quon",
+      "sourceIDs": [
+        "yh-gl-2023-home",
+        "yh-gl-2023-w17",
+        "yh-gl-2023-teams"
+      ],
+      "runnerUpManagerID": "cfn-gio",
+      "finalMatchupID": "gl-2023-w17-5-7"
+    },
+    {
+      "season": 2024,
+      "managerID": "cfn-ed",
+      "teamName": "Magneto Was Right",
+      "sourceIDs": [
+        "yh-gl-2024-home",
+        "yh-gl-2024-w17",
+        "yh-gl-2024-teams"
+      ],
+      "runnerUpManagerID": "cfn-gio",
+      "finalMatchupID": "gl-2024-w17-5-9"
+    },
+    {
+      "season": 2025,
+      "managerID": "cfn-alexis",
+      "teamName": "Sir",
+      "sourceIDs": [
+        "yh-gl-2025-home",
+        "yh-gl-2025-w17",
+        "yh-gl-2025-teams"
+      ],
+      "runnerUpManagerID": "cfn-julio-z",
+      "finalMatchupID": "gl-2025-w17-10-12"
+    }
+  ]
+}
