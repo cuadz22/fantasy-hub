@@ -50,11 +50,12 @@ const heading = (title, sub = "League records") =>
   `<div class="tool-heading"><div><div class="eyebrow">${leagues[league]}</div><h2>${title}</h2></div><span class="archive-label">${sub}</span></div>`;
 const table = (heads, rows, cls = "") =>
   `<div class="table-wrap ${cls}" tabindex="0" aria-label="Scrollable data table"><table><thead><tr>${heads.map((h) => `<th scope="col">${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((x) => `<td>${x}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
-const photo = (n, pos='', team='') => CFNPolish.avatar(n,pos,team);
+const photo = (n, pos='', team='') => CFNPlayers.link({name:n,position:pos,nflTeam:team},CFNPolish.avatar(n,pos,team));
 const empty = (title, text) =>
   `<article class="note-card empty-state"><h3>${title}</h3><p>${text}</p></article>`;
 const savednote = (text) => `<p class="subnote archive-note">${text}</p>`;
 
+const standingSort = {key:"rank",direction:1};
 function standingsView() {
   const d = CFNData.state.standings[league];
   if (!d)
@@ -66,7 +67,7 @@ function standingsView() {
       )
     );
   const custom = league === "sts" && d.customRows;
-  const rs = custom || d.rows;
+  const rs = CFNPlayers.sortStandings(custom || d.rows, standingSort.key, standingSort.direction);
   const delayed = d.stale || CFNData.state.failures["standings-" + league];
   return (
     heading(
@@ -94,7 +95,10 @@ function standingsView() {
         r.pointsPerGame.toFixed(2),
         esc(r.streak),
       ]),
-    ) +
+    ).replace(/<th scope="col">([^<]+)<\/th>/g, (html, label) => {
+      const key = ({'#':'rank','Team':'name','W–L–T':'wins','League points':'customPoints','Points for':'pointsFor','Points against':'pointsAgainst','PF / game':'pointsPerGame','Streak':'streak'})[label];
+      return `<th scope="col" aria-sort="${standingSort.key===key?(standingSort.direction===1?'ascending':'descending'):'none'}"><button class="standings-sort" data-standings-sort="${key}">${label} <span aria-hidden="true">${standingSort.key===key?(standingSort.direction===1?'↑':'↓'):'↕'}</span></button></th>`;
+    }) +
     savednote(
       `${custom ? "League ranking includes top-six scoring weeks. " : league === "sts" ? "Win-loss reference; custom league ranking is unavailable. " : ""}Only completed weeks count toward these records. Live projections never change official standings.`,
     )
@@ -121,7 +125,7 @@ function waiverRows(rs) {
   return `<div class="waiver-list">${rs.slice().sort((a,b)=>b.week-a.week)
     .map((w) => {
       const bid = w.bids.find((b) => b.won);
-      return `<details class="waiver-card"><summary>${CFNPolish.avatar(w.player,w.position,w.nflTeam,w.asset?.photoURL)}<div><b>${esc(w.player)}</b><small>${esc(w.position)} · ${esc(w.nflTeam)} · ${esc(/^\d{4}-/.test(w.date)?new Date(w.date).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'}):w.date)}</small></div><div class="waiver-team"><b>${esc(w.winner)}</b><small>Successful claim</small></div><strong class="bid">$${bid?.amount ?? 0}</strong><span class="disclosure">⌄</span></summary><div class="bid-detail">${w.bids.map((b) => `<div><span>${esc(b.manager)}${b.won ? ' <span class="status-tag">Won</span>' : ""}</span><b>$${b.amount}</b></div>`).join("")}</div></details>`;
+      return `<details class="waiver-card"><summary>${CFNPlayers.link({name:w.player,position:w.position,nflTeam:w.nflTeam},CFNPolish.avatar(w.player,w.position,w.nflTeam,w.asset?.photoURL))}<div><b>${esc(w.player)}</b><small>${esc(w.position)} · ${esc(w.nflTeam)} · ${esc(/^\d{4}-/.test(w.date)?new Date(w.date).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'}):w.date)}</small></div><div class="waiver-team"><b>${esc(w.winner)}</b><small>Successful claim</small></div><strong class="bid">$${bid?.amount ?? 0}</strong><span class="disclosure">⌄</span></summary><div class="bid-detail">${w.bids.map((b) => `<div><span>${esc(b.manager)}${b.won ? ' <span class="status-tag">Won</span>' : ""}</span><b>$${b.amount}</b></div>`).join("")}</div></details>`;
     })
     .join("")}</div>`;
 }
@@ -322,7 +326,7 @@ function teamRoster(i) {
         .filter((r) => r[side].name)
         .map((r) => [
           esc(r.slot),
-          `<span class="name-cell">${photo(clean(r[side].name))}${esc(clean(r[side].name))}</span>`,
+          `<button class="name-cell player-link" data-player-side="${side}" data-player-row="${c.rows.indexOf(r)}" data-player-match="${esc(c.id)}">${CFNPolish.avatar(r[side].name,r[side].position,r[side].nflTeam,r[side].photo)}${esc(clean(r[side].name))}</button>`,
           esc(r[side].game),
           esc(r[side].score),
           esc(num(r[side].proj)),
@@ -463,7 +467,7 @@ function leaguePage() {
           ? `Week ${requestedWeek()} · ${cs.length} matchups`
           : "Current matchups unavailable",
       ) +
-      `<section class="group">${(cs.length ? cs : [c]).map(card).join("")}</section>` + CFNRecaps.latest(league) +
+      `<section class="group league-matchups">${(cs.length ? cs : [c]).map(card).join("")}</section>` + CFNRecaps.latest(league) +
       `<section class="content-section league-directory"><div><h2>More to your league.</h2><p>From this week’s moves to the seasons that built it.</p></div><div class="directory-grid">${sections.map(([title, ids]) => `<section><h3>${title}</h3>${ids.filter(available).map(link).join("")}</section>`).join("")}</div></section>`;
   }
   if (leagueTab === "lineups") body = lineup(c);
@@ -610,7 +614,10 @@ function render(keepScroll = false, skipLoad = false) {
                   : commish();
   if (["network", "league", "market"].includes(page)) {
     const root = document.querySelector("#main");
+    const intro = document.createElement('div'); intro.className = 'page-intro';
+    while(root.firstElementChild?.matches('.hero,.controls,.section-head,.tool-heading')) intro.append(root.firstElementChild);
     root.innerHTML = `<div class="desktop-content"><div class="page-content">${root.innerHTML}</div><aside class="news-rail" aria-label="Latest recaps and news">${CFNRecaps.latest(page === "league" ? league : null)}${CFNUpdates.sidebar()}</aside></div>`;
+    root.prepend(intro);
   }
   document.querySelectorAll("nav>a").forEach((a) => {
     const active = a.hash === "#" + page;
@@ -800,3 +807,5 @@ document.addEventListener("click", (e) => {
       );
   }
 });
+
+document.addEventListener("click", e=>{const b=e.target.closest("[data-standings-sort]");if(!b)return;const key=b.dataset.standingsSort;standingSort.direction=standingSort.key===key?-standingSort.direction:(["name","rank"].includes(key)?1:-1);standingSort.key=key;render(true,true);document.querySelector(`[data-standings-sort="${key}"]`)?.focus();});

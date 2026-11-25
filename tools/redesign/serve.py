@@ -7,14 +7,18 @@ from pathlib import Path
 import urllib.request, urllib.error, threading, time, json
 ROOT = Path(__file__).resolve().parents[2] / 'client/public'
 CACHE, LOCK, KEY_LOCKS = {}, threading.Lock(), {}
-ALLOWED = {'/api/mobile/recaps': 300, '/api/mobile/news': 600, '/api/mobile/network-preview': 300, '/api/mobile/resources': 60, '/api/mobile/lineups': 60, '/api/mobile/power': 60, '/api/trades': 60, '/api/mobile/context': 300, '/api/mobile/media': 3600, '/api/mobile/standings': 300, '/api/lineups': 60, '/api/mobile/market-movers': 900}
+ALLOWED = {'/api/live-stats': 300, '/api/mobile/player-log': 300, '/api/mobile/recaps': 300, '/api/mobile/news': 600, '/api/mobile/network-preview': 300, '/api/mobile/resources': 60, '/api/mobile/lineups': 60, '/api/mobile/power': 60, '/api/trades': 60, '/api/mobile/context': 300, '/api/mobile/media': 3600, '/api/mobile/standings': 300, '/api/lineups': 60, '/api/mobile/market-movers': 900}
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self,*a,**kw): super().__init__(*a,directory=str(ROOT),**kw)
     def do_GET(self):
         u=urlparse(self.path)
         if u.path.startswith('/api/'):
             q=parse_qs(u.query)
-            if ('hist' in q and (u.path != '/api/lineups' or q['hist'] != ['1'])) or u.path not in ALLOWED or any(k not in ('lg','week','hist') for k in q) or ('lg' in q and q['lg'] not in [['gl'],['bh'],['rb'],['sts']]) or ('week' in q and (len(q['week'])!=1 or not q['week'][0].isdigit() or not 1<=int(q['week'][0])<=18)):
+            keys = ('lg','week','hist')
+            if u.path in ('/api/mobile/news','/api/mobile/player-log','/api/live-stats'): keys = ('lg','player','card','pos','team')
+            if any(len(v)!=1 or len(v[0])>80 for v in q.values()): self.send_error(403);return
+            if u.path == '/api/live-stats' and not ('player' in q or 'card' in q): self.send_error(403);return
+            if ('hist' in q and (u.path != '/api/lineups' or q['hist'] != ['1'])) or u.path not in ALLOWED or any(k not in keys for k in q) or ('lg' in q and q['lg'] not in [['gl'],['bh'],['rb'],['sts']]) or ('week' in q and (len(q['week'])!=1 or not q['week'][0].isdigit() or not 1<=int(q['week'][0])<=18)):
                 self.send_error(403);return
             try:
                 if u.path == '/api/mobile/media':

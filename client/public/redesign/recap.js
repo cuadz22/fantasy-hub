@@ -11,8 +11,8 @@ window.CFNRecaps=(()=>{
  function latest(lg){
   const seen=new Set(),list=posts.filter(p=>!lg||p.leagueId===lg).slice().sort((a,b)=>b.season-a.season||b.week-a.week).filter(p=>{if(seen.has(p.leagueId))return false;seen.add(p.leagueId);return true;});
   if(!list.length)return `<section class="latest-recaps"><h2>Weekly recaps</h2><p>${error||'The next edition will appear after review.'}</p><a class="text-link" href="#archive">Recap archive →</a></section>`;
-  const week=list.every(p=>p.week===list[0].week)?`Week ${list[0].week} recaps`:'Latest recaps';
-  return `<section class="latest-recaps"><div class="eyebrow">Ready to read</div><h2>${lg?'Your weekly recap':week}</h2>${list.map(p=>`<a class="recap-rail-card" href="recap.html?id=${encodeURIComponent(p.recapID)}">${pic(p.logoURL,'recap-league')}<span><strong>${safe(names[p.leagueId])}</strong><small>Week ${safe(p.week)} · View weekly recap →</small></span></a>`).join('')}<a class="text-link" href="${lg?'#league-'+lg+'/recaps':'#archive'}">All recaps →</a></section>`;
+  const week=list.every(p=>p.week===list[0].week)?`Week ${list[0].week} recaps are live`:'Latest recaps';
+  return `<section class="latest-recaps"><div class="eyebrow">Ready to read</div><h2>${lg?'Week '+list[0].week+' recap is live':week}</h2>${list.map(p=>`<a class="recap-rail-card" href="recap.html?id=${encodeURIComponent(p.recapID)}">${pic(p.logoURL,'recap-league')}<span><strong>${safe(names[p.leagueId])}</strong><small>Week ${safe(p.week)} · View weekly recap →</small></span></a>`).join('')}<a class="text-link" href="${lg?'#league-'+lg+'/recaps':'#archive'}">All recaps →</a></section>`;
  }
  function player(p){return `<div class="recap-player"><div class="recap-portrait">${pic(p.photoURL)}${pic(p.teamLogoURL,'recap-owner-logo')}</div><strong>${safe(p.name.split(' ')[0][0]+'. '+p.name.split(' ').slice(1).join(' '))}</strong><b>${pts(p.points)}</b><span class="recap-owner">${safe(p.owner)}</span></div>`;}
  function result(m){return `<div class="recap-result">${m.teams.map(t=>`<div>${pic(t.logoURL)}<span>${safe(t.name)}</span><b>${pts(t.points)}</b></div>`).join('')}</div>`;}

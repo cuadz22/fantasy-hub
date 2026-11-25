@@ -2828,3 +2828,29 @@ nav a,
 @media(max-width:1100px){.desktop-content{display:block}.news-rail{display:none}.home-recaps-mobile{display:block;margin-top:28px}}
 @media(max-width:600px){.market-filters{flex-wrap:wrap}.full-market th,.full-market td{padding:10px 5px;font-size:12px}.market-player img{width:28px;height:28px}.market-player{gap:6px}}
 [data-theme="light"] .recap-rail-card .recap-league{background:#18232b;border-radius:9px;padding:4px;box-sizing:border-box}
+
+/* Room for the games and a companion editorial column. */
+main,.header-inner,.page-actions,footer{max-width:1680px}
+header>div{max-width:1680px}
+.page-intro>.hero{padding-top:34px;padding-bottom:28px}
+.desktop-content{grid-template-columns:minmax(0,1fr) 350px;gap:28px}
+.news-rail{padding-top:0}
+.page-intro>.section-head,.page-intro>.tool-heading{margin-bottom:20px}
+.desktop-content .home-headliners,.desktop-content .league-matchups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:hidden}
+.desktop-content .home-headliners .match,.desktop-content .league-matchups .match{min-width:0;padding:22px;border:0;border-bottom:1px solid var(--line)}
+.desktop-content .home-headliners .match:nth-child(odd),.desktop-content .league-matchups .match:nth-child(odd){border-right:1px solid var(--line)}
+.desktop-content .home-headliners .match:nth-last-child(-n+2),.desktop-content .league-matchups .match:nth-last-child(-n+2){border-bottom:0}
+.home-headliners .card-label,.league-matchups .card-label{font-size:12px;gap:8px}
+.home-headliners .teams,.league-matchups .teams{gap:14px}
+.home-headliners .team-name,.league-matchups .team-name{font-size:13px;min-height:40px}
+.home-headliners .score,.league-matchups .score{font-size:42px}
+.home-headliners .team-logo,.league-matchups .team-logo{width:36px;height:36px}
+.home-headliners .projection,.league-matchups .projection{font-size:19px}
+.home-headliners .card-freshness,.league-matchups .card-freshness{font-size:10px}
+.standings-sort{border:0;padding:4px 0;background:transparent;color:inherit;font:inherit;text-align:inherit;cursor:pointer;white-space:nowrap}
+.standings-sort span{color:var(--muted);margin-left:4px}.standings-sort:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+@media(min-width:1500px){.desktop-content .league-matchups{grid-template-columns:repeat(3,minmax(0,1fr))}.desktop-content .league-matchups .match:nth-child(n){border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px}.desktop-content .league-matchups .match:nth-child(3n){border-right:0}.desktop-content .league-matchups .match:nth-last-child(-n+3){border-bottom:0}.league-matchups .score{font-size:37px}.league-matchups .team-logo{width:30px;height:30px}.league-matchups .scoreline{gap:7px}}
+@media(max-width:1100px){.desktop-content{display:block}}
+@media(max-width:650px){.desktop-content .home-headliners,.desktop-content .league-matchups{grid-template-columns:1fr}.desktop-content .home-headliners .match:nth-child(n),.desktop-content .league-matchups .match:nth-child(n){border-right:0;border-bottom:1px solid var(--line);padding:22px 18px}.desktop-content .home-headliners .match:last-child,.desktop-content .league-matchups .match:last-child{border-bottom:0}.page-intro>.hero{padding-top:32px}.home-headliners .score,.league-matchups .score{font-size:44px}}
+.nav-wrap{max-width:1680px}
+@media(min-width:760px){.champion-card:has(.champion-road[open]) .champion-top{margin-bottom:10px}.champion-card:has(.champion-road[open]) .history-podium{display:flex;gap:40px;margin-top:16px;padding-bottom:10px}.champion-card:has(.champion-road[open]) .championship-open{max-width:380px}.champion-card:has(.champion-road[open]) .champion-road{margin-top:12px}}

@@ -132,14 +132,17 @@ const fixture = (n) =>
   const rolloutFiles = new Set(["client/api/_pushrollout.json", "client/api/_networkrollout.json", "client/api/_mpush.js", "client/api/_network.js", "client/api/_liveactivity.js"]);
   // Reviewed Road to the Ring UI additions; pin exact content, keeping all API/feed protections.
   const roadPresentation = {
-  "client/public/redesign/index.html": "95924a0e03b04124059f265e5e758ccaf959c69c",
-  "client/public/redesign/index.template.html": "11bca3a40fea0d686c191f0409f1c932b9af007b",
-  "client/public/redesign/tools.js": "28980be8e9824d7598da1d464bbafd969aab03a8",
-  "client/public/redesign/app.js": "775a38b4b14c150a506bb928770038464c91fea7",
+  "client/public/redesign/index.html": "fec34cbf177ae8715481bfc4505c177163e29338",
+  "client/public/redesign/index.template.html": "b70936a0361695db889ceb86301442024c997a79",
+  "client/public/redesign/tools.js": "f0da82fb91e37a7a7985459bae8b15cd50715929",
+  "client/public/redesign/app.js": "7132875dd8c804b976fdeb8cccb4e1cbfbae34dc",
   "client/public/redesign/data.js": "daf47e510494c987b3fa879c537d5e330fc615f7",
-  "client/public/redesign/recap.js": "8898da276bb935a19fe95976d09653d5887db73c",
-  "client/public/redesign/style.css": "078469a51091ec0c9e66ba842a85ee954b17c85f",
-  "client/public/redesign/updates.js": "708d189e879cffb6309c86e7323066024679f73e"
+  "client/public/redesign/recap.js": "a6747a7ed387b3038c7df2530e1b27213f025863",
+  "client/public/redesign/style.css": "4eb74db89873f926dae02792f7702bf0875811d0",
+  "client/public/redesign/updates.js": "822a86b7790b928a99d6cd77fa9bd19845152e27",
+  "client/public/redesign/polish.js": "0863ad202abe5ab0fb6682ae99a26875b0ece520",
+  "client/public/redesign/roads.js": "ad9c1f229aff61908bae57ec7bcd3ca7c1291750",
+  "client/public/redesign/roads.css": "c705f247cc84f5b1bd3d9799f4ad36e264c5ce9d"
 };
   for (const file of files.filter(f => !rolloutFiles.has(f))) {
     const expected = roadPresentation[file] || cp

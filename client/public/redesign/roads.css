@@ -10,3 +10,5 @@
 .road-w{color:#28c6b7;background:rgba(40,198,183,.1)}.road-l{color:#ed6575;background:rgba(237,101,117,.1)}.road-final .road-teams small{color:#c9a764}
 
 .championship-open{color:#e8be68!important;background:rgba(205,158,66,.09);border:1px solid rgba(205,158,66,.25);border-radius:12px;padding:12px 14px;min-height:44px;width:100%;margin:12px 0;text-align:left;font-weight:600}
+@media(min-width:760px){.champion-card:has(.champion-road[open]){grid-column:1/-1}.champion-road[open] .road-games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 26px}.champion-road[open] .road-game{min-width:0}.champion-road[open] .road-record{font-size:14px!important}}
+@media(min-width:1300px){.champion-road[open] .road-games{grid-template-columns:repeat(3,minmax(0,1fr))}}

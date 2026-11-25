@@ -13,7 +13,7 @@ console.log('Feed presentation: player/kicker/defense photos, pick/FAB assets, n
 // what each owner sends, including draft picks and qualification text.
 const vm=require('node:vm'),fs=require('node:fs');
 const scope={window:{},document:{addEventListener(){}},esc:s=>String(s).replaceAll('<','&lt;'),CFNPolish:{avatar:n=>'<img alt="'+n+'">'}};
-vm.createContext(scope);vm.runInContext(fs.readFileSync('client/public/redesign/updates.js','utf8'),scope);
+vm.createContext(scope);vm.runInContext(fs.readFileSync('client/public/redesign/players.js','utf8'),scope);scope.CFNPlayers=scope.window.CFNPlayers;vm.runInContext(fs.readFileSync('client/public/redesign/updates.js','utf8'),scope);
 const markup=scope.window.CFNUpdates.content({kind:'trade',sides:[{name:'Team A',owner:'John',players:['Joe Burrow']},{name:'Team B',owner:'Ed',players:['Round 2 pick','2027 Round 4 pick (from Kevin)']}]});
 const [left,right]=markup.split('trade-arrow');
 assert(left.includes('John')&&left.includes('Pick rounds')&&left.includes('2027 Round 4 pick (from Kevin)'));
