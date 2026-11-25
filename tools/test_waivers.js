@@ -44,5 +44,31 @@ async function rejects(fn,label){let failed=false;try{await fn()}catch{failed=tr
  ok(feed.status===200&&feed.json.posts.filter(p=>p.kind==='waivers'&&p.week===12).length===4,'signed-in old/new app feed sees reports');
  ok((await H.call(H.mobile,'/?r=cron-waivers')).s===401,'scheduled scan requires cron authorization');
  ok([...H.store.keys()].every(k=>/^(waiver-reports:|network:v1:automatic-publications|ms:)/.test(k)||before.has(k)),'no score, roster, calendar, standings or touchdown keys written');
+ // Exercise the actual next-week collector, rather than editing notification flags.
+ const nextNow=Date.parse('2026-12-02T11:21:00Z');
+ const nextLoad=async lg=>(await load(lg)).replaceAll('Nov 25','Dec 2');
+ const nextResource=JSON.parse(JSON.stringify(R));
+ for(const lg of M.LGS){
+  await W.refreshLeague(lg,13,{now:nextNow,load:nextLoad});
+  const next=await M.read(W.key(lg));
+  ok(next.rows.filter(r=>r.week===13).length===expected[lg]&&next.rows.filter(r=>r.week===13).every(r=>!r.suppressNotification),lg+' actual next-week scan clears recovery-only silence');
+  ok(next.rows.filter(r=>r.week===12).every(r=>r.suppressNotification),lg+' historical recovery stays silent');
+  nextResource.tools.waivers[lg]=W.overlay(R.tools.waivers[lg],next);
+ }
+ const nextPosts=N.staticPosts(nextNow,nextResource).filter(p=>p.kind==='waivers'&&p.week===13);
+ ok(nextPosts.length===4&&nextPosts.every(p=>p.notify!==false),'new reports are notification-eligible end to end');
+ await M.command(['DEL','network:v1:automatic-publications']);
+ await E.observe(posts,{now:nextNow-60000});
+ const fresh=await E.observe(nextPosts,{now:nextNow});
+ ok(fresh.length===4,'newly scanned editions queue one alert per league');
+ const active=H.A.MEMBERS.find(m=>N.eligible(m.h)),session='waiver-next-week-test';
+ await M.write('ms:'+session,{e:active.h,x:nextNow+86400000});
+ const devices=['phone','ipad'].map(id=>({id:'waiver-'+id,member:active.h,session,token:'test-token',environment:'production',announcements:true,announcementsEnabledAt:nextNow-60000}));
+ for(const d of devices)await M.write('push:v1:device:'+d.id,d);
+ let sent=0;const options={now:nextNow,sender:async()=>{sent++;return {state:'sent'}}};
+ for(const p of fresh)for(const d of devices)await Promise.all([N.deliver(p,d,options),N.deliver(p,d,options)]);
+ ok(sent===8,'four reports deliver exactly once to each enabled phone and iPad');
+ for(const p of await E.observe(nextPosts,{now:nextNow+60000}))for(const d of devices)await N.deliver(p,d,options);
+ ok(sent===8,'repeat scan and cron cannot duplicate waiver notifications');
  H.done();
 })().catch(e=>{console.error(e);process.exit(1)});
