@@ -9,6 +9,10 @@ const rejects=(f,label)=>{let rejected=false;try{f()}catch{rejected=true}ok(reje
  ok(standings.rows.length===12&&standings.throughWeek===10,'official standings from complete records');
  ok(standings.rows.find(r=>r.teamId===12).rank===3,'team IDs are independent of ranking');
  ok(standings.rows.every(r=>r.logoURL?.startsWith('https://')),'Yahoo team logos retained');
+ const clinchedHTML=standingsHTML.replace('<span>1</span>','<span>*1</span>').replace('<span>2</span>','<span>*2</span>');
+ ok(JSON.stringify(Y.parseStandings(clinchedHTML))===JSON.stringify(standings),'playoff-clinched rank markers preserve complete standings and team IDs');
+ for(const rank of ['**1','x1','1*','1.5','0','13']) rejects(()=>Y.parseStandings(standingsHTML.replace('<span>1</span>',`<span>${rank}</span>`)),'reject malformed or out-of-range rank '+rank);
+ rejects(()=>Y.parseStandings(standingsHTML.replace('1348.25','*1348.25')),'playoff marker is never accepted in points');
  ok(current.opp===10&&next.opp===3,'each week has its own opponent');
  ok(current.players.find(p=>p.name==='Patrick Mahomes').points===34.2&&next.players.find(p=>p.name==='Patrick Mahomes').points===null,'current and upcoming scores remain distinct');
  ok(current.players.find(p=>p.name==='Mike Gesicki').status==='Mon 8:15 pm @ Was','readable scheduled status');

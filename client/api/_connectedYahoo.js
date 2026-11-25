@@ -21,8 +21,11 @@ function parseStandings(html) {
     const record = /^(\d+)-(\d+)-(\d+)$/.exec(Y.text(cells[2] || ''));
     requireValue(cells.length >= 6 && link && record, 'invalid_standings_row');
     const number = cell => { const value = Y.text(cell).replace(/,/g, ''); requireValue(/^\d+(?:\.\d+)?$/.test(value), 'invalid_standings_number'); return Number(value); };
+    // Yahoo prefixes playoff-clinched ranks with '*'; only rank accepts this marker.
+    const rank = /^\*?(\d+)$/.exec(Y.text(cells[0]));
+    requireValue(rank, 'invalid_standings_rank');
     const wins = +record[1], losses = +record[2], ties = +record[3], played = wins + losses + ties;
-    rows.push({ teamId: +link[1], name: Y.text(link[2]), rank: number(cells[0]), wins, losses, ties, record: record[0], pointsFor: number(cells[3]), pointsAgainst: number(cells[4]), streak: Y.text(cells[5]), pointsPerGame: played ? number(cells[3]) / played : 0, logoURL: logo(cells[1]) });
+    rows.push({ teamId: +link[1], name: Y.text(link[2]), rank: Number(rank[1]), wins, losses, ties, record: record[0], pointsFor: number(cells[3]), pointsAgainst: number(cells[4]), streak: Y.text(cells[5]), pointsPerGame: played ? number(cells[3]) / played : 0, logoURL: logo(cells[1]) });
   }
   const throughWeek = rows[0] ? rows[0].wins + rows[0].losses + rows[0].ties : -1;
   requireValue(rows.length === COUNT && new Set(rows.map(r => r.teamId)).size === COUNT && rows.every(r => r.teamId >= 1 && r.teamId <= COUNT && r.name), 'incomplete_standings');
