@@ -31,5 +31,13 @@ const H=require('./mobile_harness'),{M,A,ok}=H,N=require('../client/api/_network
  for(const p of queue){const payload=N.payload(p);ok(payload.cfn.type==='announcement'&&payload.cfn.postId===p.id&&payload.cfn.leagueId==='gl','existing deep-link route preserved');ok(payload.cfn.imageURL.endsWith('/'+p.kind+'-v1.png'),'event-specific image');}
  ok((await E.observe([old,trade,waiver],{now:now+2*86400000})).length===0,'expired events no longer queued');
  ok((await E.observe([old,trade,waiver],{now:now+2*86400000+1000})).length===0,'seen IDs prevent late replay');
+ const general={...trade,id:'player-news',kind:'news',notify:true};
+ ok((await E.observe([general],{now})).every(p=>p.kind!=='news'),'general player news cannot enter automatic Network alerts');
+ let recapSends=0;const recapOptions={now,sender:async()=>{recapSends++;return {state:'sent'}}};
+ await Promise.all([N.deliver(recap,phone,recapOptions),N.deliver(recap,phone,recapOptions),N.deliver(recap,ipad,recapOptions)]);
+ ok(recapSends===2,'published recap alerts once per opted-in phone and iPad');
+ await N.deliver({...recap,body:'Corrected editorial copy'},phone,recapOptions);
+ ok(recapSends===2,'editing a published recap does not resend it');
+ ok((await N.deliver({...recap,id:'silent-edition',notify:false},phone,recapOptions)).state==='not_eligible','silent publication stays silent');
  H.done();
 })().catch(e=>{console.error(e);process.exit(1)});
