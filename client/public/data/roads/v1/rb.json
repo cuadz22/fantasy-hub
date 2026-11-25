@@ -1,0 +1,1825 @@
+{
+  "schemaVersion": 1,
+  "leagueKey": "rb",
+  "revision": "20261125-roads-v1",
+  "seasons": [
+    {
+      "season": 2025,
+      "teamName": "Nacua Matata",
+      "regularRecord": "8-6-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "rb-2025-w01-8-10",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "Manifested It",
+          "score": "139.02",
+          "opponentScore": "187.34",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w01"
+          ]
+        },
+        {
+          "id": "rb-2025-w02-9-10",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "Straight Outta Hampton",
+          "score": "199.56",
+          "opponentScore": "112.96",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w02"
+          ]
+        },
+        {
+          "id": "rb-2025-w03-2-10",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "Ashton 316 🍻🐍",
+          "score": "123.48",
+          "opponentScore": "109.28",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w03"
+          ]
+        },
+        {
+          "id": "rb-2025-w04-7-10",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "LaPorta Potty",
+          "score": "189.30",
+          "opponentScore": "177.48",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w04"
+          ]
+        },
+        {
+          "id": "rb-2025-w05-10-11",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "Killer Instinct",
+          "score": "175.16",
+          "opponentScore": "170.14",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w05"
+          ]
+        },
+        {
+          "id": "rb-2025-w06-1-10",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "bichote",
+          "score": "93.28",
+          "opponentScore": "162.76",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w06"
+          ]
+        },
+        {
+          "id": "rb-2025-w07-10-12",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "Rents Due",
+          "score": "119.74",
+          "opponentScore": "174.18",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w07"
+          ]
+        },
+        {
+          "id": "rb-2025-w08-3-10",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "To Infinity and Bijan 🚀",
+          "score": "156.84",
+          "opponentScore": "199.30",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w08"
+          ]
+        },
+        {
+          "id": "rb-2025-w09-6-10",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "Hooligans",
+          "score": "134.34",
+          "opponentScore": "155.38",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w09"
+          ]
+        },
+        {
+          "id": "rb-2025-w10-4-10",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "Stiff Arm That Njigba",
+          "score": "217.98",
+          "opponentScore": "134.14",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w10"
+          ]
+        },
+        {
+          "id": "rb-2025-w11-5-10",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "Buck You",
+          "score": "145.02",
+          "opponentScore": "118.80",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w11"
+          ]
+        },
+        {
+          "id": "rb-2025-w12-8-10",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "Manifested It",
+          "score": "190.18",
+          "opponentScore": "170.66",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w12"
+          ]
+        },
+        {
+          "id": "rb-2025-w13-9-10",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "Straight Outta Hampton",
+          "score": "142.82",
+          "opponentScore": "160.64",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w13"
+          ]
+        },
+        {
+          "id": "rb-2025-w14-2-10",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "regular",
+          "teamName": "Nacua Matata",
+          "opponentName": "Ashton 316 🍻🐍",
+          "score": "194.98",
+          "opponentScore": "168.56",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w14"
+          ]
+        },
+        {
+          "id": "rb-2025-w15-3-10",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "Nacua Matata",
+          "opponentName": "To Infinity and Bijan 🚀",
+          "score": "228.88",
+          "opponentScore": "182.60",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w15"
+          ]
+        },
+        {
+          "id": "rb-2025-w16-1-10",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "Nacua Matata",
+          "opponentName": "bichote",
+          "score": "226.14",
+          "opponentScore": "170.70",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2025-w16"
+          ]
+        },
+        {
+          "id": "rb-2025-w17-10-12",
+          "weekStart": 17,
+          "weekEnd": 17,
+          "stage": "playoff",
+          "teamName": "Nacua Matata",
+          "opponentName": "Rents Due",
+          "score": "170.34",
+          "opponentScore": "152.72",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-rb-2025-w17"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    },
+    {
+      "season": 2024,
+      "teamName": "LaPorta Potty",
+      "regularRecord": "8-6-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "rb-2024-w01-5-6",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Amon Ra The Sun God ☀️",
+          "score": "167.14",
+          "opponentScore": "104.02",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w01"
+          ]
+        },
+        {
+          "id": "rb-2024-w02-6-8",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Nacua Matata",
+          "score": "100.88",
+          "opponentScore": "173.66",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w02"
+          ]
+        },
+        {
+          "id": "rb-2024-w03-6-10",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Mosterts Inc.",
+          "score": "168.08",
+          "opponentScore": "180.86",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w03"
+          ]
+        },
+        {
+          "id": "rb-2024-w04-4-6",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "CHUPAMELA HPT",
+          "score": "168.22",
+          "opponentScore": "168.30",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w04"
+          ]
+        },
+        {
+          "id": "rb-2024-w05-1-6",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "CALL DREW",
+          "score": "214.22",
+          "opponentScore": "191.84",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w05"
+          ]
+        },
+        {
+          "id": "rb-2024-w06-6-9",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Henry Given Sunday",
+          "score": "148.62",
+          "opponentScore": "186.22",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w06"
+          ]
+        },
+        {
+          "id": "rb-2024-w07-6-11",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "No Limit Soldiers",
+          "score": "198.24",
+          "opponentScore": "127.54",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w07"
+          ]
+        },
+        {
+          "id": "rb-2024-w08-3-6",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Rents Due",
+          "score": "199.52",
+          "opponentScore": "209.98",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w08"
+          ]
+        },
+        {
+          "id": "rb-2024-w09-6-7",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Hooligans",
+          "score": "155.50",
+          "opponentScore": "189.02",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w09"
+          ]
+        },
+        {
+          "id": "rb-2024-w10-2-6",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Business is Closed",
+          "score": "199.84",
+          "opponentScore": "97.94",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w10"
+          ]
+        },
+        {
+          "id": "rb-2024-w11-6-12",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Manifested It",
+          "score": "196.20",
+          "opponentScore": "133.86",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w11"
+          ]
+        },
+        {
+          "id": "rb-2024-w12-5-6",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Amon Ra The Sun God ☀️",
+          "score": "194.04",
+          "opponentScore": "104.32",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w12"
+          ]
+        },
+        {
+          "id": "rb-2024-w13-6-8",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Nacua Matata",
+          "score": "172.48",
+          "opponentScore": "166.90",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w13"
+          ]
+        },
+        {
+          "id": "rb-2024-w14-6-10",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "regular",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Mosterts Inc.",
+          "score": "192.34",
+          "opponentScore": "159.72",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w14"
+          ]
+        },
+        {
+          "id": "rb-2024-w15-6-12",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Manifested It",
+          "score": "169.54",
+          "opponentScore": "130.08",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w15"
+          ]
+        },
+        {
+          "id": "rb-2024-w16-6-10",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Mosterts Inc.",
+          "score": "202.10",
+          "opponentScore": "172.00",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2024-w16"
+          ]
+        },
+        {
+          "id": "rb-2024-w17-6-8",
+          "weekStart": 17,
+          "weekEnd": 17,
+          "stage": "playoff",
+          "teamName": "LaPorta Potty",
+          "opponentName": "Nacua Matata",
+          "score": "270.08",
+          "opponentScore": "147.62",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-rb-2024-w17"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    },
+    {
+      "season": 2023,
+      "teamName": "Hooligans",
+      "regularRecord": "11-3-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "rb-2023-w01-5-10",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "Patty Cakes",
+          "score": "142.98",
+          "opponentScore": "178.28",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w01"
+          ]
+        },
+        {
+          "id": "rb-2023-w02-5-7",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "High Speed Chase",
+          "score": "162.54",
+          "opponentScore": "151.66",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w02"
+          ]
+        },
+        {
+          "id": "rb-2023-w03-4-5",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "Love story",
+          "score": "124.52",
+          "opponentScore": "160.26",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w03"
+          ]
+        },
+        {
+          "id": "rb-2023-w04-5-12",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "Young Gunnas",
+          "score": "122.56",
+          "opponentScore": "119.66",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w04"
+          ]
+        },
+        {
+          "id": "rb-2023-w05-5-9",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "Christian Mingle ✝️",
+          "score": "146.86",
+          "opponentScore": "156.64",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w05"
+          ]
+        },
+        {
+          "id": "rb-2023-w06-5-6",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "Chase the end zone",
+          "score": "169.04",
+          "opponentScore": "138.18",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w06"
+          ]
+        },
+        {
+          "id": "rb-2023-w07-1-5",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "LOS PITS",
+          "score": "138.42",
+          "opponentScore": "130.14",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w07"
+          ]
+        },
+        {
+          "id": "rb-2023-w08-5-11",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "RussellMania",
+          "score": "185.22",
+          "opponentScore": "142.08",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w08"
+          ]
+        },
+        {
+          "id": "rb-2023-w09-5-8",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "Soldier Fields",
+          "score": "142.76",
+          "opponentScore": "104.70",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w09"
+          ]
+        },
+        {
+          "id": "rb-2023-w10-2-5",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "Bijan Mustardson",
+          "score": "162.16",
+          "opponentScore": "109.56",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w10"
+          ]
+        },
+        {
+          "id": "rb-2023-w11-3-5",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "Calma",
+          "score": "156.30",
+          "opponentScore": "85.14",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w11"
+          ]
+        },
+        {
+          "id": "rb-2023-w12-5-10",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "Patty Cakes",
+          "score": "165.32",
+          "opponentScore": "116.62",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w12"
+          ]
+        },
+        {
+          "id": "rb-2023-w13-5-7",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "High Speed Chase",
+          "score": "150.22",
+          "opponentScore": "124.30",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w13"
+          ]
+        },
+        {
+          "id": "rb-2023-w14-4-5",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "regular",
+          "teamName": "Hooligans",
+          "opponentName": "Love story",
+          "score": "146.48",
+          "opponentScore": "137.16",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w14"
+          ]
+        },
+        {
+          "id": "rb-2023-bye-15",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "Hooligans",
+          "opponentName": null,
+          "score": null,
+          "opponentScore": null,
+          "result": "BYE",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w15"
+          ]
+        },
+        {
+          "id": "rb-2023-w16-5-9",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "Hooligans",
+          "opponentName": "Christian Mingle ✝️",
+          "score": "181.76",
+          "opponentScore": "169.12",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2023-w16"
+          ]
+        },
+        {
+          "id": "rb-2023-w17-5-12",
+          "weekStart": 17,
+          "weekEnd": 17,
+          "stage": "playoff",
+          "teamName": "Hooligans",
+          "opponentName": "Young Gunnas",
+          "score": "207.56",
+          "opponentScore": "188.80",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-rb-2023-w17"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    },
+    {
+      "season": 2022,
+      "teamName": "23",
+      "regularRecord": "9-5-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "rb-2022-w01-1-10",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "Hollywood",
+          "score": "191.50",
+          "opponentScore": "126.70",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w01"
+          ]
+        },
+        {
+          "id": "rb-2022-w02-1-2",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "Un Vaccaro Sin Ti",
+          "score": "151.08",
+          "opponentScore": "125.44",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w02"
+          ]
+        },
+        {
+          "id": "rb-2022-w03-1-9",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "Red Shirt Redemption",
+          "score": "106.64",
+          "opponentScore": "155.58",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w03"
+          ]
+        },
+        {
+          "id": "rb-2022-w04-1-12",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "Who’s Tanking?",
+          "score": "212.16",
+          "opponentScore": "160.36",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w04"
+          ]
+        },
+        {
+          "id": "rb-2022-w05-1-6",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "Hooligans",
+          "score": "140.84",
+          "opponentScore": "146.66",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w05"
+          ]
+        },
+        {
+          "id": "rb-2022-w06-1-7",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "ALLENTOWN",
+          "score": "141.02",
+          "opponentScore": "161.50",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w06"
+          ]
+        },
+        {
+          "id": "rb-2022-w07-1-5",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "Raccoon City",
+          "score": "165.88",
+          "opponentScore": "133.12",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w07"
+          ]
+        },
+        {
+          "id": "rb-2022-w08-1-8",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "I MADE PRU TANK",
+          "score": "169.68",
+          "opponentScore": "117.16",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w08"
+          ]
+        },
+        {
+          "id": "rb-2022-w09-1-3",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "God Did",
+          "score": "161.40",
+          "opponentScore": "169.00",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w09"
+          ]
+        },
+        {
+          "id": "rb-2022-w10-1-11",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "Tank",
+          "score": "159.20",
+          "opponentScore": "108.30",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w10"
+          ]
+        },
+        {
+          "id": "rb-2022-w11-1-4",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "Spill the Tee 🫖 🐸",
+          "score": "99.70",
+          "opponentScore": "156.04",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w11"
+          ]
+        },
+        {
+          "id": "rb-2022-w12-1-10",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "Hollywood",
+          "score": "167.54",
+          "opponentScore": "121.08",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w12"
+          ]
+        },
+        {
+          "id": "rb-2022-w13-1-2",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "Un Vaccaro Sin Ti",
+          "score": "180.56",
+          "opponentScore": "162.92",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w13"
+          ]
+        },
+        {
+          "id": "rb-2022-w14-1-9",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "regular",
+          "teamName": "23",
+          "opponentName": "Red Shirt Redemption",
+          "score": "168.02",
+          "opponentScore": "138.02",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w14"
+          ]
+        },
+        {
+          "id": "rb-2022-w15-1-3",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "23",
+          "opponentName": "God Did",
+          "score": "200.48",
+          "opponentScore": "169.04",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w15"
+          ]
+        },
+        {
+          "id": "rb-2022-w16-1-12",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "23",
+          "opponentName": "Who’s Tanking?",
+          "score": "142.50",
+          "opponentScore": "137.52",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2022-w16"
+          ]
+        },
+        {
+          "id": "rb-2022-w17-1-7",
+          "weekStart": 17,
+          "weekEnd": 17,
+          "stage": "playoff",
+          "teamName": "23",
+          "opponentName": "ALLENTOWN",
+          "score": "203.78",
+          "opponentScore": "70.10",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-rb-2022-w17"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    },
+    {
+      "season": 2021,
+      "teamName": "Taylor Made",
+      "regularRecord": "9-5-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "rb-2021-w01-5-9",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "Hooligans",
+          "score": "138.14",
+          "opponentScore": "191.38",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w01"
+          ]
+        },
+        {
+          "id": "rb-2021-w02-6-9",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "Beat Addie",
+          "score": "126.26",
+          "opponentScore": "109.30",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w02"
+          ]
+        },
+        {
+          "id": "rb-2021-w03-7-9",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "Goff Balls",
+          "score": "164.56",
+          "opponentScore": "152.46",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w03"
+          ]
+        },
+        {
+          "id": "rb-2021-w04-8-9",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "Davante’s Inferno 🔥",
+          "score": "200.60",
+          "opponentScore": "96.70",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w04"
+          ]
+        },
+        {
+          "id": "rb-2021-w05-9-12",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "I’m tanking",
+          "score": "156.72",
+          "opponentScore": "75.50",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w05"
+          ]
+        },
+        {
+          "id": "rb-2021-w06-9-10",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "Who’s Tanking ?",
+          "score": "169.52",
+          "opponentScore": "183.82",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w06"
+          ]
+        },
+        {
+          "id": "rb-2021-w07-9-11",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "View from LaMar",
+          "score": "159.48",
+          "opponentScore": "171.32",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w07"
+          ]
+        },
+        {
+          "id": "rb-2021-w08-1-9",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "[IR]",
+          "score": "128.78",
+          "opponentScore": "174.20",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w08"
+          ]
+        },
+        {
+          "id": "rb-2021-w09-2-9",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "SLEEPY JOE SAYS MASK UP 💉😷",
+          "score": "165.56",
+          "opponentScore": "116.30",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w09"
+          ]
+        },
+        {
+          "id": "rb-2021-w10-3-9",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "Tanking Tanks",
+          "score": "147.68",
+          "opponentScore": "100.76",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w10"
+          ]
+        },
+        {
+          "id": "rb-2021-w11-4-9",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "3 Days",
+          "score": "245.12",
+          "opponentScore": "102.30",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w11"
+          ]
+        },
+        {
+          "id": "rb-2021-w12-5-9",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "Hooligans",
+          "score": "122.88",
+          "opponentScore": "177.60",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w12"
+          ]
+        },
+        {
+          "id": "rb-2021-w13-6-9",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "Beat Addie",
+          "score": "161.58",
+          "opponentScore": "130.38",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w13"
+          ]
+        },
+        {
+          "id": "rb-2021-w14-7-9",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "regular",
+          "teamName": "Taylor Made",
+          "opponentName": "Goff Balls",
+          "score": "133.94",
+          "opponentScore": "120.64",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w14"
+          ]
+        },
+        {
+          "id": "rb-2021-w15-5-9",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "Taylor Made",
+          "opponentName": "Hooligans",
+          "score": "131.42",
+          "opponentScore": "109.06",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w15"
+          ]
+        },
+        {
+          "id": "rb-2021-w16-9-11",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "Taylor Made",
+          "opponentName": "View from LaMar",
+          "score": "128.46",
+          "opponentScore": "113.92",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2021-w16"
+          ]
+        },
+        {
+          "id": "rb-2021-w17-2-9",
+          "weekStart": 17,
+          "weekEnd": 17,
+          "stage": "playoff",
+          "teamName": "Taylor Made",
+          "opponentName": "SLEEPY JOE SAYS MASK UP 💉😷",
+          "score": "169.54",
+          "opponentScore": "124.98",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-rb-2021-w17"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    },
+    {
+      "season": 2020,
+      "teamName": "Tyreek & Destroy ✌🏼",
+      "regularRecord": "8-5-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "rb-2020-w01-1-2",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "bottom feeders™",
+          "score": "147.46",
+          "opponentScore": "147.14",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w01"
+          ]
+        },
+        {
+          "id": "rb-2020-w02-2-12",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "I’m the Captain Now",
+          "score": "163.16",
+          "opponentScore": "176.44",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w02"
+          ]
+        },
+        {
+          "id": "rb-2020-w03-2-3",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "Aaryon Brotherhood",
+          "score": "202.32",
+          "opponentScore": "187.46",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w03"
+          ]
+        },
+        {
+          "id": "rb-2020-w04-2-4",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "Hooligans",
+          "score": "197.96",
+          "opponentScore": "186.82",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w04"
+          ]
+        },
+        {
+          "id": "rb-2020-w05-2-5",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "J Dalvin",
+          "score": "151.78",
+          "opponentScore": "112.88",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w05"
+          ]
+        },
+        {
+          "id": "rb-2020-w06-2-6",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "Donald Dak",
+          "score": "125.56",
+          "opponentScore": "170.92",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w06"
+          ]
+        },
+        {
+          "id": "rb-2020-w07-2-7",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "Tank",
+          "score": "171.66",
+          "opponentScore": "152.24",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w07"
+          ]
+        },
+        {
+          "id": "rb-2020-w08-2-8",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "Sup Mahomes",
+          "score": "161.36",
+          "opponentScore": "154.36",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w08"
+          ]
+        },
+        {
+          "id": "rb-2020-w09-2-9",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "Jujubes",
+          "score": "139.56",
+          "opponentScore": "150.20",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w09"
+          ]
+        },
+        {
+          "id": "rb-2020-w10-2-10",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "Papi Juanch-O",
+          "score": "178.48",
+          "opponentScore": "112.54",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w10"
+          ]
+        },
+        {
+          "id": "rb-2020-w11-2-11",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "#StopTheCount!",
+          "score": "133.66",
+          "opponentScore": "135.92",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w11"
+          ]
+        },
+        {
+          "id": "rb-2020-w12-1-2",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "bottom feeders™",
+          "score": "215.42",
+          "opponentScore": "105.16",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w12"
+          ]
+        },
+        {
+          "id": "rb-2020-w13-2-12",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "I’m the Captain Now",
+          "score": "119.24",
+          "opponentScore": "158.74",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w13"
+          ]
+        },
+        {
+          "id": "rb-2020-w14-2-10",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "playoff",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "Papi Juanch-O",
+          "score": "183.82",
+          "opponentScore": "169.68",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w14"
+          ]
+        },
+        {
+          "id": "rb-2020-w15-2-6",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "Donald Dak",
+          "score": "184.76",
+          "opponentScore": "133.24",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2020-w15"
+          ]
+        },
+        {
+          "id": "rb-2020-w16-2-12",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "Tyreek & Destroy ✌🏼",
+          "opponentName": "I’m the Captain Now",
+          "score": "154.60",
+          "opponentScore": "105.64",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-rb-2020-w16"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    },
+    {
+      "season": 2019,
+      "teamName": "Shit Out of Luck",
+      "regularRecord": "7-6-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "rb-2019-w01-1-11",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "seeing ghosts",
+          "score": "169.44",
+          "opponentScore": "117.22",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w01"
+          ]
+        },
+        {
+          "id": "rb-2019-w02-10-11",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "3’x17’",
+          "score": "155.98",
+          "opponentScore": "154.62",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w02"
+          ]
+        },
+        {
+          "id": "rb-2019-w03-7-11",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "J Dalvin",
+          "score": "114.08",
+          "opponentScore": "157.10",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w03"
+          ]
+        },
+        {
+          "id": "rb-2019-w04-4-11",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "Hooligans",
+          "score": "115.68",
+          "opponentScore": "115.92",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w04"
+          ]
+        },
+        {
+          "id": "rb-2019-w05-6-11",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "Caff Daddy",
+          "score": "163.08",
+          "opponentScore": "154.88",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w05"
+          ]
+        },
+        {
+          "id": "rb-2019-w06-2-11",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "Evans Almighty",
+          "score": "136.26",
+          "opponentScore": "212.56",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w06"
+          ]
+        },
+        {
+          "id": "rb-2019-w07-8-11",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "Tyreek & Destroy",
+          "score": "167.38",
+          "opponentScore": "142.82",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w07"
+          ]
+        },
+        {
+          "id": "rb-2019-w08-9-11",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "SaQuads",
+          "score": "172.68",
+          "opponentScore": "145.10",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w08"
+          ]
+        },
+        {
+          "id": "rb-2019-w09-3-11",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "Saved by the Bell",
+          "score": "99.64",
+          "opponentScore": "161.46",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w09"
+          ]
+        },
+        {
+          "id": "rb-2019-w10-5-11",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "Mahomes Depot",
+          "score": "126.72",
+          "opponentScore": "126.56",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w10"
+          ]
+        },
+        {
+          "id": "rb-2019-w11-11-12",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "Baby Chark DooDooDoo",
+          "score": "187.58",
+          "opponentScore": "98.58",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w11"
+          ]
+        },
+        {
+          "id": "rb-2019-w12-1-11",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "seeing ghosts",
+          "score": "132.58",
+          "opponentScore": "175.26",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w12"
+          ]
+        },
+        {
+          "id": "rb-2019-w13-10-11",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "3’x17’",
+          "score": "131.08",
+          "opponentScore": "161.30",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w13"
+          ]
+        },
+        {
+          "id": "rb-2019-w14-9-11",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "playoff",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "SaQuads",
+          "score": "182.60",
+          "opponentScore": "162.64",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w14"
+          ]
+        },
+        {
+          "id": "rb-2019-w15-7-11",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "J Dalvin",
+          "score": "164.40",
+          "opponentScore": "134.66",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-rb-2019-w15"
+          ]
+        },
+        {
+          "id": "rb-2019-w16-1-11",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "Shit Out of Luck",
+          "opponentName": "seeing ghosts",
+          "score": "177.46",
+          "opponentScore": "157.00",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-rb-2019-w16"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    }
+  ]
+}

@@ -1,0 +1,799 @@
+{
+  "schemaVersion": 1,
+  "leagueKey": "gl",
+  "revision": "20261125-roads-v1",
+  "seasons": [
+    {
+      "season": 2025,
+      "teamName": "Sir",
+      "regularRecord": "12-2-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "gl-2025-w01-8-12",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "HEAVIER THAN THE CROWN",
+          "score": "119.90",
+          "opponentScore": "100.65",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w01"
+          ]
+        },
+        {
+          "id": "gl-2025-w02-1-12",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "Help Me",
+          "score": "173.85",
+          "opponentScore": "165.65",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w02"
+          ]
+        },
+        {
+          "id": "gl-2025-w03-5-12",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "The Veterans",
+          "score": "141.85",
+          "opponentScore": "131.35",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w03"
+          ]
+        },
+        {
+          "id": "gl-2025-w04-4-12",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "Dart Vader",
+          "score": "179.05",
+          "opponentScore": "147.00",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w04"
+          ]
+        },
+        {
+          "id": "gl-2025-w05-2-12",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "Bo-Nix-N-Harmony",
+          "score": "190.55",
+          "opponentScore": "123.40",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w05"
+          ]
+        },
+        {
+          "id": "gl-2025-w06-3-12",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "Chupamela HPT",
+          "score": "210.25",
+          "opponentScore": "113.55",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w06"
+          ]
+        },
+        {
+          "id": "gl-2025-w07-9-12",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "Malik’s Naber Hood",
+          "score": "159.30",
+          "opponentScore": "98.20",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w07"
+          ]
+        },
+        {
+          "id": "gl-2025-w08-7-12",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "Justin Credible",
+          "score": "117.50",
+          "opponentScore": "131.25",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w08"
+          ]
+        },
+        {
+          "id": "gl-2025-w09-11-12",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "QUON-less",
+          "score": "167.40",
+          "opponentScore": "157.60",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w09"
+          ]
+        },
+        {
+          "id": "gl-2025-w10-10-12",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "Mr. Electricity",
+          "score": "142.60",
+          "opponentScore": "179.60",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w10"
+          ]
+        },
+        {
+          "id": "gl-2025-w11-6-12",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "Bo Meets World ⚡️",
+          "score": "173.70",
+          "opponentScore": "156.55",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w11"
+          ]
+        },
+        {
+          "id": "gl-2025-w12-8-12",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "HEAVIER THAN THE CROWN",
+          "score": "180.50",
+          "opponentScore": "126.15",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w12"
+          ]
+        },
+        {
+          "id": "gl-2025-w13-1-12",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "Help Me",
+          "score": "146.70",
+          "opponentScore": "134.70",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w13"
+          ]
+        },
+        {
+          "id": "gl-2025-w14-5-12",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "regular",
+          "teamName": "Sir",
+          "opponentName": "The Veterans",
+          "score": "143.00",
+          "opponentScore": "124.20",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w14"
+          ]
+        },
+        {
+          "id": "gl-2025-bye-15",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "Sir",
+          "opponentName": null,
+          "score": null,
+          "opponentScore": null,
+          "result": "BYE",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w15"
+          ]
+        },
+        {
+          "id": "gl-2025-w16-6-12",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "Sir",
+          "opponentName": "Bo Meets World ⚡️",
+          "score": "179.50",
+          "opponentScore": "156.90",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2025-w16"
+          ]
+        },
+        {
+          "id": "gl-2025-w17-10-12",
+          "weekStart": 17,
+          "weekEnd": 17,
+          "stage": "playoff",
+          "teamName": "Sir",
+          "opponentName": "Mr. Electricity",
+          "score": "169.95",
+          "opponentScore": "139.65",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-gl-2025-w17"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    },
+    {
+      "season": 2024,
+      "teamName": "Magneto Was Right",
+      "regularRecord": "9-5-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "gl-2024-w01-3-9",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "Chupamela HPT",
+          "score": "137.35",
+          "opponentScore": "174.10",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w01"
+          ]
+        },
+        {
+          "id": "gl-2024-w02-9-10",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "Sir",
+          "score": "141.25",
+          "opponentScore": "120.55",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w02"
+          ]
+        },
+        {
+          "id": "gl-2024-w03-6-9",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "JFamous",
+          "score": "115.75",
+          "opponentScore": "199.40",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w03"
+          ]
+        },
+        {
+          "id": "gl-2024-w04-8-9",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "Love Yourz",
+          "score": "155.85",
+          "opponentScore": "127.50",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w04"
+          ]
+        },
+        {
+          "id": "gl-2024-w05-4-9",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "Risky Business",
+          "score": "121.60",
+          "opponentScore": "122.55",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w05"
+          ]
+        },
+        {
+          "id": "gl-2024-w06-7-9",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "Mr. Electricity",
+          "score": "188.95",
+          "opponentScore": "169.85",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w06"
+          ]
+        },
+        {
+          "id": "gl-2024-w07-9-11",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "Chinga tú Rhamondre",
+          "score": "194.30",
+          "opponentScore": "102.20",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w07"
+          ]
+        },
+        {
+          "id": "gl-2024-w08-1-9",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "los rompediscotekas",
+          "score": "147.50",
+          "opponentScore": "150.75",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w08"
+          ]
+        },
+        {
+          "id": "gl-2024-w09-2-9",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "El Matatan",
+          "score": "156.90",
+          "opponentScore": "153.00",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w09"
+          ]
+        },
+        {
+          "id": "gl-2024-w10-5-9",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "Lights Camera Jackson 🎬",
+          "score": "139.30",
+          "opponentScore": "133.80",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w10"
+          ]
+        },
+        {
+          "id": "gl-2024-w11-9-12",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "Maliks Naber-Hood",
+          "score": "204.45",
+          "opponentScore": "157.85",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w11"
+          ]
+        },
+        {
+          "id": "gl-2024-w12-3-9",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "Chupamela HPT",
+          "score": "188.50",
+          "opponentScore": "143.70",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w12"
+          ]
+        },
+        {
+          "id": "gl-2024-w13-9-10",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "Sir",
+          "score": "157.05",
+          "opponentScore": "186.90",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w13"
+          ]
+        },
+        {
+          "id": "gl-2024-w14-6-9",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "regular",
+          "teamName": "Magneto Was Right",
+          "opponentName": "JFamous",
+          "score": "170.35",
+          "opponentScore": "134.95",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w14"
+          ]
+        },
+        {
+          "id": "gl-2024-bye-15",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "Magneto Was Right",
+          "opponentName": null,
+          "score": null,
+          "opponentScore": null,
+          "result": "BYE",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w15"
+          ]
+        },
+        {
+          "id": "gl-2024-w16-9-10",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "Magneto Was Right",
+          "opponentName": "Sir",
+          "score": "192.25",
+          "opponentScore": "151.80",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2024-w16"
+          ]
+        },
+        {
+          "id": "gl-2024-w17-5-9",
+          "weekStart": 17,
+          "weekEnd": 17,
+          "stage": "playoff",
+          "teamName": "Magneto Was Right",
+          "opponentName": "Lights Camera Jackson 🎬",
+          "score": "221.95",
+          "opponentScore": "187.60",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-gl-2024-w17"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    },
+    {
+      "season": 2023,
+      "teamName": "King Quon",
+      "regularRecord": "7-7-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "gl-2023-w01-5-9",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "Waller General",
+          "score": "118.00",
+          "opponentScore": "134.35",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w01"
+          ]
+        },
+        {
+          "id": "gl-2023-w02-5-6",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "El Caballero",
+          "score": "150.85",
+          "opponentScore": "153.90",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w02"
+          ]
+        },
+        {
+          "id": "gl-2023-w03-5-12",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "Chupamela HPT",
+          "score": "167.45",
+          "opponentScore": "174.10",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w03"
+          ]
+        },
+        {
+          "id": "gl-2023-w04-3-5",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "Julio is Back",
+          "score": "55.85",
+          "opponentScore": "124.55",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w04"
+          ]
+        },
+        {
+          "id": "gl-2023-w05-5-7",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "I Was At The Draft",
+          "score": "103.20",
+          "opponentScore": "121.70",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w05"
+          ]
+        },
+        {
+          "id": "gl-2023-w06-2-5",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "Wheels",
+          "score": "127.35",
+          "opponentScore": "151.40",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w06"
+          ]
+        },
+        {
+          "id": "gl-2023-w07-5-8",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "Bijan Mustard",
+          "score": "126.65",
+          "opponentScore": "154.80",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w07"
+          ]
+        },
+        {
+          "id": "gl-2023-w08-5-11",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "Sir",
+          "score": "171.20",
+          "opponentScore": "151.75",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w08"
+          ]
+        },
+        {
+          "id": "gl-2023-w09-5-10",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "Oppenheimer",
+          "score": "150.65",
+          "opponentScore": "110.05",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w09"
+          ]
+        },
+        {
+          "id": "gl-2023-w10-1-5",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "Papi Champaño",
+          "score": "201.85",
+          "opponentScore": "102.95",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w10"
+          ]
+        },
+        {
+          "id": "gl-2023-w11-4-5",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "JFamous",
+          "score": "150.00",
+          "opponentScore": "140.70",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w11"
+          ]
+        },
+        {
+          "id": "gl-2023-w12-5-9",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "Waller General",
+          "score": "161.70",
+          "opponentScore": "124.95",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w12"
+          ]
+        },
+        {
+          "id": "gl-2023-w13-5-6",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "El Caballero",
+          "score": "190.65",
+          "opponentScore": "93.80",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w13"
+          ]
+        },
+        {
+          "id": "gl-2023-w14-5-12",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "regular",
+          "teamName": "King Quon",
+          "opponentName": "Chupamela HPT",
+          "score": "163.55",
+          "opponentScore": "111.05",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w14"
+          ]
+        },
+        {
+          "id": "gl-2023-w15-3-5",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "King Quon",
+          "opponentName": "Julio is Back",
+          "score": "148.80",
+          "opponentScore": "148.75",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w15"
+          ]
+        },
+        {
+          "id": "gl-2023-w16-5-11",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "King Quon",
+          "opponentName": "Sir",
+          "score": "147.25",
+          "opponentScore": "135.90",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-gl-2023-w16"
+          ]
+        },
+        {
+          "id": "gl-2023-w17-5-7",
+          "weekStart": 17,
+          "weekEnd": 17,
+          "stage": "playoff",
+          "teamName": "King Quon",
+          "opponentName": "I Was At The Draft",
+          "score": "186.25",
+          "opponentScore": "113.45",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-gl-2023-w17"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    }
+  ]
+}

@@ -2816,3 +2816,15 @@ nav a,
 .dialog-head .share-page{margin-left:auto;margin-right:12px}
 .share-fallback{display:flex;gap:8px;max-width:100%;padding:8px}.share-fallback input{min-width:0;width:300px}
 @media(max-width:600px){.league-pop{position:fixed;left:12px;right:12px;top:66px;width:auto}.page-actions{margin:10px 0 -14px;padding:0 20px}.dialog-head .share-page{margin-right:5px;padding:8px}.dialog-head>span{min-width:0}}
+
+/* Current content, shared across desktop and mobile. */
+.desktop-content{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:36px;align-items:start}
+.page-content{min-width:0}.news-rail{position:sticky;top:100px;max-height:calc(100vh - 120px);overflow:auto;scrollbar-width:thin;padding-top:36px}
+.latest-recaps,.rail-updates{padding:20px;border:1px solid var(--line,rgba(140,150,160,.18));border-radius:22px;margin:0 0 24px;background:var(--surface,rgba(140,150,160,.04))}
+.latest-recaps h2,.rail-updates h2{font-size:23px;margin:8px 0 15px}.recap-rail-card{display:flex;gap:12px;align-items:center;padding:14px 0;text-decoration:none;color:inherit}.recap-rail-card img{width:36px;height:36px;object-fit:contain}.recap-rail-card strong,.recap-rail-card small{display:block}.recap-rail-card strong{font-size:14px}.recap-rail-card small{font-size:12px;opacity:.65;margin-top:5px}
+.rail-news{display:block;padding:14px 0;border-bottom:1px solid var(--line,rgba(140,150,160,.18));color:inherit;text-decoration:none}.rail-news>div{display:flex;gap:8px;align-items:center;margin-bottom:8px}.rail-news .avatar{width:30px;height:30px}.rail-news small{font-size:11px;opacity:.65}.rail-news strong{font-size:14px;font-weight:500;line-height:1.5}.rail-updates .section-head{flex-wrap:wrap;gap:8px}.rail-updates .text-link{font-size:12px}
+.home-recaps-mobile{display:none}.page-content>.latest-recaps{margin-top:24px}.market-filters{display:flex;gap:16px;margin:24px 0}.market-filters label{display:grid;gap:8px;font-size:13px}.market-filters input,.market-filters select{font:inherit;color:inherit;background:var(--surface,transparent);border:1px solid var(--line,#777);border-radius:12px;padding:12px}.market-player{display:flex;gap:10px;align-items:center}.market-player img{width:38px;height:38px;object-fit:contain;border-radius:50%}.market-player small{display:block;opacity:.6}.full-market td{padding:12px}.full-market tr[hidden]{display:none}
+@media(min-width:1101px){.desktop-content .group{grid-template-columns:1fr}.desktop-content .hero h1{font-size:clamp(36px,4vw,58px)}}
+@media(max-width:1100px){.desktop-content{display:block}.news-rail{display:none}.home-recaps-mobile{display:block;margin-top:28px}}
+@media(max-width:600px){.market-filters{flex-wrap:wrap}.full-market th,.full-market td{padding:10px 5px;font-size:12px}.market-player img{width:28px;height:28px}.market-player{gap:6px}}
+[data-theme="light"] .recap-rail-card .recap-league{background:#18232b;border-radius:9px;padding:4px;box-sizing:border-box}

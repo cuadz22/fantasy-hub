@@ -1,0 +1,1327 @@
+{
+  "schemaVersion": 1,
+  "leagueKey": "sts",
+  "revision": "20261125-roads-v1",
+  "seasons": [
+    {
+      "season": 2025,
+      "teamName": "Baba Yaga",
+      "regularRecord": "11-3-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "sts-2025-w01-3-9",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "CDiss Golden Pears",
+          "score": "170.25",
+          "opponentScore": "146.45",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w01"
+          ]
+        },
+        {
+          "id": "sts-2025-w02-3-7",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "A Jeantyman Never Tells",
+          "score": "202.95",
+          "opponentScore": "117.20",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w02"
+          ]
+        },
+        {
+          "id": "sts-2025-w03-1-3",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "bichote",
+          "score": "178.70",
+          "opponentScore": "115.90",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w03"
+          ]
+        },
+        {
+          "id": "sts-2025-w04-2-3",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "The Hokage",
+          "score": "227.35",
+          "opponentScore": "193.95",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w04"
+          ]
+        },
+        {
+          "id": "sts-2025-w05-3-6",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "Morning Woody",
+          "score": "191.25",
+          "opponentScore": "151.70",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w05"
+          ]
+        },
+        {
+          "id": "sts-2025-w06-3-12",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "Stripper Draft Julio",
+          "score": "117.30",
+          "opponentScore": "153.15",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w06"
+          ]
+        },
+        {
+          "id": "sts-2025-w07-3-11",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "Youngbossbrian",
+          "score": "179.40",
+          "opponentScore": "133.20",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w07"
+          ]
+        },
+        {
+          "id": "sts-2025-w08-3-5",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "Allen or Nothing",
+          "score": "193.85",
+          "opponentScore": "123.65",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w08"
+          ]
+        },
+        {
+          "id": "sts-2025-w09-3-8",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "That’s Amari",
+          "score": "130.45",
+          "opponentScore": "162.25",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w09"
+          ]
+        },
+        {
+          "id": "sts-2025-w10-3-4",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "Chase Jam",
+          "score": "143.15",
+          "opponentScore": "181.60",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w10"
+          ]
+        },
+        {
+          "id": "sts-2025-w11-3-10",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "Tig Biddies",
+          "score": "180.20",
+          "opponentScore": "136.45",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w11"
+          ]
+        },
+        {
+          "id": "sts-2025-w12-3-9",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "CDiss Golden Pears",
+          "score": "188.55",
+          "opponentScore": "114.10",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w12"
+          ]
+        },
+        {
+          "id": "sts-2025-w13-3-7",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "A Jeantyman Never Tells",
+          "score": "173.60",
+          "opponentScore": "148.45",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w13"
+          ]
+        },
+        {
+          "id": "sts-2025-w14-1-3",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "regular",
+          "teamName": "Baba Yaga",
+          "opponentName": "bichote",
+          "score": "139.00",
+          "opponentScore": "135.30",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w14"
+          ]
+        },
+        {
+          "id": "sts-2025-bye-15",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "Baba Yaga",
+          "opponentName": null,
+          "score": null,
+          "opponentScore": null,
+          "result": "BYE",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w15"
+          ]
+        },
+        {
+          "id": "sts-2025-w16-3-9",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "Baba Yaga",
+          "opponentName": "CDiss Golden Pears",
+          "score": "239.95",
+          "opponentScore": "132.45",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2025-w16"
+          ]
+        },
+        {
+          "id": "sts-2025-w17-3-4",
+          "weekStart": 17,
+          "weekEnd": 17,
+          "stage": "playoff",
+          "teamName": "Baba Yaga",
+          "opponentName": "Chase Jam",
+          "score": "176.50",
+          "opponentScore": "157.90",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-sts-2025-w17"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    },
+    {
+      "season": 2024,
+      "teamName": "The Hokage",
+      "regularRecord": "10-4-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "sts-2024-w01-2-7",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "Chubba Me La Verga",
+          "score": "204.00",
+          "opponentScore": "149.70",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w01"
+          ]
+        },
+        {
+          "id": "sts-2024-w02-2-12",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "Youngbossbrian",
+          "score": "132.75",
+          "opponentScore": "164.45",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w02"
+          ]
+        },
+        {
+          "id": "sts-2024-w03-2-3",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "American Psycho",
+          "score": "236.90",
+          "opponentScore": "162.60",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w03"
+          ]
+        },
+        {
+          "id": "sts-2024-w04-2-9",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "That’s Amari",
+          "score": "182.35",
+          "opponentScore": "154.25",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w04"
+          ]
+        },
+        {
+          "id": "sts-2024-w05-2-6",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "Justincredible",
+          "score": "157.95",
+          "opponentScore": "130.25",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w05"
+          ]
+        },
+        {
+          "id": "sts-2024-w06-2-11",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "Tig Biddies",
+          "score": "166.80",
+          "opponentScore": "140.05",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w06"
+          ]
+        },
+        {
+          "id": "sts-2024-w07-1-2",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "🏆",
+          "score": "142.05",
+          "opponentScore": "143.80",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w07"
+          ]
+        },
+        {
+          "id": "sts-2024-w08-2-8",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "King of the Hill",
+          "score": "139.65",
+          "opponentScore": "126.25",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w08"
+          ]
+        },
+        {
+          "id": "sts-2024-w09-2-5",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "Montro in Paris",
+          "score": "180.50",
+          "opponentScore": "105.05",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w09"
+          ]
+        },
+        {
+          "id": "sts-2024-w10-2-4",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "Divine Intervention",
+          "score": "135.80",
+          "opponentScore": "135.95",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w10"
+          ]
+        },
+        {
+          "id": "sts-2024-w11-2-10",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "That’s what Rashee Said",
+          "score": "137.75",
+          "opponentScore": "196.75",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w11"
+          ]
+        },
+        {
+          "id": "sts-2024-w12-2-7",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "Chubba Me La Verga",
+          "score": "201.55",
+          "opponentScore": "104.15",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w12"
+          ]
+        },
+        {
+          "id": "sts-2024-w13-2-12",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "Youngbossbrian",
+          "score": "210.40",
+          "opponentScore": "146.65",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w13"
+          ]
+        },
+        {
+          "id": "sts-2024-w14-2-3",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "regular",
+          "teamName": "The Hokage",
+          "opponentName": "American Psycho",
+          "score": "237.75",
+          "opponentScore": "140.85",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w14"
+          ]
+        },
+        {
+          "id": "sts-2024-bye-15",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "The Hokage",
+          "opponentName": null,
+          "score": null,
+          "opponentScore": null,
+          "result": "BYE",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w15"
+          ]
+        },
+        {
+          "id": "sts-2024-w16-2-12",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "The Hokage",
+          "opponentName": "Youngbossbrian",
+          "score": "194.10",
+          "opponentScore": "182.75",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2024-w16"
+          ]
+        },
+        {
+          "id": "sts-2024-w17-2-4",
+          "weekStart": 17,
+          "weekEnd": 17,
+          "stage": "playoff",
+          "teamName": "The Hokage",
+          "opponentName": "Divine Intervention",
+          "score": "214.85",
+          "opponentScore": "139.15",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-sts-2024-w17"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    },
+    {
+      "season": 2023,
+      "teamName": "caught on kamara",
+      "regularRecord": "10-4-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "sts-2023-w01-1-4",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "Nacua matata",
+          "score": "139.60",
+          "opponentScore": "120.15",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w01"
+          ]
+        },
+        {
+          "id": "sts-2023-w02-1-12",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "Olave Garden",
+          "score": "185.70",
+          "opponentScore": "146.65",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w02"
+          ]
+        },
+        {
+          "id": "sts-2023-w03-1-7",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "Judge Jeudy",
+          "score": "207.20",
+          "opponentScore": "140.45",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w03"
+          ]
+        },
+        {
+          "id": "sts-2023-w04-1-9",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "Montro in Paris",
+          "score": "216.30",
+          "opponentScore": "152.60",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w04"
+          ]
+        },
+        {
+          "id": "sts-2023-w05-1-5",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "Youngbossbrian",
+          "score": "132.75",
+          "opponentScore": "117.90",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w05"
+          ]
+        },
+        {
+          "id": "sts-2023-w06-1-11",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "The Pollard Express",
+          "score": "154.75",
+          "opponentScore": "152.25",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w06"
+          ]
+        },
+        {
+          "id": "sts-2023-w07-1-2",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "That’s Amari",
+          "score": "166.05",
+          "opponentScore": "140.55",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w07"
+          ]
+        },
+        {
+          "id": "sts-2023-w08-1-8",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "Amon On A Mission",
+          "score": "152.55",
+          "opponentScore": "151.85",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w08"
+          ]
+        },
+        {
+          "id": "sts-2023-w09-1-10",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "TEE time TEE time TEE time ⏰",
+          "score": "180.05",
+          "opponentScore": "194.10",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w09"
+          ]
+        },
+        {
+          "id": "sts-2023-w10-1-3",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "Giorgi's Crazy Team",
+          "score": "138.15",
+          "opponentScore": "166.55",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w10"
+          ]
+        },
+        {
+          "id": "sts-2023-w11-1-6",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "Tig Biddies",
+          "score": "129.95",
+          "opponentScore": "163.65",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w11"
+          ]
+        },
+        {
+          "id": "sts-2023-w12-1-4",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "Nacua matata",
+          "score": "182.75",
+          "opponentScore": "138.50",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w12"
+          ]
+        },
+        {
+          "id": "sts-2023-w13-1-12",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "Olave Garden",
+          "score": "159.40",
+          "opponentScore": "139.60",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w13"
+          ]
+        },
+        {
+          "id": "sts-2023-w14-1-7",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "regular",
+          "teamName": "caught on kamara",
+          "opponentName": "Judge Jeudy",
+          "score": "149.80",
+          "opponentScore": "182.25",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w14"
+          ]
+        },
+        {
+          "id": "sts-2023-bye-15",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "caught on kamara",
+          "opponentName": null,
+          "score": null,
+          "opponentScore": null,
+          "result": "BYE",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w15"
+          ]
+        },
+        {
+          "id": "sts-2023-w16-1-11",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "caught on kamara",
+          "opponentName": "The Pollard Express",
+          "score": "181.05",
+          "opponentScore": "179.90",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2023-w16"
+          ]
+        },
+        {
+          "id": "sts-2023-w17-1-3",
+          "weekStart": 17,
+          "weekEnd": 17,
+          "stage": "playoff",
+          "teamName": "caught on kamara",
+          "opponentName": "Giorgi's Crazy Team",
+          "score": "210.10",
+          "opponentScore": "206.05",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-sts-2023-w17"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    },
+    {
+      "season": 2022,
+      "teamName": "The Skulls",
+      "regularRecord": "8-6-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "sts-2022-w01-8-9",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "Najee by Nature",
+          "score": "150.10",
+          "opponentScore": "130.35",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w01"
+          ]
+        },
+        {
+          "id": "sts-2022-w02-9-12",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "Chupamela",
+          "score": "141.85",
+          "opponentScore": "232.15",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w02"
+          ]
+        },
+        {
+          "id": "sts-2022-w03-5-9",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "Stop Joshin’ & “Let’s Ride”",
+          "score": "132.45",
+          "opponentScore": "145.00",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w03"
+          ]
+        },
+        {
+          "id": "sts-2022-w04-4-9",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "That’s Amari",
+          "score": "150.35",
+          "opponentScore": "167.50",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w04"
+          ]
+        },
+        {
+          "id": "sts-2022-w05-6-9",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "Tactical Nuk",
+          "score": "168.20",
+          "opponentScore": "118.80",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w05"
+          ]
+        },
+        {
+          "id": "sts-2022-w06-1-9",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "dalvin & alvin",
+          "score": "126.05",
+          "opponentScore": "118.85",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w06"
+          ]
+        },
+        {
+          "id": "sts-2022-w07-2-9",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "Mahomies",
+          "score": "133.10",
+          "opponentScore": "150.60",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w07"
+          ]
+        },
+        {
+          "id": "sts-2022-w08-9-10",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "🛩 🛩",
+          "score": "204.55",
+          "opponentScore": "156.65",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w08"
+          ]
+        },
+        {
+          "id": "sts-2022-w09-3-9",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "Saquon Deez Nutz",
+          "score": "169.20",
+          "opponentScore": "128.50",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w09"
+          ]
+        },
+        {
+          "id": "sts-2022-w10-9-11",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "President Joe",
+          "score": "110.55",
+          "opponentScore": "137.40",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w10"
+          ]
+        },
+        {
+          "id": "sts-2022-w11-7-9",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "stop daddy it Hurts",
+          "score": "131.00",
+          "opponentScore": "102.60",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w11"
+          ]
+        },
+        {
+          "id": "sts-2022-w12-8-9",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "Najee by Nature",
+          "score": "154.45",
+          "opponentScore": "136.35",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w12"
+          ]
+        },
+        {
+          "id": "sts-2022-w13-9-12",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "Chupamela",
+          "score": "118.85",
+          "opponentScore": "159.60",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w13"
+          ]
+        },
+        {
+          "id": "sts-2022-w14-5-9",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "regular",
+          "teamName": "The Skulls",
+          "opponentName": "Stop Joshin’ & “Let’s Ride”",
+          "score": "145.95",
+          "opponentScore": "129.80",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w14"
+          ]
+        },
+        {
+          "id": "sts-2022-w15-9-11",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "The Skulls",
+          "opponentName": "President Joe",
+          "score": "175.25",
+          "opponentScore": "147.50",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w15"
+          ]
+        },
+        {
+          "id": "sts-2022-w16-9-12",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "The Skulls",
+          "opponentName": "Chupamela",
+          "score": "173.65",
+          "opponentScore": "128.00",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2022-w16"
+          ]
+        },
+        {
+          "id": "sts-2022-w17-9-10",
+          "weekStart": 17,
+          "weekEnd": 17,
+          "stage": "playoff",
+          "teamName": "The Skulls",
+          "opponentName": "🛩 🛩",
+          "score": "126.00",
+          "opponentScore": "120.45",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-sts-2022-w17"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    },
+    {
+      "season": 2021,
+      "teamName": "Killa Trav Trav",
+      "regularRecord": "11-3-0",
+      "seed": 1,
+      "games": [
+        {
+          "id": "sts-2021-w01-5-9",
+          "weekStart": 1,
+          "weekEnd": 1,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "KITTLE Uzi",
+          "score": "189.04",
+          "opponentScore": "175.64",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w01"
+          ]
+        },
+        {
+          "id": "sts-2021-w02-5-10",
+          "weekStart": 2,
+          "weekEnd": 2,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "The Skulls",
+          "score": "160.02",
+          "opponentScore": "107.10",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w02"
+          ]
+        },
+        {
+          "id": "sts-2021-w03-5-11",
+          "weekStart": 3,
+          "weekEnd": 3,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "Charknado",
+          "score": "211.54",
+          "opponentScore": "132.66",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w03"
+          ]
+        },
+        {
+          "id": "sts-2021-w04-1-5",
+          "weekStart": 4,
+          "weekEnd": 4,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "champagne cuadz",
+          "score": "132.34",
+          "opponentScore": "151.12",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w04"
+          ]
+        },
+        {
+          "id": "sts-2021-w05-2-5",
+          "weekStart": 5,
+          "weekEnd": 5,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "21/22 Fantasy champion",
+          "score": "179.30",
+          "opponentScore": "170.92",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w05"
+          ]
+        },
+        {
+          "id": "sts-2021-w06-3-5",
+          "weekStart": 6,
+          "weekEnd": 6,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "Eduardo's Best Team",
+          "score": "193.96",
+          "opponentScore": "121.34",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w06"
+          ]
+        },
+        {
+          "id": "sts-2021-w07-4-5",
+          "weekStart": 7,
+          "weekEnd": 7,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "Just Joshin’",
+          "score": "222.08",
+          "opponentScore": "200.70",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w07"
+          ]
+        },
+        {
+          "id": "sts-2021-w08-5-12",
+          "weekStart": 8,
+          "weekEnd": 8,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "Christopher's Choice Team",
+          "score": "119.02",
+          "opponentScore": "129.32",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w08"
+          ]
+        },
+        {
+          "id": "sts-2021-w09-5-6",
+          "weekStart": 9,
+          "weekEnd": 9,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "PornChubb",
+          "score": "174.56",
+          "opponentScore": "109.30",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w09"
+          ]
+        },
+        {
+          "id": "sts-2021-w10-5-7",
+          "weekStart": 10,
+          "weekEnd": 10,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "🌑",
+          "score": "188.74",
+          "opponentScore": "91.16",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w10"
+          ]
+        },
+        {
+          "id": "sts-2021-w11-5-8",
+          "weekStart": 11,
+          "weekEnd": 11,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "julio's Legit Team",
+          "score": "214.30",
+          "opponentScore": "177.78",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w11"
+          ]
+        },
+        {
+          "id": "sts-2021-w12-5-9",
+          "weekStart": 12,
+          "weekEnd": 12,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "KITTLE Uzi",
+          "score": "129.04",
+          "opponentScore": "119.36",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w12"
+          ]
+        },
+        {
+          "id": "sts-2021-w13-5-10",
+          "weekStart": 13,
+          "weekEnd": 13,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "The Skulls",
+          "score": "144.76",
+          "opponentScore": "180.08",
+          "result": "L",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w13"
+          ]
+        },
+        {
+          "id": "sts-2021-w14-5-11",
+          "weekStart": 14,
+          "weekEnd": 14,
+          "stage": "regular",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "Charknado",
+          "score": "164.22",
+          "opponentScore": "137.64",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w14"
+          ]
+        },
+        {
+          "id": "sts-2021-bye-15",
+          "weekStart": 15,
+          "weekEnd": 15,
+          "stage": "playoff",
+          "teamName": "Killa Trav Trav",
+          "opponentName": null,
+          "score": null,
+          "opponentScore": null,
+          "result": "BYE",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w15"
+          ]
+        },
+        {
+          "id": "sts-2021-w16-5-7",
+          "weekStart": 16,
+          "weekEnd": 16,
+          "stage": "playoff",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "🌑",
+          "score": "174.98",
+          "opponentScore": "133.68",
+          "result": "W",
+          "isFinal": false,
+          "sourceIDs": [
+            "yh-sts-2021-w16"
+          ]
+        },
+        {
+          "id": "sts-2021-w17-4-5",
+          "weekStart": 17,
+          "weekEnd": 17,
+          "stage": "playoff",
+          "teamName": "Killa Trav Trav",
+          "opponentName": "Just Joshin’",
+          "score": "169.12",
+          "opponentScore": "153.10",
+          "result": "W",
+          "isFinal": true,
+          "sourceIDs": [
+            "yh-sts-2021-w17"
+          ]
+        }
+      ],
+      "missingWeeks": []
+    }
+  ]
+}

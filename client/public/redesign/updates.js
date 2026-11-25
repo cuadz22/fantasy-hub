@@ -2,9 +2,9 @@
 window.CFNUpdates=(()=>{
  const state={league:'gl',team:0,tab:'news',news:null,posts:[],checked:0,error:''};let pending=null;
  const safeURL=s=>{try{const u=new URL(s);return u.protocol==='https:'&&!u.username&&!u.password?u.href:'';}catch{return '';}};
- async function load(){
+ async function load(feedOnly=false){
   if(pending)return pending;
-  pending=(async()=>{const jobs=[CFNData.loadResources(state.league),CFNData.load('league',state.league,null)];
+  pending=(async()=>{const jobs=feedOnly?[]:[CFNData.loadResources(state.league),CFNData.load('league',state.league,null)];
    if(Date.now()-state.checked>600000)jobs.push((async()=>{
     const results=await Promise.allSettled(['/api/mobile/news','/api/mobile/network-preview'].map(async path=>{const r=await fetch(path,{signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('unavailable');return r.json();}));
     state.error=results.some(r=>r.status==='rejected')?'Some updates couldn’t refresh. Previously loaded items remain visible.':'';
@@ -40,5 +40,8 @@ window.CFNUpdates=(()=>{
  }
  document.addEventListener('change',e=>{if(e.target.id==='updates-league'){state.league=e.target.value;state.team=0;render(true);}if(e.target.id==='updates-team'){state.team=Number(e.target.value);render(true,true);}});
  document.addEventListener('click',e=>{const tab=e.target.closest('[data-updates-tab]');if(tab){state.tab=tab.dataset.updatesTab;render(true,true);}const item=e.target.closest('[data-update-id]');if(item){const p=state.posts.find(p=>p.id===item.dataset.updateId);if(!p)return;if(p.recapID){location.href="recap.html?id="+encodeURIComponent(p.recapID);return;}modal(p.title,`<div class="update-detail"><p class="subnote">${esc(leagues[p.leagueId]||'CFN Network')} · ${date(p.publishedAt)}</p>${content(p)}${safeURL(p.url)?`<a class="text-link" href="${esc(safeURL(p.url))}">Read on CFN ↗</a>`:''}</div>`);}});
- return {load,page,content,state};
+ function sidebar(){
+  return `<section class="rail-updates"><div class="section-head"><h2>Player news</h2><a class="text-link" href="#updates">All updates →</a></div>${(state.news?.articles||[]).slice(0,4).map(n=>`<a class="rail-news" href="${esc(safeURL(n.url))}" target="_blank" rel="noopener"><div>${(n.players||[]).slice(0,1).map(p=>CFNPolish.avatar(p.name,p.position,p.team,safeURL(p.photoURL))).join('')}<small>${esc(n.source)} · ${date(n.publishedAt)}</small></div><strong>${esc(n.headline)}</strong></a>`).join('')||'<p>News is loading. <a href="#updates">Open updates</a></p>'}</section>`;
+ }
+ return {load,page,content,state,sidebar};
 })();

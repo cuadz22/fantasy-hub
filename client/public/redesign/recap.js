@@ -8,6 +8,12 @@ window.CFNRecaps=(()=>{
  let posts=[],checked=0,error='',active=null;
  async function load(){if(Date.now()-checked<60000)return;try{const r=await fetch('/api/mobile/recaps',{signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error();const j=await r.json();if(j.schemaVersion!==1||!Array.isArray(j.posts))throw Error();posts=j.posts;checked=Date.now();error='';}catch{error='Recaps couldn’t refresh. Try again shortly.';}}
  function archive(lg){const list=posts.filter(p=>!lg||p.leagueId===lg);return `<section class="recap-archive"><div class="eyebrow">The weekly editions</div><h2>League recaps</h2><p>Final results. Standout performances. The story behind the standings.</p>${error?`<p role="status">${error}</p>`:''}<div class="recap-archive-grid">${list.map(p=>`<a class="note-card" href="recap.html?id=${encodeURIComponent(p.recapID)}">${pic(p.logoURL,'recap-league')}<small>${safe(names[p.leagueId])}</small><h3>${safe(p.title)}</h3><p>${safe(p.body)}</p><span class="text-link">Read recap →</span></a>`).join('')||'<p class="note-card">The next edition will appear here after review.</p>'}</div></section>`;}
+ function latest(lg){
+  const seen=new Set(),list=posts.filter(p=>!lg||p.leagueId===lg).slice().sort((a,b)=>b.season-a.season||b.week-a.week).filter(p=>{if(seen.has(p.leagueId))return false;seen.add(p.leagueId);return true;});
+  if(!list.length)return `<section class="latest-recaps"><h2>Weekly recaps</h2><p>${error||'The next edition will appear after review.'}</p><a class="text-link" href="#archive">Recap archive →</a></section>`;
+  const week=list.every(p=>p.week===list[0].week)?`Week ${list[0].week} recaps`:'Latest recaps';
+  return `<section class="latest-recaps"><div class="eyebrow">Ready to read</div><h2>${lg?'Your weekly recap':week}</h2>${list.map(p=>`<a class="recap-rail-card" href="recap.html?id=${encodeURIComponent(p.recapID)}">${pic(p.logoURL,'recap-league')}<span><strong>${safe(names[p.leagueId])}</strong><small>Week ${safe(p.week)} · View weekly recap →</small></span></a>`).join('')}<a class="text-link" href="${lg?'#league-'+lg+'/recaps':'#archive'}">All recaps →</a></section>`;
+ }
  function player(p){return `<div class="recap-player"><div class="recap-portrait">${pic(p.photoURL)}${pic(p.teamLogoURL,'recap-owner-logo')}</div><strong>${safe(p.name.split(' ')[0][0]+'. '+p.name.split(' ').slice(1).join(' '))}</strong><b>${pts(p.points)}</b><span class="recap-owner">${safe(p.owner)}</span></div>`;}
  function result(m){return `<div class="recap-result">${m.teams.map(t=>`<div>${pic(t.logoURL)}<span>${safe(t.name)}</span><b>${pts(t.points)}</b></div>`).join('')}</div>`;}
  function article(d){
@@ -29,6 +35,6 @@ window.CFNRecaps=(()=>{
  const root=document.querySelector('#recap-article');if(!root)return;const q=new URLSearchParams(location.search),id=q.get('id');
  try{const path=q.get('preview')==='1'&&['localhost','127.0.0.1'].includes(location.hostname)?'/recap-preview.json':'/api/mobile/recaps/detail?id='+encodeURIComponent(id||'');const r=await fetch(path,{signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error();const d=await r.json();if(d.schemaVersion!==1||!names[d.leagueId]||d.matches?.length!==6)throw Error();root.innerHTML=article(d);document.title=names[d.leagueId]+' · '+d.title+' · CFN';}catch{root.innerHTML='<h1>Recap unavailable</h1><p>This edition may still be awaiting review. Please return to the recap archive.</p>';}
  }
- return {load,archive,article,start};
+ return {load,archive,article,start,latest};
 })();
 window.addEventListener('DOMContentLoaded',()=>CFNRecaps.start());

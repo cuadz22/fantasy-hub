@@ -122,7 +122,7 @@ function network() {
     .map((k) => card(headliner(k)))
     .join(
       "",
-    )}</section><section class="content-section editorial"><article class="story"><div class="eyebrow">The weekly edition · Nov 17 · Archive</div><h2>One week closer.<br>Everything to play for.</h2><p>Week 10 is in the books. Money O led the network with 245 points. Revisit the results and get a first look at Week 11.</p><button class="pill" data-story>Read the weekly recap <span>↗</span></button></article><div class="aside-stack"><a class="note-card" href="#market"><div class="eyebrow">Player market</div><h3>Who’s moving?</h3><p>This week’s five biggest risers and fallers.</p></a><div class="note-card"><div class="eyebrow">The Gents Podcast</div><h3>Beyond the box score.</h3><p>League conversations, rivalries, and the week that was.</p></div></div></section><section class="content-section"><div class="section-head"><h2>A league of your own.</h2><span class="text-link">Around the network</span></div><div class="league-strip">${S.cards.map((c) => `<a href="#league-${c.league}" class="league-tile">${img(c.leagueLogo)}<h3>${leagues[c.league]}</h3><p>${c.league === "rb" ? "Superflex · Keeper" : c.league === "bh" ? "Keeper · PPR" : "Redraft · PPR"}</p><span>Explore the league ↗</span></a>`).join("")}</div></section><div class="bottom-feature"><div><div class="eyebrow">Keep the game close</div><h3>The network, wherever Sunday takes you.</h3><p>A shared visual language for CFN on the web and iPhone.</p></div><span class="pill">CFN for iPhone</span></div>`;
+    )} </section><section class="home-recaps-mobile">${CFNRecaps.latest()}</section><section class="content-section"><div class="section-head"><h2>Your leagues</h2></div><div class="league-strip">${S.cards.map(c => `<a href="#league-${c.league}" class="league-tile">${img(c.leagueLogo)}<h3>${leagues[c.league]}</h3><span>Open league →</span></a>`).join("")}</div></section>`;
 }
 function lineup(c) {
   return `<section class="lineup-panel"><div class="lineup-title"><span>${esc(c.teams[0].owner)} · ${esc(c.teams[0].record)}</span><span>Points / projection</span><span>${esc(c.teams[1].owner)} · ${esc(c.teams[1].record)}</span></div>${rows(c)}</section>`;
@@ -130,6 +130,7 @@ function lineup(c) {
 
 function market() {
   const d = CFNData.state.market;
+  const allPlayers = (d?.rankings?.length ? d.rankings : d?.players || []).map(p => ({...p,...d.players.find(m=>m.id===p.id)}));
   let body;
   if (d) {
     const sorted = d.players.filter((p) => Number.isFinite(p.percentChange));
@@ -149,8 +150,8 @@ function market() {
       "↘ Fallers",
     )}</div><p class="market-foot">${CFNData.state.failures.market ? "Saved feed · Refresh delayed · " : ""}CFN market model · Updated ${dateLabel(d.sourceUpdatedAt)}. Green and red show changes in value.</p>`;
   } else
-    body = `<article class="note-card"><h3>Market data is loading.</h3><p>If the feed is unavailable, the full market remains accessible below.</p></article>`;
-  return `<section class="hero"><div><div class="eyebrow">Across the network</div><h1>The player market.</h1><p>A clearer view of who’s gaining ground—and who’s giving it back.</p></div></section>${body}<section class="content-section editorial"><article class="story"><div class="eyebrow">The full market</div><h2>Keep the context.</h2><p>Explore every player, compare values, and build a trade with the existing market tools.</p><a class="pill" href="https://cuadzfantasynetwork.com/l/market-analysis.html" target="_blank" rel="noopener">Open market analysis ↗</a></article><aside class="note-card"><h3>One model across CFN.</h3><p>These movers come from the same feed as the app. This redesign does not change the valuation formula.</p></aside></section>`;
+    body = `<article class="note-card"><h3>Market data is loading.</h3><p>Please try again shortly.</p></article>`;
+  return `<section class="hero"><div><div class="eyebrow">Across the network</div><h1>The player market.</h1><p>Player values, risers and fallers.</p></div></section>${body}${d ? `<section class="full-market content-section"><div class="section-head"><h2>All players</h2><span>${allPlayers.length} players</span></div><div class="market-filters"><label>Search players<input id="market-search" type="search" placeholder="Player or team"></label><label>Position<select id="market-position"><option value="">All positions</option>${["QB","RB","WR","TE","K","DST"].map(p=>`<option>${p}</option>`).join("")}</select></label></div><div class="table-wrap"><table><thead><tr><th>Player</th><th>Position</th><th>Value</th><th>Change</th></tr></thead><tbody>${allPlayers.slice().sort((a,b)=>b.currentValue-a.currentValue).map(p=>`<tr data-market-name="${esc((p.name+' '+p.team).toLowerCase())}" data-market-position="${esc(p.position)}"><td><div class="market-player">${img(p.photoURL,"",p.name)}<span><b>${esc(p.name)}</b><small>${esc(p.team)}</small></span></div></td><td>${esc(p.position)}</td><td>${p.currentValue.toLocaleString()}</td><td class="${p.percentChange>0?'up':p.percentChange<0?'down':''}">${Number.isFinite(p.percentChange)?(p.percentChange>0?'+':'')+p.percentChange.toFixed(1)+'%':'—'}</td></tr>`).join('')}</tbody></table></div><p id="market-empty" hidden>No players match that search.</p></section>` : ""}`;
 }
 
 function detail(id) {
@@ -167,11 +168,7 @@ document.addEventListener("click", (e) => {
   if (d) detail(d.dataset.detail);
   if (e.target.closest("[data-close]"))
     document.querySelector("#detail").close();
-  if (e.target.closest("[data-story]")) {
-    document.querySelector("#detail-body").innerHTML =
-      `<div class="dialog-head"><span>The weekly edition · Nov 17 · Archive</span><button class="close" data-close aria-label="Close article">×</button></div><article class="dialog-copy"><div class="eyebrow">CFN Staff · Saved excerpt</div><h2>Week 10 Final & Week 11 Early Look</h2><p>Week 10 is in the books: Money O (Oscar) led the network with 245.00 points. Final scores, recaps and win-odds swings for all 24 matchups, plus an early look at Week 11.</p><p>In Gentlemen’s League, Run CMC handed Mr. Electricity its second loss. Sir reached 8–2, setting up a Week 11 meeting between the two leaders.</p><p class="subnote">An excerpt from the November 17 weekly edition.</p></article>`;
-    document.querySelector("#detail").showModal();
-  }
+
 });
 document.addEventListener("change", (e) => {
   if (e.target.id === "league-select")
@@ -189,3 +186,12 @@ document.querySelector("#detail").addEventListener("click", (e) => {
       e.currentTarget.close();
   }
 });
+
+function filterMarket() {
+  const q=(document.querySelector('#market-search')?.value||'').toLowerCase().trim(), pos=document.querySelector('#market-position')?.value||'';
+  let visible=0;
+  document.querySelectorAll('tr[data-market-name]').forEach(row=>{row.hidden=!(row.dataset.marketName.includes(q)&&(!pos||row.dataset.marketPosition===pos)); if(!row.hidden)visible++;});
+  const empty=document.querySelector('#market-empty');if(empty)empty.hidden=visible>0;
+}
+document.addEventListener('input',e=>{if(e.target.id==='market-search')filterMarket();});
+document.addEventListener('change',e=>{if(e.target.id==='market-position')filterMarket();});

@@ -1,0 +1,12 @@
+.history-grid{align-items:start}
+.champion-road{border-top:1px solid var(--line,rgba(128,128,128,.18));margin-top:18px;padding-top:15px;text-align:left}
+.champion-road summary{cursor:pointer;font-size:14px;font-weight:650;color:var(--text,#f4f5f7);min-height:32px;list-style-position:inside}
+.champion-road summary>span{color:#d9b66d;margin-right:5px}.road-record{font-size:12px!important;color:var(--muted,#9099a7);margin:8px 0 18px!important}
+.champion-road h4{text-transform:uppercase;letter-spacing:1.6px;font-size:10px;color:var(--muted,#9099a7);margin:18px 0 5px}
+.champion-road h4:nth-of-type(2){color:#c9a764}.road-game{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(128,128,128,.13)}
+.road-teams{min-width:0;flex:1;display:grid;gap:4px}.road-teams small{font-size:10px;color:var(--muted,#9099a7);margin-bottom:3px}.road-teams b,.road-teams span{font-size:13px;line-height:1.35;overflow-wrap:anywhere}.road-teams span,.road-scores span{color:var(--muted,#9099a7)}
+.road-scores{display:grid;gap:4px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums;font-size:19px;font-family:CFNScore,"Avenir Next Condensed","Arial Narrow",sans-serif;line-height:1.1}.road-scores b{font-weight:600}
+.road-result{width:30px;flex-shrink:0;padding:6px 0;text-align:center;border-radius:7px;font-size:10px;font-weight:750;color:var(--muted,#9099a7);background:rgba(128,128,128,.12)}
+.road-w{color:#28c6b7;background:rgba(40,198,183,.1)}.road-l{color:#ed6575;background:rgba(237,101,117,.1)}.road-final .road-teams small{color:#c9a764}
+
+.championship-open{color:#e8be68!important;background:rgba(205,158,66,.09);border:1px solid rgba(205,158,66,.25);border-radius:12px;padding:12px 14px;min-height:44px;width:100%;margin:12px 0;text-align:left;font-weight:600}

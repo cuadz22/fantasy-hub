@@ -27,10 +27,11 @@ const names = {
 const sections = [
   ["League history", ["recaps", "history", "alltime", "awards"]],
   ["Roster & draft", ["draft", "picks", "keepers", "prices", "cantcut"]],
-  ["Insights", ["power", "fraud", "weekly"]],
-  ["Resources", ["rules", "desk", "traderules", "vote"]],
+  ["Insights", ["power", "fraud"]],
+  ["Resources", ["rules", "traderules", "vote"]],
 ];
 const available = (id) =>
+  !["weekly", "desk"].includes(id) &&
   (id !== "vote" || league === "gl") &&
   !(
     ["keepers", "picks", "desk", "traderules", "cantcut"].includes(id) &&
@@ -43,7 +44,7 @@ const route = (id) => {
   location.hash = `league-${league}/${id}`;
 };
 function controls() {
-  return `<div class="controls expanded-controls"><div class="tabs" aria-label="League navigation">${["overview", "team", "standings", "trades", "waivers"].map((id) => `<a href="#league-${league}/${id}" class="tab-link ${leagueTab === id ? "active" : ""}" ${leagueTab === id ? 'aria-current="page"' : ""}>${names[id]}</a>`).join("")}<details class="league-tools" id="league-tools"><summary class="${!["overview", "team", "standings", "trades", "waivers"].includes(leagueTab) ? "active" : ""}">League tools <span aria-hidden="true">⌄</span></summary><div class="tool-menu">${sections.map(([title, ids]) => `<div><div class="eyebrow">${title}</div>${ids.filter(available).map(link).join("")}</div>`).join("")}</div></details></div>${["overview", "lineups", "team", "weekly"].includes(leagueTab) ? CFNPolish.weekStrip((CFNData.state.context?.availableWeeks||[requestedWeek()]).slice().sort((a,b)=>b-a),requestedWeek(),"data-matchup-week") : ""}</div>`;
+  return `<div class="controls expanded-controls"><div class="tabs" aria-label="League navigation">${["overview", "team", "standings", "trades", "waivers"].map((id) => `<a href="#league-${league}/${id}" class="tab-link ${leagueTab === id ? "active" : ""}" ${leagueTab === id ? 'aria-current="page"' : ""}>${names[id]}</a>`).join("")}<details class="league-tools" id="league-tools"><summary class="${!["overview", "team", "standings", "trades", "waivers"].includes(leagueTab) ? "active" : ""}">League Center <span aria-hidden="true">⌄</span></summary><div class="tool-menu">${sections.map(([title, ids]) => `<div><div class="eyebrow">${title}</div>${ids.filter(available).map(link).join("")}</div>`).join("")}</div></details></div>${["overview", "lineups", "team", "weekly"].includes(leagueTab) ? CFNPolish.weekStrip((CFNData.state.context?.availableWeeks||[requestedWeek()]).slice().sort((a,b)=>b-a),requestedWeek(),"data-matchup-week") : ""}</div>`;
 }
 const heading = (title, sub = "League records") =>
   `<div class="tool-heading"><div><div class="eyebrow">${leagues[league]}</div><h2>${title}</h2></div><span class="archive-label">${sub}</span></div>`;
@@ -128,7 +129,7 @@ function historyView() {
   let h = T.history[league];
   return (
     heading("League history") +
-    `<div class="history-grid">${(h?.seasons || []).map((s) => `<article class="champion-card"><div class="champion-top"><span class="trophy">♛</span><span>${s.year}</span></div><div class="eyebrow">League champion</div><h3>${esc(s.champion.team)}</h3><p>${esc(s.champion.owner)} · ${esc(s.champion.record)}</p><div class="history-podium"><div><span>Runner-up</span><b>${esc(s.runnerUp)}</b></div><div><span>Third place</span><b>${esc(s.thirdPlace)}</b></div></div>${T.historicalFinals[league]?.[s.year] ? `<button class="championship-open" data-championship="${s.year}">View championship matchup <span aria-hidden="true">↗</span></button>` : `<p class="subnote">Final lineup not available in the archive.</p>`}</article>`).join("")}</div><section class="content-section"><h3>Records worth remembering.</h3><div class="record-grid">${(h?.records || []).map((r) => `<article class="note-card"><div class="eyebrow">${esc(r.label)}</div><h3>${esc(r.value)}</h3><p>${esc(r.holder)}</p></article>`).join("")}</div></section>`
+    `<div class="history-grid">${(h?.seasons || []).map((s) => `<article class="champion-card"><div class="champion-top"><span class="trophy">♛</span><span>${s.year}</span></div><div class="eyebrow">League champion</div><h3>${esc(s.champion.team)}</h3><p>${esc(s.champion.owner)} · ${esc(s.champion.record)}</p><div class="history-podium"><div><span>Runner-up</span><b>${esc(s.runnerUp)}</b></div><div><span>Third place</span><b>${esc(s.thirdPlace)}</b></div></div>${T.historicalFinals[league]?.[s.year] ? `<button class="championship-open" data-championship="${s.year}">The Final — View Final Matchup <span aria-hidden="true">↗</span></button>` : `<p class="subnote">Final lineup not available in the archive.</p>`}${CFNRoads.disclosure(league,s.year)}</article>`).join("")}</div><section class="content-section"><h3>Records worth remembering.</h3><div class="record-grid">${(h?.records || []).map((r) => `<article class="note-card"><div class="eyebrow">${esc(r.label)}</div><h3>${esc(r.value)}</h3><p>${esc(r.holder)}</p></article>`).join("")}</div></section>`
   );
 }
 function alltimeView() {
@@ -462,7 +463,7 @@ function leaguePage() {
           ? `Week ${requestedWeek()} · ${cs.length} matchups`
           : "Current matchups unavailable",
       ) +
-      `<section class="group">${(cs.length ? cs : [c]).map(card).join("")}</section>` +
+      `<section class="group">${(cs.length ? cs : [c]).map(card).join("")}</section>` + CFNRecaps.latest(league) +
       `<section class="content-section league-directory"><div><h2>More to your league.</h2><p>From this week’s moves to the seasons that built it.</p></div><div class="directory-grid">${sections.map(([title, ids]) => `<section><h3>${title}</h3>${ids.filter(available).map(link).join("")}</section>`).join("")}</div></section>`;
   }
   if (leagueTab === "lineups") body = lineup(c);
@@ -473,7 +474,7 @@ function leaguePage() {
         "Let the league decide.",
         "Voting stays in the existing secure flow with the original voting tool.",
       );
-  return hero + controls() + body + (["history","alltime","awards","draft","fraud","waivers"].includes(leagueTab) ? "" : originalLink());
+  return hero + controls() + body;
 }
 
 const moreNames = {
@@ -607,6 +608,10 @@ function render(keepScroll = false, skipLoad = false) {
                 : page === "archive"
                   ? archive()
                   : commish();
+  if (["network", "league", "market"].includes(page)) {
+    const root = document.querySelector("#main");
+    root.innerHTML = `<div class="desktop-content"><div class="page-content">${root.innerHTML}</div><aside class="news-rail" aria-label="Latest recaps and news">${CFNRecaps.latest(page === "league" ? league : null)}${CFNUpdates.sidebar()}</aside></div>`;
+  }
   document.querySelectorAll("nav>a").forEach((a) => {
     const active = a.hash === "#" + page;
     a.classList.toggle("active", active);
@@ -630,8 +635,9 @@ window.addEventListener("hashchange", () => render());
 async function loadRoute(page) {
   const generation = ++routeGeneration;
   const jobs=[];
-  if(page==="archive" || (page==="league"&&leagueTab==="recaps")) jobs.push(CFNRecaps.load());
-  if(page==="updates") jobs.push(CFNUpdates.load());
+  if(page==="league" && leagueTab==="history") jobs.push(CFNRoads.load(league));
+  if(["archive","network","league","market"].includes(page)) jobs.push(CFNRecaps.load());
+  if(["updates","network","league","market"].includes(page)) jobs.push(CFNUpdates.load(page !== "updates"));
   if(page==="league" && ["power","fraud"].includes(leagueTab)) jobs.push(CFNData.loadPower(league));
   if(["league","exposure","studio"].includes(page)) jobs.push(CFNData.loadResources(league,page==="league" && leagueTab==="picks"));
   if(["network","market","studio"].includes(page) || (page==="league" && ["overview","lineups","team","standings","weekly"].includes(leagueTab))) jobs.push(CFNData.load(page,league,selectedWeek));

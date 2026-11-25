@@ -66,6 +66,26 @@ const fixture = (n) =>
     cards[0].teams[0].record,
     standings.rows.find((t) => t.teamId === lineups.matchups[0].ia).record,
   );
+  // Projection color describes movement only after play begins, against a real baseline.
+  const savedLineups = D.state.lineups.gl;
+  const one = { ...lineups, matchups: [{ ...lineups.matchups[0],
+    L: [["QB", "Sample QB", "QB", "CIN", 20, null, "Sun 1:00 pm vs Pit"]],
+    R: [["RB", "Sample RB", "RB", "PIT", 15, null, "Sun 1:00 pm @ Cin"]],
+    ya: [0, 25], yb: [0, 12] }] };
+  D.state.lineups.gl = one;
+  D.state.named.gl = { week: one.week, matchups: [{ teams: [
+    { teamId: one.matchups[0].ia, lineup: [{ name: "Sample QB", slot: "QB", originalProjection: 20, liveProjection: 25 }] },
+    { teamId: one.matchups[0].ib, lineup: [{ name: "Sample RB", slot: "RB", originalProjection: 15, liveProjection: 12 }] }
+  ] }] };
+  assert.deepEqual(D.cards("gl", scope.window.SNAPSHOT.cards[0], {})[0].teams.map(t=>t.projectionDirection), ["", ""]);
+  one.matchups[0].L[0][6] = "Q3 10:00";
+  one.matchups[0].R[0][6] = "Final";
+  assert.deepEqual(D.cards("gl", scope.window.SNAPSHOT.cards[0], {})[0].teams.map(t=>t.projectionDirection), ["up", "down"]);
+  one.matchups[0].R.push(["TE", "Extra starter", "TE", "PIT", 8, null, "Sun 1:00 pm"]);
+  assert.doesNotThrow(() => D.cards("gl", scope.window.SNAPSHOT.cards[0], {}));
+  delete D.state.named.gl;
+  assert.deepEqual(D.cards("gl", scope.window.SNAPSHOT.cards[0], {})[0].teams.map(t=>t.projectionDirection), ["", ""]);
+  D.state.lineups.gl = savedLineups;
   let count = 0;
   global.fetch = async () => {
     count++;
@@ -110,8 +130,19 @@ const fixture = (n) =>
   let protectedCount = 0;
   // Only the reviewed invited-member rollout changes are permitted; all feeds stay frozen.
   const rolloutFiles = new Set(["client/api/_pushrollout.json", "client/api/_networkrollout.json", "client/api/_mpush.js", "client/api/_network.js", "client/api/_liveactivity.js"]);
+  // Reviewed Road to the Ring UI additions; pin exact content, keeping all API/feed protections.
+  const roadPresentation = {
+  "client/public/redesign/index.html": "95924a0e03b04124059f265e5e758ccaf959c69c",
+  "client/public/redesign/index.template.html": "11bca3a40fea0d686c191f0409f1c932b9af007b",
+  "client/public/redesign/tools.js": "28980be8e9824d7598da1d464bbafd969aab03a8",
+  "client/public/redesign/app.js": "775a38b4b14c150a506bb928770038464c91fea7",
+  "client/public/redesign/data.js": "daf47e510494c987b3fa879c537d5e330fc615f7",
+  "client/public/redesign/recap.js": "8898da276bb935a19fe95976d09653d5887db73c",
+  "client/public/redesign/style.css": "078469a51091ec0c9e66ba842a85ee954b17c85f",
+  "client/public/redesign/updates.js": "708d189e879cffb6309c86e7323066024679f73e"
+};
   for (const file of files.filter(f => !rolloutFiles.has(f))) {
-    const expected = cp
+    const expected = roadPresentation[file] || cp
       .execFileSync("git", ["rev-parse", `${baseline}:${file}`], {
         encoding: "utf8",
       })

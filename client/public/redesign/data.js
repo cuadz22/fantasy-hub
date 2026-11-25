@@ -118,6 +118,9 @@
       proj: bye ? "—" : finite(row[4]) ? row[4].toFixed(2) : "—",
     };
   }
+  function hasStarted(status) {
+    return /\b(final|halftime|half|[1-4](?:st|nd|rd|th)?\s*(?:q|quarter)|q[1-4]|ot|overtime)\b/i.test(String(status||''));
+  }
   function cards(lg, snapshot, photos) {
     const d = state.lineups[lg];
     if (!d) return [];
@@ -125,7 +128,7 @@
       const starters = (side) =>
         side.filter((r) => !["BN", "IR", "IR+"].includes(r[0]));
       const namedTeams = state.named[lg]?.week === d.week ? state.named[lg].matchups.find(x=>x.teams.some(t=>t.teamId===m.ia)&&x.teams.some(t=>t.teamId===m.ib))?.teams : null;
-      const enriched = (row,id) => { const a=athlete(row,photos); const n=namedTeams?.find(t=>t.teamId===id)?.lineup.find(p=>p.name===row?.[1]&&p.slot===row?.[0]); return {...a, photo:n?.photoURL || a.photo, playerId:n?.playerId, originalProjection:n?.originalProjection, projectionDirection:n && Number.isFinite(n.originalProjection) && Number.isFinite(n.liveProjection) ? n.liveProjection > n.originalProjection+0.05 ? "up" : n.liveProjection < n.originalProjection-0.05 ? "down" : "" : ""}; };
+      const enriched = (row,id) => { const a=athlete(row,photos); const n=namedTeams?.find(t=>t.teamId===id)?.lineup.find(p=>p.name===row?.[1]&&p.slot===row?.[0]); return {...a, photo:n?.photoURL || a.photo, playerId:n?.playerId, originalProjection:n?.originalProjection, projectionDirection:hasStarted(row?.[6]) && n && Number.isFinite(n.originalProjection) && Number.isFinite(n.liveProjection) ? n.liveProjection > n.originalProjection+0.05 ? "up" : n.liveProjection < n.originalProjection-0.05 ? "down" : "" : ""}; };
       const left = starters(m.L),
         right = starters(m.R);
       const teams = [0, 1].map((i) => {
@@ -144,15 +147,14 @@
         const active = (i ? right : left).filter(
           (r) => !/\bbye\b/i.test(r[6] || ""),
         );
-        const baseline =
-          active.length && active.every((r) => finite(r[4]))
-            ? active.reduce((sum, r) => { const p=namedTeams?.find(t=>t.teamId===id)?.lineup.find(p=>p.name===r[1]&&p.slot===r[0]);return sum + (finite(p?.originalProjection) ? p.originalProjection : r[4]); }, 0)
-            : null;
+        const originalProjections = active.map(r => namedTeams?.find(t=>t.teamId===id)?.lineup.find(p=>p.name===r[1]&&p.slot===r[0])?.originalProjection);
+        const baseline = originalProjections.length && originalProjections.every(finite)
+          ? originalProjections.reduce((sum, value) => sum + value, 0) : null;
         const delta =
           baseline != null && finite(totals[1]) ? totals[1] - baseline : 0;
         return {
           projectionDirection:
-            delta > 0.05 ? "up" : delta < -0.05 ? "down" : "",
+            active.some(r=>hasStarted(r[6])) ? delta > 0.05 ? "up" : delta < -0.05 ? "down" : "" : "",
           id,
           name,
           owner: media?.managerName || saved?.owner || "",
