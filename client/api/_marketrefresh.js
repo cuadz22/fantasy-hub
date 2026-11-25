@@ -5,9 +5,9 @@ async function refresh(){
  const key='mm:cache',locked=await M.lock('mm:refresh:lock',55);if(!locked)return {busy:true};
  try{
   const hj=async u=>{const r=await fetch(u,{headers:{'User-Agent':'cfn-market-refresh'},signal:AbortSignal.timeout(20000)});if(!r.ok)throw Error('market_http_'+r.status);return r.json()};
-  const m=await MV.compute('cuadzfantasynetwork.com',c.week,hj,undefined,await Ids.getMap());
-  if(!m.ok)throw Error(m.error||'market_unavailable');
-  await M.rset(key,{v:3,at:Date.now(),week:c.week,key:m.key,body:m.body},86400);
+  const m=await MV.compute('cuadzfantasynetwork.com',c.week,hj,undefined,await Ids.getMap(),{allowWithoutBaseline:true});
+  if(!m.ok||m.body.stale)throw Error(m.error||'market_unavailable');
+  await M.rset(key,{v:4,at:Date.now(),week:c.week,key:m.key,body:m.body},86400);
   return {updated:true,sourceUpdatedAt:m.body.sourceUpdatedAt,computedAt:m.body.computedAt};
  }finally{await M.unlock('mm:refresh:lock',locked)}
 }

@@ -26,17 +26,27 @@ async function readHist() {
 const ET = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric' });
 const fd = t => ET.format(new Date(t));
 // Returns { ok, body, key } or { ok:false, error }.
-async function compute(host, week, fetchJson, hist, idmap) {
+async function compute(host, week, fetchJson, hist, idmap, options = {}) {
   let live = null;
   try { live = await fetchJson('https://' + host + '/api/hw?market=1'); } catch (e) {}
   const lv = live && live.players ? liveSeries(live.players) : { out: {}, used: [] };
   hist = hist || await readHist();
   const now = Date.now(); let best = null;
   (hist.snaps || []).forEach(q => { const age = now - Date.parse(q.t); if (age >= 20 * 36e5 && age <= 10 * 864e5 && (!best || Math.abs(age - 7 * 864e5) < Math.abs(now - Date.parse(best.t) - 7 * 864e5))) best = q; });
-  if (!best) return { ok: false, error: 'no_baseline' };
+  if (!best && !options.allowWithoutBaseline) return { ok: false, error: 'no_baseline' };
+  // The complete market is independent of a historical comparison. Use exactly the
+  // same valuation model/accepted provider series as the movers and website.
+  const rankings = Object.entries(MM.players).map(([k, p]) => {
+    const sid = (idmap && idmap[nn(p.n) + '|' + p.p]) || MM.sid[k];
+    return { id: k, name: p.n, position: p.p, team: canon(p.t) || null,
+      currentValue: value(Object.assign({}, p.s, lv.out[k] || {})),
+      playerId: sid || 'cfn:' + k + ':' + p.p,
+      photoURL: sid ? 'https://sleepercdn.com/content/nfl/players/' + sid + '.jpg?v=1' : null };
+  }).filter(p => Number.isFinite(p.currentValue) && p.currentValue >= 0)
+    .sort((a,b) => b.currentValue-a.currentValue || a.name.localeCompare(b.name));
   const rows = [];
   Object.keys(MM.players).forEach(k => {
-    const p = MM.players[k], sNow = Object.assign({}, p.s, lv.out[k] || {}), sv = best.v && best.v[k]; if (!sv) return;
+    const p = MM.players[k], sNow = Object.assign({}, p.s, lv.out[k] || {}), sv = best && best.v && best.v[k]; if (!sv) return;
     const b0 = value(Object.assign({}, sNow, sv)), n0 = value(sNow); // baseline = snapshot over today's series, as the site does
     if (!b0 || !n0 || Math.max(n0, b0) < 1500) return;
     const d = n0 - b0; rows.push({ k, p, b0, n0, d, pc: d / b0 * 100 });
@@ -46,8 +56,8 @@ async function compute(host, week, fetchJson, hist, idmap) {
   const photo = r => { const sid = (idmap && idmap[nn(r.p.n) + '|' + r.p.p]) || MM.sid[r.k]; return sid ? 'https://sleepercdn.com/content/nfl/players/' + sid + '.jpg?v=1' : null; };
   const out = r => ({ id: r.k, name: r.p.n, position: r.p.p, team: canon(r.p.t) || null, currentValue: r.n0, change: r.d, percentChange: Math.round(r.pc * 100) / 100, priorValue: r.b0, playerId: pid(r), photoURL: photo(r) });
   const up = rows.filter(r => r.d > 0).slice(0, 10).map(out), down = rows.filter(r => r.d < 0).slice(-10).reverse().map(out);
-  const feedAt = live && (live.updated || live.dpAsOf);
-  const body = { label: 'Week ' + week + ' · ' + fd(best.t) + ' to ' + fd(feedAt && /^\d{4}-\d\d-\d\d$/.test(feedAt) ? feedAt + 'T12:00:00Z' : now), players: up.concat(down), baselineAt: best.t, sourceUpdatedAt: feedAt || null, liveSeriesUsed: lv.used, model: 'cfn-gl-1qb', modelVersion: MM.v, computedAt: new Date(now).toISOString() };
-  return { ok: true, body, key: [MM.v, feedAt, best.t, week, lv.used.join('')].join('|') };
+  const feedAt = lv.used.length && live && (live.updated || live.dpAsOf);
+  const body = { label: 'Week ' + week + ' · ' + (best ? fd(best.t) + ' to ' : '') + fd(feedAt && /^\d{4}-\d\d-\d\d$/.test(feedAt) ? feedAt + 'T12:00:00Z' : now), players: up.concat(down), rankings, baselineAt: best ? best.t : null, stale: !lv.used.length, partial: lv.used.length < KEYS.length, sources: { refreshed: lv.used, stored: ['sp1', 'km1', 'kt1'], dynastyProcessAsOf: live?.dpAsOf || null }, sourceUpdatedAt: feedAt || null, liveSeriesUsed: lv.used, model: 'cfn-gl-1qb', modelVersion: MM.v, computedAt: new Date(now).toISOString() };
+  return { ok: true, body, key: [MM.v, feedAt, best?.t, week, lv.used.join('')].join('|') };
 }
 module.exports = { compute, value, liveSeries, MM };

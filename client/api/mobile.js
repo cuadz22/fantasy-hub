@@ -102,14 +102,14 @@ module.exports = async (req, res) => {
       Object.keys(MEDIA.teams).forEach(lg => { teams[lg] = {}; Object.keys(MEDIA.teams[lg]).forEach(id => { const t = MEDIA.teams[lg][id]; teams[lg][id] = { teamId: Number(id), managerName: t.managerName, logoURL: t.logoURL, ownerPhotoURL: t.ownerPhotoPath ? PUBLIC_BASE + t.ownerPhotoPath + '?v=' + t.ownerPhotoV : null }; }); });
       return J(res, 200, { schemaVersion: 1, version: MEDIA.v, featuredMatchups: require('./_resources.json').tools.featuredMatchups, note: 'ownerPhotoURL is only set for Gentlemen\'s League; other leagues use the Yahoo team logo. URLs are versioned: they change when an image changes.', teams }, 'public, s-maxage=3600, stale-while-revalidate=86400');
     }
-    if (r === 'market-movers' && req.method === 'GET') {
+    if (['market-movers', 'market'].includes(r) && req.method === 'GET') {
       const c = await M.context({ cachedOnly: true }); if (!c) return J(res, 503, { error: 'context_unavailable' });
-      const hj = async u => { const x = await fetch(u, { headers: { 'User-Agent': 'cfn-mobile' } }); if (!x.ok) throw new Error('http ' + x.status); return x.json(); };
+      const hj = async u => { const x = await fetch(u, { headers: { 'User-Agent': 'cfn-mobile' }, signal: AbortSignal.timeout(20000) }); if (!x.ok) throw new Error('http ' + x.status); return x.json(); };
       const cached = await M.rget('mm:cache');
-      if (cached && Date.now() - cached.at < 15 * 60000 && cached.week === c.week && cached.v === 3) return J(res, 200, cached.body, 'public, s-maxage=300, stale-while-revalidate=600');
-      const m = await MV.compute(req.headers.host, c.week, hj, undefined, await Ids.getMap());
-      if (!m.ok) { if (cached) return J(res, 200, Object.assign({}, cached.body, { stale: true }), 'public, s-maxage=60'); return J(res, 503, { error: m.error || 'unavailable' }); }
-      await M.rset('mm:cache', { v: 3, at: Date.now(), week: c.week, key: m.key, body: m.body }, 86400);
+      if (cached && Date.now() - cached.at < 15 * 60000 && cached.week === c.week && cached.v === 4) return J(res, 200, cached.body, 'public, s-maxage=300, stale-while-revalidate=600');
+      const m = await MV.compute(new URL(PUBLIC_BASE).host, c.week, hj, undefined, await Ids.getMap(), { allowWithoutBaseline: r === 'market' });
+      if (!m.ok || (m.body.stale && cached?.body?.rankings)) { if (cached) return J(res, 200, Object.assign({}, cached.body, { stale: true }), 'public, s-maxage=60'); return J(res, 503, { error: m.error || 'unavailable' }); }
+      await M.rset('mm:cache', { v: 4, at: Date.now(), week: c.week, key: m.key, body: m.body }, 86400);
       return J(res, 200, m.body, 'public, s-maxage=300, stale-while-revalidate=600');
     }
     J(res, 404, { error: 'not_found' });

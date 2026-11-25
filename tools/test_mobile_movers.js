@@ -16,5 +16,14 @@ const MV = require('../client/api/_mmovers'); let pass = 0, fail = 0; const ok =
   ok(MV.value({}) === null && MV.value({ ros1: 0, dp1: 0, sp1: 0, km1: 0, kt1: 0 }) === 0, 'no series -> null value (excluded); all-zero -> 0 (excluded by the filters)');
   ok(/^Week 11 · /.test(b.label) && b.baselineAt && b.modelVersion, 'label names the week; baseline date + model version present: ' + b.label);
   const none = await MV.compute('x', 11, async () => { throw 1; }, { snaps: [{ t: new Date(now - 3600e3).toISOString(), v }] }); ok(!none.ok && none.error === 'no_baseline', 'no usable baseline -> explicit error, nothing invented');
+  ok(b.rankings.length > 150 && b.rankings.every(p => Number.isFinite(p.currentValue)), 'complete catalog does not inherit mover cutoffs');
+  ok(b.players.every(p => b.rankings.find(r => r.id===p.id)?.currentValue === p.currentValue), 'catalog and movers use identical valuations');
+  ok(b.stale && b.sourceUpdatedAt === null, 'provider failure never invents source freshness');
+  const livePlayers = {}; ks.forEach(k => { livePlayers[MV.MM.players[k].n.toLowerCase().replace(/[^a-z]/g,'')] = Object.fromEntries(['ros1','ros2','dyn1','dyn2','dp1','dp2'].map(s=>[s,P[k].s[s]])); });
+  const live = { players: livePlayers, updated: new Date(now).toISOString(), dpAsOf: '2026-11-20' };
+  const catalog = await MV.compute('x',12,async()=>live,{snaps:[]},null,{allowWithoutBaseline:true});
+  ok(catalog.ok && catalog.body.rankings.length > 150 && !catalog.body.players.length && catalog.body.baselineAt===null, 'full catalog works without comparison history; no fabricated movers');
+  ok(!catalog.body.stale && catalog.body.sourceUpdatedAt===live.updated, 'accepted provider timestamp preserved');
+  ok(catalog.body.rankings.every((p,i,a)=>i===0 || a[i-1].currentValue>=p.currentValue),'catalog ordered by value');
   console.log(JSON.stringify(b.players[0])); console.log(pass + ' passed, ' + fail + ' failed'); process.exit(fail ? 1 : 0);
 })();
