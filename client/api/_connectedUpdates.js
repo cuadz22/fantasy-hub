@@ -19,8 +19,9 @@ function yahooDate(value){
  }
  return new Date(utc).toISOString();
 }
-function yahooTable(html){
- check(new RegExp('rel="canonical"[^>]*href="https://football.fantasysports.yahoo.com/f1/697400/transactions').test(html),'wrong_transactions_league');
+function yahooTable(html,providerId=697400){
+ check(Number.isSafeInteger(providerId)&&providerId>0,'invalid_provider_id');
+ check(new RegExp('rel="canonical"[^>]*href="https://football.fantasysports.yahoo.com/f1/'+providerId+'/transactions').test(html),'wrong_transactions_league');
  const table=/<table\b[^>]*Tst-transaction-table[^>]*>([\s\S]*?)<\/table>/.exec(html)?.[1];
  check(table,'missing_transactions');
  return table;
@@ -30,13 +31,14 @@ function teamMap(snapshot){
  const teams=new Map(snapshot.matchups.flatMap(m=>[m.home,m.away]).map(t=>[t.id,t]));
  check(teams.size===12,'incomplete_transaction_teams');return teams;
 }
-function recipient(row,teams){
+function recipient(row,teams,providerId=697400){
  const cell=/<td[^>]*class="Ta-end"[^>]*>([\s\S]*?)<\/td>/.exec(row)?.[1];
- const id=Number(/href="(?:https:\/\/football.fantasysports.yahoo.com)?\/f1\/697400\/(\d+)"/.exec(cell||'')?.[1]);
+ const id=Number(new RegExp('href="(?:https://football.fantasysports.yahoo.com)?/f1/'+providerId+'/(\\d+)"').exec(cell||'')?.[1]);
  check(teams.has(id),'unknown_transaction_team');return teams.get(id);
 }
-function yahooClaims(html,teams){
- const table=yahooTable(html),items=[];
+function yahooClaims(html,teams,{providerId=697400,leagueId='fb'}={}){
+ check(['fb',...M.LGS].includes(leagueId),'invalid_claim_league');
+ const table=yahooTable(html,providerId),items=[];
  for(const row of table.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/g)){
   if(!/title="Added Player"/.test(row[1]))continue;
   for(const part of row[1].matchAll(/<div class="Pbot-xs">([\s\S]*?)<\/div>/g)){
@@ -44,12 +46,14 @@ function yahooClaims(html,teams){
    const bid=/^(?:\$(\d+)\s+)?Waiver$/.exec(label);if(!bid)continue;
    const name=Y.text(/<a href="https:\/\/sports.yahoo.com\/nfl\/(?:players\/\d+|teams\/[^"/]+\/?)"[^>]*>([\s\S]*?)<\/a>/.exec(part[1])?.[1]||'');
    const pos=/^([\w]+) - (QB|RB|WR|TE|K|DEF)$/.exec(Y.text(/class="F-position[^>]*>([\s\S]*?)<\/span>/.exec(part[1])?.[1]||''));
-   check(name&&pos,'invalid_waiver_player');const team=recipient(row[1],teams),at=yahooDate(stamp(row[1]));
+   check(name&&pos,'invalid_waiver_player');const team=recipient(row[1],teams,providerId),at=yahooDate(stamp(row[1]));
    const asset=F.asset(name,pos[2],pos[1].toUpperCase());
-   items.push({id:'fb:claim:'+M.sha([at,team.id,name].join('|')).slice(0,24),kind:'waiver',publishedAt:at,teamId:team.id,player:name,amount:bid[1]==null?null:+bid[1],asset});
+   items.push({id:leagueId+':claim:'+M.sha([at,team.id,name].join('|')).slice(0,24),kind:'waiver',publishedAt:at,teamId:team.id,player:name,teamName:Y.text(/class="Tst-team-name"[^>]*>([\s\S]*?)<\/a>/.exec(row[1])?.[1]||team.name),position:pos[2],nflTeam:pos[1].toUpperCase(),amount:bid[1]==null?null:+bid[1],asset});
   }
  }
- return {items,hasNext:/href="\?transactionsfilter=all(?:&amp;|&)count=\d+"[^>]*>Next 25<\/a>/.test(html)};
+ const dates=[...table.matchAll(/class="Block F-timestamp[^>]*>([\s\S]*?)<\/span>/g)].map(m=>yahooDate(Y.text(m[1])));
+ check(dates.length||/No recent transactions/.test(table),'unrecognized_claim_table');
+ return {items,oldestAt:dates.sort()[0]||null,hasNext:/href="\?transactionsfilter=all(?:&amp;|&)count=\d+"[^>]*>Next 25<\/a>/.test(html)};
 }
 function yahooTrades(html,teams){
  const table=yahooTable(html),groups=[];

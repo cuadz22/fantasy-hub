@@ -40,6 +40,7 @@ module.exports = async (req, res) => {
       else if (r === 'cron-network') { name = 'network'; work = () => require('./_network').tick(); }
       else if (r === 'cron-connected') { name = 'connected'; work = async () => { const c = await M.context({cachedOnly:true}); if (!c || c.stale) throw Error('context_unavailable'); return require('./_connected').refreshScheduled(c.week); }; }
       else if (r === 'cron-cantcut' || r === 'cron-trades') { name=r.slice(5); work=()=>require('./_leagueupdates').refresh(name); }
+      else if (r === 'cron-waivers') { name='waivers'; work=()=>require('./_waivers').scheduled({force:q.get('force')==='1'}); }
       else if (r === 'cron-activities') { name='activities'; work=()=>require('./_liveactivity').tick(); }
       else if (r === 'cron-market') { name='market'; work=()=>require('./_marketrefresh').refresh(); }
       else if (r === 'cron-ball') { name = 'ball'; work = () => require('./_mball').collect({ force: q.get('force') === '1' }); }

@@ -31,9 +31,9 @@ function staticPosts(now=Date.now(),resources=RES){
   const groups=new Map();
   for(const r of resources.tools.waivers[lg]||[]){if(!Number.isInteger(r.week)||r.week<1||r.week>18)continue;const rows=groups.get(r.week)||[];rows.push(r);groups.set(r.week,rows);}
   for(const [week,rows] of groups){
-   const at=rows.map(x=>dated(x.date,RES.season)).filter(Boolean).sort().at(-1);if(!at||Date.parse(at)>now)continue;
-   const claims=rows.map(r=>({player:r.player,team:r.winner,amount:r.bids?.find(b=>b.won)?.amount??null,asset:require('./_feedmedia').asset(r.player,r.position,r.nflTeam)}));
-   out.push({id:`waivers:${RES.season}:${lg}:${week}`,kind:'waivers',leagueId:lg,week,title:`Week ${week} waiver report`,body:`${claims.length} successful claims · one weekly report`,publishedAt:at,dateOnly:true,claims,url:'https://cuadzfantasynetwork.com/share/league-'+lg+'-waivers.html',logoURL:logo(lg)});
+   const at=rows.map(x=>dated(x.publishedAt||x.date,RES.season)).filter(Boolean).sort().at(-1);if(!at||Date.parse(at)>now)continue;
+   const claims=rows.map(r=>({player:r.player,team:r.winner,amount:r.bids?.find(b=>b.won)?.amount??null,asset:r.asset||require('./_feedmedia').asset(r.player,r.position,r.nflTeam)}));
+   out.push({id:`waivers:${RES.season}:${lg}:${week}`,kind:'waivers',leagueId:lg,week,title:`Week ${week} waiver report`,body:`${claims.length} successful claims · one weekly report`,publishedAt:at,dateOnly:!rows.every(r=>r.publishedAt),...(rows.every(r=>r.suppressNotification)?{notify:false}:{}),claims,url:'https://cuadzfantasynetwork.com/share/league-'+lg+'-waivers.html',logoURL:logo(lg)});
   }
  }
  // Published edition only. Future recaps enter through the commissioner publisher.

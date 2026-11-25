@@ -33,19 +33,20 @@ for(const file of ['client/vercel.json','vercel.json']) {
  const old=JSON.parse(cp.execFileSync('git',['show','c554e97:'+file],{encoding:'utf8'}));
  const next=JSON.parse(fs.readFileSync(file));old.redirects.find(x=>x.source==='/').destination='/redesign/index.html';
  if(file==='client/vercel.json') {
-  const additions=next.crons.filter(x=>['/api/mobile/cron-network','/api/mobile/cron-connected','/api/mobile/cron-cantcut','/api/mobile/cron-trades','/api/mobile/cron-market','/api/mobile/cron-activities','/api/mobile/cron-recaps'].includes(x.path));
-  assert.deepEqual(additions,[{path:'/api/mobile/cron-network',schedule:'* * * * *'},{path:'/api/mobile/cron-connected',schedule:'* * * * *'},{path:'/api/mobile/cron-cantcut',schedule:'0 10,22 * * *'},{path:'/api/mobile/cron-trades',schedule:'*/15 * * * *'},{path:'/api/mobile/cron-market',schedule:'7,37 * * * *'},{path:'/api/mobile/cron-activities',schedule:'* * * * *'},{path:'/api/mobile/cron-recaps',schedule:'*/15 10-23 * * 2'}]);
+  const additions=next.crons.filter(x=>['/api/mobile/cron-network','/api/mobile/cron-connected','/api/mobile/cron-cantcut','/api/mobile/cron-trades','/api/mobile/cron-market','/api/mobile/cron-activities','/api/mobile/cron-recaps','/api/mobile/cron-waivers'].includes(x.path));
+  assert.deepEqual(additions,[{path:'/api/mobile/cron-network',schedule:'* * * * *'},{path:'/api/mobile/cron-connected',schedule:'* * * * *'},{path:'/api/mobile/cron-cantcut',schedule:'0 10,22 * * *'},{path:'/api/mobile/cron-trades',schedule:'*/15 * * * *'},{path:'/api/mobile/cron-market',schedule:'7 11,23 * * *'},{path:'/api/mobile/cron-activities',schedule:'* * * * *'},{path:'/api/mobile/cron-recaps',schedule:'*/15 10-23 * * 2'},{path:'/api/mobile/cron-waivers',schedule:'0 10-17 * * *'}]);
   next.crons=next.crons.filter(x=>!additions.includes(x));
  }
  assert.deepEqual(next,old,'Existing routes and scoring schedules remain unchanged');
 }
 const currentMobile=fs.readFileSync('client/api/mobile.js','utf8');
-const addedRoutes=['activity/register','activity/remove','widget','cron-market','cron-activities','news','player-log','cron-cantcut','cron-network','cron-connected','network-preview','network','network/publish','network/test','connected','connected/snapshot','connected/schedule'];
+const addedRoutes=['cron-waivers','activity/register','activity/remove','widget','cron-market','cron-activities','news','player-log','cron-cantcut','cron-network','cron-connected','network-preview','network','network/publish','network/test','connected','connected/snapshot','connected/schedule'];
 const addedLines=currentMobile.split('\n').filter(line=>addedRoutes.some(route=>line.includes("r === '"+route+"'")));
 assert.equal(addedLines.length,addedRoutes.length,'Exactly the tested additive routes');
 const featuredField="featuredMatchups: require('./_resources.json').tools.featuredMatchups, ";
 assert.equal(currentMobile.split(featuredField).length,2,'Only one optional media field added');
 const mobile=currentMobile.replace(/^.*else if \(r === 'cron-recaps'\).*\n/gm,'').replace(/^.*if \(r === 'recaps' \|\|.*\n/gm,'').replace(featuredField,'').split('\n').filter(line=>!addedLines.includes(line)).join('\n');
-const oldMobile=cp.execFileSync('git',['show','c554e97:client/api/mobile.js'],{encoding:'utf8'});
-assert.equal(mobile.replace(/    if \(r === 'power' && req.method === 'GET'\) \{[\s\S]*?\n    \}\n/, '').replace("if (r === 'resources' && req.method === 'GET') return J(res, 200, await require('./_leagueupdates').resources(), 'public, s-maxage=60, stale-while-revalidate=60');\n    ",''),oldMobile,'No change to existing mobile routes');
+// Preserve the latest approved routes, including the separately tested twice-daily market fix.
+const oldMobile=cp.execFileSync('git',['show','0bac5e56ae109d81912a4a9c3817e370cebddba6:client/api/mobile.js'],{encoding:'utf8'});
+assert.equal(currentMobile.replace(/^.*else if \(r === 'cron-waivers'\).*\n/gm,''),oldMobile,'Waiver scan is additive; all existing mobile routes remain unchanged');
 console.log('Resource migration: source parity, immutable legacy contracts, all draft slots, live pick ownership, and unchanged existing API/routing behavior passed');

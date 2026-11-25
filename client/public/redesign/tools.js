@@ -110,7 +110,9 @@ function waiversView() {
   let all = T.waivers[league] || [],
     weeks = [...new Set(all.map((w) => w.week))].sort((a, b) => b - a);
   return (
-    heading("Waiver report", `Saved report · ${T.waiversUpdated}`) +
+    heading("Waiver report", CFNData.state.resources?.resourceFreshness?.waiverLeagues?.[league]
+      ? `Checked ${new Date(CFNData.state.resources.resourceFreshness.waiverLeagues[league]).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})} · Confirmed Yahoo claims`
+      : `Saved report · ${T.waiversUpdated}`) +
     CFNPolish.weekStrip(weeks, weeks[0], 'data-waiver-week',true) + `<div id="waiver-results">${waiverRows(all.filter(w=>w.week===weeks[0]))}</div>`
   );
 }
@@ -118,7 +120,7 @@ function waiverRows(rs) {
   return `<div class="waiver-list">${rs.slice().sort((a,b)=>b.week-a.week)
     .map((w) => {
       const bid = w.bids.find((b) => b.won);
-      return `<details class="waiver-card"><summary>${photo(w.player,w.position,w.nflTeam)}<div><b>${esc(w.player)}</b><small>${esc(w.position)} · ${esc(w.nflTeam)} · ${esc(w.date)}</small></div><div class="waiver-team"><b>${esc(w.winner)}</b><small>Successful claim</small></div><strong class="bid">$${bid?.amount ?? 0}</strong><span class="disclosure">⌄</span></summary><div class="bid-detail">${w.bids.map((b) => `<div><span>${esc(b.manager)}${b.won ? ' <span class="status-tag">Won</span>' : ""}</span><b>$${b.amount}</b></div>`).join("")}</div></details>`;
+      return `<details class="waiver-card"><summary>${CFNPolish.avatar(w.player,w.position,w.nflTeam,w.asset?.photoURL)}<div><b>${esc(w.player)}</b><small>${esc(w.position)} · ${esc(w.nflTeam)} · ${esc(/^\d{4}-/.test(w.date)?new Date(w.date).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'}):w.date)}</small></div><div class="waiver-team"><b>${esc(w.winner)}</b><small>Successful claim</small></div><strong class="bid">$${bid?.amount ?? 0}</strong><span class="disclosure">⌄</span></summary><div class="bid-detail">${w.bids.map((b) => `<div><span>${esc(b.manager)}${b.won ? ' <span class="status-tag">Won</span>' : ""}</span><b>$${b.amount}</b></div>`).join("")}</div></details>`;
     })
     .join("")}</div>`;
 }

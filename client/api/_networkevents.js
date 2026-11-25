@@ -7,7 +7,7 @@ async function observe(posts, {store=M, now=Date.now()}={}) {
  if (!lock) return [];
  try {
   const previous = await store.read(KEY);
-  const candidates = posts.filter(p=>['trade','waivers'].includes(p.kind)&&M.LGS.includes(p.leagueId)&&Number.isFinite(Date.parse(p.publishedAt))&&Date.parse(p.publishedAt)<=now);
+  const candidates = posts.filter(p=>p.notify!==false&&['trade','waivers'].includes(p.kind)&&M.LGS.includes(p.leagueId)&&Number.isFinite(Date.parse(p.publishedAt))&&Date.parse(p.publishedAt)<=now);
   // First successful run is a baseline, never a burst of historical alerts.
   const seen = new Set(previous?.seen || []);
   const queue = (previous?.queue || []).filter(p=>now-Date.parse(p.publishedAt)<86400000);

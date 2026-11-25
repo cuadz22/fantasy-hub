@@ -104,6 +104,10 @@
     {
       "path": "/api/mobile/cron-recaps",
       "schedule": "*/15 10-23 * * 2"
+    },
+    {
+      "path": "/api/mobile/cron-waivers",
+      "schedule": "0 10-17 * * *"
     }
   ],
   "functions": {

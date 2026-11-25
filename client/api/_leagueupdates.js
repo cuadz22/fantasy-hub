@@ -78,8 +78,8 @@ async function refresh(kind){
 let memo=null;
 async function resources(){
  if(memo&&Date.now()-memo.at<60000)return memo.body;
- const saved=await M.rget(KEY);
- const body={...BASE,tools:{...BASE.tools,cc:saved?.cc||BASE.tools.cc,trades:{...BASE.tools.trades,...saved?.trades}},resourceFreshness:{cantCut:saved?.cc?.sourceUpdatedAt||null,trades:saved?.tradesUpdatedAt||null,tradeLeagues:saved?.tradeFreshness||{}}};
+ const [saved,waivers]=await Promise.all([M.rget(KEY),require('./_waivers').reports()]);
+ const body={...BASE,tools:{...BASE.tools,cc:saved?.cc||BASE.tools.cc,trades:{...BASE.tools.trades,...saved?.trades},waivers:Object.fromEntries(M.LGS.map(lg=>[lg,require('./_waivers').overlay(BASE.tools.waivers[lg]||[],waivers[lg])]))},resourceFreshness:{cantCut:saved?.cc?.sourceUpdatedAt||null,trades:saved?.tradesUpdatedAt||null,tradeLeagues:saved?.tradeFreshness||{},waiverLeagues:Object.fromEntries(M.LGS.map(lg=>[lg,waivers[lg]?.checkedAt||null]))}};
  memo={at:Date.now(),body};return body;
 }
 module.exports={cantcut,quarterbacks,trades,mergeTrades,refresh,resources};
