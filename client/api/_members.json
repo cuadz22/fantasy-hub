@@ -63,5 +63,36 @@
    "rb": 5,
    "sts": 4
   }
+ },
+ {
+  "h": "4751b3a0dd45c0115e1ec817d57148b1b3fd76702ac1fbe167055aa1ae149571",
+  "name": "Cris",
+  "teams": {
+   "bh": 6,
+   "rb": 2
+  }
+ },
+ {
+  "h": "951ee65126e3d756e5aa318840acd681817990d4fdbba531d3e1cf05564916ac",
+  "name": "Mina",
+  "teams": {
+   "bh": 12,
+   "sts": 7
+  }
+ },
+ {
+  "h": "2af769fe77b61db4efd6387563f98ee2d2897ed73408200291808680efc37bf1",
+  "name": "Eddie",
+  "teams": {
+   "bh": 3
+  }
+ },
+ {
+  "h": "a26cacde2e4993193a0a11bfaa8aee7e8f51f82250e2cac587bc02baf073ee5b",
+  "name": "Edwin",
+  "teams": {
+   "bh": 10,
+   "sts": 6
+  }
  }
 ]

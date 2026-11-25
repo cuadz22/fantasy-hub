@@ -2863,3 +2863,5 @@ header>div{max-width:1680px}
   .navigation-utilities{grid-column:3;display:flex;align-items:center;justify-content:flex-end;gap:20px;min-width:0}
   .navigation-utilities .theme-switch{margin-left:0}
 }
+
+.playoff-promo .text-link{display:block;padding:7px 0}.playoff-promo{margin-bottom:18px}

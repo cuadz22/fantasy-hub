@@ -122,7 +122,7 @@ function network() {
     .map((k) => card(headliner(k)))
     .join(
       "",
-    )} </section><section class="home-recaps-mobile">${CFNRecaps.latest()}</section><section class="content-section"><div class="section-head"><h2>Your leagues</h2></div><div class="league-strip">${S.cards.map(c => `<a href="#league-${c.league}" class="league-tile">${img(c.leagueLogo)}<h3>${leagues[c.league]}</h3><span>Open league →</span></a>`).join("")}</div></section>`;
+    )} </section><section class="home-recaps-mobile">${playoffLink(null)}${CFNRecaps.latest()}</section><section class="content-section"><div class="section-head"><h2>Your leagues</h2></div><div class="league-strip">${S.cards.map(c => `<a href="#league-${c.league}" class="league-tile">${img(c.leagueLogo)}<h3>${leagues[c.league]}</h3><span>Open league →</span></a>`).join("")}</div></section>`;
 }
 function lineup(c) {
   return `<section class="lineup-panel"><div class="lineup-title"><span>${esc(c.teams[0].owner)} · ${esc(c.teams[0].record)}</span><span>Points / projection</span><span>${esc(c.teams[1].owner)} · ${esc(c.teams[1].record)}</span></div>${rows(c)}</section>`;

@@ -467,7 +467,7 @@ function leaguePage() {
           ? `Week ${requestedWeek()} · ${cs.length} matchups`
           : "Current matchups unavailable",
       ) +
-      `<section class="group league-matchups">${(cs.length ? cs : [c]).map(card).join("")}</section>` + CFNRecaps.latest(league) +
+      `<section class="group league-matchups">${(cs.length ? cs : [c]).map(card).join("")}</section>` + playoffLink(league) + CFNRecaps.latest(league) +
       `<section class="content-section league-directory"><div><h2>More to your league.</h2><p>From this week’s moves to the seasons that built it.</p></div><div class="directory-grid">${sections.map(([title, ids]) => `<section><h3>${title}</h3>${ids.filter(available).map(link).join("")}</section>`).join("")}</div></section>`;
   }
   if (leagueTab === "lineups") body = lineup(c);
@@ -559,6 +559,11 @@ function pickem() {
     `<div class="editorial"><article class="story"><div class="eyebrow">Pick’em</div><h2>Who have you got?</h2><p>Choose your winners, follow the leaderboard, and keep the rivalry going.</p><a class="pill" href="https://cuadzfantasynetwork.com/l/pickem.html" target="_blank" rel="noopener">Open Pick’em ↗</a></article><aside class="note-card"><h3>Your picks stay protected.</h3><p>The existing submission, deadline, and leaderboard flow remains in place. Use the original tool to submit your picks.</p></aside></div>`
   );
 }
+function playoffLink(lg) {
+  const keys = lg ? [lg] : ['gl','bh','rb','sts'];
+  if (!keys.every(k => ['gl','bh','rb','sts'].includes(k))) return '';
+  return `<section class="note-card playoff-promo"><div class="eyebrow">Week 12 · Playoff Machine</div><h3>What gets your team in?</h3><p>See the results you need and explore your paths.</p>${keys.map(k => `<a class="text-link" href="playoff-machine.html?lg=${k}">${esc(leagues[k])} →</a>`).join('')}</section>`;
+}
 function archive() { return CFNRecaps.archive() + `<details><summary>Earlier network editions</summary>${legacyArchive()}</details>`; }
 function legacyArchive() {
   return (
@@ -616,7 +621,7 @@ function render(keepScroll = false, skipLoad = false) {
     const root = document.querySelector("#main");
     const intro = document.createElement('div'); intro.className = 'page-intro';
     while(root.firstElementChild?.matches('.hero,.controls,.section-head,.tool-heading')) intro.append(root.firstElementChild);
-    root.innerHTML = `<div class="desktop-content"><div class="page-content">${root.innerHTML}</div><aside class="news-rail" aria-label="Latest recaps and news">${CFNRecaps.latest(page === "league" ? league : null)}${CFNUpdates.sidebar()}</aside></div>`;
+    root.innerHTML = `<div class="desktop-content"><div class="page-content">${root.innerHTML}</div><aside class="news-rail" aria-label="Latest recaps and news">${playoffLink(page === "league" ? league : null)}${CFNRecaps.latest(page === "league" ? league : null)}${CFNUpdates.sidebar()}</aside></div>`;
     root.prepend(intro);
   }
   document.querySelectorAll("nav>a").forEach((a) => {
