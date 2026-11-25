@@ -95,7 +95,7 @@
     },
     {
       "path": "/api/mobile/cron-market",
-      "schedule": "7,37 * * * *"
+      "schedule": "7 11,23 * * *"
     },
     {
       "path": "/api/mobile/cron-activities",
