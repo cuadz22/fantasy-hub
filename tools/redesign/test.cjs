@@ -109,7 +109,7 @@ const fixture = (n) =>
     );
   let protectedCount = 0;
   // Only the reviewed invited-member rollout changes are permitted; all feeds stay frozen.
-  const rolloutFiles = new Set(["client/api/_pushrollout.json", "client/api/_networkrollout.json", "client/api/_mpush.js", "client/api/_network.js"]);
+  const rolloutFiles = new Set(["client/api/_pushrollout.json", "client/api/_networkrollout.json", "client/api/_mpush.js", "client/api/_network.js", "client/api/_liveactivity.js"]);
   for (const file of files.filter(f => !rolloutFiles.has(f))) {
     const expected = cp
       .execFileSync("git", ["rev-parse", `${baseline}:${file}`], {

@@ -2,7 +2,7 @@
 // Isolated read-only presentation channel. Never writes scores, standings or membership.
 const M=require('./_m'),A=require('./_mauth'),AP=require('./_apns'),crypto=require('crypto');
 const NS='activity:v1:',names={gl:'Gentlemen’s League',bh:'Beaners & Husseins',rb:'Rebirth',sts:'Shoot the Shits',fb:'Fantasy Ball Z'};
-const allowed=h=>require('./_pushrollout.json').memberHashes.includes(h);
+const allowed=h=>require('./_mpush').allowed(h);
 const finite=x=>typeof x==='number'&&Number.isFinite(x);
 function stateFrom(body,lg,teamId){
  if(!body||body.stale||body.partial||body.season!==M.SEASON)throw Error('scores_unavailable');

@@ -26,7 +26,22 @@ const H=require('./mobile_harness'),{M,A,ok}=H,AP=require('../client/api/_apns')
  body={...body,final:true};await L.tick();ok(sends===3&&last[1].aps.event==='end','final ends activity');await L.tick();ok(sends===3,'final not repeated');
  const other=A.MEMBERS.find(m=>m.h!==member.h),otherToken='cfn_'+'e'.repeat(40);await M.write('ms:'+M.sha(otherToken),{e:other.h,x:Date.now()+60000});
  const otherReq={headers:{authorization:'Bearer '+otherToken}};
- ok((await L.register(otherReq,{kind:'widget',league:'gl',week:12})).status===403,'rollout stays private');
+ // Every invited member receives the same read-only features, scoped to their own team.
+ for(const [i,m] of A.MEMBERS.entries()){
+  const t='cfn_'+String(i+30).padStart(40,'0'),r={headers:{authorization:'Bearer '+t}},sh=M.sha(t);
+  await M.write('ms:'+sh,{e:m.h,x:Date.now()+60000});
+  const lg=Object.keys(m.teams)[0],team=m.teams[lg];
+  body={season:M.SEASON,week:12,sourceUpdatedAt:new Date().toISOString(),matchups:[{ia:team,ib:999,an:'Own',bn:'Other',ya:[12],yb:[13]}]};
+  const w=await L.register(r,{kind:'widget',league:lg,week:12});
+  ok(w.status===200&&w.json.state.teamId===team,'invited member widget uses assigned team');
+  const l=await L.register(r,{kind:'live',league:lg,week:12,token:String(i+1).padStart(64,'0'),environment:'production'});
+  ok(l.status===200&&l.json.state.teamId===team,'invited member Live Activity uses assigned team');
+  if(!require('../client/api/_connected').assignedTeam(m,'fb'))ok((await L.register(r,{kind:'widget',league:'fb',week:12})).status===400,'unassigned FBZ activity denied');
+  await M.command(['DEL','ms:'+sh]);
+  ok((await L.read({headers:{authorization:'Bearer '+w.json.accessToken}})).status===401,'revoked member widget denied');
+ }
+ const unknown='cfn_'+'f'.repeat(40);await M.write('ms:'+M.sha(unknown),{e:'uninvited',x:Date.now()+60000});
+ ok((await L.register({headers:{authorization:'Bearer '+unknown}},{kind:'widget',league:'gl',week:12})).status===401,'uninvited identity denied');
  ok((await L.remove(otherReq,{id:widget.json.id})).status===403,'other member cannot remove capability');
  await M.command(['DEL','ms:'+session]);ok((await L.read(wr)).status===401,'logout revokes widget access');
  // Market provider failure must preserve the last successful published result.
