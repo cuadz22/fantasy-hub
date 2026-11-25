@@ -2854,3 +2854,12 @@ header>div{max-width:1680px}
 @media(max-width:650px){.desktop-content .home-headliners,.desktop-content .league-matchups{grid-template-columns:1fr}.desktop-content .home-headliners .match:nth-child(n),.desktop-content .league-matchups .match:nth-child(n){border-right:0;border-bottom:1px solid var(--line);padding:22px 18px}.desktop-content .home-headliners .match:last-child,.desktop-content .league-matchups .match:last-child{border-bottom:0}.page-intro>.hero{padding-top:32px}.home-headliners .score,.league-matchups .score{font-size:44px}}
 .nav-wrap{max-width:1680px}
 @media(min-width:760px){.champion-card:has(.champion-road[open]) .champion-top{margin-bottom:10px}.champion-card:has(.champion-road[open]) .history-podium{display:flex;gap:40px;margin-top:16px;padding-bottom:10px}.champion-card:has(.champion-road[open]) .championship-open{max-width:380px}.champion-card:has(.champion-road[open]) .champion-road{margin-top:12px}}
+
+/* Center the brand and primary destinations independently of utility controls. */
+.primary-navigation,.navigation-utilities{display:contents}
+@media(min-width:1100px){
+  .nav-wrap{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:24px}
+  .primary-navigation{grid-column:2;display:flex;align-items:center;gap:44px;height:100%}
+  .navigation-utilities{grid-column:3;display:flex;align-items:center;justify-content:flex-end;gap:20px;min-width:0}
+  .navigation-utilities .theme-switch{margin-left:0}
+}
