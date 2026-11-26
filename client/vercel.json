@@ -38,6 +38,10 @@
   ],
   "crons": [
     {
+      "path": "/api/mobile/cron-editorial",
+      "schedule": "*/10 * * * *"
+    },
+    {
       "path": "/api/hw?snap=1",
       "schedule": "17 9 * * *"
     },

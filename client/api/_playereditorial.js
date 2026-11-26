@@ -27,7 +27,7 @@ function assertForward(previous,next){
  if(!previous)return;
  if(Date.parse(next.updatedAt)<Date.parse(previous.updatedAt))throw Error('editorial_snapshot_rollback');
  const old=new Map(previous.items.map(x=>[x.id,x]));
- for(const x of next.items){const p=old.get(x.id);if(p&&(x.revision<p.revision||(x.revision===p.revision&&JSON.stringify(x)!==JSON.stringify(p))))throw Error('editorial_revision_rollback');old.delete(x.id)}
+ for(const x of next.items){const p=old.get(x.id);if(p&&JSON.stringify(p.player)!==JSON.stringify(x.player))throw Error('editorial_identity_change');if(p&&(x.revision<p.revision||(x.revision===p.revision&&JSON.stringify(x)!==JSON.stringify(p))))throw Error('editorial_revision_rollback');old.delete(x.id)}
  // Retractions must be explicit and remain in the complete document.
  if(old.size)throw Error('editorial_missing_previous_ids');
 }
