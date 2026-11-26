@@ -132,6 +132,9 @@ const fixture = (n) =>
   const rolloutFiles = new Set(["client/api/_pushrollout.json", "client/api/_networkrollout.json", "client/api/_mpush.js", "client/api/_network.js", "client/api/_liveactivity.js"]);
   // Reviewed Road to the Ring UI additions; pin exact content, keeping all API/feed protections.
   const roadPresentation = {
+  // Reviewed additive Portfolio history; legacy market fields verified against 09c1eb4.
+  "client/api/_mmovers.js": "7256ff538d406578b9f0c8f21f4d7d10cf2dea82",
+  "client/api/_marketrefresh.js": "672f745c7ff0e74b75aa2dc36e69cf1077537bff",
   // Isolated seasonal-theme route; existing route source parity is checked separately.
   "client/api/mobile.js": "91b7da1f776735ff8b90ea09a1bffe916b15bcd9",
   // Four explicitly invited members; auth logic and existing assignments are unchanged.

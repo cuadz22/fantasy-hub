@@ -19,6 +19,44 @@ function liveSeries(live) {
   });
   return { out, used };
 }
+
+// Reconstruct older comparisons only from real archived source observations.
+// Their unsnapshotted model inputs are held constant, as in the existing movers.
+function portfolioHistory(k, p, series, hist, best, live, lv, now) {
+  const validSources = sources => Object.fromEntries(Object.entries(sources || {}).filter(([key,v]) => IDS.some(id=>key===id+"1") && Number.isFinite(v) && v>=0));
+  const rawPrior = best?.v?.[k] || best?.v?.[nn(p.n)];
+  const prior = rawPrior && Object.keys(validSources(rawPrior)).length ? validSources(rawPrior) : null;
+  const exactBaseline = best?.modelVersion === MM.v ? best?.values?.[k] : null;
+  const baseline = Number.isFinite(exactBaseline) ? exactBaseline : prior ? value(Object.assign({}, series, prior)) : null;
+  const current = value(series), sourceDate = live && (live.updated || live.dpAsOf);
+  const history = [];
+  const seen = new Set();
+  for (const snap of (hist.snaps || []).slice().sort((a,b)=>Date.parse(a.t)-Date.parse(b.t))) {
+    const stamp = Date.parse(snap.t), sources = snap.v?.[k] || snap.v?.[nn(p.n)];
+    if (!sources || !Number.isFinite(stamp) || stamp > now || seen.has(stamp)) continue;
+    if (!Object.entries(sources).some(([key,v])=>Number.isFinite(v) && v >= 0 && W[key.replace(/1$/, '')] > 0)) continue;
+    const v = value(Object.assign({}, series, validSources(sources)));
+    if (Number.isFinite(v) && v >= 0) { history.push({date:new Date(stamp).toISOString(),value:v});seen.add(stamp); }
+  }
+  for (const snap of hist.exact || []) {
+    const stamp=Date.parse(snap.t), v=snap.values?.[k];
+    if(snap.modelVersion!==MM.v || !Number.isFinite(stamp) || stamp>now || !Number.isFinite(v) || v<0 || v>15000)continue;
+    const row={date:new Date(stamp).toISOString(),value:v};
+    const index=history.findIndex(q=>Date.parse(q.date)===stamp);
+    if(index>=0)history[index]=row;else history.push(row);
+  }
+  const stamp = Date.parse(sourceDate);
+  if (lv.used.length && Number.isFinite(stamp) && stamp <= now && Number.isFinite(current)) {
+    // Never append a current value with a made-up timestamp during a provider outage.
+    const index = history.findIndex(q=>Date.parse(q.date)===stamp);
+    if (index>=0) history[index]={date:new Date(stamp).toISOString(),value:current};
+    else history.push({date:new Date(stamp).toISOString(),value:current});
+  }
+  const change = Number.isFinite(baseline) && baseline >= 0 ? current-baseline : null;
+  return { history:history.sort((a,b)=>Date.parse(a.date)-Date.parse(b.date)).slice(-60),
+    historyBasis:'saved-source-model', change, percentChange:baseline>0 && change!==null? Math.round(change/baseline*10000)/100:null };
+}
+
 async function readHist() {
   if (!get) return { snaps: [] };
   try { const r = await get('market/history.json', { access: 'private', useCache: false }); if (!r || r.statusCode !== 200 || !r.stream) return { snaps: [] }; const j = JSON.parse(await new Response(r.stream).text()); return j && Array.isArray(j.snaps) ? j : { snaps: [] }; } catch (e) { return { snaps: [] }; }
@@ -30,7 +68,10 @@ async function compute(host, week, fetchJson, hist, idmap, options = {}) {
   let live = null;
   try { live = await fetchJson('https://' + host + '/api/hw?market=1'); } catch (e) {}
   const lv = live && live.players ? liveSeries(live.players) : { out: {}, used: [] };
-  hist = hist || await readHist();
+  if (!hist) {
+    hist = await readHist();
+    try { hist.exact = (await require("./_marketarchive").read()).snaps; } catch (_) { hist.exact = []; }
+  }
   const now = Date.now(); let best = null;
   (hist.snaps || []).forEach(q => { const age = now - Date.parse(q.t); if (age >= 20 * 36e5 && age <= 10 * 864e5 && (!best || Math.abs(age - 7 * 864e5) < Math.abs(now - Date.parse(best.t) - 7 * 864e5))) best = q; });
   if (!best && !options.allowWithoutBaseline) return { ok: false, error: 'no_baseline' };
@@ -41,7 +82,8 @@ async function compute(host, week, fetchJson, hist, idmap, options = {}) {
     return { id: k, name: p.n, position: p.p, team: canon(p.t) || null,
       currentValue: value(Object.assign({}, p.s, lv.out[k] || {})),
       playerId: sid || 'cfn:' + k + ':' + p.p,
-      photoURL: sid ? 'https://sleepercdn.com/content/nfl/players/' + sid + '.jpg?v=1' : null };
+      photoURL: sid ? 'https://sleepercdn.com/content/nfl/players/' + sid + '.jpg?v=1' : null,
+      ...portfolioHistory(k, p, Object.assign({}, p.s, lv.out[k] || {}), hist, best, live, lv, now) };
   }).filter(p => Number.isFinite(p.currentValue) && p.currentValue >= 0)
     .sort((a,b) => b.currentValue-a.currentValue || a.name.localeCompare(b.name));
   const rows = [];

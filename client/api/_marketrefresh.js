@@ -8,7 +8,9 @@ async function refresh(){
   const m=await MV.compute('cuadzfantasynetwork.com',c.week,hj,undefined,await Ids.getMap(),{allowWithoutBaseline:true});
   if(!m.ok||m.body.stale)throw Error(m.error||'market_unavailable');
   await M.rset(key,{v:4,at:Date.now(),week:c.week,key:m.key,body:m.body},259200);
-  return {updated:true,sourceUpdatedAt:m.body.sourceUpdatedAt,computedAt:m.body.computedAt};
+  let history;
+  try { history=await require("./_marketarchive").save(m.body); } catch(e) { history={saved:false,error:"history_save_failed"}; console.error("Market history save failed",e.name); }
+  return {history,updated:true,sourceUpdatedAt:m.body.sourceUpdatedAt,computedAt:m.body.computedAt};
  }finally{await M.unlock('mm:refresh:lock',locked)}
 }
 module.exports={refresh};
