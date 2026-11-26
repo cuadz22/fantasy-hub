@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "theme": "smoked-mocha",
   "enabled": true,
-  "startsAt": "2026-11-25T00:00:00Z",
-  "endsAt": "2026-11-27T05:00:00Z",
+  "startsAt": "2026-11-26T17:30:00Z",
+  "endsAt": "2026-11-27T04:59:00Z",
   "memberHashes": ["007b50c7e3b100b7703abbe7873b408454d06dfbe44ec34e91717eb3ac36e136"],
   "editors": ["007b50c7e3b100b7703abbe7873b408454d06dfbe44ec34e91717eb3ac36e136"]
 }
