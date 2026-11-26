@@ -40,7 +40,7 @@ for(const file of ['client/vercel.json','vercel.json']) {
  assert.deepEqual(next,old,'Existing routes and scoring schedules remain unchanged');
 }
 const currentMobile=fs.readFileSync('client/api/mobile.js','utf8');
-const addedRoutes=['cron-waivers','activity/register','activity/remove','widget','cron-market','cron-activities','news','player-log','cron-cantcut','cron-network','cron-connected','network-preview','network','network/publish','network/test','connected','connected/snapshot','connected/schedule'];
+const addedRoutes=['seasonal-theme','cron-waivers','activity/register','activity/remove','widget','cron-market','cron-activities','news','player-log','cron-cantcut','cron-network','cron-connected','network-preview','network','network/publish','network/test','connected','connected/snapshot','connected/schedule'];
 const addedLines=currentMobile.split('\n').filter(line=>addedRoutes.some(route=>line.includes("r === '"+route+"'")));
 assert.equal(addedLines.length,addedRoutes.length,'Exactly the tested additive routes');
 const featuredField="featuredMatchups: require('./_resources.json').tools.featuredMatchups, ";
@@ -48,5 +48,5 @@ assert.equal(currentMobile.split(featuredField).length,2,'Only one optional medi
 const mobile=currentMobile.replace(/^.*else if \(r === 'cron-recaps'\).*\n/gm,'').replace(/^.*if \(r === 'recaps' \|\|.*\n/gm,'').replace(featuredField,'').split('\n').filter(line=>!addedLines.includes(line)).join('\n');
 // Preserve the latest approved routes, including the separately tested twice-daily market fix.
 const oldMobile=cp.execFileSync('git',['show','0bac5e56ae109d81912a4a9c3817e370cebddba6:client/api/mobile.js'],{encoding:'utf8'});
-assert.equal(currentMobile.replace(/^.*else if \(r === 'cron-waivers'\).*\n/gm,''),oldMobile,'Waiver scan is additive; all existing mobile routes remain unchanged');
+assert.equal(currentMobile.replace(/^.*if \(r === 'seasonal-theme'\).*\n/gm,'').replace(/^.*else if \(r === 'cron-waivers'\).*\n/gm,''),oldMobile,'Waiver scan is additive; all existing mobile routes remain unchanged');
 console.log('Resource migration: source parity, immutable legacy contracts, all draft slots, live pick ownership, and unchanged existing API/routing behavior passed');

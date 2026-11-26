@@ -12,6 +12,7 @@ module.exports = async (req, res) => {
   try {
     if (req.method === 'OPTIONS') return J(res, 204, {});
     const q = new URL(req.url, 'http://x').searchParams, r = String(q.get('r') || '').replace(/^\/+|\/+$/g, '');
+    if (r === 'seasonal-theme') { const x = await require('./_seasonal').handle(req, bodyOf(req)); return J(res, x.status, x.json, 'no-store'); }
     if (r === 'scoring-replay') {
       if (!require('./_mjobs').authorized(req)) return J(res, 401, { error: 'unauthorized' });
       if (req.method !== 'POST') return J(res, 405, { error: 'method_not_allowed' });
