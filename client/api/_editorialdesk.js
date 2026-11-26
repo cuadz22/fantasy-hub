@@ -5,6 +5,8 @@ const E = require('./_playereditorial'), M = require('./_m');
 const registry = require('./_editorial-identities.json');
 const SOURCE = 'https://gist.githubusercontent.com/cuadz22/7ea9626d0b3bcf0248ecc432536cb863/raw/cfn-desk-feed.json';
 const STATE = 'editorial:desk-sync:v1';
+// Re-read an unchanged source once when normalization rules change.
+const IMPORTER_VERSION = 2;
 // Explicitly reviewed producer IDs, not a fuzzy name matcher. New players supply providerIds.
 const aliases = {
  kyrenwilliams: ['Kyren Williams','RB','4430737'], konatamumpfield: ['Konata Mumpfield','WR','4710855'],
@@ -12,8 +14,8 @@ const aliases = {
  blakecorum: ['Blake Corum','RB','4429096'], christianwatson: ['Christian Watson','WR','4248528'],
  matthewgolden: ['Matthew Golden','WR','4701936'], tuckerkraft: ['Tucker Kraft','TE','4572680']
 };
-// These were explicitly supplied as samples. Even an accidental status change cannot publish them.
-const SAMPLE_IDS = new Set(Object.keys(aliases).map(id=>'2026-wk12-401873079-'+id));
+// Jose approved the eight initial desk notes for readers on November 26.
+// Future samples must remain isSample:true or draft; publication is driven by the desk.
 const key = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
 const validTime = (s, now) => typeof s === 'string' && /T.*(?:Z|[+-]\d\d:\d\d)$/.test(s) && Number.isFinite(Date.parse(s)) && Date.parse(s) <= now + 300000;
 const safeText = (s,max) => typeof s === 'string' && s.trim().length > 0 && s.length <= max && !/<[^>]+>/.test(s);
@@ -37,13 +39,16 @@ function normalizeDesk(doc, previous, now=Date.now()) {
  for (const n of doc.notes) {
   if (!safeText(n.noteId,140) || seen.has(n.noteId) || !['draft','published','retracted'].includes(n.status)) throw Error('invalid_desk_note');
   seen.add(n.noteId);
-  if (SAMPLE_IDS.has(n.noteId) || n.isSample === true) { samples++; continue; }
+  if (n.isSample === true) { samples++; continue; }
   const id = 'desk:'+n.noteId, old = items.get(id);
   if (n.status === 'draft') {
    if (old?.status === 'published') throw Error('desk_explicit_retraction_required');
    drafts++; continue;
   }
-  const revision = n.revision ?? 1, updatedAt = n.updatedAt || n.factCheck?.checkedAt;
+  // A note may be fact-checked before it is published. If the producer omits
+  // updatedAt on its first publication, use the later real source timestamp.
+  const revision = n.revision ?? 1, updatedAt = n.updatedAt ||
+   (Date.parse(n.publishedAt) > Date.parse(n.factCheck?.checkedAt) ? n.publishedAt : n.factCheck?.checkedAt);
   if (!Number.isSafeInteger(revision) || revision<1 || !validTime(updatedAt,now) || Date.parse(updatedAt)>Date.parse(doc.generatedAt)) throw Error('invalid_desk_revision');
   if (n.status === 'retracted') {
    if (!old) throw Error('desk_unknown_retraction');
@@ -73,8 +78,8 @@ async function synchronize({fetcher=fetch,now=Date.now()}={}) {
  const before=await M.command(['GET',E.KEY]);
  const previous=before?E.validate(JSON.parse(before),now):null;
  const headers={Accept:'application/json', 'User-Agent':'CFN-Editorial/1.0'};
- if (state?.etag) headers['If-None-Match']=state.etag;
- if (state?.lastModified) headers['If-Modified-Since']=state.lastModified;
+ if (state?.importerVersion===IMPORTER_VERSION && state.etag) headers['If-None-Match']=state.etag;
+ if (state?.importerVersion===IMPORTER_VERSION && state.lastModified) headers['If-Modified-Since']=state.lastModified;
  const response=await fetcher(SOURCE,{headers,redirect:'error',signal:AbortSignal.timeout(12000)});
  if (response.status===304) {if(!state || !before)throw Error('desk_unexpected_not_modified');return {unchanged:true,published:previous.items.filter(x=>x.status==='published').length};}
  if (!response.ok) throw Error('desk_source_http_'+response.status);
@@ -83,10 +88,10 @@ async function synchronize({fetcher=fetch,now=Date.now()}={}) {
  const hash=crypto.createHash('sha256').update(JSON.stringify(doc)).digest('hex');
  if(state?.generatedAt===doc.generatedAt && state.hash!==hash) throw Error('desk_timestamp_not_advanced');
  const {next,drafts,samples}=normalizeDesk(doc,previous,now);
- const nextState={generatedAt:doc.generatedAt,hash,etag:response.headers.get('etag'),lastModified:response.headers.get('last-modified')};
+ const nextState={importerVersion:IMPORTER_VERSION,generatedAt:doc.generatedAt,hash,etag:response.headers.get('etag'),lastModified:response.headers.get('last-modified')};
  const script="if (redis.call('GET',KEYS[1]) or '')~=ARGV[1] or (redis.call('GET',KEYS[2]) or '')~=ARGV[2] then return 0 end; redis.call('SET',KEYS[1],ARGV[3]); redis.call('SET',KEYS[2],ARGV[4]); return 1";
  const result=await M.command(['EVAL',script,2,E.KEY,STATE,before||'',stateRaw||'',JSON.stringify(next),JSON.stringify(nextState)]);
  if(result!==1)throw Error('desk_concurrent_change');
  return {published:next.items.filter(x=>x.status==='published').length,drafts,samples,sourceUpdatedAt:doc.generatedAt};
 }
-module.exports={SOURCE,STATE,SAMPLE_IDS,normalizeDesk,synchronize};
+module.exports={SOURCE,STATE,IMPORTER_VERSION,normalizeDesk,synchronize};

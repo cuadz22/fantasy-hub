@@ -12,10 +12,11 @@ The connector accepts the current desk schema (`schemaVersion: "1.0.0"`, `genera
 - The eight initial named players have an explicit checked mapping for their existing desk `playerId` slugs. New players need provider IDs. This is not a fuzzy name lookup.
 - `headline`, `statLine` (optional), and `body` are plain text. CFN displays the stat line above the body. Do not send HTML.
 - Include 1–10 `sources` with `label` (or `publisher`) and HTTPS `url`. Source links including X can remain; they appear as supporting source links, not inserted into the analysis body.
+- If `updatedAt` is omitted on first publication, CFN uses the later of `publishedAt` and `factCheck.checkedAt`; explicit timestamps and revisions are still recommended.
 - Corrections: same `noteId`, increase `revision`, advance `updatedAt` and `generatedAt`, and repeat fact checking. Keep the same player identity and original `publishedAt`.
 - Withdraw a published note explicitly with its `noteId`, `status: "retracted"`, increased `revision`, and `updatedAt`. Omitting a published note from a later rolling feed does NOT retract it; CFN keeps the player-card history. Setting it back to draft is rejected.
 
-The eight original sample IDs `2026-wk12-401873079-<playerId>` are permanently excluded as setup samples. Do not turn them into live entries. Use new IDs for actual publication.
+Jose approved the eight initial notes on November 26, 2026. Their existing IDs are now accepted. Future samples must explicitly use `isSample: true` or `status: "draft"`. No per-note approval in chat is needed: the editorial desk controls publication through `status: "published"` and a passed fact check.
 
 A failed validation or unavailable source preserves the last verified stored document and records an editorial job error. No changes are made to normal publisher news, Network posts, notifications, scores or member access. Fact-check flags record the desk's review; the importer validates structure and identity, not the truth of every editorial claim.
 
