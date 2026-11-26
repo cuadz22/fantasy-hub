@@ -2,7 +2,7 @@
 // Additive, private imports. Never write CFN's calendar, scoring, or standings keys.
 const M=require('./_m'), A=require('./_mauth');
 const OWNER='007b50c7e3b100b7703abbe7873b408454d06dfbe44ec34e91717eb3ac36e136';
-const CONFIG={sl:{id:'sl',name:'Sleepers',provider:'sleeper',providerId:'1397634144770469888',ownerId:'79237951498108928',teamId:1},fb:{id:'fb',name:'Fantasy Ball Z',provider:'yahoo',providerId:'697400'}};
+const CONFIG={sl:{id:'sl',name:'Sleepers',provider:'sleeper',providerId:'1397634144770469888',ownerId:'79237951498108928',teamId:1},fb:{id:'fb',name:'Fantasy Ball Z',provider:'yahoo',providerId:'697400',logoURL:'https://cuadzfantasynetwork.com/redesign/assets/leagues/fb.png'}};
 // Explicit owner-confirmed assignments. Names may change; Yahoo team IDs do not.
 const FB_MEMBERS={
  [OWNER]:12,
