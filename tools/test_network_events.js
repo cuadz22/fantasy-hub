@@ -39,5 +39,12 @@ const H=require('./mobile_harness'),{M,A,ok}=H,N=require('../client/api/_network
  await N.deliver({...recap,body:'Corrected editorial copy'},phone,recapOptions);
  ok(recapSends===2,'editing a published recap does not resend it');
  ok((await N.deliver({...recap,id:'silent-edition',notify:false},phone,recapOptions)).state==='not_eligible','silent publication stays silent');
+ const holiday={id:'thanksgiving-test',kind:'announcement',leagueId:'network',title:'Happy Thanksgiving from CFN 🏈',body:'Thank you for being a part of this journey for over a decade. — Commish',publishedAt:new Date(now+60000).toISOString(),notify:true};
+ let holidaySends=0;const holidayOptions={now:now+60000,sender:async(d,p)=>{holidaySends++;ok(Number.isInteger(member.teams[p.cfn.leagueId]),'network push routes through an owned league');ok(p.cfn.postId===holiday.id,'network post identity preserved');ok(p.cfn.imageURL.endsWith('/network-v1.png'),'CFN thumbnail');return {state:'sent'}}};
+ ok(!N.visible(holiday,member,now),'scheduled post hidden before publication');
+ ok((await N.deliver(holiday,phone,{...holidayOptions,now})).state==='not_eligible','no early holiday push');
+ await Promise.all([N.deliver(holiday,phone,holidayOptions),N.deliver(holiday,phone,holidayOptions),N.deliver(holiday,ipad,holidayOptions)]);
+ ok(holidaySends===2,'one holiday notification per device regardless of league count');
+ for(const m of A.MEMBERS)ok(N.visible(holiday,m,now+60000),'network announcement visible to every invited member');
  H.done();
 })().catch(e=>{console.error(e);process.exit(1)});

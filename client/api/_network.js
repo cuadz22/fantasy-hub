@@ -3,7 +3,7 @@
 const M=require('./_m'), A=require('./_mauth'), crypto=require('node:crypto');
 const RES=require('./_resources.json'), MEDIA=require('./_media.json');
 const CONFIG=require('./_networkrollout.json');
-const KEY='network:v1:posts', names={gl:'Gentlemen’s League',bh:'Beaners & Husseins',rb:'Rebirth',sts:'Shoot the Shits'};
+const KEY='network:v1:posts', names={gl:'Gentlemen’s League',bh:'Beaners & Husseins',rb:'Rebirth',sts:'Shoot the Shits',fb:'Fantasy Ball Z',network:'CFN'};
 const eligible=h=>A.MEMBERS.some(m=>m.h===h)&&(CONFIG.allInvitedMembers===true||(Array.isArray(CONFIG.memberHashes)&&CONFIG.memberHashes.includes(h)));
 const admin=h=>CONFIG.publishers.includes(h);
 const logo=lg=>'https://cuadzfantasynetwork.com/notification-media/'+lg+'-v1.png';
@@ -86,10 +86,14 @@ async function publish(req,body){
  let post;try{post=validate(body,a.member)}catch(e){return {status:400,json:{error:e.message}};}
  return save(post);
 }
-function payload(post){
+function payload(post, routingLeague){
  const icon=['trade','waivers'].includes(post.kind)?'https://cuadzfantasynetwork.com/notification-media/'+post.kind+'-v1.png':logo(post.leagueId);
  const summary=post.kind==='trade'&&post.sides?.length===2 ? post.sides.map(s=>s.name).join(' ↔ ') : post.body;
- return {aps:{alert:{title:post.test?'TEST · League announcement':'📣 '+post.title,body:names[post.leagueId]+' · '+summary.slice(0,130)},sound:'default','mutable-content':1,'thread-id':'cfn-announcements-'+post.leagueId},cfn:{type:'announcement',postId:post.id,leagueId:post.leagueId,imageURL:icon,kind:post.kind,test:post.test===true}};
+ const network=post.leagueId==='network';
+ // Existing clients route announcements through a member's actual league.
+ // Keep one network-wide post/device delivery key while using a valid route.
+ const leagueId=network&&names[routingLeague]&&routingLeague!=='network'?routingLeague:post.leagueId;
+ return {aps:{alert:{title:post.test?'TEST · League announcement':(network?'':'📣 ')+post.title,body:(network?'':(names[post.leagueId]||'CFN')+' · ')+summary.slice(0,160)},sound:'default','mutable-content':1,'thread-id':'cfn-announcements-'+post.leagueId},cfn:{type:'announcement',postId:post.id,leagueId,imageURL:icon,kind:post.kind,test:post.test===true}};
 }
 async function deliver(post,device,{store=M,sender=require('./_apns').send,now=Date.now()}={}){
  const member=A.MEMBERS.find(m=>m.h===device.member);
@@ -101,7 +105,8 @@ async function deliver(post,device,{store=M,sender=require('./_apns').send,now=D
  // Revalidate registration + session after claiming. Never send on a stale opt-in/account snapshot.
  const current=await store.read('push:v1:device:'+device.id),session=await store.read('ms:'+device.session);
  if(!current?.announcements||current.member!==device.member||current.session!==device.session||current.token!==device.token||current.environment!==device.environment||!session||session.x<=now||session.e!==device.member){await store.write(key,{state:'revoked'},180*86400);return {state:'revoked'};}
- let result;try{result=await sender(device,payload(post),M.sha('announcement:'+post.id).slice(0,60));}catch{result={state:'uncertain'}};
+ const routingLeague=Object.keys(member.teams).find(lg=>Number.isInteger(member.teams[lg])&&names[lg]);
+ let result;try{result=await sender(device,payload(post,routingLeague),M.sha('announcement:'+post.id).slice(0,60));}catch{result={state:'uncertain'}};
  // No blind retries after an ambiguous APNs result: one delivery claim per post/device.
  await store.write(key,result,180*86400);if(result.invalid)await store.command(['DEL','push:v1:device:'+device.id]);return result;
 }

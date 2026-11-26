@@ -108,11 +108,12 @@ module.exports = async (req, res) => {
       const c = await M.context({ cachedOnly: true }); if (!c) return J(res, 503, { error: 'context_unavailable' });
       const hj = async u => { const x = await fetch(u, { headers: { 'User-Agent': 'cfn-mobile' }, signal: AbortSignal.timeout(20000) }); if (!x.ok) throw new Error('http ' + x.status); return x.json(); };
       const cached = await M.rget('mm:cache');
-      if (cached && Date.now() - cached.at < 12 * 60 * 60000 && cached.week === c.week && cached.v === 4) return J(res, 200, cached.body, 'public, s-maxage=300, stale-while-revalidate=600');
+      const history = body => require('./_marketweekly').attach(body);
+      if (cached && Date.now() - cached.at < 12 * 60 * 60000 && cached.week === c.week && cached.v === 4) return J(res, 200, history(cached.body), 'public, s-maxage=300, stale-while-revalidate=600');
       const m = await MV.compute(new URL(PUBLIC_BASE).host, c.week, hj, undefined, await Ids.getMap(), { allowWithoutBaseline: r === 'market' });
-      if (!m.ok || (m.body.stale && cached?.body?.rankings)) { if (cached) return J(res, 200, Object.assign({}, cached.body, { stale: true }), 'public, s-maxage=60'); return J(res, 503, { error: m.error || 'unavailable' }); }
+      if (!m.ok || (m.body.stale && cached?.body?.rankings)) { if (cached) return J(res, 200, history(Object.assign({}, cached.body, { stale: true })), 'public, s-maxage=60'); return J(res, 503, { error: m.error || 'unavailable' }); }
       await M.rset('mm:cache', { v: 4, at: Date.now(), week: c.week, key: m.key, body: m.body }, 259200);
-      return J(res, 200, m.body, 'public, s-maxage=300, stale-while-revalidate=600');
+      return J(res, 200, history(m.body), 'public, s-maxage=300, stale-while-revalidate=600');
     }
     J(res, 404, { error: 'not_found' });
   } catch (e) { J(res, 503, { error: 'service_unavailable' }); }

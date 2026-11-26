@@ -74,6 +74,9 @@ async function compute(host, week, fetchJson, hist, idmap, options = {}) {
   }
   const now = Date.now(); let best = null;
   (hist.snaps || []).forEach(q => { const age = now - Date.parse(q.t); if (age >= 20 * 36e5 && age <= 10 * 864e5 && (!best || Math.abs(age - 7 * 864e5) < Math.abs(now - Date.parse(best.t) - 7 * 864e5))) best = q; });
+  // A recorded CFN snapshot can supply the portfolio comparison when the
+  // older source archive is unavailable. Never override a source baseline.
+  if (!best) (hist.exact || []).forEach(q => { const age = now - Date.parse(q.t); if (q.modelVersion === MM.v && age >= 20 * 36e5 && age <= 10 * 864e5 && (!best || Math.abs(age - 7 * 864e5) < Math.abs(now - Date.parse(best.t) - 7 * 864e5))) best = q; });
   if (!best && !options.allowWithoutBaseline) return { ok: false, error: 'no_baseline' };
   // The complete market is independent of a historical comparison. Use exactly the
   // same valuation model/accepted provider series as the movers and website.
